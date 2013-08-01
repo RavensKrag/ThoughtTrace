@@ -32,8 +32,11 @@ class Window < Gosu::Window
 		@text.height = 10
 		
 		@bindings = {
-			:move => Gosu::MsLeft,
-			:scale => Gosu::MsRight
+			:move => [Gosu::MsLeft],
+			:scale => [Gosu::MsRight],
+			
+			:increase_size => [Gosu::MsWheelUp, Gosu::KbUp],
+			:decrease_size => [Gosu::MsWheelDown, Gosu::KbDown]
 		}
 		
 		@mouse = TextSpace::MouseHandler.new self, Gosu::MsLeft
@@ -60,16 +63,16 @@ class Window < Gosu::Window
 				close
 		end
 		
-		if id == Gosu::MsWheelUp || id == Gosu::KbUp
+		if @bindings[:increase_size].include? id
 			@text.height += 1
-		elsif id == Gosu::MsWheelDown || id == Gosu::KbDown
+		elsif @bindings[:decrease_size].include? id
 			@text.height -= 1
 		end
 		
 		
 		@mouse.button_down id
 		
-		if id == @bindings[:scale]
+		if @bindings[:scale].include? id
 			@scaling = true
 		end
 	end
@@ -77,7 +80,7 @@ class Window < Gosu::Window
 	def button_up(id)
 		@mouse.button_up id
 		
-		if id == @bindings[:scale]
+		if @bindings[:scale].include? id
 			@scaling = false
 		end
 	end
@@ -85,6 +88,9 @@ class Window < Gosu::Window
 	def needs_cursor?
 		true
 	end
+	
+	
+	
 	
 	def debug_puts(*args)
 		output = ""
@@ -94,10 +100,6 @@ class Window < Gosu::Window
 		
 		debug_z = 10000 # something really large
 		@debug_font.draw output, 0,0,debug_z, 1,1, @debug_color
-	end
-	
-	def mouse_delta
-		CP::Vec2.new(mouse_x, mouse_y) - @mouse_down_location
 	end
 end
 
