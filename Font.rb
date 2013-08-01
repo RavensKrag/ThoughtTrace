@@ -5,6 +5,8 @@ module TextSpace
 		attr_reader :i
 		
 		def initialize(window, name)
+			@window = window
+			
 			@font_cache = []
 			
 			# TODO: Consider using some other sequence than Fibonacci. Just used fib because it was easy
@@ -47,6 +49,28 @@ module TextSpace
 			@i = 0
 			@height = heights.first
 			@scale = 1 # scaling to apply to cached font object to achieve desired size
+			
+			@box_visible = true
+			a = (0xff * 0.2).to_i
+			c = 0x0000ff
+			@box_color = (a << 24) | c
+		end
+		
+		def draw(text, x,y,z, color=0xffffffff)
+			internal_font.draw(text, x,y,z, @scale, @scale, color)
+			
+			if @box_visible
+				width = internal_font.text_width(text) * @scale
+				height = @height
+				
+				@window.draw_quad(
+					x, y,	@box_color,
+					x+width, y,	@box_color,
+					x+width, y+height,	@box_color,
+					x, y+height,	@box_color,
+					z-1
+				)
+			end
 		end
 		
 		def height=(h)
@@ -84,8 +108,16 @@ module TextSpace
 			internal_font.height * @scale
 		end
 		
-		def draw(text, x,y,z, color=0xffffffff)
-			internal_font.draw(text, x,y,z, @scale, @scale, color)
+		def box_visible?
+			@box_visible
+		end
+		
+		def hide_box
+			@box_visible = false
+		end
+		
+		def show_box
+			@box_visible = true
 		end
 		
 		private
