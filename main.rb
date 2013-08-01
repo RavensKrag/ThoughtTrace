@@ -7,6 +7,7 @@ require 'gosu'
 require 'chipmunk'
 
 require './Font'
+require './Text'
 
 class Window < Gosu::Window
 	def initialize
@@ -22,8 +23,9 @@ class Window < Gosu::Window
 		@debug_color = 0xffff0000
 		
 		@f = TextSpace::Font.new self, "Lucida Sans Unicode"
-		@f_height = 10
-		@fp = CP::Vec2.new(0,0)
+		
+		@text = TextSpace::Text.new @f
+		@text.height = 10
 		
 		@bindings = {
 			:move => Gosu::MsLeft,
@@ -37,17 +39,17 @@ class Window < Gosu::Window
 	def update
 		if @mouse_down
 			@delta = mouse_delta
-			# @fp.x = delta.x
-			# @fp.y = delta.y
+			@text.position.x = @delta.x
+			@text.position.y = @delta.y
 		end
 		
 		if @scaling
-			@f_height = mouse_y - @fp.y
+			@text.height = mouse_y - @text.position.y
 		end
 	end
 	
 	def draw
-		@f.draw "Handglovery", @f_height, @fp.x + @delta.x,@fp.y + @delta.y,0
+		@text.draw "Handglovery", 0
 	end
 	
 	def button_down(id)
@@ -57,9 +59,9 @@ class Window < Gosu::Window
 		end
 		
 		if id == Gosu::MsWheelUp || id == Gosu::KbUp
-			@f_height += 1
+			@text.height += 1
 		elsif id == Gosu::MsWheelDown || id == Gosu::KbDown
-			@f_height -= 1
+			@text.height -= 1
 		end
 		
 		
