@@ -40,8 +40,6 @@ class Window < Gosu::Window
 		}
 		
 		@mouse = TextSpace::MouseHandler.new self, Gosu::MsLeft
-		
-		@mouse_down_location = CP::Vec2.new(0,0)
 	end
 	
 	def update

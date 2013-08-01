@@ -35,10 +35,6 @@ module TextSpace
 			@color = 0xffffffff
 		end
 		
-		def mouse_over?
-			@mouse_over
-		end
-		
 		def mouse_over
 			@mouse_over = true
 			
@@ -49,6 +45,10 @@ module TextSpace
 			@mouse_over = false
 			
 			@box_visible = false
+		end
+		
+		def mouse_over?
+			@mouse_over
 		end
 		
 		private
