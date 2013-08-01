@@ -8,8 +8,8 @@ require './Font'
 
 class Window < Gosu::Window
 	def initialize
-		width = 500
-		height = 500
+		height = 720
+		width = (height.to_f*16/9).to_i
 		fullscreen = false
 		
 		update_interval = 1/60.0
