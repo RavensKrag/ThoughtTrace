@@ -2,6 +2,8 @@
 
 module TextSpace
 	class Font
+		attr_reader :i
+		
 		def initialize(window, name)
 			@font_cache = []
 			
@@ -12,28 +14,50 @@ module TextSpace
 			
 			@i = 0
 			@height = heights.first
+			@scale = 1 # scaling to apply to cached font object to achieve desired size
 		end
 		
-		def height=(s)
-			@i = s
+		def height=(h)
+			# Allow any size of font
+			# If the exact size is not present in the cache, find the closest one, and scale it
+			@height = h
 			
 			# --Prevent out of bounds
 			# No Upper
-			@i = @font_cache.size-1 if @i >= @font_cache.size
+			# n/a
 			# No Lower
-			@i = 0 if @i < 0
+			@height = 1 if @height < 1
 			
-			# Allow any size of font
-			# If the exact size is not present in the cache, find the closest one, and scale it
+			# Find the font in the cache
+			@i = 0
+			i = @font_cache.index {|f| h <= f.height}
+			if i # only set if value found
+				@i = i
+			else
+				@i = @font_cache.size-1
+			end
 			
+			
+			# @scale * font.height == @height
+			@scale = @height / internal_font.height.to_f
 		end
 		
 		def height
-			@i
+			@height
 		end
 		
-		def draw(*args)
-			@font_cache[@i].draw(*args)
+		def debug_height
+			internal_font.height * @scale
+		end
+		
+		def draw(text, x,y,z, color=0xffffffff)
+			internal_font.draw(text, x,y,z, @scale, @scale, color)
+		end
+		
+		private
+		
+		def internal_font
+			@font_cache[@i]
 		end
 	end
 end

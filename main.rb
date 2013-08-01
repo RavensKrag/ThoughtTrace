@@ -16,6 +16,8 @@ class Window < Gosu::Window
 		
 		super(width, height, fullscreen, update_interval)
 		
+		@debug_font = Gosu::Font.new self, "Arial", 30
+		@debug_color = 0xffff0000
 		
 		@f = TextSpace::Font.new self, "Lucida Sans Unicode"
 	end
@@ -26,18 +28,22 @@ class Window < Gosu::Window
 	
 	def draw
 		@f.draw "hello world", 0,0,0
+		
+		
+		
+		@debug_font.draw "#{@f.i} : #{@f.height} --- #{@f.debug_height}", 0,0,1000, 1,1, @debug_color
 	end
 	
 	def button_down(id)
 		case id
 			when Gosu::KbEscape
 				close
-			
-			
-			when Gosu::MsWheelUp
-				@f.height += 1
-			when Gosu::MsWheelDown
-				@f.height -= 1
+		end
+		
+		if id == Gosu::MsWheelUp || id == Gosu::KbUp
+			@f.height += 1
+		elsif id == Gosu::MsWheelDown || id == Gosu::KbDown
+			@f.height -= 1
 		end
 	end
 	
