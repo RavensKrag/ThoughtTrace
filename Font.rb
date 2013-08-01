@@ -22,7 +22,8 @@ module TextSpace
 				
 				return vals
 			}
-			heights = fib[15]
+			heights = fib[14]
+			# puts heights
 			
 			
 			heights.each do |height|
