@@ -56,12 +56,22 @@ module TextSpace
 			@box_color = (a << 24) | c
 		end
 		
-		def draw(text, x,y,z, color=0xffffffff)
-			internal_font.draw(text, x,y,z, @scale, @scale, color)
+		def draw(text, height, x,y,z=0, color=0xffffffff, box_visible=@box_visible)
+			# --Prevent out of bounds
+			height = 1 if height < 1
 			
-			if @box_visible
-				width = internal_font.text_width(text) * @scale
-				height = @height
+			# ---Find the font in the cache
+			f = find_font_object(height)
+			
+			# ---Calculate font scaling
+			# @scale * font.height == @height
+			scale = height / f.height.to_f
+			
+			
+			f.draw(text, x,y,z, scale, scale, color)
+			
+			if box_visible
+				width = f.text_width(text) * scale
 				
 				@window.draw_quad(
 					x, y,	@box_color,
@@ -73,57 +83,32 @@ module TextSpace
 			end
 		end
 		
-		def height=(h)
-			# Allow any size of font
-			# If the exact size is not present in the cache, find the closest one, and scale it
-			@height = h
-			
-			# --Prevent out of bounds
-			# No Upper
-			# n/a
-			# No Lower
-			@height = 1 if @height < 1
-			
-			# Find the font in the cache
-			@i = 0
-			i = @font_cache.index {|f| h <= f.height}
-			if i # only set if value found
-				@i = i
-			else
-				# If the desired size is larger than the largest cached font,
-				# just scale up the largest font
-				@i = @font_cache.size-1
-			end
-			
-			
-			# @scale * font.height == @height
-			@scale = @height / internal_font.height.to_f
+		def resize(x,y)
+			 
 		end
 		
-		def height
-			@height
-		end
-		
-		def debug_height
-			internal_font.height * @scale
-		end
-		
-		def box_visible?
-			@box_visible
-		end
-		
-		def hide_box
+		def hide_boxes_by_default
 			@box_visible = false
 		end
 		
-		def show_box
+		def show_boxes_by_default
 			@box_visible = true
 		end
 		
 		private
 		
-		def internal_font
-			@font_cache[@i]
+		def find_font_object(height)
+			i = 0
+			new_i = @font_cache.index {|f| height <= f.height}
+			if new_i # only set if value found
+				i = new_i
+			else
+				# If the desired size is larger than the largest cached font,
+				# just scale up the largest font
+				i = @font_cache.size-1
+			end
+			
+			return @font_cache[i]
 		end
 	end
 end

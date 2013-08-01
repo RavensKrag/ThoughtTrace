@@ -20,20 +20,21 @@ class Window < Gosu::Window
 		@debug_color = 0xffff0000
 		
 		@f = TextSpace::Font.new self, "Lucida Sans Unicode"
+		@f_height = 10
 	end
 	
 	def update
 		if @mouse_down
-			@f.height = mouse_y
+			# @f.resize mouse_x, mouse_y
 		end
 	end
 	
 	def draw
-		@f.draw "Handglovery", 0,0,0
+		@f.draw "Handglovery", @f_height, 0,0,0
 		
 		
 		
-		debug_puts "#{@f.i} : #{@f.height} --- #{@f.debug_height}"
+		# debug_puts "#{@f.i} : #{@f.height} --- #{@f.debug_height}"
 	end
 	
 	def button_down(id)
@@ -43,9 +44,9 @@ class Window < Gosu::Window
 		end
 		
 		if id == Gosu::MsWheelUp || id == Gosu::KbUp
-			@f.height += 1
+			@f_height += 1
 		elsif id == Gosu::MsWheelDown || id == Gosu::KbDown
-			@f.height -= 1
+			@f_height -= 1
 		end
 		
 		if id == Gosu::MsLeft
