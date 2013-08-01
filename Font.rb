@@ -2,6 +2,8 @@
 
 module TextSpace
 	class Font
+		MINIMUM_HEIGHT = 1
+		
 		attr_reader :i
 		
 		def initialize(window, name)
@@ -48,14 +50,14 @@ module TextSpace
 			end
 			
 			@box_visible = true
-			a = (0xff * 0.2).to_i
+			a = (0xff * 1.0).to_i
 			c = 0x0000ff
 			@box_color = (a << 24) | c
 		end
 		
 		def draw(text, height, x,y,z=0, color=0xffffffff, box_visible=@box_visible)
 			# --Prevent out of bounds
-			height = 1 if height < 1
+			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
 			
 			# ---Find the font in the cache
 			f = find_font_object(height)
@@ -82,6 +84,8 @@ module TextSpace
 		end
 		
 		def width(text, height)
+			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
+			
 			f = find_font_object(height)
 			scale = height / f.height.to_f
 			

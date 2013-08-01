@@ -30,11 +30,9 @@ class Window < Gosu::Window
 		
 		@objects = Array.new
 			text = TextSpace::Text.new @f
-			text.height = 10
 			@objects.push text
 			
 			text = TextSpace::Text.new @f
-			text.height = 10
 			@objects.push text
 		
 		@bindings = {

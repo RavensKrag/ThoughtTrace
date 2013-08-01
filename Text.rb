@@ -1,6 +1,7 @@
 module TextSpace
 	class Text
-		attr_accessor :height
+		MINIMUM_HEIGHT = 10
+		
 		attr_accessor :position, :bb
 		
 		attr_accessor :string
@@ -8,7 +9,7 @@ module TextSpace
 		def initialize(font)
 			@font = font
 			
-			@height = 1
+			@height = 30
 			
 			@color = 0xffffffff
 			@box_visible = false
@@ -49,6 +50,15 @@ module TextSpace
 				
 				@box_visible = false
 			end
+		end
+		
+		def height
+			@height
+		end
+		
+		def height=(h)
+			@height = h
+			@height = MINIMUM_HEIGHT if @height < MINIMUM_HEIGHT
 		end
 		
 		private
