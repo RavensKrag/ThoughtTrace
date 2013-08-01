@@ -4,6 +4,8 @@ Dir.chdir File.dirname(__FILE__)
 require 'rubygems'
 require 'gosu'
 
+require 'chipmunk'
+
 require './Font'
 
 class Window < Gosu::Window
@@ -21,16 +23,27 @@ class Window < Gosu::Window
 		
 		@f = TextSpace::Font.new self, "Lucida Sans Unicode"
 		@f_height = 10
+		@fp = CP::Vec2.new(0,0)
+		
+		@bindings = {
+			:move => Gosu::MsLeft,
+			:scale => Gosu::MsRight
+		}
 	end
 	
 	def update
 		if @mouse_down
-			@f_height = mouse_y
+			@fp.x = mouse_x
+			@fp.y = mouse_y
+		end
+		
+		if @scaling
+			@f_height = mouse_y - @fp.y
 		end
 	end
 	
 	def draw
-		@f.draw "Handglovery", @f_height, 0,0,0
+		@f.draw "Handglovery", @f_height, @fp.x,@fp.y,0
 	end
 	
 	def button_down(id)
@@ -45,14 +58,23 @@ class Window < Gosu::Window
 			@f_height -= 1
 		end
 		
-		if id == Gosu::MsLeft
+		
+		if id == @bindings[:move]
 			@mouse_down = true
+		end
+		
+		if id == @bindings[:scale]
+			@scaling = true
 		end
 	end
 	
 	def button_up(id)
-		if id == Gosu::MsLeft
+		if id == @bindings[:move]
 			@mouse_down = false
+		end
+		
+		if id == @bindings[:scale]
+			@scaling = false
 		end
 	end
 	
