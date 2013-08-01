@@ -31,7 +31,7 @@ class Window < Gosu::Window
 		
 		
 		
-		@debug_font.draw "#{@f.i} : #{@f.height} --- #{@f.debug_height}", 0,0,1000, 1,1, @debug_color
+		debug_puts "#{@f.i} : #{@f.height} --- #{@f.debug_height}"
 	end
 	
 	def button_down(id)
@@ -53,6 +53,18 @@ class Window < Gosu::Window
 	
 	def needs_cursor?
 		true
+	end
+	
+	private
+	
+	def debug_puts(*args)
+		output = ""
+		args.each do |x|
+			output += x.to_s
+		end
+		
+		debug_z = 10000 # something really large
+		@debug_font.draw output, 0,0,debug_z, 1,1, @debug_color
 	end
 end
 
