@@ -22,6 +22,12 @@ module TextSpace
 				
 				return vals
 			}
+			
+			# TODO: Consider removing font sizes < 5
+			# Really small pixel size fonts aren't noticeably different, but the extra font objects will take up extra memory
+			# Getting rid of < 5 will remove 1,2,3 == 3 items
+			# Reduces number of fonts cached from 14 -> 11
+			# That's about a 20% reduction
 			heights = fib[14]
 			# puts heights
 			
@@ -52,6 +58,8 @@ module TextSpace
 			if i # only set if value found
 				@i = i
 			else
+				# If the desired size is larger than the largest cached font,
+				# just scale up the largest font
 				@i = @font_cache.size-1
 			end
 			
