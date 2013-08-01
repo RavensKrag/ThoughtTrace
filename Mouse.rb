@@ -52,15 +52,16 @@ module TextSpace
 					@mouse_down_location = mouse_position_vector
 					
 					obj = @window.objects.select {|o| o.bb.contains_vect? @mouse_down_location 
-						}.sort! { |a,b| b.bb.area <=> a.bb.area
-						}.last
+						}.min_by { |a| a.bb.area }
 					
-					@selected = obj
-					
-					@original_position = @selected.position
-					@selected.click
-					
-					click
+					if obj
+						@selected = obj
+						
+						@original_position = @selected.position
+						@selected.click
+						
+						click
+					end
 				end
 				
 				def release_event
