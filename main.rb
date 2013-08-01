@@ -35,9 +35,9 @@ class Window < Gosu::Window
 			
 			
 			when Gosu::MsWheelUp
-				@f.size += 1
+				@f.height += 1
 			when Gosu::MsWheelDown
-				@f.size -= 1
+				@f.height -= 1
 		end
 	end
 	

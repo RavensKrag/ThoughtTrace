@@ -4,14 +4,17 @@ module TextSpace
 	class Font
 		def initialize(window, name)
 			@font_cache = []
-			[10, 30, 40].each do |size|
-				@font_cache << Gosu::Font.new(window, name, size)
+			
+			heights = [10, 30, 40]
+			heights.each do |height|
+				@font_cache << Gosu::Font.new(window, name, height)
 			end
 			
 			@i = 0
+			@height = heights.first
 		end
 		
-		def size=(s)
+		def height=(s)
 			@i = s
 			
 			# --Prevent out of bounds
@@ -19,9 +22,13 @@ module TextSpace
 			@i = @font_cache.size-1 if @i >= @font_cache.size
 			# No Lower
 			@i = 0 if @i < 0
+			
+			# Allow any size of font
+			# If the exact size is not present in the cache, find the closest one, and scale it
+			
 		end
 		
-		def size
+		def height
 			@i
 		end
 		
