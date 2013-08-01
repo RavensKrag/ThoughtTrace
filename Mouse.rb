@@ -1,5 +1,13 @@
 require 'state_machine'
 
+module CP
+	class BB
+		def area
+			return ((self.r-self.l)*(self.t-self.b))
+		end
+	end
+end
+
 module TextSpace
 	class MouseHandler
 		attr_reader :selected
@@ -43,16 +51,16 @@ module TextSpace
 				def click_event
 					@mouse_down_location = mouse_position_vector
 					
-					@window.objects.each do |obj|
-						if obj.bb.contains_vect? @mouse_down_location
-							@selected = obj
-							
-							@original_position = @selected.position
-							@selected.click
-							
-							click
-						end
-					end
+					obj = @window.objects.select {|o| o.bb.contains_vect? @mouse_down_location 
+						}.sort! { |a,b| b.bb.area <=> a.bb.area
+						}.last
+					
+					@selected = obj
+					
+					@original_position = @selected.position
+					@selected.click
+					
+					click
 				end
 				
 				def release_event
