@@ -67,6 +67,7 @@ module TextSpace
 			
 			f.draw(text, x,y,z, scale, scale, color)
 			
+			
 			if box_visible
 				width = f.text_width(text) * scale
 				
@@ -78,10 +79,6 @@ module TextSpace
 					z-1
 				)
 			end
-		end
-		
-		def resize(x,y)
-			 
 		end
 		
 		def hide_boxes_by_default

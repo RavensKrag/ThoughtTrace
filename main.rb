@@ -25,16 +25,12 @@ class Window < Gosu::Window
 	
 	def update
 		if @mouse_down
-			# @f.resize mouse_x, mouse_y
+			@f_height = mouse_y
 		end
 	end
 	
 	def draw
 		@f.draw "Handglovery", @f_height, 0,0,0
-		
-		
-		
-		# debug_puts "#{@f.i} : #{@f.height} --- #{@f.debug_height}"
 	end
 	
 	def button_down(id)
