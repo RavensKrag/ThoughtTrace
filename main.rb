@@ -29,12 +29,16 @@ class Window < Gosu::Window
 			:move => Gosu::MsLeft,
 			:scale => Gosu::MsRight
 		}
+		
+		@mouse_down_location = CP::Vec2.new(0,0)
+		@delta = CP::Vec2.new(0,0)
 	end
 	
 	def update
 		if @mouse_down
-			@fp.x = mouse_x
-			@fp.y = mouse_y
+			@delta = mouse_delta
+			# @fp.x = delta.x
+			# @fp.y = delta.y
 		end
 		
 		if @scaling
@@ -43,7 +47,7 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@f.draw "Handglovery", @f_height, @fp.x,@fp.y,0
+		@f.draw "Handglovery", @f_height, @fp.x + @delta.x,@fp.y + @delta.y,0
 	end
 	
 	def button_down(id)
@@ -61,6 +65,9 @@ class Window < Gosu::Window
 		
 		if id == @bindings[:move]
 			@mouse_down = true
+			
+			@mouse_down_location.x = mouse_x
+			@mouse_down_location.y = mouse_y
 		end
 		
 		if id == @bindings[:scale]
@@ -82,8 +89,6 @@ class Window < Gosu::Window
 		true
 	end
 	
-	# private
-	
 	def debug_puts(*args)
 		output = ""
 		args.each do |x|
@@ -92,6 +97,10 @@ class Window < Gosu::Window
 		
 		debug_z = 10000 # something really large
 		@debug_font.draw output, 0,0,debug_z, 1,1, @debug_color
+	end
+	
+	def mouse_delta
+		CP::Vec2.new(mouse_x, mouse_y) - @mouse_down_location
 	end
 end
 
