@@ -23,7 +23,9 @@ class Window < Gosu::Window
 	end
 	
 	def update
-		
+		if @mouse_down
+			@f.height = mouse_y
+		end
 	end
 	
 	def draw
@@ -45,10 +47,16 @@ class Window < Gosu::Window
 		elsif id == Gosu::MsWheelDown || id == Gosu::KbDown
 			@f.height -= 1
 		end
+		
+		if id == Gosu::MsLeft
+			@mouse_down = true
+		end
 	end
 	
 	def button_up(id)
-		
+		if id == Gosu::MsLeft
+			@mouse_down = false
+		end
 	end
 	
 	def needs_cursor?
