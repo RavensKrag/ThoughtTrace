@@ -40,6 +40,7 @@ module TextSpace
 			# That's about a 20% reduction
 			heights = fib[14]
 			# heights = pow2[11]
+			# heights = [10,30,40]
 			puts heights
 			
 			heights.each do |height|
@@ -98,15 +99,10 @@ module TextSpace
 		private
 		
 		def find_font_object(height)
-			i = 0
-			new_i = @font_cache.index {|f| height <= f.height}
-			if new_i # only set if value found
-				i = new_i
-			else
-				# If the desired size is larger than the largest cached font,
-				# just scale up the largest font
-				i = @font_cache.size-1
-			end
+			i = @font_cache.index {|f| height <= f.height}
+			i ||= @font_cache.size-1
+			
+			@window.debug_puts i
 			
 			return @font_cache[i]
 		end

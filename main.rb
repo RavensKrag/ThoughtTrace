@@ -64,7 +64,7 @@ class Window < Gosu::Window
 		true
 	end
 	
-	private
+	# private
 	
 	def debug_puts(*args)
 		output = ""
