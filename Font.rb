@@ -36,8 +36,8 @@ module TextSpace
 			# Getting rid of < 5 will remove 1,2,3 == 3 items
 			# Reduces number of fonts cached from 14 -> 11
 			# That's about a 20% reduction
-			# heights = fib[14]
-			heights = pow2[11]
+			heights = fib[14]
+			# heights = pow2[11]
 			puts heights
 			
 			heights.each do |height|
