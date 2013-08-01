@@ -44,6 +44,10 @@ class Window < Gosu::Window
 	def button_up(id)
 		
 	end
+	
+	def needs_cursor?
+		true
+	end
 end
 
 Window.new.show
