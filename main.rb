@@ -9,7 +9,11 @@ require 'chipmunk'
 require './Font'
 require './Text'
 
+require './Mouse'
+
 class Window < Gosu::Window
+	attr_reader :text
+	
 	def initialize
 		height = 720
 		width = (height.to_f*16/9).to_i
@@ -32,16 +36,14 @@ class Window < Gosu::Window
 			:scale => Gosu::MsRight
 		}
 		
+		@mouse = TextSpace::MouseHandler.new self, Gosu::MsLeft
+		
 		@mouse_down_location = CP::Vec2.new(0,0)
-		@delta = CP::Vec2.new(0,0)
 	end
 	
 	def update
-		if @mouse_down
-			@delta = mouse_delta
-			@text.position.x = @delta.x
-			@text.position.y = @delta.y
-		end
+		@text.update
+		@mouse.update
 		
 		if @scaling
 			@text.height = mouse_y - @text.position.y
@@ -65,12 +67,7 @@ class Window < Gosu::Window
 		end
 		
 		
-		if id == @bindings[:move]
-			@mouse_down = true
-			
-			@mouse_down_location.x = mouse_x
-			@mouse_down_location.y = mouse_y
-		end
+		@mouse.button_down id
 		
 		if id == @bindings[:scale]
 			@scaling = true
@@ -78,9 +75,7 @@ class Window < Gosu::Window
 	end
 	
 	def button_up(id)
-		if id == @bindings[:move]
-			@mouse_down = false
-		end
+		@mouse.button_up id
 		
 		if id == @bindings[:scale]
 			@scaling = false

@@ -81,6 +81,13 @@ module TextSpace
 			end
 		end
 		
+		def width(text, height)
+			f = find_font_object(height)
+			scale = height / f.height.to_f
+			
+			return f.text_width(text) * scale
+		end
+		
 		def hide_boxes_by_default
 			@box_visible = false
 		end
