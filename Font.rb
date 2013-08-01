@@ -2,7 +2,7 @@
 
 module TextSpace
 	class Font
-		MINIMUM_HEIGHT = 1
+		MINIMUM_HEIGHT = 5
 		
 		attr_reader :i
 		
@@ -50,7 +50,7 @@ module TextSpace
 			end
 			
 			@box_visible = true
-			a = (0xff * 1.0).to_i
+			a = (0xff * 0.2).to_i
 			c = 0x0000ff
 			@box_color = (a << 24) | c
 		end
