@@ -36,8 +36,9 @@ module TextSpace
 					
 					if @window.text.bb.contains_vect? @mouse_down_location
 						@selected = @window.text
+						
 						@original_position = @selected.position
-						# p @original_position
+						@selected.click
 						
 						click
 					end
@@ -52,7 +53,7 @@ module TextSpace
 			state :dragging do
 				def update
 					mouse_delta = mouse_position_vector - @mouse_down_location
-					# p mouse_delta
+					
 					if @selected
 						p = @original_position + mouse_delta
 						@selected.position = p
@@ -64,6 +65,7 @@ module TextSpace
 				end
 				
 				def release_event
+					@selected.release
 					release
 				end
 			end

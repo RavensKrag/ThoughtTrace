@@ -27,7 +27,11 @@ module TextSpace
 		end
 		
 		def click
-			
+			@color = 0xffff0000
+		end
+		
+		def release
+			@color = 0xffffffff
 		end
 		
 		private
