@@ -7,7 +7,24 @@ module TextSpace
 		def initialize(window, name)
 			@font_cache = []
 			
-			heights = [10, 30, 40]
+			# TODO: Consider using some other sequence than Fibonacci. Just used fib because it was easy
+			fib = ->(n) {
+				return n if n < 2
+				
+				vals = [0, 1]
+				(n-1+2).times do # extra two times because we're gonna take off the first two
+				vals.push(vals[-1] + vals[-2]) 
+				end
+				
+				# remove the first two values
+				vals.shift
+				vals.shift
+				
+				return vals
+			}
+			heights = fib[15]
+			
+			
 			heights.each do |height|
 				@font_cache << Gosu::Font.new(window, name, height)
 			end
