@@ -47,10 +47,6 @@ module TextSpace
 				@font_cache << Gosu::Font.new(window, name, height)
 			end
 			
-			@i = 0
-			@height = heights.first
-			@scale = 1 # scaling to apply to cached font object to achieve desired size
-			
 			@box_visible = true
 			a = (0xff * 0.2).to_i
 			c = 0x0000ff
