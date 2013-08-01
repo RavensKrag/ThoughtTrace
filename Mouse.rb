@@ -12,7 +12,6 @@ module TextSpace
 			@mouse_down_location = nil # CP::Vec2.new(0,0)
 		end
 		
-		
 		def button_down(id)
 			click_event if id == @button
 		end
@@ -28,7 +27,13 @@ module TextSpace
 		state_machine :state, :initial => :clicking do
 			state :clicking do
 				def update
-					
+					# Mouse over and mouse out
+					object = @window.text
+					if object.bb.contains_vect? mouse_position_vector
+						object.mouse_over
+					else
+						object.mouse_out if object.mouse_over?
+					end
 				end
 				
 				def click_event

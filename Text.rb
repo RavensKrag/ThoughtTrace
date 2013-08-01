@@ -11,6 +11,7 @@ module TextSpace
 			@height = 1
 			
 			@color = 0xffffffff
+			@box_visible = false
 			
 			@position = CP::Vec2.new(0,0)
 			
@@ -23,7 +24,7 @@ module TextSpace
 		
 		def draw(text, z_index)
 			update_bb(text)
-			@font.draw text, @height, @position.x, @position.y, z_index, @color
+			@font.draw text, @height, @position.x, @position.y, z_index, @color, @box_visible
 		end
 		
 		def click
@@ -32,6 +33,22 @@ module TextSpace
 		
 		def release
 			@color = 0xffffffff
+		end
+		
+		def mouse_over?
+			@mouse_over
+		end
+		
+		def mouse_over
+			@mouse_over = true
+			
+			@box_visible = true
+		end
+		
+		def mouse_out
+			@mouse_over = false
+			
+			@box_visible = false
 		end
 		
 		private
