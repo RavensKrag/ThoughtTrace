@@ -2,6 +2,8 @@ require 'state_machine'
 
 module TextSpace
 	class MouseHandler
+		attr_reader :selected
+		
 		def initialize(window, button)
 			super()
 			

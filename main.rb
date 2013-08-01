@@ -46,8 +46,8 @@ class Window < Gosu::Window
 		@text.update
 		@mouse.update
 		
-		if @scaling
-			@text.height = mouse_y - @text.position.y
+		if @mouse.selected && @scaling
+			@mouse.selected.height = mouse_y - @mouse.selected.position.y
 		end
 	end
 	
@@ -62,9 +62,9 @@ class Window < Gosu::Window
 		end
 		
 		if @bindings[:increase_size].include? id
-			@text.height += 1
+			@mouse.selected.height += 1
 		elsif @bindings[:decrease_size].include? id
-			@text.height -= 1
+			@mouse.selected.height -= 1
 		end
 		
 		
