@@ -27,7 +27,7 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@f.draw "hello world", 0,0,0
+		@f.draw "Handglovery", 0,0,0
 		
 		
 		

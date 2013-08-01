@@ -13,12 +13,20 @@ module TextSpace
 				
 				vals = [0, 1]
 				(n-1+2).times do # extra two times because we're gonna take off the first two
-				vals.push(vals[-1] + vals[-2]) 
+					vals.push(vals[-1] + vals[-2]) 
 				end
 				
 				# remove the first two values
 				vals.shift
 				vals.shift
+				
+				return vals
+			}
+			pow2 = ->(n) {
+				vals = [1]
+				(n-1).times do
+					vals.push(vals[-1]*2)
+				end
 				
 				return vals
 			}
@@ -28,9 +36,9 @@ module TextSpace
 			# Getting rid of < 5 will remove 1,2,3 == 3 items
 			# Reduces number of fonts cached from 14 -> 11
 			# That's about a 20% reduction
-			heights = fib[14]
-			# puts heights
-			
+			# heights = fib[14]
+			heights = pow2[11]
+			puts heights
 			
 			heights.each do |height|
 				@font_cache << Gosu::Font.new(window, name, height)
