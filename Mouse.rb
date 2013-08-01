@@ -32,7 +32,7 @@ module TextSpace
 					if object.bb.contains_vect? mouse_position_vector
 						object.mouse_over
 					else
-						object.mouse_out if object.mouse_over?
+						object.mouse_out
 					end
 				end
 				

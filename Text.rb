@@ -36,19 +36,19 @@ module TextSpace
 		end
 		
 		def mouse_over
-			@mouse_over = true
-			
-			@box_visible = true
+			unless @mouse_over
+				@mouse_over = true
+				
+				@box_visible = true
+			end
 		end
 		
 		def mouse_out
-			@mouse_over = false
-			
-			@box_visible = false
-		end
-		
-		def mouse_over?
-			@mouse_over
+			if @mouse_over
+				@mouse_over = false
+				
+				@box_visible = false
+			end
 		end
 		
 		private
