@@ -30,24 +30,28 @@ module TextSpace
 			state :clicking do
 				def update
 					# Mouse over and mouse out
-					object = @window.text
-					if object.bb.contains_vect? mouse_position_vector
-						object.mouse_over
-					else
-						object.mouse_out
+					
+					@window.objects.each do |obj|
+						if obj.bb.contains_vect? mouse_position_vector
+							obj.mouse_over
+						else
+							obj.mouse_out
+						end
 					end
 				end
 				
 				def click_event
 					@mouse_down_location = mouse_position_vector
 					
-					if @window.text.bb.contains_vect? @mouse_down_location
-						@selected = @window.text
-						
-						@original_position = @selected.position
-						@selected.click
-						
-						click
+					@window.objects.each do |obj|
+						if obj.bb.contains_vect? @mouse_down_location
+							@selected = obj
+							
+							@original_position = @selected.position
+							@selected.click
+							
+							click
+						end
 					end
 				end
 				

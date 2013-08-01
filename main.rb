@@ -12,7 +12,7 @@ require './Text'
 require './Mouse'
 
 class Window < Gosu::Window
-	attr_reader :text
+	attr_reader :objects
 	
 	def initialize
 		height = 720
@@ -28,8 +28,14 @@ class Window < Gosu::Window
 		
 		@f = TextSpace::Font.new self, "Lucida Sans Unicode"
 		
-		@text = TextSpace::Text.new @f
-		@text.height = 10
+		@objects = Array.new
+			text = TextSpace::Text.new @f
+			text.height = 10
+			@objects.push text
+			
+			text = TextSpace::Text.new @f
+			text.height = 10
+			@objects.push text
 		
 		@bindings = {
 			:move => [Gosu::MsLeft],
@@ -43,7 +49,9 @@ class Window < Gosu::Window
 	end
 	
 	def update
-		@text.update
+		@objects.each do |obj|
+			obj.update
+		end
 		@mouse.update
 		
 		if @mouse.selected && @scaling
@@ -52,7 +60,8 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@text.draw "Handglovery", 0
+		@objects[0].draw "Handglovery", 0
+		@objects[1].draw "Hello World", 0
 	end
 	
 	def button_down(id)
