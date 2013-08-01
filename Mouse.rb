@@ -33,12 +33,11 @@ module TextSpace
 				
 				def click_event
 					@mouse_down_location = mouse_position_vector
-					p @mouse_down_location
-					puts "click"
+					
 					if @window.text.bb.contains_vect? @mouse_down_location
-						puts "selected"
 						@selected = @window.text
-						@original_position = @selected.position.clone
+						@original_position = @selected.position
+						# p @original_position
 						
 						click
 					end
@@ -53,10 +52,9 @@ module TextSpace
 			state :dragging do
 				def update
 					mouse_delta = mouse_position_vector - @mouse_down_location
-					
+					# p mouse_delta
 					if @selected
 						p = @original_position + mouse_delta
-						
 						@selected.position = p
 					end
 				end
