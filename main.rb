@@ -26,7 +26,7 @@ class Window < Gosu::Window
 		@debug_font = Gosu::Font.new self, "Arial", 30
 		@debug_color = 0xffff0000
 		
-		@f = TextSpace::Font.new self, "Lucida Sans Unicode"
+		@font = TextSpace::Font.new self, "Lucida Sans Unicode"
 				
 		@bindings = {
 			:move => [Gosu::MsLeft],
@@ -44,10 +44,10 @@ class Window < Gosu::Window
 		data_dir = File.join(File.dirname(__FILE__), "data")
 		Dir.foreach data_dir do |item|
 			next if item == '.' or item == '..'
-			# next unless File.exist? 
+			# next unless File.exist?
 			
 			filepath = File.join(data_dir, item)
-			@objects.push TextSpace::Text.load(@f, filepath)
+			@objects.push TextSpace::Text.load(@font, filepath)
 		end
 	end
 	
@@ -66,6 +66,18 @@ class Window < Gosu::Window
 		@objects.each do |obj|
 			obj.draw
 		end
+	end
+	
+	def spawn_new_text
+		t = TextSpace::Text.new(@font)
+		
+		t.position = CP::Vec2.new(mouse_x, mouse_y)
+		
+		t.string = ["hey", "listen", "look out!"].sample
+		
+		@objects << t
+		
+		return t
 	end
 	
 	def button_down(id)
@@ -102,7 +114,7 @@ class Window < Gosu::Window
 	
 	def shutdown
 		@objects.each_with_index do |obj, i|
-			filepath = File.join(File.dirname(__FILE__), "data", "#{i}.yml")
+			filepath = File.join(File.dirname(__FILE__), "data", "#{"%05d" % i}.yml")
 			obj.dump(filepath)
 		end
 		

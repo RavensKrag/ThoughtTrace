@@ -55,13 +55,17 @@ module TextSpace
 						}.min_by { |a| a.bb.area }
 					
 					if obj
+						# Click on object
 						@selected = obj
-						
-						@original_position = @selected.position
-						@selected.click
-						
-						click
+					else
+						# Clicked empty space
+						@selected = @window.spawn_new_text
 					end
+					
+					@original_position = @selected.position
+					@selected.click
+					
+					click
 				end
 				
 				def release_event
