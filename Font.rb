@@ -5,9 +5,11 @@ module TextSpace
 		MINIMUM_HEIGHT = 5
 		
 		attr_reader :i
+		attr_reader :name
 		
 		def initialize(window, name)
 			@window = window
+			@name = name
 			
 			@font_cache = []
 			

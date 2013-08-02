@@ -27,14 +27,7 @@ class Window < Gosu::Window
 		@debug_color = 0xffff0000
 		
 		@f = TextSpace::Font.new self, "Lucida Sans Unicode"
-		
-		@objects = Array.new
-			text = TextSpace::Text.new @f
-			@objects.push text
-			
-			text = TextSpace::Text.new @f
-			@objects.push text
-		
+				
 		@bindings = {
 			:move => [Gosu::MsLeft],
 			:scale => [Gosu::MsRight],
@@ -44,6 +37,18 @@ class Window < Gosu::Window
 		}
 		
 		@mouse = TextSpace::MouseHandler.new self, Gosu::MsLeft
+		
+		
+		# Load all the data
+		@objects = Array.new
+		data_dir = File.join(File.dirname(__FILE__), "data")
+		Dir.foreach data_dir do |item|
+			next if item == '.' or item == '..'
+			# next unless File.exist? 
+			
+			filepath = File.join(data_dir, item)
+			@objects.push TextSpace::Text.load(@f, filepath)
+		end
 	end
 	
 	def update
@@ -58,14 +63,15 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@objects[0].draw "Handglovery", 0
-		@objects[1].draw "Hello World", 0
+		@objects.each do |obj|
+			obj.draw
+		end
 	end
 	
 	def button_down(id)
 		case id
 			when Gosu::KbEscape
-				close
+				shutdown
 		end
 		
 		if @bindings[:increase_size].include? id
@@ -92,6 +98,15 @@ class Window < Gosu::Window
 	
 	def needs_cursor?
 		true
+	end
+	
+	def shutdown
+		@objects.each_with_index do |obj, i|
+			filepath = File.join(File.dirname(__FILE__), "data", "#{i}.yml")
+			obj.dump(filepath)
+		end
+		
+		close
 	end
 	
 	

@@ -1,10 +1,12 @@
+require 'yaml'
+
 module TextSpace
 	class Text
 		MINIMUM_HEIGHT = 10
 		
 		attr_accessor :position, :bb
 		
-		attr_accessor :string
+		attr_accessor :color, :string, :box_visible
 		
 		def initialize(font)
 			@font = font
@@ -23,9 +25,9 @@ module TextSpace
 			
 		end
 		
-		def draw(text, z_index)
-			update_bb(text)
-			@font.draw text, @height, @position.x, @position.y, z_index, @color, @box_visible
+		def draw(z_index=0)
+			update_bb(@string)
+			@font.draw @string, @height, @position.x, @position.y, z_index, @color, @box_visible
 		end
 		
 		def click
@@ -59,6 +61,53 @@ module TextSpace
 		def height=(h)
 			@height = h
 			@height = MINIMUM_HEIGHT if @height < MINIMUM_HEIGHT
+		end
+		
+		def dump(filepath)
+			# Save only necessary data
+			# - @height
+			# - font name
+			
+			# @font = font
+			
+			# @height = 30
+			
+			# @color = 0xffffffff
+			# @box_visible = false
+			
+			# @position = CP::Vec2.new(0,0)
+			# string
+			
+			data = {
+				:font => @font.name,
+				:height => @height,
+				:color => @color,
+				:box_visible => @box_visible,
+				:position => [@position.x, @position.y],
+				
+				:string => @string
+			}
+			
+			File.open(filepath, "w") do |f|
+				f.puts YAML::dump(data)
+			end
+		end
+		
+		class << self
+			def load(font, filepath)
+				data = YAML::load_file(filepath)
+				
+				t = Text.new font
+				
+				t.height = data[:height]
+				t.color = data[:color]
+				t.box_visible = data[:box_visible]
+				t.position = CP::Vec2.new(data[:position][0], data[:position][1])
+				
+				t.string = data[:string]
+				
+				return t
+			end
 		end
 		
 		private
