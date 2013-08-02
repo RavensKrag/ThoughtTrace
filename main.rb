@@ -40,6 +40,8 @@ class Window < Gosu::Window
 		
 		
 		# Load all the data
+		# foreach does not traverse in alphabetical order,
+		# so load all the things up, sort them by filename, and discard the filename info
 		@objects = Array.new
 		data_dir = File.join(File.dirname(__FILE__), "data")
 		Dir.foreach data_dir do |item|
@@ -47,8 +49,10 @@ class Window < Gosu::Window
 			# next unless File.exist?
 			
 			filepath = File.join(data_dir, item)
-			@objects.push TextSpace::Text.load(@font, filepath)
+			@objects.push [filepath, TextSpace::Text.load(@font, filepath)]
 		end
+		@objects = @objects.sort_by {|x| x[0]}.collect{|x| x[1]}
+		@objects.each {|i| puts i}
 	end
 	
 	def update
@@ -73,7 +77,7 @@ class Window < Gosu::Window
 		
 		t.position = CP::Vec2.new(mouse_x, mouse_y)
 		
-		t.string = ["hey", "listen", "look out!"].sample
+		t.string = ["hey", "listen", "look out!", "watch out", "hey~", "hello~?"].sample
 		
 		@objects << t
 		
@@ -113,6 +117,7 @@ class Window < Gosu::Window
 	end
 	
 	def shutdown
+		# FIXME: Files not saving with the same filenames every time
 		@objects.each_with_index do |obj, i|
 			filepath = File.join(File.dirname(__FILE__), "data", "#{"%05d" % i}.yml")
 			obj.dump(filepath)
