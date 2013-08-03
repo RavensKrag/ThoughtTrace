@@ -3,7 +3,19 @@ require 'state_machine'
 module CP
 	class BB
 		def area
-			return ((self.r-self.l)*(self.t-self.b))
+			(self.r - self.l) * (self.t - self.b)
+		end
+		
+		def center
+			CP::Vec2.new(self.l+width/2, self.b+height/2)
+		end
+		
+		def height
+			self.t - self.b
+		end
+		
+		def width
+			self.r - self.l
 		end
 	end
 end
@@ -59,11 +71,35 @@ module TextSpace
 						
 						# when objects are densely packed, it can be hard to select the right one
 						# the intuitive approach is to try to select dense objects by their center
-					obj = @window.objects.select { |o|
-											o.bb.contains_vect? @mouse_down_location
-					                    }.sort { |a,b|
-					                    	a.bb.area <=> b.bb.area
-					                    }.first
+					selection = @window.objects.select do |o|
+						o.bb.contains_vect? @mouse_down_location
+					end
+					
+					selection.sort! do |a, b|
+						a.bb.area <=> b.bb.area
+					end
+					
+					# Get the smallest area values, within a certain threshold
+					# Results in a certain margin of what size is acceptable,
+					# relative to the smallest object
+					selection = selection.select do |o|
+						# TODO: Tweak margin
+						size_margin = 1.8 # percentage
+						
+						first_area = selection.first.bb.area
+						o.bb.area.between? first_area, first_area*(size_margin)
+					end
+					
+					selection.sort! do |a, b|
+						distance_to_a = a.bb.center.dist @mouse_down_location
+						distance_to_b = b.bb.center.dist @mouse_down_location
+						
+						# Listed in order of precedence, but sort order needs to be reverse of that
+						[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
+					end
+					
+					obj = selection.first
+					
 					
 					
 					if obj
