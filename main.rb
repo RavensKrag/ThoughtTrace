@@ -6,6 +6,8 @@ require 'gosu'
 
 require 'chipmunk'
 
+require './Camera'
+
 require './Font'
 require './Text'
 
@@ -22,12 +24,15 @@ class Window < Gosu::Window
 		update_interval = 1/60.0
 		
 		super(width, height, fullscreen, update_interval)
+		self.caption = "TextSpace"
+		
+		@camera = TextSpace::Camera.new self
 		
 		@debug_font = Gosu::Font.new self, "Arial", 30
 		@debug_color = 0xffff0000
 		
 		@font = TextSpace::Font.new self, "Lucida Sans Unicode"
-				
+		
 		@bindings = {
 			:move => [Gosu::MsLeft],
 			:scale => [Gosu::MsRight],
@@ -67,8 +72,10 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@objects.each do |obj|
-			obj.draw
+		@camera.draw do
+			@objects.each do |obj|
+				obj.draw
+			end
 		end
 	end
 	
