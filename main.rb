@@ -98,9 +98,9 @@ class Window < Gosu::Window
 		end
 		
 		if @bindings[:increase_size].include? id
-			@mouse.selected.height += 1
+			@mouse.selected.height += 1 if @mouse.selected
 		elsif @bindings[:decrease_size].include? id
-			@mouse.selected.height -= 1
+			@mouse.selected.height -= 1 if @mouse.selected
 		end
 		
 		
