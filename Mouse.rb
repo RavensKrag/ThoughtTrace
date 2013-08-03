@@ -51,8 +51,20 @@ module TextSpace
 				def click_event
 					@mouse_down_location = mouse_position_vector
 					
-					obj = @window.objects.select {|o| o.bb.contains_vect? @mouse_down_location 
-						}.min_by { |a| a.bb.area }
+					# Select objects under the mouse
+					# If there's a conflict, get smallest one (least area)
+					
+					# There should be some other rule about distance to center of object
+						# triggers for many objects of similar size?
+						
+						# when objects are densely packed, it can be hard to select the right one
+						# the intuitive approach is to try to select dense objects by their center
+					obj = @window.objects.select { |o|
+											o.bb.contains_vect? @mouse_down_location
+					                    }.sort { |a,b|
+					                    	a.bb.area <=> b.bb.area
+					                    }.first
+					
 					
 					if obj
 						# Click on object

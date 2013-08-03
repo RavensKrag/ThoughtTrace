@@ -108,7 +108,7 @@ module TextSpace
 			i = @font_cache.index {|f| height <= f.height}
 			i ||= @font_cache.size-1
 			
-			@window.debug_puts i
+			# @window.debug_puts i
 			
 			return @font_cache[i]
 		end
