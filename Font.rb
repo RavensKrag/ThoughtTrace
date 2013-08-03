@@ -9,8 +9,7 @@ module TextSpace
 		attr_reader :i
 		attr_reader :name
 		
-		def initialize(window, name)
-			@window = window
+		def initialize(name)
 			@name = name
 			
 			@font_cache = []
@@ -50,7 +49,7 @@ module TextSpace
 			puts heights
 			
 			heights.each do |height|
-				@font_cache << Gosu::Font.new(window, name, height)
+				@font_cache << Gosu::Font.new($window, name, height)
 			end
 			
 			@box_visible = true
@@ -77,7 +76,7 @@ module TextSpace
 			if box_visible
 				width = f.text_width(text) * scale
 				
-				@window.draw_quad(
+				$window.draw_quad(
 					x, y,	@box_color,
 					x+width, y,	@box_color,
 					x+width, y+height,	@box_color,
@@ -138,7 +137,7 @@ module TextSpace
 			i = @font_cache.index {|f| height <= f.height}
 			i ||= @font_cache.size-1
 			
-			# @window.debug_puts i
+			# $window.debug_puts i
 			
 			return @font_cache[i]
 		end

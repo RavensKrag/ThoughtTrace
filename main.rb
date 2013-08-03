@@ -17,6 +17,8 @@ class Window < Gosu::Window
 	attr_reader :objects
 	
 	def initialize
+		$window = self
+		
 		height = 720
 		width = (height.to_f*16/9).to_i
 		fullscreen = false
@@ -26,12 +28,12 @@ class Window < Gosu::Window
 		super(width, height, fullscreen, update_interval)
 		self.caption = "TextSpace"
 		
-		@camera = TextSpace::Camera.new self
+		@camera = TextSpace::Camera.new
 		
 		@debug_font = Gosu::Font.new self, "Arial", 30
 		@debug_color = 0xffff0000
 		
-		@font = TextSpace::Font.new self, "Lucida Sans Unicode"
+		@font = TextSpace::Font.new "Lucida Sans Unicode"
 		
 		@bindings = {
 			:move => [Gosu::MsLeft],
@@ -41,7 +43,7 @@ class Window < Gosu::Window
 			:decrease_size => [Gosu::MsWheelDown, Gosu::KbDown]
 		}
 		
-		@mouse = TextSpace::MouseHandler.new self, Gosu::MsLeft
+		@mouse = TextSpace::MouseHandler.new Gosu::MsLeft
 		
 		
 		# Load all the data
