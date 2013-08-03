@@ -120,10 +120,7 @@ module TextSpace
 		class << self
 			def from_string_representation(string_representation)
 				name = YAML.load(string_representation)
-				# new(*args)
-				nil
-				
-				# TODO: Implement this stub
+				new(name)
 			end
 		end
 		
