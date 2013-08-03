@@ -65,18 +65,6 @@ module TextSpace
 		
 		def dump(filepath)
 			# Save only necessary data
-			# - @height
-			# - font name
-			
-			# @font = font
-			
-			# @height = 30
-			
-			# @color = 0xffffffff
-			# @box_visible = false
-			
-			# @position = CP::Vec2.new(0,0)
-			# string
 			
 			data = {
 				:font => @font.name,
