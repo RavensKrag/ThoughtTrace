@@ -51,54 +51,30 @@ module TextSpace
 				def update
 					# Mouse over and mouse out
 					
-					@window.objects.each do |obj|
-						if obj.bb.contains_vect? mouse_position_vector
-							obj.mouse_over
-						else
-							obj.mouse_out
-						end
+					# Hover over all objects under the mouse
+					# @window.objects.each do |obj|
+					# 	if obj.bb.contains_vect? mouse_position_vector
+					# 		obj.mouse_over
+					# 	else
+					# 		obj.mouse_out
+					# 	end
+					# end
+					
+					
+					# Do not hover over multiple objects
+					obj = object_at_point mouse_position_vector
+					
+					@last_hovered_object.mouse_out if @last_hovered_object
+					@last_hovered_object = obj
+					
+					if obj
+						@last_hovered_object.mouse_over
 					end
 				end
 				
 				def click_event
 					@mouse_down_location = mouse_position_vector
-					
-					# Select objects under the mouse
-					# If there's a conflict, get smallest one (least area)
-					
-					# There should be some other rule about distance to center of object
-						# triggers for many objects of similar size?
-						
-						# when objects are densely packed, it can be hard to select the right one
-						# the intuitive approach is to try to select dense objects by their center
-					selection = @window.objects.select do |o|
-						o.bb.contains_vect? @mouse_down_location
-					end
-					
-					selection.sort! do |a, b|
-						a.bb.area <=> b.bb.area
-					end
-					
-					# Get the smallest area values, within a certain threshold
-					# Results in a certain margin of what size is acceptable,
-					# relative to the smallest object
-					selection = selection.select do |o|
-						# TODO: Tweak margin
-						size_margin = 1.8 # percentage
-						
-						first_area = selection.first.bb.area
-						o.bb.area.between? first_area, first_area*(size_margin)
-					end
-					
-					selection.sort! do |a, b|
-						distance_to_a = a.bb.center.dist @mouse_down_location
-						distance_to_b = b.bb.center.dist @mouse_down_location
-						
-						# Listed in order of precedence, but sort order needs to be reverse of that
-						[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
-					end
-					
-					obj = selection.first
+					obj = object_at_point @mouse_down_location
 					
 					
 					
@@ -156,6 +132,48 @@ module TextSpace
 			event :release do
 				transition :dragging => :clicking
 			end
+		end
+		
+		private
+		
+		# TODO: Should probably move this into some sort of "space" class, as a point query
+		def object_at_point(position)
+			# Select objects under the mouse
+			# If there's a conflict, get smallest one (least area)
+			
+			# There should be some other rule about distance to center of object
+				# triggers for many objects of similar size?
+				
+				# when objects are densely packed, it can be hard to select the right one
+				# the intuitive approach is to try to select dense objects by their center
+			selection = @window.objects.select do |o|
+				o.bb.contains_vect? position
+			end
+			
+			selection.sort! do |a, b|
+				a.bb.area <=> b.bb.area
+			end
+			
+			# Get the smallest area values, within a certain threshold
+			# Results in a certain margin of what size is acceptable,
+			# relative to the smallest object
+			selection = selection.select do |o|
+				# TODO: Tweak margin
+				size_margin = 1.8 # percentage
+				
+				first_area = selection.first.bb.area
+				o.bb.area.between? first_area, first_area*(size_margin)
+			end
+			
+			selection.sort! do |a, b|
+				distance_to_a = a.bb.center.dist position
+				distance_to_b = b.bb.center.dist position
+				
+				# Listed in order of precedence, but sort order needs to be reverse of that
+				[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
+			end
+			
+			return selection.first
 		end
 	end
 end
