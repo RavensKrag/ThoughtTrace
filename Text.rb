@@ -1,5 +1,50 @@
 require 'yaml'
 
+require './Serializable'
+
+module CP
+	class Vec2
+		include TextSpace::Serializable
+		
+		def init_with coder
+			# split = coder.scalar.split ":"
+			# initialize(:hours => split[0], :minutes => split[1], :seconds => split[2])
+		end
+
+		def to_string_representation
+			[self.x, self.y].to_yaml
+		end
+		
+		class << self
+			def from_string_representation(string_representation)
+				args = YAML.load(string_representation)
+				new(*args)
+			end
+		end
+	end
+	
+	class BB
+		include TextSpace::Serializable
+		
+		def init_with coder
+			# split = coder.scalar.split ":"
+			# initialize(:hours => split[0], :minutes => split[1], :seconds => split[2])
+		end
+
+		def to_string_representation
+			[self.l, self.b, self.r, self.t].to_yaml
+		end
+		
+		class << self
+			def from_string_representation(string_representation)
+				args = YAML.load(string_representation)
+				new(*args)
+			end
+		end
+	end
+end
+
+
 module TextSpace
 	class Text
 		MINIMUM_HEIGHT = 10
