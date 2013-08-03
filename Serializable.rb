@@ -1,3 +1,5 @@
+require 'yaml'
+
 module TextSpace
 	module Serializable
 		def to_yaml_type

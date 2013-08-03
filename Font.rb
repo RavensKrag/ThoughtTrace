@@ -1,3 +1,5 @@
+require './Serializable'
+
 # Allow for easy changes between different sizes of the same font face
 
 module TextSpace
@@ -101,6 +103,34 @@ module TextSpace
 		def show_boxes_by_default
 			@box_visible = true
 		end
+		
+		
+		
+		
+		include TextSpace::Serializable
+		
+		def init_with coder
+			# split = coder.scalar.split ":"
+			# initialize(:hours => split[0], :minutes => split[1], :seconds => split[2])
+		end
+
+		def to_string_representation
+			@name.to_yaml
+		end
+		
+		class << self
+			def from_string_representation(string_representation)
+				name = YAML.load(string_representation)
+				# new(*args)
+				nil
+				
+				# TODO: Implement this stub
+			end
+		end
+		
+		
+		
+		
 		
 		private
 		
