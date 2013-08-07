@@ -9,6 +9,19 @@ module TextSpace
 		attr_reader :i
 		attr_reader :name
 		
+		class << self
+			def new(name)
+				@fonts ||= Hash.new
+				if @fonts[name]
+					# Font already initialized
+					return @fonts[name]
+				else
+					@fonts[name] = super(name)
+					return @fonts[name]
+				end
+			end
+		end
+		
 		def initialize(name)
 			@name = name
 			
