@@ -122,10 +122,10 @@ module TextSpace
 		include TextSpace::Serializable
 		
 		def init_with coder
-			# split = coder.scalar.split ":"
-			# initialize(:hours => split[0], :minutes => split[1], :seconds => split[2])
+			name = YAML.load(coder.scalar)
+			initialize(name)
 		end
-
+		
 		def to_string_representation
 			@name.to_yaml
 		end
@@ -137,7 +137,9 @@ module TextSpace
 			end
 		end
 		
-		
+		def inspect
+			@name
+		end
 		
 		
 		

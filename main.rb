@@ -46,20 +46,9 @@ class Window < Gosu::Window
 		@mouse = TextSpace::MouseHandler.new Gosu::MsLeft
 		
 		
-		# Load all the data
-		# foreach does not traverse in alphabetical order,
-		# so load all the things up, sort them by filename, and discard the filename info
-		@objects = Array.new
-		data_dir = File.join(File.dirname(__FILE__), "data")
-		Dir.foreach data_dir do |item|
-			next if item == '.' or item == '..'
-			# next unless File.exist?
-			
-			filepath = File.join(data_dir, item)
-			@objects.push [filepath, TextSpace::Text.load(@font, filepath)]
-		end
-		@objects = @objects.sort_by {|x| x[0]}.collect{|x| x[1]}
-		@objects.each {|i| puts i}
+		# Load all the data		
+		@objects = YAML.load_file(File.join(File.dirname(__FILE__), "data", "ALL_DUMP_TEST.yml"))
+		p @objects
 	end
 	
 	def update
@@ -126,11 +115,11 @@ class Window < Gosu::Window
 	end
 	
 	def shutdown
-		# FIXME: Files not saving with the same filenames every time
-		@objects.each_with_index do |obj, i|
-			filepath = File.join(File.dirname(__FILE__), "data", "#{"%05d" % i}.yml")
-			obj.dump(filepath)
+		filepath = File.join(File.dirname(__FILE__), "data", "ALL_DUMP_TEST.yml")
+		File.open(filepath, "w") do |f|
+			f.puts YAML::dump(@objects)
 		end
+		
 		
 		close
 	end

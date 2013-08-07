@@ -7,8 +7,8 @@ module CP
 		include TextSpace::Serializable
 		
 		def init_with coder
-			# split = coder.scalar.split ":"
-			# initialize(:hours => split[0], :minutes => split[1], :seconds => split[2])
+			args = YAML.load(coder.scalar)
+			initialize(*args)
 		end
 
 		def to_string_representation
@@ -27,8 +27,8 @@ module CP
 		include TextSpace::Serializable
 		
 		def init_with coder
-			# split = coder.scalar.split ":"
-			# initialize(:hours => split[0], :minutes => split[1], :seconds => split[2])
+			args = YAML.load(coder.scalar)
+			initialize(*args)
 		end
 
 		def to_string_representation
@@ -141,6 +141,10 @@ module TextSpace
 				
 				return t
 			end
+		end
+		
+		def inspect
+			"#{@font.inspect} : #{@string}"
 		end
 		
 		private
