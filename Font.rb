@@ -138,7 +138,7 @@ module TextSpace
 		end
 		
 		def inspect
-			@name
+			"#{@name}<id:#{object_id}>"
 		end
 		
 		
