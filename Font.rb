@@ -25,16 +25,17 @@ module TextSpace
 		end
 		
 		def initialize(name)
-			@name = name
-			
-			
 			@@fonts ||= Hash.new
 			if @@fonts[name]
 				# Font already initialized
 				# Point to existing values instead of making more
-				@font_cache = @@fonts[name].instance_variable_get :@font_cache
+				[:@name, :@font_cache].each do |var|
+					instance_variable_set var, @@fonts[name].instance_variable_get(var)
+				end
 			else
 				# Set up normally
+				@name = name
+				
 				generate_font_cache name
 				
 				@@fonts[name] = self
