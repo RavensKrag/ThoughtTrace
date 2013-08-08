@@ -11,6 +11,8 @@ module TextSpace
 		
 		class << self
 			def new(name)
+				# Not triggering on load, because loading somehow circumvents the call to new?
+				
 				@fonts ||= Hash.new
 				if @fonts[name]
 					# Font already initialized
@@ -25,6 +27,25 @@ module TextSpace
 		def initialize(name)
 			@name = name
 			
+			
+			@@fonts ||= Hash.new
+			if @@fonts[name]
+				# Font already initialized
+				# Point to existing values instead of making more
+				@font_cache = @@fonts[name].instance_variable_get :@font_cache
+			else
+				# Set up normally
+				generate_font_cache name
+				
+				@@fonts[name] = self
+			end
+			
+			a = (0xff * 0.2).to_i
+			c = 0x0000ff
+			@box_color = (a << 24) | c
+		end
+		
+		def generate_font_cache(name)
 			@font_cache = []
 			
 			# TODO: Consider using some other sequence than Fibonacci. Just used fib because it was easy
@@ -64,14 +85,9 @@ module TextSpace
 			heights.each do |height|
 				@font_cache << Gosu::Font.new($window, name, height)
 			end
-			
-			@box_visible = true
-			a = (0xff * 0.2).to_i
-			c = 0x0000ff
-			@box_color = (a << 24) | c
 		end
 		
-		def draw(text, height, x,y,z=0, color=0xffffffff, box_visible=@box_visible)
+		def draw(text, height, x,y,z=0, color=0xffffffff, box_visible=true)
 			# --Prevent out of bounds
 			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
 			
@@ -126,19 +142,21 @@ module TextSpace
 			initialize(name)
 		end
 		
+		# TODO: Define #encode_with instead (maybe not because of how this object is saved...?)
 		def to_string_representation
 			@name.to_yaml
 		end
 		
 		class << self
 			def from_string_representation(string_representation)
+				puts "YAML UP"
 				name = YAML.load(string_representation)
 				new(name)
 			end
 		end
 		
 		def inspect
-			"#{@name}<id:#{object_id}>"
+			"#{@name}<id:#{object_id}-#{@font_cache.object_id}>"
 		end
 		
 		
