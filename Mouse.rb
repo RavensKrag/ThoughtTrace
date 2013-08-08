@@ -22,27 +22,29 @@ end
 
 module TextSpace
 	class MouseHandler
-		attr_reader :selected
+		attr_reader :selected, :mouse_down_location
+		
+		MouseData = Struct.new(:event_thing, :mouse_down_location, 
+								:selected, :selected_first_position)
 		
 		def initialize(button)
 			super()
 			
 			@button = button
+		end
+		
+		def add_button(event_thing)
+			@buttons ||= Hash.new
 			
-			@selected = nil
-			@mouse_down_location = nil # CP::Vec2.new(0,0)
+			@buttons[event_thing.button] = MouseData.new(event_thing)
 		end
 		
 		def button_down(id)
-			click_event if id == @button
+			click_event(@buttons[id]) if @buttons[id]
 		end
 		
 		def button_up(id)
-			release_event if id == @button
-		end
-		
-		def mouse_position_vector
-			CP::Vec2.new($window.mouse_x, $window.mouse_y)
+			release_event(@buttons[id]) if @buttons[id]
 		end
 		
 		state_machine :state, :initial => :clicking do
@@ -51,36 +53,52 @@ module TextSpace
 					# Mouse over and mouse out
 					
 					# Hover over all objects under the mouse
-					$window.objects.each do |obj|
-						if obj.bb.contains_vect? mouse_position_vector
-							obj.mouse_over
-						else
-							obj.mouse_out
-						end
+					# $window.objects.each do |obj|
+					# 	if obj.bb.contains_vect? $window.mouse_position_vector
+					# 		obj.mouse_over
+					# 	else
+					# 		obj.mouse_out
+					# 	end
+					# end
+					
+					
+					# Do not hover over multiple objects
+					obj = object_at_point $window.mouse_position_vector
+					
+					@last_hovered_object.mouse_out if @last_hovered_object
+					@last_hovered_object = obj
+					
+					if obj
+						@last_hovered_object.mouse_over
 					end
 				end
 				
-				def click_event
-					@mouse_down_location = mouse_position_vector
-					obj = object_at_point @mouse_down_location
+				def click_event(mouse_data)
+					mouse_data.mouse_down_location = $window.mouse_position_vector
+					obj = object_at_point mouse_data.mouse_down_location
+					
 					
 					
 					
 					if obj
 						# Click on object
-						@selected = obj
+						mouse_data.selected = obj
+						
+						instance_eval do
+							mouse_data.event_thing.click.call(mouse_data)
+						end
 					else
 						# Clicked empty space
-						@selected = @window.spawn_new_text
+						mouse_data.selected = $window.spawn_new_text
 					end
 					
-					@original_position = @selected.position
-					@selected.click
+					mouse_data.selected_first_position = mouse_data.selected.position
+					mouse_data.selected.click
 					
 					click
 				end
 				
-				def release_event
+				def release_event(mouse_data)
 					
 				end
 			end
@@ -88,20 +106,26 @@ module TextSpace
 			
 			state :dragging do
 				def update
-					mouse_delta = mouse_position_vector - @mouse_down_location
-					
-					if @selected
-						p = @original_position + mouse_delta
-						@selected.position = p
+					@buttons.each do |button_id, mouse_data|
+						if mouse_data.event_thing.drag
+							puts mouse_data.selected
+							mouse_data.event_thing.drag.call(mouse_data) if mouse_data.selected
+						end
 					end
 				end
 				
-				def click_event
+				def click_event(mouse_data)
 					
 				end
 				
-				def release_event
-					@selected.release
+				def release_event(mouse_data)
+					instance_eval do
+						mouse_data.event_thing.release.call(mouse_data)
+					end
+					
+					mouse_data.selected.release
+					mouse_data.selected = nil
+					
 					release
 				end
 			end

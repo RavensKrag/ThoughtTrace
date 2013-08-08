@@ -11,6 +11,7 @@ require './Camera'
 require './Font'
 require './Text'
 
+require './MouseEvent'
 require './Mouse'
 
 class Window < Gosu::Window
@@ -45,6 +46,29 @@ class Window < Gosu::Window
 		
 		@mouse = TextSpace::MouseHandler.new Gosu::MsLeft
 		
+		left_button = TextSpace::MouseEvent.new Gosu::MsLeft
+		left_button.click_callback do |mouse_data|
+			puts "++++++++++click"
+			
+			# mouse_data.selected_first_position = mouse_data.selected.position
+		end
+		left_button.release_callback do |mouse_data|
+			puts "---------release"
+		end
+		left_button.drag_callback do |mouse_data|
+			puts "drag test"
+			mouse_delta = mouse_position_vector - mouse_data.mouse_down_location
+			
+			p = mouse_data.selected_first_position + mouse_delta
+			mouse_data.selected.position = p
+		end
+		left_button.mouse_over_callback do
+			
+		end
+		left_button.mouse_out_callback do
+			
+		end
+		@mouse.add_button left_button
 		
 		# Load all the data		
 		@objects = YAML.load_file(File.join(File.dirname(__FILE__), "data", "ALL_DUMP_TEST.yml"))
@@ -126,6 +150,10 @@ class Window < Gosu::Window
 	
 	
 	
+	
+	def mouse_position_vector
+		CP::Vec2.new(self.mouse_x, self.mouse_y)
+	end
 	
 	def debug_puts(*args)
 		output = ""
