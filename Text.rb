@@ -1,5 +1,50 @@
 require 'yaml'
 
+require './Serializable'
+
+module CP
+	class Vec2
+		include TextSpace::Serializable
+		
+		def init_with coder
+			args = YAML.load(coder.scalar)
+			initialize(*args)
+		end
+
+		def to_string_representation
+			[self.x, self.y].to_yaml
+		end
+		
+		class << self
+			def from_string_representation(string_representation)
+				args = YAML.load(string_representation)
+				new(*args)
+			end
+		end
+	end
+	
+	class BB
+		include TextSpace::Serializable
+		
+		def init_with coder
+			args = YAML.load(coder.scalar)
+			initialize(*args)
+		end
+
+		def to_string_representation
+			[self.l, self.b, self.r, self.t].to_yaml
+		end
+		
+		class << self
+			def from_string_representation(string_representation)
+				args = YAML.load(string_representation)
+				new(*args)
+			end
+		end
+	end
+end
+
+
 module TextSpace
 	class Text
 		MINIMUM_HEIGHT = 10
@@ -65,18 +110,6 @@ module TextSpace
 		
 		def dump(filepath)
 			# Save only necessary data
-			# - @height
-			# - font name
-			
-			# @font = font
-			
-			# @height = 30
-			
-			# @color = 0xffffffff
-			# @box_visible = false
-			
-			# @position = CP::Vec2.new(0,0)
-			# string
 			
 			data = {
 				:font => @font.name,
@@ -108,6 +141,10 @@ module TextSpace
 				
 				return t
 			end
+		end
+		
+		def inspect
+			"#{@font.inspect} : #{@string}"
 		end
 		
 		private

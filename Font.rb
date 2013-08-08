@@ -1,3 +1,5 @@
+require './Serializable'
+
 # Allow for easy changes between different sizes of the same font face
 
 module TextSpace
@@ -7,10 +9,44 @@ module TextSpace
 		attr_reader :i
 		attr_reader :name
 		
-		def initialize(window, name)
-			@window = window
-			@name = name
+		class << self
+			def new(name)
+				# Not triggering on load, because loading somehow circumvents the call to new?
+				
+				@fonts ||= Hash.new
+				if @fonts[name]
+					# Font already initialized
+					return @fonts[name]
+				else
+					@fonts[name] = super(name)
+					return @fonts[name]
+				end
+			end
+		end
+		
+		def initialize(name)
+			@@fonts ||= Hash.new
+			if @@fonts[name]
+				# Font already initialized
+				# Point to existing values instead of making more
+				[:@name, :@font_cache].each do |var|
+					instance_variable_set var, @@fonts[name].instance_variable_get(var)
+				end
+			else
+				# Set up normally
+				@name = name
+				
+				generate_font_cache name
+				
+				@@fonts[name] = self
+			end
 			
+			a = (0xff * 0.2).to_i
+			c = 0x0000ff
+			@box_color = (a << 24) | c
+		end
+		
+		def generate_font_cache(name)
 			@font_cache = []
 			
 			# TODO: Consider using some other sequence than Fibonacci. Just used fib because it was easy
@@ -48,16 +84,11 @@ module TextSpace
 			puts heights
 			
 			heights.each do |height|
-				@font_cache << Gosu::Font.new(window, name, height)
+				@font_cache << Gosu::Font.new($window, name, height)
 			end
-			
-			@box_visible = true
-			a = (0xff * 0.2).to_i
-			c = 0x0000ff
-			@box_color = (a << 24) | c
 		end
 		
-		def draw(text, height, x,y,z=0, color=0xffffffff, box_visible=@box_visible)
+		def draw(text, height, x,y,z=0, color=0xffffffff, box_visible=true)
 			# --Prevent out of bounds
 			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
 			
@@ -75,7 +106,7 @@ module TextSpace
 			if box_visible
 				width = f.text_width(text) * scale
 				
-				@window.draw_quad(
+				$window.draw_quad(
 					x, y,	@box_color,
 					x+width, y,	@box_color,
 					x+width, y+height,	@box_color,
@@ -102,13 +133,42 @@ module TextSpace
 			@box_visible = true
 		end
 		
+		
+		
+		
+		include TextSpace::Serializable
+		
+		def init_with coder
+			name = YAML.load(coder.scalar)
+			initialize(name)
+		end
+		
+		# TODO: Define #encode_with instead (maybe not because of how this object is saved...?)
+		def to_string_representation
+			@name.to_yaml
+		end
+		
+		class << self
+			def from_string_representation(string_representation)
+				puts "YAML UP"
+				name = YAML.load(string_representation)
+				new(name)
+			end
+		end
+		
+		def inspect
+			"#{@name}<id:#{object_id}-#{@font_cache.object_id}>"
+		end
+		
+		
+		
 		private
 		
 		def find_font_object(height)
 			i = @font_cache.index {|f| height <= f.height}
 			i ||= @font_cache.size-1
 			
-			# @window.debug_puts i
+			# $window.debug_puts i
 			
 			return @font_cache[i]
 		end

@@ -24,10 +24,9 @@ module TextSpace
 	class MouseHandler
 		attr_reader :selected
 		
-		def initialize(window, button)
+		def initialize(button)
 			super()
 			
-			@window = window
 			@button = button
 			
 			@selected = nil
@@ -43,7 +42,7 @@ module TextSpace
 		end
 		
 		def mouse_position_vector
-			CP::Vec2.new(@window.mouse_x, @window.mouse_y)
+			CP::Vec2.new($window.mouse_x, $window.mouse_y)
 		end
 		
 		state_machine :state, :initial => :clicking do
@@ -52,23 +51,12 @@ module TextSpace
 					# Mouse over and mouse out
 					
 					# Hover over all objects under the mouse
-					# @window.objects.each do |obj|
-					# 	if obj.bb.contains_vect? mouse_position_vector
-					# 		obj.mouse_over
-					# 	else
-					# 		obj.mouse_out
-					# 	end
-					# end
-					
-					
-					# Do not hover over multiple objects
-					obj = object_at_point mouse_position_vector
-					
-					@last_hovered_object.mouse_out if @last_hovered_object
-					@last_hovered_object = obj
-					
-					if obj
-						@last_hovered_object.mouse_over
+					$window.objects.each do |obj|
+						if obj.bb.contains_vect? mouse_position_vector
+							obj.mouse_over
+						else
+							obj.mouse_out
+						end
 					end
 				end
 				
@@ -146,7 +134,7 @@ module TextSpace
 				
 				# when objects are densely packed, it can be hard to select the right one
 				# the intuitive approach is to try to select dense objects by their center
-			selection = @window.objects.select do |o|
+			selection = $window.objects.select do |o|
 				o.bb.contains_vect? position
 			end
 			
