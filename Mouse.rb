@@ -24,8 +24,7 @@ module TextSpace
 	class MouseHandler
 		attr_reader :selected, :mouse_down_location
 		
-		MouseData = Struct.new(:event_thing, :mouse_down_location, 
-								:selected, :selected_first_position)
+		MouseData = Struct.new(:event_thing, :mouse_down_location, :selected)
 		
 		def initialize(button)
 			super()
@@ -92,7 +91,6 @@ module TextSpace
 						mouse_data.selected = $window.spawn_new_text
 					end
 					
-					mouse_data.selected_first_position = mouse_data.selected.position
 					mouse_data.selected.click
 					
 					click

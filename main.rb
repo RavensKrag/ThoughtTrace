@@ -50,7 +50,7 @@ class Window < Gosu::Window
 		left_button.click_callback do |mouse_data|
 			puts "++++++++++click"
 			
-			# mouse_data.selected_first_position = mouse_data.selected.position
+			@first_position = mouse_data.selected.position
 		end
 		left_button.release_callback do |mouse_data|
 			puts "---------release"
@@ -59,8 +59,7 @@ class Window < Gosu::Window
 			puts "drag test"
 			mouse_delta = mouse_position_vector - mouse_data.mouse_down_location
 			
-			p = mouse_data.selected_first_position + mouse_delta
-			mouse_data.selected.position = p
+			mouse_data.selected.position = @first_position + mouse_delta
 		end
 		left_button.mouse_over_callback do
 			
