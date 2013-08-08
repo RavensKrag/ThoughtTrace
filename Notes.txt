@@ -2,6 +2,10 @@ Need to figure out how to get two bits of text with different sizes to line up.
 	It's not as simple as just lining up the beginnings of the two lines, because the spacing between the start of the line and the start of the string is different.  It may depend on the first character.
 	
 	But even if it does, the first characters of the two strings being identical doesn't fix the problem.
-	
-	
+
+
 I should probably not be dumb and just save all the objects in one file, instead of trying to save each object in it's own file
+
+	Don't use Gosu::TextInput that will not allow for the editing of strings that have already been constructed.
+		Nope, I was wrong.  Go ahead and use this.
+		Just remember to set the current text with TextInput#text=
