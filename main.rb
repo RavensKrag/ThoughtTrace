@@ -56,7 +56,8 @@ class Window < Gosu::Window
 			puts "---------release"
 		end
 		left_button.drag_callback do |mouse_data|
-			puts "drag test"
+			puts "drag"
+			
 			mouse_delta = mouse_position_vector - mouse_data.mouse_down_location
 			
 			mouse_data.selected.position = @first_position + mouse_delta
