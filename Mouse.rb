@@ -113,9 +113,7 @@ module TextSpace
 				def update
 					@buttons.each do |button_id, mouse_data|
 						if mouse_data.event_thing.drag
-							if mouse_data.selected
-								instance_exec mouse_data, &mouse_data.event_thing.drag 
-							end
+							instance_exec mouse_data, &mouse_data.event_thing.drag
 						end
 					end
 				end

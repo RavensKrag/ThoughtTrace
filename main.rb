@@ -59,11 +59,13 @@ class Window < Gosu::Window
 			end
 			
 			on_drag do |mouse_data|
-				puts "drag"
-				
-				mouse_delta = position_vector - mouse_data.mouse_down_location
-				
-				mouse_data.selected.position = @first_position + mouse_delta
+				if mouse_data.selected
+					puts "drag"
+					
+					mouse_delta = position_vector - mouse_data.mouse_down_location
+					
+					mouse_data.selected.position = @first_position + mouse_delta
+				end
 			end
 			
 			on_mouse_over do |mouse_data|
