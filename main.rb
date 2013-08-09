@@ -79,7 +79,32 @@ class Window < Gosu::Window
 		@mouse.add_button left_button
 		
 		
-		
+		right_button = TextSpace::MouseEvent.new Gosu::MsRight do
+			on_click do |mouse_data|
+				puts "++++++++++click"
+				
+				@first_position = mouse_data.selected.position
+			end
+			
+			on_release do |mouse_data|
+				puts "---------release"
+			end
+			
+			on_drag do |mouse_data|
+				if mouse_data.selected
+					mouse_data.selected.height = position_vector.y - mouse_data.selected.position.y
+				end
+			end
+			
+			on_mouse_over do |mouse_data|
+				
+			end
+			
+			on_mouse_out do |mouse_data|
+				
+			end
+		end
+		@mouse.add_button right_button
 		
 		
 		# Load all the data
@@ -91,11 +116,8 @@ class Window < Gosu::Window
 		@objects.each do |obj|
 			obj.update
 		end
-		@mouse.update
 		
-		if @mouse.selected && @scaling
-			@mouse.selected.height = mouse_y - @mouse.selected.position.y
-		end
+		@mouse.update
 	end
 	
 	def draw
@@ -132,18 +154,10 @@ class Window < Gosu::Window
 		
 		
 		@mouse.button_down id
-		
-		if @bindings[:scale].include? id
-			@scaling = true
-		end
 	end
 	
 	def button_up(id)
 		@mouse.button_up id
-		
-		if @bindings[:scale].include? id
-			@scaling = false
-		end
 	end
 	
 	def needs_cursor?
