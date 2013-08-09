@@ -46,31 +46,41 @@ class Window < Gosu::Window
 		
 		@mouse = TextSpace::MouseHandler.new Gosu::MsLeft
 		
-		left_button = TextSpace::MouseEvent.new Gosu::MsLeft
-		left_button.click_callback do |mouse_data|
-			puts "++++++++++click"
+		
+		left_button = TextSpace::MouseEvent.new Gosu::MsLeft do
+			on_click do |mouse_data|
+				puts "++++++++++click"
+				
+				@first_position = mouse_data.selected.position
+			end
 			
-			@first_position = mouse_data.selected.position
-		end
-		left_button.release_callback do |mouse_data|
-			puts "---------release"
-		end
-		left_button.drag_callback do |mouse_data|
-			puts "drag"
+			on_release do |mouse_data|
+				puts "---------release"
+			end
 			
-			mouse_delta = mouse_position_vector - mouse_data.mouse_down_location
+			on_drag do |mouse_data|
+				puts "drag"
+				
+				mouse_delta = position_vector - mouse_data.mouse_down_location
+				
+				mouse_data.selected.position = @first_position + mouse_delta
+			end
 			
-			mouse_data.selected.position = @first_position + mouse_delta
-		end
-		left_button.mouse_over_callback do
+			on_mouse_over do |mouse_data|
+				
+			end
 			
-		end
-		left_button.mouse_out_callback do
-			
+			on_mouse_out do |mouse_data|
+				
+			end
 		end
 		@mouse.add_button left_button
 		
-		# Load all the data		
+		
+		
+		
+		
+		# Load all the data
 		@objects = YAML.load_file(File.join(File.dirname(__FILE__), "data", "ALL_DUMP_TEST.yml"))
 		p @objects
 	end
@@ -151,9 +161,7 @@ class Window < Gosu::Window
 	
 	
 	
-	def mouse_position_vector
-		CP::Vec2.new(self.mouse_x, self.mouse_y)
-	end
+	
 	
 	def debug_puts(*args)
 		output = ""

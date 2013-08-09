@@ -53,7 +53,7 @@ module TextSpace
 					
 					# Hover over all objects under the mouse
 					# $window.objects.each do |obj|
-					# 	if obj.bb.contains_vect? $window.mouse_position_vector
+					# 	if obj.bb.contains_vect? position_vector
 					# 		obj.mouse_over
 					# 	else
 					# 		obj.mouse_out
@@ -62,18 +62,24 @@ module TextSpace
 					
 					
 					# Do not hover over multiple objects
-					obj = object_at_point $window.mouse_position_vector
+					obj = object_at_point position_vector
 					
-					@last_hovered_object.mouse_out if @last_hovered_object
+					if @last_hovered_object
+						# mouse_data.event_thing.mouse_out.call
+						
+						@last_hovered_object.mouse_out 
+					end
 					@last_hovered_object = obj
 					
 					if obj
+						# mouse_data.event_thing.mouse_over.call
+						
 						@last_hovered_object.mouse_over
 					end
 				end
 				
 				def click_event(mouse_data)
-					mouse_data.mouse_down_location = $window.mouse_position_vector
+					mouse_data.mouse_down_location = position_vector
 					obj = object_at_point mouse_data.mouse_down_location
 					
 					
@@ -83,9 +89,10 @@ module TextSpace
 						# Click on object
 						mouse_data.selected = obj
 						
-						instance_eval do
-							mouse_data.event_thing.click.call(mouse_data)
-						end
+						# TODO: use instance_exec here instead of instance_eval
+						# allows sending arguments to proc
+						# proc is always the last item in the argument list
+						instance_exec mouse_data, &mouse_data.event_thing.click
 					else
 						# Clicked empty space
 						mouse_data.selected = $window.spawn_new_text
@@ -106,7 +113,9 @@ module TextSpace
 				def update
 					@buttons.each do |button_id, mouse_data|
 						if mouse_data.event_thing.drag
-							mouse_data.event_thing.drag.call(mouse_data) if mouse_data.selected
+							if mouse_data.selected
+								instance_exec mouse_data, &mouse_data.event_thing.drag 
+							end
 						end
 					end
 				end
@@ -116,9 +125,7 @@ module TextSpace
 				end
 				
 				def release_event(mouse_data)
-					instance_eval do
-						mouse_data.event_thing.release.call(mouse_data)
-					end
+					instance_exec mouse_data, &mouse_data.event_thing.release
 					
 					mouse_data.selected.release
 					mouse_data.selected = nil
@@ -141,6 +148,10 @@ module TextSpace
 			event :release do
 				transition :dragging => :clicking
 			end
+		end
+		
+		def position_vector
+			CP::Vec2.new($window.mouse_x, $window.mouse_y)
 		end
 		
 		private
