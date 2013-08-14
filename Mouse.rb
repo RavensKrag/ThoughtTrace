@@ -22,137 +22,73 @@ end
 
 module TextSpace
 	class MouseHandler
-		attr_reader :selected, :mouse_down_location
-		
-		MouseData = Struct.new(:event_thing, :mouse_down_location, :selected)
-		
-		def initialize(button)
+		def initialize(&block)
 			super()
 			
-			@button = button
+			@bindings = Hash.new # button => callback name
+			@hover_callbacks = Hash.new # callback name => callback
+			
+			@action_callbacks = Hash.new # button => callback
+			
+			
+			# @callbacks = Hash.new # trigger => callback
+			
+			
+			@hovered = nil
+			
+			
+			instance_eval &block
 		end
 		
-		def add_button(event_thing)
-			@buttons ||= Hash.new
+		def update
+			# Mouse over and mouse out
 			
-			@buttons[event_thing.button] = MouseData.new(event_thing)
+			# Hover over all objects under the mouse
+			# $window.objects.each do |obj|
+			# 	if obj.bb.contains_vect? position_vector
+			# 		obj.mouse_over
+			# 	else
+			# 		obj.mouse_out
+			# 	end
+			# end
+			
+			
+			# Do not hover over multiple objects
+			obj = object_at_point position_vector
+			
+			if @last_hovered_object
+				# mouse_data.event_thing.mouse_out.call
+				
+				@last_hovered_object.mouse_out
+			end
+			@last_hovered_object = obj
+			
+			if obj
+				# mouse_data.event_thing.mouse_over.call
+				
+				@last_hovered_object.mouse_over
+			end
+			
+			@action_callbacks.each_value do |callback|
+				callback.update
+			end
 		end
 		
 		def button_down(id)
-			click_event(@buttons[id]) if @buttons[id]
+			if @action_callbacks.has_key? id
+				@action_callbacks[id].button_down
+			end
 		end
 		
 		def button_up(id)
-			release_event(@buttons[id]) if @buttons[id]
-		end
-		
-		state_machine :state, :initial => :clicking do
-			state :clicking do
-				def update
-					# Mouse over and mouse out
-					
-					# Hover over all objects under the mouse
-					# $window.objects.each do |obj|
-					# 	if obj.bb.contains_vect? position_vector
-					# 		obj.mouse_over
-					# 	else
-					# 		obj.mouse_out
-					# 	end
-					# end
-					
-					
-					# Do not hover over multiple objects
-					obj = object_at_point position_vector
-					
-					if @last_hovered_object
-						# mouse_data.event_thing.mouse_out.call
-						
-						@last_hovered_object.mouse_out 
-					end
-					@last_hovered_object = obj
-					
-					if obj
-						# mouse_data.event_thing.mouse_over.call
-						
-						@last_hovered_object.mouse_over
-					end
-				end
-				
-				def click_event(mouse_data)
-					mouse_data.mouse_down_location = position_vector
-					obj = object_at_point mouse_data.mouse_down_location
-					
-					
-					
-					
-					if obj
-						# Click on object
-						mouse_data.selected = obj
-						
-						# TODO: use instance_exec here instead of instance_eval
-						# allows sending arguments to proc
-						# proc is always the last item in the argument list
-						instance_exec mouse_data, &mouse_data.event_thing.click
-					else
-						# Clicked empty space
-						mouse_data.selected = $window.spawn_new_text
-					end
-					
-					mouse_data.selected.click
-					
-					click
-				end
-				
-				def release_event(mouse_data)
-					
-				end
-			end
-			
-			
-			state :dragging do
-				def update
-					@buttons.each do |button_id, mouse_data|
-						if mouse_data.event_thing.drag
-							instance_exec mouse_data, &mouse_data.event_thing.drag
-						end
-					end
-				end
-				
-				def click_event(mouse_data)
-					
-				end
-				
-				def release_event(mouse_data)
-					instance_exec mouse_data, &mouse_data.event_thing.release
-					
-					mouse_data.selected.release
-					mouse_data.selected = nil
-					
-					release
-				end
-			end
-			
-			before_transition :dragging => any do
-				@mouse_down_location = nil
-				@selected = nil
-			end
-			
-			
-			
-			event :click do
-				transition :clicking => :dragging
-			end
-			
-			event :release do
-				transition :dragging => :clicking
+			if @action_callbacks.has_key? id
+				@action_callbacks[id].button_up
 			end
 		end
 		
 		def position_vector
 			CP::Vec2.new($window.mouse_x, $window.mouse_y)
 		end
-		
-		private
 		
 		# TODO: Should probably move this into some sort of "space" class, as a point query
 		def object_at_point(position)
@@ -193,5 +129,184 @@ module TextSpace
 			
 			return selection.first
 		end
+		
+		
+		
+		# Selection events and stuff
+		def select(object)
+			@selection = object
+			# fire other event things as necessary
+		end
+		
+		def deselect(object)
+			# Could possibly change into multiple select
+			# just single select for now
+			
+			@selection = nil
+		end
+		
+		def selection
+			@selection
+		end
+		
+		
+		
+		
+		
+		private
+		
+		# Interface to define callbacks
+		def on_mouse_over(&block)
+			@hover_callbacks[:mouse_over] = block
+		end
+		
+		def on_mouse_out(&block)
+			@hover_callbacks[:mouse_out] = block
+		end
+		
+		def button(id, &block)
+			@action_callbacks[id] = ButtonEvent.new self, &block
+		end
+		
+		
+		# Fire callbacks
+		def mouse_over_callback
+			instance_exec @hovered, @hover_callbacks[:mouse_over]
+		end
+		
+		def mouse_out_callback
+			instance_exec @hovered, @hover_callbacks[:mouse_out]
+		end
+		
+		
+		
+		
+		
+		# Class to handle action callbacks
+		# Delegate all the action-y bits to this,
+		# only the hover events should be handled above
+		class ButtonEvent
+			def initialize(mouse_handler, &block)
+				super()
+				
+				@mouse = mouse_handler
+				
+				@callbacks = Hash.new
+				
+				instance_eval &block
+			end
+			
+			def button_down
+				click_event
+			end
+			
+			def button_up
+				release_event
+			end
+			
+			state_machine :state, :initial => :up do
+				state :up do
+					def update
+						
+					end
+					
+					def click_event
+						@mouse_down_vector = @mouse.position_vector
+						obj = @mouse.object_at_point @mouse_down_vector
+						
+						
+						
+						
+						if obj
+							# Click on object
+							@mouse.select obj
+							
+							# TODO: use instance_exec here instead of instance_eval
+							# allows sending arguments to proc
+							# proc is always the last item in the argument list
+							click_callback(@mouse.selection)
+						else
+							# Clicked empty space
+							@mouse.select $window.spawn_new_text
+						end
+						
+						@mouse.selection.click
+						
+						click
+					end
+					
+					def release_event
+						
+					end
+				end
+				
+				state :down do
+					def update
+						drag_callback(@mouse.selection)
+					end
+					
+					def click_event
+						
+					end
+					
+					def release_event
+						release_callback(@mouse.selection)
+						
+						@mouse.selection.release
+						@mouse.deselect @mouse.selection
+						
+						release
+					end
+				end
+				
+				before_transition :down => any do
+					@mouse_down_vector = nil
+					@selected = nil
+				end
+				
+				
+				
+				event :click do
+					transition :up => :down
+				end
+				
+				event :release do
+					transition :down => :up
+				end
+			end
+			
+			
+			
+			[:click, :release, :drag].each do |event|
+			# ----------
+			
+			# Fire callbacks
+			define_method "#{event}_callback" do |selected|
+				@mouse.instance_exec @mouse_down_vector, selected, &@callbacks[event]
+			end
+			
+			
+			
+			# Interface to define callbacks
+			private
+			define_method "on_#{event}" do |&block|
+				@callbacks[event] = block
+			end
+			
+			# ----------
+			end
+			
+		end
+		
+		# # Return all objects the mouse is on top of
+		# def hovered
+			
+		# end
+		
+		# # Return the most recent object the mouse is on top of
+		
+		
+		# # Return the most relevant object the mouse is on top of
+		# # (ie, highest priority for selection)
 	end
 end

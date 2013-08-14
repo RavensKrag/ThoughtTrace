@@ -11,7 +11,6 @@ require './Camera'
 require './Font'
 require './Text'
 
-require './MouseEvent'
 require './Mouse'
 
 class Window < Gosu::Window
@@ -36,75 +35,76 @@ class Window < Gosu::Window
 		
 		@font = TextSpace::Font.new "Lucida Sans Unicode"
 		
-		@bindings = {
-			:move => [Gosu::MsLeft],
-			:scale => [Gosu::MsRight],
-			
-			:increase_size => [Gosu::MsWheelUp, Gosu::KbUp],
-			:decrease_size => [Gosu::MsWheelDown, Gosu::KbDown]
-		}
-		
-		@mouse = TextSpace::MouseHandler.new Gosu::MsLeft
 		
 		
-		left_button = TextSpace::MouseEvent.new Gosu::MsLeft do
-			on_click do |mouse_data|
-				puts "++++++++++click"
+		
+		@mouse = TextSpace::MouseHandler.new do
+			on_mouse_over do |hovered|
 				
-				@first_position = mouse_data.selected.position
 			end
 			
-			on_release do |mouse_data|
-				puts "---------release"
+			on_mouse_out do |hovered|
+				
 			end
 			
-			on_drag do |mouse_data|
-				if mouse_data.selected
-					puts "drag"
+			button Gosu::MsLeft do
+				on_click do |mouse_down_vector, selected|
+					puts "++++++++++click"
 					
-					mouse_delta = position_vector - mouse_data.mouse_down_location
-					
-					mouse_data.selected.position = @first_position + mouse_delta
+					@first_position = selected.position
+				end
+				
+				on_release do |mouse_down_vector, selected|
+					puts "---------release"
+				end
+				
+				on_drag do |mouse_down_vector, selected|
+					if selected
+						puts "drag"
+						
+						mouse_delta = position_vector - mouse_down_vector
+						
+						selected.position = @first_position + mouse_delta
+					end
 				end
 			end
 			
-			on_mouse_over do |mouse_data|
-				
-			end
 			
-			on_mouse_out do |mouse_data|
-				
-			end
-		end
-		@mouse.add_button left_button
-		
-		
-		right_button = TextSpace::MouseEvent.new Gosu::MsRight do
-			on_click do |mouse_data|
-				puts "++++++++++click"
-				
-				@first_position = mouse_data.selected.position
-			end
 			
-			on_release do |mouse_data|
-				puts "---------release"
-			end
-			
-			on_drag do |mouse_data|
-				if mouse_data.selected
-					mouse_data.selected.height = position_vector.y - mouse_data.selected.position.y
+			button Gosu::MsRight do
+				on_click do |mouse_down_vector, selected|
+					puts "++++++++++click"
+					
+					# @first_position = selected.position
+				end
+				
+				on_release do |mouse_down_vector, selected|
+					puts "---------release"
+				end
+				
+				on_drag do |mouse_down_vector, selected|
+					if selected
+						selected.height = position_vector.y - selected.position.y
+					end
 				end
 			end
 			
-			on_mouse_over do |mouse_data|
-				
-			end
 			
-			on_mouse_out do |mouse_data|
+			
+			button Gosu::MsMiddle do
+				on_click do |mouse_down_vector, selected|
+					# Establish basis for drag
+				end
 				
+				on_release do |mouse_down_vector, selected|
+					
+				end
+				
+				on_drag do |mouse_down_vector, selected|
+					# Move view based on delta from initial point
+				end
 			end
 		end
-		@mouse.add_button right_button
 		
 		
 		# Load all the data
@@ -145,13 +145,6 @@ class Window < Gosu::Window
 			when Gosu::KbEscape
 				shutdown
 		end
-		
-		if @bindings[:increase_size].include? id
-			@mouse.selected.height += 1 if @mouse.selected
-		elsif @bindings[:decrease_size].include? id
-			@mouse.selected.height -= 1 if @mouse.selected
-		end
-		
 		
 		@mouse.button_down id
 	end
