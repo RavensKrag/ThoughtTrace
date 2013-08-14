@@ -213,22 +213,11 @@ module TextSpace
 					def click_event
 						@mouse_down_vector = @mouse.position_vector
 						obj = @mouse.object_at_point @mouse_down_vector
+						obj ||= $window.spawn_new_text
 						
+						@mouse.select obj
 						
-						
-						
-						if obj
-							# Click on object
-							@mouse.select obj
-							
-							# TODO: use instance_exec here instead of instance_eval
-							# allows sending arguments to proc
-							# proc is always the last item in the argument list
-							click_callback(@mouse.selection)
-						else
-							# Clicked empty space
-							@mouse.select $window.spawn_new_text
-						end
+						click_callback(obj)
 						
 						@mouse.selection.click
 						

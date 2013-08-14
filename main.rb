@@ -51,6 +51,8 @@ class Window < Gosu::Window
 				on_click do |mouse_down_vector, selected|
 					puts "++++++++++click"
 					
+					# @selected = object_at_point mouse_down_vector
+					
 					@first_position = selected.position
 				end
 				
@@ -75,7 +77,7 @@ class Window < Gosu::Window
 				on_click do |mouse_down_vector, selected|
 					puts "++++++++++click"
 					
-					# @first_position = selected.position
+					
 				end
 				
 				on_release do |mouse_down_vector, selected|
