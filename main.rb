@@ -157,7 +157,7 @@ class Window < Gosu::Window
 	def button_down(id)
 		case id
 			when Gosu::KbEscape
-				shutdown
+				close
 		end
 		
 		@mouse.button_down id
@@ -176,9 +176,6 @@ class Window < Gosu::Window
 		File.open(filepath, "w") do |f|
 			f.puts YAML::dump(@objects)
 		end
-		
-		
-		close
 	end
 	
 	
@@ -197,4 +194,6 @@ class Window < Gosu::Window
 	end
 end
 
-Window.new.show
+x = Window.new
+x.show
+x.shutdown
