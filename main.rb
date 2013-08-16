@@ -51,9 +51,21 @@ class Window < Gosu::Window
 				on_click do |mouse_down_vector, selected|
 					puts "++++++++++click"
 					
-					# @selected = object_at_point mouse_down_vector
+					obj = object_at_point position_vector
+					obj ||= $window.spawn_new_text
 					
-					@first_position = selected.position
+					
+					if @selection
+						@selection.release
+						
+						@selection = nil
+					end
+					@selection = obj
+					
+					
+					# fire other event things as necessary
+					@selection.click
+					@first_position = @selection.position
 				end
 				
 				on_release do |mouse_down_vector, selected|
@@ -75,18 +87,18 @@ class Window < Gosu::Window
 			
 			button Gosu::MsRight do
 				on_click do |mouse_down_vector, selected|
-					puts "++++++++++click"
+					puts ">>>>>>>>>Scale"
 					
 					
 				end
 				
 				on_release do |mouse_down_vector, selected|
-					puts "---------release"
+					puts "<<<<<<<<-stop"
 				end
 				
 				on_drag do |mouse_down_vector, selected|
-					if selected
-						selected.height = position_vector.y - selected.position.y
+					if @selection
+						@selection.height = position_vector.y - @selection.position.y
 					end
 				end
 			end

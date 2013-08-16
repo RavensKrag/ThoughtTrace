@@ -22,6 +22,8 @@ end
 
 module TextSpace
 	class MouseHandler
+		attr_reader :selection
+		
 		def initialize(&block)
 			super()
 			
@@ -132,25 +134,6 @@ module TextSpace
 		
 		
 		
-		# Selection events and stuff
-		def select(object)
-			@selection = object
-			# fire other event things as necessary
-		end
-		
-		def deselect(object)
-			# Could possibly change into multiple select
-			# just single select for now
-			
-			@selection = nil
-		end
-		
-		def selection
-			@selection
-		end
-		
-		
-		
 		
 		
 		private
@@ -212,14 +195,9 @@ module TextSpace
 					
 					def click_event
 						@mouse_down_vector = @mouse.position_vector
-						obj = @mouse.object_at_point @mouse_down_vector
-						obj ||= $window.spawn_new_text
 						
-						@mouse.select obj
+						click_callback(nil)
 						
-						click_callback(obj)
-						
-						@mouse.selection.click
 						
 						click
 					end
@@ -241,8 +219,8 @@ module TextSpace
 					def release_event
 						release_callback(@mouse.selection)
 						
-						@mouse.selection.release
-						@mouse.deselect @mouse.selection
+						# @mouse.selection.release
+						# @mouse.deselect @mouse.selection
 						
 						release
 					end
