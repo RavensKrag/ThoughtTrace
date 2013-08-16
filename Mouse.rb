@@ -22,8 +22,6 @@ end
 
 module TextSpace
 	class MouseHandler
-		attr_reader :selection
-		
 		def initialize(&block)
 			super()
 			
@@ -196,7 +194,7 @@ module TextSpace
 					def click_event
 						@mouse_down_vector = @mouse.position_vector
 						
-						click_callback(nil)
+						click_callback
 						
 						
 						click
@@ -209,7 +207,7 @@ module TextSpace
 				
 				state :down do
 					def update
-						drag_callback(@mouse.selection)
+						drag_callback
 					end
 					
 					def click_event
@@ -217,10 +215,8 @@ module TextSpace
 					end
 					
 					def release_event
-						release_callback(@mouse.selection)
+						release_callback
 						
-						# @mouse.selection.release
-						# @mouse.deselect @mouse.selection
 						
 						release
 					end
@@ -228,7 +224,6 @@ module TextSpace
 				
 				before_transition :down => any do
 					@mouse_down_vector = nil
-					@selected = nil
 				end
 				
 				
@@ -248,8 +243,8 @@ module TextSpace
 			# ----------
 			
 			# Fire callbacks
-			define_method "#{event}_callback" do |selected|
-				@mouse.instance_exec @mouse_down_vector, selected, &@callbacks[event]
+			define_method "#{event}_callback" do ||
+				@mouse.instance_exec @mouse_down_vector, &@callbacks[event]
 			end
 			
 			

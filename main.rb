@@ -48,7 +48,7 @@ class Window < Gosu::Window
 			end
 			
 			button Gosu::MsLeft do
-				on_click do |mouse_down_vector, selected|
+				on_click do |mouse_down_vector|
 					puts "++++++++++click"
 					
 					obj = object_at_point position_vector
@@ -68,17 +68,17 @@ class Window < Gosu::Window
 					@first_position = @selection.position
 				end
 				
-				on_release do |mouse_down_vector, selected|
+				on_release do |mouse_down_vector|
 					puts "---------release"
 				end
 				
-				on_drag do |mouse_down_vector, selected|
-					if selected
+				on_drag do |mouse_down_vector|
+					if @selection
 						puts "drag"
 						
 						mouse_delta = position_vector - mouse_down_vector
 						
-						selected.position = @first_position + mouse_delta
+						@selection.position = @first_position + mouse_delta
 					end
 				end
 			end
@@ -86,17 +86,17 @@ class Window < Gosu::Window
 			
 			
 			button Gosu::MsRight do
-				on_click do |mouse_down_vector, selected|
+				on_click do |mouse_down_vector|
 					puts ">>>>>>>>>Scale"
 					
 					
 				end
 				
-				on_release do |mouse_down_vector, selected|
+				on_release do |mouse_down_vector|
 					puts "<<<<<<<<-stop"
 				end
 				
-				on_drag do |mouse_down_vector, selected|
+				on_drag do |mouse_down_vector|
 					if @selection
 						@selection.height = position_vector.y - @selection.position.y
 					end
@@ -106,15 +106,15 @@ class Window < Gosu::Window
 			
 			
 			button Gosu::MsMiddle do
-				on_click do |mouse_down_vector, selected|
+				on_click do |mouse_down_vector|
 					# Establish basis for drag
 				end
 				
-				on_release do |mouse_down_vector, selected|
+				on_release do |mouse_down_vector|
 					
 				end
 				
-				on_drag do |mouse_down_vector, selected|
+				on_drag do |mouse_down_vector|
 					# Move view based on delta from initial point
 				end
 			end
