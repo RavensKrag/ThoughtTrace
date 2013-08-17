@@ -81,6 +81,8 @@ class Window < Gosu::Window
 					if @selection
 						# puts "drag"
 						
+						# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events
+						
 						# position_vector is the current mouse position
 						# mouse_down_vector is where the mouse was on the initial button press
 						mouse_delta = position_vector - mouse_down_vector

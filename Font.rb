@@ -29,6 +29,8 @@ module TextSpace
 			if @@fonts[name]
 				# Font already initialized
 				# Point to existing values instead of making more
+				
+				# NOTE: Current method only copies the underlying values, not the Font objects themselves, which means that this object is prone to memory leaks.
 				[:@name, :@font_cache].each do |var|
 					instance_variable_set var, @@fonts[name].instance_variable_get(var)
 				end
