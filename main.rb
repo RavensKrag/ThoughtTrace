@@ -76,6 +76,8 @@ class Window < Gosu::Window
 					if @selection
 						puts "drag"
 						
+						# position_vector is the current mouse position
+						# mouse_down_vector is where the mouse was on the initial button press
 						mouse_delta = position_vector - mouse_down_vector
 						
 						@selection.position = @first_position + mouse_delta

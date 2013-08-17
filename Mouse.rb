@@ -22,6 +22,8 @@ end
 
 module TextSpace
 	class MouseHandler
+		attr_reader :selection
+		
 		def initialize(&block)
 			super()
 			
