@@ -48,6 +48,7 @@ end
 module TextSpace
 	class Text
 		MINIMUM_HEIGHT = 10
+		CARET_WIDTH = 4
 		
 		attr_accessor :position, :bb
 		
@@ -64,6 +65,8 @@ module TextSpace
 			@position = CP::Vec2.new(0,0)
 			
 			@bb = CP::BB.new(0,0, 0,0)
+			
+			@active = false
 		end
 		
 		def update
@@ -71,8 +74,38 @@ module TextSpace
 		end
 		
 		def draw(z_index=0)
-			update_bb(@string)
-			@font.draw @string, @height, @position.x, @position.y, z_index, @color, @box_visible
+			string = if @active 
+						$window.text_input.text
+					else
+						@string
+					end
+			
+			
+			update_bb(string)
+			@font.draw string, @height, @position.x, @position.y, z_index, @color, @box_visible
+			
+			
+			# Only draw caret if object is active
+			if @active
+				draw_caret(string, z_index)
+			end
+		end
+		
+		def draw_caret(string, z_index)
+			color = Gosu::Color::RED
+			
+			x_offset = 	if $window.text_input.caret_pos == 0
+							0
+						else
+							@font.width(string[0..$window.text_input.caret_pos-1], @height)
+						end
+			
+			
+			$window.draw_quad	x_offset+@position.x-CARET_WIDTH/2, @position.y, color,
+								x_offset+@position.x+CARET_WIDTH/2, @position.y, color,
+								x_offset+@position.x-CARET_WIDTH/2, @position.y+@height, color,
+								x_offset+@position.x+CARET_WIDTH/2, @position.y+@height, color,
+								z_index
 		end
 		
 		def click
@@ -106,6 +139,21 @@ module TextSpace
 		def height=(h)
 			@height = h
 			@height = MINIMUM_HEIGHT if @height < MINIMUM_HEIGHT
+		end
+		
+		# Make this object the active text input
+		def activate
+			@active = true
+			
+			$window.text_input = Gosu::TextInput.new
+			$window.text_input.text = @string
+		end
+		
+		# Stop editing the string based on keyboard input
+		def deactivate
+			@active = false
+			
+			$window.text_input = nil
 		end
 		
 		def dump(filepath)

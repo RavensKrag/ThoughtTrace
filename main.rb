@@ -58,6 +58,7 @@ class Window < Gosu::Window
 					
 					if @selection
 						@selection.release
+						@selection.deactivate
 						
 						@selection = nil
 					end
@@ -66,6 +67,9 @@ class Window < Gosu::Window
 					
 					# fire other event things as necessary
 					@selection.click
+					
+					@selection.activate
+					
 					@first_position = @selection.position
 				end
 				
@@ -75,7 +79,7 @@ class Window < Gosu::Window
 				
 				on_drag do |mouse_down_vector|
 					if @selection
-						puts "drag"
+						# puts "drag"
 						
 						# position_vector is the current mouse position
 						# mouse_down_vector is where the mouse was on the initial button press
@@ -181,6 +185,10 @@ class Window < Gosu::Window
 	end
 	
 	def shutdown
+		@mouse.selection.release
+		@mouse.selection.deactivate
+		
+		
 		filepath = File.join(File.dirname(__FILE__), "data", "ALL_DUMP_TEST.yml")
 		File.open(filepath, "w") do |f|
 			f.puts YAML::dump(@objects)

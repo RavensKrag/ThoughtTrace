@@ -9,3 +9,5 @@ I should probably not be dumb and just save all the objects in one file, instead
 	Don't use Gosu::TextInput that will not allow for the editing of strings that have already been constructed.
 		Nope, I was wrong.  Go ahead and use this.
 		Just remember to set the current text with TextInput#text=
+
+NOTE: There's a bit of a problem with Gosu::TextInput.  You can't type anything that requires SHIFT
