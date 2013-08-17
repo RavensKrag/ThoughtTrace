@@ -175,6 +175,7 @@ module TextSpace
 		def deactivate
 			@active = false
 			
+			@string = $window.text_input.text
 			$window.text_input = nil
 		end
 		
