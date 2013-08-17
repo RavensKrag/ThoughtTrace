@@ -67,6 +67,8 @@ module TextSpace
 			@bb = CP::BB.new(0,0, 0,0)
 			
 			@active = false
+			
+			@caret_dt = 500 # in milliseconds
 		end
 		
 		def update
@@ -87,7 +89,7 @@ module TextSpace
 			
 			# Only draw caret if object is active
 			if @active
-				draw_caret(string, z_index)
+				draw_caret(string, z_index) if caret_visible?
 			end
 		end
 		
@@ -106,6 +108,26 @@ module TextSpace
 								x_offset+@position.x-CARET_WIDTH/2, @position.y+@height, color,
 								x_offset+@position.x+CARET_WIDTH/2, @position.y+@height, color,
 								z_index
+		end
+		
+		def caret_visible?
+			# don't really need this, because nil has a truth value of false, so !nil == true
+			# @caret_visible ||= false
+			
+			@caret_timestamp ||= Gosu.milliseconds
+			# Insure previous timestamp never goes over current time
+			# Needed for serialization, as well as to guard against timer rollover
+			@caret_timestamp = Gosu.milliseconds if @caret_timestamp > Gosu.milliseconds
+			
+			dt = Gosu.milliseconds - @caret_timestamp
+			
+			if dt >= @caret_dt
+				@caret_visible = !@caret_visible
+				
+				@caret_timestamp = Gosu.milliseconds
+			end
+			
+			return @caret_visible
 		end
 		
 		def click
