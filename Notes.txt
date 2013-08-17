@@ -11,3 +11,4 @@ I should probably not be dumb and just save all the objects in one file, instead
 		Just remember to set the current text with TextInput#text=
 
 NOTE: There's a bit of a problem with Gosu::TextInput.  You can't type anything that requires SHIFT
+	You can type capitals, but no special characters

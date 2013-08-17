@@ -135,7 +135,12 @@ class Window < Gosu::Window
 		
 		
 		# Load all the data
-		@objects = YAML.load_file(File.join(File.dirname(__FILE__), "data", "ALL_DUMP_TEST.yml"))
+		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")
+		@objects =	if File.exist? filepath
+						YAML.load_file(filepath)
+					else
+						[]
+					end
 		p @objects
 	end
 	
@@ -189,7 +194,7 @@ class Window < Gosu::Window
 		@mouse.selection.deactivate
 		
 		
-		filepath = File.join(File.dirname(__FILE__), "data", "ALL_DUMP_TEST.yml")
+		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")
 		File.open(filepath, "w") do |f|
 			f.puts YAML::dump(@objects)
 		end
