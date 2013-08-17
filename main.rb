@@ -35,18 +35,95 @@ class Window < Gosu::Window
 		
 		@font = TextSpace::Font.new "Lucida Sans Unicode"
 		
-		@bindings = {
-			:move => [Gosu::MsLeft],
-			:scale => [Gosu::MsRight],
+		
+		
+		
+		@mouse = TextSpace::MouseHandler.new do
+			on_mouse_over do |hovered|
+				
+			end
 			
-			:increase_size => [Gosu::MsWheelUp, Gosu::KbUp],
-			:decrease_size => [Gosu::MsWheelDown, Gosu::KbDown]
-		}
+			on_mouse_out do |hovered|
+				
+			end
+			
+			button Gosu::MsLeft do
+				on_click do |mouse_down_vector|
+					puts "++++++++++click"
+					
+					obj = object_at_point position_vector
+					obj ||= $window.spawn_new_text
+					
+					
+					if @selection
+						@selection.release
+						
+						@selection = nil
+					end
+					@selection = obj
+					
+					
+					# fire other event things as necessary
+					@selection.click
+					@first_position = @selection.position
+				end
+				
+				on_release do |mouse_down_vector|
+					puts "---------release"
+				end
+				
+				on_drag do |mouse_down_vector|
+					if @selection
+						puts "drag"
+						
+						# position_vector is the current mouse position
+						# mouse_down_vector is where the mouse was on the initial button press
+						mouse_delta = position_vector - mouse_down_vector
+						
+						@selection.position = @first_position + mouse_delta
+					end
+				end
+			end
+			
+			
+			
+			button Gosu::MsRight do
+				on_click do |mouse_down_vector|
+					puts ">>>>>>>>>Scale"
+					
+					
+				end
+				
+				on_release do |mouse_down_vector|
+					puts "<<<<<<<<-stop"
+				end
+				
+				on_drag do |mouse_down_vector|
+					if @selection
+						@selection.height = position_vector.y - @selection.position.y
+					end
+				end
+			end
+			
+			
+			
+			button Gosu::MsMiddle do
+				on_click do |mouse_down_vector|
+					# Establish basis for drag
+				end
+				
+				on_release do |mouse_down_vector|
+					
+				end
+				
+				on_drag do |mouse_down_vector|
+					# Move view based on delta from initial point
+				end
+			end
+		end
 		
-		@mouse = TextSpace::MouseHandler.new Gosu::MsLeft
 		
-		
-		# Load all the data		
+		# Load all the data
 		@objects = YAML.load_file(File.join(File.dirname(__FILE__), "data", "ALL_DUMP_TEST.yml"))
 		p @objects
 	end
@@ -55,11 +132,8 @@ class Window < Gosu::Window
 		@objects.each do |obj|
 			obj.update
 		end
-		@mouse.update
 		
-		if @mouse.selected && @scaling
-			@mouse.selected.height = mouse_y - @mouse.selected.position.y
-		end
+		@mouse.update
 	end
 	
 	def draw
@@ -85,29 +159,14 @@ class Window < Gosu::Window
 	def button_down(id)
 		case id
 			when Gosu::KbEscape
-				shutdown
+				close
 		end
-		
-		if @bindings[:increase_size].include? id
-			@mouse.selected.height += 1 if @mouse.selected
-		elsif @bindings[:decrease_size].include? id
-			@mouse.selected.height -= 1 if @mouse.selected
-		end
-		
 		
 		@mouse.button_down id
-		
-		if @bindings[:scale].include? id
-			@scaling = true
-		end
 	end
 	
 	def button_up(id)
 		@mouse.button_up id
-		
-		if @bindings[:scale].include? id
-			@scaling = false
-		end
 	end
 	
 	def needs_cursor?
@@ -119,10 +178,9 @@ class Window < Gosu::Window
 		File.open(filepath, "w") do |f|
 			f.puts YAML::dump(@objects)
 		end
-		
-		
-		close
 	end
+	
+	
 	
 	
 	
@@ -138,4 +196,6 @@ class Window < Gosu::Window
 	end
 end
 
-Window.new.show
+x = Window.new
+x.show
+x.shutdown

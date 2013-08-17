@@ -143,6 +143,10 @@ module TextSpace
 			end
 		end
 		
+		def to_s
+			@string
+		end
+		
 		def inspect
 			"#{@font.inspect} : #{@string}"
 		end
