@@ -14,6 +14,7 @@ require './Text'
 require './Mouse'
 
 class Window < Gosu::Window
+	attr_reader :camera
 	attr_reader :objects
 	
 	def initialize
@@ -110,6 +111,7 @@ class Window < Gosu::Window
 			button Gosu::MsMiddle do
 				on_click do |mouse_down_vector|
 					# Establish basis for drag
+					@drag_basis = position_vector
 				end
 				
 				on_release do |mouse_down_vector|
@@ -117,7 +119,12 @@ class Window < Gosu::Window
 				end
 				
 				on_drag do |mouse_down_vector|
-					# Move view based on delta from initial point
+					# Move view based on mouse delta between the previous frame and this one.
+					mouse_delta = position_vector - @drag_basis
+					
+					$window.camera.position -= mouse_delta
+					
+					@drag_basis = position_vector
 				end
 			end
 		end
