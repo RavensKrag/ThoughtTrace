@@ -13,10 +13,17 @@ module TextSpace
 			
 		end
 		
-		def draw(&block)
-			vec = @position + @offset
+		def draw
+			vec = self.offset
 			
-			$window.translate -vec.x, -vec.y, &block
+			$window.translate -vec.x, -vec.y do
+				yield
+			end
+		end
+		
+		# Offset for screen coordinates to camera space
+		def offset
+			@position + @offset
 		end
 	end
 end

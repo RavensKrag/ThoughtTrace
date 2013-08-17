@@ -89,7 +89,9 @@ module TextSpace
 		end
 		
 		def position_vector
-			CP::Vec2.new($window.mouse_x, $window.mouse_y)
+			pos = CP::Vec2.new($window.mouse_x, $window.mouse_y)
+			
+			return pos + $window.camera.offset
 		end
 		
 		# TODO: Should probably move this into some sort of "space" class, as a point query
