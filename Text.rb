@@ -181,41 +181,6 @@ module TextSpace
 			$window.space.delete_if_empty self
 		end
 		
-		def dump(filepath)
-			# Save only necessary data
-			
-			data = {
-				:font => @font.name,
-				:height => @height,
-				:color => @color,
-				:box_visible => @box_visible,
-				:position => [@position.x, @position.y],
-				
-				:string => @string
-			}
-			
-			File.open(filepath, "w") do |f|
-				f.puts YAML::dump(data)
-			end
-		end
-		
-		class << self
-			def load(font, filepath)
-				data = YAML::load_file(filepath)
-				
-				t = Text.new font
-				
-				t.height = data[:height]
-				t.color = data[:color]
-				t.box_visible = data[:box_visible]
-				t.position = CP::Vec2.new(data[:position][0], data[:position][1])
-				
-				t.string = data[:string]
-				
-				return t
-			end
-		end
-		
 		def to_s
 			@string
 		end
