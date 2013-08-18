@@ -30,8 +30,8 @@ module TextSpace
 			@objects.push *args
 		end
 		
-		def delete(object)
-			@objects.delete object
+		def delete_if_empty(object)
+			@objects.delete object if object.string == nil || object.string.strip.empty?
 		end
 		
 		# Clean up unnecessary objects
