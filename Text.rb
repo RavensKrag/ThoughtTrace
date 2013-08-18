@@ -2,49 +2,6 @@ require 'yaml'
 
 require './Serializable'
 
-module CP
-	class Vec2
-		include TextSpace::Serializable
-		
-		def init_with coder
-			args = YAML.load(coder.scalar)
-			initialize(*args)
-		end
-
-		def to_string_representation
-			[self.x, self.y].to_yaml
-		end
-		
-		class << self
-			def from_string_representation(string_representation)
-				args = YAML.load(string_representation)
-				new(*args)
-			end
-		end
-	end
-	
-	class BB
-		include TextSpace::Serializable
-		
-		def init_with coder
-			args = YAML.load(coder.scalar)
-			initialize(*args)
-		end
-
-		def to_string_representation
-			[self.l, self.b, self.r, self.t].to_yaml
-		end
-		
-		class << self
-			def from_string_representation(string_representation)
-				args = YAML.load(string_representation)
-				new(*args)
-			end
-		end
-	end
-end
-
-
 module TextSpace
 	class Text
 		MINIMUM_HEIGHT = 10
@@ -164,10 +121,16 @@ module TextSpace
 		
 		# Make this object the active text input
 		def activate
+			# Activate input stream
 			@active = true
 			
 			$window.text_input = Gosu::TextInput.new
 			$window.text_input.text = @string
+			
+			# Move caret into position
+			# Try to get as close to the position of the cursor as possible
+			width = @font.width($window.text_input.text, @height)
+			
 		end
 		
 		# Stop editing the string based on keyboard input

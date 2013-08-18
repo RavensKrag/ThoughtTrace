@@ -1,25 +1,5 @@
 require 'state_machine'
 
-module CP
-	class BB
-		def area
-			(self.r - self.l) * (self.t - self.b)
-		end
-		
-		def center
-			CP::Vec2.new(self.l+width/2, self.b+height/2)
-		end
-		
-		def height
-			self.t - self.b
-		end
-		
-		def width
-			self.r - self.l
-		end
-	end
-end
-
 module TextSpace
 	class MouseHandler
 		attr_reader :selection

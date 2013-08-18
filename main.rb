@@ -5,6 +5,9 @@ require 'rubygems'
 require 'gosu'
 
 require 'chipmunk'
+require 'require_all'
+
+require_all './Chipmunk'
 
 require './Camera'
 
