@@ -65,6 +65,8 @@ class Window < Gosu::Window
 						@selection.release
 						@selection.deactivate
 						
+						$window.space.gc
+						
 						@selection = nil
 					end
 					@selection = obj
@@ -185,6 +187,11 @@ class Window < Gosu::Window
 	def shutdown
 		@mouse.selection.release
 		@mouse.selection.deactivate
+		
+		@space.gc
+		
+		@selection = nil
+		
 		
 		
 		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")

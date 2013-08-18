@@ -34,15 +34,7 @@ module TextSpace
 		# ie, empty strings
 		def gc
 			@objects.delete_if do |obj|
-				if obj.is_a? TextSpace::Text
-					if obj.string.strip.empty?
-						# Object contains no text, or all whitespace
-						
-						true
-					end
-				end
-				
-				false
+				obj.string.strip.empty?
 			end
 		end
 		
