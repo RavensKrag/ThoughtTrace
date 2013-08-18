@@ -185,13 +185,8 @@ class Window < Gosu::Window
 	end
 	
 	def shutdown
-		@mouse.selection.release
-		@mouse.selection.deactivate
-		
+		@mouse.shutdown
 		@space.gc
-		
-		@selection = nil
-		
 		
 		
 		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")

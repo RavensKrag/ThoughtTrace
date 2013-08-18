@@ -88,6 +88,15 @@ module TextSpace
 			end
 		end
 		
+		def shutdown
+			if @selection
+				@selection.release
+				@selection.deactivate
+				
+				@selection = nil
+			end
+		end
+		
 		def position_vector
 			pos = CP::Vec2.new($window.mouse_x, $window.mouse_y)
 			
