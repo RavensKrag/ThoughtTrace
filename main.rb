@@ -60,6 +60,9 @@ class Window < Gosu::Window
 				on_click do |mouse_down_vector|
 					puts "++++++++++click"
 					
+					@screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
+					
+					
 					obj = $window.space.object_at position_vector
 					obj ||= $window.spawn_new_text
 					
@@ -88,15 +91,19 @@ class Window < Gosu::Window
 				
 				on_drag do |mouse_down_vector|
 					if @selection
-						# puts "drag"
+						# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events.  Delta in this case should be measured screen-relative
+						screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
+						screen_delta = screen_position - @screen_position
 						
-						# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events
-						
-						# position_vector is the current mouse position
-						# mouse_down_vector is where the mouse was on the initial button press
-						mouse_delta = position_vector - mouse_down_vector
-						
-						@selection.position = @first_position + mouse_delta
+						if screen_delta.length > 2
+							# puts "drag"
+							
+							# position_vector is the current mouse position
+							# mouse_down_vector is where the mouse was on the initial button press
+							mouse_delta = position_vector - mouse_down_vector
+							
+							@selection.position = @first_position + mouse_delta
+						end
 					end
 				end
 			end
