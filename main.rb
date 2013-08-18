@@ -13,9 +13,11 @@ require './Text'
 
 require './Mouse'
 
+require './Space'
+
 class Window < Gosu::Window
 	attr_reader :camera
-	attr_reader :objects
+	attr_reader :space
 	
 	def initialize
 		$window = self
@@ -36,7 +38,10 @@ class Window < Gosu::Window
 		
 		@font = TextSpace::Font.new "Lucida Sans Unicode"
 		
+		# Load all the data
+		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")
 		
+		@space = TextSpace::Space.load filepath
 		
 		
 		@mouse = TextSpace::MouseHandler.new do
@@ -52,7 +57,7 @@ class Window < Gosu::Window
 				on_click do |mouse_down_vector|
 					puts "++++++++++click"
 					
-					obj = object_at_point position_vector
+					obj = $window.space.object_at position_vector
 					obj ||= $window.spawn_new_text
 					
 					
@@ -134,42 +139,28 @@ class Window < Gosu::Window
 				end
 			end
 		end
-		
-		
-		# Load all the data
-		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")
-		@objects =	if File.exist? filepath
-						YAML.load_file(filepath)
-					else
-						[]
-					end
-		p @objects
 	end
 	
 	def update
-		@objects.each do |obj|
-			obj.update
-		end
+		@space.update
 		
 		@mouse.update
 	end
 	
 	def draw
 		@camera.draw do
-			@objects.each do |obj|
-				obj.draw
-			end
+			@space.draw
 		end
 	end
 	
 	def spawn_new_text
 		t = TextSpace::Text.new(@font)
 		
-		t.position = CP::Vec2.new(mouse_x, mouse_y)
+		t.position = @mouse.position_vector
 		
 		t.string = ["hey", "listen", "look out!", "watch out", "hey~", "hello~?"].sample
 		
-		@objects << t
+		@space << t
 		
 		return t
 	end
@@ -197,9 +188,7 @@ class Window < Gosu::Window
 		
 		
 		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")
-		File.open(filepath, "w") do |f|
-			f.puts YAML::dump(@objects)
-		end
+		@space.dump filepath
 	end
 	
 	

@@ -56,7 +56,7 @@ module TextSpace
 			
 			
 			# Do not hover over multiple objects
-			obj = object_at_point position_vector
+			obj = $window.space.object_at position_vector
 			
 			if @last_hovered_object
 				# mouse_data.event_thing.mouse_out.call
@@ -94,45 +94,6 @@ module TextSpace
 			return pos + $window.camera.offset
 		end
 		
-		# TODO: Should probably move this into some sort of "space" class, as a point query
-		def object_at_point(position)
-			# Select objects under the mouse
-			# If there's a conflict, get smallest one (least area)
-			
-			# There should be some other rule about distance to center of object
-				# triggers for many objects of similar size?
-				
-				# when objects are densely packed, it can be hard to select the right one
-				# the intuitive approach is to try to select dense objects by their center
-			selection = $window.objects.select do |o|
-				o.bb.contains_vect? position
-			end
-			
-			selection.sort! do |a, b|
-				a.bb.area <=> b.bb.area
-			end
-			
-			# Get the smallest area values, within a certain threshold
-			# Results in a certain margin of what size is acceptable,
-			# relative to the smallest object
-			selection = selection.select do |o|
-				# TODO: Tweak margin
-				size_margin = 1.8 # percentage
-				
-				first_area = selection.first.bb.area
-				o.bb.area.between? first_area, first_area*(size_margin)
-			end
-			
-			selection.sort! do |a, b|
-				distance_to_a = a.bb.center.dist position
-				distance_to_b = b.bb.center.dist position
-				
-				# Listed in order of precedence, but sort order needs to be reverse of that
-				[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
-			end
-			
-			return selection.first
-		end
 		
 		
 		
