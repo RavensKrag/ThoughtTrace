@@ -65,7 +65,6 @@ class Window < Gosu::Window
 						@selection.release
 						@selection.deactivate
 						
-						$window.space.gc
 						
 						@selection = nil
 					end
@@ -160,7 +159,8 @@ class Window < Gosu::Window
 		
 		t.position = @mouse.position_vector
 		
-		t.string = ["hey", "listen", "look out!", "watch out", "hey~", "hello~?"].sample
+		puts "new text"
+		# t.string = ["hey", "listen", "look out!", "watch out", "hey~", "hello~?"].sample
 		
 		@space << t
 		

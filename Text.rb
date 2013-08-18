@@ -177,6 +177,8 @@ module TextSpace
 			
 			@string = $window.text_input.text
 			$window.text_input = nil
+			
+			$window.space.delete self unless @string
 		end
 		
 		def dump(filepath)
