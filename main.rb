@@ -19,7 +19,7 @@ require './Mouse'
 require './Space'
 
 class Window < Gosu::Window
-	attr_reader :camera
+	attr_reader :camera, :mouse
 	attr_reader :space
 	
 	def initialize

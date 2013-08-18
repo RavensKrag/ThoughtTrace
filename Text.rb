@@ -132,13 +132,15 @@ module TextSpace
 				# Try to get as close to the position of the cursor as possible
 				width = @font.width(@string, @height)
 				x = @position.x
-				mouse_x = $window.mouse_x
+				mouse_x = $window.mouse.position_vector.x
 				
 				# Figure out where mouse_x is along the continuum from x to x+width
 				# Use that to guess what the closest letter is
 				# * basically, this algorithm is assuming fixed width, but it works pretty well
 				percent = (mouse_x - x)/width.to_f
 				i = (percent * (@string.length)).to_i
+				
+				
 				$window.text_input.caret_pos = i
 			end
 		end
