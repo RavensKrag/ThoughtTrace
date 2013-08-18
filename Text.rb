@@ -111,8 +111,7 @@ module TextSpace
 		end
 		
 		def caret_visible?
-			# don't really need this, because nil has a truth value of false, so !nil == true
-			# @caret_visible ||= false
+			@caret_visible = true if @caret_visible == nil # initialize caret visibility
 			
 			@caret_timestamp ||= Gosu.milliseconds
 			# Insure previous timestamp never goes over current time
