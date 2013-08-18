@@ -12,3 +12,16 @@ I should probably not be dumb and just save all the objects in one file, instead
 
 NOTE: There's a bit of a problem with Gosu::TextInput.  You can't type anything that requires SHIFT
 	You can type capitals, but no special characters
+	
+
+	    _   _________       __       _______________  ________  ______  ___________
+	   / | / / ____/ |     / /      / ____/ ____/   |/_  __/ / / / __ \/ ____/ ___/
+	  /  |/ / __/  | | /| / /      / /_  / __/ / /| | / / / / / / /_/ / __/  \__ \ 
+	 / /|  / /___  | |/ |/ /      / __/ / /___/ ___ |/ / / /_/ / _, _/ /___ ___/ / 
+	/_/ |_/_____/  |__/|__/      /_/   /_____/_/  |_/_/  \____/_/ |_/_____//____/  
+* Multiple selection
+* Some sort of grouping (fast movement of related elements without having to constantly reselect)
+* Searching through text
+* Copy + Paste inside program
+* Copy + Paste using system clipboard
+* Styles (all objects in a group take the same size etc. like an automated format painting tool)
