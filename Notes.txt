@@ -4,12 +4,6 @@ Need to figure out how to get two bits of text with different sizes to line up.
 	But even if it does, the first characters of the two strings being identical doesn't fix the problem.
 
 
-I should probably not be dumb and just save all the objects in one file, instead of trying to save each object in it's own file
-
-	Don't use Gosu::TextInput that will not allow for the editing of strings that have already been constructed.
-		Nope, I was wrong.  Go ahead and use this.
-		Just remember to set the current text with TextInput#text=
-
 NOTE: There's a bit of a problem with Gosu::TextInput.  You can't type anything that requires SHIFT
 	You can type capitals, but no special characters
 	
@@ -21,7 +15,15 @@ NOTE: There's a bit of a problem with Gosu::TextInput.  You can't type anything 
 	/_/ |_/_____/  |__/|__/      /_/   /_____/_/  |_/_/  \____/_/ |_/_____//____/  
 * Multiple selection
 * Some sort of grouping (fast movement of related elements without having to constantly reselect)
+* Undo / Redo (may just implement later though version control?)
 * Searching through text
 * Copy + Paste inside program
 * Copy + Paste using system clipboard
 * Styles (all objects in a group take the same size etc. like an automated format painting tool)
+	think of a pallet for styles
+	a list of dynamic format swatches
+		(dynamic because they update things they're already applied to)
+
+* Kinetic scroll
+	(common in touch apps which have drag panning)
+	google maps actually has kinetic scroll in the desktop browser version as well
