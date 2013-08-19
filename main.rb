@@ -39,7 +39,7 @@ class Window < Gosu::Window
 		@debug_font = Gosu::Font.new self, "Arial", 30
 		@debug_color = 0xffff0000
 		
-		@font = TextSpace::Font.new "Lucida Sans Unicode"
+		# @font = TextSpace::Font.new "Lucida Sans Unicode"
 		
 		# Load all the data
 		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")
@@ -150,6 +150,18 @@ class Window < Gosu::Window
 				end
 			end
 		end
+		
+		
+		
+		
+		# set default font
+		# 
+		# camera
+		# debug_out
+			# debug_out#puts
+		# space
+		# mouse
+		# selection
 	end
 	
 	def update
@@ -165,7 +177,7 @@ class Window < Gosu::Window
 	end
 	
 	def spawn_new_text
-		t = TextSpace::Text.new(@font)
+		t = TextSpace::Text.new
 		
 		t.position = @mouse.position_vector
 		

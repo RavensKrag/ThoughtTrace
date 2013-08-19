@@ -11,8 +11,10 @@ module TextSpace
 		
 		attr_accessor :color, :string, :box_visible
 		
-		def initialize(font)
-			@font = font
+		def initialize(font=nil)
+			@@default_font ||= TextSpace::Font.new "Lucida Sans Unicode"
+			
+			@font = font || @@default_font
 			
 			@height = 30
 			
@@ -161,6 +163,16 @@ module TextSpace
 		
 		def inspect
 			"#{@font.inspect} : #{@string}"
+		end
+		
+		class << self
+			def default_font
+				return @@default_font
+			end
+			
+			def default_font=(font)
+				@@default_font = font
+			end
 		end
 		
 		private
