@@ -25,7 +25,7 @@ class Window < Gosu::Window
 	def initialize
 		$window = self
 		
-		height = 720
+		height = 900
 		width = (height.to_f*16/9).to_i
 		fullscreen = false
 		
