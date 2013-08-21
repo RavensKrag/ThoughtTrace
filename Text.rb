@@ -6,15 +6,14 @@ module TextSpace
 	class Text
 		MINIMUM_HEIGHT = 10
 		CARET_WIDTH = 4
+		@@default_font = nil # Must be set outside if a default font is to be used
 		
 		attr_accessor :position, :bb
 		
 		attr_accessor :color, :string, :box_visible
 		
-		def initialize(font=nil)
-			@@default_font ||= TextSpace::Font.new "Lucida Sans Unicode"
-			
-			@font = font || @@default_font
+		def initialize(font=@@default_font)
+			@font = font
 			
 			@height = 30
 			

@@ -34,12 +34,13 @@ class Window < Gosu::Window
 		super(width, height, fullscreen, update_interval)
 		self.caption = "TextSpace"
 		
+		TextSpace::Text.default_font = TextSpace::Font.new "Lucida Sans Unicode"
+		
 		@camera = TextSpace::Camera.new
 		
 		@debug_font = Gosu::Font.new self, "Arial", 30
 		@debug_color = 0xffff0000
 		
-		# @font = TextSpace::Font.new "Lucida Sans Unicode"
 		
 		# Load all the data
 		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")
