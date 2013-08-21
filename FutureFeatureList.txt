@@ -1,0 +1,32 @@
+
+	    _   _________       __       _______________  ________  ______  ___________
+	   / | / / ____/ |     / /      / ____/ ____/   |/_  __/ / / / __ \/ ____/ ___/
+	  /  |/ / __/  | | /| / /      / /_  / __/ / /| | / / / / / / /_/ / __/  \__ \ 
+	 / /|  / /___  | |/ |/ /      / __/ / /___/ ___ |/ / / /_/ / _, _/ /___ ___/ / 
+	/_/ |_/_____/  |__/|__/      /_/   /_____/_/  |_/_/  \____/_/ |_/_____//____/  
+* Multiple selection
+* Some sort of grouping (fast movement of related elements without having to constantly reselect)
+* Undo / Redo (may just implement later though version control?)
+* Searching through text
+* Copy + Paste inside program
+* Copy + Paste using system clipboard
+* Styles (all objects in a group take the same size etc. like an automated format painting tool)
+	think of a pallet for styles
+	a list of dynamic format swatches
+		(dynamic because they update things they're already applied to)
+* Drag and drop blocks of text into other text objects
+* Hyperlinked resources
+	link to resources online
+	for images, display them inline
+		cache locally
+		option to download updated versions of the image automatically
+		
+		# should probably have option to cache
+		# list as an option to update the image automatically (auto refresh)
+	for websites, display like standard hyperlinks (custom title text, open in browser, etc)
+
+* Kinetic scroll
+	(common in touch apps which have drag panning)
+	google maps actually has kinetic scroll in the desktop browser version as well
+
+* 

@@ -6,24 +6,57 @@ Need to figure out how to get two bits of text with different sizes to line up.
 
 NOTE: There's a bit of a problem with Gosu::TextInput.  You can't type anything that requires SHIFT
 	You can type capitals, but no special characters
+
+
+Click and drag in empty space should generate a text box
+	more natural than typing something, and then spacing it into a box later
+	you naturally create a box in your mind when you want to write something on a section of paper
+	that's how you have an intuitive sense of where to stop writing and start a new line
 	
+	control of box guiding text flow and editing of text should be separate buttons, so that you can bounce between them with fluidity
 
-	    _   _________       __       _______________  ________  ______  ___________
-	   / | / / ____/ |     / /      / ____/ ____/   |/_  __/ / / / __ \/ ____/ ___/
-	  /  |/ / __/  | | /| / /      / /_  / __/ / /| | / / / / / / /_/ / __/  \__ \ 
-	 / /|  / /___  | |/ |/ /      / __/ / /___/ ___ |/ / / /_/ / _, _/ /___ ___/ / 
-	/_/ |_/_____/  |__/|__/      /_/   /_____/_/  |_/_/  \____/_/ |_/_____//____/  
-* Multiple selection
-* Some sort of grouping (fast movement of related elements without having to constantly reselect)
-* Undo / Redo (may just implement later though version control?)
-* Searching through text
-* Copy + Paste inside program
-* Copy + Paste using system clipboard
-* Styles (all objects in a group take the same size etc. like an automated format painting tool)
-	think of a pallet for styles
-	a list of dynamic format swatches
-		(dynamic because they update things they're already applied to)
 
-* Kinetic scroll
-	(common in touch apps which have drag panning)
-	google maps actually has kinetic scroll in the desktop browser version as well
+ping feature for collaboration
+	hold down button to charge
+	cursor begins to gather light
+	releasing quickly
+		light leaves rapidly, emitting bell tone
+		display ripples radiating from cursor
+	hold + drag
+		(draw path)
+		cursor leaks glowing fluid
+		glow fades over time
+
+listify ability
+	when a group of items is selected, offer option to listify
+	
+	take all items at approximately the same size
+		average the size
+		assign size to all
+		create a style for easy group editing later (may want to disable?)
+	all items at about the same size are assumed to be at the same level of the list
+		(may want to do it by indentation instead / also)
+	
+	If there is no heading
+		create heading
+		select heading, ready for editing
+
+hide object
+	toggle visibility for object
+	hide children as well, but don't toggle the hide state flags of children
+	(similar to code folding)
+	(useful for lists?)
+
+mouse pick priority
+	when selecting objects visually from hierarchy,
+	hierarchy precedence should overtake visual structure
+	
+	when visually selecting objects that are grouped into a hierarchy,
+	sort preference based on hierarchy, then visual structure
+	
+	when selecting objects visually from hierarchy,
+	hierarchy should have priority over visual structure
+
+advanced styles applied by regex patterns
+	(could use other fancy method (lexer or w/e) to allow pattern matching)
+	easily apply styles such as "select things in parentheses, make them small and washed out"
