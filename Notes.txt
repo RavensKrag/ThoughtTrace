@@ -41,12 +41,6 @@ listify ability
 		create heading
 		select heading, ready for editing
 
-hide object
-	toggle visibility for object
-	hide children as well, but don't toggle the hide state flags of children
-	(similar to code folding)
-	(useful for lists?)
-
 mouse pick priority
 	when selecting objects visually from hierarchy,
 	hierarchy precedence should overtake visual structure
