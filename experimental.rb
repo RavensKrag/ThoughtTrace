@@ -107,6 +107,36 @@ end
 	end
 end
 
+@mouse.event :spawn_new_text do
+	button Gosu::MsLeft
+	
+	click do |selection|
+		# obj = $window.space.object_at position_vector
+		# obj ||= $window.spawn_new_text
+		
+		obj = TextSpace::Text.new
+		obj.position = @mouse.position_vector
+		
+		puts "new text"
+		# obj.string = ["hey", "listen", "look out!", "watch out", "hey~", "hello~?"].sample
+		
+		@space << obj
+		
+		
+		
+		@selected = obj
+		selection.add @selected
+	end
+	
+	drag do |selection|
+		
+	end
+	
+	release do |selection|
+		selection.remove @selected
+	end
+end
+
 @mouse.event :pan_camera do
 	button Gosu::MsMiddle
 	
