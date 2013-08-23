@@ -166,22 +166,22 @@ class Window < Gosu::Window
 					
 			# 	end
 			# end
-
+			
 			event :pan_camera do
 				bind_to Gosu::MsMiddle
 				
 				click do |space, selection|
 					# Establish basis for drag
-					@drag_basis = position_vector
+					@pan_basis = position_vector
 				end
 				
 				drag do |space, selection|
 					# Move view based on mouse delta between the previous frame and this one.
-					mouse_delta = position_vector - @drag_basis
+					mouse_delta = position_vector - @pan_basis
 					
 					$window.camera.position -= mouse_delta
 					
-					@drag_basis = position_vector
+					@pan_basis = position_vector
 				end
 				
 				release do |space, selection|
