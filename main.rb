@@ -68,18 +68,18 @@ class Window < Gosu::Window
 			# event :select_single do
 			# 	bind_to Gosu::MsLeft
 				
-			# 	click do |space, selection|
+			# 	click do |space|
 			# 		# get object under cursor
 			# 		# add object to selection
 					
 			# 		# save object so it can be de-selected later
 			# 	end
 				
-			# 	drag do |space, selection|
+			# 	drag do |space|
 					
 			# 	end
 				
-			# 	release do |space, selection|
+			# 	release do |space|
 			# 		# remove object from selection
 			# 	end
 			# end
@@ -91,7 +91,7 @@ class Window < Gosu::Window
 			event :select_text_object do
 				bind_to Gosu::MsLeft
 				
-				click do |space, selection|
+				click do |space|
 					obj = space.object_at position_vector
 					
 					unless obj
@@ -103,21 +103,21 @@ class Window < Gosu::Window
 					end
 					
 					
-					selection.clear
+					clear_selection
 					
 					
 					obj.click
 					obj.activate
 					
-					selection.add obj
+					select obj
 				end
 				
-				drag do |space, selection|
+				drag do |space|
 					
 				end
 				
-				release do |space, selection|
-					# selection.clear
+				release do |space|
+					# clear_selection
 				end
 			end
 
@@ -128,7 +128,7 @@ class Window < Gosu::Window
 			event :resize do
 				bind_to Gosu::MsRight
 				
-				click do |space, selection|
+				click do |space|
 					@resize_selection = space.object_at position_vector
 					@first_position = @resize_selection.position
 					@resize_basis = position_vector
@@ -136,7 +136,7 @@ class Window < Gosu::Window
 					@screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
 				end
 				
-				drag do |space, selection|
+				drag do |space|
 					if @resize_selection
 						# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events.  Delta in this case should be measured screen-relative
 						screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
@@ -152,12 +152,12 @@ class Window < Gosu::Window
 			event :move_text do
 				bind_to Gosu::MsLeft
 				
-				click do |space, selection|
+				click do |space|
 					# select text under cursor
 					@drag_selection = space.object_at position_vector
 					
 					if @drag_selection
-						# selection.add @drag_selection
+						# select @drag_selection
 						# establish basis for drag
 						@move_text_basis = position_vector
 						# store original position of text
@@ -165,7 +165,7 @@ class Window < Gosu::Window
 					end
 				end
 				
-				drag do |space, selection|
+				drag do |space|
 					if @drag_selection
 						# calculate movement delta
 						delta = position_vector - @move_text_basis
@@ -174,7 +174,7 @@ class Window < Gosu::Window
 					end
 				end
 				
-				release do |space, selection|
+				release do |space|
 					
 				end
 			end
@@ -182,12 +182,12 @@ class Window < Gosu::Window
 			event :pan_camera do
 				bind_to Gosu::MsMiddle
 				
-				click do |space, selection|
+				click do |space|
 					# Establish basis for drag
 					@pan_basis = position_vector
 				end
 				
-				drag do |space, selection|
+				drag do |space|
 					# Move view based on mouse delta between the previous frame and this one.
 					mouse_delta = position_vector - @pan_basis
 					
@@ -196,7 +196,7 @@ class Window < Gosu::Window
 					@pan_basis = position_vector
 				end
 				
-				release do |space, selection|
+				release do |space|
 					
 				end
 			end

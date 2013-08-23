@@ -106,6 +106,18 @@ module TextSpace
 		end
 		
 		
+		# Manage selection
+		def select(obj)
+			@selection.add obj
+		end
+		
+		def deselect(obj)
+			@selection.delete obj
+		end
+		
+		def clear_selection
+			@selection.clear
+		end
 		
 		
 		
@@ -198,7 +210,7 @@ module TextSpace
 				# Fire callbacks
 				define_method "#{event}_callback" do ||
 					if @callbacks[event]
-						@mouse.instance_exec @mouse.space, @mouse.selection, &@callbacks[event] 
+						@mouse.instance_exec @mouse.space, &@callbacks[event] 
 					end
 				end
 				
