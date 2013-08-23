@@ -8,7 +8,9 @@ module TextSpace
 			@selected = nil
 		end
 		
+		# Collection management
 		def add(obj)
+			clear
 			@selected = obj
 		end
 		
@@ -32,6 +34,27 @@ module TextSpace
 				@selected.deactivate
 				
 				@selected = nil
+			end
+		end
+		
+		
+		
+		# Properties of selection as a whole
+		# for single selection, this is basically just delegation
+		# for multiple selection, it operates on the entire group
+		def position
+			if @selected
+				@selected.position
+			else
+				CP::ZERO_VEC_2
+			end
+		end
+		
+		def position=(arg)
+			if @selected
+				@selected.position = arg
+			else
+				
 			end
 		end
 	end

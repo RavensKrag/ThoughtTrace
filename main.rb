@@ -57,23 +57,6 @@ class Window < Gosu::Window
 		
 		
 		@mouse = TextSpace::MouseHandler.new @space, @selection do
-			# event :test_api do
-			# 	bind_to Gosu::MsLeft
-				
-			# 	click do |space, selection|
-			# 		puts "click"
-			# 	end
-				
-			# 	drag do |space, selection|
-			# 		puts "drag"
-			# 	end
-				
-			# 	release do |space, selection|
-			# 		puts "release"
-			# 	end
-			# end
-			
-			
 			# event :edit_text do
 				
 			# end
@@ -112,24 +95,21 @@ class Window < Gosu::Window
 					obj = space.object_at position_vector
 					
 					unless obj
+						puts "new text"
 						obj = TextSpace::Text.new
 						obj.position = position_vector
+						
+						space << obj
 					end
-					
-					puts "new text"
-					
-					
-					selected = obj
 					
 					
 					selection.clear
 					
-					space << selected
 					
-					selected.click
-					selected.activate
+					obj.click
+					obj.activate
 					
-					selection.add selected
+					selection.add obj
 				end
 				
 				drag do |space, selection|
@@ -149,24 +129,35 @@ class Window < Gosu::Window
 				
 			# end
 
-			# event :move_text do
-			# 	bind_to Gosu::MsRight
+			event :move_text do
+				bind_to Gosu::MsRight
 				
-			# 	click do |space, selection|
-			# 		# select text under cursor
-			# 		# establish basis for drag
-			# 		# store original position of text
-			# 	end
-				
-			# 	drag do |space, selection|
-			# 		# calculate movement delta
-			# 		# displace text object by movement delta
-			# 	end
-				
-			# 	release do |space, selection|
+				click do |space, selection|
+					# select text under cursor
+					@drag_selection = space.object_at position_vector
 					
-			# 	end
-			# end
+					if @drag_selection
+						# selection.add @drag_selection
+						# establish basis for drag
+						@move_text_basis = position_vector
+						# store original position of text
+						@original_text_position = @drag_selection.position
+					end
+				end
+				
+				drag do |space, selection|
+					if @drag_selection
+						# calculate movement delta
+						delta = position_vector - @move_text_basis
+						# displace text object by movement delta
+						@drag_selection.position = @original_text_position + delta
+					end
+				end
+				
+				release do |space, selection|
+					
+				end
+			end
 			
 			event :pan_camera do
 				bind_to Gosu::MsMiddle
@@ -212,19 +203,6 @@ class Window < Gosu::Window
 		@camera.draw do
 			@space.draw
 		end
-	end
-	
-	def spawn_new_text
-		t = TextSpace::Text.new
-		
-		t.position = @mouse.position_vector
-		
-		puts "new text"
-		# t.string = ["hey", "listen", "look out!", "watch out", "hey~", "hello~?"].sample
-		
-		@space << t
-		
-		return t
 	end
 	
 	def button_down(id)
