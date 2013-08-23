@@ -105,15 +105,16 @@ class Window < Gosu::Window
 				
 			# end
 			
-			event :spawn_new_text do
+			event :select_text_object do
 				bind_to Gosu::MsLeft
 				
 				click do |space, selection|
-					# obj = $window.space.object_at position_vector
-					# obj ||= $window.spawn_new_text
+					obj = space.object_at position_vector
 					
-					obj = TextSpace::Text.new
-					obj.position = position_vector
+					unless obj
+						obj = TextSpace::Text.new
+						obj.position = position_vector
+					end
 					
 					puts "new text"
 					
