@@ -11,12 +11,17 @@ require_all './Chipmunk'
 
 require './Camera'
 
+require './Selection'
+
 require './Font'
 require './Text'
 
 require './Mouse'
 
 require './Space'
+
+
+require 'set'
 
 class Window < Gosu::Window
 	attr_reader :camera, :mouse
@@ -38,6 +43,9 @@ class Window < Gosu::Window
 		
 		@camera = TextSpace::Camera.new
 		
+		@selection = TextSpace::Selection.new
+		
+		
 		@debug_font = Gosu::Font.new self, "Arial", 30
 		@debug_color = 0xffff0000
 		
@@ -48,100 +56,121 @@ class Window < Gosu::Window
 		@space = TextSpace::Space.load filepath
 		
 		
-		@mouse = TextSpace::MouseHandler.new do
-			on_mouse_over do |hovered|
+		@mouse = TextSpace::MouseHandler.new @space, @selection do
+			# event :test_api do
+			# 	bind_to Gosu::MsLeft
 				
-			end
-			
-			on_mouse_out do |hovered|
+			# 	click do |space, selection|
+			# 		puts "click"
+			# 	end
 				
-			end
-			
-			button Gosu::MsLeft do
-				on_click do |mouse_down_vector|
-					puts "++++++++++click"
-					
-					@screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
-					
-					
-					obj = $window.space.object_at position_vector
-					obj ||= $window.spawn_new_text
-					
-					
-					if @selection
-						@selection.release
-						@selection.deactivate
-						
-						
-						@selection = nil
-					end
-					@selection = obj
-					
-					
-					# fire other event things as necessary
-					@selection.click
-					
-					@selection.activate
-					
-					@first_position = @selection.position
-				end
+			# 	drag do |space, selection|
+			# 		puts "drag"
+			# 	end
 				
-				on_release do |mouse_down_vector|
-					puts "---------release"
-				end
+			# 	release do |space, selection|
+			# 		puts "release"
+			# 	end
+			# end
+			
+			
+			# event :edit_text do
 				
-				on_drag do |mouse_down_vector|
-					if @selection
-						# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events.  Delta in this case should be measured screen-relative
-						screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
-						screen_delta = screen_position - @screen_position
-						
-						if screen_delta.length > 2
-							# puts "drag"
-							
-							# position_vector is the current mouse position
-							# mouse_down_vector is where the mouse was on the initial button press
-							mouse_delta = position_vector - mouse_down_vector
-							
-							@selection.position = @first_position + mouse_delta
-						end
-					end
-				end
-			end
+			# end
+
+			# event :delete_text_object do
+				
+			# end
+
+			# event :select_single do
+			# 	bind_to Gosu::MsLeft
+				
+			# 	click do |space, selection|
+			# 		# get object under cursor
+			# 		# add object to selection
+					
+			# 		# save object so it can be de-selected later
+			# 	end
+				
+			# 	drag do |space, selection|
+					
+			# 	end
+				
+			# 	release do |space, selection|
+			# 		# remove object from selection
+			# 	end
+			# end
+
+			# event :select_multiple do
+				
+			# end
 			
-			
-			
-			button Gosu::MsRight do
-				on_click do |mouse_down_vector|
-					puts ">>>>>>>>>Scale"
+			# event :spawn_new_text do
+			# 	bind_to Gosu::MsLeft
+				
+			# 	click do |space, selection|
+			# 		# obj = $window.space.object_at position_vector
+			# 		# obj ||= $window.spawn_new_text
+					
+			# 		# obj = TextSpace::Text.new
+			# 		# obj.position = position_vector
+					
+			# 		puts "new text"
+			# 		# obj.string = ["hey", "listen", "look out!", "watch out", "hey~", "hello~?"].sample
+					
+			# 		# space << obj
 					
 					
-				end
+					
+			# 		# @selected = obj
+			# 		# selection.add @selected
+			# 	end
 				
-				on_release do |mouse_down_vector|
-					puts "<<<<<<<<-stop"
-				end
+			# 	drag do |space, selection|
+					
+			# 	end
 				
-				on_drag do |mouse_down_vector|
-					if @selection
-						@selection.height = position_vector.y - @selection.position.y
-					end
-				end
-			end
-			
-			
-			
-			button Gosu::MsMiddle do
-				on_click do |mouse_down_vector|
+			# 	release do |space, selection|
+			# 		# selection.remove @selected
+			# 	end
+			# end
+
+			# event :select_portion_of_text do
+				
+			# end
+
+			# event :resize do
+				
+			# end
+
+			# event :move_text do
+			# 	bind_to Gosu::MsRight
+				
+			# 	click do |space, selection|
+			# 		# select text under cursor
+			# 		# establish basis for drag
+			# 		# store original position of text
+			# 	end
+				
+			# 	drag do |space, selection|
+			# 		# calculate movement delta
+			# 		# displace text object by movement delta
+			# 	end
+				
+			# 	release do |space, selection|
+					
+			# 	end
+			# end
+
+			event :pan_camera do
+				bind_to Gosu::MsMiddle
+				
+				click do |space, selection|
 					# Establish basis for drag
 					@drag_basis = position_vector
 				end
 				
-				on_release do |mouse_down_vector|
-					
-				end
-				
-				on_drag do |mouse_down_vector|
+				drag do |space, selection|
 					# Move view based on mouse delta between the previous frame and this one.
 					mouse_delta = position_vector - @drag_basis
 					
@@ -149,10 +178,12 @@ class Window < Gosu::Window
 					
 					@drag_basis = position_vector
 				end
+				
+				release do |space, selection|
+					
+				end
 			end
 		end
-		
-		
 		
 		
 		# set default font

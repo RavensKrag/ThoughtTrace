@@ -165,7 +165,7 @@ end
 
 @mouse[:move_text].button = Gosu::MsMiddle
 # this syntax is basically saying the following:
-alias :button :button=
+alias :button=, :button
 # as button(key) is already a method
 # it makes it impossible to access the binding, using standard ruby convention
 
@@ -187,6 +187,13 @@ alias :button :button=
 # this syntax only really works if sequences are not going to be supported
 # even then, it might muddle up #bind_to considerably to do two rather different things
 
+
+
+
+
+@mouse[:move_text].binding = ControlBinding::Button.new(Gosu::MsMiddle)
+@mouse[:move_text].binding = ControlBinding::Chord.new(Gosu::MsMiddle)
+@mouse[:move_text].binding = ControlBinding::Sequence.new(Gosu::MsMiddle)
 
 
 
@@ -215,7 +222,7 @@ alias :button :button=
 	# prevents usage of methods as if they were magic variables
 
 @events = {
-	:identifier => EventObject
+	:identifier => EventObject(callbacks, binding)
 }
 
 
@@ -251,6 +258,22 @@ end
 
 
 
+
+
+# each mouse event should execute in it's own instance
+# 	that way, no symbol collisions between variables
+# section object passed to block
+# in fact, all objects needed by a callback not local to that event should be passed in
+# can be specified on event creation (in #event parameter list)
+# would make dependencies between different events explicit
+
+
+
+# buttons that will invoke state only when hold
+# should have some visual indication they will bounce back
+# maybe the button quivers when depressed?
+# maybe the button resembles a physical material with that sort of springy property?
+# hard to do this without kinesthetic / haptic feedback
 
 
 

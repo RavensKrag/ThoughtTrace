@@ -2,12 +2,14 @@ require 'state_machine'
 
 module TextSpace
 	class MouseHandler
-		attr_reader :selection
+		attr_reader :space, :selection
 		
-		def initialize(&block)
+		def initialize(space, selection, &block)
 			super()
 			
-			@bindings = Hash.new # button => callback name
+			@space = space
+			@selection = selection
+			
 			@hover_callbacks = Hash.new # callback name => callback
 			
 			@action_callbacks = Hash.new # button => callback
@@ -56,25 +58,17 @@ module TextSpace
 			end
 		end
 		
-		def button_down(id)
-			if @action_callbacks.has_key? id
-				@action_callbacks[id].button_down
-			end
-		end
-		
-		def button_up(id)
-			if @action_callbacks.has_key? id
-				@action_callbacks[id].button_up
+		# Delegate down and up events to event callbacks
+		[:button_down, :button_up].each do |button_event|
+			define_method button_event do |id|
+				@action_callbacks.each_value do |event_object|
+					event_object.send button_event, id
+				end
 			end
 		end
 		
 		def shutdown
-			if @selection
-				@selection.release
-				@selection.deactivate
-				
-				@selection = nil
-			end
+			@selection.clear
 		end
 		
 		def position_vector
@@ -86,23 +80,21 @@ module TextSpace
 		
 		
 		
-		
-		
-		private
-		
 		# Interface to define callbacks
-		def on_mouse_over(&block)
+		def mouse_over(&block)
 			@hover_callbacks[:mouse_over] = block
 		end
 		
-		def on_mouse_out(&block)
+		def mouse_out(&block)
 			@hover_callbacks[:mouse_out] = block
 		end
 		
-		def button(id, &block)
-			@action_callbacks[id] = ButtonEvent.new self, &block
+		def event(id, &block)
+			@action_callbacks[id] = MouseEvent.new self, &block
 		end
 		
+		
+		private
 		
 		# Fire callbacks
 		def mouse_over_callback
@@ -120,23 +112,40 @@ module TextSpace
 		# Class to handle action callbacks
 		# Delegate all the action-y bits to this,
 		# only the hover events should be handled above
-		class ButtonEvent
+		class MouseEvent
+			EVENT_TYPES = [:click, :drag, :release]
+			
 			def initialize(mouse_handler, &block)
 				super()
 				
 				@mouse = mouse_handler
 				
+				@binding = nil # button id
 				@callbacks = Hash.new
 				
 				instance_eval &block
 			end
 			
-			def button_down
-				click_event
+			# Should be able to compare the signatures of two ButtonEvent objects
+			# to see if there will be any sort of collision of the event callbacks
+			def signature
+				output = ""
+				
+				EVENT_TYPES.each do |e|
+					output << @callbacks[e] ? "1" : "0"
+				end
 			end
 			
-			def button_up
-				release_event
+			def button_down(id)
+				if id == @binding
+					click_event
+				end
+			end
+			
+			def button_up(id)
+				if id == @binding
+					release_event
+				end
 			end
 			
 			state_machine :state, :initial => :up do
@@ -146,12 +155,9 @@ module TextSpace
 					end
 					
 					def click_event
-						@mouse_down_vector = @mouse.position_vector
-						
 						click_callback
 						
-						
-						click
+						button_down_event
 					end
 					
 					def release_event
@@ -172,47 +178,50 @@ module TextSpace
 						release_callback
 						
 						
-						release
+						button_up_event
 					end
 				end
 				
-				before_transition :down => any do
-					@mouse_down_vector = nil
-				end
 				
-				
-				
-				event :click do
+				event :button_down_event do
 					transition :up => :down
 				end
 				
-				event :release do
+				event :button_up_event do
 					transition :down => :up
 				end
 			end
 			
 			
 			
-			[:click, :release, :drag].each do |event|
-			# ----------
-			
-			# Fire callbacks
-			define_method "#{event}_callback" do ||
-				@mouse.instance_exec @mouse_down_vector, &@callbacks[event]
+			EVENT_TYPES.each do |event|
+				# Fire callbacks
+				define_method "#{event}_callback" do ||
+					if @callbacks[event]
+						@mouse.instance_exec @mouse.space, @mouse.selection, &@callbacks[event] 
+					end
+				end
+				
+				# Interface to define callbacks
+				define_method event do |&block|
+					@callbacks[event] = block
+				end
 			end
 			
-			
-			
-			# Interface to define callbacks
-			private
-			define_method "on_#{event}" do |&block|
-				@callbacks[event] = block
+			# Manage button binding
+			def bind_to(button)
+				# TODO: Take ControlBinding instead of just a button ID
+				@binding = button
 			end
 			
-			# ----------
+			def binding
+				@binding
 			end
 			
+			alias :binding= :bind_to
 		end
+		
+		
 		
 		# # Return all objects the mouse is on top of
 		# def hovered
