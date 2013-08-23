@@ -125,12 +125,32 @@ class Window < Gosu::Window
 				
 			# end
 
-			# event :resize do
+			event :resize do
+				bind_to Gosu::MsRight
 				
-			# end
+				click do |space, selection|
+					@resize_selection = space.object_at position_vector
+					@first_position = @resize_selection.position
+					@resize_basis = position_vector
+					
+					@screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
+				end
+				
+				drag do |space, selection|
+					if @resize_selection
+						# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events.  Delta in this case should be measured screen-relative
+						screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
+						screen_delta = screen_position - @screen_position
+						
+						if screen_delta.length > 2
+							@resize_selection.height = position_vector.y - @resize_selection.position.y
+						end
+					end
+				end
+			end
 
 			event :move_text do
-				bind_to Gosu::MsRight
+				bind_to Gosu::MsLeft
 				
 				click do |space, selection|
 					# select text under cursor
