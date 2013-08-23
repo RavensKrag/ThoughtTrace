@@ -4,32 +4,35 @@ module TextSpace
 	class Selection
 		def initialize
 			@set = Set.new
+			
+			@selected = nil
 		end
 		
 		def add(obj)
-			
+			@selected = obj
 		end
 		
 		def delete(obj)
-			
+			# remove single
+			if @selected # safe on empty
+				@selected.release
+				@selected.deactivate
+				
+				@selected = nil
+			end
 		end
 		
-		def remove(obj)
-			
-		end
+		alias :remove :delete
 		
 		def clear
-			# @selection.release
-			# @selection.deactivate
-			
-			
-			
-			
-			
-			# @selection.release
-			# @selection.deactivate
-			
-			# @selection = nil
+			# remove all
+			if @selected # safe on empty
+				# NOTE: when multiple selection is implemented, this needs to iterate over all selected
+				@selected.release
+				@selected.deactivate
+				
+				@selected = nil
+			end
 		end
 	end
 end

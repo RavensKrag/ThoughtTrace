@@ -105,35 +105,40 @@ class Window < Gosu::Window
 				
 			# end
 			
-			# event :spawn_new_text do
-			# 	bind_to Gosu::MsLeft
+			event :spawn_new_text do
+				bind_to Gosu::MsLeft
 				
-			# 	click do |space, selection|
-			# 		# obj = $window.space.object_at position_vector
-			# 		# obj ||= $window.spawn_new_text
+				click do |space, selection|
+					# obj = $window.space.object_at position_vector
+					# obj ||= $window.spawn_new_text
 					
-			# 		# obj = TextSpace::Text.new
-			# 		# obj.position = position_vector
+					obj = TextSpace::Text.new
+					obj.position = position_vector
 					
-			# 		puts "new text"
-			# 		# obj.string = ["hey", "listen", "look out!", "watch out", "hey~", "hello~?"].sample
-					
-			# 		# space << obj
+					puts "new text"
 					
 					
+					selected = obj
 					
-			# 		# @selected = obj
-			# 		# selection.add @selected
-			# 	end
+					
+					selection.clear
+					
+					space << selected
+					
+					selected.click
+					selected.activate
+					
+					selection.add selected
+				end
 				
-			# 	drag do |space, selection|
+				drag do |space, selection|
 					
-			# 	end
+				end
 				
-			# 	release do |space, selection|
-			# 		# selection.remove @selected
-			# 	end
-			# end
+				release do |space, selection|
+					# selection.clear
+				end
+			end
 
 			# event :select_portion_of_text do
 				
