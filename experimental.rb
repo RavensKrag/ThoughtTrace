@@ -70,7 +70,7 @@ end
 # -----
 
 @mouse.event :select_single do
-	button Gosu::MsLeft
+	bind_to Gosu::MsLeft
 	
 	click do |selection|
 		# get object under cursor
@@ -89,7 +89,7 @@ end
 end
 
 @mouse.event :move_text do
-	button Gosu::MsRight
+	bind_to Gosu::MsRight
 	
 	click do |selection|
 		# select text under cursor
@@ -108,7 +108,7 @@ end
 end
 
 @mouse.event :spawn_new_text do
-	button Gosu::MsLeft
+	bind_to Gosu::MsLeft
 	
 	click do |selection|
 		# obj = $window.space.object_at position_vector
@@ -138,7 +138,7 @@ end
 end
 
 @mouse.event :pan_camera do
-	button Gosu::MsMiddle
+	bind_to Gosu::MsMiddle
 	
 	click do |selection|
 		# Establish basis for drag
@@ -161,7 +161,48 @@ end
 
 
 
-@mouse.bind :move_text, Gosu::MsMiddle
+# @mouse.bind :move_text, Gosu::MsMiddle
+
+@mouse[:move_text].button = Gosu::MsMiddle
+# this syntax is basically saying the following:
+alias :button :button=
+# as button(key) is already a method
+# it makes it impossible to access the binding, using standard ruby convention
+
+
+@mouse[:move_text].bind_to Gosu::MsMiddle # not sure if this should be publicly exposed or not
+@mouse[:move_text].binding = Gosu::MsMiddle
+@mouse[:move_text].binding # => Gosu::MsMiddle
+
+
+
+
+
+# Equals syntax does not make sense when multiple kinds of binds can be generated,
+# or when multiple buttons must be specified
+@mouse[:move_text].bind_to Gosu::MsMiddle
+@mouse[:move_text].bind_to Gosu::KbControl, Gosu::MsLeft
+@mouse[:move_text].bind_to Gosu::MsRight, Gosu::MsLeft
+# there's no way to specify difference between chord and sequence here
+# this syntax only really works if sequences are not going to be supported
+# even then, it might muddle up #bind_to considerably to do two rather different things
+
+
+
+
+
+
+
+# alternatively, have separate bind methods for different kinds of inputs
+@mouse[:move_text].bind_to_button Gosu::MsMiddle
+@mouse[:move_text].bind_to_chord Gosu::KbControl, Gosu::MsLeft
+@mouse[:move_text].bind_to_sequence Gosu::MsRight, Gosu::MsLeft # drum fingers to the left
+	# not sure that sequence binding is actually useful for mouse input the way it is for keyboard input, but when you consider that "mouse input" really only means "input that considers cursor position" and not "input based on physical buttons on the mouse", it could be useful
+	# it's also useful from a design perspective to have the keyboard and mouse input systems have the same button binding API
+
+# should still only need one output, though
+@mouse[:move_text].binding
+@mouse[:move_text].binding.is_a? ControlBinding::Button
 
 
 
