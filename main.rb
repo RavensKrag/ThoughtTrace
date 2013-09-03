@@ -130,10 +130,13 @@ class Window < Gosu::Window
 				
 				click do |space|
 					@resize_selection = space.object_at position_vector
-					@first_position = @resize_selection.position
-					@resize_basis = position_vector
 					
-					@screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
+					if @resize_selection
+						@first_position = @resize_selection.position
+						@resize_basis = position_vector
+						
+						@screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
+					end
 				end
 				
 				drag do |space|
