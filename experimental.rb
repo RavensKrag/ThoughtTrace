@@ -165,160 +165,24 @@ end
 	# as they do not need objects or space coordinates
 	
 	# only fires if the mouse is over empty space
-	pick :point do |vector|
-		# vector is in world space
-		# otherwise, will fire the callback for pick(:object)
+	pick_object_from :point do |vector|
+		# block must return a text object
 	end
 	
 	# only fires if the mouse is over one or more objects
-	pick :object do |object|
-		# object is the singular object to be added to the selection
-		# which object to select is determined elsewhere
-		# currently, this code is in Space#object_at(position)
+	pick_object_from :space do |object|
 		
 	end
 	
-	
-	# need to differentiate between clicking on an object which is not in selection,
-	# and clicking on object which is in selection
-	# 
-	# 
-	pick :unselected_object do |object|
-		# pick an object not currently in the selection
+	# only fires if mouse is over a member of the active selection
+	pick_object_from :selection do |object|
 		
 	end
-	
-	pick :selected_object do |object|
-		# pick an object which was already selected
-	end
-	
-	
-	
-	
-	
-	pick :new_object do |object|
-		# pick an object not currently in the selection
-		
-	end
-	
-	pick :already_selected_object do |object|
-		# pick an object which was already selected
-	end
-	
-	
-	
-	
-	
-	pick :object do |object|
-		# pick an object not currently in the selection
-		
-	end
-	
-	pick :already_selected do |object|
-		# pick an object which was already selected
-	end
-	
-	
-	
-	
-	
-	
-	pick :point do |object|
-		
-	end
-	
-	pick :object, :selected do |object|
-		
-	end
-	
-	pick :object, :non_selected  do |object|
-		
-	end
-	
-	
-	:point
-	:object, :selected
-	:object, :non_selected
-	
-	:point
-	
-	
-	
-	:unselected_object
-	:selected_object
-	
-	
-	:new_object
-	:already_selected_object
-	
-	
-	:object
-	:already_selected
-	
-	
-	:point
-	:inactive_object
-	:active_object
-	
-	
-	
-	:point
-	:object_in_space
-	:object_in_selection
-	
-	
-	:point
-	:object_from_space
-	:object_from_selection
-	
-	
-	pick :point do |object|
-		
-	end
-	
-	pick :inactive_object do |object|
-		
-	end
-	
-	pick :active_object do |object|
-		
-	end
-	
-	
-	
-	pick :point do |object|
-		
-	end
-	
-	pick :object do |object|
-		
-	end
-	
-	pick :object, :limit_to => :selection do |object|
-		# alternatively
-		:limit_to => selection
-		# and have selection be a magic variable, just like in state machine
-		# where "any" is a magic collection variable which holds many states
-	end
-	
-	
 	
 	# would be nice for all pick_object_from methods to have the same return type
 	# would be rather weird if that were not the case
 	# but I suppose the effect of the method is more important than it's return type
 	# seeing as how the return of the callback should never leak to the outside world
-	
-	pick_object_from :point do |vector|
-		# block must return a text object
-	end
-	
-	pick_object_from :space do |object|
-		
-	end
-	
-	pick_object_from :selection do |object|
-		
-	end
 	
 	
 	def pick_object_from(domain, &block)
@@ -335,6 +199,13 @@ end
 							# same query as space, but limit to selection, instead of whole space
 							@selection
 					end
+					
+					# arguably the selection code should belong to the selection,
+					# as would be oop style
+					# that means that any partition of the space (including the whole space)
+					# needs to be considered a selection
+					
+					
 					
 					# Select objects under the mouse
 					# If there's a conflict, get smallest one (least area)
@@ -376,6 +247,8 @@ end
 				end
 		
 		block.call out if block != nil
+		
+		return nil # reveal no data to outside systems
 	end
 	
 	
