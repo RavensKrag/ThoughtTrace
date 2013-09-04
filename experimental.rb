@@ -122,62 +122,202 @@ end
 	
 	
 	
-	# if the logic for mouse picking is going to be placed outside of these callbacks, need way to specifying what the logic is
-	select :optimal
-	select :all
-	select :highest
-	select :lowest
-	select :largest_area
-	select :smallest_area
-	# allowing for multiple statements is more expressive than just saying "optimal"
-	select :highest, :largest_area
+	
+	selection_logic :optimal do |objects, selection|
+		objects.sort! do |a, b|
+			a.bb.area <=> b.bb.area
+		end
+		
+		# Get the smallest area values, within a certain threshold
+		# Results in a certain margin of what size is acceptable,
+		# relative to the smallest object
+		objects = objects.select do |o|
+			# TODO: Tweak margin
+			size_margin = 1.8 # percentage
+			
+			first_area = objects.first.bb.area
+			o.bb.area.between? first_area, first_area*(size_margin)
+		end
+		
+		objects.sort! do |a, b|
+			distance_to_a = a.bb.center.dist position
+			distance_to_b = b.bb.center.dist position
+			
+			# Listed in order of precedence, but sort order needs to be reverse of that
+			[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
+		end
+		
+		selection.add objects.first
+	end
 	
 	
 	
+	# -----Notes on pick-----
+	# Events will only fire if the type of picking desired succeeds
+		# ie) pick(:point) means that callbacks will only execute when an object has been selected
+		# will not trigger on other picking conditions (like empty space)
+	# only checked for button down transition
+	# after that, the rest of the cycle is guaranteed to complete
+		# also, remaining callbacks should receive the same picked item, so don't pick again
+	# 
+	# pick is for selecting objects within the space
+	# callbacks like camera pan would not specify a pick callback,
+	# as they do not need objects or space coordinates
 	
-	pick :object
-		pick :object, :optimal
-		pick :object, :highest, :largest_area
-		
-		pick :object do |objects|
-			# objects - all objects in space under the mouse
-			# return value of block is which objects to add to selection
-			
-			
-			# within a certain margin of the smallest object
-			# largest area, closest to mouse
-		end
-		
-		
-		
-		
-		
-		# works similar to array methods like #select
-		# iterates over all objects under the mouse
-		# each and every object is passed into the block
-		# if the block returns true, then that object is added to the selection
-		pick :object do |objects|
-			# objects - all objects in space under the mouse
-			# return value of block is which objects to add to selection
-		end
-		
-		
-		# works similar to Array#sort
-		# iterates over all objects under the mouse
-		# block evaluates comparison between a and b
-		# if there is only one object under the mouse, it is automatically added to the selection
-		pick :object do |a, b|
-			
-		end
-		
-		
-		
-		pick :object do |objects, selection|
-			
-		end
-		
+	# only fires if the mouse is over empty space
 	pick :point do |vector|
 		# vector is in world space
+		# otherwise, will fire the callback for pick(:object)
+	end
+	
+	# only fires if the mouse is over one or more objects
+	pick :object do |object|
+		# object is the singular object to be added to the selection
+		# which object to select is determined elsewhere
+		# currently, this code is in Space#object_at(position)
+		
+	end
+	
+	
+	# need to differentiate between clicking on an object which is not in selection,
+	# and clicking on object which is in selection
+	# 
+	# 
+	pick :unselected_object do |object|
+		# pick an object not currently in the selection
+		
+	end
+	
+	pick :selected_object do |object|
+		# pick an object which was already selected
+	end
+	
+	
+	
+	
+	
+	pick :new_object do |object|
+		# pick an object not currently in the selection
+		
+	end
+	
+	pick :already_selected_object do |object|
+		# pick an object which was already selected
+	end
+	
+	
+	
+	
+	
+	pick :object do |object|
+		# pick an object not currently in the selection
+		
+	end
+	
+	pick :already_selected do |object|
+		# pick an object which was already selected
+	end
+	
+	
+	
+	
+	
+	
+	pick :point do |object|
+		
+	end
+	
+	pick :object, :selected do |object|
+		
+	end
+	
+	pick :object, :non_selected  do |object|
+		
+	end
+	
+	
+	:point
+	:object, :selected
+	:object, :non_selected
+	
+	:point
+	
+	
+	
+	:unselected_object
+	:selected_object
+	
+	
+	:new_object
+	:already_selected_object
+	
+	
+	:object
+	:already_selected
+	
+	
+	:point
+	:inactive_object
+	:active_object
+	
+	
+	
+	:point
+	:object_in_space
+	:object_in_selection
+	
+	
+	:point
+	:object_from_space
+	:object_from_selection
+	
+	
+	pick :point do |object|
+		
+	end
+	
+	pick :inactive_object do |object|
+		
+	end
+	
+	pick :active_object do |object|
+		
+	end
+	
+	
+	
+	pick :point do |object|
+		
+	end
+	
+	pick :object do |object|
+		
+	end
+	
+	pick :object, :limit_to => :selection do |object|
+		# alternatively
+		:limit_to => selection
+		# and have selection be a magic variable, just like in state machine
+		# where "any" is a magic collection variable which holds many states
+	end
+	
+	
+	
+	# would be nice for all pick_object_from methods to have the same return type
+	# would be rather weird if that were not the case
+	# but I suppose the effect of the method is more important than it's return type
+	# seeing as how the return of the callback should never leak to the outside world
+	
+	pick_object_from :point do |vector|
+		# block must return a text object
+	end
+	
+	pick_object_from :space do |object|
+		
+	end
+	
+	pick_object_from :selection do |object|
+		
 	end
 	
 	
