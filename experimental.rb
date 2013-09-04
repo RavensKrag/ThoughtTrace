@@ -321,6 +321,84 @@ end
 	end
 	
 	
+	def pick_object_from(domain, &block)
+		out =	if domain == :point
+					# point under cursor in world space
+					
+					position_vector
+				else
+					inital_selection_set = case domain
+						when :space
+							# best object as determined by space
+							@space.objects
+						when :selection
+							# same query as space, but limit to selection, instead of whole space
+							@selection
+					end
+					
+					# Select objects under the mouse
+					# If there's a conflict, get smallest one (least area)
+					
+					# There should be some other rule about distance to center of object
+						# triggers for many objects of similar size?
+						
+						# when objects are densely packed, it can be hard to select the right one
+						# the intuitive approach is to try to select dense objects by their center
+					selection = inital_selection_set.select do |o|
+						o.bb.contains_vect? position
+					end
+					
+					selection.sort! do |a, b|
+						a.bb.area <=> b.bb.area
+					end
+					
+					# Get the smallest area values, within a certain threshold
+					# Results in a certain margin of what size is acceptable,
+					# relative to the smallest object
+					selection = selection.select do |o|
+						# TODO: Tweak margin
+						size_margin = 1.8 # percentage
+						
+						first_area = selection.first.bb.area
+						o.bb.area.between? first_area, first_area*(size_margin)
+					end
+					
+					selection.sort! do |a, b|
+						distance_to_a = a.bb.center.dist position
+						distance_to_b = b.bb.center.dist position
+						
+						# Listed in order of precedence, but sort order needs to be reverse of that
+						[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
+					end
+					
+					
+					selection.first
+				end
+		
+		block.call out if block != nil
+	end
+	
+	
+	
+	# pick_object_at :point
+	# pick_object_in :space
+	# pick_object_from :selection
+	
+	# pick object based on this point
+	# pick object from point
+	
+	# pick object from space
+	# pick object from out of this space
+	
+	# pick object from selection
+	# pick object out of this selection
+	
+	
+	
+	# pick_object_at :space
+	# pick_object_in :space
+	# pick_object_from :space
+	
 	
 	
 	click do |selection|
