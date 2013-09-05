@@ -155,29 +155,31 @@ class Window < Gosu::Window
 			event :move_text do
 				bind_to Gosu::MsLeft
 				
-				click do |space|
-					# select text under cursor
-					@drag_selection = space.object_at position_vector
-					
-					if @drag_selection
+				pick_object_from :space 
+				# pick_object_from :space do |object|
+				# 	object
+				# end
+				
+				click do |space, selection|
+					if selection
 						# select @drag_selection
 						# establish basis for drag
 						@move_text_basis = position_vector
 						# store original position of text
-						@original_text_position = @drag_selection.position
+						@original_text_position = selection.position
 					end
 				end
 				
-				drag do |space|
-					if @drag_selection
+				drag do |space, selection|
+					if selection
 						# calculate movement delta
 						delta = position_vector - @move_text_basis
 						# displace text object by movement delta
-						@drag_selection.position = @original_text_position + delta
+						selection.position = @original_text_position + delta
 					end
 				end
 				
-				release do |space|
+				release do |space, selection|
 					
 				end
 			end

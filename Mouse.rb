@@ -167,6 +167,9 @@ module TextSpace
 					end
 					
 					def click_event
+						pick_object_callback
+						pick_point_callback
+						
 						click_callback
 						
 						button_down_event
@@ -206,11 +209,57 @@ module TextSpace
 			
 			
 			
+			# Select object to be manipulated in further mouse callbacks
+			def pick_object_from(domain, &block)
+				@pick_domain = domain
+				@pick_callback = block
+			end
+			
+			def pick_object_callback
+				# need to generate out when the callback launches, not on creation
+				# but this shows the general idea
+				
+				picked = case @pick_domain
+					when :point
+						position_vector
+					when :space
+						# pick_from @space.objects
+						@mouse.space.object_at @mouse.position_vector
+					when :selection
+						pick_from @selection
+					else
+						return
+				end
+				
+				# NOTE: This means selections are separate for each mouse event
+				@selection =	if @pick_callback
+									@mouse.instance_exec picked, &@pick_callback
+								else
+									picked
+								end
+			end
+			
+			def pick_point_in(coordinate_space)
+				@point_coordinate_space = coordinate_space
+			end
+			
+			def pick_point_callback
+				vector = case @point_coordinate_space
+					when :screen_space
+						CP::Vec2.new($window.mouse_x, $window.mouse_y)
+					when :world_space
+						position_vector
+				end
+				
+				# set value to be processed by other callbacks to be
+				# a vector instead of a object in the space
+			end
+			
 			EVENT_TYPES.each do |event|
 				# Fire callbacks
 				define_method "#{event}_callback" do ||
 					if @callbacks[event]
-						@mouse.instance_exec @mouse.space, &@callbacks[event] 
+						@mouse.instance_exec @mouse.space, @selection, &@callbacks[event]
 					end
 				end
 				
@@ -231,6 +280,57 @@ module TextSpace
 			end
 			
 			alias :binding= :bind_to
+			
+			
+			private
+			
+			def pick_from(selection)
+				# TODO: This method should belong to a selection class
+				# arguably the selection code should belong to the selection,
+				# as would be oop style
+				# that means that any partition of the space (including the whole space)
+				# needs to be considered a selection
+				
+				
+				
+				# Select objects under the mouse
+				# If there's a conflict, get smallest one (least area)
+				
+				# There should be some other rule about distance to center of object
+					# triggers for many objects of similar size?
+					
+					# when objects are densely packed, it can be hard to select the right one
+					# the intuitive approach is to try to select dense objects by their center
+				selection = selection.select do |o|
+					o.bb.contains_vect? position
+				end
+				
+				selection.sort! do |a, b|
+					a.bb.area <=> b.bb.area
+				end
+				
+				# Get the smallest area values, within a certain threshold
+				# Results in a certain margin of what size is acceptable,
+				# relative to the smallest object
+				selection = selection.select do |o|
+					# TODO: Tweak margin
+					size_margin = 1.8 # percentage
+					
+					first_area = selection.first.bb.area
+					o.bb.area.between? first_area, first_area*(size_margin)
+				end
+				
+				selection.sort! do |a, b|
+					distance_to_a = a.bb.center.dist position
+					distance_to_b = b.bb.center.dist position
+					
+					# Listed in order of precedence, but sort order needs to be reverse of that
+					[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
+				end
+				
+				
+				return selection.first
+			end
 		end
 		
 		
