@@ -207,6 +207,30 @@ class Window < Gosu::Window
 					
 				end
 			end
+			
+			event :box_select do
+				bind_to Gosu::MsRight
+				
+				# if you don't use a pick query, it can execute any time
+				
+				click do |space|
+					puts "box"
+					@box_top_left = position_in_world
+				end
+				
+				drag do |space|
+					color = Gosu::Color.argb(0x33E1DBA9)
+					
+					bottom_right = position_in_world
+					$window.draw_in_space :quad, 
+						@box_top_left.x,	@box_top_left.y,	color,
+						bottom_right.x,		@box_top_left.y,	color,
+						bottom_right.x, 	bottom_right.y,		color,
+						@box_top_left.x, 	bottom_right.y,		color
+					
+					# Instead of drawing here, consider just creating CP::BB objects for the selection, and then rendering the selection boxes
+				end
+			end
 		end
 		
 		
@@ -229,6 +253,8 @@ class Window < Gosu::Window
 	def draw
 		@camera.draw do
 			@space.draw
+			
+			render_draw_queue
 		end
 	end
 	
@@ -258,7 +284,32 @@ class Window < Gosu::Window
 		@space.dump filepath
 	end
 	
+	# Queue up drawing operations to be drawn during the draw step
+	def draw_in_space(*args)
+		@draw_queue ||= Array.new
+		
+		raise "Too few arguments: require (name_of_draw_method, *draw_arguments)" if args.size < 2
+		
+		name = args.shift
+		@draw_queue << [
+			name,
+			args
+		]
+	end
 	
+	def render_draw_queue
+		@draw_queue ||= Array.new
+		
+		@draw_queue.each do |item|
+			# p item
+			name = item.first
+			args = item.last
+			
+			self.send "draw_#{name}", *args
+		end
+		
+		@draw_queue.clear
+	end
 	
 	
 	
