@@ -213,22 +213,49 @@ class Window < Gosu::Window
 				
 				# if you don't use a pick query, it can execute any time
 				
+				# that means this currently executes currently with resize
+				# fire :in_empty_space
+				# fire :over_object # over something, idk what it is, you won't have access to it
+				
+				
 				click do |space|
 					puts "box"
 					@box_top_left = position_in_world
+					
+					@box_selection = Set.new
 				end
 				
 				drag do |space|
 					color = Gosu::Color.argb(0x33E1DBA9)
 					
 					bottom_right = position_in_world
-					$window.draw_in_space :quad, 
-						@box_top_left.x,	@box_top_left.y,	color,
-						bottom_right.x,		@box_top_left.y,	color,
-						bottom_right.x, 	bottom_right.y,		color,
-						@box_top_left.x, 	bottom_right.y,		color
 					
-					# Instead of drawing here, consider just creating CP::BB objects for the selection, and then rendering the selection boxes
+					bb = CP::BB.new(@box_top_left.x, bottom_right.y, 
+									bottom_right.x, @box_top_left.y)
+					bb.reformat # TODO: Rename CP::BB#reformat
+					
+					bb.draw_in_space color
+					
+					# Perform selection using BB
+					new_selection = Set.new
+					
+					@space.bb_query(bb).each do |obj|
+						obj.mouse_over
+							
+						new_selection.add obj
+					end
+					
+					(@box_selection - new_selection).each do |obj|
+						obj.mouse_out
+					end
+					
+					@box_selection = new_selection
+				end
+				
+				release do |space|
+					@box_selection.each do |obj|
+						obj.mouse_out
+					end
 				end
 			end
 		end

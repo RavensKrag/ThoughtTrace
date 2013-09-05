@@ -4,6 +4,41 @@ require './Serializable'
 
 module CP
 	class BB
+		def draw
+			color = Gosu::Color.argb(0x33E1DBA9)
+			
+			$window.draw_quad	self.l, self.t, color,
+								self.r, self.t, color,
+								self.r, self.b, color,
+								self.l, self.b, color
+		end
+		
+		def draw_in_space(color)
+			$window.draw_in_space :quad, 
+				self.l, self.t, color,
+				self.r, self.t, color,
+				self.r, self.b, color,
+				self.l, self.b, color
+		end
+		
+		# Make sure that r < l and b < t, as expected
+		# call this as a separate method rather than altering constructor
+		# because it may be useful on occasion to have the bb twisted inside-out
+		def reformat
+			if self.r < self.l
+				# swap r and l
+				swap = self.r
+				self.r = self.l
+				self.l = swap
+			end
+			if self.t < self.b
+				# swap top and bottom
+				swap = self.t
+				self.t = self.b
+				self.b = swap
+			end
+		end
+		
 		def area
 			(self.r - self.l) * (self.t - self.b)
 		end

@@ -95,6 +95,7 @@ module TextSpace
 			@color = 0xffffffff
 		end
 		
+		# TODO: Define mouse over and mouse out using state machine
 		def mouse_over
 			unless @mouse_over
 				@mouse_over = true

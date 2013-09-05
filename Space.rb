@@ -42,6 +42,13 @@ module TextSpace
 			end
 		end
 		
+		# Return objects whose bounding boxes overlap with the given bounding box
+		def bb_query(bb)
+			@objects.select do |obj|
+				bb.intersect? obj.bb
+			end
+		end
+		
 		def object_at(position)
 			# TODO: Should short circuit when selection becomes empty
 			# TODO: Short circuit on selection size of 1? (Only after initial bb query)
