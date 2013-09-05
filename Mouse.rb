@@ -216,8 +216,7 @@ module TextSpace
 			end
 			
 			def pick_object_callback
-				# need to generate out when the callback launches, not on creation
-				# but this shows the general idea
+				return unless @pick_domain # This callback should not fire when domain undefined
 				
 				picked = case @pick_domain
 					when :point
@@ -228,7 +227,7 @@ module TextSpace
 					when :selection
 						pick_from @selection
 					else
-						return
+						raise "Invalid mouse picking domain (choose :point, :space, or :selection)"
 				end
 				
 				# NOTE: This means selections are separate for each mouse event
