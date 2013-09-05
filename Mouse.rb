@@ -50,7 +50,7 @@ module TextSpace
 			
 			
 			# Do not hover over multiple objects
-			obj = $window.space.object_at position_in_world
+			obj = @space.object_at position_in_world
 			
 			if @last_hovered_object
 				# mouse_data.event_thing.mouse_out.call
