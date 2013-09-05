@@ -88,17 +88,26 @@ class Window < Gosu::Window
 				
 			# end
 			
-			# event :spawn_nexw_text do
-			# 	bind_to Gosu::MsLeft
+			event :spawn_nexw_text do
+				bind_to Gosu::MsLeft
 				
-			# 	pick_object_from :point do |vector|
-			# 		puts "new text"
-			# 		obj = TextSpace::Text.new
-			# 		obj.position = position_vector
+				pick_object_from :point do |vector|
+					puts "new text"
+					obj = TextSpace::Text.new
+					obj.position = position_vector
 					
-			# 		space << obj
-			# 	end
-			# end
+					obj
+				end
+				
+				click do |space, obj|
+					clear_selection
+					
+					obj.click
+					obj.activate
+					
+					select obj
+				end
+			end
 			
 			event :select_text_object do
 				bind_to Gosu::MsLeft
@@ -106,17 +115,7 @@ class Window < Gosu::Window
 				pick_object_from :space
 				
 				click do |space, obj|
-					unless obj
-						puts "new text"
-						obj = TextSpace::Text.new
-						obj.position = position_vector
-						
-						space << obj
-					end
-					
-					
 					clear_selection
-					
 					
 					obj.click
 					obj.activate
