@@ -167,12 +167,23 @@ module TextSpace
 					end
 					
 					def click_event
-						pick_object_callback
-						pick_point_callback
+						# preventing transition out of the "up" state
+						# prevents click, drag, and release events from firing
+						# by locking the state machine in the up state, where
+						# the release event is stubbed,
+						# and no callbacks are launched
 						
-						click_callback
 						
-						button_down_event
+						
+						# only proceed if defined pick callbacks have fired
+						a = pick_object_callback
+						b = pick_point_callback
+						
+						if a || b
+							click_callback
+							
+							button_down_event
+						end
 					end
 					
 					def release_event
@@ -216,25 +227,49 @@ module TextSpace
 			end
 			
 			def pick_object_callback
-				return unless @pick_domain # This callback should not fire when domain undefined
+				# This callback should not fire when domain undefined
+				
+				# TODO: Figure out if returning true makes sense
+				# it's necessary so that the check for state transition works, but not sure if it's sensical
+				
+				return true unless @pick_domain
+				
+				
+				point = @mouse.position_vector
+				
+				object = @mouse.space.object_at point
 				
 				picked = case @pick_domain
-					when :point
-						position_vector
 					when :space
-						# pick_from @space.objects
-						@mouse.space.object_at @mouse.position_vector
+						object
 					when :selection
-						pick_from @selection
+						object if selection.include? object
+					when :point
+						point if object == nil # only fire in empty space
 					else
 						raise "Invalid mouse picking domain (choose :point, :space, or :selection)"
 				end
 				
+				
 				# NOTE: This means selections are separate for each mouse event
-				@selection =	if @pick_callback
-									@mouse.instance_exec picked, &@pick_callback
+				
+				
+				# --- (if defined callback does not fire)
+				# is the a chance for callback to fire where no valid element is picked?
+				# NO
+				
+				# valid insures callback executed?
+				# essentially (unless there's no callback block defined)
+				
+				
+				@selection =	if picked
+									if @pick_callback
+										@mouse.instance_exec picked, &@pick_callback
+									else
+										picked
+									end
 								else
-									picked
+									nil
 								end
 			end
 			
@@ -243,15 +278,20 @@ module TextSpace
 			end
 			
 			def pick_point_callback
+				return true unless @point_coordinate_space
+				
 				vector = case @point_coordinate_space
 					when :screen_space
 						CP::Vec2.new($window.mouse_x, $window.mouse_y)
 					when :world_space
 						position_vector
+					else
+						raise "Invalid point callback coordinate space (should be either :screen_space or :world_space)"
 				end
 				
 				# set value to be processed by other callbacks to be
 				# a vector instead of a object in the space
+				@selection = vector
 			end
 			
 			EVENT_TYPES.each do |event|
@@ -283,7 +323,7 @@ module TextSpace
 			
 			private
 			
-			def pick_from(selection)
+			def pick_from(selection, position)
 				# TODO: This method should belong to a selection class
 				# arguably the selection code should belong to the selection,
 				# as would be oop style

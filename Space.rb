@@ -43,6 +43,9 @@ module TextSpace
 		end
 		
 		def object_at(position)
+			# TODO: Should short circuit when selection becomes empty
+			# TODO: Short circuit on selection size of 1? (Only after initial bb query)
+			
 			# Select objects under the mouse
 			# If there's a conflict, get smallest one (least area)
 			
@@ -51,6 +54,14 @@ module TextSpace
 				
 				# when objects are densely packed, it can be hard to select the right one
 				# the intuitive approach is to try to select dense objects by their center
+			
+			
+			
+			# TODO: Re-write as loop of sorting and testing selection size
+			# removes "selection = selection.method" noise in defining sorts
+			# better illustrates cyclical flow
+			
+			
 			selection = @objects.select do |o|
 				o.bb.contains_vect? position
 			end

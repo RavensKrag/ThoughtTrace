@@ -88,12 +88,24 @@ class Window < Gosu::Window
 				
 			# end
 			
+			# event :spawn_nexw_text do
+			# 	bind_to Gosu::MsLeft
+				
+			# 	pick_object_from :point do |vector|
+			# 		puts "new text"
+			# 		obj = TextSpace::Text.new
+			# 		obj.position = position_vector
+					
+			# 		space << obj
+			# 	end
+			# end
+			
 			event :select_text_object do
 				bind_to Gosu::MsLeft
 				
-				click do |space|
-					obj = space.object_at position_vector
-					
+				pick_object_from :space
+				
+				click do |space, obj|
 					unless obj
 						puts "new text"
 						obj = TextSpace::Text.new
@@ -112,11 +124,11 @@ class Window < Gosu::Window
 					select obj
 				end
 				
-				drag do |space|
+				drag do |space, selection|
 					
 				end
 				
-				release do |space|
+				release do |space, selection|
 					# clear_selection
 				end
 			end
@@ -160,6 +172,7 @@ class Window < Gosu::Window
 				# 	object
 				# end
 				
+				# TODO: only fire event when selection is valid
 				click do |space, selection|
 					if selection
 						# select @drag_selection
