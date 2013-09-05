@@ -133,7 +133,7 @@ module TextSpace
 				# Try to get as close to the position of the cursor as possible
 				width = @font.width(@string, @height)
 				x = @position.x
-				mouse_x = $window.mouse.position_vector.x
+				mouse_x = $window.mouse.position_in_world.x
 				
 				# Figure out where mouse_x is along the continuum from x to x+width
 				# Use that to guess what the closest letter is

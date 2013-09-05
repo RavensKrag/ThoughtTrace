@@ -1,5 +1,17 @@
 require 'state_machine'
 
+module CP
+	class Vec2
+		def to_screen_space
+			return self - $window.camera.offset
+		end
+		
+		def to_world_space
+			return self + $window.camera.offset
+		end
+	end
+end
+
 module TextSpace
 	class MouseHandler
 		attr_reader :space, :selection
@@ -29,7 +41,7 @@ module TextSpace
 			
 			# Hover over all objects under the mouse
 			# $window.objects.each do |obj|
-			# 	if obj.bb.contains_vect? position_vector
+			# 	if obj.bb.contains_vect? position_in_world
 			# 		obj.mouse_over
 			# 	else
 			# 		obj.mouse_out
@@ -38,7 +50,7 @@ module TextSpace
 			
 			
 			# Do not hover over multiple objects
-			obj = $window.space.object_at position_vector
+			obj = $window.space.object_at position_in_world
 			
 			if @last_hovered_object
 				# mouse_data.event_thing.mouse_out.call
@@ -71,13 +83,19 @@ module TextSpace
 			@selection.clear
 		end
 		
-		def position_vector
-			pos = CP::Vec2.new($window.mouse_x, $window.mouse_y)
-			
-			return pos + $window.camera.offset
+		def world_position
+			return CP::Vec2.new($window.mouse_x, $window.mouse_y).to_world_space
 		end
 		
+		def screen_position
+			return CP::Vec2.new($window.mouse_x, $window.mouse_y)
+		end
 		
+		alias :position_in_world :world_position
+		alias :position_in_world_coordinates :world_position
+		
+		alias :position_on_screen :screen_position
+		alias :position_in_screen_coordinates :screen_position
 		
 		
 		# Interface to define callbacks
@@ -251,7 +269,7 @@ module TextSpace
 				return unless @pick_object_callback_defined
 				
 				
-				point = @mouse.position_vector
+				point = @mouse.position_in_world
 				
 				object = @mouse.space.object_at point
 				
@@ -309,16 +327,16 @@ module TextSpace
 				
 				vector = case @point_coordinate_space
 					when :screen_space
-						CP::Vec2.new($window.mouse_x, $window.mouse_y)
+						position_on_screen
 					when :world_space
-						position_vector
+						position_in_world
 					else
 						raise "Invalid point callback coordinate space (should be either :screen_space or :world_space)"
 				end
 				
 				# set value to be processed by other callbacks to be
 				# a vector instead of a object in the space
-				@selection = vector
+				@point = vector
 			end
 			
 			EVENT_TYPES.each do |event|

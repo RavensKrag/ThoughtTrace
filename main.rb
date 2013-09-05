@@ -94,7 +94,7 @@ class Window < Gosu::Window
 				pick_object_from :point do |vector|
 					puts "new text"
 					obj = TextSpace::Text.new
-					obj.position = position_vector
+					obj.position = position_in_world
 					
 					obj
 				end
@@ -143,18 +143,17 @@ class Window < Gosu::Window
 				
 				click do |space, selection|
 					@first_position = selection.position
-					@resize_basis = position_vector
+					@resize_basis = position_in_world
 					
-					@screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
+					@screen_position = position_on_screen
 				end
 				
 				drag do |space, selection|
 					# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events.  Delta in this case should be measured screen-relative
-					screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
-					screen_delta = screen_position - @screen_position
+					screen_delta = position_on_screen - @screen_position
 					
 					if screen_delta.length > 2
-						selection.height = position_vector.y - selection.position.y
+						selection.height = position_in_world.y - selection.position.y
 					end
 				end
 			end
@@ -170,14 +169,14 @@ class Window < Gosu::Window
 				click do |space, selection|
 					# select @drag_selection
 					# establish basis for drag
-					@move_text_basis = position_vector
+					@move_text_basis = position_in_world
 					# store original position of text
 					@original_text_position = selection.position
 				end
 				
 				drag do |space, selection|
 					# calculate movement delta
-					delta = position_vector - @move_text_basis
+					delta = position_in_world - @move_text_basis
 					# displace text object by movement delta
 					selection.position = @original_text_position + delta
 				end
@@ -192,16 +191,16 @@ class Window < Gosu::Window
 				
 				click do |space|
 					# Establish basis for drag
-					@pan_basis = position_vector
+					@pan_basis = position_in_world
 				end
 				
 				drag do |space|
 					# Move view based on mouse delta between the previous frame and this one.
-					mouse_delta = position_vector - @pan_basis
+					mouse_delta = position_in_world - @pan_basis
 					
 					$window.camera.position -= mouse_delta
 					
-					@pan_basis = position_vector
+					@pan_basis = position_in_world
 				end
 				
 				release do |space|
