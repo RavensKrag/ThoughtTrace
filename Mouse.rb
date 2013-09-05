@@ -248,11 +248,7 @@ module TextSpace
 			
 			def pick_object_callback
 				# This callback should not fire when domain undefined
-				
-				# TODO: Figure out if returning true makes sense
-				# it's necessary so that the check for state transition works, but not sure if it's sensical
-				
-				return unless @pick_domain
+				return unless @pick_object_callback_defined
 				
 				
 				point = @mouse.position_vector
@@ -301,6 +297,7 @@ module TextSpace
 								end
 			end
 			
+			# TODO: Consider a different word than "pick" as object picking and point picking should both be allowed within the same event
 			def pick_point_in(coordinate_space)
 				@pick_point_callback_defined = true
 				
@@ -308,7 +305,7 @@ module TextSpace
 			end
 			
 			def pick_point_callback
-				return unless @point_coordinate_space
+				return unless @pick_point_callback_defined
 				
 				vector = case @point_coordinate_space
 					when :screen_space

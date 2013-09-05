@@ -7,6 +7,9 @@ Need to figure out how to get two bits of text with different sizes to line up.
 NOTE: There's a bit of a problem with Gosu::TextInput.  You can't type anything that requires SHIFT
 	You can type capitals, but no special characters
 
+TODO: Fix false positives for mouseover events.
+TODO: Mouseover seems to stick for some things
+
 
 Click and drag in empty space should generate a text box
 	more natural than typing something, and then spacing it into a box later
