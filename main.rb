@@ -60,11 +60,11 @@ class Window < Gosu::Window
 			# event :edit_text do
 				
 			# end
-
+			
 			# event :delete_text_object do
 				
 			# end
-
+			
 			# event :select_single do
 			# 	bind_to Gosu::MsLeft
 				
@@ -83,12 +83,12 @@ class Window < Gosu::Window
 			# 		# remove object from selection
 			# 	end
 			# end
-
+			
 			# event :select_multiple do
 				
 			# end
 			
-			event :spawn_nexw_text do
+			event :spawn_new_text do
 				bind_to Gosu::MsLeft
 				
 				pick_object_from :point do |vector|
@@ -131,38 +131,34 @@ class Window < Gosu::Window
 					# clear_selection
 				end
 			end
-
+			
 			# event :select_portion_of_text do
 				
 			# end
-
+			
 			event :resize do
 				bind_to Gosu::MsRight
 				
 				pick_object_from :space
 				
 				click do |space, selection|
-					if selection
-						@first_position = selection.position
-						@resize_basis = position_vector
-						
-						@screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
-					end
+					@first_position = selection.position
+					@resize_basis = position_vector
+					
+					@screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
 				end
 				
 				drag do |space, selection|
-					if selection
-						# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events.  Delta in this case should be measured screen-relative
-						screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
-						screen_delta = screen_position - @screen_position
-						
-						if screen_delta.length > 2
-							selection.height = position_vector.y - selection.position.y
-						end
+					# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events.  Delta in this case should be measured screen-relative
+					screen_position = CP::Vec2.new($window.mouse_x, $window.mouse_y)
+					screen_delta = screen_position - @screen_position
+					
+					if screen_delta.length > 2
+						selection.height = position_vector.y - selection.position.y
 					end
 				end
 			end
-
+			
 			event :move_text do
 				bind_to Gosu::MsLeft
 				
@@ -171,24 +167,19 @@ class Window < Gosu::Window
 				# 	object
 				# end
 				
-				# TODO: only fire event when selection is valid
 				click do |space, selection|
-					if selection
-						# select @drag_selection
-						# establish basis for drag
-						@move_text_basis = position_vector
-						# store original position of text
-						@original_text_position = selection.position
-					end
+					# select @drag_selection
+					# establish basis for drag
+					@move_text_basis = position_vector
+					# store original position of text
+					@original_text_position = selection.position
 				end
 				
 				drag do |space, selection|
-					if selection
-						# calculate movement delta
-						delta = position_vector - @move_text_basis
-						# displace text object by movement delta
-						selection.position = @original_text_position + delta
-					end
+					# calculate movement delta
+					delta = position_vector - @move_text_basis
+					# displace text object by movement delta
+					selection.position = @original_text_position + delta
 				end
 				
 				release do |space, selection|
