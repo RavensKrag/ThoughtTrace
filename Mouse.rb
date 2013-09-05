@@ -158,6 +158,7 @@ module TextSpace
 			
 			# Should be able to compare the signatures of two ButtonEvent objects
 			# to see if there will be any sort of collision of the event callbacks
+			# TODO: Consider only implementing equality tests, and not having #signature
 			def signature
 				output = ""
 				
@@ -193,29 +194,15 @@ module TextSpace
 						
 						# only proceed if defined pick callbacks have fired
 						a = @pick_object_callback_defined
-						b = @pick_point_callback_defined
-						c = pick_object_callback
-						d = pick_point_callback
+						b = pick_object_callback
 						
-						# a b c d		out
-						# 0 0 0 0		1	# both callbacks undefined
-						# 0 0 0 1		1	# 
-						# 0 0 1 0		1	# 
-						# 0 0 1 1		1	# 
-						# 0 1 0 0		0	# if only one callback defined, 
-						# 0 1 0 1		1	# 
-						# 0 1 1 0		0	# 
-						# 0 1 1 1		1	# 
-						# 1 0 0 0		0	# copy return of the defined callback
-						# 1 0 0 1		0	# 
-						# 1 0 1 0		1	# 
-						# 1 0 1 1		1	# 
-						# 1 1 0 0		0	# If both callbacks defined
-						# 1 1 0 1		0	# then both must succeed before events can fire
-						# 1 1 1 0		0	# (AND)
-						# 1 1 1 1		1	# 
+						# a b		out
+						# 0 0		1		# callback undefined
+						# 0 1		1		# 
+						# 1 0		0		# if it's defined, it must have fired properly
+						# 1 1		1		# 
 						
-						if (!a || c) && (!b || d)
+						if (!a || b)
 							click_callback
 							
 							button_down_event
@@ -313,30 +300,6 @@ module TextSpace
 								else
 									nil
 								end
-			end
-			
-			# TODO: Consider a different word than "pick" as object picking and point picking should both be allowed within the same event
-			def pick_point_in(coordinate_space)
-				@pick_point_callback_defined = true
-				
-				@point_coordinate_space = coordinate_space
-			end
-			
-			def pick_point_callback
-				return unless @pick_point_callback_defined
-				
-				vector = case @point_coordinate_space
-					when :screen_space
-						position_on_screen
-					when :world_space
-						position_in_world
-					else
-						raise "Invalid point callback coordinate space (should be either :screen_space or :world_space)"
-				end
-				
-				# set value to be processed by other callbacks to be
-				# a vector instead of a object in the space
-				@point = vector
 			end
 			
 			EVENT_TYPES.each do |event|
