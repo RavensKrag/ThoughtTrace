@@ -173,13 +173,31 @@ module TextSpace
 						# the release event is stubbed,
 						# and no callbacks are launched
 						
-						
-						
 						# only proceed if defined pick callbacks have fired
-						a = pick_object_callback
-						b = pick_point_callback
+						a = @pick_object_callback_defined
+						b = @pick_point_callback_defined
+						c = pick_object_callback
+						d = pick_point_callback
 						
-						if a || b
+						# a b c d		out
+						# 0 0 0 0		1	# both callbacks undefined
+						# 0 0 0 1		1	# 
+						# 0 0 1 0		1	# 
+						# 0 0 1 1		1	# 
+						# 0 1 0 0		0	# if only one callback defined, 
+						# 0 1 0 1		1	# 
+						# 0 1 1 0		0	# 
+						# 0 1 1 1		1	# 
+						# 1 0 0 0		0	# copy return of the defined callback
+						# 1 0 0 1		0	# 
+						# 1 0 1 0		1	# 
+						# 1 0 1 1		1	# 
+						# 1 1 0 0		0	# If both callbacks defined
+						# 1 1 0 1		0	# then both must succeed before events can fire
+						# 1 1 1 0		0	# (AND)
+						# 1 1 1 1		1	# 
+						
+						if (!a || c) && (!b || d)
 							click_callback
 							
 							button_down_event
@@ -222,6 +240,8 @@ module TextSpace
 			
 			# Select object to be manipulated in further mouse callbacks
 			def pick_object_from(domain, &block)
+				@pick_object_callback_defined = true
+				
 				@pick_domain = domain
 				@pick_callback = block
 			end
@@ -232,7 +252,7 @@ module TextSpace
 				# TODO: Figure out if returning true makes sense
 				# it's necessary so that the check for state transition works, but not sure if it's sensical
 				
-				return true unless @pick_domain
+				return unless @pick_domain
 				
 				
 				point = @mouse.position_vector
@@ -245,6 +265,8 @@ module TextSpace
 					when :selection
 						object if selection.include? object
 					when :point
+						# add object generated as result of block to space automatically
+						# this should remove the need to expose the space to mouse callbacks
 						point if object == nil # only fire in empty space
 					else
 						raise "Invalid mouse picking domain (choose :point, :space, or :selection)"
@@ -264,7 +286,13 @@ module TextSpace
 				
 				@selection =	if picked
 									if @pick_callback
-										@mouse.instance_exec picked, &@pick_callback
+										out = @mouse.instance_exec picked, &@pick_callback
+										
+										if @pick_domain == :point
+											@mouse.space << out
+										end
+										
+										out
 									else
 										picked
 									end
@@ -274,11 +302,13 @@ module TextSpace
 			end
 			
 			def pick_point_in(coordinate_space)
+				@pick_point_callback_defined = true
+				
 				@point_coordinate_space = coordinate_space
 			end
 			
 			def pick_point_callback
-				return true unless @point_coordinate_space
+				return unless @point_coordinate_space
 				
 				vector = case @point_coordinate_space
 					when :screen_space
@@ -323,6 +353,7 @@ module TextSpace
 			
 			private
 			
+			# TODO: Remove this method.  Merge with Space#object_at
 			def pick_from(selection, position)
 				# TODO: This method should belong to a selection class
 				# arguably the selection code should belong to the selection,
