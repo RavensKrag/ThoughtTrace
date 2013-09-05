@@ -179,6 +179,12 @@ end
 		
 	end
 	
+	
+	# Alternatively, return just the point in space itself to the subsequent mouse callbacks
+	pick_point_in :world_space
+	pick_point_in :screen_space
+	
+	
 	# would be nice for all pick_object_from methods to have the same return type
 	# would be rather weird if that were not the case
 	# but I suppose the effect of the method is more important than it's return type
@@ -186,6 +192,8 @@ end
 	
 	
 	def pick_object_from(domain, &block)
+		# need to generate out when the callback launches, not on creation
+		# but this shows the general idea
 		out =	if domain == :point
 					# point under cursor in world space
 					
@@ -246,6 +254,12 @@ end
 					selection.first
 				end
 		
+		
+		# save the out for later
+		# save the block for later
+		# pass the out to the block when the block is called
+		# 
+		# if the 
 		block.call out if block != nil
 		
 		return nil # reveal no data to outside systems
@@ -293,6 +307,10 @@ end
 @mouse.event :move_text do
 	bind_to Gosu::MsRight
 	
+	pick_object_from :space do |object|
+		
+	end
+	
 	click do |selection|
 		# select text under cursor
 		# establish basis for drag
@@ -312,19 +330,19 @@ end
 @mouse.event :spawn_new_text do
 	bind_to Gosu::MsLeft
 	
-	click do |selection|
-		# obj = $window.space.object_at position_vector
-		# obj ||= $window.spawn_new_text
-		
+	pick_object_from :point do |vector|
 		obj = TextSpace::Text.new
-		obj.position = @mouse.position_vector
-		
-		puts "new text"
+		obj.position = vector
 		# obj.string = ["hey", "listen", "look out!", "watch out", "hey~", "hello~?"].sample
+		puts "new text"
 		
+		
+		selection.clear
+		selection.add obj
+	end
+	
+	click do |selection|
 		@space << obj
-		
-		
 		
 		@selected = obj
 		selection.add @selected
