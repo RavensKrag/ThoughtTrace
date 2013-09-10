@@ -108,27 +108,49 @@ module TextSpace
 		end
 		
 		def event(id, &block)
-			event_handler = MouseEvent.new self, &block
+			new_event = MouseEvent.new self, &block
 			
-			@action_callbacks.each do |event_name, callback|
-				callback_sig = callback.signature
-				event_sig = event_handler.signature
+			@action_callbacks.each do |event_name, old_event|
+				old_sig = old_event.signature
+				new_sig = new_event.signature
 				
-				
-				collision_fields = Array.new
-				([:binding, :pick_callback] + MouseEvent::EVENT_TYPES).each do |property|
-					if callback_sig[property] == event_sig[property]
-						collision_fields << property
+				conditions = [
+					# for two things to be colliding
+					# bound to same button
+						# could have everything else the same, but a different button disambiguates
+					old_sig[:binding] == new_sig[:binding],
+					# pick callback from same domain
+					old_sig[:pick_callback] == new_sig[:pick_callback],
+					# click, drag, release signature is the same
+					MouseEvent::EVENT_TYPES.all? do |event_name|
+						old_sig[event_name] == new_sig[event_name]
 					end
+				]
+				
+				if conditions.all? {|o| o == true}
+					
 				end
 				
 				
-				unless collision_fields.empty?
-					raise "Can not create event #{id}. Collides with event #{event_name} in fields #{collision_fields}"
+				
+				
+				if(
+					# for two things to be colliding
+					# bound to same button
+						# could have everything else the same, but a different button disambiguates
+					old_sig[:binding] == new_sig[:binding]					or
+					# pick callback from same domain
+					old_sig[:pick_callback] == new_sig[:pick_callback]		or
+					# click, drag, release signature is the same
+					MouseEvent::EVENT_TYPES.all? do |event_name|
+						old_sig[event_name] == new_sig[event_name]
+					end
+				)
+					raise "Can not create event #{id}. Collides with event #{event_name} in fields #{}"
 				end
 			end
 			
-			@action_callbacks[id] = event_handler
+			@action_callbacks[id] = new_event
 		end
 		
 		
@@ -195,20 +217,21 @@ module TextSpace
 			def signature
 				output = Hash.new
 				# {
-				# 	:click =>
-				# 	:drag => 
-				# 	:release => 
 				# 	:binding => @binding
 				# 	:pick_callback => @pick_domain # the type of callback, not the actual block
+				# 	:click => true / false
+				# 	:drag => true / false
+				# 	:release => true / false
 				# }
+				
+				output[:binding] = @binding
+				
+				output[:pick_callback] = @pick_domain if @pick_object_callback_defined
 				
 				EVENT_TYPES.each do |e|
 					output[e] = @callbacks[e] ? true : false
 				end
 				
-				output[:pick_callback] = @pick_domain if @pick_object_callback_defined
-				
-				output[:binding] = @binding
 				
 				return output
 			end
