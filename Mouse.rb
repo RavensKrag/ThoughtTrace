@@ -114,38 +114,57 @@ module TextSpace
 				old_sig = old_event.signature
 				new_sig = new_event.signature
 				
-				conditions = [
-					# for two things to be colliding
-					# bound to same button
-						# could have everything else the same, but a different button disambiguates
-					old_sig[:binding] == new_sig[:binding],
-					# pick callback from same domain
-					old_sig[:pick_callback] == new_sig[:pick_callback],
-					# click, drag, release signature is the same
-					MouseEvent::EVENT_TYPES.all? do |event_name|
-						old_sig[event_name] == new_sig[event_name]
-					end
-				]
 				
-				if conditions.all? {|o| o == true}
+				# iterate through properties trying to disambiguate
+				# if you hit the end of properties list, and callback still ambiguous,
+				# collision has occurred
+				
+				
+				
+				# puts "old sig: #{event_name} --- new sig: #{id}"
+				puts "\ncompare: #{id} to #{event_name}"
+				
+				properties = ([:binding, :pick_callback] + MouseEvent::EVENT_TYPES)
+				collision_occured = properties.all? do |property|
+					# property must be defined on both sides
+					# if it's only defined on one side, then it's not a collision,
+					# because there are things defined on one side, but not the other
+						# should be able to disambiguate automatically
 					
+					puts property
+					
+					if old_sig[property] && new_sig[property]
+						# defined on both sides
+						
+						# possibility of collision
+						
+						# collision if one or more of the properties which are defined on both sides are set to equivalent values
+						if old_sig[property] == new_sig[property]
+							puts "---collide"
+							true
+						else
+							puts "XXX different (#{new_sig[property]} vs #{old_sig[property]})"
+							false
+						end
+						
+					elsif old_sig[property] ^ new_sig[property] # xor
+						# undefined on one side or the other
+						
+						# no collision
+						# should be able to short circuit test here
+						# there is no way a collision can happen, because 
+						puts "+++"
+						false
+					else
+						# triggers when both are undefined
+						
+						# continue to check for collision
+						puts ">>> continue"
+						true
+					end
 				end
 				
-				
-				
-				
-				if(
-					# for two things to be colliding
-					# bound to same button
-						# could have everything else the same, but a different button disambiguates
-					old_sig[:binding] == new_sig[:binding]					or
-					# pick callback from same domain
-					old_sig[:pick_callback] == new_sig[:pick_callback]		or
-					# click, drag, release signature is the same
-					MouseEvent::EVENT_TYPES.all? do |event_name|
-						old_sig[event_name] == new_sig[event_name]
-					end
-				)
+				if collision_occured
 					raise "Can not create event #{id}. Collides with event #{event_name} in fields #{}"
 				end
 			end
@@ -216,9 +235,10 @@ module TextSpace
 			# TODO: Consider only implementing equality tests, and not having #signature
 			def signature
 				output = Hash.new
+				# all values in the hash should have the possibility of being nil
 				# {
-				# 	:binding => @binding
-				# 	:pick_callback => @pick_domain # the type of callback, not the actual block
+				# 	:binding => @binding / nil
+				# 	:pick_callback => @pick_domain / nil # type of callback, not the actual block
 				# 	:click => true / false
 				# 	:drag => true / false
 				# 	:release => true / false
