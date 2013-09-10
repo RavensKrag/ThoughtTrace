@@ -123,13 +123,13 @@ class Window < Gosu::Window
 					select obj
 				end
 				
-				drag do |space, selection|
+				# drag do |space, selection|
 					
-				end
+				# end
 				
-				release do |space, selection|
-					# clear_selection
-				end
+				# release do |space, selection|
+				# 	# clear_selection
+				# end
 			end
 			
 			# event :select_portion_of_text do
@@ -181,9 +181,9 @@ class Window < Gosu::Window
 					selection.position = @original_text_position + delta
 				end
 				
-				release do |space, selection|
+				# release do |space, selection|
 					
-				end
+				# end
 			end
 			
 			event :pan_camera do
