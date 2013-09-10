@@ -176,52 +176,46 @@ module TextSpace
 			# if you hit the end of properties list, and callback still ambiguous,
 			# collision has occurred
 			def collide_with(other)
+				# property must be defined on both sides
+				# if it's only defined on one side, then it's not a collision,
+				# (should be able to disambiguate by difference)
 				other_sig = other.signature
 				sig = self.signature
 				
 				collision_fields = Array.new
 				
 				collision_occured = ([:binding, :pick_callback] + EVENT_TYPES).all? do |property|
-					
-					
 					puts property
 					
-					
-					# property must be defined on both sides
-					# if it's only defined on one side, then it's not a collision,
-					# because there are things defined on one side, but not the other
-						# should be able to disambiguate automatically
-					
-					# property must be defined on both sides
 					if other_sig[property] && sig[property]
+						# --- property defined on both sides ---
+						
 						# possibility of collision
 						
 						# collision if one or more of the properties which are defined on both sides are set to equivalent values
 						if other_sig[property] == sig[property]
-							puts "---collide"
+							puts "--- collide"
 							
 							collision_fields << property
 							
 							true
 						else
 							puts "XXX different (#{sig[property]} vs #{other_sig[property]})"
+							
 							false
 						end
-						
 					elsif !!other_sig[property] ^ !!sig[property]
-						# only defined on one side or the other
+						# --- only defined on one side or the other ---
 						
 						# no collision
-						# should be able to short circuit test here
-						# there is no way a collision can happen, 
-						# because there is a property which is not shared between the two events
 						puts "+++ different (signature mismatch)"
-						return false
+						return false # short circuit
 					else
-						# triggers when both are undefined
+						# --- triggers when both are undefined ---
 						
 						# continue to check for collision
 						puts ">>> continue"
+						
 						true
 					end
 				end
