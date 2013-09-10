@@ -233,19 +233,6 @@ module TextSpace
 				end
 			end
 			
-			def ==(other)
-				return false unless other.is_a? self.class
-				
-				sig = self.signature
-				other_sig = other.signature
-				
-				match =	[:binding, :pick_callback].push(*EVENT_TYPES).all? do |property|
-							sig[property] == other_sig[property]
-						end
-				
-				return match
-			end
-			
 			# Should be able to compare the signatures of two ButtonEvent objects
 			# to see if there will be any sort of collision of the event callbacks
 			# TODO: Consider only implementing equality tests, and not having #signature
