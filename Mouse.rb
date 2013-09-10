@@ -118,8 +118,6 @@ module TextSpace
 				collision = new_event.collision old_event
 				
 				if collision
-					# raise "Can not create event #{id}. Collides with event #{event_name} in fields #{collision_fields}"
-					
 					raise "Event #{id} collides with #{event_name} in fields #{collision}"
 				end
 			end
