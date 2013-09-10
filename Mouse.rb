@@ -118,7 +118,7 @@ module TextSpace
 				# iterate through properties trying to disambiguate
 				# if you hit the end of properties list, and callback still ambiguous,
 				# collision has occurred
-				
+				collision_fields = Array.new
 				
 				
 				# puts "old sig: #{event_name} --- new sig: #{id}"
@@ -141,6 +141,9 @@ module TextSpace
 						# collision if one or more of the properties which are defined on both sides are set to equivalent values
 						if old_sig[property] == new_sig[property]
 							puts "---collide"
+							
+							collision_fields << property
+							
 							true
 						else
 							puts "XXX different (#{new_sig[property]} vs #{old_sig[property]})"
@@ -165,7 +168,9 @@ module TextSpace
 				end
 				
 				if collision_occured
-					raise "Can not create event #{id}. Collides with event #{event_name} in fields #{}"
+					# raise "Can not create event #{id}. Collides with event #{event_name} in fields #{collision_fields}"
+					
+					raise "Event #{id} collides with #{event_name} in fields #{collision_fields}"
 				end
 			end
 			
