@@ -132,9 +132,48 @@ class Window < Gosu::Window
 				# end
 			end
 			
-			# event :select_portion_of_text do
+			event :select_portion_of_text do
+				bind_to Gosu::MsLeft
 				
-			# end
+				pick_object_from :space
+				
+				click do |space, text|
+					# get position of character at mouse position
+					i = text.closest_character_index(position_in_world)
+					@starting_character_offset = text.character_offset i
+				end
+				
+				drag do |space, text|
+					# extend selection from there
+					
+					# NOTE: selection should always go from left-most character to right-most
+					# if the selection is made from right to left, this will invert things
+					# this issue is similar to the one with drawing BBs encountered for box select
+					
+					i = text.closest_character_index(position_in_world)
+					character_offset = text.character_offset i
+					
+					
+					color = Gosu::Color.argb(0x77ffff00)
+					height = text.height # pixels
+					
+					offset = text.position.clone
+					offset.y += height / 2
+					
+					p0 = @starting_character_offset + offset
+					p1 = character_offset + offset
+					
+					bb = CP::BB.new(p0.x, p0.y-height/2, 
+									p1.x, p1.y+height/2)
+					bb.reformat # TODO: Rename CP::BB#reformat
+					
+					bb.draw_in_space color
+				end
+				
+				release do |space, text|
+					# free selection
+				end
+			end
 			
 			event :resize do
 				bind_to Gosu::MsRight
@@ -158,33 +197,33 @@ class Window < Gosu::Window
 				end
 			end
 			
-			event :move_text do
-				bind_to Gosu::MsLeft
+			# event :move_text do
+			# 	bind_to Gosu::MsLeft
 				
-				pick_object_from :space 
-				# pick_object_from :space do |object|
-				# 	object
-				# end
+			# 	pick_object_from :space 
+			# 	# pick_object_from :space do |object|
+			# 	# 	object
+			# 	# end
 				
-				click do |space, selection|
-					# select @drag_selection
-					# establish basis for drag
-					@move_text_basis = position_in_world
-					# store original position of text
-					@original_text_position = selection.position
-				end
+			# 	click do |space, selection|
+			# 		# select @drag_selection
+			# 		# establish basis for drag
+			# 		@move_text_basis = position_in_world
+			# 		# store original position of text
+			# 		@original_text_position = selection.position
+			# 	end
 				
-				drag do |space, selection|
-					# calculate movement delta
-					delta = position_in_world - @move_text_basis
-					# displace text object by movement delta
-					selection.position = @original_text_position + delta
-				end
+			# 	drag do |space, selection|
+			# 		# calculate movement delta
+			# 		delta = position_in_world - @move_text_basis
+			# 		# displace text object by movement delta
+			# 		selection.position = @original_text_position + delta
+			# 	end
 				
-				# release do |space, selection|
+			# 	# release do |space, selection|
 					
-				# end
-			end
+			# 	# end
+			# end
 			
 			event :pan_camera do
 				bind_to Gosu::MsMiddle

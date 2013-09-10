@@ -139,6 +139,7 @@ module TextSpace
 				# Figure out where mouse_x is along the continuum from x to x+width
 				# Use that to guess what the closest letter is
 				# * basically, this algorithm is assuming fixed width, but it works pretty well
+				# TODO: Use more accurate caret positioning algorithm. Caret being off contributes fairly significantly to program feel.
 				percent = (mouse_x - x)/width.to_f
 				i = (percent * (@string.length)).to_i
 				
@@ -155,6 +156,39 @@ module TextSpace
 			$window.text_input = nil
 			
 			$window.space.delete_if_empty self
+		end
+		
+		# Given a position in world space, return the character index of the closest character
+		# similar logic as in #activate to figure out where to put the caret
+		def closest_character_index(position)
+			# Move caret into position
+			# Try to get as close to the position of the cursor as possible
+			width = @font.width(@string, @height)
+			x = @position.x
+			mouse_x = $window.mouse.position_in_world.x
+			
+			# Figure out where mouse_x is along the continuum from x to x+width
+			# Use that to guess what the closest letter is
+			# * basically, this algorithm is assuming fixed width, but it works pretty well
+			percent = (mouse_x - x)/width.to_f
+			i = (percent * (@string.length)).to_i
+			
+			i = 0 if i < 0
+			i = @string.length if i > @string.length
+			
+			return i
+		end
+		
+		def character_offset(i)
+			# TODO: Consider throwing exception if no string defined
+			x = 0
+			y = 0
+			
+			
+			x = @font.width(@string[0..(i-1)], @height) if @string
+			x = 0 if i == 0
+			
+			return CP::Vec2.new(x,y)
 		end
 		
 		def to_s

@@ -2,6 +2,10 @@ module CP
 	class Vec2
 		include TextSpace::Serializable
 		
+		def clone
+			return CP::Vec2.new(self.x, self.y)
+		end
+		
 		def init_with coder
 			args = YAML.load(coder.scalar)
 			initialize(*args)
