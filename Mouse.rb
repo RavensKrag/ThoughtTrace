@@ -194,13 +194,13 @@ module TextSpace
 						
 						# collision if one or more of the properties which are defined on both sides are set to equivalent values
 						if other_sig[property] == sig[property]
-							puts "--- collide"
+							puts "=== collide ==="
 							
 							collision_fields << property
 							
 							true
 						else
-							puts "XXX different (#{sig[property]} vs #{other_sig[property]})"
+							puts "--- different (#{sig[property]} vs #{other_sig[property]})"
 							
 							false
 						end
