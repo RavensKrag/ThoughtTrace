@@ -108,7 +108,21 @@ module TextSpace
 		end
 		
 		def event(id, &block)
-			@action_callbacks[id] = MouseEvent.new self, &block
+			new_event = MouseEvent.new self, &block
+			
+			@action_callbacks.each do |event_name, old_event|
+				# puts "old sig: #{event_name} --- new sig: #{id}"
+				puts "\ncompare: #{id} to #{event_name}"
+				
+				
+				collision = new_event.collide_with old_event
+				
+				if collision
+					raise "Event #{id} collides with #{event_name} in fields #{collision}"
+				end
+			end
+			
+			@action_callbacks[id] = new_event
 		end
 		
 		
@@ -156,15 +170,92 @@ module TextSpace
 				instance_eval &block
 			end
 			
+			# Evaluate collision between this object and other
+			# 
+			# iterate through properties trying to disambiguate
+			# if you hit the end of properties list, and callback still ambiguous,
+			# collision has occurred
+			def collide_with(other)
+				# property must be defined on both sides
+				# if it's only defined on one side, then it's not a collision,
+				# (should be able to disambiguate by difference)
+				other_sig = other.signature
+				sig = self.signature
+				
+				collision_fields = Array.new
+				
+				collision_occured = ([:binding, :pick_callback] + EVENT_TYPES).all? do |property|
+					puts property
+					
+					if other_sig[property] && sig[property]
+						# --- property defined on both sides ---
+						
+						# possibility of collision
+						
+						# collision if one or more of the properties which are defined on both sides are set to equivalent values
+						if other_sig[property] == sig[property]
+							puts "--- collide"
+							
+							collision_fields << property
+							
+							true
+						else
+							puts "XXX different (#{sig[property]} vs #{other_sig[property]})"
+							
+							false
+						end
+					elsif !!other_sig[property] ^ !!sig[property]
+						# --- only defined on one side or the other ---
+						
+						# no collision
+						puts "+++ different (signature mismatch)"
+						return false # short circuit
+					else
+						# --- triggers when both are undefined ---
+						
+						# continue to check for collision
+						puts ">>> continue"
+						
+						true
+					end
+				end
+				
+				
+				# Return collision result
+				if collision_occured
+					if collision_fields.empty?
+						return nil
+					else
+						return collision_fields
+					end
+				else
+					return false
+				end
+			end
+			
 			# Should be able to compare the signatures of two ButtonEvent objects
 			# to see if there will be any sort of collision of the event callbacks
 			# TODO: Consider only implementing equality tests, and not having #signature
 			def signature
-				output = ""
+				output = Hash.new
+				# {
+				# 	:binding => @binding / nil
+				# 	:pick_callback => @pick_domain / nil # type of callback, not the actual block
+				# 	:click => true / false
+				# 	:drag => true / false
+				# 	:release => true / false
+				# }
+				
+				output[:binding] = @binding
+				
+				output[:pick_callback] = @pick_domain if @pick_object_callback_defined
 				
 				EVENT_TYPES.each do |e|
-					output << @callbacks[e] ? "1" : "0"
+					output[e] = @callbacks[e] ? true : false
 				end
+				
+				
+				return output
 			end
 			
 			def button_down(id)
