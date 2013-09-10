@@ -115,7 +115,7 @@ module TextSpace
 				puts "\ncompare: #{id} to #{event_name}"
 				
 				
-				collision = new_event.collision old_event
+				collision = new_event.collide_with old_event
 				
 				if collision
 					raise "Event #{id} collides with #{event_name} in fields #{collision}"
@@ -170,28 +170,30 @@ module TextSpace
 				instance_eval &block
 			end
 			
-			def collision(other)
+			# Evaluate collision between this object and other
+			# 
+			# iterate through properties trying to disambiguate
+			# if you hit the end of properties list, and callback still ambiguous,
+			# collision has occurred
+			def collide_with(other)
 				other_sig = other.signature
 				sig = self.signature
 				
-				
-				# iterate through properties trying to disambiguate
-				# if you hit the end of properties list, and callback still ambiguous,
-				# collision has occurred
 				collision_fields = Array.new
 				
-				
 				collision_occured = ([:binding, :pick_callback] + EVENT_TYPES).all? do |property|
+					
+					
+					puts property
+					
+					
 					# property must be defined on both sides
 					# if it's only defined on one side, then it's not a collision,
 					# because there are things defined on one side, but not the other
 						# should be able to disambiguate automatically
 					
-					puts property
-					
+					# property must be defined on both sides
 					if other_sig[property] && sig[property]
-						# defined on both sides
-						
 						# possibility of collision
 						
 						# collision if one or more of the properties which are defined on both sides are set to equivalent values
@@ -206,14 +208,14 @@ module TextSpace
 							false
 						end
 						
-					elsif other_sig[property] ^ sig[property] # xor
-						# undefined on one side or the other
+					elsif !!other_sig[property] ^ !!sig[property]
+						# only defined on one side or the other
 						
 						# no collision
 						# should be able to short circuit test here
 						# there is no way a collision can happen, 
 						# because there is a property which is not shared between the two events
-						puts "+++"
+						puts "+++ different (signature mismatch)"
 						return false
 					else
 						# triggers when both are undefined
