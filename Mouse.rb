@@ -111,66 +111,16 @@ module TextSpace
 			new_event = MouseEvent.new self, &block
 			
 			@action_callbacks.each do |event_name, old_event|
-				old_sig = old_event.signature
-				new_sig = new_event.signature
-				
-				
-				# iterate through properties trying to disambiguate
-				# if you hit the end of properties list, and callback still ambiguous,
-				# collision has occurred
-				collision_fields = Array.new
-				
-				
 				# puts "old sig: #{event_name} --- new sig: #{id}"
 				puts "\ncompare: #{id} to #{event_name}"
 				
-				properties = ([:binding, :pick_callback] + MouseEvent::EVENT_TYPES)
-				collision_occured = properties.all? do |property|
-					# property must be defined on both sides
-					# if it's only defined on one side, then it's not a collision,
-					# because there are things defined on one side, but not the other
-						# should be able to disambiguate automatically
-					
-					puts property
-					
-					if old_sig[property] && new_sig[property]
-						# defined on both sides
-						
-						# possibility of collision
-						
-						# collision if one or more of the properties which are defined on both sides are set to equivalent values
-						if old_sig[property] == new_sig[property]
-							puts "---collide"
-							
-							collision_fields << property
-							
-							true
-						else
-							puts "XXX different (#{new_sig[property]} vs #{old_sig[property]})"
-							false
-						end
-						
-					elsif old_sig[property] ^ new_sig[property] # xor
-						# undefined on one side or the other
-						
-						# no collision
-						# should be able to short circuit test here
-						# there is no way a collision can happen, because 
-						puts "+++"
-						false
-					else
-						# triggers when both are undefined
-						
-						# continue to check for collision
-						puts ">>> continue"
-						true
-					end
-				end
 				
-				if collision_occured
+				collision = new_event.collision old_event
+				
+				if collision
 					# raise "Can not create event #{id}. Collides with event #{event_name} in fields #{collision_fields}"
 					
-					raise "Event #{id} collides with #{event_name} in fields #{collision_fields}"
+					raise "Event #{id} collides with #{event_name} in fields #{collision}"
 				end
 			end
 			
@@ -220,6 +170,73 @@ module TextSpace
 				@callbacks = Hash.new
 				
 				instance_eval &block
+			end
+			
+			def collision(other)
+				other_sig = other.signature
+				sig = self.signature
+				
+				
+				# iterate through properties trying to disambiguate
+				# if you hit the end of properties list, and callback still ambiguous,
+				# collision has occurred
+				collision_fields = Array.new
+				
+				
+				collision_occured = ([:binding, :pick_callback] + EVENT_TYPES).all? do |property|
+					# property must be defined on both sides
+					# if it's only defined on one side, then it's not a collision,
+					# because there are things defined on one side, but not the other
+						# should be able to disambiguate automatically
+					
+					puts property
+					
+					if other_sig[property] && sig[property]
+						# defined on both sides
+						
+						# possibility of collision
+						
+						# collision if one or more of the properties which are defined on both sides are set to equivalent values
+						if other_sig[property] == sig[property]
+							puts "---collide"
+							
+							collision_fields << property
+							
+							true
+						else
+							puts "XXX different (#{sig[property]} vs #{other_sig[property]})"
+							false
+						end
+						
+					elsif other_sig[property] ^ sig[property] # xor
+						# undefined on one side or the other
+						
+						# no collision
+						# should be able to short circuit test here
+						# there is no way a collision can happen, 
+						# because there is a property which is not shared between the two events
+						puts "+++"
+						return false
+					else
+						# triggers when both are undefined
+						
+						# continue to check for collision
+						puts ">>> continue"
+						true
+					end
+				end
+				
+				
+				# Return collision result
+				if collision_occured
+					if collision_fields.empty?
+						return nil
+					else
+						return collision_fields
+					end
+				else
+					return false
+				end
 			end
 			
 			def ==(other)
