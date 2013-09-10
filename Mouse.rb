@@ -108,7 +108,27 @@ module TextSpace
 		end
 		
 		def event(id, &block)
-			@action_callbacks[id] = MouseEvent.new self, &block
+			event_handler = MouseEvent.new self, &block
+			
+			@action_callbacks.each do |event_name, callback|
+				callback_sig = callback.signature
+				event_sig = event_handler.signature
+				
+				
+				collision_fields = Array.new
+				([:binding, :pick_callback] + MouseEvent::EVENT_TYPES).each do |property|
+					if callback_sig[property] == event_sig[property]
+						collision_fields << property
+					end
+				end
+				
+				
+				unless collision_fields.empty?
+					raise "Can not create event #{id}. Collides with event #{event_name} in fields #{collision_fields}"
+				end
+			end
+			
+			@action_callbacks[id] = event_handler
 		end
 		
 		
@@ -156,15 +176,41 @@ module TextSpace
 				instance_eval &block
 			end
 			
+			def ==(other)
+				return false unless other.is_a? self.class
+				
+				sig = self.signature
+				other_sig = other.signature
+				
+				match =	[:binding, :pick_callback].push(*EVENT_TYPES).all? do |property|
+							sig[property] == other_sig[property]
+						end
+				
+				return match
+			end
+			
 			# Should be able to compare the signatures of two ButtonEvent objects
 			# to see if there will be any sort of collision of the event callbacks
 			# TODO: Consider only implementing equality tests, and not having #signature
 			def signature
-				output = ""
+				output = Hash.new
+				# {
+				# 	:click =>
+				# 	:drag => 
+				# 	:release => 
+				# 	:binding => @binding
+				# 	:pick_callback => @pick_domain # the type of callback, not the actual block
+				# }
 				
 				EVENT_TYPES.each do |e|
-					output << @callbacks[e] ? "1" : "0"
+					output[e] = @callbacks[e] ? true : false
 				end
+				
+				output[:pick_callback] = @pick_domain if @pick_object_callback_defined
+				
+				output[:binding] = @binding
+				
+				return output
 			end
 			
 			def button_down(id)
