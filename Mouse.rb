@@ -238,7 +238,6 @@ module TextSpace
 			# TODO: Consider only implementing equality tests, and not having #signature
 			def signature
 				output = Hash.new
-				# all values in the hash should have the possibility of being nil
 				# {
 				# 	:binding => @binding / nil
 				# 	:pick_callback => @pick_domain / nil # type of callback, not the actual block
