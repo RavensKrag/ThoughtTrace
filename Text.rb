@@ -50,7 +50,8 @@ module TextSpace
 			
 			
 			update_bb(string)
-			@font.draw string, @height, @position.x, @position.y, z_index, @color, @box_visible
+			@font.draw	string, @height, @position.x, @position.y, z_index, @color, 
+						@box_visible, @@paint_box[:text_background]
 			
 			
 			# Only draw caret if object is active

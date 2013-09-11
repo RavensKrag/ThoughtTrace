@@ -99,7 +99,7 @@ module TextSpace
 			end
 		end
 		
-		def draw(text, height, x,y,z=0, color=0xffffffff, box_visible=true)
+		def draw(text, height, x,y,z=0, color=0xffffffff, box_visible=true, box_color=@box_color)
 			# --Prevent out of bounds
 			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
 			
@@ -117,10 +117,10 @@ module TextSpace
 				width = f.text_width(text) * scale
 				
 				$window.draw_quad(
-					x, y,	@box_color,
-					x+width, y,	@box_color,
-					x+width, y+height,	@box_color,
-					x, y+height,	@box_color,
+					x, y,	box_color,
+					x+width, y,	box_color,
+					x+width, y+height,	box_color,
+					x, y+height,	box_color,
 					z-1
 				)
 			end
