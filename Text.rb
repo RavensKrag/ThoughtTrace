@@ -1,6 +1,7 @@
 require 'yaml'
 
 require './Serializable'
+require 'state_machine'
 
 module TextSpace
 	class Text
@@ -15,6 +16,8 @@ module TextSpace
 		attr_accessor :color, :string, :box_visible
 		
 		def initialize(font=@@default_font)
+			super()
+			
 			raise "Must set default font" unless @@default_font
 			raise "Must set paint box object for color selection" unless @@paint_box
 			
@@ -109,22 +112,42 @@ module TextSpace
 			@color = @default_color
 		end
 		
-		# TODO: Define mouse over and mouse out using state machine
-		def mouse_over
-			unless @mouse_over
-				@mouse_over = true
+		def hide_bb
+			@box_visible = false
+		end
+		
+		def show_bb
+			@box_visible = true
+		end
+		
+		state_machine :mouseover_status, :initial => :out do
+			state :in do
 				
-				@box_visible = true
+			end
+			
+			state :out do
+				
+			end
+			
+			
+			after_transition :out => :in do |text|
+				text.show_bb
+			end
+			
+			after_transition :in => :out do |text|
+				text.hide_bb
+			end
+			
+			
+			event :mouse_over do
+				transition :out => :in
+			end
+			
+			event :mouse_out do
+				transition :in => :out
 			end
 		end
 		
-		def mouse_out
-			if @mouse_over
-				@mouse_over = false
-				
-				@box_visible = false
-			end
-		end
 		
 		def height
 			@height
