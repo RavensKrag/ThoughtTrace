@@ -81,12 +81,13 @@ module TextSpace
 			# Reduces number of fonts cached from 14 -> 11
 			# That's about a 20% reduction
 			heights = fib[14]
-			heights -= (1..10).to_a
-			heights += (1..10).to_a
-			heights.sort!
+			# heights -= (1..10).to_a
+			# heights += (1..10).to_a
+			# heights.sort!
 			# heights = pow2[11]
 			# heights = [10,30,40]
-			puts heights
+			puts "cached font sizes: #{heights.inspect}"
+			puts "\n\n"
 			
 			
 			# TODO: Consider caching font sizes on demand.
