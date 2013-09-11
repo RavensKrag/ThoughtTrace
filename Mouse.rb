@@ -114,7 +114,12 @@ module TextSpace
 				# puts "old sig: #{event_name} --- new sig: #{id}"
 				puts "\ncompare: #{id} to #{event_name}"
 				
-				
+				# TODO: Consider removing :release from collision test
+				# should still show if release callbacks overlap,
+				# but :release should not be a deciding factor
+				# 
+				# ex)	[:click, :release] collides with [:click]
+				# 		because release is ignored
 				collision = new_event.collide_with old_event
 				
 				if collision

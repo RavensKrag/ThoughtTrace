@@ -10,6 +10,27 @@ NOTE: There's a bit of a problem with Gosu::TextInput.  You can't type anything 
 TODO: Fix false positives for mouseover events.
 TODO: Mouseover seems to stick for some things
 
+TODO: Refactor the way that paint box is used by Text.  Too easy to forget to set the paint box and get all sorts of weird errors.
+I would like to set the paint box in one place, but it seems like many errors could occur with the current framework.  
+
+NOTE: Implement reformatting text (grabbing a section and creating a new object out of it) before reflowing blocks.  The reformatting feature will be helpful for prototyping auto-reflow.  Should probably have grouping as well.
+
+text reflow --dependent on--> [reformatting, grouping]
+
+
+
+Text size for new text objects should be the same as the previous object
+	or for objects that were spawned out of other objects, the parent of the spawn
+
+
+Input caret should stop flashing when the program loses focus
+	This is common to all other applications, imo
+	
+	It's kinda annoying to lose your place because the caret went away though
+	so there needs to be a solution to that
+
+
+
 
 Click and drag in empty space should generate a text box
 	more natural than typing something, and then spacing it into a box later

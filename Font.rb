@@ -81,10 +81,18 @@ module TextSpace
 			# Reduces number of fonts cached from 14 -> 11
 			# That's about a 20% reduction
 			heights = fib[14]
+			heights -= (1..10).to_a
+			heights += (1..10).to_a
+			heights.sort!
 			# heights = pow2[11]
 			# heights = [10,30,40]
 			puts heights
 			
+			
+			# TODO: Consider caching font sizes on demand.
+			# would need a way to track what font objects are active, as to get a better sense of what sizes need to be available
+			# don't want to duplicate pointers, as that complicates GC
+			# should probably just have a read-only reference to the text objects in the Space
 			heights.each do |height|
 				@font_cache << Gosu::Font.new($window, name, height)
 			end
@@ -100,7 +108,6 @@ module TextSpace
 			# ---Calculate font scaling
 			# @scale * font.height == @height
 			scale = height / f.height.to_f
-			
 			
 			f.draw(text, x,y,z, scale, scale, color)
 			
