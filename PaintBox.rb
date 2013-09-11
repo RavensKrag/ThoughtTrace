@@ -21,7 +21,17 @@ module TextSpace
 					
 					:debug_font => Gosu::Color.argb(0xffFF0000),
 					:highlight => Gosu::Color.argb(0x77FFFF00),
-					:box_select => Gosu::Color.argb(0x33E1DBA9)
+					:box_select => Gosu::Color.argb(0x33E1DBA9),
+					
+					
+					Gosu::KbF1 => Gosu::Color.argb(0xffFFFFFF),
+					Gosu::KbF2 => Gosu::Color.argb(0xffD579E4),
+					Gosu::KbF3 => Gosu::Color.argb(0xffE4DD79),
+					Gosu::KbF4 => Gosu::Color.argb(0xff7997E4),
+					Gosu::KbF5 => Gosu::Color.argb(0xff79E4D1),
+					Gosu::KbF6 => Gosu::Color.argb(0xff446E51),
+					Gosu::KbF7 => Gosu::Color.argb(0xff6E195B),
+					Gosu::KbF8 => Gosu::Color.argb(0xff000000)
 				}
 			}
 			

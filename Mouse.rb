@@ -16,11 +16,12 @@ module TextSpace
 	class MouseHandler
 		attr_reader :space, :selection
 		
-		def initialize(space, selection, &block)
+		def initialize(space, selection, paint_box, &block)
 			super()
 			
 			@space = space
 			@selection = selection
+			@paint_box = paint_box
 			
 			@hover_callbacks = Hash.new # callback name => callback
 			

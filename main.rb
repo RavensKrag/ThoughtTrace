@@ -62,7 +62,7 @@ class Window < Gosu::Window
 		@space = TextSpace::Space.load filepath
 		
 		
-		@mouse = TextSpace::MouseHandler.new @space, @selection do
+		@mouse = TextSpace::MouseHandler.new @space, @selection, @paint_box do
 			# event :edit_text do
 				
 			# end
@@ -93,6 +93,19 @@ class Window < Gosu::Window
 			# event :select_multiple do
 				
 			# end
+			
+			(1..8).collect{|i| "KbF#{i}".to_sym}.collect {|s| Gosu.const_get(s)}.each do |f_key|
+			event "change_color_to_swatch-#{f_key}" do
+				bind_to f_key
+				
+				pick_object_from :space
+				
+				click do |space, text|
+					text.color = @paint_box[f_key]
+				end
+			end
+			end
+			
 			
 			event :spawn_new_text do
 				bind_to Gosu::MsLeft
@@ -139,7 +152,7 @@ class Window < Gosu::Window
 			end
 			
 			event :select_portion_of_text do
-				bind_to Gosu::MsLeft
+				# bind_to Gosu::MsLeft
 				
 				pick_object_from :space
 				
@@ -175,9 +188,9 @@ class Window < Gosu::Window
 					bb.draw_in_space @paint_box[:highlight]
 				end
 				
-				release do |space, text|
-					# free selection
-				end
+				# release do |space, text|
+				# 	# free selection
+				# end
 			end
 			
 			event :resize do
@@ -202,33 +215,33 @@ class Window < Gosu::Window
 				end
 			end
 			
-			# event :move_text do
-			# 	bind_to Gosu::MsLeft
+			event :move_text do
+				bind_to Gosu::MsLeft
 				
-			# 	pick_object_from :space 
-			# 	# pick_object_from :space do |object|
-			# 	# 	object
-			# 	# end
+				pick_object_from :space 
+				# pick_object_from :space do |object|
+				# 	object
+				# end
 				
-			# 	click do |space, selection|
-			# 		# select @drag_selection
-			# 		# establish basis for drag
-			# 		@move_text_basis = position_in_world
-			# 		# store original position of text
-			# 		@original_text_position = selection.position
-			# 	end
+				click do |space, selection|
+					# select @drag_selection
+					# establish basis for drag
+					@move_text_basis = position_in_world
+					# store original position of text
+					@original_text_position = selection.position
+				end
 				
-			# 	drag do |space, selection|
-			# 		# calculate movement delta
-			# 		delta = position_in_world - @move_text_basis
-			# 		# displace text object by movement delta
-			# 		selection.position = @original_text_position + delta
-			# 	end
+				drag do |space, selection|
+					# calculate movement delta
+					delta = position_in_world - @move_text_basis
+					# displace text object by movement delta
+					selection.position = @original_text_position + delta
+				end
 				
-			# 	# release do |space, selection|
+				# release do |space, selection|
 					
-			# 	# end
-			# end
+				# end
+			end
 			
 			event :pan_camera do
 				bind_to Gosu::MsMiddle
@@ -253,7 +266,7 @@ class Window < Gosu::Window
 			end
 			
 			event :box_select do
-				bind_to Gosu::MsRight
+				# bind_to Gosu::MsLeft
 				
 				# if you don't use a pick query, it can execute any time
 				
