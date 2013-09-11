@@ -8,6 +8,9 @@ require 'chipmunk'
 require 'require_all'
 
 require_all './Chipmunk'
+require_all './Gosu'
+
+require './PaintBox'
 
 require './Camera'
 
@@ -39,7 +42,11 @@ class Window < Gosu::Window
 		super(width, height, fullscreen, update_interval)
 		self.caption = "TextSpace"
 		
+		@paint_box = TextSpace::PaintBox.new
+		
+		
 		TextSpace::Text.default_font = TextSpace::Font.new "Lucida Sans Unicode"
+		TextSpace::Text.paint_box = @paint_box
 		
 		@camera = TextSpace::Camera.new
 		
@@ -47,7 +54,6 @@ class Window < Gosu::Window
 		
 		
 		@debug_font = Gosu::Font.new self, "Arial", 30
-		@debug_color = 0xffff0000
 		
 		
 		# Load all the data
@@ -154,7 +160,6 @@ class Window < Gosu::Window
 					character_offset = text.character_offset i
 					
 					
-					color = Gosu::Color.argb(0x77ffff00)
 					height = text.height # pixels
 					
 					offset = text.position.clone
@@ -167,7 +172,7 @@ class Window < Gosu::Window
 									p1.x, p1.y+height/2)
 					bb.reformat # TODO: Rename CP::BB#reformat
 					
-					bb.draw_in_space color
+					bb.draw_in_space @paint_box[:highlight]
 				end
 				
 				release do |space, text|
@@ -265,15 +270,13 @@ class Window < Gosu::Window
 				end
 				
 				drag do |space|
-					color = Gosu::Color.argb(0x33E1DBA9)
-					
 					bottom_right = position_in_world
 					
 					bb = CP::BB.new(@box_top_left.x, bottom_right.y, 
 									bottom_right.x, @box_top_left.y)
 					bb.reformat # TODO: Rename CP::BB#reformat
 					
-					bb.draw_in_space color
+					bb.draw_in_space @paint_box[:box_select]
 					
 					# Perform selection using BB
 					new_selection = Set.new
@@ -387,7 +390,7 @@ class Window < Gosu::Window
 		end
 		
 		debug_z = 10000 # something really large
-		@debug_font.draw output, 0,0,debug_z, 1,1, @debug_color
+		@debug_font.draw output, 0,0,debug_z, 1,1, @paint_box[:debug_font]
 	end
 end
 

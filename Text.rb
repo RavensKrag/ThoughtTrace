@@ -6,18 +6,26 @@ module TextSpace
 	class Text
 		MINIMUM_HEIGHT = 10
 		CARET_WIDTH = 4
+		
 		@@default_font = nil # Must be set outside if a default font is to be used
+		@@paint_box = nil # Must be set before any text objects are created
 		
 		attr_accessor :position, :bb
 		
 		attr_accessor :color, :string, :box_visible
 		
 		def initialize(font=@@default_font)
+			raise "Must set default font" unless @@default_font
+			raise "Must set paint box object for color selection" unless @@paint_box
+			
 			@font = font
 			
 			@height = 30
 			
-			@color = 0xffffffff
+			@active_color = @@paint_box[:active]
+			@default_color = @@paint_box[:default_font]
+			@color = @default_color
+			
 			@box_visible = false
 			
 			@position = CP::Vec2.new(0,0)
@@ -52,7 +60,7 @@ module TextSpace
 		end
 		
 		def draw_caret(string, z_index)
-			color = Gosu::Color::RED
+			color = @@paint_box[:text_caret]
 			
 			x_offset = 	if $window.text_input.caret_pos == 0
 							0
@@ -88,11 +96,16 @@ module TextSpace
 		end
 		
 		def click
-			@color = 0xffff0000
+			# only enable these lines to updated old text elements
+			# @active_color ||= @@paint_box[:active]
+			# @default_color ||= @@paint_box[:default_font]
+			
+			@default_color = @color # save changes to color when text is clicked
+			@color = @active_color
 		end
 		
 		def release
-			@color = 0xffffffff
+			@color = @default_color
 		end
 		
 		# TODO: Define mouse over and mouse out using state machine
@@ -206,6 +219,14 @@ module TextSpace
 			
 			def default_font=(font)
 				@@default_font = font
+			end
+			
+			def paint_box
+				return @@paint_box
+			end
+			
+			def paint_box=(font)
+				@@paint_box = font
 			end
 		end
 		
