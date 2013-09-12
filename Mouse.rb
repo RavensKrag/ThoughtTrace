@@ -41,18 +41,19 @@ module TextSpace
 			# Do not hover over multiple objects
 			obj = @space.object_at position_in_world
 			
-			if @last_hovered_object
-				# mouse_data.event_thing.mouse_out.call
-				
-				@last_hovered_object.mouse_out
+			if obj
+				if obj != @last_hovered_object
+					@last_hovered_object.mouse_out if @last_hovered_object
+					
+					obj.mouse_over
+				end
+			else
+				@last_hovered_object.mouse_out if @last_hovered_object
 			end
+			
 			@last_hovered_object = obj
 			
-			if obj
-				# mouse_data.event_thing.mouse_over.call
-				
-				@last_hovered_object.mouse_over
-			end
+			
 			
 			@action_callbacks.each_value do |callback|
 				callback.update
@@ -70,6 +71,7 @@ module TextSpace
 		
 		def shutdown
 			@selection.clear
+			@last_hovered_object.mouse_out if @last_hovered_object
 		end
 		
 		def world_position

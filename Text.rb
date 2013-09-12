@@ -101,12 +101,11 @@ module TextSpace
 		end
 		
 		def click
-			@default_color = @color # save changes to color when text is clicked
-			@color = @active_color
+			
 		end
 		
 		def release
-			@color = @default_color
+			
 		end
 		
 		def hide_bb
@@ -127,11 +126,13 @@ module TextSpace
 			end
 			
 			
-			after_transition any => :in do |text|
+			after_transition :out => :in do |text|
+				puts "mouse in"
 				text.enable_hover_style
 			end
 			
-			after_transition any => :out do |text|
+			after_transition :in => :out do |text|
+				puts "mouse out"
 				text.enable_default_style
 			end
 			
@@ -143,7 +144,6 @@ module TextSpace
 			event :mouse_out do
 				transition :in => :out
 			end
-			
 		end
 		
 		state_machine :acquire_input_stream, :initial => :inactive do
@@ -165,7 +165,9 @@ module TextSpace
 			end
 			
 			
-			before_transition any => :active do |text|
+			after_transition :inactive => :active do |text|
+				text.enable_active_style
+				
 				$window.text_input = Gosu::TextInput.new
 				$window.text_input.text = text.string
 				
@@ -188,7 +190,9 @@ module TextSpace
 				end
 			end
 			
-			before_transition :active => any do |text|
+			after_transition :active => :inactive do |text|
+				text.enable_default_style
+				
 				text.string = $window.text_input.text
 				
 				$window.text_input = nil
@@ -211,29 +215,41 @@ module TextSpace
 			end
 			
 			
+			# TODO: Fix style transition between active->hover->default
+			# active doesn't trigger past the release of the mouse button, because the mouse over effect is triggering again? or something?
+			# NO: it's that when you mouse out of the active element, it transitions back to default
+			# this transition is supposed to be for hover -> default, but it triggers here too
 			after_transition any => :default do |text|
-				text.hide_bb
+				puts "default"
 				text.box_color = TextSpace::Text.paint_box[:text_background]
+				text.hide_bb
+				
+				# text.color = TextSpace::Text.paint_box[:default_font]
 			end
 			
 			after_transition any => :active do |text|
-				text.show_bb
+				puts "active"
 				text.box_color = TextSpace::Text.paint_box[:active]
+				text.show_bb
+				
+				# text.color = TextSpace::Text.paint_box[:active]
 			end
 			
 			after_transition any => :hover do |text|
-				text.show_bb
+				puts "hover"
 				text.box_color = TextSpace::Text.paint_box[:text_background]
+				text.show_bb
+				
+				# text.color = TextSpace::Text.paint_box[:default_font]
 			end
 			
 			
 			[:default, :active, :hover].each do |state|
 				event "enable_#{state}" do
-					transition any => state
+					transition any - state => state
 				end
 			end
 		end
-		
 		
 		def height
 			@height

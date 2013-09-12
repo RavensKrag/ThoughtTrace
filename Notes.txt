@@ -7,8 +7,6 @@ Need to figure out how to get two bits of text with different sizes to line up.
 NOTE: There's a bit of a problem with Gosu::TextInput.  You can't type anything that requires SHIFT
 	You can type capitals, but no special characters
 
-TODO: Fix false positives for mouseover events.
-TODO: Mouseover seems to stick for some things
 
 TODO: Refactor the way that paint box is used by Text.  Too easy to forget to set the paint box and get all sorts of weird errors.
 I would like to set the paint box in one place, but it seems like many errors could occur with the current framework.  
