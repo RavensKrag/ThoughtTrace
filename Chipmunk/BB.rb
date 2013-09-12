@@ -8,7 +8,7 @@ module CP
 			$window.draw_quad	self.l, self.t, color,
 								self.r, self.t, color,
 								self.r, self.b, color,
-								self.l, self.b, color
+								self.l, self.b, color, z
 		end
 		
 		def draw_in_space(color)
