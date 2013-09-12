@@ -16,7 +16,7 @@ module TextSpace
 					
 					:text_background => Gosu::Color.argb(((0xff * 0.2).to_i << (8*3)) | 0x0000ff),
 					
-					:text_caret => Gosu::Color::RED,
+					:text_caret => Gosu::Color.argb(0xff8E68A4),
 					
 					:active => Gosu::Color.argb(0xffFF0000),
 					:mouseover => Gosu::Color.argb(((0xff * 0.2).to_i << (8*3)) | 0x0000ff),

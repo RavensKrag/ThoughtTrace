@@ -127,12 +127,10 @@ module TextSpace
 			
 			
 			after_transition :out => :in do |text|
-				puts "mouse in"
 				text.enable_hover_style
 			end
 			
 			after_transition :in => :out do |text|
-				puts "mouse out"
 				text.remove_hover_style
 			end
 			
@@ -216,7 +214,6 @@ module TextSpace
 			
 			
 			after_transition any => :default do |text|
-				puts "default"
 				text.box_color = TextSpace::Text.paint_box[:text_background]
 				text.hide_bb
 				
@@ -224,7 +221,6 @@ module TextSpace
 			end
 			
 			after_transition any => :active do |text|
-				puts "active"
 				text.box_color = TextSpace::Text.paint_box[:active]
 				text.show_bb
 				
@@ -232,7 +228,6 @@ module TextSpace
 			end
 			
 			after_transition any => :hover do |text|
-				puts "hover"
 				text.box_color = TextSpace::Text.paint_box[:text_background]
 				text.show_bb
 				

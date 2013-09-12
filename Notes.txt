@@ -16,6 +16,8 @@ NOTE: Implement reformatting text (grabbing a section and creating a new object 
 text reflow --dependent on--> [reformatting, grouping]
 
 
+NOTE: z-order for mouse over highlight is kinda messed up. The hitbox should always be displayed on mouseover, but if there is an active element, the active element's hitbox will block out smaller hitboxes in the area.
+
 
 Text size for new text objects should be the same as the previous object
 	or for objects that were spawned out of other objects, the parent of the spawn
