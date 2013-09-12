@@ -14,12 +14,12 @@ module TextSpace
 				:default_pallet => {
 					:default_font => Gosu::Color.argb(0xffFFFFFF),
 					
-					:text_background => Gosu::Color.argb(((0xff * 0.2).to_i << 24) | 0x0000ff),
+					:text_background => Gosu::Color.argb(((0xff * 0.2).to_i << (8*3)) | 0x0000ff),
 					
 					:text_caret => Gosu::Color::RED,
 					
 					:active => Gosu::Color.argb(0xffFF0000),
-					:mouseover => Gosu::Color.argb(((0xff * 0.2).to_i << 24) | 0x0000ff),
+					:mouseover => Gosu::Color.argb(((0xff * 0.2).to_i << (8*3)) | 0x0000ff),
 					
 					:debug_font => Gosu::Color.argb(0xffFF0000),
 					:highlight => Gosu::Color.argb(0x77FFFF00),
