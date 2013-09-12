@@ -42,10 +42,6 @@ module TextSpace
 				
 				@@fonts[name] = self
 			end
-			
-			a = (0xff * 0.2).to_i
-			c = 0x0000ff
-			@box_color = (a << 24) | c
 		end
 		
 		def generate_font_cache(name)
@@ -99,7 +95,7 @@ module TextSpace
 			end
 		end
 		
-		def draw(text, height, x,y,z=0, color=0xffffffff, box_visible=true, box_color=@box_color)
+		def draw(text, height, x,y,z=0, color=0xffffffff)
 			# --Prevent out of bounds
 			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
 			
@@ -111,19 +107,6 @@ module TextSpace
 			scale = height / f.height.to_f
 			
 			f.draw(text, x,y,z, scale, scale, color)
-			
-			
-			if box_visible
-				width = f.text_width(text) * scale
-				
-				$window.draw_quad(
-					x, y,	box_color,
-					x+width, y,	box_color,
-					x+width, y+height,	box_color,
-					x, y+height,	box_color,
-					z-1
-				)
-			end
 		end
 		
 		def width(text, height)
@@ -133,14 +116,6 @@ module TextSpace
 			scale = height / f.height.to_f
 			
 			return f.text_width(text) * scale
-		end
-		
-		def hide_boxes_by_default
-			@box_visible = false
-		end
-		
-		def show_boxes_by_default
-			@box_visible = true
 		end
 		
 		

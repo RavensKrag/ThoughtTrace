@@ -4,9 +4,7 @@ require './Serializable'
 
 module CP
 	class BB
-		def draw
-			color = Gosu::Color.argb(0x33E1DBA9)
-			
+		def draw(color, z=0)
 			$window.draw_quad	self.l, self.t, color,
 								self.r, self.t, color,
 								self.r, self.b, color,

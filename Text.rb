@@ -54,8 +54,8 @@ module TextSpace
 			
 			
 			update_bb(string)
-			@font.draw	string, @height, @position.x, @position.y, z_index, @color, 
-						@box_visible, @box_color
+			@font.draw	string, @height, @position.x, @position.y, z_index, @color
+			@bb.draw @box_color, z_index-1 if @box_visible
 			
 			
 			# Only draw caret if object is active
