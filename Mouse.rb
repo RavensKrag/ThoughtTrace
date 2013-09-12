@@ -22,6 +22,7 @@ module TextSpace
 			
 			
 			@hovered = nil
+			@last_hovered_object = NullMouseOver.new
 			
 			
 			instance_eval &block
@@ -41,17 +42,17 @@ module TextSpace
 			
 			
 			# Do not hover over multiple objects
-			@last_hovered_object ||= NullMouseOver.new
-			
 			obj = @space.object_at position_in_world
 			
 			if obj
 				if obj != @last_hovered_object
+					# Moved to new object
 					@last_hovered_object.mouse_out
 					
 					obj.mouse_over
 				end
 			else
+				# Moved into empty space
 				@last_hovered_object.mouse_out
 			end
 			
