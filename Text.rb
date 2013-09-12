@@ -13,7 +13,7 @@ module TextSpace
 		
 		attr_accessor :position, :bb
 		
-		attr_accessor :color, :string, :box_visible
+		attr_accessor :color, :string, :box_visible, :box_color
 		
 		def initialize(font=@@default_font)
 			super()
@@ -30,6 +30,7 @@ module TextSpace
 			@color = @default_color
 			
 			@box_visible = false
+			@box_color = @@paint_box[:text_background]
 			
 			@position = CP::Vec2.new(0,0)
 			
@@ -54,7 +55,7 @@ module TextSpace
 			
 			update_bb(string)
 			@font.draw	string, @height, @position.x, @position.y, z_index, @color, 
-						@box_visible, @@paint_box[:text_background]
+						@box_visible, @box_color
 			
 			
 			# Only draw caret if object is active
@@ -130,12 +131,12 @@ module TextSpace
 			end
 			
 			
-			after_transition :out => :in do |text|
-				text.show_bb
+			after_transition any => :in do |text|
+				text.enable_hover_style
 			end
 			
-			after_transition :in => :out do |text|
-				text.hide_bb
+			after_transition any => :out do |text|
+				text.enable_default_style
 			end
 			
 			
@@ -146,7 +147,48 @@ module TextSpace
 			event :mouse_out do
 				transition :in => :out
 			end
+			
 		end
+		
+		
+		state_machine :style, :initial => :default, :namespace => 'style' do
+			state :default do
+				
+			end
+			
+			state :active do
+				
+			end
+			
+			state :hover do
+				
+			end
+			
+			
+			after_transition any => :default do |text|
+				text.hide_bb
+				text.box_color = TextSpace::Text.paint_box[:text_background]
+			end
+			
+			after_transition any => :active do |text|
+				text.show_bb
+				text.box_color = TextSpace::Text.paint_box[:active]
+			end
+			
+			after_transition any => :hover do |text|
+				text.show_bb
+				text.box_color = TextSpace::Text.paint_box[:text_background]
+			end
+			
+			
+			[:default, :active, :hover].each do |state|
+				event "enable_#{state}" do
+					transition any => state
+				end
+			end
+		end
+		
+		# TODO: Implement "active" using state machine (includes #activate and #deactivate events)
 		
 		
 		def height
