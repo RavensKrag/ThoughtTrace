@@ -1,17 +1,5 @@
 require 'state_machine'
 
-module CP
-	class Vec2
-		def to_screen_space
-			return self - $window.camera.offset
-		end
-		
-		def to_world_space
-			return self + $window.camera.offset
-		end
-	end
-end
-
 module TextSpace
 	class MouseHandler
 		attr_reader :space, :selection

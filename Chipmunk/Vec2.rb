@@ -1,10 +1,19 @@
 module CP
 	class Vec2
-		include TextSpace::Serializable
+		def to_screen_space
+			return self - $window.camera.offset
+		end
+		
+		def to_world_space
+			return self + $window.camera.offset
+		end
 		
 		def clone
 			return CP::Vec2.new(self.x, self.y)
 		end
+		
+		
+		include TextSpace::Serializable
 		
 		def init_with coder
 			args = YAML.load(coder.scalar)
