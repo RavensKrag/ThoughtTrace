@@ -4,6 +4,8 @@ module TextSpace
 	class MouseHandler
 		attr_reader :space, :selection
 		
+		NullMouseOver = Struct.new(:mouse_in, :mouse_out)
+		
 		def initialize(space, selection, paint_box, &block)
 			super()
 			
@@ -39,19 +41,21 @@ module TextSpace
 			
 			
 			# Do not hover over multiple objects
+			@last_hovered_object ||= NullMouseOver.new
+			
 			obj = @space.object_at position_in_world
 			
 			if obj
 				if obj != @last_hovered_object
-					@last_hovered_object.mouse_out if @last_hovered_object
+					@last_hovered_object.mouse_out
 					
 					obj.mouse_over
 				end
 			else
-				@last_hovered_object.mouse_out if @last_hovered_object
+				@last_hovered_object.mouse_out
 			end
 			
-			@last_hovered_object = obj
+			@last_hovered_object = obj || NullMouseOver.new
 			
 			
 			
@@ -71,7 +75,7 @@ module TextSpace
 		
 		def shutdown
 			@selection.clear
-			@last_hovered_object.mouse_out if @last_hovered_object
+			@last_hovered_object.mouse_out
 		end
 		
 		def world_position
