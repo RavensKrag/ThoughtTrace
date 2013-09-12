@@ -133,7 +133,7 @@ module TextSpace
 			
 			after_transition :in => :out do |text|
 				puts "mouse out"
-				text.enable_default_style
+				text.remove_hover_style
 			end
 			
 			
@@ -191,7 +191,7 @@ module TextSpace
 			end
 			
 			after_transition :active => :inactive do |text|
-				text.enable_default_style
+				text.remove_active_style
 				
 				text.string = $window.text_input.text
 				
@@ -215,10 +215,6 @@ module TextSpace
 			end
 			
 			
-			# TODO: Fix style transition between active->hover->default
-			# active doesn't trigger past the release of the mouse button, because the mouse over effect is triggering again? or something?
-			# NO: it's that when you mouse out of the active element, it transitions back to default
-			# this transition is supposed to be for hover -> default, but it triggers here too
 			after_transition any => :default do |text|
 				puts "default"
 				text.box_color = TextSpace::Text.paint_box[:text_background]
@@ -244,10 +240,20 @@ module TextSpace
 			end
 			
 			
-			[:default, :active, :hover].each do |state|
-				event "enable_#{state}" do
-					transition any - state => state
-				end
+			event :enable_hover do
+				transition any - :active => :hover
+			end
+			
+			event :remove_hover do
+				transition :hover => :default
+			end
+			
+			event :enable_active do
+				transition any => :active
+			end
+			
+			event :remove_active do
+				transition :active => :default
 			end
 		end
 		
