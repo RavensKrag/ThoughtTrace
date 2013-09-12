@@ -15,6 +15,8 @@ module TextSpace
 		
 		attr_accessor :color, :string, :box_visible, :box_color
 		
+		attr_reader :font
+		
 		def initialize(font=@@default_font)
 			super()
 			
@@ -36,8 +38,6 @@ module TextSpace
 			
 			@bb = CP::BB.new(0,0, 0,0)
 			
-			@active = false
-			
 			@caret_dt = 500 # in milliseconds
 		end
 		
@@ -46,7 +46,7 @@ module TextSpace
 		end
 		
 		def draw(z_index=0)
-			string = if @active 
+			string = if active?
 						$window.text_input.text
 					else
 						@string
@@ -59,7 +59,7 @@ module TextSpace
 			
 			
 			# Only draw caret if object is active
-			if @active
+			if active?
 				draw_caret(string, z_index) if caret_visible?
 			end
 		end
@@ -101,10 +101,6 @@ module TextSpace
 		end
 		
 		def click
-			# only enable these lines to updated old text elements
-			# @active_color ||= @@paint_box[:active]
-			# @default_color ||= @@paint_box[:default_font]
-			
 			@default_color = @color # save changes to color when text is clicked
 			@color = @active_color
 		end
@@ -150,6 +146,56 @@ module TextSpace
 			
 		end
 		
+		state_machine :acquire_input_stream, :initial => :inactive do
+			state :active do
+				
+			end
+			
+			state :inactive do
+				
+			end
+			
+			
+			event :activate do
+				transition :inactive => :active
+			end
+			
+			event :deactivate do
+				transition :active => :inactive
+			end
+			
+			
+			before_transition any => :active do |text|
+				$window.text_input = Gosu::TextInput.new
+				$window.text_input.text = text.string
+				
+				unless text.string == nil || text.string.empty?
+					# Move caret into position
+					# Try to get as close to the position of the cursor as possible
+					width = text.font.width(text.string, text.height)
+					x = text.position.x
+					mouse_x = $window.mouse.position_in_world.x
+					
+					# Figure out where mouse_x is along the continuum from x to x+width
+					# Use that to guess what the closest letter is
+					# * basically, this algorithm is assuming fixed width, but it works pretty well
+					# TODO: Use more accurate caret positioning algorithm. Caret being off contributes fairly significantly to program feel.
+					percent = (mouse_x - x)/width.to_f
+					i = (percent * (text.string.length)).to_i
+					
+					
+					$window.text_input.caret_pos = i
+				end
+			end
+			
+			before_transition :active => any do |text|
+				text.string = $window.text_input.text
+				
+				$window.text_input = nil
+				
+				$window.space.delete_if_empty text # gc component, essentially
+			end
+		end
 		
 		state_machine :style, :initial => :default, :namespace => 'style' do
 			state :default do
@@ -188,8 +234,6 @@ module TextSpace
 			end
 		end
 		
-		# TODO: Implement "active" using state machine (includes #activate and #deactivate events)
-		
 		
 		def height
 			@height
@@ -198,43 +242,6 @@ module TextSpace
 		def height=(h)
 			@height = h
 			@height = MINIMUM_HEIGHT if @height < MINIMUM_HEIGHT
-		end
-		
-		# Make this object the active text input
-		def activate
-			# Activate input stream
-			@active = true
-			
-			$window.text_input = Gosu::TextInput.new
-			$window.text_input.text = @string
-			
-			unless @string == nil || @string.empty?
-				# Move caret into position
-				# Try to get as close to the position of the cursor as possible
-				width = @font.width(@string, @height)
-				x = @position.x
-				mouse_x = $window.mouse.position_in_world.x
-				
-				# Figure out where mouse_x is along the continuum from x to x+width
-				# Use that to guess what the closest letter is
-				# * basically, this algorithm is assuming fixed width, but it works pretty well
-				# TODO: Use more accurate caret positioning algorithm. Caret being off contributes fairly significantly to program feel.
-				percent = (mouse_x - x)/width.to_f
-				i = (percent * (@string.length)).to_i
-				
-				
-				$window.text_input.caret_pos = i
-			end
-		end
-		
-		# Stop editing the string based on keyboard input
-		def deactivate
-			@active = false
-			
-			@string = $window.text_input.text
-			$window.text_input = nil
-			
-			$window.space.delete_if_empty self
 		end
 		
 		# Given a position in world space, return the character index of the closest character
