@@ -1,8 +1,8 @@
-# Manage different colors and pallets
+# Manage different colors and palettes
 module TextSpace
 	class PaintBox
 		def initialize
-			# @colors = Hash.new # pallet => color
+			# @colors = Hash.new # palette => color
 			
 			@colors = {
 				:example => {
@@ -11,7 +11,7 @@ module TextSpace
 					:color3 => Gosu::Color.argb(0xff0000ff)
 				},
 				
-				:default_pallet => {
+				:default_palette => {
 					:default_font => Gosu::Color.argb(0xffFFFFFF),
 					
 					:text_background => Gosu::Color.argb(((0xff * 0.2).to_i << (8*3)) | 0x0000ff),
@@ -37,27 +37,27 @@ module TextSpace
 				}
 			}
 			
-			@active_pallet = :default_pallet
+			@active_palette = :default_palette
 		end
 		
 		# Return name given a color
 		def color_name(c)
-			return @colors[@active_pallet].find{ |name, color| color == c }.first
+			return @colors[@active_palette].find{ |name, color| color == c }.first
 		end
 		
 		def [](color_name)
-			raise "Color does not exist" unless @colors[@active_pallet][color_name]
+			raise "Color does not exist" unless @colors[@active_palette][color_name]
 			
-			return @colors[@active_pallet][color_name]
+			return @colors[@active_palette][color_name]
 		end
 		
 		def []=(name, color)
-			@colors[@active_pallet][name] = color
+			@colors[@active_palette][name] = color
 		end
 		
 		private
 		
-		class Pallet
+		class Palette
 			def initialize
 				
 			end
