@@ -343,21 +343,19 @@ class Window < Gosu::Window
 			
 			
 			# Link together the text objects which are not colliding
-			collision_fields = [:pick, :click, :drag, :release]
+			collision_fields = [:pick_callback, :click, :drag]
 			connections = Array.new
 			labels.each do |name1, data1|
 				labels.each do |name2, data2|
+					next if data1.callback == data2.callback
 					
 					
-					if data1.callback != data2.callback
-						unless data1.callback.collide_with data2.callback, collision_fields
-							connections << TextSpace::ConnectingLine.new(
-								data1.text, data2.text,
-								5, -1000, @paint_box[:connection]
-							)
-						end
+					if data1.callback.collide_with data2.callback, collision_fields
+						connections << TextSpace::ConnectingLine.new(
+							data1.text, data2.text,
+							5, -1000, @paint_box[:connection]
+						)
 					end
-					
 				end
 			end
 			@lines = connections
