@@ -355,9 +355,9 @@ class Window < Gosu::Window
 			end
 			@lines = connections
 			
-			@lines.each do |l|
-				puts l.class
-			end
+			# @lines.each do |l|
+			# 	puts l.class
+			# end
 		else
 			filepath = File.join(File.dirname(__FILE__), "data", "connections.yml")
 			

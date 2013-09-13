@@ -25,7 +25,7 @@ module TextSpace
 					:highlight => Gosu::Color.argb(0x77FFFF00),
 					:box_select => Gosu::Color.argb(0x33E1DBA9),
 					
-					:connection => Gosu::Color.argb(0xff6E195B),
+					:connection => Gosu::Color.argb(((0xff * 0.4).to_i << (8*3)) | 0x79E4D1),
 					
 					
 					Gosu::KbF1 => Gosu::Color.argb(0xffFFFFFF),
