@@ -189,24 +189,47 @@ module TextSpace
 				collision_occured = fields_to_check.all? do |property|
 					puts property
 					
-					if other_sig[property] && sig[property]
+					value = sig[property]
+					other_value = other_sig[property]
+					
+					if other_value && value
 						# --- property defined on both sides ---
 						
 						# possibility of collision
 						
 						# collision if one or more of the properties which are defined on both sides are set to equivalent values
-						if other_sig[property] == sig[property]
+						
+						# General case
+						if other_value == value
 							puts "=== collide ==="
 							
 							colliding_fields << property
 							
 							true
 						else
-							puts "--- different (#{sig[property]} vs #{other_sig[property]})"
-							
-							false
+							# Special cases
+							if( 
+							property == :pick_callback and
+								# Space picking collides with selection picking
+								(other_value == :space && value == :selection or
+								value == :space && other_value == :selection)
+							)
+								# NOTE: Could return a tuple and say "priority to :selection"
+								# or ":priority => :selection"
+								# would have to change the whole return type system of this method though
+								puts "=== collide (special case) ==="
+								
+								colliding_fields << property
+								
+								true
+							else
+								# Special cases have failed, so no collision detected
+								puts "--- different (#{value} vs #{other_value})"
+								
+								false
+							end
 						end
-					elsif !!other_sig[property] ^ !!sig[property]
+					elsif !!other_value ^ !!value
 						# --- only defined on one side or the other ---
 						
 						# no collision
