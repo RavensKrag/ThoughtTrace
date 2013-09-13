@@ -120,7 +120,7 @@ module TextSpace
 				collision = new_event.collide_with old_event
 				
 				if collision
-					raise "Event #{id} collides with #{event_name} in fields #{collision}"
+					# raise "Event #{id} collides with #{event_name} in fields #{collision}"
 				end
 			end
 			
@@ -380,7 +380,7 @@ module TextSpace
 					when :space
 						object
 					when :selection
-						object if selection.include? object
+						# object if selection.include? object
 					when :point
 						# add object generated as result of block to space automatically
 						# this should remove the need to expose the space to mouse callbacks

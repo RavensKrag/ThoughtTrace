@@ -111,22 +111,43 @@ class Window < Gosu::Window
 			
 			
 			event :text_box do
-				# bind_to 
+				bind_to Gosu::MsLeft
 				
 				pick_object_from :point
 				
+				# click do |space|
+				# 	# generate basis for box
+				# 	# spawn caret?
+				# end
+				
+				# drag do |space|
+				# 	# stretch box extents
+				# end
+				
+				# release do |space|
+				# 	# cement box constraints
+				# 	# enable box for editing
+				# end
+				
+				
+				# Follow code copied with slight modifications from box select
 				click do |space|
-					# generate basis for box
-					# spawn caret?
+					puts "box"
+					@text_box_top_left = position_in_world
 				end
 				
 				drag do |space|
-					# stretch box extents
+					bottom_right = position_in_world
+					
+					bb = CP::BB.new(@text_box_top_left.x, bottom_right.y, 
+									bottom_right.x, @text_box_top_left.y)
+					bb.reformat # TODO: Rename CP::BB#reformat
+					
+					bb.draw_in_space @paint_box[:box_select]
 				end
 				
 				release do |space|
-					# cement box constraints
-					# enable box for editing
+					
 				end
 			end
 			
@@ -175,7 +196,7 @@ class Window < Gosu::Window
 			end
 			
 			event :highlight_text do
-				# bind_to Gosu::MsLeft
+				# bind_to Gosu::MsLeft, Gosu::KbLeftShift
 				
 				pick_object_from :space
 				
@@ -217,7 +238,7 @@ class Window < Gosu::Window
 			end
 			
 			event :resize do
-				bind_to Gosu::MsRight
+				# bind_to Gosu::MsRight, Gosu::KbLeftShift
 				
 				pick_object_from :space
 				
@@ -239,7 +260,7 @@ class Window < Gosu::Window
 			end
 			
 			event :move_text do
-				bind_to Gosu::MsLeft
+				bind_to Gosu::MsRight
 				
 				pick_object_from :space 
 				# pick_object_from :space do |object|
@@ -267,7 +288,7 @@ class Window < Gosu::Window
 			end
 			
 			event :cut_text do
-				# bind_to 
+				bind_to Gosu::MsRight
 				
 				pick_object_from :selection
 				
@@ -307,7 +328,7 @@ class Window < Gosu::Window
 			end
 			
 			event :box_select do
-				# bind_to Gosu::MsLeft
+				# bind_to Gosu::MsLeft, Gosu::KbLeftShift
 				
 				# if you don't use a pick query, it can execute any time
 				
