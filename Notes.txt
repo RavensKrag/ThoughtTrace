@@ -19,6 +19,10 @@ text reflow --dependent on--> [reformatting, grouping]
 NOTE: z-order for mouse over highlight is kinda messed up. The hitbox should always be displayed on mouseover, but if there is an active element, the active element's hitbox will block out smaller hitboxes in the area.
 
 
+TODO: Clarify difference between #release and #deactivate on objects
+	I think it was intended to be that both parts are needed for a click selection, but only #deactivate would be called for multi-select or similar?
+
+
 Text size for new text objects should be the same as the previous object
 	or for objects that were spawned out of other objects, the parent of the spawn
 
