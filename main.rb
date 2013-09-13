@@ -12,6 +12,9 @@ require_all './Gosu'
 
 require './PaintBox'
 
+require './Line'
+require './ConnectingLine'
+
 require './Camera'
 
 require './Selection'
@@ -316,6 +319,51 @@ class Window < Gosu::Window
 		end
 		
 		
+		if @space.empty?
+			# Create text objects for all events
+			labels = @mouse.action_callbacks.collect do |name, callback| 
+				t = TextSpace::Text.new
+				t.string = name.to_s.gsub("_", " ")
+				
+				[name, t]
+			end
+			# convert associative array to hash
+			labels = Hash[*labels.flatten]
+			
+			
+			labels.each do |name, label|
+				@space << label
+			end
+			
+			
+			# Link together the text objects which are not colliding
+			collision_fields = [:pick, :click, :drag, :release]
+			connections = Array.new
+			@mouse.action_callbacks.each do |name1, callback1|
+				@mouse.action_callbacks.each do |name2, callback2|
+					
+					if callback1 != callback2
+						unless callback1.collide_with callback2, collision_fields
+							connections << TextSpace::ConnectingLine.new(
+								labels[name1], labels[name2],
+								5, -1000, @paint_box[:connection]
+							)
+						end
+					end
+					
+				end
+			end
+			@lines = connections
+			
+			@lines.each do |l|
+				puts l.class
+			end
+		else
+			filepath = File.join(File.dirname(__FILE__), "data", "connections.yml")
+			
+			@lines = YAML.load_file(filepath)
+		end
+		
 		# set default font
 		# 
 		# camera
@@ -334,9 +382,15 @@ class Window < Gosu::Window
 	
 	def draw
 		@camera.draw do
+			@lines.each do |l|
+				l.draw
+			end
+			
 			@space.draw
 			
 			render_draw_queue
+			
+			
 		end
 	end
 	
@@ -362,8 +416,20 @@ class Window < Gosu::Window
 		@space.gc
 		
 		
+		# dump lines
+		filepath = File.join(File.dirname(__FILE__), "data", "connections.yml")
+			
+		File.open(filepath, "w") do |f|
+			f.puts YAML::dump(@lines)
+		end
+		
+		
 		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")
 		@space.dump filepath
+		
+		
+		
+		
 	end
 	
 	# Queue up drawing operations to be drawn during the draw step

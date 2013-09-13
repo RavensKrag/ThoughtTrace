@@ -3,6 +3,7 @@ require 'state_machine'
 module TextSpace
 	class MouseHandler
 		attr_reader :space, :selection
+		attr_reader :action_callbacks
 		
 		NullMouseOver = Struct.new(:mouse_in, :mouse_out)
 		
@@ -176,16 +177,16 @@ module TextSpace
 			# iterate through properties trying to disambiguate
 			# if you hit the end of properties list, and callback still ambiguous,
 			# collision has occurred
-			def collide_with(other)
+			def collide_with(other, fields_to_check=([:binding, :pick_callback] + EVENT_TYPES))
 				# property must be defined on both sides
 				# if it's only defined on one side, then it's not a collision,
 				# (should be able to disambiguate by difference)
 				other_sig = other.signature
 				sig = self.signature
 				
-				collision_fields = Array.new
+				colliding_fields = Array.new
 				
-				collision_occured = ([:binding, :pick_callback] + EVENT_TYPES).all? do |property|
+				collision_occured = fields_to_check.all? do |property|
 					puts property
 					
 					if other_sig[property] && sig[property]
@@ -197,7 +198,7 @@ module TextSpace
 						if other_sig[property] == sig[property]
 							puts "=== collide ==="
 							
-							collision_fields << property
+							colliding_fields << property
 							
 							true
 						else
@@ -224,10 +225,10 @@ module TextSpace
 				
 				# Return collision result
 				if collision_occured
-					if collision_fields.empty?
+					if colliding_fields.empty?
 						return nil
 					else
-						return collision_fields
+						return colliding_fields
 					end
 				else
 					return false

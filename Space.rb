@@ -22,6 +22,10 @@ module TextSpace
 			end
 		end
 		
+		def empty?
+			@objects.empty?
+		end
+		
 		def <<(object)
 			@objects << object
 		end
