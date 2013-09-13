@@ -110,6 +110,26 @@ class Window < Gosu::Window
 			end
 			
 			
+			event :text_box do
+				# bind_to 
+				
+				pick_object_from :point
+				
+				click do |space|
+					# generate basis for box
+					# spawn caret?
+				end
+				
+				drag do |space|
+					# stretch box extents
+				end
+				
+				release do |space|
+					# cement box constraints
+					# enable box for editing
+				end
+			end
+			
 			event :spawn_new_text do
 				bind_to Gosu::MsLeft
 				
@@ -131,7 +151,7 @@ class Window < Gosu::Window
 				end
 			end
 			
-			event :select_text_object do
+			event :move_caret_and_select_object do
 				bind_to Gosu::MsLeft
 				
 				pick_object_from :space
@@ -154,7 +174,7 @@ class Window < Gosu::Window
 				# end
 			end
 			
-			event :select_portion_of_text do
+			event :highlight_text do
 				# bind_to Gosu::MsLeft
 				
 				pick_object_from :space
@@ -244,6 +264,24 @@ class Window < Gosu::Window
 				# release do |space, selection|
 					
 				# end
+			end
+			
+			event :cut_text do
+				# bind_to 
+				
+				pick_object_from :selection
+				
+				click do |space|
+					# pick
+				end
+				
+				drag do |space|
+					# move to new location
+				end
+				
+				release do |space|
+					# deselect new text object formed from cut
+				end
 			end
 			
 			event :pan_camera do
