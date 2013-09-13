@@ -163,40 +163,8 @@ module TextSpace
 			end
 			
 			
-			after_transition :inactive => :active do |text|
-				text.enable_active_style
-				
-				$window.text_input = Gosu::TextInput.new
-				$window.text_input.text = text.string
-				
-				unless text.string == nil || text.string.empty?
-					# Move caret into position
-					# Try to get as close to the position of the cursor as possible
-					width = text.font.width(text.string, text.height)
-					x = text.position.x
-					mouse_x = $window.mouse.position_in_world.x
-					
-					# Figure out where mouse_x is along the continuum from x to x+width
-					# Use that to guess what the closest letter is
-					# * basically, this algorithm is assuming fixed width, but it works pretty well
-					# TODO: Use more accurate caret positioning algorithm. Caret being off contributes fairly significantly to program feel.
-					percent = (mouse_x - x)/width.to_f
-					i = (percent * (text.string.length)).to_i
-					
-					
-					$window.text_input.caret_pos = i
-				end
-			end
-			
-			after_transition :active => :inactive do |text|
-				text.remove_active_style
-				
-				text.string = $window.text_input.text
-				
-				$window.text_input = nil
-				
-				$window.space.delete_if_empty text # gc component, essentially
-			end
+			after_transition :inactive => :active, :do => :activation
+			after_transition :active => :inactive, :do => :deactivation
 		end
 		
 		state_machine :style, :initial => :default, :namespace => 'style' do
@@ -321,6 +289,41 @@ module TextSpace
 		end
 		
 		private
+		
+		def activation
+			enable_active_style
+			
+			$window.text_input = Gosu::TextInput.new
+			$window.text_input.text = @string
+			
+			unless @string == nil || @string.empty?
+				# Move caret into position
+				# Try to get as close to the position of the cursor as possible
+				width = @font.width(@string, @height)
+				x = @position.x
+				mouse_x = $window.mouse.position_in_world.x
+				
+				# Figure out where mouse_x is along the continuum from x to x+width
+				# Use that to guess what the closest letter is
+				# * basically, this algorithm is assuming fixed width, but it works pretty well
+				# TODO: Use more accurate caret positioning algorithm. Caret being off contributes fairly significantly to program feel.
+				percent = (mouse_x - x)/width.to_f
+				i = (percent * (@string.length)).to_i
+				
+				
+				$window.text_input.caret_pos = i
+			end
+		end
+		
+		def deactivation
+			remove_active_style
+			
+			@string = $window.text_input.text
+			
+			$window.text_input = nil
+			
+			$window.space.delete_if_empty self # gc component, essentially
+		end
 		
 		def update_bb(string)
 			@bb.l = 0
