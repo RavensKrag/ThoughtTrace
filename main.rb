@@ -321,31 +321,38 @@ class Window < Gosu::Window
 		
 		if @space.empty?
 			# Create text objects for all events
-			labels = @mouse.action_callbacks.collect do |name, callback| 
+			data_type = Struct.new(:callback, :text)
+			
+			
+			labels = Hash.new
+			@mouse.action_callbacks.each do |name, callback|
+				next if name =~ /change_color/
+				
 				t = TextSpace::Text.new
 				t.string = name.to_s.gsub("_", " ")
 				
-				[name, t]
+				
+				labels[name] = data_type.new callback, t
 			end
-			# convert associative array to hash
-			labels = Hash[*labels.flatten]
 			
 			
-			labels.each do |name, label|
-				@space << label
+			
+			labels.each do |name, data|
+				@space << data.text
 			end
 			
 			
 			# Link together the text objects which are not colliding
 			collision_fields = [:pick, :click, :drag, :release]
 			connections = Array.new
-			@mouse.action_callbacks.each do |name1, callback1|
-				@mouse.action_callbacks.each do |name2, callback2|
+			labels.each do |name1, data1|
+				labels.each do |name2, data2|
 					
-					if callback1 != callback2
-						unless callback1.collide_with callback2, collision_fields
+					
+					if data1.callback != data2.callback
+						unless data1.callback.collide_with data2.callback, collision_fields
 							connections << TextSpace::ConnectingLine.new(
-								labels[name1], labels[name2],
+								data1.text, data2.text,
 								5, -1000, @paint_box[:connection]
 							)
 						end
@@ -354,6 +361,11 @@ class Window < Gosu::Window
 				end
 			end
 			@lines = connections
+			
+			
+			
+			
+			
 			
 			# @lines.each do |l|
 			# 	puts l.class
