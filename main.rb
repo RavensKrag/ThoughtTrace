@@ -9,6 +9,7 @@ require 'require_all'
 
 require_all './Chipmunk'
 require_all './Gosu'
+require_all './Input'
 
 require './PaintBox'
 
@@ -30,6 +31,8 @@ require './Space'
 require 'set'
 
 class Window < Gosu::Window
+	include InputManager
+	
 	attr_reader :camera, :mouse
 	attr_reader :space
 	

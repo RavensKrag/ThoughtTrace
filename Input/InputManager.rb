@@ -1,23 +1,8 @@
 require 'state_machine'
 
-class InputManager
-	def initialize
-		@handlers = Hash.new # name => handler
-	end
-	
-	def update
-		
-	end
-	
-	def button_down(id)
-		
-	end
-	
-	def button_up(id)
-		
-	end
-	
-	
+# need to run #update, #button_down, and #button_up for buttons, as well as more complex inputs
+# need to make sure buttons are up to date before testing complex inputs
+module InputManager
 	class Input
 		def initialize
 			super()
@@ -39,7 +24,7 @@ class InputManager
 			release if id == @binding
 		end
 		
-		state_machine :status, :default => :idle do
+		state_machine :status, :initial => :idle do
 			state :idle do
 				def update
 					@callbacks[:idle].call
