@@ -157,7 +157,7 @@ class InputManager
 			button_data = @buttons[@i]
 			
 			if id == button_data[BUTTON] && button_data[BUTTON].hold?
-				unless timestamp_expired?
+				if within_time_window?
 					if @i+1 < @buttons.size # any more buttons to process?
 						# Advance if there's more
 						@i += 1
@@ -180,11 +180,12 @@ class InputManager
 			dt = timestamp - @timestamp
 		end
 		
-		def timestamp_expired?
-			if @i != 0 # ignore timestamp for first button press
-				return dt > @buttons[@i][TIME_WINDOW]
+		def within_time_window?
+			if @i == 0
+				# first button can fire whenever it wants to
+				return true
 			else
-				return false
+				return dt < @buttons[@i][TIME_WINDOW]
 			end
 		end
 		
@@ -223,41 +224,34 @@ class InputManager
 	# The timing between inputs is important.
 	# While Sequence can be spammed, combos must be performed deliberately,
 	# each button hit within a certain window, instead of before a certain timeout.
-	class Combo < Input
+	class Combo < Sequence
+		TIME_LENIENCE = 2
 		# (all times should be in the same units)
 		# (for demonstration, frames (assuming 60fps) are used (homage to fighting games))
 		
-		Timing = Struct.new(:delay, :lenience)
-		
 		def initialize(*buttons, &block)
-			super()
+			super(*buttons, &block)
 			
 			# buttons = [
-			# 	[Button.new(Gosu::KbF1), 5, 3],
+			# 	[button, time window, lenience]
+			# 	[Button.new(Gosu::KbF1), nil, nil],
 			# 	[Button.new(Gosu::KbF2), 5, 3],
 			# 	[Button.new(Gosu::KbF3), 5, 3],
 			# 	[Button.new(Gosu::KbF4), 3, 3]
 			# ]
-			
-			@timestamp = nil
-			
-			@i = 0
-			@buttons = buttons
-			
-			instance_eval &block
-			
-			# @buttons = Hash.new
-			# buttons.each do |button, delay, lenience|
-			# 	@buttons[button] = Timing.new(delay, lenience)
-			# end
 		end
 		
-		def button_down(id)
-			
-		end
-		
-		def button_up(id)
-			
+		def within_time_window?
+			# TODO: Refactor #within_time_window? in Sequence so only the ignore-first-button clause can be omitted here
+			if @i == 0
+				# first button can fire whenever it wants to
+				return true
+			else
+				low = @buttons[@i][TIME_WINDOW]
+				high = @buttons[@i][TIME_WINDOW] + @buttons[@i][TIME_LENIENCE]
+				
+				return dt.between? low, high
+			end
 		end
 	end
 end
