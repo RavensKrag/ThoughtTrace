@@ -4,28 +4,35 @@ require 'state_machine'
 # need to make sure buttons are up to date before testing complex inputs
 module InputManager
 	class Input
+		CALLBACK_NAMES = [:on_press, :on_hold, :on_release, :on_idle]
+		
+		NULL_CALLBACK = Proc.new {|o| }
+		
 		def initialize
 			super()
 			
 			@callbacks = Hash.new
+			CALLBACK_NAMES.each do |name|
+				@callbacks[name] = NULL_CALLBACK
+			end
 		end
 		
-		[:press, :hold, :release, :idle].each do |name|
+		CALLBACK_NAMES.each do |name|
 			define_method name do |&block|
 				@callbacks[name] = block
 			end
 		end
 		
-		state_machine :status, :default => :idle do
+		state_machine :status, :initial => :idle do
 			state :idle do
 				def update
-					@callbacks[:idle].call
+					instance_eval &@callbacks[:on_idle]
 				end
 			end
 			
 			state :active do
 				def update
-					@callbacks[:hold].call
+					instance_eval &@callbacks[:on_hold]
 				end
 			end
 			
@@ -46,11 +53,11 @@ module InputManager
 		private
 		
 		def press_callback
-			@callbacks[:press].call
+			instance_eval &@callbacks[:on_press]
 		end
 		
 		def release_callback
-			@callbacks[:release].call
+			instance_eval &@callbacks[:on_release]
 		end
 	end
 	
@@ -62,7 +69,7 @@ module InputManager
 			
 			@binding = id
 			
-			instance_eval &block
+			instance_eval &block if block
 		end
 		
 		def ==(other)
@@ -90,7 +97,7 @@ module InputManager
 			
 			@buttons = buttons
 			
-			instance_eval &block
+			instance_eval &block if block
 		end
 		
 		def ==(other)
@@ -141,7 +148,7 @@ module InputManager
 			@i = 0
 			@buttons = buttons
 			
-			instance_eval &block
+			instance_eval &block if block
 		end
 		
 		def ==(other)

@@ -16,7 +16,7 @@ module InputManager
 			
 			@hover_callbacks = Hash.new # callback name => callback
 			
-			@action_callbacks = Hash.new # button => callback
+			@action_callbacks = Hash.new # input_binding => callback
 			
 			
 			# @callbacks = Hash.new # trigger => callback
@@ -68,9 +68,9 @@ module InputManager
 		
 		# Delegate down and up events to event callbacks
 		[:button_down, :button_up].each do |button_event|
-			define_method button_event do |id|
+			define_method button_event do
 				@action_callbacks.each_value do |event_object|
-					event_object.send button_event, id
+					event_object.send button_event
 				end
 			end
 		end
@@ -166,7 +166,7 @@ module InputManager
 				
 				@mouse = mouse_handler
 				
-				@binding = nil # button id
+				@binding = nil # input binding
 				@callbacks = Hash.new
 				
 				instance_eval &block
@@ -283,14 +283,14 @@ module InputManager
 				return output
 			end
 			
-			def button_down(id)
-				if id == @binding
-					click_event
+			def button_down
+				if @binding.active?
+					click_event 
 				end
 			end
 			
-			def button_up(id)
-				if id == @binding
+			def button_up
+				if @binding.active?
 					release_event
 				end
 			end
@@ -433,9 +433,8 @@ module InputManager
 			end
 			
 			# Manage button binding
-			def bind_to(button)
-				# TODO: Take ControlBinding instead of just a button ID
-				@binding = button
+			def bind_to(binding)
+				@binding = binding
 			end
 			
 			def binding

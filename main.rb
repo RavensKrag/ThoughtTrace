@@ -66,7 +66,39 @@ class Window < Gosu::Window
 		@space = TextSpace::Space.load filepath
 		
 		
-		@mouse = InputManager::MouseHandler.new @space, @selection, @paint_box do
+		left_click = Button.new Gosu::MsLeft
+		middle_click = Button.new Gosu::MsMiddle
+		right_click = Button.new Gosu::MsRight
+		
+		shift = Button.new Gosu::KbLeftShift
+		
+		shift_left_click = Chord.new left_click, shift
+		shift_middle_click = Chord.new middle_click, shift
+		shift_right_click = Chord.new right_click, shift
+		@inputs = {
+			:simple => [
+				left_click,
+				middle_click,
+				right_click,
+				
+				shift
+			],
+			
+			:complex => [
+				shift_left_click,
+				shift_middle_click,
+				shift_right_click
+			]
+		}
+		
+		@inputs[:simple].each do |i|
+			i.on_hold do
+				puts @binding
+			end
+		end
+		
+		
+		@mouse = MouseHandler.new @space, @selection, @paint_box do
 			# event :edit_text do
 				
 			# end
@@ -98,21 +130,21 @@ class Window < Gosu::Window
 				
 			# end
 			
-			(1..8).collect{|i| "KbF#{i}".to_sym}.collect {|s| Gosu.const_get(s)}.each do |f_key|
-			event "change_color_to_swatch-#{f_key}" do
-				bind_to f_key
+			# (1..8).collect{|i| "KbF#{i}".to_sym}.collect {|s| Gosu.const_get(s)}.each do |f_key|
+			# event "change_color_to_swatch-#{f_key}" do
+			# 	bind_to f_key
 				
-				pick_object_from :space
+			# 	pick_object_from :space
 				
-				click do |space, text|
-					text.color = @paint_box[f_key]
-				end
-			end
-			end
+			# 	click do |space, text|
+			# 		text.color = @paint_box[f_key]
+			# 	end
+			# end
+			# end
 			
 			
 			event :text_box do
-				bind_to Gosu::MsLeft
+				bind_to left_click
 				
 				pick_object_from :point
 				
@@ -153,7 +185,7 @@ class Window < Gosu::Window
 			end
 			
 			event :spawn_new_text do
-				bind_to Gosu::MsLeft
+				bind_to left_click
 				
 				pick_object_from :point do |vector|
 					puts "new text"
@@ -174,7 +206,7 @@ class Window < Gosu::Window
 			end
 			
 			event :move_caret_and_select_object do
-				bind_to Gosu::MsLeft
+				bind_to left_click
 				
 				pick_object_from :space
 				
@@ -197,7 +229,7 @@ class Window < Gosu::Window
 			end
 			
 			event :highlight_text do
-				# bind_to Gosu::MsLeft, Gosu::KbLeftShift
+				bind_to shift_left_click
 				
 				pick_object_from :space
 				
@@ -239,7 +271,7 @@ class Window < Gosu::Window
 			end
 			
 			event :resize do
-				# bind_to Gosu::MsRight, Gosu::KbLeftShift
+				bind_to shift_right_click
 				
 				pick_object_from :space
 				
@@ -261,7 +293,7 @@ class Window < Gosu::Window
 			end
 			
 			event :move_text do
-				bind_to Gosu::MsRight
+				bind_to right_click
 				
 				pick_object_from :space 
 				# pick_object_from :space do |object|
@@ -289,7 +321,7 @@ class Window < Gosu::Window
 			end
 			
 			event :cut_text do
-				bind_to Gosu::MsRight
+				bind_to right_click
 				
 				pick_object_from :selection
 				
@@ -307,7 +339,7 @@ class Window < Gosu::Window
 			end
 			
 			event :pan_camera do
-				bind_to Gosu::MsMiddle
+				bind_to middle_click
 				
 				click do |space|
 					# Establish basis for drag
@@ -329,7 +361,7 @@ class Window < Gosu::Window
 			end
 			
 			event :box_select do
-				# bind_to Gosu::MsLeft, Gosu::KbLeftShift
+				bind_to shift_left_click
 				
 				# if you don't use a pick query, it can execute any time
 				
@@ -447,6 +479,8 @@ class Window < Gosu::Window
 	def update
 		@space.update
 		
+		@inputs[:simple].each	{ |i|	i.update }
+		@inputs[:complex].each	{ |i|	i.update }
 		@mouse.update
 	end
 	
@@ -470,11 +504,15 @@ class Window < Gosu::Window
 				close
 		end
 		
-		@mouse.button_down id
+		@inputs[:simple].each	{ |i|	i.button_down(id) }
+		@inputs[:complex].each	{ |i|	i.button_down(id) }
+		@mouse.button_down
 	end
 	
 	def button_up(id)
-		@mouse.button_up id
+		@inputs[:simple].each	{ |i|	i.button_up(id) }
+		@inputs[:complex].each	{ |i|	i.button_up(id) }
+		@mouse.button_up
 	end
 	
 	def needs_cursor?
