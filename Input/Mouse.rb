@@ -1,6 +1,6 @@
 require 'state_machine'
 
-module TextSpace
+module InputManager
 	class MouseHandler
 		attr_reader :space, :selection
 		attr_reader :action_callbacks

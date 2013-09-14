@@ -23,8 +23,6 @@ require './Selection'
 require './Font'
 require './Text'
 
-require './Mouse'
-
 require './Space'
 
 
@@ -68,7 +66,7 @@ class Window < Gosu::Window
 		@space = TextSpace::Space.load filepath
 		
 		
-		@mouse = TextSpace::MouseHandler.new @space, @selection, @paint_box do
+		@mouse = InputManager::MouseHandler.new @space, @selection, @paint_box do
 			# event :edit_text do
 				
 			# end
