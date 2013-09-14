@@ -16,15 +16,7 @@ module InputManager
 			end
 		end
 		
-		def button_down(id)
-			press if id == @binding
-		end
-		
-		def button_up(id)
-			release if id == @binding
-		end
-		
-		state_machine :status, :initial => :idle do
+		state_machine :status, :default => :idle do
 			state :idle do
 				def update
 					@callbacks[:idle].call
@@ -73,6 +65,12 @@ module InputManager
 			instance_eval &block
 		end
 		
+		def ==(other)
+			other = other.binding if other.is_a? self.class
+			
+			return @binding == other
+		end
+		
 		def button_down(id)
 			press if id == @binding
 		end
@@ -80,23 +78,29 @@ module InputManager
 		def button_up(id)
 			release if id == @binding
 		end
-		
-		def ==(other)
-			other = other.binding if other.is_a? self.class
-			
-			return @binding == other
-		end
 	end
 	
 	# Hit a bunch of buttons all at once
 	# NOTE: Currently triggers when all are down, should probably only trigger when all down within a set delta time of each other
 	class Chord < Input
+		attr_reader :buttons
+		
 		def initialize(*buttons, &block)
 			super()
 			
 			@buttons = buttons
 			
 			instance_eval &block
+		end
+		
+		def ==(other)
+			if other.is_a? self.class
+				return @buttons == other.buttons
+			elsif other.is_a? Array
+				return @buttons == other
+			else
+				return false
+			end
 		end
 		
 		[:button_down, :button_up].each do |name|
@@ -119,6 +123,8 @@ module InputManager
 		BUTTON = 0
 		TIME_WINDOW = 1
 		
+		attr_reader :buttons
+		
 		def initialize(*buttons, &block)
 			super()
 			
@@ -138,6 +144,22 @@ module InputManager
 			instance_eval &block
 		end
 		
+		def ==(other)
+			if other.is_a? self.class
+				return @buttons == other.buttons
+			elsif other.is_a? Array
+				return @buttons == other
+			else
+				return false
+			end
+		end
+		
+		def update
+			super()
+			
+			reset if state_name == :hold # essentially, only call :hold callback for one frame
+		end
+		
 		def button_down(id)
 			button_data = @buttons[@i]
 			
@@ -149,7 +171,6 @@ module InputManager
 					else
 						# No more buttons
 						fire
-						reset # <-- maybe some sort of cool down after success?
 					end
 				else
 					timeout
@@ -189,6 +210,7 @@ module InputManager
 		# unless you intend to disambiguate between different types of releasing
 		def reset
 			@i = 0
+			release
 		end
 		
 		private
@@ -224,6 +246,16 @@ module InputManager
 			# 	[Button.new(Gosu::KbF3), 5, 3],
 			# 	[Button.new(Gosu::KbF4), 3, 3]
 			# ]
+		end
+		
+		def ==(other)
+			if other.is_a? self.class
+				return @buttons == other.buttons
+			elsif other.is_a? Array
+				return @buttons == other
+			else
+				return false
+			end
 		end
 		
 		def within_time_window?
