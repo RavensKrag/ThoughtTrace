@@ -290,7 +290,7 @@ module InputManager
 			end
 			
 			def button_up
-				if @binding.active?
+				if @binding.idle?
 					release_event
 				end
 			end

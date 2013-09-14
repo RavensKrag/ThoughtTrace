@@ -91,12 +91,6 @@ class Window < Gosu::Window
 			]
 		}
 		
-		@inputs[:simple].each do |i|
-			i.on_hold do
-				puts @binding
-			end
-		end
-		
 		
 		@mouse = MouseHandler.new @space, @selection, @paint_box do
 			# event :edit_text do
