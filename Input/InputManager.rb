@@ -23,7 +23,7 @@ module InputManager
 				end
 			end
 			
-			state :hold do
+			state :active do
 				def update
 					@callbacks[:hold].call
 				end
@@ -31,16 +31,16 @@ module InputManager
 			
 			
 			event :press do
-				transition :idle => :hold
+				transition :idle => :active
 			end
 			
 			event :release do
-				transition :hold => :idle
+				transition :active => :idle
 			end
 			
 			
-			after_transition :idle => :hold, :do => :press_callback
-			after_transition :hold => :idle, :do => :release_callback
+			after_transition :idle => :active, :do => :press_callback
+			after_transition :active => :idle, :do => :release_callback
 		end
 		
 		private
@@ -106,7 +106,7 @@ module InputManager
 		[:button_down, :button_up].each do |name|
 			define_method name do |id|
 				
-				if @buttons.all?{ |b|  b.hold? }
+				if @buttons.all?{ |b|  b.active? }
 					press
 				else
 					release
@@ -157,13 +157,13 @@ module InputManager
 		def update
 			super()
 			
-			reset if state_name == :hold # essentially, only call :hold callback for one frame
+			reset if state_name == :active # essentially, only call :hold callback for one frame
 		end
 		
 		def button_down(id)
 			button_data = @buttons[@i]
 			
-			if id == button_data[BUTTON] && button_data[BUTTON].hold?
+			if id == button_data[BUTTON] && button_data[BUTTON].active?
 				if within_time_window?
 					if @i+1 < @buttons.size # any more buttons to process?
 						# Advance if there's more
