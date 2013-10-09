@@ -78,122 +78,114 @@ class Window < Gosu::Window
 		
 		
 		
-		
-		
-		
 		@inpman = DIS::InputManager.new
 		
-		left_click =	DIS::Sequence.new(:left_click).tap do |input|
-							input.callbacks[:default].tap do |c|
-								c.on_press do
-									puts "left DOWN #{DIS.timestamp}"
+			left_click =	DIS::Sequence.new(:left_click).tap do |input|
+								input.callbacks[:default].tap do |c|
+									c.on_press do
+										puts "left DOWN #{DIS.timestamp}"
+									end
+									
+									c.on_hold do
+										puts "left #{DIS.timestamp}"
+									end
 								end
 								
-								c.on_hold do
-									puts "left #{DIS.timestamp}"
-								end
+								input.press_events = [
+									DIS::Event.new(Gosu::MsLeft, :down)
+								]
+								input.release_events = [
+									DIS::Event.new(Gosu::MsLeft, :up)
+								]
 							end
-							
-							input.press_events = [
-								DIS::Event.new(Gosu::MsLeft, :down)
-							]
-							input.release_events = [
-								DIS::Event.new(Gosu::MsLeft, :up)
-							]
-						end
-		
-		middle_click =	DIS::Sequence.new(:middle_click).tap do |input|
-							input.callbacks[:default].tap do |c|
-								c.on_hold do
-									puts "middle #{DIS.timestamp}"
-								end
-							end
-							
-							input.press_events = [
-								DIS::Event.new(Gosu::MsMiddle, :down)
-							]
-							input.release_events = [
-								DIS::Event.new(Gosu::MsMiddle, :up)
-							]
-						end
-		
-		
-		right_click =	DIS::Sequence.new(:right_click).tap do |input|
-							input.callbacks[:default].tap do |c|
-								c.on_press do
-									puts "right DOWN #{DIS.timestamp}"
+			
+			middle_click =	DIS::Sequence.new(:middle_click).tap do |input|
+								input.callbacks[:default].tap do |c|
+									c.on_hold do
+										puts "middle #{DIS.timestamp}"
+									end
 								end
 								
-								c.on_hold do
-									puts "right #{DIS.timestamp}"
-								end
+								input.press_events = [
+									DIS::Event.new(Gosu::MsMiddle, :down)
+								]
+								input.release_events = [
+									DIS::Event.new(Gosu::MsMiddle, :up)
+								]
 							end
-							
-							input.press_events = [
-								DIS::Event.new(Gosu::MsRight, :down)
-							]
-							
-							input.release_events = [
-								DIS::Event.new(Gosu::MsRight, :up)
-							]
-						end
-		
-		
-		
-		shift =			DIS::Sequence.new(:shift).tap do |input|
-							input.callbacks[:default].tap do |c|
-								c.on_hold do
-									puts "shift #{DIS.timestamp}"
+			
+			right_click =	DIS::Sequence.new(:right_click).tap do |input|
+								input.callbacks[:default].tap do |c|
+									c.on_press do
+										puts "right DOWN #{DIS.timestamp}"
+									end
+									
+									c.on_hold do
+										puts "right #{DIS.timestamp}"
+									end
 								end
+								
+								input.press_events = [
+									DIS::Event.new(Gosu::MsRight, :down)
+								]
+								
+								input.release_events = [
+									DIS::Event.new(Gosu::MsRight, :up)
+								]
 							end
-							
-							input.press_events = [
-								DIS::Event.new(Gosu::KbLeftShift, :down)
-							]
-							
-							input.release_events = [
-								DIS::Event.new(Gosu::KbLeftShift, :up)
-							]
-						end
+			
+			
+			
+			shift =			DIS::Sequence.new(:shift).tap do |input|
+								input.callbacks[:default].tap do |c|
+									c.on_hold do
+										puts "shift #{DIS.timestamp}"
+									end
+								end
+								
+								input.press_events = [
+									DIS::Event.new(Gosu::KbLeftShift, :down)
+								]
+								
+								input.release_events = [
+									DIS::Event.new(Gosu::KbLeftShift, :up)
+								]
+							end
 				
 		
 		
-		shift_left_click = DIS::Accelerator.new :shift_left_click, shift, left_click
-		shift_middle_click = DIS::Accelerator.new :shift_middle_click, shift, middle_click
-		shift_right_click = DIS::Accelerator.new :shift_right_click, shift, right_click
+			shift_left_click = DIS::Accelerator.new :shift_left_click, shift, left_click
+			shift_middle_click = DIS::Accelerator.new :shift_middle_click, shift, middle_click
+			shift_right_click = DIS::Accelerator.new :shift_right_click, shift, right_click
 		
 		
-		[
-			left_click, middle_click, right_click,
-			shift,
-			shift_left_click, shift_middle_click, shift_right_click
-		].each do |input|
-			@inpman.add input
-		end
+			f_keys =	(1..8)
+							.collect{ |i| "KbF#{i}".to_sym }
+							.collect{ |s| Gosu.const_get(s) }
+							.collect do
+						|f_key|
+							
+							input = DIS::Sequence.new f_key
+							
+							input.press_events = [
+								DIS::Event.new(f_key, :down)
+							]
+							
+							input.release_events = [
+								DIS::Event.new(f_key, :up)
+							]
+							
+							input
+						end
 		
-		
-		
-		
-		f_keys =	(1..8)
-						.collect{ |i| "KbF#{i}".to_sym }
-						.collect{ |s| Gosu.const_get(s) }
-						.collect do
-					|f_key|
-						
-						input = DIS::Sequence.new f_key
-						
-						input.press_events = [
-							DIS::Event.new(f_key, :down)
-						]
-						
-						input.release_events = [
-							DIS::Event.new(f_key, :up)
-						]
-						
-						input
-					end
-		
-		f_keys.each{ |key| @inpman.add key }
+		(
+			f_keys +
+			[
+				left_click, middle_click, right_click,
+				shift,
+				shift_left_click, shift_middle_click, shift_right_click
+			]
+		).each{ |i| @inpman.add i }
 		
 		
 		
