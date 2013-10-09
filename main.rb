@@ -186,6 +186,37 @@ class Window < Gosu::Window
 		end
 		
 		
+		
+		f_keys = (1..8)
+			.collect{ |i| "KbF#{i}".to_sym }
+			.collect { |s| Gosu.const_get(s) }
+			.collect do |f_key|
+			
+			input = DIS::Sequence.new f_key
+			# input.callbacks[:default].tap do |c|
+			# 	c.on_press do
+					
+			# 	end
+				
+			# 	c.on_hold do
+					
+			# 	end
+			# end
+			input.press_events = [
+				DIS::Event.new(f_key, :down)
+			]
+			
+			input.release_events = [
+				DIS::Event.new(f_key, :up)
+			]
+			
+			input
+		end
+		
+		f_keys.each{ |key| @inpman.add key }
+		
+		
+		
 		@mouse = MouseHandler.new @space, @selection, @paint_box do
 			# event :edit_text do
 				
@@ -218,17 +249,17 @@ class Window < Gosu::Window
 				
 			# end
 			
-			# (1..8).collect{|i| "KbF#{i}".to_sym}.collect {|s| Gosu.const_get(s)}.each do |f_key|
-			# event "change_color_to_swatch-#{f_key}" do
-			# 	bind_to f_key
-				
-			# 	pick_object_from :space
-				
-			# 	click do |space, text|
-			# 		text.color = @paint_box[f_key]
-			# 	end
-			# end
-			# end
+			f_keys.each do |key|
+				event "change_color_to_swatch-#{key.name}" do
+					bind_to key
+					
+					pick_object_from :space
+					
+					click do |space, text|
+						text.color = @paint_box[key.name]
+					end
+				end
+			end
 			
 			
 			event :text_box do
