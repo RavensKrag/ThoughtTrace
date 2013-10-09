@@ -65,16 +65,7 @@ module InputManager
 				callback.update
 			end
 		end
-		
-		# Delegate down and up events to event callbacks
-		[:button_down, :button_up].each do |button_event|
-			define_method button_event do
-				@action_callbacks.each_value do |event_object|
-					event_object.send button_event
-				end
-			end
-		end
-		
+				
 		def shutdown
 			@selection.clear
 			@last_hovered_object.mouse_out
@@ -105,7 +96,7 @@ module InputManager
 		end
 		
 		def event(id, &block)
-			new_event = MouseEvent.new self, &block
+			new_event = MouseEvent.new self, id, &block
 			
 			@action_callbacks.each do |event_name, old_event|
 				# puts "old sig: #{event_name} --- new sig: #{id}"
@@ -161,10 +152,11 @@ module InputManager
 		class MouseEvent
 			EVENT_TYPES = [:click, :drag, :release]
 			
-			def initialize(mouse_handler, &block)
+			def initialize(mouse_handler, name, &block)
 				super()
 				
 				@mouse = mouse_handler
+				@name = name
 				
 				@binding = nil # input binding
 				@callbacks = Hash.new
@@ -281,18 +273,6 @@ module InputManager
 				
 				
 				return output
-			end
-			
-			def button_down
-				if @binding.active?
-					click_event 
-				end
-			end
-			
-			def button_up
-				if @binding.idle?
-					release_event
-				end
 			end
 			
 			state_machine :state, :initial => :up do
@@ -432,16 +412,45 @@ module InputManager
 				end
 			end
 			
+			
+			# TODO: make sure bindings can be defined in an interface on Mouse, but that event firing is handled by the input system
+			
+			
 			# Manage button binding
 			def bind_to(binding)
+				# remove previous binding, if any
+				@binding.callbacks.delete @name if @binding
+				
+				# set up new binding
 				@binding = binding
+				
+				
+				# should just use the name of the mouse event,
+				# that way you don't have to define two names
+				@binding.callbacks[@name].tap do |c|
+					c.on_press do
+						click_event
+					end
+					
+					c.on_hold do
+						
+					end
+					
+					c.on_release do
+						release_event
+					end
+					
+					# c.on_idle do
+						# hover?
+					# end
+				end
 			end
+			alias :binding= :bind_to
+			
 			
 			def binding
 				@binding
 			end
-			
-			alias :binding= :bind_to
 			
 			
 			private

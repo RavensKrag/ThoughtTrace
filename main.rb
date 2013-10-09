@@ -4,8 +4,11 @@ Dir.chdir File.dirname(__FILE__)
 require 'rubygems'
 require 'gosu'
 
+require 'DIS'
+
 require 'chipmunk'
 require 'require_all'
+
 
 require_all './Chipmunk'
 require_all './Gosu'
@@ -28,6 +31,12 @@ require './Space'
 
 require 'set'
 
+module DIS
+	def self.timestamp
+		Gosu::milliseconds
+	end
+end
+
 class Window < Gosu::Window
 	include InputManager
 	
@@ -41,10 +50,12 @@ class Window < Gosu::Window
 		width = (height.to_f*16/9).to_i
 		fullscreen = false
 		
-		update_interval = 1/60.0
+		update_interval = 1/60.0 * 1000
 		
 		super(width, height, fullscreen, update_interval)
 		self.caption = "TextSpace"
+		
+		
 		
 		@paint_box = TextSpace::PaintBox.new
 		
@@ -66,30 +77,113 @@ class Window < Gosu::Window
 		@space = TextSpace::Space.load filepath
 		
 		
-		left_click = Button.new Gosu::MsLeft
-		middle_click = Button.new Gosu::MsMiddle
-		right_click = Button.new Gosu::MsRight
 		
-		shift = Button.new Gosu::KbLeftShift
 		
-		shift_left_click = Chord.new left_click, shift
-		shift_middle_click = Chord.new middle_click, shift
-		shift_right_click = Chord.new right_click, shift
-		@inputs = {
-			:simple => [
-				left_click,
-				middle_click,
-				right_click,
-				
-				shift
-			],
+		
+		
+		@inpman = DIS::InputManager.new
+		
+		left_click = DIS::Sequence.new :left_click
+		left_click.callbacks[:default].tap do |c|
+			c.on_press do
+				puts "left DOWN #{DIS.timestamp}"
+			end
 			
-			:complex => [
-				shift_left_click,
-				shift_middle_click,
-				shift_right_click
-			]
-		}
+			c.on_hold do
+				puts "left #{DIS.timestamp}"
+			end
+		end
+		left_click.press_events = [
+			DIS::Event.new(Gosu::MsLeft, :down)
+		]
+		left_click.release_events = [
+			DIS::Event.new(Gosu::MsLeft, :up)
+		]
+		
+		middle_click = DIS::Sequence.new :middle_click
+		middle_click.callbacks[:default].tap do |c|
+			c.on_hold do
+				puts "middle #{DIS.timestamp}"
+			end
+		end
+		middle_click.press_events = [
+			DIS::Event.new(Gosu::MsMiddle, :down)
+		]
+		middle_click.release_events = [
+			DIS::Event.new(Gosu::MsMiddle, :up)
+		]
+		
+		right_click = DIS::Sequence.new :right_click
+		right_click.callbacks[:default].tap do |c|
+			c.on_press do
+				puts "right DOWN #{DIS.timestamp}"
+			end
+			
+			c.on_hold do
+				puts "right #{DIS.timestamp}"
+			end
+		end
+		right_click.press_events = [
+			DIS::Event.new(Gosu::MsRight, :down)
+		]
+		
+		right_click.release_events = [
+			DIS::Event.new(Gosu::MsRight, :up)
+		]
+		
+		
+		
+		
+		shift = DIS::Sequence.new :shift
+		shift.callbacks[:default].tap do |c|
+			c.on_hold do
+				puts "shift #{DIS.timestamp}"
+			end
+		end
+		shift.press_events = [
+			DIS::Event.new(Gosu::KbLeftShift, :down)
+		]
+		
+		shift.release_events = [
+			DIS::Event.new(Gosu::KbLeftShift, :up)
+		]
+		
+		
+		# TODO: Must change the accelerator implementation immediately. Accelerators are not the same as chords.  An accelerator must be held while the other is depressed.  It's more like a arpeggiated chord, but the space between the two inputs is indefinite.
+		# NOTE: Latency differences between keyboard and mouse (namely caused by the fact they are on separate connections, but emphasized because mechanical keyboard vs wireless mouse) make it hard to hit a real chord with a key + mouse combo.  At least the the 300ms~ dt and 80ms latency forgiveness window.
+		
+		shift_left_click = DIS::Accelerator.new :shift_left_click, shift, left_click
+		shift_left_click.callbacks[:default].tap do |c|
+			c.on_hold do
+				puts "shift-left #{DIS.timestamp}"
+			end
+		end
+		
+		shift_middle_click = DIS::Accelerator.new :shift_middle_click, shift, middle_click
+		shift_middle_click.callbacks[:default].tap do |c|
+			c.on_hold do
+				puts "shift-middle #{DIS.timestamp}"
+			end
+		end
+		
+		shift_right_click = DIS::Accelerator.new :shift_right_click, shift, right_click
+		shift_right_click.callbacks[:default].tap do |c|
+			c.on_press do
+				puts "shift right DOWN #{DIS.timestamp}"
+			end
+			
+			c.on_hold do
+				puts "shift right HOLD #{DIS.timestamp}"
+			end
+		end
+		
+		
+		[
+			left_click, middle_click, right_click, shift,
+			shift_left_click, shift_middle_click, shift_right_click
+		].each do |input|
+			@inpman.add input
+		end
 		
 		
 		@mouse = MouseHandler.new @space, @selection, @paint_box do
@@ -473,9 +567,9 @@ class Window < Gosu::Window
 	def update
 		@space.update
 		
-		@inputs[:simple].each	{ |i|	i.update }
-		@inputs[:complex].each	{ |i|	i.update }
+		
 		@mouse.update
+		@inpman.update
 	end
 	
 	def draw
@@ -498,15 +592,13 @@ class Window < Gosu::Window
 				close
 		end
 		
-		@inputs[:simple].each	{ |i|	i.button_down(id) }
-		@inputs[:complex].each	{ |i|	i.button_down(id) }
-		@mouse.button_down
+		@inpman.button_down id
+		# @mouse.button_down
 	end
 	
 	def button_up(id)
-		@inputs[:simple].each	{ |i|	i.button_up(id) }
-		@inputs[:complex].each	{ |i|	i.button_up(id) }
-		@mouse.button_up
+		@inpman.button_up id
+		# @mouse.button_up
 	end
 	
 	def needs_cursor?
