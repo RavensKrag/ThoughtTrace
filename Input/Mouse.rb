@@ -289,7 +289,7 @@ module InputManager
 						# and no callbacks are launched
 						
 						# only proceed if defined pick callbacks have fired
-						a = @pick_object_callback_defined
+						a = pick_callback_defined?
 						b = pick_object_callback
 						
 						# a b		out
@@ -341,15 +341,13 @@ module InputManager
 			
 			# Select object to be manipulated in further mouse callbacks
 			def pick_object_from(domain, &block)
-				@pick_object_callback_defined = true
-				
 				@pick_domain = domain
 				@pick_callback = block
 			end
 			
 			def pick_object_callback
 				# This callback should not fire when domain undefined
-				return unless @pick_object_callback_defined
+				return unless pick_callback_defined?
 				
 				
 				point = @mouse.position_in_world
@@ -396,6 +394,11 @@ module InputManager
 								else
 									nil
 								end
+			end
+			
+			def pick_callback_defined?
+				# return truthyness
+				return !!@pick_domain
 			end
 			
 			EVENT_TYPES.each do |event|
