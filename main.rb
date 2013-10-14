@@ -231,6 +231,7 @@ class Window < Gosu::Window
 			
 			
 			event :text_box do
+				# TODO: consider binding via identifier, and searching the input manager for a sequence with that identifier, rather than specifying via variable
 				bind_to left_click
 				
 				pick_object_from :point
@@ -552,15 +553,6 @@ class Window < Gosu::Window
 			
 			@lines = YAML.load_file(filepath)
 		end
-		
-		# set default font
-		# 
-		# camera
-		# debug_out
-			# debug_out#puts
-		# space
-		# mouse
-		# selection
 	end
 	
 	def update
@@ -592,12 +584,10 @@ class Window < Gosu::Window
 		end
 		
 		@inpman.button_down id
-		# @mouse.button_down
 	end
 	
 	def button_up(id)
 		@inpman.button_up id
-		# @mouse.button_up
 	end
 	
 	def needs_cursor?
@@ -619,11 +609,9 @@ class Window < Gosu::Window
 		
 		filepath = File.join(File.dirname(__FILE__), "data", "save_data.yml")
 		@space.dump filepath
-		
-		
-		
-		
 	end
+	
+	
 	
 	# Queue up drawing operations to be drawn during the draw step
 	def draw_in_space(*args)
