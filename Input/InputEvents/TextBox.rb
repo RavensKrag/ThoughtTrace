@@ -3,10 +3,6 @@ module MouseEvents
 		bind_to :left_click
 		pick_object_from :space
 		
-		def initialize
-			super()
-		end
-		
 		def click(selected)
 			# generate basis for box
 			# spawn caret?
