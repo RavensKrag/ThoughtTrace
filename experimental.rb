@@ -531,3 +531,94 @@ end
 # right click move
 # middle click pan
 # shift + click resize (because shift makes letters bigger (ie capital))
+
+
+
+
+# taken from rails, courtesy of StackExchange
+# http://stackoverflow.com/questions/1509915/converting-camel-case-to-underscore-case-in-ruby
+class String
+  # def underscore
+  def to_snake_case
+    self.gsub(/::/, '/').
+    gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+    gsub(/([a-z\d])([A-Z])/,'\1_\2').
+    tr("-", "_").
+    downcase
+  end
+end
+
+
+
+# this syntax allows for spitting up callbacks between separate files
+class MouseEvent
+	def initialize
+		@name = self.name.scan(/(.*)[Event]*/)[0][0].to_snake_case.to_sym
+	end
+	
+	def add_to(handler)
+		# 
+		
+		
+		
+		# set other variables here as well,
+		# so events can be initialized without parameters
+		# but all the events in the same handler can point to the same values
+		@space = handler.space
+		
+		@color = handler.paint_box
+	end
+end
+
+class TextBoxEvent < MouseEvent
+	# must state key bindings as symbols, rather than variables
+	# will scan the input system for a sequence with the given symbol as the name
+	# (really just needs to be the same unique identifier as used for the sequence)
+	bind_to :left_click
+	pick_object_from :space
+	
+	def initialize
+		super()
+	end
+	
+	def click(selected)
+		@text_box_top_left = position_in_world
+	end
+	
+	def drag(selected)
+		bottom_right = position_in_world
+		
+		bb = CP::BB.new(@text_box_top_left.x, bottom_right.y, 
+						bottom_right.x, @text_box_top_left.y)
+		bb.reformat # TODO: Rename CP::BB#reformat
+		
+		bb.draw_in_space @color[:box_select]
+	end
+	
+	def release(selected)
+		
+	end
+end
+
+# could maybe defined singleton methods if you want a single-file interface
+x = Event.new
+	x.click do
+		
+	end
+	x.drag do
+		
+	end
+	x.release do
+		
+	end
+
+
+
+# to disable, you can just comment out one line
+@mouse = MouseHandler.new @space, @selection, @paint_box
+@mouse.add(
+	TextBoxEvent.new,
+	# SpawnNewTextEvent.new,
+	MoveCaretEvent.new
+)
+	

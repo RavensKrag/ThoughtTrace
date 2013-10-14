@@ -12,7 +12,8 @@ require 'require_all'
 
 require_all './Chipmunk'
 require_all './Gosu'
-require_all './Input'
+# require_all './Input'
+require './Input/Mouse'
 
 require './PaintBox'
 
