@@ -75,14 +75,18 @@ module MouseEvents
 	#  / /_/ / / / / / /_/ / / / / / /_/ / 
 	# /_____/_/_/ /_/\__,_/_/_/ /_/\__, /  
 	#                             /____/   
+	# TOOD: Restructure to allow for rebinding
 		class << self
+			# NOTE: This structure does not allow for rebinding
 			def bind_to(id)
 				# define the binding, but do not set it
 				
 				# be careful with variable scope.  this is a class-level declaration
 				@@binding_id = id
 			end
+			private :bind_to
 		end
+		# alias :binding= :bind_to
 		
 		# maybe the set should happen in the mouse?
 		# then, this class need only expose the things necessary to figure out what to bind to
@@ -117,10 +121,8 @@ module MouseEvents
 				# c.on_idle do
 					# hover?
 				# end
-	
 			end
 		end
-		alias :binding= :bind_to
 		
 		def binding
 			@binding
@@ -249,6 +251,7 @@ module MouseEvents
 	#   \__ \/ __/ __ `/ __/ _ \
 	#  ___/ / /_/ /_/ / /_/  __/
 	# /____/\__/\__,_/\__/\___/ 
+	# contains update method
 		state_machine :state, :initial => :up do
 			state :up do
 				def update
@@ -267,7 +270,7 @@ module MouseEvents
 					b = pick_object_callback
 					
 					# a b		out
-					# 0 0		1		# callback undefined
+					# 0 0		1		# no pick necessary (callback undefined)
 					# 0 1		1		# 
 					# 1 0		0		# if it's defined, it must have fired properly
 					# 1 1		1		# 
