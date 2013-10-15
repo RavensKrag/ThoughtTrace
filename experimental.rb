@@ -621,4 +621,24 @@ x = Event.new
 	# SpawnNewTextEvent.new,
 	MoveCaretEvent.new
 )
-	
+
+
+
+# major problem right now is how to deal with saving / loading event bindings
+	# could get really weird if the bindings in the class declaration
+	# can be different from the actual bindings being used,
+	# but only like, under certain circumstances?
+	# what would those event be?
+
+
+
+# maybe the set should happen in the mouse?
+	# then, this class need only expose the things necessary to figure out what to bind to
+	# the binding may fail due to a collision with another event in the mouse handler,
+	# so it actually makes a lot of sense to do it that way
+
+# how should collisions be handeled?
+# should collisions with the general input system be checked first,
+# or is it more important to test collisions of mouse-specific features?
+	# seems like it should test mouse specific features first,
+	# then let the rest of the input system catch other problems

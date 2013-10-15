@@ -17,8 +17,9 @@ module MouseEvents
 		# must state key bindings as symbols, rather than variables
 		# will scan the input system for a sequence with the given symbol as the name
 		# (really just needs to be the same unique identifier as used for the sequence)
-		bind_to :left_click
-		pick_object_from :space
+		
+		# bind_to :left_click
+		# pick_object_from :space
 		
 		def initialize
 			super() # needed for state_machine
@@ -37,6 +38,7 @@ module MouseEvents
 		
 		def add_to(mouse)
 			@mouse = mouse
+			bind(mouse.input_system)
 			
 			
 			# set other variables here as well,
@@ -45,8 +47,6 @@ module MouseEvents
 			@space = mouse.space
 			
 			@color = mouse.paint_box
-			
-			set_binding(mouse.input_system)
 		end
 		
 		# Do not define the callback methods, but expect that children of this class will
@@ -76,6 +76,7 @@ module MouseEvents
 	# /_____/_/_/ /_/\__,_/_/_/ /_/\__, /  
 	#                             /____/   
 	# TOOD: Restructure to allow for rebinding
+		# Set up binding to be used when the event is added to the mouse handeler
 		class << self
 			# NOTE: This structure does not allow for rebinding
 			def bind_to(id)
@@ -86,48 +87,70 @@ module MouseEvents
 			end
 			private :bind_to
 		end
-		# alias :binding= :bind_to
-		
-		# maybe the set should happen in the mouse?
-		# then, this class need only expose the things necessary to figure out what to bind to
-		# the binding may fail due to a collision with another event in the mouse handler,
-		# so it actually makes a lot of sense to do it that way
-		# 
-		# though, if it's in here, then I can make it private, and clean up the API that way
-		def set_binding(input_system)
-			# check input system for a sequence with the requested identifier
-			input_sequence = input_system[@@binding_id]
-			
-			unless input_sequence raise "No sequence found"
-			
-			
-			# remove previous binding, if any
-			input_sequence.callbacks.delete @name
-			
-			# set up new binding
-			input_sequence.callbacks[@name].tap do |c|
-				c.on_press do
-					click_event
-				end
-				
-				c.on_hold do
-					
-				end
-				
-				c.on_release do
-					release_event
-				end
-				
-				# c.on_idle do
-					# hover?
-				# end
-			end
-		end
 		
 		def binding
-			@binding
+			@binding.id
 		end
 		
+		# Attach callbacks to input system
+		def bind(input_system, id=@@binding_id)
+			@binding.release if @binding # get rid of the old binding, if any
+			@binding = Binding.new input_system, id
+		end
+		
+		
+		class Binding
+			attr_reader :id
+			
+			def initialize(input_system, id)
+				@input_system = input_system
+				@id = id
+				
+				# check input system for a sequence with the requested identifier
+				sequence = input_system[id]
+				
+				unless sequence raise "No sequence found"
+				
+				# set up new binding
+				sequence.callbacks[id].tap do |c|
+					c.on_press do
+						click_event
+					end
+					
+					c.on_hold do
+						
+					end
+					
+					c.on_release do
+						release_event
+					end
+					
+					# c.on_idle do
+						# hover?
+					# end
+				end
+				
+				
+				# save reference to input sequence so that Binding can clean up after itself
+				@input_sequence = sequence
+			end
+			
+			# remove binding from input system
+			def release
+				@input_sequence.callbacks.delete @id
+			end
+			
+			# serialize
+			def dump(filepath)
+				
+			end
+			
+			# load from disk
+			def self.load(filepath)
+				
+			end
+		end
+		private_constant :Binding # new in 1.9.3, so be aware of that
 	
 	#    ______      _____      _           
 	#   / ____/___  / / (_)____(_)___  ____ 
