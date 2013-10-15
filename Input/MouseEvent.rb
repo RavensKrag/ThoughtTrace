@@ -344,131 +344,131 @@ module MouseEvents
 	#  / ____/ / /__/ ,<    / /___/ /_/ / / / /_/ / /_/ / /__/ ,< (__  ) 
 	# /_/   /_/\___/_/|_|   \____/\__,_/_/_/_.___/\__,_/\___/_/|_/____/  
 	# Select object to be manipulated in further mouse callbacks
-			def pick_object_from(domain, &block)
-				@pick_domain = domain
-				@pick_callback = block
+		def pick_object_from(domain, &block)
+			@pick_domain = domain
+			@pick_callback = block
+		end
+		
+		def pick_object_callback
+			# This callback should not fire when domain undefined
+			return unless pick_callback_defined?
+			
+			
+			point = @mouse.position_in_world
+			
+			object = @mouse.space.object_at point
+			
+			picked = case @pick_domain
+				when :space
+					object
+				when :selection
+					# object if selection.include? object
+				when :point
+					# add object generated as result of block to space automatically
+					# this should remove the need to expose the space to mouse callbacks
+					point if object == nil # only fire in empty space
+				else
+					raise "Invalid mouse picking domain (choose :point, :space, or :selection)"
 			end
 			
-			def pick_object_callback
-				# This callback should not fire when domain undefined
-				return unless pick_callback_defined?
-				
-				
-				point = @mouse.position_in_world
-				
-				object = @mouse.space.object_at point
-				
-				picked = case @pick_domain
-					when :space
-						object
-					when :selection
-						# object if selection.include? object
-					when :point
-						# add object generated as result of block to space automatically
-						# this should remove the need to expose the space to mouse callbacks
-						point if object == nil # only fire in empty space
-					else
-						raise "Invalid mouse picking domain (choose :point, :space, or :selection)"
-				end
-				
-				
-				# NOTE: This means selections are separate for each mouse event
-				
-				
-				# --- (if defined callback does not fire)
-				# is the a chance for callback to fire where no valid element is picked?
-				# NO
-				
-				# valid insures callback executed?
-				# essentially (unless there's no callback block defined)
-				
-				
-				@selection =	if picked
-									if @pick_callback
-										out = @mouse.instance_exec picked, &@pick_callback
-										
-										if @pick_domain == :point
-											@mouse.space << out
-										end
-										
-										out
-									else
-										picked
+			
+			# NOTE: This means selections are separate for each mouse event
+			
+			
+			# --- (if defined callback does not fire)
+			# is the a chance for callback to fire where no valid element is picked?
+			# NO
+			
+			# valid insures callback executed?
+			# essentially (unless there's no callback block defined)
+			
+			
+			@selection =	if picked
+								if @pick_callback
+									out = @mouse.instance_exec picked, &@pick_callback
+									
+									if @pick_domain == :point
+										@mouse.space << out
 									end
+									
+									out
 								else
-									nil
+									picked
 								end
-			end
-			
-			def pick_callback_defined?
-				# return truthyness
-				return !!@pick_domain
-			end
-			
-			EVENT_TYPES.each do |event|
-				# Fire callbacks
-				define_method "#{event}_callback" do ||
-					if @callbacks[event]
-						@mouse.instance_exec @mouse.space, @selection, &@callbacks[event]
-					end
-				end
-				
-				# Interface to define callbacks
-				define_method event do |&block|
-					@callbacks[event] = block
+							else
+								nil
+							end
+		end
+		
+		def pick_callback_defined?
+			# return truthyness
+			return !!@pick_domain
+		end
+		
+		EVENT_TYPES.each do |event|
+			# Fire callbacks
+			define_method "#{event}_callback" do ||
+				if @callbacks[event]
+					@mouse.instance_exec @mouse.space, @selection, &@callbacks[event]
 				end
 			end
 			
-			private
-			
-			# TODO: Remove this method.  Merge with Space#object_at
-			def pick_from(selection, position)
-				# TODO: This method should belong to a selection class
-				# arguably the selection code should belong to the selection,
-				# as would be oop style
-				# that means that any partition of the space (including the whole space)
-				# needs to be considered a selection
-				
-				
-				
-				# Select objects under the mouse
-				# If there's a conflict, get smallest one (least area)
-				
-				# There should be some other rule about distance to center of object
-					# triggers for many objects of similar size?
-					
-					# when objects are densely packed, it can be hard to select the right one
-					# the intuitive approach is to try to select dense objects by their center
-				selection = selection.select do |o|
-					o.bb.contains_vect? position
-				end
-				
-				selection.sort! do |a, b|
-					a.bb.area <=> b.bb.area
-				end
-				
-				# Get the smallest area values, within a certain threshold
-				# Results in a certain margin of what size is acceptable,
-				# relative to the smallest object
-				selection = selection.select do |o|
-					# TODO: Tweak margin
-					size_margin = 1.8 # percentage
-					
-					first_area = selection.first.bb.area
-					o.bb.area.between? first_area, first_area*(size_margin)
-				end
-				
-				selection.sort! do |a, b|
-					distance_to_a = a.bb.center.dist position
-					distance_to_b = b.bb.center.dist position
-					
-					# Listed in order of precedence, but sort order needs to be reverse of that
-					[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
-				end
-				
-				
-				return selection.first
+			# Interface to define callbacks
+			define_method event do |&block|
+				@callbacks[event] = block
 			end
+		end
+		
+		private
+		
+		# TODO: Remove this method.  Merge with Space#object_at
+		def pick_from(selection, position)
+			# TODO: This method should belong to a selection class
+			# arguably the selection code should belong to the selection,
+			# as would be oop style
+			# that means that any partition of the space (including the whole space)
+			# needs to be considered a selection
+			
+			
+			
+			# Select objects under the mouse
+			# If there's a conflict, get smallest one (least area)
+			
+			# There should be some other rule about distance to center of object
+				# triggers for many objects of similar size?
+				
+				# when objects are densely packed, it can be hard to select the right one
+				# the intuitive approach is to try to select dense objects by their center
+			selection = selection.select do |o|
+				o.bb.contains_vect? position
+			end
+			
+			selection.sort! do |a, b|
+				a.bb.area <=> b.bb.area
+			end
+			
+			# Get the smallest area values, within a certain threshold
+			# Results in a certain margin of what size is acceptable,
+			# relative to the smallest object
+			selection = selection.select do |o|
+				# TODO: Tweak margin
+				size_margin = 1.8 # percentage
+				
+				first_area = selection.first.bb.area
+				o.bb.area.between? first_area, first_area*(size_margin)
+			end
+			
+			selection.sort! do |a, b|
+				distance_to_a = a.bb.center.dist position
+				distance_to_b = b.bb.center.dist position
+				
+				# Listed in order of precedence, but sort order needs to be reverse of that
+				[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
+			end
+			
+			
+			return selection.first
+		end
 	end	
 end
 
