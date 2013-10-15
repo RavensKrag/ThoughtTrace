@@ -75,6 +75,7 @@ module MouseEvents
 	#  / /_/ / / / / / /_/ / / / / / /_/ / 
 	# /_____/_/_/ /_/\__,_/_/_/ /_/\__, /  
 	#                             /____/   
+	# Establish "bind_to :left_click" and similar class-level definition
 	# TOOD: Restructure to allow for rebinding
 		# Set up binding to be used when the event is added to the mouse handeler
 		class << self
@@ -151,6 +152,27 @@ module MouseEvents
 			end
 		end
 		private_constant :Binding # new in 1.9.3, so be aware of that
+	
+	
+	#     _______              ______      ______               __       
+	#    / ____(_)_______     / ____/___ _/ / / /_  ____ ______/ /_______
+	#   / /_  / / ___/ _ \   / /   / __ `/ / / __ \/ __ `/ ___/ //_/ ___/
+	#  / __/ / / /  /  __/  / /___/ /_/ / / / /_/ / /_/ / /__/ ,< (__  ) 
+	# /_/   /_/_/   \___/   \____/\__,_/_/_/_.___/\__,_/\___/_/|_/____/  
+		EVENT_TYPES.each do |event|
+			# Fire callbacks
+			define_method "#{event}_callback" do ||
+				if @callbacks[event]
+					@mouse.instance_exec @mouse.space, @selection, &@callbacks[event]
+				end
+			end
+			
+			# Interface to define callbacks
+			define_method event do |&block|
+				@callbacks[event] = block
+			end
+		end
+	
 	
 	#    ______      _____      _           
 	#   / ____/___  / / (_)____(_)___  ____ 
@@ -290,7 +312,7 @@ module MouseEvents
 					
 					# only proceed if defined pick callbacks have fired
 					a = pick_callback_defined?
-					b = pick_object_callback
+					b = pick_event
 					
 					# a b		out
 					# 0 0		1		# no pick necessary (callback undefined)
@@ -349,7 +371,7 @@ module MouseEvents
 			@pick_callback = block
 		end
 		
-		def pick_object_callback
+		def pick_event
 			# This callback should not fire when domain undefined
 			return unless pick_callback_defined?
 			
@@ -456,27 +478,7 @@ module MouseEvents
 			return selection.first
 		end
 		private :pick_from
-		
-		
-	#     _______              ______      ______               __       
-	#    / ____(_)_______     / ____/___ _/ / / /_  ____ ______/ /_______
-	#   / /_  / / ___/ _ \   / /   / __ `/ / / __ \/ __ `/ ___/ //_/ ___/
-	#  / __/ / / /  /  __/  / /___/ /_/ / / / /_/ / /_/ / /__/ ,< (__  ) 
-	# /_/   /_/_/   \___/   \____/\__,_/_/_/_.___/\__,_/\___/_/|_/____/  
-		EVENT_TYPES.each do |event|
-			# Fire callbacks
-			define_method "#{event}_callback" do ||
-				if @callbacks[event]
-					@mouse.instance_exec @mouse.space, @selection, &@callbacks[event]
-				end
-			end
-			
-			# Interface to define callbacks
-			define_method event do |&block|
-				@callbacks[event] = block
-			end
-		end
-	end	
+	end
 end
 
 #     _   __                ______                 __     ____        __  __                
