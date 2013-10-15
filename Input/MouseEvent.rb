@@ -405,21 +405,6 @@ module MouseEvents
 			return !!@pick_domain
 		end
 		
-		EVENT_TYPES.each do |event|
-			# Fire callbacks
-			define_method "#{event}_callback" do ||
-				if @callbacks[event]
-					@mouse.instance_exec @mouse.space, @selection, &@callbacks[event]
-				end
-			end
-			
-			# Interface to define callbacks
-			define_method event do |&block|
-				@callbacks[event] = block
-			end
-		end
-		
-		private
 		
 		# TODO: Remove this method.  Merge with Space#object_at
 		def pick_from(selection, position)
@@ -453,6 +438,7 @@ module MouseEvents
 			selection = selection.select do |o|
 				# TODO: Tweak margin
 				size_margin = 1.8 # percentage
+		
 				
 				first_area = selection.first.bb.area
 				o.bb.area.between? first_area, first_area*(size_margin)
@@ -468,6 +454,27 @@ module MouseEvents
 			
 			
 			return selection.first
+		end
+		private :pick_from
+		
+		
+	#     _______              ______      ______               __       
+	#    / ____(_)_______     / ____/___ _/ / / /_  ____ ______/ /_______
+	#   / /_  / / ___/ _ \   / /   / __ `/ / / __ \/ __ `/ ___/ //_/ ___/
+	#  / __/ / / /  /  __/  / /___/ /_/ / / / /_/ / /_/ / /__/ ,< (__  ) 
+	# /_/   /_/_/   \___/   \____/\__,_/_/_/_.___/\__,_/\___/_/|_/____/  
+		EVENT_TYPES.each do |event|
+			# Fire callbacks
+			define_method "#{event}_callback" do ||
+				if @callbacks[event]
+					@mouse.instance_exec @mouse.space, @selection, &@callbacks[event]
+				end
+			end
+			
+			# Interface to define callbacks
+			define_method event do |&block|
+				@callbacks[event] = block
+			end
 		end
 	end	
 end
