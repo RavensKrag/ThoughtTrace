@@ -42,6 +42,14 @@ module MouseEvents
 			@binding = nil
 		end
 		
+		def to_s
+			@name
+		end
+		
+		# def inspect
+			
+		# end
+		
 		def add_to(mouse)
 			@mouse = mouse
 			bind(mouse.input_system)
@@ -145,28 +153,29 @@ module MouseEvents
 		# usable for the initial bind, as well as subsequent binds
 		def bind(input_system, id=@default_binding)
 			@binding.release if @binding # get rid of the old binding, if any
-			@binding = Binding.new self, input_system, id
+			@binding = Binding.new self, input_system, id, @name
 		end
 		
 		def binding
-			@binding.id
+			@binding.sequence_id
 		end
 		
 		class Binding
-			attr_reader :id
+			attr_reader :sequence_id
 			
-			def initialize(event, input_system, id)
+			# TODO: Re-order parameter list, or similar touchup.  This is kinda weird.
+			def initialize(event, input_system, sequence_id, binding_name)
 				@event = event
-				@input_system = input_system
-				@id = id
+				# @input_system = input_system
+				@sequence_id = sequence_id
 				
 				# check input system for a sequence with the requested identifier
-				sequence = input_system[id]
+				sequence = input_system[sequence_id]
 				
 				raise "No sequence found" unless sequence 
 				
 				# set up new binding
-				sequence.callbacks[id].tap do |c|
+				sequence.callbacks[binding_name].tap do |c|
 					c.on_press do
 						@event.click_event
 					end
@@ -178,10 +187,6 @@ module MouseEvents
 					c.on_release do
 						@event.release_event
 					end
-					
-					# c.on_idle do
-						# hover?
-					# end
 				end
 				
 				
@@ -191,7 +196,7 @@ module MouseEvents
 			
 			# remove binding from input system
 			def release
-				@input_sequence.callbacks.delete @id
+				@input_sequence.callbacks.delete @sequence_id
 			end
 			
 			# serialize
@@ -203,6 +208,7 @@ module MouseEvents
 			def self.load(filepath)
 				
 			end
+		
 		end
 		private_constant :Binding # new in 1.9.3, so be aware of that
 	
@@ -323,8 +329,8 @@ module MouseEvents
 			# 	:drag => true / false
 			# 	:release => true / false
 			# }
-			puts "#{self.class.name} --> id #{@binding.id}"
-			output[:binding] = @binding.id
+			puts "#{self.class.name} --> id #{@binding.sequence_id}"
+			output[:binding] = @binding.sequence_id
 			
 			output[:pick_callback] = @pick_type if pick_callback_defined?
 			
@@ -454,7 +460,7 @@ module MouseEvents
 			# TODO: remove initial "if" wrap based on picked.  Will have exited out by now if picked is not set
 			@selection =	if picked
 								if @pick_type_block
-									out = @mouse.instance_exec picked, &@pick_type_block
+									out = instance_exec picked, &@pick_type_block
 									
 									if @pick_type == :point
 										@mouse.space << out
