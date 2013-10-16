@@ -3,10 +3,6 @@ module MouseEvents
 		bind_to :right_click
 		pick_object_from :selection
 		
-		def initialize
-			super()
-		end
-		
 		def click(selected)
 			# pick
 		end

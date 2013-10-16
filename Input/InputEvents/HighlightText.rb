@@ -3,24 +3,20 @@ module MouseEvents
 		bind_to :shift_left_click
 		pick_object_from :space
 		
-		def initialize
-			super()
-		end
-		
-		def click(selected)
+		def click(text)
 			# get position of character at mouse position
-			i = text.closest_character_index(position_in_world)
+			i = text.closest_character_index(@mouse.position_in_world)
 			@starting_character_offset = text.character_offset i
 		end
 		
-		def drag(selected)
+		def drag(text)
 			# extend selection from there
 			
 			# NOTE: selection should always go from left-most character to right-most
 			# if the selection is made from right to left, this will invert things
 			# this issue is similar to the one with drawing BBs encountered for box select
 			
-			i = text.closest_character_index(position_in_world)
+			i = text.closest_character_index(@mouse.position_in_world)
 			character_offset = text.character_offset i
 			
 			
@@ -36,7 +32,7 @@ module MouseEvents
 							p1.x, p1.y+height/2)
 			bb.reformat # TODO: Rename CP::BB#reformat
 			
-			bb.draw_in_space @paint_box[:highlight]
+			bb.draw_in_space @color[:highlight]
 		end
 		
 		# def release(selected)
