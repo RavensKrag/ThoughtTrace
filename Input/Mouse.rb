@@ -128,6 +128,22 @@ module InputManager
 		end
 		
 		
+		# Manage selection
+			# should consider not having this delegation at all
+			# now that these methods must be public
+		def select(obj)
+			@selection.add obj
+		end
+		
+		def deselect(obj)
+			@selection.delete obj
+		end
+		
+		def clear_selection
+			@selection.clear
+		end
+		
+		
 		private
 		
 		# Fire callbacks
@@ -140,18 +156,6 @@ module InputManager
 		end
 		
 		
-		# Manage selection
-		def select(obj)
-			@selection.add obj
-		end
-		
-		def deselect(obj)
-			@selection.delete obj
-		end
-		
-		def clear_selection
-			@selection.clear
-		end
 		
 		
 		# # Return all objects the mouse is on top of
