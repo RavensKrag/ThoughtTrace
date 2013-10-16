@@ -80,7 +80,6 @@ class Window < Gosu::Window
 		
 		
 		@inpman = DIS::InputManager.new
-		
 			left_click =	DIS::Sequence.new(:left_click).tap do |input|
 								input.callbacks[:default].tap do |c|
 									c.on_press do
@@ -159,34 +158,12 @@ class Window < Gosu::Window
 			shift_middle_click = DIS::Accelerator.new :shift_middle_click, shift, middle_click
 			shift_right_click = DIS::Accelerator.new :shift_right_click, shift, right_click
 		
-		
-			f_keys =	(1..8)
-							.collect{ |i| "KbF#{i}".to_sym }
-							.collect{ |s| Gosu.const_get(s) }
-							.collect do
-						|f_key|
-							
-							input = DIS::Sequence.new f_key
-							
-							input.press_events = [
-								DIS::Event.new(f_key, :down)
-							]
-							
-							input.release_events = [
-								DIS::Event.new(f_key, :up)
-							]
-							
-							input
-						end
-		
-		(
-			f_keys +
-			[
-				left_click, middle_click, right_click,
-				shift,
-				shift_left_click, shift_middle_click, shift_right_click
-			]
-		).each{ |i| @inpman.add i }
+		[
+			left_click, middle_click, right_click,
+			shift,
+			shift_left_click, shift_middle_click, shift_right_click
+		]
+		.each{ |i| @inpman.add i }
 		
 		
 		@mouse = MouseHandler.new @inpman, @space, @selection, @paint_box
@@ -201,6 +178,61 @@ class Window < Gosu::Window
 			MouseEvents::SpawnNewText.new,
 			MouseEvents::TextBox.new
 		)
+		
+		# Bind function keys to setting the colors of text
+		(1..8).collect{ |i| "KbF#{i}".to_sym }.each do |keysym|
+			# ----- Set up input parsing -----
+			# Create sequence
+			button_id = Gosu.const_get(keysym)
+			sequence_name = keysym
+			
+			
+			input = DIS::Sequence.new sequence_name
+			
+			input.press_events = [
+				DIS::Event.new(button_id, :down)
+			]
+			
+			input.release_events = [
+				DIS::Event.new(button_id, :up)
+			]
+			
+			# Enable inputs
+			@inpman.add input
+			
+			
+			# ----- Bind to mouse -----
+			# Create mouse event class
+			class_name = "ChangeColorToSwatch#{button_id}"
+			
+			new_class =		Class.new(MouseEvents::EventObject) do
+								bind_to sequence_name
+								
+								pick_object_from :space
+								
+								def initialize(color_name)
+									super()
+									
+									@color_name = color_name
+								end
+								
+								def click(text)
+									text.color = @color[@color_name]
+								end
+							end
+			
+			# Store mouse event class reference under module with the rest of them
+			# (must set constant first, to solidify anonymous class)
+			MouseEvents.const_set(class_name, new_class)
+			
+			# Bind new class to mouse
+			color_name = button_id
+			@mouse.add new_class.new(color_name)
+		end
+		
+		
+		
+		
 		
 		
 		if @space.empty?

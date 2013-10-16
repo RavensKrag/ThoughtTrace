@@ -569,26 +569,6 @@ end
 
 
 
-f_keys = (1..8).collect{ |i| "KbF#{i}".to_sym }.collect{ |s| Gosu.const_get(s) }
-f_keys.each do |key|
-	class_name = "ChangeColorToSwatch#{key}"
-	
-	new_class =		Class.new(MouseEvents::EventObject) do
-						bind_to key
-						
-						pick_object_from :space
-						
-						def click(text)
-							text.color = @paint_box[key]
-						end
-					end
-	
-	MouseEvents.const_set(class_name, new_class)
-end
-
-
-
-
 # class DeleteTextObjectEvent < MouseEvent
 # 	bind_to :left_click
 # 	pick_object_from :space
