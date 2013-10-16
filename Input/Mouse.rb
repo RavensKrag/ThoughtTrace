@@ -27,6 +27,39 @@ module InputManager
 			@last_hovered_object = NullMouseOver.new
 		end
 		
+		def add(*events)
+			events.each do |new_event|
+				# sets up necessary variables, does not commit changes to system
+				new_event.add_to self
+				
+				# check system against this new addition
+				id = new_event.name
+				
+				@event_handlers.each do |old_event|
+					event_name = old_event.name
+					
+					# puts "old sig: #{event_name} --- new sig: #{id}"
+					puts "\ncompare: #{id} to #{event_name}"
+					
+					# TODO: Consider removing :release from collision test
+					# should still show if release callbacks overlap,
+					# but :release should not be a deciding factor
+					# 
+					# ex)	[:click, :release] collides with [:click]
+					# 		because release is ignored
+					collision = new_event.collide_with old_event
+					
+					if collision
+						raise "Event #{id} collides with #{event_name} in fields #{collision}"
+					end
+				end
+				
+				
+				
+				@event_handlers << new_event
+			end
+		end
+		
 		def update
 			# Mouse over and mouse out
 			
@@ -91,40 +124,6 @@ module InputManager
 		
 		def mouse_out(&block)
 			@hover_callbacks[:mouse_out] = block
-		end
-		
-		
-		def add(*events)
-			events.each do |new_event|
-				# sets up necessary variables, does not commit changes to system
-				new_event.add_to self
-				
-				# check system against this new addition
-				id = new_event.name
-				
-				@event_handlers.each do |old_event|
-					event_name = old_event.name
-					
-					# puts "old sig: #{event_name} --- new sig: #{id}"
-					puts "\ncompare: #{id} to #{event_name}"
-					
-					# TODO: Consider removing :release from collision test
-					# should still show if release callbacks overlap,
-					# but :release should not be a deciding factor
-					# 
-					# ex)	[:click, :release] collides with [:click]
-					# 		because release is ignored
-					collision = new_event.collide_with old_event
-					
-					if collision
-						raise "Event #{id} collides with #{event_name} in fields #{collision}"
-					end
-				end
-				
-				
-				
-				@event_handlers << new_event
-			end
 		end
 		
 		
