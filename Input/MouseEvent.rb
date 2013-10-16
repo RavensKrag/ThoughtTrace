@@ -1,6 +1,3 @@
-# encoding: utf-8
-
-
 # taken from rails, courtesy of StackExchange
 # http://stackoverflow.com/questions/1509915/converting-camel-case-to-underscore-case-in-ruby
 class String
