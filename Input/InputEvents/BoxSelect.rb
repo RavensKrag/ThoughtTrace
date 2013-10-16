@@ -24,7 +24,7 @@ module MouseEvents
 							bottom_right.x, @box_top_left.y)
 			bb.reformat # TODO: Rename CP::BB#reformat
 			
-			bb.draw_in_space @paint_box[:box_select]
+			bb.draw_in_space @color[:box_select]
 			
 			# Perform selection using BB
 			new_selection = Set.new
