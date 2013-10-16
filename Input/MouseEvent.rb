@@ -1,3 +1,6 @@
+# encoding: utf-8
+
+
 # taken from rails, courtesy of StackExchange
 # http://stackoverflow.com/questions/1509915/converting-camel-case-to-underscore-case-in-ruby
 class String
@@ -21,8 +24,12 @@ module MouseEvents
 		# bind_to :left_click
 		# pick_object_from :space
 		
+		attr_reader :name
+		
+		
 		def initialize
 			super() # needed for state_machine
+			setup() # copy values from metaclass-instance properties
 			
 			# Set up event structure
 			
@@ -31,7 +38,9 @@ module MouseEvents
 			# which would be nice, because you should really not be able to create
 			# instance of this class directly, as part of the interface is not implemented
 			
-			@name = self.name.scan(/(.*)[Event]*/)[0][0].to_snake_case.to_sym
+			# @name = self.class.name.scan(/(.*)[Event]*/)[0][0].to_snake_case.to_sym
+			# @name = self.class.name.to_snake_case.to_sym
+			@name = self.class.name.split("::").last.to_snake_case.to_sym
 			
 			@binding = nil
 		end
@@ -45,7 +54,6 @@ module MouseEvents
 			# so events can be initialized without parameters
 			# but all the events in the same handler can point to the same values
 			@space = mouse.space
-			
 			@color = mouse.paint_box
 		end
 		
@@ -69,6 +77,62 @@ module MouseEvents
 		EVENT_TYPES = [:click, :drag, :release]
 	
 	
+	#     __  ___     __                                    _____      __            
+	#    /  |/  /__  / /_____ _____  _________  ____ _     / ___/___  / /___  ______ 
+	#   / /|_/ / _ \/ __/ __ `/ __ \/ ___/ __ \/ __ `/     \__ \/ _ \/ __/ / / / __ \
+	#  / /  / /  __/ /_/ /_/ / /_/ / /  / /_/ / /_/ /     ___/ /  __/ /_/ /_/ / /_/ /
+	# /_/  /_/\___/\__/\__,_/ .___/_/   \____/\__, (_)   /____/\___/\__/\__,_/ .___/ 
+	#                      /_/               /____/                         /_/      
+	# Metacode to allow for defining class-level
+		Foo = Struct.new(:value, :block)
+		def self.meta_thingy(opt={})
+			return @traits if opt.empty?
+			
+			
+			data_name = opt[:read]
+			
+			metaclass.instance_eval do
+				# ----- Write data -----
+				define_method( opt[:write] ) do |val, &block|
+					data = Foo.new
+					data.value = val
+					data.block = block
+					
+					@traits ||= Hash.new
+					@traits[data_name] = data
+				end
+				
+				# ----- Read data -----
+				# read main value
+					define_method opt[:read] do
+						@traits[data_name].value
+					end
+				# read block
+				if opt[:require_block]
+					define_method "#{opt[:read]}_block" do
+						@traits[data_name].block
+					end
+				end
+			end
+			
+			
+			
+			
+			
+			# Copy class data into instance on initialization
+			# Don't use the initialize method though,
+			# because I don't want to deal with the other things that come with that method
+			class_eval do
+				define_method :setup do
+					self.class.meta_thingy.each do |name, data|
+						instance_variable_set("@#{name}", 		data.value)
+						instance_variable_set("@#{name}_block",	data.block)
+					end
+				end
+			end
+		end
+	
+	
 	#     ____  _           ___            
 	#    / __ )(_)___  ____/ (_)___  ____ _
 	#   / __  / / __ \/ __  / / __ \/ __ `/
@@ -78,52 +142,44 @@ module MouseEvents
 	# Establish "bind_to :left_click" and similar class-level definition
 	# TOOD: Restructure to allow for rebinding
 		# Set up binding to be used when the event is added to the mouse handeler
-		class << self
-			# NOTE: This structure does not allow for rebinding
-			def bind_to(id)
-				# define the binding, but do not set it
-				
-				# be careful with variable scope.  this is a class-level declaration
-				@@binding_id = id
-			end
-			private :bind_to
+		meta_thingy	:write => :bind_to, :read => :default_binding
+		
+		# Attach callbacks to input system
+		# usable for the initial bind, as well as subsequent binds
+		def bind(input_system, id=@default_binding)
+			@binding.release if @binding # get rid of the old binding, if any
+			@binding = Binding.new self, input_system, id
 		end
 		
 		def binding
 			@binding.id
 		end
 		
-		# Attach callbacks to input system
-		def bind(input_system, id=@@binding_id)
-			@binding.release if @binding # get rid of the old binding, if any
-			@binding = Binding.new input_system, id
-		end
-		
-		
 		class Binding
 			attr_reader :id
 			
-			def initialize(input_system, id)
+			def initialize(event, input_system, id)
+				@event = event
 				@input_system = input_system
 				@id = id
 				
 				# check input system for a sequence with the requested identifier
 				sequence = input_system[id]
 				
-				unless sequence raise "No sequence found"
+				raise "No sequence found" unless sequence 
 				
 				# set up new binding
 				sequence.callbacks[id].tap do |c|
 					c.on_press do
-						click_event
+						@event.click_event
 					end
 					
-					c.on_hold do
+					# c.on_hold do
 						
-					end
+					# end
 					
 					c.on_release do
-						release_event
+						@event.release_event
 					end
 					
 					# c.on_idle do
@@ -162,14 +218,7 @@ module MouseEvents
 		EVENT_TYPES.each do |event|
 			# Fire callbacks
 			define_method "#{event}_callback" do ||
-				if @callbacks[event]
-					@mouse.instance_exec @mouse.space, @selection, &@callbacks[event]
-				end
-			end
-			
-			# Interface to define callbacks
-			define_method event do |&block|
-				@callbacks[event] = block
+				self.send event, @selection if self.respond_to? event
 			end
 		end
 	
@@ -272,18 +321,19 @@ module MouseEvents
 			output = Hash.new
 			# {
 			# 	:binding => @binding / nil
-			# 	:pick_callback => @pick_domain / nil # type of callback, not the actual block
+			# 	:pick_callback => @pick_type / nil # type of callback, not the actual block
 			# 	:click => true / false
 			# 	:drag => true / false
 			# 	:release => true / false
 			# }
+			puts "#{self.class.name} --> id #{@binding.id}"
+			output[:binding] = @binding.id
 			
-			output[:binding] = @binding
+			output[:pick_callback] = @pick_type if pick_callback_defined?
 			
-			output[:pick_callback] = @pick_domain if @pick_object_callback_defined
-			
+			# check what sorts of events this event object can process
 			EVENT_TYPES.each do |e|
-				output[e] = @callbacks[e] ? true : false
+				output[e] = self.respond_to? e
 			end
 			
 			
@@ -319,6 +369,8 @@ module MouseEvents
 					# 0 1		1		# 
 					# 1 0		0		# if it's defined, it must have fired properly
 					# 1 1		1		# 
+					
+					puts "#{@name} --> #{a} :: #{b}"
 					
 					if (!a || b)
 						click_callback
@@ -365,11 +417,9 @@ module MouseEvents
 	#   / /_/ / / ___/ //_/  / /   / __ `/ / / __ \/ __ `/ ___/ //_/ ___/
 	#  / ____/ / /__/ ,<    / /___/ /_/ / / / /_/ / /_/ / /__/ ,< (__  ) 
 	# /_/   /_/\___/_/|_|   \____/\__,_/_/_/_.___/\__,_/\___/_/|_/____/  
-	# Select object to be manipulated in further mouse callbacks
-		def pick_object_from(domain, &block)
-			@pick_domain = domain
-			@pick_callback = block
-		end
+	# Select object to be manipulated in further mouse callbacks		
+		meta_thingy	:write => :pick_object_from, :read => :pick_type,
+					:require_block => true
 		
 		def pick_event
 			# This callback should not fire when domain undefined
@@ -380,7 +430,7 @@ module MouseEvents
 			
 			object = @mouse.space.object_at point
 			
-			picked = case @pick_domain
+			picked = case @pick_type
 				when :space
 					object
 				when :selection
@@ -404,12 +454,12 @@ module MouseEvents
 			# valid insures callback executed?
 			# essentially (unless there's no callback block defined)
 			
-			
+			# TODO: remove initial "if" wrap based on picked.  Will have exited out by now if picked is not set
 			@selection =	if picked
-								if @pick_callback
-									out = @mouse.instance_exec picked, &@pick_callback
+								if @pick_type_block
+									out = @mouse.instance_exec picked, &@pick_type_block
 									
-									if @pick_domain == :point
+									if @pick_type == :point
 										@mouse.space << out
 									end
 									
@@ -424,7 +474,7 @@ module MouseEvents
 		
 		def pick_callback_defined?
 			# return truthyness
-			return !!@pick_domain
+			return !!@pick_type
 		end
 		
 		
@@ -518,9 +568,9 @@ end
 
 f_keys = (1..8).collect{ |i| "KbF#{i}".to_sym }.collect{ |s| Gosu.const_get(s) }
 f_keys.each do |key|
-	class_name = "change_color_to_swatch-#{key}"
+	class_name = "ChangeColorToSwatch#{key}"
 	
-	new_class =		Class.new(MouseEvent) do
+	new_class =		Class.new(MouseEvents::EventObject) do
 						bind_to key
 						
 						pick_object_from :space

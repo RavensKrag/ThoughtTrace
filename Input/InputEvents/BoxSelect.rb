@@ -10,19 +10,15 @@ module MouseEvents
 		# fire :in_empty_space
 		# fire :over_object # over something, idk what it is, you won't have access to it
 		
-		def initialize
-			super()
-		end
-		
 		def click(selected)
 			puts "box"
-			@box_top_left = position_in_world
+			@box_top_left = @mouse.position_in_world
 			
 			@box_selection = Set.new
 		end
 		
 		def drag(selected)
-			bottom_right = position_in_world
+			bottom_right = @mouse.position_in_world
 			
 			bb = CP::BB.new(@box_top_left.x, bottom_right.y, 
 							bottom_right.x, @box_top_left.y)

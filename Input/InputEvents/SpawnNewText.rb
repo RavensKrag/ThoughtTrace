@@ -4,22 +4,19 @@ module MouseEvents
 		pick_object_from :point do |vector|
 			puts "new text"
 			obj = TextSpace::Text.new
-			obj.position = position_in_world
+			obj.position = @mouse.position_in_world
 			
 			obj
 		end
 		
-		def initialize
-			super()
-		end
 		
 		def click(selected)
-			clear_selection
+			@mouse.clear_selection
 			
 			selected.click
 			selected.activate
 			
-			select selected
+			@mouse.select selected
 		end
 		
 		# def drag(selected)

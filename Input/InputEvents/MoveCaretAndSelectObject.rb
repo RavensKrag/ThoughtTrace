@@ -3,17 +3,13 @@ module MouseEvents
 		bind_to :left_click
 		pick_object_from :space
 		
-		def initialize
-			super()
-		end
-		
 		def click(selected)
-			clear_selection
+			@mouse.clear_selection
 			
 			selected.click
 			selected.activate
 			
-			select selected
+			@mouse.select selected
 		end
 		
 		# def drag(selected)
