@@ -4,6 +4,8 @@ module TextSpace
 		def initialize
 			# @colors = Hash.new # palette => color
 			
+			# TODO: Assign colors based on keys into the pallet, rather than directly referencing the color values.  This would allow for pallet swaps, or simply just changing the colors of a bunch of elements very easily.
+			
 			@colors = {
 				:example => {
 					:color1 => Gosu::Color.argb(0xffff0000),
@@ -18,8 +20,8 @@ module TextSpace
 					
 					:text_caret => Gosu::Color.argb(0xff8E68A4),
 					
-					:active => Gosu::Color.argb(0xffFF0000),
-					:mouseover => Gosu::Color.argb(((0xff * 0.2).to_i << (8*3)) | 0x0000ff),
+					:active => Gosu::Color.argb(((0xff * 0.15).to_i << (8*3)) | 0xff0000),
+					:mouseover => Gosu::Color.argb(((0xff * 0.1).to_i << (8*3)) | 0x0000ff),
 					
 					:debug_font => Gosu::Color.argb(0xffFF0000),
 					:highlight => Gosu::Color.argb(0x77FFFF00),
