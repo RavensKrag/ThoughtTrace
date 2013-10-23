@@ -251,13 +251,19 @@ module TextSpace
 		end
 		
 		def character_offset(i)
-			# TODO: Consider throwing exception if no string defined
+			# TODO: Figure out how and why @string would not be set.
+			raise "No string defined" unless @string
+			
 			x = 0
 			y = 0
 			
 			
-			x = @font.width(@string[0..(i-1)], @height) if @string
-			x = 0 if i == 0
+			
+			x =	if i == 0
+					0
+				else
+					@font.width(@string[0..(i-1)], @height)
+				end
 			
 			return CP::Vec2.new(x,y)
 		end
