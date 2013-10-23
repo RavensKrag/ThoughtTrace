@@ -3,10 +3,19 @@ module MouseEvents
 		bind_to :shift_left_click
 		pick_object_from :space
 		
+		
+		def initialize(character_selection)
+			super()
+			
+			@character_selection = character_selection
+		end
+		
 		def click(text)
 			# get position of character at mouse position
 			i = text.closest_character_index(@mouse.position_in_world)
 			@starting_character_offset = text.character_offset i
+			
+			@start_index = i
 		end
 		
 		def drag(text)
@@ -17,26 +26,39 @@ module MouseEvents
 			# this issue is similar to the one with drawing BBs encountered for box select
 			
 			i = text.closest_character_index(@mouse.position_in_world)
-			character_offset = text.character_offset i
+			
+			@end_index = i
+			
+			# TODO: modify the selection instead of just nuking it every time
+			# TODO: make sure that the start index is always lower than the end index
+			# TODO: consider moving range boundary test into CharacterSelection
 			
 			
-			height = text.height # pixels
-			
-			offset = text.position.clone
-			offset.y += height / 2
-			
-			p0 = @starting_character_offset + offset
-			p1 = character_offset + offset
-			
-			bb = CP::BB.new(p0.x, p0.y-height/2, 
-							p1.x, p1.y+height/2)
-			bb.reformat # TODO: Rename CP::BB#reformat
-			
-			bb.draw_in_space @color[:highlight]
+			@character_selection.delete text
+			@character_selection.add text, @start_index..@end_index
 		end
 		
 		# def release(selected)
-			# free selection
+			# add highlighted text to selection
+			
+			# there are really two sorts of selections
+				# object level
+				# character level
+				
+				# there needs to be some sort of difference, so it's clear what objects
+				# events like CutText can operate on
+			
+			# @character_selection.add(
+			# 	selected, @start_index..@end_index
+			# )
+			
+			
+			
+			# drawing this selection should draw the highlight BB
+			# should be able to test against this selection,
+			# defining events that fire only when the mouse is over
+			# an element of this selection
+			# (test against BB)
 		# end
 	end
 end

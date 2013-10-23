@@ -27,6 +27,7 @@ require './Selection'
 require './Font'
 require './Text'
 
+require './selection/CharacterSelection'
 require './Space'
 
 
@@ -167,10 +168,11 @@ class Window < Gosu::Window
 		
 		
 		@mouse = MouseHandler.new @inpman, @space, @selection, @paint_box
+			@character_selection = CharacterSelection.new @paint_box
 		@mouse.add(
 			MouseEvents::BoxSelect.new,
 			MouseEvents::CutText.new,
-			MouseEvents::HighlightText.new,
+			MouseEvents::HighlightText.new(@character_selection),
 			MouseEvents::MoveCaretAndSelectObject.new,
 			MouseEvents::MoveText.new,
 			MouseEvents::PanCamera.new,
@@ -309,7 +311,7 @@ class Window < Gosu::Window
 			
 			render_draw_queue
 			
-			
+			@character_selection.draw 10000
 		end
 	end
 	
