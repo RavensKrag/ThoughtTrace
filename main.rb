@@ -27,6 +27,7 @@ require './Selection'
 require './Font'
 require './Text'
 
+require './SelectionQueries'
 require './selection/CharacterSelection'
 require './Space'
 
