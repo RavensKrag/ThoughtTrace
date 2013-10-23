@@ -421,30 +421,18 @@ module MouseEvents
 	#  / ____/ / /__/ ,<    / /___/ /_/ / / / /_/ / /_/ / /__/ ,< (__  ) 
 	# /_/   /_/\___/_/|_|   \____/\__,_/_/_/_.___/\__,_/\___/_/|_/____/  
 	# Select object to be manipulated in further mouse callbacks		
+		# figure out where to pick objects from
 		meta_thingy	:write => :pick_object_from, :read => :pick_type,
 					:require_block => true
+		# limit the selection to the given domain
+		# TODO: make selection domain apply to all picks, not just selection? (then limiting to a selection can become a layered option, rather than a completely separate pick mode)
+		meta_thingy :write => :pick_selection_domain, :read => :pick_domain
 		
 		def pick_event
 			# This callback should not fire when domain undefined
 			return unless pick_callback_defined?
 			
-			
-			point = @mouse.position_in_world
-			
-			object = @mouse.space.object_at point
-			
-			picked = case @pick_type
-				when :space
-					object
-				when :selection
-					# object if selection.include? object
-				when :point
-					# add object generated as result of block to space automatically
-					# this should remove the need to expose the space to mouse callbacks
-					point if object == nil # only fire in empty space
-				else
-					raise "Invalid mouse picking domain (choose :point, :space, or :selection)"
-			end
+			picked = self.send("pick_from_#{@pick_type}")
 			
 			
 			# NOTE: This means selections are separate for each mouse event
@@ -478,6 +466,40 @@ module MouseEvents
 		def pick_callback_defined?
 			# return truthyness
 			return !!@pick_type
+		end
+		
+		private
+		
+		# TODO: Consider if pick_from_? methods should really be private or not.
+		# Don't see what good they would do at the MouseEvent level if exposed though.  There would have to be delegation from the Mouse level or something.
+		def pick_from_space
+			point = @mouse.position_in_world
+			
+			return @mouse.space.object_at point
+		end
+		
+		# similar logic to picking from the world, but limit to a particular set of objects
+		# put another way, perform the world query, but on a _different_ set of objects
+		def pick_from_selection
+			# Get the selection domain from method call.
+			# Allows for easy and robust definition of what collection should be used
+			
+			raise "No selection to pick from." unless self.respond_to? @pick_domain
+			
+			
+			selection = self.send @pick_domain
+			point = @mouse.position_in_world
+			
+			return TextSpace::SelectionQueries.point_query(selection, point)
+		end
+		
+		def pick_from_point
+			point = @mouse.position_in_world
+			object = @mouse.space.object_at point
+			
+			# add object generated as result of block to space automatically
+			# this should remove the need to expose the space to mouse callbacks
+			point if object == nil # only fire in empty space (else, don't fire query)
 		end
 		
 		
@@ -530,7 +552,6 @@ module MouseEvents
 			
 			return selection.first
 		end
-		private :pick_from
 	end
 end
 

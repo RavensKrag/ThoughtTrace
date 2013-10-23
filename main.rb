@@ -172,7 +172,7 @@ class Window < Gosu::Window
 			@character_selection = CharacterSelection.new @paint_box
 		@mouse.add(
 			MouseEvents::BoxSelect.new,
-			MouseEvents::CutText.new,
+			MouseEvents::CutText.new(@character_selection),
 			MouseEvents::HighlightText.new(@character_selection),
 			MouseEvents::MoveCaretAndSelectObject.new,
 			MouseEvents::MoveText.new,
