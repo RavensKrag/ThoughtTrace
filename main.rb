@@ -296,6 +296,7 @@ class Window < Gosu::Window
 	
 	def update
 		@space.update
+		@character_selection.update
 		
 		
 		@mouse.update

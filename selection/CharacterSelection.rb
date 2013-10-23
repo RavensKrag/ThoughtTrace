@@ -13,7 +13,11 @@ class CharacterSelection
 	end
 	
 	def update
-		
+		@seletion.each do |text, segments|
+			segments.each do |s|
+				s.update
+			end
+		end
 	end
 	
 	def draw(z_index=0)
@@ -171,6 +175,17 @@ class CharacterSelection
 			calculate_bb
 		end
 		
+		# recalculate bounding box if the underlying text object has moved
+		# TODO: seems to lag by a frame or so.  may want to fix that. (non-critical)
+		def update
+			@last_position ||= @text.position.clone
+			
+			if @last_position != @text.position
+				calculate_bb
+				@last_position = @text.position.clone
+			end
+		end
+		
 		def draw(z_index=0)
 			@bb.draw @color[:highlight], z_index
 		end
@@ -204,13 +219,13 @@ class CharacterSelection
 		private
 		
 		def calculate_bb
-			start_offset = text.character_offset range.first
-			end_offset = text.character_offset range.last
+			start_offset = @text.character_offset range.first
+			end_offset = @text.character_offset range.last
 			
 			
-			height = text.height # pixels
+			height = @text.height # pixels
 			
-			offset = text.position.clone
+			offset = @text.position.clone
 			offset.y += height / 2
 			
 			p0 = start_offset + offset
