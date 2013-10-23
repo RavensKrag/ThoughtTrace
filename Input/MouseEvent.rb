@@ -435,9 +435,6 @@ module MouseEvents
 			picked = self.send("pick_from_#{@pick_type}")
 			
 			
-			# NOTE: This means selections are separate for each mouse event
-			
-			
 			# --- (if defined callback does not fire)
 			# is the a chance for callback to fire where no valid element is picked?
 			# NO
@@ -445,7 +442,11 @@ module MouseEvents
 			# valid insures callback executed?
 			# essentially (unless there's no callback block defined)
 			
-			# TODO: remove initial "if" wrap based on picked.  Will have exited out by now if picked is not set
+			
+			# Initial "if" wrap is necessary because the pick will not succeed in all cases.
+			# If the pick fails, 
+				# the block should not be run
+				# @selection should not be set
 			@selection =	if picked
 								if @pick_type_block
 									out = instance_exec picked, &@pick_type_block
