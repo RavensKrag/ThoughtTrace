@@ -26,30 +26,6 @@ class CharacterSelection
 	
 	# Collection management
 	def add(text, range)
-		# @seletion[text] = range
-		
-		# TODO: convert the incoming range to array first, in attempt to reduce duplication between #add and #delete
-		# x = range.to_a
-		# x += #more stuff 
-		
-		
-		# if @seletion[text]
-		# 	# add range, instead of just overriding existing
-		# 	x =	@seletion[text]									# either a range, or an array of ranges
-		# 		.inject(Array.new){|all, i| all + i.to_a}	# expand into a single array
-		# 		.send(:+, range.to_a) 						# remove the elements of the new range
-		# 		.rangify									# convert back to array of ranges
-		# 	@seletion[text] = x
-		# else
-		# 	# create new entry
-		# 	@seletion[text] = range
-		# end
-		
-		
-		
-		
-		
-		
 		if @seletion[text]
 			segments = @seletion[text]
 			
@@ -96,19 +72,6 @@ class CharacterSelection
 	# can remove a whole text object at once, or just part of it
 	def delete(text, range=nil)
 		if range
-			# x =	@seletion[text]									# either a range, or an array of ranges
-			# 	.inject(Array.new){|all, i| all + i.to_a}	# expand into a single array
-			# 	.send(:-, range.to_a) 						# remove the elements of the new range
-			# 	.rangify									# convert back to array of ranges
-			
-			# if x.empty?
-			# 	@seletion.delete text
-			# else
-			# 	@seletion[text] = x
-			# end
-			
-			
-			
 			# remove selection highlight for the given range
 			segments = @seletion[text]
 			
@@ -155,10 +118,6 @@ class CharacterSelection
 			# for the given text object
 			@seletion.delete text
 		end
-		
-		
-		
-		
 	end
 	
 	alias :remove :delete
