@@ -1,5 +1,3 @@
-require 'state_machine'
-
 module InputManager
 	class MouseHandler
 		attr_reader :input_system, :space, :selection, :paint_box

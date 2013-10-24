@@ -11,6 +11,7 @@ class String
   end
 end
 
+require 'state_machine'
 
 module MouseEvents
 	class EventObject
@@ -494,6 +495,8 @@ module MouseEvents
 			return TextSpace::SelectionQueries.point_query(selection, point)
 		end
 		
+		# TODO: consider putting block execution under these methods as well for clarity
+		# TODO: consider using private nested class for greater clarity
 		def pick_from_point
 			point = @mouse.position_in_world
 			object = @mouse.space.object_at point

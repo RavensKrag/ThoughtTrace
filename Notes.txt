@@ -82,3 +82,32 @@ mouse pick priority
 advanced styles applied by regex patterns
 	(could use other fancy method (lexer or w/e) to allow pattern matching)
 	easily apply styles such as "select things in parentheses, make them small and washed out"
+	
+would be nice to not have to override #initialize for mouse events, as they syntax would be cleaner
+	would be some weird, weird magic though
+
+
+
+
+
+
+
+really don't need to pass the @selection variable to each callback.  each event has it's own @selection variable, so you could just use that
+	or maybe the way values are passed to callbacks should be changed, so this var no longer exists?
+	
+	the reason why it passes the var into the callback, is that the callback used to be a block
+	it didn't make sense for the user to understand the internals when the interface was built to abstract the internals away
+	the current interface is inheritance, which requires an understanding of the things you inherit from
+	
+	
+	
+	the function callback-style interface is nice though,
+	as it allows for delegation to other mouse event handlers
+	this allows for an event handler to build on many different behaviors though delegation/composition
+
+
+
+
+consider renaming MouseEvent#add_to(mouse)
+	it's not really about adding data to the mouse,
+	it's about copying data over from the mouse into a specific event

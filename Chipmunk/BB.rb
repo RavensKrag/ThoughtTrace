@@ -41,6 +41,10 @@ module CP
 			(self.r - self.l) * (self.t - self.b)
 		end
 		
+		def position
+			CP::Vec2.new(self.l, self.b)
+		end
+		
 		def center
 			CP::Vec2.new(self.l+width/2, self.b+height/2)
 		end

@@ -137,6 +137,15 @@ class CharacterSelection
 		return @seletion.include? text
 	end
 	
+	def each(&block)
+		# iterate over each and every TextSegment
+		@seletion.each do |text, segments|
+			segments.each &block
+		end
+	end
+	
+	include Enumerable
+	
 	# yeah, this needs a real name
 	def convert_selection_to_actual_text_thing
 		
@@ -165,7 +174,7 @@ class CharacterSelection
 	# should have a similar interface as Text
 	# no need to draw the text portion again, only track the highlight
 	class TextSegment
-		attr_reader :text, :range
+		attr_reader :text, :range, :bb
 		
 		def initialize(paint_box, text, range)
 			@color = paint_box
@@ -177,6 +186,7 @@ class CharacterSelection
 		
 		# recalculate bounding box if the underlying text object has moved
 		# TODO: seems to lag by a frame or so.  may want to fix that. (non-critical)
+			# I think the one frame lag is caused by Text updating in #draw instead of #update
 		def update
 			@last_position ||= @text.position.clone
 			
@@ -216,8 +226,23 @@ class CharacterSelection
 		# 	# @box_visible = true
 		# end
 		
+		
+		# Interface for SelectionQueries
+		attr_reader :bb
+		
+			# the position is more necessary to cement the interface as a object in the space
+		def position
+			return @bb.position
+		end
+		
+		
+		
 		private
 		
+		# TODO: Refactor codebase so this and Text#update_bb() are more similar
+		# the major difference is that Text uses a Vec2 for position, and this class does not
+			# it seems to make the logic much cleaner to just use a Vec2
+			# should probably go that route
 		def calculate_bb
 			start_offset = @text.character_offset range.first
 			end_offset = @text.character_offset range.last
