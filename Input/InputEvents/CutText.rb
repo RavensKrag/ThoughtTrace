@@ -63,13 +63,22 @@ module MouseEvents
 					# need this callback here so the pick starts,
 					# even though there's probably not gonna be any logic here
 					# @highlighted_segment = selected
+					
+					
+					
 				end
 				
-				# NOTE: if the cut happens while the Text object is connected to the input buffer,
-				# then modifying the string with not have the desired effect,
-				# as the buffer contents are being rendered, and not the stored string
+				
 				def drag(selected)
 					# move to new location
+					
+					# cancel move events
+					@mouse.event_handlers.each do |event|
+						if event.name == :move_text
+							event.button_up_event
+						end
+					end
+					
 					
 					
 					# calculate movement delta
@@ -79,6 +88,18 @@ module MouseEvents
 					if dragged_outside_bb?
 						# mouse dragged outside the boundaries of the highlighted segment
 						
+						# --- unlink the input buffer before anything else
+						# NOTE:	if the cut occurs while the Text is connected to the input buffer,
+						# 		then modifying the string with not have the desired effect,
+						# 		as the buffer text is being rendered, and not the stored string
+						selected.text.release
+						selected.text.deactivate
+						
+						
+						
+						
+						
+						# --- process split
 						string = selected.text.string
 						
 						# select highlighted text as string
@@ -131,12 +152,17 @@ module MouseEvents
 						# current system does not support that
 						# I wonder if there's any good way to do something like that?
 				
-				def click(selected)
-					@splinter_behavior.click selected
-				end
+				# def click(selected)
+					# @splinter_behavior.click selected
+				# end
 				
 				def drag(selected)
-					@splinter_behavior.drag selected
+					# @splinter_behavior.drag selected
+					
+					delta = @mouse.position_in_world - @move_text_basis
+					
+					
+					selected.position = @original_text_position + delta		# offset by drag
 				end
 				
 				def release(selected)
