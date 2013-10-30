@@ -1,6 +1,5 @@
 module TextSpace
 	class HighlightText < Action
-		bind_to :shift_left_click
 		pick_object_from :space
 		
 		

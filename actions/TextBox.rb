@@ -8,7 +8,6 @@ module TextSpace
 			# might want to be able to write straight to this file to save bindings?
 				# would get weird if you want to have different sets of bindings, no?
 				# put the active bind here and store extra bindings elsewhere?
-		bind_to :left_click
 		pick_object_from :point
 		
 		def click(selected)

@@ -1,6 +1,5 @@
 module TextSpace
 	class MoveCaretAndSelectObject < Action
-		bind_to :left_click
 		pick_object_from :space
 		
 		def click(selected)
