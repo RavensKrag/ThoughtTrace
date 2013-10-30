@@ -169,19 +169,25 @@ module InputManager
 	# set up bindings to fire events as defined by Action classes
 		# TODO: consider passing in the input object itself, instead of just the ID.  Would allow the user to decide how they want to manage input objects.
 		# TODO: input_id should be optional.  should default to selecting a null object.
-		def bind(action, input_id)
-			input = @input_system[input_id]
-			raise "No input sequence found with that ID" unless input 
-			
-			@bindings ||= Hash.new
-			
-			# get rid of the old binding, if any
-			old_binding = @bindings[action]
-			old_binding.release if old_binding
-			
-			# set up new binding
-			@bindings[action] = Binding.new action, input
+		def bind(action_group, input_system, binding_hash)
+			binding_hash.each do |action_name, input_id|
+				action = action_group[action_name]
+				raise "No action found with that name" unless action
+				
+				input = input_system[input_id]
+				raise "No input sequence found with that ID" unless input 
+				
+				
+				
+				# get rid of the old binding, if any
+				old_binding = @bindings[action]
+				old_binding.release if old_binding
+				
+				# set up new binding
+				@bindings[action] = Binding.new action, input
+			end
 		end
+		
 		
 		# TODO: consider getting bindings based on binding name, instead of a pointer to the actual binding object
 			# If you change how the bindings are accessed, must change the keys to the @bindings hash to match.
