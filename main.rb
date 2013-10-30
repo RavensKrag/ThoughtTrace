@@ -13,7 +13,9 @@ require './Meta'
 
 require_all './Chipmunk'
 require_all './Gosu'
+
 require_all './Input'
+require_all './actions'
 
 require './PaintBox'
 
@@ -168,79 +170,14 @@ class Window < Gosu::Window
 		.each{ |i| @inpman.add i }
 		
 		
-		@mouse = MouseHandler.new @inpman, @space, @selection, @paint_box
-			@character_selection = CharacterSelection.new @paint_box
-		@mouse.add(
-			MouseEvents::BoxSelect.new,
-			MouseEvents::CutText.new(@character_selection),
-			MouseEvents::HighlightText.new(@character_selection),
-			MouseEvents::MoveCaretAndSelectObject.new,
-			MouseEvents::MoveText.new,
-			MouseEvents::PanCamera.new,
-			MouseEvents::Resize.new,
-			MouseEvents::SpawnNewText.new,
-			MouseEvents::TextBox.new
-		)
-		
-		# Bind function keys to setting the colors of text
-		(1..8).collect{ |i| "KbF#{i}".to_sym }.each do |keysym|
-			# ----- Set up input parsing -----
-			# Create sequence
-			button_id = Gosu.const_get(keysym)
-			sequence_name = keysym
-			
-			
-			input = DIS::Sequence.new sequence_name
-			
-			input.press_events = [
-				DIS::Event.new(button_id, :down)
-			]
-			
-			input.release_events = [
-				DIS::Event.new(button_id, :up)
-			]
-			
-			# Enable inputs
-			@inpman.add input
-			
-			
-			# ----- Bind to mouse -----
-			# Create mouse event class
-			class_name = "ChangeColorToSwatch#{button_id}"
-			
-			new_class =		Class.new(MouseEvents::EventObject) do
-								bind_to sequence_name
-								
-								pick_object_from :space
-								
-								def initialize(color_name)
-									super()
-									
-									@color_name = color_name
-								end
-								
-								def click(text)
-									text.color = @color[@color_name]
-								end
-							end
-			
-			# Store mouse event class reference under module with the rest of them
-			# (must set constant first, to solidify anonymous class)
-			MouseEvents.const_set(class_name, new_class)
-			
-			# Bind new class to mouse
-			color_name = button_id
-			@mouse.add new_class.new(color_name)
-		end
 		
 		
 		
 		
 		
-		
+		@character_selection = CharacterSelection.new @paint_box
 		
 		# TOOD: consider moving actions under an "Actions" module?
-		
 		@actions = ActionGroup.new
 		@actions.add(
 			TextSpace::BoxSelect.new,
@@ -255,6 +192,8 @@ class Window < Gosu::Window
 		)
 		
 		
+		
+		@mouse = MouseHandler.new @space, @selection, @paint_box
 		
 		# this interface is much less noisy than the suggested interface from Experimental
 		# but it kinda assumes that bindings are going to be declared all at one, in text
@@ -277,6 +216,77 @@ class Window < Gosu::Window
 			"SpawnNewText"				=> :left_click,
 			"TextBox"					=> :left_click
 		}
+		
+		
+		
+		
+		
+		# Bind F-keys (function keys) to colors switching
+		fkey_symbols = (1..8).collect{ |i| "KbF#{i}".to_sym }
+		
+			actions = 	fkey_symbols.collect do |keysym|
+							button_id = Gosu.const_get(keysym)
+							
+							# Create mouse event class
+							class_name = "ChangeColorToSwatch#{button_id}"
+							
+							new_class =		Class.new(TextSpace::Action) do
+												pick_object_from :space
+												
+												def initialize(color_name)
+													super()
+													
+													@color_name = color_name
+												end
+												
+												def click(text)
+													text.color = @color[@color_name]
+												end
+											end
+							
+							# Store mouse event class reference under module with the rest of them
+							# (must set constant first, to solidify anonymous class)
+							TextSpace.const_set(class_name, new_class)
+							
+							
+							color_name = button_id
+							
+							
+							
+							
+							
+							new_class.new(color_name)
+						end
+			
+			inputs =	fkey_symbols.collect do |keysym|
+							button_id = Gosu.const_get(keysym)
+							
+							
+							
+							DIS::Sequence.new(keysym).tap do |s|
+								s.press_events = [
+									DIS::Event.new(button_id, :down)
+								]
+								
+								s.release_events = [
+									DIS::Event.new(button_id, :up)
+								]
+							end
+						end
+		
+		# Track all inputs
+		inputs.each{ |i| @inpman.add i }
+		
+		# Bind actions to inputs
+		action_names = actions.collect{ |a| a.name }
+		bindings = Hash[action_names.zip inputs]
+		
+		@mouse.bind @actions, @inpman, bindings
+		
+		
+		
+		
+		
 		
 		
 		

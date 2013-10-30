@@ -1,14 +1,13 @@
 module InputManager
 	class MouseHandler
-		attr_reader :input_system, :space, :selection, :paint_box
+		attr_reader :space, :selection, :paint_box
 		attr_reader :event_handlers
 		
 		NullMouseOver = Struct.new(:mouse_in, :mouse_out)
 		
-		def initialize(input_system, space, selection, paint_box)
+		def initialize(space, selection, paint_box)
 			super()
 			
-			@input_system = input_system
 			@space = space
 			@selection = selection
 			@paint_box = paint_box

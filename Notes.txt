@@ -171,3 +171,37 @@ composition
 		* deselect active element
 		* create new text
 		+ move new text element into next line position
+
+
+
+
+
+binding actions currently keys the binding based on the action object
+this means that multiple actions of the same type can be bound, if necessary
+however, the interface to get actions out of the action group keys by class,
+so only one object can be stored per class
+
+	should make this behavior consistent
+	should probably just store based on a name, or something
+		
+		but if the name is generated based on the name of the class,
+		this is the same as just using the class object
+		
+		would have to give each instance it's own key
+		would basically just be using a hash straight up then
+		which would get a bit tedious
+		
+		but is the tedium really an issue?
+		eventually, it's going to all be managed by a program anyway
+		the bindings will never be edited in a text file after a while
+		it will all be done with the graphical tool
+		
+		
+		not really sure that you need more than one instance of each class per one input manager
+		the point of using instances of a class is so you can have multiple input managers
+		
+			this is useful for mulitplayer
+			this may be useful for different input modes
+
+
+NOTE: Actions currently bound to mouse inputs using a string representation of the class name.  Assuming also that Action#name is defined, and will return this value.  This method has yet to be set up.
