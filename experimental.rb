@@ -890,3 +890,40 @@ right_click
 # This would be great for parallelism
 # (though, parallelism is pretty much impossible in Ruby... so yeah)
 	
+
+
+# this interface is much less noisy
+# but it kinda assumes that bindings are going to be declared all at one, in text
+# 
+# it might facilitate loading from JSON though
+# for the sake of file loading though, it might be better if the data was all symbols,
+# or all strings, or something of that nature
+# not sure how well classes serialize
+# (maybe YAML would work with that?)
+@mouse.bind @actions, @inpman, {
+	TextSpace::BoxSelect				=> :shift_left_click,
+	TextSpace::CutText					=> :right_click,
+	TextSpace::HighlightText			=> :shift_left_click,
+	TextSpace::MoveCaretAndSelectObject	=> :left_click,
+	TextSpace::MoveText 				=> :right_click,
+	TextSpace::PanCamera				=> :middle_click,
+	TextSpace::Resize					=> :shift_right_click,
+	TextSpace::SpawnNewText				=> :left_click,
+	TextSpace::TextBox					=> :left_click
+}
+
+
+# really only need input manager while binding
+@mouse.bind @actions, @inpman, {
+	"BoxSelect"					=> :shift_left_click,
+	"CutText"					=> :right_click,
+	"HighlightText"				=> :shift_left_click,
+	"MoveCaretAndSelectObject"	=> :left_click,
+	"MoveText" 					=> :right_click,
+	"PanCamera"					=> :middle_click,
+	"Resize"					=> :shift_right_click,
+	"SpawnNewText"				=> :left_click,
+	"TextBox"					=> :left_click
+}
+
+
