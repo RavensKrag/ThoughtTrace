@@ -357,8 +357,8 @@ class Window < Gosu::Window
 		@space.update
 		@character_selection.update
 		
-		
 		@mouse.update
+		@actions.update
 		@inpman.update
 	end
 	

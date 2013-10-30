@@ -1,7 +1,6 @@
 module InputManager
 	class MouseHandler
 		attr_reader :space, :selection, :paint_box
-		attr_reader :event_handlers
 		
 		NullMouseOver = Struct.new(:mouse_in, :mouse_out)
 		
@@ -13,8 +12,6 @@ module InputManager
 			@paint_box = paint_box
 			
 			@hover_callbacks = Hash.new # callback name => callback
-			
-			@event_handlers = Array.new # list of MouseEvents::EventObject descendants
 			
 			
 			# @callbacks = Hash.new # trigger => callback
@@ -86,12 +83,6 @@ module InputManager
 			end
 			
 			@last_hovered_object = obj || NullMouseOver.new
-			
-			
-			
-			@event_handlers.each do |event|
-				event.update
-			end
 		end
 				
 		def shutdown
