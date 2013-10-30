@@ -274,12 +274,16 @@ class Window < Gosu::Window
 							end
 						end
 		
+		# Register actions
+		@actions.add *actions
+		
 		# Track all inputs
 		inputs.each{ |i| @inpman.add i }
 		
 		# Bind actions to inputs
 		action_names = actions.collect{ |a| a.name }
-		bindings = Hash[action_names.zip inputs]
+		input_names = inputs.collect{ |i| i.name }
+		bindings = Hash[action_names.zip input_names]
 		
 		@mouse.bind @actions, @inpman, bindings
 		
