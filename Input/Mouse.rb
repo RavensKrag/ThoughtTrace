@@ -115,15 +115,6 @@ module InputManager
 		alias :position_in_screen_coordinates :screen_position
 		
 		
-		# Interface to define callbacks
-		def mouse_over(&block)
-			@hover_callbacks[:mouse_over] = block
-		end
-		
-		def mouse_out(&block)
-			@hover_callbacks[:mouse_out] = block
-		end
-		
 		
 		# Manage selection
 			# should consider not having this delegation at all
@@ -141,6 +132,20 @@ module InputManager
 		end
 		
 		
+	#     __  ___                                              ______                 __      
+	#    /  |/  /___  __  __________  ____ _   _____  _____   / ____/   _____  ____  / /______
+	#   / /|_/ / __ \/ / / / ___/ _ \/ __ \ | / / _ \/ ___/  / __/ | | / / _ \/ __ \/ __/ ___/
+	#  / /  / / /_/ / /_/ (__  )  __/ /_/ / |/ /  __/ /     / /___ | |/ /  __/ / / / /_(__  ) 
+	# /_/  /_/\____/\__,_/____/\___/\____/|___/\___/_/     /_____/ |___/\___/_/ /_/\__/____/  
+		# Interface to define callbacks
+		def mouse_over(&block)
+			@hover_callbacks[:mouse_over] = block
+		end
+		
+		def mouse_out(&block)
+			@hover_callbacks[:mouse_out] = block
+		end
+		
 		private
 		
 		# Fire callbacks
@@ -152,18 +157,81 @@ module InputManager
 			instance_exec @hovered, @hover_callbacks[:mouse_out]
 		end
 		
+		public
 		
 		
-		
-		# # Return all objects the mouse is on top of
-		# def hovered
+	#     ____  _           ___            
+	#    / __ )(_)___  ____/ (_)___  ____ _
+	#   / __  / / __ \/ __  / / __ \/ __ `/
+	#  / /_/ / / / / / /_/ / / / / / /_/ / 
+	# /_____/_/_/ /_/\__,_/_/_/ /_/\__, /  
+	#                             /____/   
+	# set up bindings to fire events as defined by Action classes
+		# TODO: consider passing in the input object itself, instead of just the ID.  Would allow the user to decide how they want to manage input objects.
+		# TODO: input_id should be optional.  should default to selecting a null object.
+		def bind(action, input_id)
+			input = @input_system[input_id]
+			raise "No input sequence found with that ID" unless input 
 			
-		# end
+			@bindings ||= Hash.new
+			
+			# get rid of the old binding, if any
+			old_binding = @bindings[action]
+			old_binding.release if old_binding
+			
+			# set up new binding
+			@bindings[action] = Binding.new action, input
+		end
 		
-		# # Return the most recent object the mouse is on top of
+		# TODO: consider getting bindings based on binding name, instead of a pointer to the actual binding object
+			# If you change how the bindings are accessed, must change the keys to the @bindings hash to match.
+		def binding(action)
+			@bindings[action].sequence_id
+		end
 		
 		
-		# # Return the most relevant object the mouse is on top of
-		# # (ie, highest priority for selection)
+		class Binding
+			attr_reader :action, :input
+			
+			# TODO: Re-order parameter list, or similar touchup.  This is kinda weird.
+			def initialize(action, input)
+				@action = action
+				@input = input
+				
+				
+				
+				# set up new binding
+				@input.callbacks[@action].tap do |c|
+					c.on_press do
+						@action.click_event
+					end
+					
+					# c.on_hold do
+						
+					# end
+					
+					c.on_release do
+						@action.release_event
+					end
+				end
+			end
+			
+			# remove binding from input system
+			def release
+				@input.callbacks.delete @action
+			end
+			
+			# serialize
+			def dump(filepath)
+				
+			end
+			
+			# load from disk
+			def self.load(filepath)
+				
+			end
+		
+		end
+		private_constant :Binding # new in 1.9.3, so be aware of that
 	end
 end
