@@ -13,4 +13,15 @@ class ActionGroup
 	def add(*actions)
 		@list += actions
 	end
+	
+	def [](action_name)
+		# TOOD: accessing items by name should really be constant time
+		
+		i = @list.index{ |action| action.name == action_name }
+		
+		raise "No action registered with the name #{action_name}" unless i
+		
+		
+		return @list[i]
+	end
 end

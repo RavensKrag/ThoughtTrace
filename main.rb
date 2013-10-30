@@ -205,6 +205,8 @@ class Window < Gosu::Window
 		# (maybe YAML would work with that?)
 		
 		# really only need input manager while binding
+		
+		# NOTE: Using strings as Action IDs is problematic, because it totally ignores namespacing. Using the class objects themselves avoids this problem.
 		@mouse.bind @actions, @inpman, {
 			"BoxSelect"					=> :shift_left_click,
 			"CutText"					=> :right_click,

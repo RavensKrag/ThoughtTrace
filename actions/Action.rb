@@ -36,9 +36,9 @@ module TextSpace
 			# which would be nice, because you should really not be able to create
 			# instance of this class directly, as part of the interface is not implemented
 			
-			# @name = self.class.name.scan(/(.*)[Event]*/)[0][0].to_snake_case.to_sym
-			# @name = self.class.name.to_snake_case.to_sym
-			@name = self.class.name.split("::").last.to_snake_case.to_sym
+			# @name = self.class.name.split("::").last.to_snake_case.to_sym
+			@name = self.class.name.split("::").last
+			
 			
 			@binding = nil
 		end
