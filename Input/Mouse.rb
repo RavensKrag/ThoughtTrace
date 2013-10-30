@@ -167,7 +167,6 @@ module InputManager
 	# /_____/_/_/ /_/\__,_/_/_/ /_/\__, /  
 	#                             /____/   
 	# set up bindings to fire events as defined by Action classes
-		# TODO: consider passing in the input object itself, instead of just the ID.  Would allow the user to decide how they want to manage input objects.
 		# TODO: input_id should be optional.  should default to selecting a null object.
 		def bind(action_group, input_system, binding_hash)
 			binding_hash.each do |action_name, input_id|
@@ -180,19 +179,16 @@ module InputManager
 				
 				
 				# get rid of the old binding, if any
-				old_binding = @bindings[action]
+				old_binding = @bindings[action.name]
 				old_binding.release if old_binding
 				
 				# set up new binding
-				@bindings[action] = Binding.new action, input
+				@bindings[action.name] = Binding.new action, input
 			end
 		end
 		
-		
-		# TODO: consider getting bindings based on binding name, instead of a pointer to the actual binding object
-			# If you change how the bindings are accessed, must change the keys to the @bindings hash to match.
-		def binding(action)
-			@bindings[action].sequence_id
+		def binding(action_name)
+			@bindings[action_name].sequence_id
 		end
 		
 		

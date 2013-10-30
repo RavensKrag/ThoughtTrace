@@ -238,6 +238,51 @@ class Window < Gosu::Window
 		
 		
 		
+		
+		# TOOD: consider moving actions under an "Actions" module?
+		
+		@actions = ActionGroup.new
+		@actions.add(
+			TextSpace::BoxSelect.new,
+			TextSpace::CutText.new(@character_selection),
+			TextSpace::HighlightText.new(@character_selection),
+			TextSpace::MoveCaretAndSelectObject.new,
+			TextSpace::MoveText.new,
+			TextSpace::PanCamera.new,
+			TextSpace::Resize.new,
+			TextSpace::SpawnNewText.new,
+			TextSpace::TextBox.new
+		)
+		
+		
+		
+		# this interface is much less noisy than the suggested interface from Experimental
+		# but it kinda assumes that bindings are going to be declared all at one, in text
+		# 
+		# it might facilitate loading from JSON though
+		# for the sake of file loading though, it might be better if the data was all symbols,
+		# or all strings, or something of that nature
+		# not sure how well classes serialize
+		# (maybe YAML would work with that?)
+		
+		# really only need input manager while binding
+		@mouse.bind @actions, @inpman, {
+			"BoxSelect"					=> :shift_left_click,
+			"CutText"					=> :right_click,
+			"HighlightText"				=> :shift_left_click,
+			"MoveCaretAndSelectObject"	=> :left_click,
+			"MoveText" 					=> :right_click,
+			"PanCamera"					=> :middle_click,
+			"Resize"					=> :shift_right_click,
+			"SpawnNewText"				=> :left_click,
+			"TextBox"					=> :left_click
+		}
+		
+		
+		
+		
+		
+		
 		if @space.empty?
 			# Create text objects for all events
 			data_type = Struct.new(:callback, :text)
