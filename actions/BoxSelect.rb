@@ -1,5 +1,5 @@
-module MouseEvents
-	class BoxSelect < EventObject
+module TextSpace
+	class BoxSelect < Action
 		bind_to :shift_left_click
 		
 		# if you don't use a pick query, it can execute any time

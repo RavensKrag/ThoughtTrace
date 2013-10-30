@@ -1,5 +1,5 @@
-module MouseEvents
-	class TextBox < EventObject
+module TextSpace
+	class TextBox < Action
 		# need to be able to set binding at runtime
 		# need to be able to load binding from file
 			# I think ideally the binding would show up in this file?

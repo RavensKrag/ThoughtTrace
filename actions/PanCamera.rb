@@ -1,5 +1,5 @@
-module MouseEvents
-	class PanCamera < EventObject
+module TextSpace
+	class PanCamera < Action
 		bind_to :middle_click
 		
 		def click(selected)

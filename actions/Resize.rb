@@ -1,5 +1,5 @@
-module MouseEvents
-	class Resize < EventObject
+module TextSpace
+	class Resize < Action
 		bind_to :shift_right_click
 		pick_object_from :space
 		

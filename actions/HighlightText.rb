@@ -1,5 +1,5 @@
-module MouseEvents
-	class HighlightText < EventObject
+module TextSpace
+	class HighlightText < Action
 		bind_to :shift_left_click
 		pick_object_from :space
 		

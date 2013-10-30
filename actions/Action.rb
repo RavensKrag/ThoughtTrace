@@ -13,8 +13,8 @@ end
 
 require 'state_machine'
 
-module MouseEvents
-	class EventObject
+module TextSpace
+	class Action
 		# must state key bindings as symbols, rather than variables
 		# will scan the input system for a sequence with the given symbol as the name
 		# (really just needs to be the same unique identifier as used for the sequence)
@@ -51,6 +51,7 @@ module MouseEvents
 			
 		# end
 		
+		# TODO: consider just passing all the values in to Action separately. (that could be messy, though)
 		def add_to(mouse)
 			@mouse = mouse
 			bind(mouse.input_system)
@@ -63,6 +64,8 @@ module MouseEvents
 			@color = mouse.paint_box
 		end
 		
+		
+		EVENT_TYPES = [:click, :drag, :release]
 		# Do not define the callback methods, but expect that children of this class will
 		# This is so you can tell which callbacks have been defined
 		
@@ -77,10 +80,6 @@ module MouseEvents
 		# def release(selected)
 			
 		# end
-		
-		
-		
-		EVENT_TYPES = [:click, :drag, :release]
 	
 	
 	#     __  ___     __                                    _____      __            

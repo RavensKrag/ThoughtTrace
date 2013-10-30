@@ -1,5 +1,5 @@
-module MouseEvents
-	class MoveText < EventObject
+module TextSpace
+	class MoveText < Action
 		bind_to :right_click
 		pick_object_from :space
 		# pick_object_from :space do |object|

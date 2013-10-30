@@ -1,5 +1,5 @@
-module MouseEvents
-	class SpawnNewText < EventObject
+module TextSpace
+	class SpawnNewText < Action
 		bind_to :left_click
 		pick_object_from :point do |vector|
 			puts "new text"

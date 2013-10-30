@@ -1,7 +1,7 @@
 require 'state_machine'
 
-module MouseEvents
-	class CutText < EventObject
+module TextSpace
+	class CutText < Action
 		bind_to :right_click
 		pick_object_from :selection
 			pick_selection_domain :cut_selection
