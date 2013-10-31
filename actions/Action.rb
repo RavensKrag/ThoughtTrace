@@ -54,7 +54,6 @@ module TextSpace
 		# TODO: consider just passing all the values in to Action separately. (that could be messy, though)
 		def add_to(mouse)
 			@mouse = mouse
-			bind(mouse.input_system)
 			
 			
 			# set other variables here as well,
