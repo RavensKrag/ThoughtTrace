@@ -91,7 +91,11 @@ module TextSpace
 	# Metacode to allow for defining class-level
 		Foo = Struct.new(:value, :block)
 		def self.meta_thingy(opt={})
-			return @traits if opt.empty?
+			if opt.empty?
+				@traits ||= Hash.new # TOOD: consider if this is necessary
+				
+				return @traits 
+			end
 			
 			
 			data_name = opt[:read]
