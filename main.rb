@@ -181,7 +181,7 @@ class Window < Gosu::Window
 		@actions = ActionGroup.new
 		@actions.add(
 			TextSpace::BoxSelect.new,
-			TextSpace::CutText.new(@character_selection),
+			TextSpace::CutText.new(@actions, @character_selection),
 			TextSpace::HighlightText.new(@character_selection),
 			TextSpace::MoveCaretAndSelectObject.new,
 			TextSpace::MoveText.new,

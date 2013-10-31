@@ -7,8 +7,10 @@ module TextSpace
 		
 		attr_reader :cut_selection
 		
-		def initialize(character_selection)
+		def initialize(actions, character_selection)
 			super()
+			
+			@actions = actions
 			
 			# this isn't currently going to work,
 			# because the pick query assumes it can test #include?(object)
@@ -71,12 +73,9 @@ module TextSpace
 				def drag(selected)
 					# move to new location
 					
-					# cancel move events
-					@mouse.event_handlers.each do |event|
-						if event.name == :move_text
-							event.button_up_event
-						end
-					end
+					# cancel move actions
+					# TODO: Clean up the action canceling interface. Either instigate a proper "cancel" method, or use the improved external control interface for Actions in Experimental.
+					@actions["MoveText"].button_up_event
 					
 					
 					
