@@ -22,36 +22,7 @@ module InputManager
 		end
 		
 		def add(*events)
-			events.each do |new_event|
-				# sets up necessary variables, does not commit changes to system
-				new_event.add_to self
-				
-				# check system against this new addition
-				id = new_event.name
-				
-				@event_handlers.each do |old_event|
-					event_name = old_event.name
-					
-					# puts "old sig: #{event_name} --- new sig: #{id}"
-					puts "\ncompare: #{id} to #{event_name}"
-					
-					# TODO: Consider removing :release from collision test
-					# should still show if release callbacks overlap,
-					# but :release should not be a deciding factor
-					# 
-					# ex)	[:click, :release] collides with [:click]
-					# 		because release is ignored
-					collision = new_event.collide_with old_event
-					
-					if collision
-						raise "Event #{id} collides with #{event_name} in fields #{collision}"
-					end
-				end
-				
-				
-				
-				@event_handlers << new_event
-			end
+			
 		end
 		
 		def update
@@ -161,25 +132,105 @@ module InputManager
 		def bind(action_group, input_system, binding_hash)
 			binding_hash.each do |action_name, input_id|
 				action = action_group[action_name]
-				raise "No action found with that name" unless action
+				raise "No action found with the name #{action_name}" unless action
 				
 				input = input_system[input_id]
-				raise "No input sequence found with that ID" unless input 
+				raise "No input sequence found with the ID #{input_id}" unless input 
 				
 				
+				
+				@bindings ||= Hash.new
 				
 				# get rid of the old binding, if any
 				old_binding = @bindings[action.name]
 				old_binding.release if old_binding
 				
 				# set up new binding
-				@bindings[action.name] = Binding.new action, input
+				action.add_to self # TODO: should probably have a means to remove from mouse
+				binding = Binding.new action, input
+				
+				# test_binding_for_collision(binding)
+				# collision_with_existing?(binding)
+					# collision occurs when actions that can not be disambiguated
+					# are bound to the same input
+				
+				@bindings[action.name] = binding
 			end
 		end
 		
 		def binding(action_name)
 			@bindings[action_name].sequence_id
 		end
+		
+		private
+		
+		# return true if the given binding collides with any existing bindings
+		def collision_with_existing?(binding)
+			@bindings.each do |bound_action_name, existing_binding|
+				# see if the actions are mapped to the same input
+				# if they are, you need to disambiguate
+				# if can not disambiguate, then it's a collision
+				
+				
+				# no binding overlap; no need to try to disambiguate
+				return false unless binding.input == existing_binding.input
+				
+				
+				overlapping_properties = binding.action.collide_with existing_binding.action
+				
+				if overlapping_properties
+					raise "Action #{binding.action.name} collides with #{existing_binding.action.name} in fields #{collision}"
+				end
+			end
+		end
+		
+		
+		
+		
+		# TODO: should probably though exception outside this method, just because it makes the main flow of #bind clearer.  The current implementation does not make it clear that the collision test contains an exception flow.
+		def test_binding_for_collision
+			# most of the old code to test for collision is in what is now the Action.rb file
+			# this is kinda weird, because Actions are no longer responsible
+			# for input bindings
+			# even though input bindings are critical in detecting collisions
+			# (are they really though?)
+			
+			
+			
+			# directly copied from old #add method
+			events.each do |new_event|
+				# sets up necessary variables, does not commit changes to system
+				new_event.add_to self
+				
+				# check system against this new addition
+				id = new_event.name
+				
+				@event_handlers.each do |old_event|
+					event_name = old_event.name
+					
+					# puts "old sig: #{event_name} --- new sig: #{id}"
+					puts "\ncompare: #{id} to #{event_name}"
+					
+					# TODO: Consider removing :release from collision test
+					# should still show if release callbacks overlap,
+					# but :release should not be a deciding factor
+					# 
+					# ex)	[:click, :release] collides with [:click]
+					# 		because release is ignored
+					collision = new_event.collide_with old_event
+					
+					if collision
+						raise "Event #{id} collides with #{event_name} in fields #{collision}"
+					end
+				end
+				
+				
+				
+				# @event_handlers << new_event
+			end
+		end
+		
+		public
 		
 		
 		class Binding

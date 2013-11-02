@@ -15,10 +15,6 @@ require 'state_machine'
 
 module TextSpace
 	class Action
-		# must state key bindings as symbols, rather than variables
-		# will scan the input system for a sequence with the given symbol as the name
-		# (really just needs to be the same unique identifier as used for the sequence)
-		
 		# bind_to :left_click
 		# pick_object_from :space
 		
@@ -36,11 +32,18 @@ module TextSpace
 			# which would be nice, because you should really not be able to create
 			# instance of this class directly, as part of the interface is not implemented
 			
+			
+			
+			
+			# name parsing currently assumes that the Action classes are within at least on module
+			# if they're not, weird things will happen
+			# should either stop using this sort of string parsing for names altogether,
+			# or figure out a better way to parse it
+			
 			# @name = self.class.name.split("::").last.to_snake_case.to_sym
 			@name = self.class.name.split("::").last
 			
 			
-			@binding = nil
 		end
 		
 		def to_s
@@ -163,7 +166,7 @@ module TextSpace
 		# iterate through properties trying to disambiguate
 		# if you hit the end of properties list, and callback still ambiguous,
 		# collision has occurred
-		def collide_with(other, fields_to_check=([:binding, :pick_callback] + EVENT_TYPES))
+		def collide_with(other, fields_to_check=([:pick_callback] + EVENT_TYPES))
 			# property must be defined on both sides
 			# if it's only defined on one side, then it's not a collision,
 			# (should be able to disambiguate by difference)
@@ -250,14 +253,13 @@ module TextSpace
 		def signature
 			output = Hash.new
 			# {
-			# 	:binding => @binding / nil
 			# 	:pick_callback => @pick_type / nil # type of callback, not the actual block
 			# 	:click => true / false
 			# 	:drag => true / false
 			# 	:release => true / false
 			# }
-			puts "#{self.class.name} --> id #{@binding.sequence_id}"
-			output[:binding] = @binding.sequence_id
+			
+			# NOTE: Actions don't track bindings, so that part of the collision is no longer here
 			
 			output[:pick_callback] = @pick_type if pick_callback_defined?
 			
