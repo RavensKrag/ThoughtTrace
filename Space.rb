@@ -61,6 +61,10 @@ module TextSpace
 		def object_at(position)
 			return SelectionQueries.point_query @objects, position
 		end
+		
+		def empty_at?(position)
+			return SelectionQueries.empty_at?(@objects, position)
+		end
 	
 	
 	# 	   _____           _       ___             __  _           
