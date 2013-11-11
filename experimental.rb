@@ -927,3 +927,308 @@ right_click
 }
 
 
+
+
+
+
+# define different types of pick callbacks in mixins
+# contained within a single package (so they're easy to find)
+# 
+# this allows for additional callback types to be designed as necessary,
+# but it's still possible to figure out if -- collision
+# all callbacks of the same type will use the exactly same code
+
+# not sure how the point callback is going to work
+	# that one need to be able to create different types of objects
+	# so it will have to get the object factories as necessary from another variable
+	# as the actual interface on the pick method must be kept constant
+	# --- only the body of the methods can change
+module PickCallbacks
+	# PRECONDITION: 
+	# none
+	module Selection
+		def pick(domain, point)
+			# pick from a group of objects
+			@selected = SelectionQueries.point_query(@selection, point)
+			# @selected = @selection.point_query point
+			
+			
+			super(domain, point)
+		end
+	end
+	
+	# PRECONDITION: 
+	# none
+	module Space
+		def pick(domain, point)
+			# pick one object out of the space
+			@selected = SelectionQueries.point_query(@space, point)
+			
+			
+			super(domain, point)
+		end
+	end
+	
+	# PRECONDITION:
+	# @@pick_class = class of the object to create at the found point
+	module Point
+		def pick(domain, point)
+			# project a point into the space, and create a new object there
+			obj = @@pick_class.new
+			obj.position = point
+			@selected = obj
+			
+			
+			super(domain, point)
+		end
+	end
+	
+	
+	module SampleTemplate
+		def pick(domain, point)
+			
+			
+			
+			super(domain, point)
+		end
+	end
+end
+
+
+# default actions need to be attached to the root: object which is not supposed to be instanced
+class Action
+	def pick(domain, point)
+		# --- do stuff
+		# nothing, by default
+		
+		# --- transition state
+		enable
+	end
+end
+
+
+# need to do some metacode probing to figure out what modules are included
+
+
+
+# currently no good way to control transition caused by #press
+# pick can be used to set up conditions when you need something out of the space?
+# generalize #pick into #setup?
+
+
+# interface - get system ready for #press
+def setup
+	press if on_setup
+end
+
+# backend - setup callback
+# example for Space pick
+def on_setup
+	@selected = @space.object_at(point)
+	
+	return true if @selected
+	
+	
+	
+	return false
+end
+
+
+# example for box selection
+# (only fire in empty space)
+def on_setup
+	return @space.empty_at?(point)
+end
+
+
+
+
+
+# try to find better names for these methods
+
+# interface - get system ready for #press
+alias :old_press, :press
+def press
+	old_press if ready?
+end
+
+# backend - setup callback
+# example for Space pick
+def ready?
+	@selected = @space.object_at(point)
+	
+	return true if @selected
+	
+	
+	
+	return false
+end
+
+
+# example for box selection
+# (only fire in empty space)
+def ready?
+	return @space.empty_at?(point)
+end
+
+
+
+
+
+
+
+
+
+class Action
+	# interface
+	def press
+		
+	end
+	
+	def update
+		
+	end
+	
+	def release
+		
+	end
+	
+	
+	
+	# callbacks
+	def on_press
+		
+	end
+
+	def on_hold
+		
+	end
+
+	def on_release
+		
+	end
+end
+
+class PickCallback
+	def initialize(action)
+		@action = action
+	end
+	
+	
+	
+	# interface
+	def pick(point)
+		press if on_pick point
+		
+		
+		
+		
+		
+		ready = on_pick point
+		press if ready
+	end
+	
+	# callbacks
+	def on_pick(point)
+		raise "MUST DEFINE METHOD #{self.class.name}#on_pick"
+	end
+	
+	
+	
+	
+	# delegation of interface
+	def press
+		raise "Error: Do not call this method. Calling #pick which run #press automatically."
+	end
+	
+	def update
+		@action.update
+	end
+	
+	def release
+		@action.release
+	end
+end
+
+class TaoeurchtvHoecrohnr < PickCallback
+	def on_pick
+		
+	end
+end
+
+
+
+
+
+
+
+class StateyThing
+	# interface
+	def press
+		
+	end
+	
+	def update
+		
+	end
+	
+	def release
+		
+	end
+	
+	
+	
+	private
+	
+	# callbacks
+	def on_press
+		
+	end
+
+	def on_hold
+		
+	end
+
+	def on_release
+		
+	end
+end
+
+class TaoeurchtvHoecrohnr < StateyThing
+	attr_accessor :pick_callback
+	
+	def initialize(space)
+		super
+		
+		@pick_callback = PickCallback::Point.new(space)
+	end
+	
+	def press(point)
+		super @pick_callback.pick(point)
+	end
+	
+	# def update
+	# 	super
+	# end
+	
+	# def release
+	# 	super
+	# end
+	
+	
+	
+	private
+	
+	# callbacks
+	def on_press
+		
+	end
+
+	def on_hold
+		
+	end
+
+	def on_release
+		
+	end
+end
