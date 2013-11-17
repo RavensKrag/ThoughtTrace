@@ -205,3 +205,8 @@ so only one object can be stored per class
 
 
 NOTE: Actions currently bound to mouse inputs using a string representation of the class name.  Assuming also that Action#name is defined, and will return this value.  This method has yet to be set up.
+
+
+
+
+NOTE: Current implementation of action does not store parameter to #press automatically.  The user is responsible for storing it, if he wants to keep it around.  Which is kinda weird, because it's assumed that one value should come into the system, and then be used by three different steps.

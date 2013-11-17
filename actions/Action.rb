@@ -18,12 +18,8 @@ module TextSpace
 		# bind_to :left_click
 		# pick_object_from :space
 		
-		attr_reader :name
-		
-		
 		def initialize
 			super() # needed for state_machine
-			setup() # copy values from metaclass-instance properties
 			
 			# Set up event structure
 			
@@ -31,23 +27,6 @@ module TextSpace
 			# this would allow for this to be declared as a mixin
 			# which would be nice, because you should really not be able to create
 			# instance of this class directly, as part of the interface is not implemented
-			
-			
-			
-			
-			# name parsing currently assumes that the Action classes are within at least on module
-			# if they're not, weird things will happen
-			# should either stop using this sort of string parsing for names altogether,
-			# or figure out a better way to parse it
-			
-			# @name = self.class.name.split("::").last.to_snake_case.to_sym
-			@name = self.class.name.split("::").last
-			
-			
-		end
-		
-		def to_s
-			@name
 		end
 		
 		# def inspect
@@ -55,6 +34,7 @@ module TextSpace
 		# end
 		
 		# TODO: consider just passing all the values in to Action separately. (that could be messy, though)
+		# TODO: Make sure classes delegate to #add_to as necessary
 		def add_to(mouse)
 			@mouse = mouse
 			
@@ -62,99 +42,11 @@ module TextSpace
 			# set other variables here as well,
 			# so events can be initialized without parameters
 			# but all the events in the same handler can point to the same values
-			@space = mouse.space
+			# @space = mouse.space
 			@color = mouse.paint_box
 		end
 		
 		
-		EVENT_TYPES = [:click, :drag, :release]
-		# Do not define the callback methods, but expect that children of this class will
-		# This is so you can tell which callbacks have been defined
-		
-		# def click(selected)
-			
-		# end
-		
-		# def drag(selected)
-			
-		# end
-		
-		# def release(selected)
-			
-		# end
-	
-	
-	#     __  ___     __                                    _____      __            
-	#    /  |/  /__  / /_____ _____  _________  ____ _     / ___/___  / /___  ______ 
-	#   / /|_/ / _ \/ __/ __ `/ __ \/ ___/ __ \/ __ `/     \__ \/ _ \/ __/ / / / __ \
-	#  / /  / /  __/ /_/ /_/ / /_/ / /  / /_/ / /_/ /     ___/ /  __/ /_/ /_/ / /_/ /
-	# /_/  /_/\___/\__/\__,_/ .___/_/   \____/\__, (_)   /____/\___/\__/\__,_/ .___/ 
-	#                      /_/               /____/                         /_/      
-	# Metacode to allow for defining class-level
-		Foo = Struct.new(:value, :block)
-		def self.meta_thingy(opt={})
-			if opt.empty?
-				@traits ||= Hash.new # TOOD: consider if this is necessary
-				
-				return @traits 
-			end
-			
-			
-			data_name = opt[:read]
-			
-			metaclass.instance_eval do
-				# ----- Write data -----
-				define_method( opt[:write] ) do |val, &block|
-					data = Foo.new
-					data.value = val
-					data.block = block
-					
-					@traits ||= Hash.new
-					@traits[data_name] = data
-				end
-				
-				# ----- Read data -----
-				# read main value
-					define_method opt[:read] do
-						@traits[data_name].value
-					end
-				# read block
-				if opt[:require_block]
-					define_method "#{opt[:read]}_block" do
-						@traits[data_name].block
-					end
-				end
-			end
-			
-			
-			
-			
-			
-			# Copy class data into instance on initialization
-			# Don't use the initialize method though,
-			# because I don't want to deal with the other things that come with that method
-			class_eval do
-				define_method :setup do
-					self.class.meta_thingy.each do |name, data|
-						instance_variable_set("@#{name}", 		data.value)
-						instance_variable_set("@#{name}_block",	data.block)
-					end
-				end
-			end
-		end
-	
-	#     _______              ______      ______               __       
-	#    / ____(_)_______     / ____/___ _/ / / /_  ____ ______/ /_______
-	#   / /_  / / ___/ _ \   / /   / __ `/ / / __ \/ __ `/ ___/ //_/ ___/
-	#  / __/ / / /  /  __/  / /___/ /_/ / / / /_/ / /_/ / /__/ ,< (__  ) 
-	# /_/   /_/_/   \___/   \____/\__,_/_/_/_.___/\__,_/\___/_/|_/____/  
-		EVENT_TYPES.each do |event|
-			# Fire callbacks
-			define_method "#{event}_callback" do ||
-				self.send event, @selection if self.respond_to? event
-			end
-		end
-	
 	
 	#    ______      _____      _           
 	#   / ____/___  / / (_)____(_)___  ____ 
@@ -279,160 +171,172 @@ module TextSpace
 	#  ___/ / /_/ /_/ / /_/  __/
 	# /____/\__/\__,_/\__/\___/ 
 	# contains update method
-		state_machine :state, :initial => :up do
-			state :up do
+		state_machine :state, :initial => :idle do
+			state :idle do
 				def update
 					
 				end
-				
-				def click_event
-					# preventing transition out of the "up" state
-					# prevents click, drag, and release events from firing
-					# by locking the state machine in the up state, where
-					# the release event is stubbed,
-					# and no callbacks are launched
-					
-					# only proceed if defined pick callbacks have fired
-					a = pick_callback_defined?
-					b = pick_event
-					
-					# a b		out
-					# 0 0		1		# no pick necessary (callback undefined)
-					# 0 1		1		# 
-					# 1 0		0		# if it's defined, it must have fired properly
-					# 1 1		1		# 
-					
-					puts "#{@name} --> #{a} :: #{b}"
-					
-					if (!a || b)
-						click_callback
-						
-						button_down_event
-					end
-				end
-				
-				def release_event
-					
-				end
 			end
 			
-			state :down do
+			state :holding do
 				def update
-					drag_callback
-				end
-				
-				def click_event
-					
-				end
-				
-				def release_event
-					release_callback
-					
-					
-					button_up_event
+					hold_callback
 				end
 			end
 			
 			
-			event :button_down_event do
-				transition :up => :down
+			
+			
+			
+			event :press_event do
+				transition :idle => :holding
 			end
 			
-			event :button_up_event do
-				transition :down => :up
+			event :release_event do
+				transition :holding => :idle
+			end
+			
+			event :cancel_event do
+				transition any => :idle
 			end
 		end
-	
-	
-	#     ____  _      __      ______      ______               __       
-	#    / __ \(_)____/ /__   / ____/___ _/ / / /_  ____ ______/ /_______
-	#   / /_/ / / ___/ //_/  / /   / __ `/ / / __ \/ __ `/ ___/ //_/ ___/
-	#  / ____/ / /__/ ,<    / /___/ /_/ / / / /_/ / /_/ / /__/ ,< (__  ) 
-	# /_/   /_/\___/_/|_|   \____/\__,_/_/_/_.___/\__,_/\___/_/|_/____/  
-	# Select object to be manipulated in further mouse callbacks		
-		# figure out where to pick objects from
-		meta_thingy	:write => :pick_object_from, :read => :pick_type,
-					:require_block => true
-		# limit the selection to the given domain
-		# TODO: make selection domain apply to all picks, not just selection? (then limiting to a selection can become a layered option, rather than a completely separate pick mode)
-		meta_thingy :write => :pick_selection_domain, :read => :pick_domain
 		
-		def pick_event
-			# This callback should not fire when domain undefined
-			return unless pick_callback_defined?
-			
-			picked = self.send("pick_from_#{@pick_type}")
-			
-			
-			# --- (if defined callback does not fire)
-			# is the a chance for callback to fire where no valid element is picked?
-			# NO
-			
-			# valid insures callback executed?
-			# essentially (unless there's no callback block defined)
+		
+		
+		def press(arg)
+			# run press events this way so that the argument can be passed to the press callback
 			
 			
-			# Initial "if" wrap is necessary because the pick will not succeed in all cases.
-			# If the pick fails, 
-				# the block should not be run
-				# @selection should not be set
-			@selection =	if picked
-								if @pick_type_block
-									out = instance_exec picked, &@pick_type_block
-									
-									if @pick_type == :point
-										@mouse.space << out
-									end
-									
-									out
-								else
-									picked
-								end
-							else
-								nil
-							end
+			press_event
+			
+			# only fire callback if transition successful
+			press_callback arg if self.state_name == :holding
+		end
+		# WARNING: This does not account for times when #press event should not fire. ex, when the state machine is in the :holding state (ie, has already been pressed)
+		
+		# Need to make press event private so press can only occur through this interface.
+		# Apparently can't do that in the expected manner, which is annoying
+		# private :press_event
+		
+		
+		def release
+			# run release events this way so that the return value of the release callback can be exposed to the outside world
+			
+			
+			release_event
+			
+			release_callback if self.state_name == :idle
+		end
+		# private :release_event
+		
+		
+		# Reset the Action.
+		# NOTE: All actions should define specific versions of #cancel which reset things specific to that action.
+		def cancel
+			cancel_event
 		end
 		
-		def pick_callback_defined?
-			# return truthyness
-			return !!@pick_type
-		end
 		
+		
+		# Callbacks
 		private
 		
-		# TODO: Consider if pick_from_? methods should really be private or not.
-		# Don't see what good they would do at the MouseEvent level if exposed though.  There would have to be delegation from the Mouse level or something.
-		def pick_from_space
-			point = @mouse.position_in_world
+		
+		# [:press, :hold, :release].each do |event|
 			
-			return @mouse.space.object_at point
+		# 	define_method "#{event}_callback" do
+		# 		callback_name = "on_#{event}"
+		# 		self.send callback_name if self.respond_to? callback_name
+		# 	end
+			
+		# end
+		
+		
+		
+		
+		# press callback is different from the rest,
+		# because it sends the input parameter
+		# def press_callback(obj)
+		# 	event = :press
+		# 	callback_name = "on_#{event}"
+		# 	self.send callback_name, obj if self.respond_to? callback_name
+		# end
+		
+		# def hold_callback
+		# 	event = :hold
+		# 	callback_name = "on_#{event}"
+		# 	self.send callback_name if self.respond_to? callback_name
+		# end
+		
+		# def release_callback
+		# 	event = :release
+		# 	callback_name = "on_#{event}"
+		# 	self.send callback_name if self.respond_to? callback_name
+		# end
+		
+		
+		
+		
+		
+		
+		# Unfortunately, this method of checking if the method exists every time it's called
+		# means that 
+		
+		# Unfortunately, this means that the system much check on each callback,
+		# whether or not the appropriate method is defined.
+		# Might want to just look up on initialization once?
+			# That might mess with weird singleton method definition,
+			# but that's kinda weird magic anyway...
+		
+		def press_callback(obj)
+			# puts "press -- #{self.class} -- #{self.respond_to?(:on_press)}"
+			# puts "PUBLIC"
+			# p self.methods
+			# puts "PRIVATE"
+			# p self.private_methods
+			
+			on_press(obj) if self.private_methods.include?(:on_press)
 		end
 		
-		# similar logic to picking from the world, but limit to a particular set of objects
-		# put another way, perform the world query, but on a _different_ set of objects
-		def pick_from_selection
-			# Get the selection domain from method call.
-			# Allows for easy and robust definition of what collection should be used
-			
-			raise "No selection to pick from." unless self.respond_to? @pick_domain
-			
-			
-			selection = self.send @pick_domain
-			point = @mouse.position_in_world
-			
-			return TextSpace::SelectionQueries.point_query(selection, point)
+		def hold_callback
+			on_hold if self.private_methods.include?(:on_hold)
 		end
 		
-		# TODO: consider putting block execution under these methods as well for clarity
-		# TODO: consider using private nested class for greater clarity
-		def pick_from_point
-			point = @mouse.position_in_world
-			object = @mouse.space.object_at point
-			
-			# add object generated as result of block to space automatically
-			# this should remove the need to expose the space to mouse callbacks
-			point if object == nil # only fire in empty space (else, don't fire query)
+		def release_callback
+			on_release if self.private_methods.include?(:on_release)
 		end
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		# EVENT_TYPES = [:press, :hold, :release]
+		# EVENT_TYPES.each do |event|
+		# 	# define_method "#{event}_callback" do
+		# 	# 	callback_name = "on_#{event}"
+		# 	# 	self.send callback_name if self.respond_to? callback_name
+		# 	# end
+			
+			
+			
+		# 	params = "obj" if event == :press
+		# 	send_args = ", #{params}" if params
+			
+			
+		# 	code =	<<-eos
+		# 		    	def #{event}_callback(#{params})
+		# 					callback_name = "on_#{event}"
+		# 					self.send callback_name #{send_args} if self.respond_to? callback_name
+		# 				end
+		# 			eos
+			
+		# 	eval code
+		# end
 	end
 end
 
@@ -450,15 +354,15 @@ end
 	# 			super()
 	# 		end
 			
-	# 		def click(selected)
+	# 		def on_press(selected)
 				
 	# 		end
 			
-	# 		def drag(selected)
+	# 		def on_hold(selected)
 				
 	# 		end
 			
-	# 		def release(selected)
+	# 		def on_release(selected)
 				
 	# 		end
 	# 	end

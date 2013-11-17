@@ -1,8 +1,18 @@
 module TextSpace
 	class MoveCaretAndSelectObject < Action
-		pick_object_from :space
+		def initialize(space)
+			super()
+			
+			@pick_callback = PickCallbacks::Space.new(space)
+		end
 		
-		def click(selected)
+		def pick(point)
+			press @pick_callback.pick(point)
+		end
+		
+		private
+		
+		def on_press(selected)
 			@mouse.clear_selection
 			
 			selected.click
@@ -10,12 +20,12 @@ module TextSpace
 			
 			@mouse.select selected
 		end
-		
-		# def drag(selected)
+
+		# def on_hold
 			
 		# end
-		
-		# def release(selected)
+
+		# def on_release
 			
 		# end
 	end

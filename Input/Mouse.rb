@@ -142,19 +142,19 @@ module InputManager
 				@bindings ||= Hash.new
 				
 				# get rid of the old binding, if any
-				old_binding = @bindings[action.name]
+				old_binding = @bindings[action.class]
 				old_binding.release if old_binding
 				
 				# set up new binding
 				action.add_to self # TODO: should probably have a means to remove from mouse
-				binding = Binding.new action, input
+				binding = Binding.new self, action, input
 				
 				# test_binding_for_collision(binding)
 				# collision_with_existing?(binding)
 					# collision occurs when actions that can not be disambiguated
 					# are bound to the same input
 				
-				@bindings[action.name] = binding
+				@bindings[action.class] = binding
 			end
 		end
 		
@@ -179,7 +179,7 @@ module InputManager
 				overlapping_properties = binding.action.collide_with existing_binding.action
 				
 				if overlapping_properties
-					raise "Action #{binding.action.name} collides with #{existing_binding.action.name} in fields #{collision}"
+					raise "Action #{binding.action.class} collides with #{existing_binding.action.class} in fields #{collision}"
 				end
 			end
 		end
@@ -237,7 +237,9 @@ module InputManager
 			attr_reader :action, :input
 			
 			# TODO: Re-order parameter list, or similar touchup.  This is kinda weird.
-			def initialize(action, input)
+			def initialize(mouse, action, input)
+				@mouse = mouse
+				
 				@action = action
 				@input = input
 				
@@ -246,7 +248,11 @@ module InputManager
 				# set up new binding
 				@input.callbacks[@action].tap do |c|
 					c.on_press do
-						@action.click_event
+						if @action.respond_to? :pick
+							@action.pick(@mouse.position_in_world)
+						else
+							@action.press
+						end
 					end
 					
 					# c.on_hold do
@@ -254,7 +260,7 @@ module InputManager
 					# end
 					
 					c.on_release do
-						@action.release_event
+						@action.release
 					end
 				end
 			end

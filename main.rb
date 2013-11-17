@@ -33,6 +33,7 @@ require './SelectionQueries'
 require './selection/CharacterSelection'
 require './Space'
 
+require './PickCallbacks'
 
 require 'set'
 
@@ -181,14 +182,14 @@ class Window < Gosu::Window
 		@actions = ActionGroup.new
 		@actions.add(
 			TextSpace::BoxSelect.new,
-			TextSpace::CutText.new(@actions, @character_selection),
-			TextSpace::HighlightText.new(@character_selection),
-			TextSpace::MoveCaretAndSelectObject.new,
-			TextSpace::MoveText.new,
+			# TextSpace::CutText.new(@space, @actions, @character_selection),
+			TextSpace::HighlightText.new(@space, @character_selection),
+			TextSpace::MoveCaretAndSelectObject.new(@space),
+			TextSpace::MoveText.new(@space),
 			TextSpace::PanCamera.new,
-			TextSpace::Resize.new,
-			TextSpace::SpawnNewText.new,
-			TextSpace::TextBox.new
+			TextSpace::Resize.new(@space),
+			TextSpace::SpawnNewText.new(@space)
+			# TextSpace::TextBox.new(@space)
 		)
 		
 		
@@ -208,90 +209,22 @@ class Window < Gosu::Window
 		
 		# NOTE: Using strings as Action IDs is problematic, because it totally ignores namespacing. Using the class objects themselves avoids this problem.
 		@mouse.bind @actions, @inpman, {
-			"BoxSelect"					=> :shift_left_click,
-			"CutText"					=> :right_click,
-			"HighlightText"				=> :shift_left_click,
-			"MoveCaretAndSelectObject"	=> :left_click,
-			"MoveText" 					=> :right_click,
-			"PanCamera"					=> :middle_click,
-			"Resize"					=> :shift_right_click,
-			"SpawnNewText"				=> :left_click,
-			"TextBox"					=> :left_click
+			TextSpace::BoxSelect				=> :shift_left_click,
+			# TextSpace::CutText					=> :right_click,
+			TextSpace::HighlightText			=> :shift_left_click,
+			TextSpace::MoveCaretAndSelectObject	=> :left_click,
+			TextSpace::MoveText					=> :right_click,
+			TextSpace::PanCamera				=> :middle_click,
+			TextSpace::Resize					=> :shift_right_click,
+			TextSpace::SpawnNewText				=> :left_click,
+			# TextSpace::TextBox					=> :left_click
 		}
 		
 		
 		
 		
 		
-		# Bind F-keys (function keys) to colors switching
-		fkey_symbols = (1..8).collect{ |i| "KbF#{i}".to_sym }
-		
-			actions = 	fkey_symbols.collect do |keysym|
-							button_id = Gosu.const_get(keysym)
-							
-							# Create mouse event class
-							class_name = "ChangeColorToSwatch#{button_id}"
-							
-							new_class =		Class.new(TextSpace::Action) do
-												pick_object_from :space
-												
-												def initialize(color_name)
-													super()
-													
-													@color_name = color_name
-												end
-												
-												def click(text)
-													text.color = @color[@color_name]
-												end
-											end
-							
-							# Store mouse event class reference under module with the rest of them
-							# (must set constant first, to solidify anonymous class)
-							TextSpace.const_set(class_name, new_class)
-							
-							
-							color_name = button_id
-							
-							
-							
-							
-							
-							new_class.new(color_name)
-						end
-			
-			inputs =	fkey_symbols.collect do |keysym|
-							button_id = Gosu.const_get(keysym)
-							
-							
-							
-							DIS::Sequence.new(keysym).tap do |s|
-								s.press_events = [
-									DIS::Event.new(button_id, :down)
-								]
-								
-								s.release_events = [
-									DIS::Event.new(button_id, :up)
-								]
-							end
-						end
-		
-		# Register actions
-		@actions.add *actions
-		
-		# Track all inputs
-		inputs.each{ |i| @inpman.add i }
-		
-		# Bind actions to inputs
-		action_names = actions.collect{ |a| a.name }
-		input_names = inputs.collect{ |i| i.name }
-		bindings = Hash[action_names.zip input_names]
-		
-		@mouse.bind @actions, @inpman, bindings
-		
-		
-		
-		
+		# bind_color_change_functionality()
 		
 		
 		
@@ -452,6 +385,87 @@ class Window < Gosu::Window
 		
 		debug_z = 10000 # something really large
 		@debug_font.draw output, 0,0,debug_z, 1,1, @paint_box[:debug_font]
+	end
+	
+	
+	
+	
+	private
+	
+	def bind_color_change_functionality
+		# Bind F-keys (function keys) to colors switching
+		fkey_symbols = (1..8).collect{ |i| "KbF#{i}".to_sym }
+		
+			actions = 	fkey_symbols.collect do |keysym|
+							button_id = Gosu.const_get(keysym)
+							
+							# Create mouse event class
+							class_name = "ChangeColorToSwatch#{button_id}"
+							
+							new_class =		Class.new(TextSpace::Action) do
+												pick_object_from :space
+												
+												def initialize(color_name)
+													super()
+													
+													@color_name = color_name
+												end
+												
+												def on_press(text)
+													text.color = @color[@color_name]
+												end
+												
+												# def on_hold
+													
+												# end
+												
+												# def on_release
+													
+												# end
+											end
+							
+							# Store mouse event class reference under module with the rest of them
+							# (must set constant first, to solidify anonymous class)
+							TextSpace.const_set(class_name, new_class)
+							
+							
+							color_name = button_id
+							
+							
+							
+							
+							
+							new_class.new(color_name)
+						end
+			
+			inputs =	fkey_symbols.collect do |keysym|
+							button_id = Gosu.const_get(keysym)
+							
+							
+							
+							DIS::Sequence.new(keysym).tap do |s|
+								s.press_events = [
+									DIS::Event.new(button_id, :down)
+								]
+								
+								s.release_events = [
+									DIS::Event.new(button_id, :up)
+								]
+							end
+						end
+		
+		# Register actions
+		@actions.add *actions
+		
+		# Track all inputs
+		inputs.each{ |i| @inpman.add i }
+		
+		# Bind actions to inputs
+		action_names = actions.collect{ |a| a.name }
+		input_names = inputs.collect{ |i| i.class }
+		bindings = Hash[action_names.zip input_names]
+		
+		@mouse.bind @actions, @inpman, bindings
 	end
 end
 

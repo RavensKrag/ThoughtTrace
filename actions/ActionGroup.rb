@@ -14,12 +14,12 @@ class ActionGroup
 		@list += actions
 	end
 	
-	def [](action_name)
+	def [](action_class)
 		# TOOD: accessing items by name should really be constant time
 		
-		i = @list.index{ |action| action.name == action_name }
+		i = @list.index{ |action| action.class == action_class }
 		
-		raise "No action registered with the name #{action_name}" unless i
+		raise "No action registered of type #{action_class}" unless i
 		
 		
 		return @list[i]

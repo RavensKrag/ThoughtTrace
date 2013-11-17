@@ -8,14 +8,16 @@ module TextSpace
 		# fire :in_empty_space
 		# fire :over_object # over something, idk what it is, you won't have access to it
 		
-		def click(selected)
+		private
+		
+		def on_press(obj)
 			puts "box"
 			@box_top_left = @mouse.position_in_world
 			
 			@box_selection = Set.new
 		end
 		
-		def drag(selected)
+		def on_hold
 			bottom_right = @mouse.position_in_world
 			
 			bb = CP::BB.new(@box_top_left.x, bottom_right.y, 
@@ -40,7 +42,7 @@ module TextSpace
 			@box_selection = new_selection
 		end
 		
-		def release(selected)
+		def on_release
 			@box_selection.each do |obj|
 				obj.mouse_out
 			end

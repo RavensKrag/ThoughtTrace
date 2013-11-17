@@ -1,15 +1,18 @@
 module TextSpace
 	class SpawnNewText < Action
-		pick_object_from :point do |vector|
-			puts "new text"
-			obj = TextSpace::Text.new
-			obj.position = @mouse.position_in_world
+		def initialize(space)
+			super()
 			
-			obj
+			@pick_callback = PickCallbacks::Point.new(space, TextSpace::Text)
 		end
 		
+		def pick(point)
+			press @pick_callback.pick(point)
+		end
 		
-		def click(selected)
+		private
+		
+		def on_press(selected)
 			@mouse.clear_selection
 			
 			selected.click
@@ -18,11 +21,11 @@ module TextSpace
 			@mouse.select selected
 		end
 		
-		# def drag(selected)
+		# def on_hold
 			
 		# end
-		
-		# def release(selected)
+
+		# def on_release
 			
 		# end
 	end

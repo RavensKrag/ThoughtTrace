@@ -930,78 +930,55 @@ right_click
 
 
 
+# consider that pick callbacks may just be metadata on Actions, not actually part of actions
+@mouse.bind CutText.new(@actions, @character_selection), PickCallbacks::Selection.new(@character_selection), right_click
 
-# define different types of pick callbacks in mixins
-# contained within a single package (so they're easy to find)
-# 
-# this allows for additional callback types to be designed as necessary,
-# but it's still possible to figure out if -- collision
-# all callbacks of the same type will use the exactly same code
 
-# not sure how the point callback is going to work
-	# that one need to be able to create different types of objects
-	# so it will have to get the object factories as necessary from another variable
-	# as the actual interface on the pick method must be kept constant
-	# --- only the body of the methods can change
-module PickCallbacks
-	# PRECONDITION: 
-	# none
-	module Selection
-		def pick(domain, point)
-			# pick from a group of objects
-			@selected = SelectionQueries.point_query(@selection, point)
-			# @selected = @selection.point_query point
-			
-			
-			super(domain, point)
-		end
-	end
-	
-	# PRECONDITION: 
-	# none
-	module Space
-		def pick(domain, point)
-			# pick one object out of the space
-			@selected = SelectionQueries.point_query(@space, point)
-			
-			
-			super(domain, point)
-		end
-	end
-	
-	# PRECONDITION:
-	# @@pick_class = class of the object to create at the found point
-	module Point
-		def pick(domain, point)
-			# project a point into the space, and create a new object there
-			obj = @@pick_class.new
-			obj.position = point
-			@selected = obj
-			
-			
-			super(domain, point)
-		end
-	end
-	
-	
-	module SampleTemplate
-		def pick(domain, point)
-			
-			
-			
-			super(domain, point)
-		end
-	end
-end
+action = CutText.new(@actions, @character_selection)
+pick = PickCallbacks::Selection.new(@character_selection)
+@mouse.bind action, pick, :right_click
+
+@mouse.bind [action, pick] => :right_click
+
+@mouse.bind {
+	[action, pick] => :right_click
+}
 
 
 
 
+# triple store? not really, just triples, being stored
+# triple store is like (value, association, value)
+@mouse.bind(
+	[TextSpace::BoxSelect					, 	nil				,	 :shift_left_click		],
+	[TextSpace::CutText						, 	:selection		,	 :right_click			],
+	[TextSpace::HighlightText				, 	:space			,	 :shift_left_click		],
+	[TextSpace::MoveCaretAndSelectObject	, 	:space			,	 :left_click			],
+	[TextSpace::MoveText 					, 	:space			,	 :right_click			],
+	[TextSpace::PanCamera					, 	nil				,	 :middle_click			],
+	[TextSpace::Resize						, 	:space			,	 :shift_right_click		],
+	[TextSpace::SpawnNewText				, 	:point			,	 :left_click			],
+	[TextSpace::TextBox						, 	:point			,	 :left_click			]
+)
 
 
-
-
-
+@mouse.bind(
+	[TextSpace::BoxSelect				, 	nil						,	 :shift_left_click		],
+	[TextSpace::CutText					, 	PickCallbacks::Selection,	 :right_click			],
+	[TextSpace::HighlightText			, 	PickCallbacks::Space	,	 :shift_left_click		],
+	[TextSpace::MoveCaretAndSelectObject, 	PickCallbacks::Space	,	 :left_click			],
+	[TextSpace::MoveText 				, 	PickCallbacks::Space	,	 :right_click			],
+	[TextSpace::PanCamera				, 	nil						,	 :middle_click			],
+	[TextSpace::Resize					, 	PickCallbacks::Space	,	 :shift_right_click		],
+	[TextSpace::SpawnNewText			, 	PickCallbacks::Point	,	 :left_click			],
+	[TextSpace::TextBox					, 	PickCallbacks::Point	,	 :left_click			]
+)
+# this is pretty ugly and unwieldy,
+# also, it means that you can't get the pick type from an action
+# picks should just be directly bound to actions,
+# stored inside each action
+	# though, that makes it weird when you want to check the pick type of an action
+	# because the default Action doesn't have a pick assigned to it
 
 
 
@@ -1016,6 +993,10 @@ class StateyThing
 	end
 	
 	def release
+		
+	end
+	
+	def cancel
 		
 	end
 	
@@ -1058,6 +1039,14 @@ class TaoeurchtvHoecrohnr < StateyThing
 	# 	super
 	# end
 	
+	def cancel
+		# reset stuff for specific action
+		
+		
+		# reset general
+		super()
+	end
+	
 	
 	
 	private
@@ -1075,3 +1064,36 @@ class TaoeurchtvHoecrohnr < StateyThing
 		
 	end
 end
+
+
+
+
+
+
+class MultiAction
+	def initialize(*args)
+		if args.count < 3 || args.count % 2 == 0
+			raise "Arguments must be a series of actions, separated by conditions." 
+			# conditions should probably be lambdas / procs, rather than just booleans
+		end
+		
+		# pattern:
+		# action, condition, action, condition, action, ... condition, action.
+		
+		args.each_index do |i|
+			case i % 2
+				when 0 # action
+					
+				when 1 # condition
+					
+			end
+		end
+	end
+end
+
+
+MultiAction.new(
+	Cut.new,
+	lambda{ dragged_outside_bb? },
+	MoveText.new
+)
