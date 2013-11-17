@@ -222,3 +222,8 @@ TODO: Refactor CharacterSelection (noteably #add and similar are pretty ugly)
 
 
 TODO: Provide better feedback for cut.  It's pretty good when you do it fast (color flickers from highlight to mouse over) but it might be good to change the highlight color on press.  That way, it's clear that a cut can happen, even though nothing's moving yet.
+
+
+
+TODO: Make sure all event callbacks (for non-Actions) are named like #on_click (not just #click)
+	* well, not quite this simple.  the interface being #click is pretty standard already, but the callbacks are on_click for actions, idk elsewhere.  that inconsistency could get pretty weird.

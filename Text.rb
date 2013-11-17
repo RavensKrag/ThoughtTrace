@@ -14,6 +14,7 @@ module TextSpace
 		attr_accessor :position, :bb
 		
 		attr_accessor :color, :string, :box_visible, :box_color
+		attr_accessor :active_color, :default_color
 		
 		attr_reader :font
 		
@@ -114,6 +115,18 @@ module TextSpace
 		
 		def show_bb
 			@box_visible = true
+		end
+		
+		def copy_style_from(other)
+			# TODO: consolidate style values into one object / hash for easy copying
+			[
+				:height,
+				:active_color, :default_color, :color,
+				:box_visible, :box_color
+			
+			].each do |property|
+				self.send "#{property}=", other.send(property)
+			end
 		end
 		
 		state_machine :mouseover_status, :initial => :out do

@@ -245,7 +245,7 @@ module TextSpace
 				
 				
 				text_object = TextSpace::Text.new(original_text.font)
-				copy_style original_text, text_object
+				text_object.copy_style_from original_text
 				
 				text_object.string = substring
 				
