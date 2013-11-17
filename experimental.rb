@@ -642,3 +642,458 @@ x = Event.new
 # or is it more important to test collisions of mouse-specific features?
 	# seems like it should test mouse specific features first,
 	# then let the rest of the input system catch other problems
+
+
+
+
+
+
+class BoxSelect
+	attr_accessor :selected
+	
+	def initialize
+		super() # set up state machine
+	end
+	
+	def pick(domain, point)
+		# NOTE: could just return the picked value instead of setting it to variable
+		# in order of priority (high to low)
+		
+		# --- selection pick
+		# pick from a group of objects
+		@selected = SelectionQueries.point_query(@selection, point)
+		# @selected = @selection.point_query point
+		
+		
+		
+		# --- space pick
+		# pick one object out of the space
+		@selected = SelectionQueries.point_query(@space, point)
+		
+		
+		
+		# --- point pick 
+		# project a point into the space, and create a new object there
+		obj = TextSpace::Text.new
+		obj.position = point
+		@selected = obj
+		
+		
+		enable
+	end
+	
+	
+	private
+	
+	def on_press
+		puts "box"
+		@box_top_left = @mouse.position_in_world
+		
+		@box_selection = Set.new
+	end
+	
+	def on_hold
+		bottom_right = @mouse.position_in_world
+		
+		bb = CP::BB.new(@box_top_left.x, bottom_right.y, 
+						bottom_right.x, @box_top_left.y)
+		bb.reformat # TODO: Rename CP::BB#reformat
+		
+		bb.draw_in_space @color[:box_select]
+		
+		# Perform selection using BB
+		new_selection = Set.new
+		
+		@space.bb_query(bb).each do |obj|
+			obj.mouse_over
+				
+			new_selection.add obj
+		end
+		
+		(@box_selection - new_selection).each do |obj|
+			obj.mouse_out
+		end
+		
+		@box_selection = new_selection
+	end
+	
+	def on_release
+		@box_selection.each do |obj|
+			obj.mouse_out
+		end
+	end
+	
+	
+	public
+	
+	
+	state_machine :state, :initial => :idle do
+		state :idle do
+			def update
+				
+			end
+		end
+		
+		state :holding do
+			def update
+				on_hold
+			end
+		end
+		
+		
+		event :press do
+			transition :idle => :holding
+		end
+		
+		event :release do
+			transition :holding => :idle
+		end
+		
+		after_transition :idle => :holding, :do => :on_press
+		after_transition :holding => :idle, :do => :on_release
+	end
+end
+
+
+class Mouse
+	def add
+		
+	end
+	
+	def bind
+		
+	end
+end
+
+
+
+
+
+event = BoxSelect.new
+
+@selected = event.pick(@space, CP::Vec2.new($window.mouse_x, $window.mouse_y))
+
+event.activate(@selected)
+event.hold(@selected)
+event.release(@selected)
+
+
+
+# this has much lower noise, as you only need to specify
+# the value of event.selected when the value changes,
+# not ALL THE TIME
+event = BoxSelect.new
+
+@selected = event.pick(@space, CP::Vec2.new($window.mouse_x, $window.mouse_y))
+
+event.selected = @selected
+
+event.activate
+event.hold
+event.release
+
+
+
+# typical external interface
+# still should be able to reach into the inner callbacks, for event composition
+event.pick()
+event.update
+
+
+event.enable
+event.update
+event.disable
+
+
+
+
+
+
+
+
+
+
+@mouse.bind BoxSelect.new, left_click
+
+
+# this style is elegant (no bind and rebind)
+# this style also facilitates loading from external source
+@mouse.add :box_select, BoxSelect.new
+@mouse.bind :box_select, left_click
+
+# want to bind an action, but no bind read from file
+# toss it into a pile of unbound actions
+@mouse.add :cut_text, CutText.new
+@mouse.bind :cut_text, Mouse::UNBOUND
+
+
+# this takes advantage of 1.class.name == "Fixnum"
+@mouse.add CutText.new
+@mouse.bind 'CutText', Mouse::UNBOUND
+
+# could just identify the event by the class name
+# side effect is that you can only have one instance of each class
+@mouse.add CutText.new
+@mouse.bind CutText, Mouse::UNBOUND 
+
+
+
+
+
+
+@actions = {
+	:cut_text => CutText.new
+}
+@mouse.bind @actions[:cut_text], left_click
+
+
+
+
+@actions = ActionGroup.new
+@actions.add(
+	CutText.new
+)
+
+
+left_click
+middle_click
+right_click
+
+# either
+	@mouse.track @actions[CutText]
+	@mouse.bind CutText, left_click # check for collisions on this step
+
+# or
+	@mouse.bind @actions[CutText], left_click # check for collisions on this step
+	
+	# second argument can be optional, if you want to "bind" an action,
+	# but don't know what key to bind it to
+	# really want to lean heavily on using the graph system to assign bindings,
+	# instead of binding in a text file
+
+
+
+
+
+
+@actions = ActionGroup.new
+@actions.add(
+	CutText.new
+)
+
+@mouse = Mouse.new @inpman
+@mouse.bind @actions[CutText], :left_click
+
+# hopefully, the Mouse class will only facilitate connections
+# between input events and actions, and wont' have to actually
+# do much connecting between events at all.
+# This would be great for parallelism
+# (though, parallelism is pretty much impossible in Ruby... so yeah)
+	
+
+
+# this interface is much less noisy
+# but it kinda assumes that bindings are going to be declared all at one, in text
+# 
+# it might facilitate loading from JSON though
+# for the sake of file loading though, it might be better if the data was all symbols,
+# or all strings, or something of that nature
+# not sure how well classes serialize
+# (maybe YAML would work with that?)
+@mouse.bind @actions, @inpman, {
+	TextSpace::BoxSelect				=> :shift_left_click,
+	TextSpace::CutText					=> :right_click,
+	TextSpace::HighlightText			=> :shift_left_click,
+	TextSpace::MoveCaretAndSelectObject	=> :left_click,
+	TextSpace::MoveText 				=> :right_click,
+	TextSpace::PanCamera				=> :middle_click,
+	TextSpace::Resize					=> :shift_right_click,
+	TextSpace::SpawnNewText				=> :left_click,
+	TextSpace::TextBox					=> :left_click
+}
+
+
+# really only need input manager while binding
+@mouse.bind @actions, @inpman, {
+	"BoxSelect"					=> :shift_left_click,
+	"CutText"					=> :right_click,
+	"HighlightText"				=> :shift_left_click,
+	"MoveCaretAndSelectObject"	=> :left_click,
+	"MoveText" 					=> :right_click,
+	"PanCamera"					=> :middle_click,
+	"Resize"					=> :shift_right_click,
+	"SpawnNewText"				=> :left_click,
+	"TextBox"					=> :left_click
+}
+
+
+
+
+
+# consider that pick callbacks may just be metadata on Actions, not actually part of actions
+@mouse.bind CutText.new(@actions, @character_selection), PickCallbacks::Selection.new(@character_selection), right_click
+
+
+action = CutText.new(@actions, @character_selection)
+pick = PickCallbacks::Selection.new(@character_selection)
+@mouse.bind action, pick, :right_click
+
+@mouse.bind [action, pick] => :right_click
+
+@mouse.bind {
+	[action, pick] => :right_click
+}
+
+
+
+
+# triple store? not really, just triples, being stored
+# triple store is like (value, association, value)
+@mouse.bind(
+	[TextSpace::BoxSelect					, 	nil				,	 :shift_left_click		],
+	[TextSpace::CutText						, 	:selection		,	 :right_click			],
+	[TextSpace::HighlightText				, 	:space			,	 :shift_left_click		],
+	[TextSpace::MoveCaretAndSelectObject	, 	:space			,	 :left_click			],
+	[TextSpace::MoveText 					, 	:space			,	 :right_click			],
+	[TextSpace::PanCamera					, 	nil				,	 :middle_click			],
+	[TextSpace::Resize						, 	:space			,	 :shift_right_click		],
+	[TextSpace::SpawnNewText				, 	:point			,	 :left_click			],
+	[TextSpace::TextBox						, 	:point			,	 :left_click			]
+)
+
+
+@mouse.bind(
+	[TextSpace::BoxSelect				, 	nil						,	 :shift_left_click		],
+	[TextSpace::CutText					, 	PickCallbacks::Selection,	 :right_click			],
+	[TextSpace::HighlightText			, 	PickCallbacks::Space	,	 :shift_left_click		],
+	[TextSpace::MoveCaretAndSelectObject, 	PickCallbacks::Space	,	 :left_click			],
+	[TextSpace::MoveText 				, 	PickCallbacks::Space	,	 :right_click			],
+	[TextSpace::PanCamera				, 	nil						,	 :middle_click			],
+	[TextSpace::Resize					, 	PickCallbacks::Space	,	 :shift_right_click		],
+	[TextSpace::SpawnNewText			, 	PickCallbacks::Point	,	 :left_click			],
+	[TextSpace::TextBox					, 	PickCallbacks::Point	,	 :left_click			]
+)
+# this is pretty ugly and unwieldy,
+# also, it means that you can't get the pick type from an action
+# picks should just be directly bound to actions,
+# stored inside each action
+	# though, that makes it weird when you want to check the pick type of an action
+	# because the default Action doesn't have a pick assigned to it
+
+
+
+class StateyThing
+	# interface
+	def press
+		
+	end
+	
+	def update
+		
+	end
+	
+	def release
+		
+	end
+	
+	def cancel
+		
+	end
+	
+	
+	
+	private
+	
+	# callbacks
+	def on_press
+		
+	end
+
+	def on_hold
+		
+	end
+
+	def on_release
+		
+	end
+end
+
+class TaoeurchtvHoecrohnr < StateyThing
+	attr_accessor :pick_callback
+	
+	def initialize(space)
+		super
+		
+		@pick_callback = PickCallback::Point.new(space)
+	end
+	
+	def press(point)
+		super @pick_callback.pick(point)
+	end
+	
+	# def update
+	# 	super
+	# end
+	
+	# def release
+	# 	super
+	# end
+	
+	def cancel
+		# reset stuff for specific action
+		
+		
+		# reset general
+		super()
+	end
+	
+	
+	
+	private
+	
+	# callbacks
+	def on_press
+		
+	end
+
+	def on_hold
+		
+	end
+
+	def on_release
+		
+	end
+end
+
+
+
+
+
+
+class MultiAction
+	def initialize(*args)
+		if args.count < 3 || args.count % 2 == 0
+			raise "Arguments must be a series of actions, separated by conditions." 
+			# conditions should probably be lambdas / procs, rather than just booleans
+		end
+		
+		# pattern:
+		# action, condition, action, condition, action, ... condition, action.
+		
+		args.each_index do |i|
+			case i % 2
+				when 0 # action
+					
+				when 1 # condition
+					
+			end
+		end
+	end
+end
+
+
+MultiAction.new(
+	Cut.new,
+	lambda{ dragged_outside_bb? },
+	MoveText.new
+)

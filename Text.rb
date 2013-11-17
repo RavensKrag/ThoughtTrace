@@ -14,6 +14,7 @@ module TextSpace
 		attr_accessor :position, :bb
 		
 		attr_accessor :color, :string, :box_visible, :box_color
+		attr_accessor :active_color, :default_color
 		
 		attr_reader :font
 		
@@ -114,6 +115,18 @@ module TextSpace
 		
 		def show_bb
 			@box_visible = true
+		end
+		
+		def copy_style_from(other)
+			# TODO: consolidate style values into one object / hash for easy copying
+			[
+				:height,
+				:active_color, :default_color, :color,
+				:box_visible, :box_color
+			
+			].each do |property|
+				self.send "#{property}=", other.send(property)
+			end
 		end
 		
 		state_machine :mouseover_status, :initial => :out do
@@ -232,6 +245,10 @@ module TextSpace
 		# Given a position in world space, return the character index of the closest character
 		# similar logic as in #activate to figure out where to put the caret
 		def closest_character_index(position)
+			# NOTE: Always dump input buffer to string (if buffer connected to this object) before performing operations on @string.
+			dump_string_buffer
+			
+			
 			# Move caret into position
 			# Try to get as close to the position of the cursor as possible
 			width = @font.width(@string, @height)
@@ -251,13 +268,19 @@ module TextSpace
 		end
 		
 		def character_offset(i)
-			# TODO: Consider throwing exception if no string defined
+			dump_string_buffer
+			
+			
 			x = 0
 			y = 0
 			
 			
-			x = @font.width(@string[0..(i-1)], @height) if @string
-			x = 0 if i == 0
+			
+			x =	if i == 0
+					0
+				else
+					@font.width(@string[0..(i-1)], @height)
+				end
 			
 			return CP::Vec2.new(x,y)
 		end
@@ -335,6 +358,11 @@ module TextSpace
 			@bb.r += @position.x
 			@bb.t += @position.y
 			@bb.b += @position.y
+		end
+		
+		# Dump contents of input buffer into @string if this object is connected to input buffer
+		def dump_string_buffer
+			@string = $window.text_input.text if active?
 		end
 	end
 end

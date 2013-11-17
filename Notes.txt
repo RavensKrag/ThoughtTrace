@@ -82,3 +82,148 @@ mouse pick priority
 advanced styles applied by regex patterns
 	(could use other fancy method (lexer or w/e) to allow pattern matching)
 	easily apply styles such as "select things in parentheses, make them small and washed out"
+	
+would be nice to not have to override #initialize for mouse events, as they syntax would be cleaner
+	would be some weird, weird magic though
+
+
+
+
+
+
+
+really don't need to pass the @selection variable to each callback.  each event has it's own @selection variable, so you could just use that
+	or maybe the way values are passed to callbacks should be changed, so this var no longer exists?
+	
+	the reason why it passes the var into the callback, is that the callback used to be a block
+	it didn't make sense for the user to understand the internals when the interface was built to abstract the internals away
+	the current interface is inheritance, which requires an understanding of the things you inherit from
+	
+	
+	
+	the function callback-style interface is nice though,
+	as it allows for delegation to other mouse event handlers
+	this allows for an event handler to build on many different behaviors though delegation/composition
+
+
+
+
+consider renaming MouseEvent#add_to(mouse)
+	it's not really about adding data to the mouse,
+	it's about copying data over from the mouse into a specific event
+
+
+
+
+BUG: MoveText and CutText are triggering at the same time
+	seems like really only one selection should be made per frame
+													or, per one button press
+BUG: Box select triggers while trying to highlight text
+	may want to trigger it only when dragging around objects, rather than on top of them?
+
+
+TODO: need to make sure highlight range goes from low to high. not guaranteed, so could get weird if drag happens right-to-left
+
+
+
+should really copy from text input buffer to Text string
+before performing any operations on the string
+	otherwise, you'd have to perform the operations on the active string basis
+	when active, this basis would be the string buffer,
+	when non-active, this basis would be the stored string
+	
+	already using a state machine to track the "active" status, so this isn't that hard
+	
+	but, can't guaranteed the buffer can be operated on in the exact same way a standard string
+	
+
+
+
+
+if method is defined in any state_machine state
+objects of that class will respond? to the method
+regardless of what state the object is in
+
+
+
+
+
+binding
+	separate events from input parsing system
+programmatic control
+	when events and user inputs are separated,
+	the same events used by end users can be fired programatically
+
+collision
+	need to be able to detect collisions between events bound to inputs
+cancel
+	currently, certain inputs must cancel others
+	selection queries must cancel others
+		highlight should add highlighted entries to space, so that move triggers on them instead
+		- should not be able to move the highlights themseleves though,
+
+
+
+composition
+	want to be able to create events composed of other events
+	
+	useful for hitting Enter to start a new line of text
+		* deselect active element
+		* create new text
+		+ move new text element into next line position
+
+
+
+
+
+binding actions currently keys the binding based on the action object
+this means that multiple actions of the same type can be bound, if necessary
+however, the interface to get actions out of the action group keys by class,
+so only one object can be stored per class
+
+	should make this behavior consistent
+	should probably just store based on a name, or something
+		
+		but if the name is generated based on the name of the class,
+		this is the same as just using the class object
+		
+		would have to give each instance it's own key
+		would basically just be using a hash straight up then
+		which would get a bit tedious
+		
+		but is the tedium really an issue?
+		eventually, it's going to all be managed by a program anyway
+		the bindings will never be edited in a text file after a while
+		it will all be done with the graphical tool
+		
+		
+		not really sure that you need more than one instance of each class per one input manager
+		the point of using instances of a class is so you can have multiple input managers
+		
+			this is useful for mulitplayer
+			this may be useful for different input modes
+
+
+NOTE: Actions currently bound to mouse inputs using a string representation of the class name.  Assuming also that Action#name is defined, and will return this value.  This method has yet to be set up.
+
+
+
+
+NOTE: Current implementation of action does not store parameter to #press automatically.  The user is responsible for storing it, if he wants to keep it around.  Which is kinda weird, because it's assumed that one value should come into the system, and then be used by three different steps.
+
+
+TODO: Figure out better way to create Actions with no #press argument
+current method sending nil through super() is kind clunky, as that nil travels through the pipeline
+
+NOTE: 
+
+
+TODO: Refactor CharacterSelection (noteably #add and similar are pretty ugly)
+
+
+TODO: Provide better feedback for cut.  It's pretty good when you do it fast (color flickers from highlight to mouse over) but it might be good to change the highlight color on press.  That way, it's clear that a cut can happen, even though nothing's moving yet.
+
+
+
+TODO: Make sure all event callbacks (for non-Actions) are named like #on_click (not just #click)
+	* well, not quite this simple.  the interface being #click is pretty standard already, but the callbacks are on_click for actions, idk elsewhere.  that inconsistency could get pretty weird.

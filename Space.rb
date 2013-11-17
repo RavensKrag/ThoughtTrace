@@ -46,70 +46,32 @@ module TextSpace
 			end
 		end
 		
-		# Return objects whose bounding boxes overlap with the given bounding box
+		
+	#    ____                  _          
+	#   / __ \__  _____  _____(_)__  _____
+	#  / / / / / / / _ \/ ___/ / _ \/ ___/
+	# / /_/ / /_/ /  __/ /  / /  __(__  ) 
+	# \___\_\__,_/\___/_/  /_/\___/____/  
+	# Delegate to all queries provided by SelectionQueries module
+	# prefer delegation over having to expose @objects variable
 		def bb_query(bb)
-			@objects.select do |obj|
-				bb.intersect? obj.bb
-			end
+			return SelectionQueries.bb_query @objects, bb
 		end
 		
 		def object_at(position)
-			# TODO: Should short circuit when selection becomes empty
-			# TODO: Short circuit on selection size of 1? (Only after initial bb query)
-			
-			# Select objects under the mouse
-			# If there's a conflict, get smallest one (least area)
-			
-			# There should be some other rule about distance to center of object
-				# triggers for many objects of similar size?
-				
-				# when objects are densely packed, it can be hard to select the right one
-				# the intuitive approach is to try to select dense objects by their center
-			
-			
-			
-			# TODO: Re-write as loop of sorting and testing selection size
-			# removes "selection = selection.method" noise in defining sorts
-			# better illustrates cyclical flow
-			
-			
-			selection = @objects.select do |o|
-				o.bb.contains_vect? position
-			end
-			
-			selection.sort! do |a, b|
-				a.bb.area <=> b.bb.area
-			end
-			
-			# Get the smallest area values, within a certain threshold
-			# Results in a certain margin of what size is acceptable,
-			# relative to the smallest object
-			selection = selection.select do |o|
-				# TODO: Tweak margin
-				size_margin = 1.8 # percentage
-				
-				first_area = selection.first.bb.area
-				o.bb.area.between? first_area, first_area*(size_margin)
-			end
-			
-			selection.sort! do |a, b|
-				distance_to_a = a.bb.center.dist position
-				distance_to_b = b.bb.center.dist position
-				
-				# Listed in order of precedence, but sort order needs to be reverse of that
-				[a.bb.area, distance_to_a].reverse <=> [b.bb.area, distance_to_b].reverse
-			end
-			
-			return selection.first
+			return SelectionQueries.point_query @objects, position
 		end
 		
-		
-		
-		# 	   _____           _       ___             __  _           
-		# 	  / ___/___  _____(_)___ _/ (_)___  ____ _/ /_(_)___  ____ 
-		# 	  \__ \/ _ \/ ___/ / __ `/ / /_  / / __ `/ __/ / __ \/ __ \
-		# 	 ___/ /  __/ /  / / /_/ / / / / /_/ /_/ / /_/ / /_/ / / / /
-		# 	/____/\___/_/  /_/\__,_/_/_/ /___/\__,_/\__/_/\____/_/ /_/ 
+		def empty_at?(position)
+			return SelectionQueries.empty_at?(@objects, position)
+		end
+	
+	
+	# 	   _____           _       ___             __  _           
+	# 	  / ___/___  _____(_)___ _/ (_)___  ____ _/ /_(_)___  ____ 
+	# 	  \__ \/ _ \/ ___/ / __ `/ / /_  / / __ `/ __/ / __ \/ __ \
+	# 	 ___/ /  __/ /  / / /_/ / / / / /_/ /_/ / /_/ / /_/ / / / /
+	# 	/____/\___/_/  /_/\__,_/_/_/ /___/\__,_/\__/_/\____/_/ /_/ 
 		class << self
 			def load(filepath)
 				return Space.new filepath
