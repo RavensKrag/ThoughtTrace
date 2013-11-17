@@ -255,8 +255,8 @@ module TextSpace
 		end
 		
 		def character_offset(i)
-			# TODO: Figure out how and why @string would not be set.
-			raise "No string defined" unless @string
+			dump_string_buffer
+			
 			
 			x = 0
 			y = 0
