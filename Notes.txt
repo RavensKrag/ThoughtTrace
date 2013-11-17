@@ -219,3 +219,6 @@ NOTE:
 
 
 TODO: Refactor CharacterSelection (noteably #add and similar are pretty ugly)
+
+
+TODO: Provide better feedback for cut.  It's pretty good when you do it fast (color flickers from highlight to mouse over) but it might be good to change the highlight color on press.  That way, it's clear that a cut can happen, even though nothing's moving yet.

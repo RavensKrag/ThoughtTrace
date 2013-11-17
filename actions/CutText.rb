@@ -202,26 +202,18 @@ module TextSpace
 				
 				
 				# deselect original Text object
-				# figure out what part of selected string should be cut out
-				# remove substring from original string, saving substring
-				# wrap substring in new Text object
-				# copy style properties from original Text object
-					# should probably be using some sort of "format copy" method
-				# add new object to space
-				
 				# clear text selection highlight
+				# extract substring from original string (use TextSegment range)
 				
+				# wrap substring in new Text object
+					# copy style properties from original Text object
 				
-				# set position of new text from 
-				# position in text from to where cursor was dragged.
+				# move the text from it's position in the text flow
+				# to where the cursor was dragged
 				# (intent is for the text to "pop" out of place)
-					# --- original comment ---
-					# move the text from it's position in the text flow
-					# to where the cursor was dragged
-					# (intent is for the text to "pop" out of place)
 				
 				
-				# return new text object, so it can be used in later phases
+				# return new text object
 				
 				
 				
@@ -241,42 +233,28 @@ module TextSpace
 				original_text.deactivate
 				
 				
-				# NOPE NOPE NOPE - totally unnecessary. UNACCEPTABLE~~~!!!!!
-						# # TODO: Implement this interface, to allow searching for selected ranges, given a text object
-						# selected_subsectors = @character_selection[@original_text]
-						
-						# # assuming the mouse would only ever be over one range at a time
-						# # this assumes non-overlapping ranges, and coalescing text segments
-						# segment =	selected_subsectors.detect do |text_segment|
-						# 				text_segment.bb.contains_vect? @mouse.position_in_world
-						# 			end
-				
-				substring = original_text.string.slice! @selected_segment.range # slice and remove
-				
-				
-				text_object = TextSpace::Text.new(original_text.font)
-				text_object.string = substring
-				
-				copy_style original_text, text_object
-				
 				
 				
 				# clear highlight
 				@character_selection.delete original_text, @selected_segment.range
 				# TODO: consider making the argument to #delete an array, so it's clearer the values are part of a pair
 				
+				# extract selected region
+				substring = original_text.string.slice! @selected_segment.range # slice and remove
 				
 				
-				# set text position
+				
+				text_object = TextSpace::Text.new(original_text.font)
+				copy_style original_text, text_object
+				
+				text_object.string = substring
+				
+				
 				
 				# move the text from it's position in the text flow
 				# to where the cursor was dragged
 				# (intent is for the text to "pop" out of place)
-				
-				# position in flow, offset by drag
 				text_object.position = @selected_segment.bb.position + drag_delta
-				
-				p text_object
 				
 				
 				
