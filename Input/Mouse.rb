@@ -251,7 +251,11 @@ module InputManager
 						if @action.respond_to? :pick
 							@action.pick(@mouse.position_in_world)
 						else
-							@action.press
+							begin
+								@action.press
+							rescue ArgumentError
+								raise "Action #{@action.class} must define #pick, or have a #press method which requires no arguments."
+							end
 						end
 					end
 					
