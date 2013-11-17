@@ -69,7 +69,7 @@ module TextSpace
 			end
 			
 			def empty_at?(collection, point)
-				return collection.select{ |o| o.bb.contains_vect? position }.empty?
+				return collection.select{ |o| o.bb.contains_vect? point }.empty?
 			end
 		end
 	end

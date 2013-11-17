@@ -1,12 +1,4 @@
-# All pick callbacks return true IFF the pick has succeeded
-# (currently, it's really just if, not IFF, because the main flow returns true)
-
-# New return structure:
-# returns true if pick successful
-# returns false if hit the end
-# returns nil if short circuits
-	# ^ this is kinda iffy
-
+# All pick callbacks should return nil if no valid object can be picked.
 
 module TextSpace
 	module PickCallbacks
@@ -47,6 +39,11 @@ module TextSpace
 			
 			def pick(point)
 				# project a point into the space, and create a new object there
+				# only create objects in empty space
+				
+				return nil unless @space.empty_at? point
+				
+				
 				obj = @klass.new
 				@space << obj
 				obj.position = point
