@@ -9,11 +9,11 @@ class CharacterSelection
 		
 		# text object => array of text index ranges ex [(0..1), (5..10)]
 		# ranges are not stored directly, but are contained inside TextSegment objects
-		@seletion = Hash.new # Text => TextSegment (highlighted sub sector)
+		@selection = Hash.new # Text => TextSegment (highlighted sub sector)
 	end
 	
 	def update
-		@seletion.each do |text, segments|
+		@selection.each do |text, segments|
 			segments.each do |s|
 				s.update
 			end
@@ -21,7 +21,7 @@ class CharacterSelection
 	end
 	
 	def draw(z_index=0)
-		@seletion.each do |text, segments|
+		@selection.each do |text, segments|
 			segments.each do |s|
 				s.draw(z_index)
 			end
@@ -30,8 +30,8 @@ class CharacterSelection
 	
 	# Collection management
 	def add(text, range)
-		if @seletion[text]
-			segments = @seletion[text]
+		if @selection[text]
+			segments = @selection[text]
 			
 			# add new segment
 			# coalesce segments with overlapping ranges
@@ -62,13 +62,13 @@ class CharacterSelection
 			end
 			
 			
-			@seletion[text] = segments
+			@selection[text] = segments
 		else
 			# create new entry
 			segments = Array.new
 			segments << TextSegment.new(@color, text, range)
 			
-			@seletion[text] = segments
+			@selection[text] = segments
 		end
 	end
 	
@@ -77,7 +77,7 @@ class CharacterSelection
 	def delete(text, range=nil)
 		if range
 			# remove selection highlight for the given range
-			segments = @seletion[text]
+			segments = @selection[text]
 			
 			# add new segment
 			# coalesce segments with overlapping ranges
@@ -116,30 +116,43 @@ class CharacterSelection
 			end
 			
 			
-			# @seletion[text] = segments
+			# @selection[text] = segments
 		else
 			# if no range specified, delete all highlights
 			# for the given text object
-			@seletion.delete text
+			@selection.delete text
 		end
 	end
 	
 	alias :remove :delete
 	
-	# remove all
-	def clear
-		@seletion.clear
+	
+	# Return list of all ranges selected within given text object
+	# returns nil if no ranges selected
+	# TODO: fix this comment for gooder English
+	def [](text)
+		return @selection[text]
 	end
 	
 	
+	
+	# remove all
+	def clear
+		@selection.clear
+	end
+	
+	def empty?
+		@selection.empty?
+	end
+	
 	def include?(text, range=nil)
 		# check for partial ranges, or just whole ranges?
-		return @seletion.include? text
+		return @selection.include? text
 	end
 	
 	def each(&block)
 		# iterate over each and every TextSegment
-		@seletion.each do |text, segments|
+		@selection.each do |text, segments|
 			segments.each &block
 		end
 	end
@@ -158,7 +171,7 @@ class CharacterSelection
 		inf = Float::INFINITY
 		l,b,r,t = [inf,inf,-inf,-inf]
 		
-		@seletion.each do |text, range_group|
+		@selection.each do |text, range_group|
 			# find the BB around the specific sub-segment of text
 			# compare that with the current bounds
 		end

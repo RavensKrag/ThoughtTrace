@@ -216,3 +216,6 @@ TODO: Figure out better way to create Actions with no #press argument
 current method sending nil through super() is kind clunky, as that nil travels through the pipeline
 
 NOTE: 
+
+
+TODO: Refactor CharacterSelection (noteably #add and similar are pretty ugly)

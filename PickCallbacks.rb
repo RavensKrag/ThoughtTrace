@@ -1,5 +1,9 @@
 # All pick callbacks should return nil if no valid object can be picked.
 
+# Although the return value of Action#pick can not be used to alter Action state flow,
+# (as #pick is called by external stuff)
+# these method can use their return value to signal that flow should be altered.
+
 module TextSpace
 	module PickCallbacks
 		class Selection
@@ -15,7 +19,6 @@ module TextSpace
 				return if @selection.empty?
 				
 				return SelectionQueries.point_query(@selection, point)
-				# return @selection.point_query point
 			end
 		end
 		

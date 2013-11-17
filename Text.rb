@@ -232,6 +232,10 @@ module TextSpace
 		# Given a position in world space, return the character index of the closest character
 		# similar logic as in #activate to figure out where to put the caret
 		def closest_character_index(position)
+			# NOTE: Always dump input buffer to string (if buffer connected to this object) before performing operations on @string.
+			dump_string_buffer
+			
+			
 			# Move caret into position
 			# Try to get as close to the position of the cursor as possible
 			width = @font.width(@string, @height)
@@ -341,6 +345,11 @@ module TextSpace
 			@bb.r += @position.x
 			@bb.t += @position.y
 			@bb.b += @position.y
+		end
+		
+		# Dump contents of input buffer into @string if this object is connected to input buffer
+		def dump_string_buffer
+			@string = $window.text_input.text if active?
 		end
 	end
 end

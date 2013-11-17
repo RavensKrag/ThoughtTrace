@@ -182,7 +182,7 @@ class Window < Gosu::Window
 		@actions = ActionGroup.new
 		@actions.add(
 			TextSpace::BoxSelect.new(@space),
-			# TextSpace::CutText.new(@space, @actions, @character_selection),
+			TextSpace::CutText.new(@space, @actions, @character_selection),
 			TextSpace::HighlightText.new(@space, @character_selection),
 			TextSpace::MoveCaretAndSelectObject.new(@space),
 			TextSpace::MoveText.new(@space),
@@ -210,7 +210,7 @@ class Window < Gosu::Window
 		# NOTE: Using strings as Action IDs is problematic, because it totally ignores namespacing. Using the class objects themselves avoids this problem.
 		@mouse.bind @actions, @inpman, {
 			TextSpace::BoxSelect				=> :shift_left_click,
-			# TextSpace::CutText					=> :right_click,
+			TextSpace::CutText					=> :right_click,
 			TextSpace::HighlightText			=> :shift_left_click,
 			TextSpace::MoveCaretAndSelectObject	=> :left_click,
 			TextSpace::MoveText					=> :right_click,

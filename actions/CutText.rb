@@ -8,6 +8,7 @@ module TextSpace
 			@cut = Cut.new(character_selection)
 			@move = MoveText.new(space)
 			
+			@space = space
 			@actions = actions
 		end
 		
@@ -17,54 +18,6 @@ module TextSpace
 				action.add_to mouse
 			end
 		end
-		
-		
-		
-		# def press(point)
-		# 	# figure out what object to cut from
-		# 	# start the Cut action
-			
-		# 	# TOOD: consider moving the space query out here, and making the Cut action control purely the cutting functionality
-			
-		# 	@cut.press(point)
-		# end
-		
-		# def update
-		# 	# split text using Cut action if the cursor leaves a certain zone
-		# 	# add new text object to space
-			
-		# 	# start to move the new text object
-			
-			
-			
-			
-		# 	if dragged_outside_bb?
-		# 		# transition to next action
-		# 		new_text = @cut.release
-		# 		@space << new_text
-				
-		# 		@move.press(new_text)
-				
-				
-		# 		# state change
-		# 		@active_action = :move
-		# 	end
-			
-			
-		# 	# update the active action
-		# 	action = instance_variable_get(@active_action)
-		# 	action.update
-		# end
-		
-		# def release
-		# 	# let go of new text object
-		# 	@move.release
-			
-			
-		# 	# state change
-		# 	@active_action = :cut
-		# end
-		
 		
 		
 		# all states should have the same interface,
@@ -89,8 +42,10 @@ module TextSpace
 				def update
 					# make sure to always update at least once before transitioning
 					@cut.update
+					start_move if @cut.dragged_outside_bb?
 					
-					start_cut if dragged_outside_bb?
+					
+					@actions[TextSpace::MoveText].cancel
 				end
 				
 				def release
@@ -167,15 +122,15 @@ module TextSpace
 		
 		
 		
-		def dragged_outside_bb?
-			# assumes that click callbacks start with the mouse inside of the bounding box
-			!@selection.bb.contains_vect?(@mouse.position_in_world)
-		end
-		
-		
 		# to perform a cut, you need to what to cut from, and how much to cut away
 		class Cut < Action
 			def initialize(character_selection)
+				super()
+				@character_selection = character_selection
+				
+				
+				
+				
 				# this isn't currently going to work
 				# the pick query can't directly feed off the cut selection,
 				# because the query is looking for the interface #include?(object)
@@ -189,10 +144,25 @@ module TextSpace
 				
 				
 				# @pick_callback = PickCallbacks::Selection.new(selection)
-				@pick_callback = PickCallbacks::Selection.new(character_selection)
 				
-				@character_selection = character_selection
+				# Restrict picks to TextSegment objects within the character selection collection
+				@pick_callback = PickCallbacks::Selection.new(character_selection)
 			end
+			
+			# NOTE: This creates hard coupling with the mouse. This prevents automation of cuts.
+			def dragged_outside_bb?
+				if holding?
+					return !@selected_segment.bb.contains_vect?(@mouse.position_in_world)
+				else
+					return false
+				end
+				
+				
+				# # assumes that click callbacks start with the mouse inside of the bounding box
+				# !@original_text.bb.contains_vect?(@mouse.position_in_world)
+			end
+			
+			
 			
 			def pick(point)
 				obj = @pick_callback.pick(point)
@@ -206,9 +176,9 @@ module TextSpace
 			
 			private
 			
-			def on_press(text_to_cut)
+			def on_press(text_segment)
 				# get the text
-				@original_text = text_to_cut
+				@selected_segment = text_segment
 				
 				
 				@move_text_basis = @mouse.position_in_world
@@ -256,40 +226,43 @@ module TextSpace
 				
 				
 				
+				original_text = @selected_segment.text
 				
 				
 				# unlink the input buffer from the original text object
 				# NOTE:	if the cut occurs while the Text is connected to the input buffer,
 				# 		then modifying the string with not have the desired effect,
-				# 		as the buffer text is being rendered, and not the stored string
-				@original_text.text.release
-				@original_text.text.deactivate
+				# 		as the buffer text is being rendered, and not the stored string.
+				# 
+				# 		Advancements to the Text API don't really help,
+				# 		because the buffer will override the stored text on deactivation,
+				# 		so the the text still needs to be deactivated here to prevent overwrite.
+				original_text.release
+				original_text.deactivate
 				
 				
-				# TODO: Implement this interface, to allow searching for selected ranges, given a text object
-				selected_subsectors = @character_selection[@original_text]
+				# NOPE NOPE NOPE - totally unnecessary. UNACCEPTABLE~~~!!!!!
+						# # TODO: Implement this interface, to allow searching for selected ranges, given a text object
+						# selected_subsectors = @character_selection[@original_text]
+						
+						# # assuming the mouse would only ever be over one range at a time
+						# # this assumes non-overlapping ranges, and coalescing text segments
+						# segment =	selected_subsectors.detect do |text_segment|
+						# 				text_segment.bb.contains_vect? @mouse.position_in_world
+						# 			end
 				
-				# assuming the mouse would only ever be over one range at a time
-				# this assumes non-overlapping ranges, and coalescing text segments
-				segment =	selected_subsectors.detect do |text_segment|
-								text_segment.bb.contains_vect? @mouse.position_in_world
-							end
-				
-				substring = @original_text.string.slice! segment.range # slice and remove
+				substring = original_text.string.slice! @selected_segment.range # slice and remove
 				
 				
-				text_object = TextSpace::Text.new(@original_text.text.font)
+				text_object = TextSpace::Text.new(original_text.font)
 				text_object.string = substring
 				
-				copy_style @original_text, text_object
-				
-				
-				@space << text_object
+				copy_style original_text, text_object
 				
 				
 				
 				# clear highlight
-				@character_selection.delete @original_text, segment.range
+				@character_selection.delete original_text, @selected_segment.range
 				# TODO: consider making the argument to #delete an array, so it's clearer the values are part of a pair
 				
 				
@@ -299,14 +272,16 @@ module TextSpace
 				# move the text from it's position in the text flow
 				# to where the cursor was dragged
 				# (intent is for the text to "pop" out of place)
-				@original_text_position = segment.bb.position		# position in flow
-				text_object.position = @original_text_position + drag_delta	# offset by drag
+				
+				# position in flow, offset by drag
+				text_object.position = @selected_segment.bb.position + drag_delta
+				
+				p text_object
 				
 				
 				
 				return text_object
 			end
-			
 			
 			
 			# TODO: move into Text? somewhere where it makes more sense....
