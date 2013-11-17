@@ -1,31 +1,44 @@
-module MouseEvents
-	class HighlightText < EventObject
-		bind_to :shift_left_click
-		pick_object_from :space
-		
-		
-		def initialize(character_selection)
+module TextSpace
+	class HighlightText < Action
+		def initialize(space, character_selection)
 			super()
+			
+			@pick_callback = PickCallbacks::Space.new(space)
 			
 			@character_selection = character_selection
 		end
 		
-		def click(text)
+		def pick(point)
+			obj = @pick_callback.pick(point)
+			if obj
+				press obj
+				return true
+			else
+				return false
+			end
+		end
+		
+		private
+		
+		def on_press(obj)
+			@text = obj
+			
+			
 			# get position of character at mouse position
-			i = text.closest_character_index(@mouse.position_in_world)
-			@starting_character_offset = text.character_offset i
+			i = @text.closest_character_index(@mouse.position_in_world)
+			@starting_character_offset = @text.character_offset i
 			
 			@start_index = i
 		end
 		
-		def drag(text)
+		def on_hold
 			# extend selection from there
 			
 			# NOTE: selection should always go from left-most character to right-most
 			# if the selection is made from right to left, this will invert things
 			# this issue is similar to the one with drawing BBs encountered for box select
 			
-			i = text.closest_character_index(@mouse.position_in_world)
+			i = @text.closest_character_index(@mouse.position_in_world)
 			
 			@end_index = i
 			
@@ -34,11 +47,11 @@ module MouseEvents
 			# TODO: consider moving range boundary test into CharacterSelection
 			
 			
-			@character_selection.delete text
-			@character_selection.add text, @start_index..@end_index
+			@character_selection.delete @text
+			@character_selection.add @text, @start_index..@end_index
 		end
 		
-		# def release(selected)
+		def on_release
 			# add highlighted text to selection
 			
 			# there are really two sorts of selections
@@ -59,6 +72,6 @@ module MouseEvents
 			# defining events that fire only when the mouse is over
 			# an element of this selection
 			# (test against BB)
-		# end
+		end
 	end
 end

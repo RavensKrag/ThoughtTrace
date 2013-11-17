@@ -1,16 +1,24 @@
-module MouseEvents
-	class SpawnNewText < EventObject
-		bind_to :left_click
-		pick_object_from :point do |vector|
-			puts "new text"
-			obj = TextSpace::Text.new
-			obj.position = @mouse.position_in_world
+module TextSpace
+	class SpawnNewText < Action
+		def initialize(space)
+			super()
 			
-			obj
+			@pick_callback = PickCallbacks::Point.new(space, TextSpace::Text)
 		end
 		
+		def pick(point)
+			obj = @pick_callback.pick(point)
+			if obj
+				press obj
+				return true
+			else
+				return false
+			end
+		end
 		
-		def click(selected)
+		private
+		
+		def on_press(selected)
 			@mouse.clear_selection
 			
 			selected.click
@@ -19,11 +27,11 @@ module MouseEvents
 			@mouse.select selected
 		end
 		
-		# def drag(selected)
+		# def on_hold
 			
 		# end
-		
-		# def release(selected)
+
+		# def on_release
 			
 		# end
 	end

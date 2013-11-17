@@ -1,13 +1,20 @@
-module MouseEvents
-	class PanCamera < EventObject
-		bind_to :middle_click
+module TextSpace
+	class PanCamera < Action
+		def press
+			super(nil)
+		end
 		
-		def click(selected)
+		private
+		
+		def on_press(obj)
+			# this "obj" will always be nil, as no object is necessary,
+			# but this interface must be left as is, to maintain similarity with other Actions
+			
 			# Establish basis for drag
 			@pan_basis = @mouse.position_in_world
 		end
-		
-		def drag(selected)
+
+		def on_hold
 			# Move view based on mouse delta between the previous frame and this one.
 			mouse_delta = @mouse.position_in_world - @pan_basis
 			
@@ -15,8 +22,8 @@ module MouseEvents
 			
 			@pan_basis = @mouse.position_in_world
 		end
-		
-		def release(selected)
+
+		def on_release
 			
 		end
 	end

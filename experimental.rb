@@ -890,3 +890,210 @@ right_click
 # This would be great for parallelism
 # (though, parallelism is pretty much impossible in Ruby... so yeah)
 	
+
+
+# this interface is much less noisy
+# but it kinda assumes that bindings are going to be declared all at one, in text
+# 
+# it might facilitate loading from JSON though
+# for the sake of file loading though, it might be better if the data was all symbols,
+# or all strings, or something of that nature
+# not sure how well classes serialize
+# (maybe YAML would work with that?)
+@mouse.bind @actions, @inpman, {
+	TextSpace::BoxSelect				=> :shift_left_click,
+	TextSpace::CutText					=> :right_click,
+	TextSpace::HighlightText			=> :shift_left_click,
+	TextSpace::MoveCaretAndSelectObject	=> :left_click,
+	TextSpace::MoveText 				=> :right_click,
+	TextSpace::PanCamera				=> :middle_click,
+	TextSpace::Resize					=> :shift_right_click,
+	TextSpace::SpawnNewText				=> :left_click,
+	TextSpace::TextBox					=> :left_click
+}
+
+
+# really only need input manager while binding
+@mouse.bind @actions, @inpman, {
+	"BoxSelect"					=> :shift_left_click,
+	"CutText"					=> :right_click,
+	"HighlightText"				=> :shift_left_click,
+	"MoveCaretAndSelectObject"	=> :left_click,
+	"MoveText" 					=> :right_click,
+	"PanCamera"					=> :middle_click,
+	"Resize"					=> :shift_right_click,
+	"SpawnNewText"				=> :left_click,
+	"TextBox"					=> :left_click
+}
+
+
+
+
+
+# consider that pick callbacks may just be metadata on Actions, not actually part of actions
+@mouse.bind CutText.new(@actions, @character_selection), PickCallbacks::Selection.new(@character_selection), right_click
+
+
+action = CutText.new(@actions, @character_selection)
+pick = PickCallbacks::Selection.new(@character_selection)
+@mouse.bind action, pick, :right_click
+
+@mouse.bind [action, pick] => :right_click
+
+@mouse.bind {
+	[action, pick] => :right_click
+}
+
+
+
+
+# triple store? not really, just triples, being stored
+# triple store is like (value, association, value)
+@mouse.bind(
+	[TextSpace::BoxSelect					, 	nil				,	 :shift_left_click		],
+	[TextSpace::CutText						, 	:selection		,	 :right_click			],
+	[TextSpace::HighlightText				, 	:space			,	 :shift_left_click		],
+	[TextSpace::MoveCaretAndSelectObject	, 	:space			,	 :left_click			],
+	[TextSpace::MoveText 					, 	:space			,	 :right_click			],
+	[TextSpace::PanCamera					, 	nil				,	 :middle_click			],
+	[TextSpace::Resize						, 	:space			,	 :shift_right_click		],
+	[TextSpace::SpawnNewText				, 	:point			,	 :left_click			],
+	[TextSpace::TextBox						, 	:point			,	 :left_click			]
+)
+
+
+@mouse.bind(
+	[TextSpace::BoxSelect				, 	nil						,	 :shift_left_click		],
+	[TextSpace::CutText					, 	PickCallbacks::Selection,	 :right_click			],
+	[TextSpace::HighlightText			, 	PickCallbacks::Space	,	 :shift_left_click		],
+	[TextSpace::MoveCaretAndSelectObject, 	PickCallbacks::Space	,	 :left_click			],
+	[TextSpace::MoveText 				, 	PickCallbacks::Space	,	 :right_click			],
+	[TextSpace::PanCamera				, 	nil						,	 :middle_click			],
+	[TextSpace::Resize					, 	PickCallbacks::Space	,	 :shift_right_click		],
+	[TextSpace::SpawnNewText			, 	PickCallbacks::Point	,	 :left_click			],
+	[TextSpace::TextBox					, 	PickCallbacks::Point	,	 :left_click			]
+)
+# this is pretty ugly and unwieldy,
+# also, it means that you can't get the pick type from an action
+# picks should just be directly bound to actions,
+# stored inside each action
+	# though, that makes it weird when you want to check the pick type of an action
+	# because the default Action doesn't have a pick assigned to it
+
+
+
+class StateyThing
+	# interface
+	def press
+		
+	end
+	
+	def update
+		
+	end
+	
+	def release
+		
+	end
+	
+	def cancel
+		
+	end
+	
+	
+	
+	private
+	
+	# callbacks
+	def on_press
+		
+	end
+
+	def on_hold
+		
+	end
+
+	def on_release
+		
+	end
+end
+
+class TaoeurchtvHoecrohnr < StateyThing
+	attr_accessor :pick_callback
+	
+	def initialize(space)
+		super
+		
+		@pick_callback = PickCallback::Point.new(space)
+	end
+	
+	def press(point)
+		super @pick_callback.pick(point)
+	end
+	
+	# def update
+	# 	super
+	# end
+	
+	# def release
+	# 	super
+	# end
+	
+	def cancel
+		# reset stuff for specific action
+		
+		
+		# reset general
+		super()
+	end
+	
+	
+	
+	private
+	
+	# callbacks
+	def on_press
+		
+	end
+
+	def on_hold
+		
+	end
+
+	def on_release
+		
+	end
+end
+
+
+
+
+
+
+class MultiAction
+	def initialize(*args)
+		if args.count < 3 || args.count % 2 == 0
+			raise "Arguments must be a series of actions, separated by conditions." 
+			# conditions should probably be lambdas / procs, rather than just booleans
+		end
+		
+		# pattern:
+		# action, condition, action, condition, action, ... condition, action.
+		
+		args.each_index do |i|
+			case i % 2
+				when 0 # action
+					
+				when 1 # condition
+					
+			end
+		end
+	end
+end
+
+
+MultiAction.new(
+	Cut.new,
+	lambda{ dragged_outside_bb? },
+	MoveText.new
+)

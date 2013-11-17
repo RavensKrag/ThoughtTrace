@@ -5,6 +5,8 @@ module TextSpace
 	# (should probably stick to traversals which are defined in Enumerable)
 	# aka
 	# (can safely assume that all traversals from Enumerable are implemented)
+	
+	# TODO: queries should be a part of all collections of objects, not stuck in a module like this. Refactor once Space is more like CP::Space (juggles information about the objects inside it that makes manual traversal of a whole data structure slow and cumbersome)
 	module SelectionQueries
 		class << self
 			# Return objects whose bounding boxes overlap with the given bounding box
@@ -64,6 +66,10 @@ module TextSpace
 				end
 				
 				return selection.first
+			end
+			
+			def empty_at?(collection, point)
+				return collection.select{ |o| o.bb.contains_vect? point }.empty?
 			end
 		end
 	end

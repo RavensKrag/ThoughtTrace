@@ -1,21 +1,38 @@
-module MouseEvents
-	class Resize < EventObject
-		bind_to :shift_right_click
-		pick_object_from :space
+module TextSpace
+	class Resize < Action
+		def initialize(space)
+			super()
+			
+			@pick_callback = PickCallbacks::Space.new(space)
+		end
 		
-		def click(selected)
-			@first_position = selected.position
+		def pick(point)
+			obj = @pick_callback.pick(point)
+			if obj
+				press obj
+				return true
+			else
+				return false
+			end
+		end
+		
+		private
+				
+		def on_press(obj)
+			@selected = obj
+			
+			@first_position = @selected.position
 			@resize_basis = @mouse.position_in_world
 			
 			@screen_position = @mouse.position_on_screen
 		end
-		
-		def drag(selected)
+
+		def on_hold
 			# TODO: Only drag if delta exceeds threshold to prevent accidental drag from click events.  Delta in this case should be measured screen-relative
 			screen_delta = @mouse.position_on_screen - @screen_position
 			
 			if screen_delta.length > 2
-				selected.height = @mouse.position_in_world.y - selected.position.y
+				@selected.height = @mouse.position_in_world.y - @selected.position.y
 			end
 		end
 	end

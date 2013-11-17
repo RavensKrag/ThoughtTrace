@@ -1,9 +1,24 @@
-module MouseEvents
-	class MoveCaretAndSelectObject < EventObject
-		bind_to :left_click
-		pick_object_from :space
+module TextSpace
+	class MoveCaretAndSelectObject < Action
+		def initialize(space)
+			super()
+			
+			@pick_callback = PickCallbacks::Space.new(space)
+		end
 		
-		def click(selected)
+		def pick(point)
+			obj = @pick_callback.pick(point)
+			if obj
+				press obj
+				return true
+			else
+				return false
+			end
+		end
+		
+		private
+		
+		def on_press(selected)
 			@mouse.clear_selection
 			
 			selected.click
@@ -11,12 +26,12 @@ module MouseEvents
 			
 			@mouse.select selected
 		end
-		
-		# def drag(selected)
+
+		# def on_hold
 			
 		# end
-		
-		# def release(selected)
+
+		# def on_release
 			
 		# end
 	end
