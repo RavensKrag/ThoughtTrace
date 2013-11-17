@@ -237,6 +237,12 @@ module TextSpace
 		end
 		
 		
+		# NOTE: The #pick interface is not defined in this file, as not all actions require it.
+		# Still, here's the specification:
+		# * returns true when pick succeeds, and false otherwise
+		# * If the pick is successful, #pick should automatically call #press
+		# 	(this way, you only have to call #pick, and not both #pick and #press)
+		
 		
 		# Callbacks
 		private

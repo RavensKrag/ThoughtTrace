@@ -181,7 +181,7 @@ class Window < Gosu::Window
 		# TOOD: consider moving actions under an "Actions" module?
 		@actions = ActionGroup.new
 		@actions.add(
-			TextSpace::BoxSelect.new,
+			TextSpace::BoxSelect.new(@space),
 			# TextSpace::CutText.new(@space, @actions, @character_selection),
 			TextSpace::HighlightText.new(@space, @character_selection),
 			TextSpace::MoveCaretAndSelectObject.new(@space),

@@ -16,7 +16,13 @@ module TextSpace
 		# that perhaps there should be a new method for the query interface,
 		# and #press should always be the direct object interface
 		def pick(point)
-			press @pick_callback.pick(point)
+			obj = @pick_callback.pick(point)
+			if obj
+				press obj
+				return true
+			else
+				return false
+			end
 		end
 		
 		private

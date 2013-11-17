@@ -8,6 +8,21 @@ module TextSpace
 		# fire :in_empty_space
 		# fire :over_object # over something, idk what it is, you won't have access to it
 		
+		# TODO: Make sure BoxSelect only fires over empty space
+			# should create a new pick type using SelectionQueries.empty_at?
+		# TODO: Make sure to draw selection box
+		# TODO: Think about how to render selection box such that grouping, selection, and persistent query areas use the same interface (not necessarily the same backend structures, but that would be cool.)
+		
+		def initialize(space)
+			super()
+			
+			@space = space
+		end
+		
+		def press
+			super(nil)
+		end
+		
 		private
 		
 		def on_press(obj)

@@ -9,7 +9,13 @@ module TextSpace
 		end
 		
 		def pick(point)
-			press @pick_callback.pick(point)
+			obj = @pick_callback.pick(point)
+			if obj
+				press obj
+				return true
+			else
+				return false
+			end
 		end
 		
 		private
