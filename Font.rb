@@ -24,6 +24,8 @@ module TextSpace
 			end
 		end
 		
+		# TODO: While scaling, make font using OpenGL scaling, picking from cached sizes as appropriate.  When scaling ends, the font should lock to the exact size, rendered as the font engine specifies.
+		
 		def initialize(name)
 			@@fonts ||= Hash.new
 			if @@fonts[name]
