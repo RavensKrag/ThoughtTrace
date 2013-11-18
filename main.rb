@@ -224,7 +224,7 @@ class Window < Gosu::Window
 		
 		
 		
-		# bind_color_change_functionality()
+		bind_color_change_functionality()
 		
 		
 		
@@ -394,13 +394,26 @@ class Window < Gosu::Window
 							class_name = "ChangeColorToSwatch#{button_id}"
 							
 							new_class =		Class.new(TextSpace::Action) do
-												pick_object_from :space
-												
-												def initialize(color_name)
+												def initialize(space, color_name)
 													super()
 													
 													@color_name = color_name
+													
+													
+													@pick_callback = TextSpace::PickCallbacks::Space.new(space)
 												end
+												
+												def pick(point)
+													obj = @pick_callback.pick(point)
+													if obj
+														press obj
+														return true
+													else
+														return false
+													end
+												end
+												
+												private
 												
 												def on_press(text)
 													text.color = @color[@color_name]
@@ -426,7 +439,7 @@ class Window < Gosu::Window
 							
 							
 							
-							new_class.new(color_name)
+							new_class.new(@space, color_name)
 						end
 			
 			inputs =	fkey_symbols.collect do |keysym|
@@ -452,8 +465,8 @@ class Window < Gosu::Window
 		inputs.each{ |i| @inpman.add i }
 		
 		# Bind actions to inputs
-		action_names = actions.collect{ |a| a.name }
-		input_names = inputs.collect{ |i| i.class }
+		action_names = actions.collect{ |a| a.class }
+		input_names = inputs.collect{ |i| i.name }
 		bindings = Hash[action_names.zip input_names]
 		
 		@mouse.bind @actions, @inpman, bindings
