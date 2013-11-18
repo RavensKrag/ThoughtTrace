@@ -44,8 +44,7 @@ module TextSpace
 					@cut.update
 					start_move if @cut.dragged_outside_bb?
 					
-					
-					@actions[TextSpace::MoveText].cancel
+					@actions[TextSpace::MoveText].cancel if @cut.holding?
 				end
 				
 				def release
