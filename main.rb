@@ -62,7 +62,7 @@ class Window < Gosu::Window
 		@actions = TextSpace::ActionGroup.new
 		@actions.add(
 			# TextSpace::MoveCaretAndSelectObject.new(@space),
-			TextSpace::MoveText.new(@space),
+			TextSpace::Move.new(@space),
 			TextSpace::PanCamera.new,
 			# TextSpace::SpawnNewText.new(@space)
 		)

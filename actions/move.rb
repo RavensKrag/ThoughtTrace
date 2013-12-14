@@ -1,5 +1,5 @@
 module TextSpace
-	class MoveText < Action
+	class Move < Action
 		def initialize(space)
 			super()
 			
