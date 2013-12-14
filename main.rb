@@ -95,7 +95,7 @@ class Window < Gosu::Window
 	def shutdown
 		@input.shutdown
 		
-		@space.gc # TODO: make gc step unnecessary by removing elements from space as they expire
+		# @space.gc # TODO: make gc step unnecessary by removing elements from space as they expire
 		@space.dump @filepath
 	end
 	

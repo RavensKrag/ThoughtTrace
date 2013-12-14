@@ -49,27 +49,17 @@ module TextSpace
 		end
 		
 		def delete(object)
-			
+			@objects.delete object
 		end
 		
 		
 		
-		
-		def delete_if_empty(object)
-			# TODO: Should be able to remove nil check on string.
-			@objects.delete object if object.string == nil || object.string.strip.empty?
-		end
 		
 		# Clean up unnecessary objects
 		# ie, empty strings
 		def gc
 			@objects.delete_if do |obj|
-				# TODO: Perform GC without having to check for specific types. Should be using polymorphism.
-				if obj.is_a? TextSpace::Text
-					obj.string == nil || obj.string.strip.empty?
-				else
-					false
-				end
+				obj.gc?
 			end
 		end
 		
@@ -316,13 +306,15 @@ module TextSpace
 				# Populate space with data from file
 				if File.exist? filepath
 					# TODO: FINISH LOADING IMPLEMENTATION
+					
+					# errors will happen if file exists, but is empty
 					entities = YAML.load_file(filepath)
 					
 					entities.each do |e|
 						s.add e
 					end
 				else
-					warn "Could not find Space data at #{filepath}. Will write to new file on close." 
+					warn "Could not find Space data at #{filepath}. Will write to new file on close."
 				end
 				
 				

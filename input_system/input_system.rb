@@ -122,7 +122,7 @@ module TextSpace
 		end
 		
 		def shutdown
-			
+			@mouse.shutdown
 		end
 		
 		

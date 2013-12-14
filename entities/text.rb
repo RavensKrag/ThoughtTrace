@@ -226,6 +226,10 @@ module TextSpace
 		end
 		
 		
+		def gc?
+			@string == nil || @string.strip.empty?
+		end
+		
 		private
 		
 		def activation
@@ -260,7 +264,8 @@ module TextSpace
 			
 			$window.text_input = nil
 			
-			$window.space.delete_if_empty self # gc component, essentially
+			
+			$window.space.delete self if self.gc?
 		end
 		
 		# Dump contents of input buffer into @string if this object is connected to input buffer
