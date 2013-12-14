@@ -110,7 +110,7 @@ module TextSpace
 			@mouse.bind actions, @inpman, {
 				# TextSpace::MoveCaretAndSelectObject	=> :left_click,
 				TextSpace::MoveText					=> :right_click,
-				# TextSpace::PanCamera				=> :middle_click,
+				TextSpace::PanCamera				=> :middle_click,
 				# TextSpace::SpawnNewText				=> :left_click
 			}
 			

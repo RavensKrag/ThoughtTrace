@@ -63,7 +63,7 @@ class Window < Gosu::Window
 		@actions.add(
 			# TextSpace::MoveCaretAndSelectObject.new(@space),
 			TextSpace::MoveText.new(@space),
-			# TextSpace::PanCamera.new,
+			TextSpace::PanCamera.new,
 			# TextSpace::SpawnNewText.new(@space)
 		)
 		
@@ -123,7 +123,9 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@space.draw
+		@camera.draw do
+			@space.draw
+		end
 	end
 	
 	def button_down(id)
