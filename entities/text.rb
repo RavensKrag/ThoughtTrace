@@ -9,25 +9,24 @@ module TextSpace
 		CARET_WIDTH = 4
 		
 		attr_accessor :color, :string, :box_visible, :box_color
-		attr_accessor :active_color, :default_color
 		
 		attr_reader :font
 		
 		attr_reader :physics
 		
-		def initialize(font, color_pallet)
+		def initialize(font)
 			super()
 			
 			@font = font
 			
 			@height = 30
 			
-			@active_color = color_pallet[:active]
-			@default_color = color_pallet[:default_font]
-			@color = @default_color
+			@color = Gosu::Color.argb(0xffFFFFFF)
 			
 			@box_visible = false
-			@box_color = color_pallet[:text_background]
+			@box_color = Gosu::Color.argb(((0xff * 0.2).to_i << (8*3)) | 0x0000ff)
+			
+			
 			
 			
 						body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
@@ -35,8 +34,9 @@ module TextSpace
 			@physics = TextSpace::Component::Physics.new(self, body, shape)
 			
 			
+			
 			dt = 500 # in milliseconds
-			@caret = Caret.new(CARET_WIDTH, color_pallet[:text_caret], dt)
+			@caret = Caret.new(CARET_WIDTH, Gosu::Color.argb(0xff8E68A4), dt)
 		end
 		
 		def update
@@ -63,14 +63,6 @@ module TextSpace
 			end
 		end
 		
-		def click
-			
-		end
-		
-		def release
-			
-		end
-		
 		def hide_bb
 			@box_visible = false
 		end
@@ -94,14 +86,14 @@ module TextSpace
 				transition :out => :in
 			end
 			
-				after_transition :out => :in, :do => :enable_hover_style
+				# after_transition :out => :in, :do => :enable_hover_style
 			
 			
 			event :mouse_out do
 				transition :in => :out
 			end
 			
-				after_transition :in => :out, :do => :remove_hover_style
+				# after_transition :in => :out, :do => :remove_hover_style
 		end
 		
 		state_machine :acquire_input_stream, :initial => :inactive do
@@ -125,59 +117,6 @@ module TextSpace
 			
 			after_transition :inactive => :active, :do => :activation
 			after_transition :active => :inactive, :do => :deactivation
-		end
-		
-		state_machine :style, :initial => :default, :namespace => 'style' do
-			state :default do
-				
-			end
-			
-			state :active do
-				
-			end
-			
-			state :hover do
-				
-			end
-			
-			
-			after_transition any => :default do |text|
-				# text.box_color = TextSpace::Text.paint_box[:text_background]
-				text.hide_bb
-				
-				# text.color = TextSpace::Text.paint_box[:default_font]
-			end
-			
-			after_transition any => :active do |text|
-				# text.box_color = TextSpace::Text.paint_box[:active]
-				text.show_bb
-				
-				# text.color = TextSpace::Text.paint_box[:active]
-			end
-			
-			after_transition any => :hover do |text|
-				# text.box_color = TextSpace::Text.paint_box[:text_background]
-				text.show_bb
-				
-				# text.color = TextSpace::Text.paint_box[:default_font]
-			end
-			
-			
-			event :enable_hover do
-				transition any - :active => :hover
-			end
-			
-			event :remove_hover do
-				transition :hover => :default
-			end
-			
-			event :enable_active do
-				transition any => :active
-			end
-			
-			event :remove_active do
-				transition :active => :default
-			end
 		end
 		
 		def height
