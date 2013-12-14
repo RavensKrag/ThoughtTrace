@@ -42,6 +42,7 @@ class Window < Gosu::Window
 		# Also allows for easy transformation of vectors through camera
 			# (see monkey_patches/Chipmunk/Vec2)
 		# Also used for global access of mouse (should probably reconsider this)
+		# Allows for loading serialized fonts (can't really pass window there?)
 		$window = self
 		
 		# Setup window
@@ -56,9 +57,12 @@ class Window < Gosu::Window
 		
 		
 		# Setup rest of environment
+		@filepath = File.join(Dir.pwd, "data", "new_data.yml")
+		
 		@camera = TextSpace::Camera.new
 		
-		@space = TextSpace::Space.new
+		# @space = TextSpace::Space.new
+		@space = TextSpace::Space.load @filepath
 		
 		
 		@font = TextSpace::Font.new "Lucida Sans Unicode"
@@ -73,13 +77,6 @@ class Window < Gosu::Window
 		)
 		
 		@input = TextSpace::InputSystem.new(@space, @actions)
-		
-		
-		# Populate environment
-		text = TextSpace::Text.new @font
-		text.string = "Hello World"
-		
-		@space.add text
 	end
 	
 	def update
@@ -97,6 +94,9 @@ class Window < Gosu::Window
 	
 	def shutdown
 		@input.shutdown
+		
+		@space.gc # TODO: make gc step unnecessary by removing elements from space as they expire
+		@space.dump @filepath
 	end
 	
 	

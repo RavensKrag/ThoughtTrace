@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module TextSpace
 	class Space < CP::Space
 		def initialize
@@ -312,9 +314,18 @@ module TextSpace
 				s = Space.new
 				
 				# Populate space with data from file
-				raise "Could not find Space data at #{filepath}" unless File.exist? filepath
+				if File.exist? filepath
+					# TODO: FINISH LOADING IMPLEMENTATION
+					entities = YAML.load_file(filepath)
+					
+					entities.each do |e|
+						s.add e
+					end
+				else
+					warn "Could not find Space data at #{filepath}. Will write to new file on close." 
+				end
 				
-				# TODO: FINISH LOADING IMPLEMENTATION
+				
 				
 				return s
 			end
@@ -323,9 +334,13 @@ module TextSpace
 		def dump(filepath)
 			# TOOD: Rethinking dump implementation
 			
-			# File.open(filepath, "w") do |f|
-			# 	f.puts YAML::dump(@objects)
-			# end
+			# Create data directory if it does not exist
+			FileUtils.mkdir_p(File.dirname(filepath))
+			
+			# Write data to file
+			File.open(filepath, "w") do |f|
+				f.puts YAML::dump(@objects)
+			end
 		end
 	end
 end

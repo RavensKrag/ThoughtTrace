@@ -188,6 +188,44 @@ module TextSpace
 			"#<TextSpace::Text:{string => \"#{@string}\" font => #{@font.inspect}}>"
 		end
 		
+		
+		
+		
+		
+		include TextSpace::Serializable
+		
+		def init_with coder
+			data = YAML.load(coder.scalar)
+			initialize(data[:font])
+			
+			@string = data[:string]
+			@physics.body.p = data[:position]
+			
+			self.update # assuming this recomputes geometry, but it currently doesn't
+		end
+
+		def to_string_representation
+			{
+				:font => @font,
+				:string => @string,
+				:position => @physics.body.p
+				
+			}.to_yaml
+		end
+		
+		class << self
+			def from_string_representation(string_representation)
+				data = YAML.load(string_representation)
+				obj = self.new data[:font]
+				
+				obj.string = data[:string]
+				obj.physics.body.p = data[:position]
+				
+				obj.update
+			end
+		end
+		
+		
 		private
 		
 		def activation
