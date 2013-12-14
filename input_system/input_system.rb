@@ -1,6 +1,10 @@
 module TextSpace
 	class InputSystem
-		def initialize(space)
+		# TODO: Move actions outside of the input system.  They should be programatically accessible without going through the input system.
+		
+		attr_reader :input_manager, :mouse
+		
+		def initialize(space, actions)
 			@inpman = DIS::InputManager.new
 				left_click =	DIS::Sequence.new(:left_click).tap do |input|
 									input.callbacks[:default].tap do |c|
@@ -89,18 +93,6 @@ module TextSpace
 			
 			
 			
-			
-			# TOOD: consider moving actions under an "Actions" module?
-			@actions = TextSpace::ActionGroup.new
-			@actions.add(
-				# TextSpace::MoveCaretAndSelectObject.new(@space),
-				TextSpace::MoveText.new(space),
-				# TextSpace::PanCamera.new,
-				# TextSpace::SpawnNewText.new(@space)
-			)
-			
-			
-			
 			@mouse = TextSpace::MouseHandler.new space
 			
 			# this interface is much less noisy than the suggested interface from Experimental
@@ -115,7 +107,7 @@ module TextSpace
 			# really only need input manager while binding
 			
 			# NOTE: Using strings as Action IDs is problematic, because it totally ignores namespacing. Using the class objects themselves avoids this problem.
-			@mouse.bind @actions, @inpman, {
+			@mouse.bind actions, @inpman, {
 				# TextSpace::MoveCaretAndSelectObject	=> :left_click,
 				TextSpace::MoveText					=> :right_click,
 				# TextSpace::PanCamera				=> :middle_click,
@@ -126,7 +118,6 @@ module TextSpace
 		
 		def update
 			@mouse.update
-			@actions.update
 			@inpman.update
 		end
 		

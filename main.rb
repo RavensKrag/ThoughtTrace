@@ -36,7 +36,9 @@ class Window < Gosu::Window
 	
 	def initialize
 		# Necessary to allow access to text input buffers, etc
-		# Also allows for easy transformation of vectors (see monkey_patches/Chipmunk/Vec2)
+		# Also allows for easy transformation of vectors through camera
+			# (see monkey_patches/Chipmunk/Vec2)
+		# Also used for global access of mouse (should probably reconsider this)
 		$window = self
 		
 		# Setup window
@@ -55,7 +57,17 @@ class Window < Gosu::Window
 		
 		@space = TextSpace::Space.new
 		
-		@input = TextSpace::InputSystem.new(@space)
+		
+		# TOOD: consider moving actions under an "Actions" module?
+		@actions = TextSpace::ActionGroup.new
+		@actions.add(
+			# TextSpace::MoveCaretAndSelectObject.new(@space),
+			TextSpace::MoveText.new(@space),
+			# TextSpace::PanCamera.new,
+			# TextSpace::SpawnNewText.new(@space)
+		)
+		
+		@input = TextSpace::InputSystem.new(@space, @actions)
 		
 		
 		
@@ -105,6 +117,8 @@ class Window < Gosu::Window
 	
 	def update
 		@space.update
+		
+		@actions.update
 		@input.update
 	end
 	
