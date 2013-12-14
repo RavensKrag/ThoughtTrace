@@ -109,10 +109,10 @@ class Window < Gosu::Window
 		# Populate environment
 		@font = TextSpace::Font.new "Lucida Sans Unicode"
 		
-		@text = TextSpace::Text.new @font, @paint_box[:default_palette]
-		@text.string = "Hello World"
+		text = TextSpace::Text.new @font, @paint_box[:default_palette]
+		text.string = "Hello World"
 		
-		@space.add @text
+		@space.add text
 	end
 	
 	def update
