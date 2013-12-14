@@ -14,6 +14,7 @@ require 'require_all'
 require_all './monkey_patches'
 
 require './camera'
+require './selection'
 
 require_all './actions'
 require_all './input_system'
@@ -33,6 +34,8 @@ end
 
 class Window < Gosu::Window
 	attr_reader :camera
+	attr_reader :space
+	attr_reader :input
 	
 	def initialize
 		# Necessary to allow access to text input buffers, etc
@@ -58,21 +61,21 @@ class Window < Gosu::Window
 		@space = TextSpace::Space.new
 		
 		
+		@font = TextSpace::Font.new "Lucida Sans Unicode"
+		
 		# TOOD: consider moving actions under an "Actions" module?
 		@actions = TextSpace::ActionGroup.new
 		@actions.add(
-			# TextSpace::MoveCaretAndSelectObject.new(@space),
+			TextSpace::MoveCaretAndSelectObject.new(@space),
 			TextSpace::Move.new(@space),
 			TextSpace::PanCamera.new,
-			# TextSpace::SpawnNewText.new(@space)
+			TextSpace::SpawnNewText.new(@space, @font)
 		)
 		
 		@input = TextSpace::InputSystem.new(@space, @actions)
 		
 		
 		# Populate environment
-		@font = TextSpace::Font.new "Lucida Sans Unicode"
-		
 		text = TextSpace::Text.new @font
 		text.string = "Hello World"
 		

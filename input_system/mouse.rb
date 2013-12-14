@@ -12,9 +12,10 @@ module TextSpace
 			
 			@hover_callbacks = Hash.new # callback name => callback
 			
-			
 			@hovered = nil
 			@last_hovered_object = NullMouseOver.new
+			
+			@selection = TextSpace::Selection.new
 		end
 		
 		def add(*events)
@@ -72,7 +73,13 @@ module TextSpace
 		alias :position_in_screen_coordinates :screen_position
 		
 		
+		def select(obj)
+			@selection.add obj
+		end
 		
+		def clear_selection
+			@selection.clear
+		end
 		
 	#     __  ___                                              ______                 __      
 	#    /  |/  /___  __  __________  ____ _   _____  _____   / ____/   _____  ____  / /______

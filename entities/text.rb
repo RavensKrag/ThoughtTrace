@@ -63,6 +63,15 @@ module TextSpace
 			end
 		end
 		
+		def click
+			
+		end
+		
+		def release
+			
+		end
+		
+		
 		def hide_bb
 			@box_visible = false
 		end
@@ -139,7 +148,7 @@ module TextSpace
 			# Try to get as close to the position of the cursor as possible
 			width = @font.width(@string, @height)
 			x = @physics.body.p.x
-			mouse_x = $window.mouse.position_in_world.x
+			mouse_x = $window.input.mouse.position_in_world.x
 			
 			# Figure out where mouse_x is along the continuum from x to x+width
 			# Use that to guess what the closest letter is
@@ -182,7 +191,7 @@ module TextSpace
 		private
 		
 		def activation
-			enable_active_style
+			# enable_active_style
 			
 			$window.text_input = Gosu::TextInput.new
 			$window.text_input.text = @string
@@ -192,7 +201,7 @@ module TextSpace
 				# Try to get as close to the position of the cursor as possible
 				width = @font.width(@string, @height)
 				x = @physics.body.p.x
-				mouse_x = $window.mouse.position_in_world.x
+				mouse_x = $window.input.mouse.position_in_world.x
 				
 				# Figure out where mouse_x is along the continuum from x to x+width
 				# Use that to guess what the closest letter is
@@ -207,7 +216,7 @@ module TextSpace
 		end
 		
 		def deactivation
-			remove_active_style
+			# remove_active_style
 			
 			@string = $window.text_input.text
 			

@@ -31,9 +31,11 @@ module TextSpace
 		end
 		
 		class Point
-			def initialize(space, klass)
+			def initialize(space, klass, *args)
 				@space = space
 				@klass = klass
+				
+				@args = args
 			end
 			
 			def pick(point)
@@ -43,9 +45,9 @@ module TextSpace
 				return nil unless @space.empty_at? point
 				
 				
-				obj = @klass.new
+				obj = @klass.new(*@args)
 				@space.add obj
-				obj.position = point
+				obj.physics.body.p = point
 				return obj
 			end
 		end
