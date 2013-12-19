@@ -37,7 +37,7 @@ class Window < Gosu::Window
 	attr_reader :space
 	attr_reader :input
 	
-	def initialize
+	def initialize(save_path)
 		# Necessary to allow access to text input buffers, etc
 		# Also allows for easy transformation of vectors through camera
 			# (see monkey_patches/Chipmunk/Vec2)
@@ -57,12 +57,12 @@ class Window < Gosu::Window
 		
 		
 		# Setup rest of environment
-		@filepath = File.join(Dir.pwd, "data", "new_data.yml")
+		@filepath = save_path
+		@space = TextSpace::Space.load @filepath
+		
 		
 		@camera = TextSpace::Camera.new
 		
-		# @space = TextSpace::Space.new
-		@space = TextSpace::Space.load @filepath
 		
 		
 		@font = TextSpace::Font.new "Lucida Sans Unicode"
@@ -113,6 +113,11 @@ class Window < Gosu::Window
 	end
 end
 
-x = Window.new
+
+filepath = ARGV[0]
+# filename ||= "default.yml"
+raise "No file path specified" unless filepath
+
+x = Window.new filepath
 x.show
 x.shutdown

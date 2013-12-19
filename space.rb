@@ -331,7 +331,10 @@ module TextSpace
 			
 			# Write data to file
 			File.open(filepath, "w") do |f|
-				f.puts YAML::dump(@objects)
+				# f.puts YAML::dump(@objects)
+				# f.print YAML::dump(@objects)
+				
+				YAML::dump(@objects, f)
 			end
 		end
 	end
