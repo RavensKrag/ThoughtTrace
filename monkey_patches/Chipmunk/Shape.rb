@@ -7,10 +7,8 @@ module CP
 				
 				
 				verts = Array.new
-				self.num_verts.times do |i|
-					# i = self.num_verts-1 - i # reverse winding, if necessary
-					
-					vec = self.body.local2world(self.vert(i))
+				self.each_vert do |v|
+					vec = self.body.local2world(v)
 					
 					verts.push vec.x, vec.y, color
 				end
