@@ -307,7 +307,7 @@ module TextSpace
 				
 				@visible = true
 				
-				@line = TextSpace::Line.new(width, color)
+				@line = TextSpace::Drawing::Line.new(width, color)
 			end
 			
 			def update

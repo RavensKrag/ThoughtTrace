@@ -77,6 +77,10 @@ class Window < Gosu::Window
 		)
 		
 		@input = TextSpace::InputSystem.new(@space, @actions)
+		
+		
+		
+		@line = TextSpace::Line.new CP::Vec2.new(0,0), CP::Vec2.new(0,200), 5
 	end
 	
 	def update
@@ -89,6 +93,8 @@ class Window < Gosu::Window
 	def draw
 		@camera.draw do
 			@space.draw
+			
+			@line.draw
 		end
 	end
 	
