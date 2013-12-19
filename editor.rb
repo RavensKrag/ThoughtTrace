@@ -81,9 +81,6 @@ class Window < Gosu::Window
 		
 		
 		@line = TextSpace::Line.new CP::Vec2.new(0,0), CP::Vec2.new(0,200), 5
-		
-		
-		@ui = TextSpace::Space.load File.join(Dir.pwd, "data", "UI.yml")
 	end
 	
 	def update
@@ -94,14 +91,6 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		# Render screen space
-		# (UI etc)
-		@ui.draw
-		
-		
-		self.flush
-		
-		
 		# Render world space
 		@camera.draw do
 			@space.draw
