@@ -32,6 +32,20 @@ module CP
 			def area
 				CP.area_for_poly self.verts
 			end
+			
+			
+			
+			include Enumerable
+			
+			def each
+				self.num_verts.times do |i|
+					yield self.vert(i)
+				end
+			end
+			
+			alias :each_vert :each
+			alias :each_vert_with_index :each_with_index
+			alias :each_vert_with_object :each_with_object
 		end
 	end
 end

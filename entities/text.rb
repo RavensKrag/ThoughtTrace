@@ -284,6 +284,7 @@ module TextSpace
 			r = @font.width(string, @height)
 			t = @height
 			
+			# cw winding
 			verts = [
 				CP::Vec2.new(l, t),
 				CP::Vec2.new(r, t),

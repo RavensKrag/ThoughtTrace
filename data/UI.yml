@@ -1,16 +1,1 @@
----
-- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
-  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Text\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
-  '---\n\n  - 142.0\n\n  - 782.0\n\n'\n"
-- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
-  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Line\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
-  '---\n\n  - 367.0\n\n  - 782.0\n\n'\n"
-- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
-  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: MODE\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
-  '---\n\n  - 41.0\n\n  - 49.0\n\n'\n"
-- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
-  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: text\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
-  '---\n\n  - 65.0\n\n  - 77.0\n\n'\n"
-- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
-  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: line\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
-  '---\n\n  - 131.0\n\n  - 79.0\n\n'\n"
+--- []
