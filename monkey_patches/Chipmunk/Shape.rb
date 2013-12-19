@@ -1,20 +1,23 @@
 module CP
 	module Shape
 		class Poly
-			# draw quad from verts in world space coordinates
+			# Draw poly from verts in world space coordinates
+			# Assumes that the poly is convex whole, but that's an assumption built into Chipmunk.
 			def draw(color, z=0)
-				raise "Can only draw quads" unless self.num_verts == 4
-				
-				
-				verts = Array.new
-				self.each_vert do |v|
-					vec = self.body.local2world(v)
+				$window.gl z do
+					glBegin(GL_TRIANGLE_FAN)
+						glColor4ub(color.red, color.green, color.blue, color.alpha)
+						
+						# TODO: Convert coordinates on GPU using local coordinates and transform
+						# transform should account for translation and rotation
+						self.each_vert do |v|
+							vec = self.body.local2world(v)
+							
+							glVertex2f(vec.x, vec.y)
+						end
 					
-					verts.push vec.x, vec.y, color
+					glEnd()
 				end
-				
-				
-				$window.draw_quad *verts, z
 			end
 			
 			# return an array of all vertices

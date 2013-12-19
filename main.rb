@@ -5,6 +5,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'gosu'
+require 'gl'
 
 require 'DIS'
 
