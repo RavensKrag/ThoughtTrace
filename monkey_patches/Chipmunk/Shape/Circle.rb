@@ -9,7 +9,8 @@ module CP
 							glColor4ub(color.red, color.green, color.blue, color.alpha)
 							
 							
-							iterations = 60
+							# iterations = 60 # seems like high iterations cause crashes?
+							iterations = 12
 							
 							
 							rotation_angle = 2*Math::PI / iterations # radians
@@ -25,11 +26,15 @@ module CP
 							(iterations+1).times do # extra iteration to loop back to start
 								glVertex2f(vec.x, vec.y)
 								
-								vec = vec.unrotate rotation_vector
+								vec = vec.rotate rotation_vector
 							end
 						glEnd()
 					glPopMatrix()
 				end
+			end
+			
+			def area
+				CP.area_for_circle 0, self.radius # inner, outer (order doesn't seem to matter)
 			end
 		end
 	end

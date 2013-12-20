@@ -88,8 +88,7 @@ class Window < Gosu::Window
 		@line = TextSpace::Line.new CP::Vec2.new(0,0), CP::Vec2.new(0,200), 5
 		
 		
-		@circle = TextSpace::Circle.new 200
-		@circle.physics.body.p = CP::Vec2.new(200,200)
+		# @space.add TextSpace::Circle.new 20
 	end
 	
 	def update
@@ -113,7 +112,6 @@ class Window < Gosu::Window
 			@space.draw
 			
 			@line.draw
-			@circle.draw
 		end
 	end
 	
