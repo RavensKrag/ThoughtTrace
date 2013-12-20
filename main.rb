@@ -80,11 +80,16 @@ class Window < Gosu::Window
 		@input = TextSpace::InputSystem.new(@space, @actions)
 		
 		
+		@ui = TextSpace::Space.load File.join(Dir.pwd, "data", "UI.yml")
+		
+		
+		
 		
 		@line = TextSpace::Line.new CP::Vec2.new(0,0), CP::Vec2.new(0,200), 5
 		
 		
-		@ui = TextSpace::Space.load File.join(Dir.pwd, "data", "UI.yml")
+		@circle = TextSpace::Circle.new 200
+		@circle.physics.body.p = CP::Vec2.new(200,200)
 	end
 	
 	def update
@@ -108,6 +113,7 @@ class Window < Gosu::Window
 			@space.draw
 			
 			@line.draw
+			@circle.draw
 		end
 	end
 	
