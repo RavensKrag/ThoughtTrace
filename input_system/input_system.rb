@@ -109,9 +109,10 @@ module TextSpace
 			# NOTE: Using strings as Action IDs is problematic, because it totally ignores namespacing. Using the class objects themselves avoids this problem.
 			@mouse.bind actions, @inpman, {
 				TextSpace::MoveCaretAndSelectObject	=> :left_click,
-				TextSpace::Move					=> :right_click,
+				TextSpace::Move						=> :right_click,
 				TextSpace::PanCamera				=> :middle_click,
-				TextSpace::SpawnNewText				=> :left_click
+				TextSpace::SpawnNewText				=> :left_click,
+				TextSpace::Resize					=> :shift_right_click
 			}
 			
 		end

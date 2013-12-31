@@ -74,7 +74,8 @@ class Window < Gosu::Window
 			TextSpace::MoveCaretAndSelectObject.new(@space),
 			TextSpace::Move.new(@space),
 			TextSpace::PanCamera.new,
-			TextSpace::SpawnNewText.new(@space, @font)
+			TextSpace::SpawnNewText.new(@space, @font),
+			TextSpace::Resize.new(@space)
 		)
 		
 		@input = TextSpace::InputSystem.new(@space, @actions)
@@ -85,7 +86,7 @@ class Window < Gosu::Window
 		
 		
 		
-		@line = TextSpace::Line.new CP::Vec2.new(0,0), CP::Vec2.new(0,200), 5
+		# @line = TextSpace::Line.new CP::Vec2.new(0,0), CP::Vec2.new(0,200), 5
 		
 		
 		# @space.add TextSpace::Circle.new 20
@@ -111,7 +112,7 @@ class Window < Gosu::Window
 		@camera.draw do
 			@space.draw
 			
-			@line.draw
+			# @line.draw
 		end
 	end
 	

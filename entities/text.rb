@@ -201,6 +201,8 @@ module TextSpace
 			@string = data[:string]
 			@physics.body.p = data[:position]
 			
+			@height = data[:height]
+			
 			self.update # assuming this recomputes geometry, but it currently doesn't
 		end
 
@@ -208,6 +210,7 @@ module TextSpace
 			{
 				:font => @font,
 				:string => @string,
+				:height => @height,
 				:position => @physics.body.p
 				
 			}.to_yaml
@@ -220,6 +223,8 @@ module TextSpace
 				
 				obj.string = data[:string]
 				obj.physics.body.p = data[:position]
+				
+				obj.height = data[:height]
 				
 				obj.update
 			end
