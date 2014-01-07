@@ -1,0 +1,31 @@
+---
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: elements\n:height: 71.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 93.0\n\n  - 47.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: spectra\n:height: 83.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 662.0\n\n  - 39.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: text\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 143.0\n\n  - 134.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: pictures\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 274.0\n\n  - 145.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: line\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 658.0\n\n  - 135.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: circle\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 737.0\n\n  - 191.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: curve\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 837.0\n\n  - 131.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: relative placement\n:height: 55.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 135.0\n\n  - 316.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: element and element\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 261.0\n\n  - 396.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: element and spectrum\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 926.0\n\n  - 392.0\n\n'\n"

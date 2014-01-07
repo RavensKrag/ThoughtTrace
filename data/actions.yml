@@ -1,0 +1,73 @@
+---
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: split\n:height: 42.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 135.0\n\n  - 100.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: join\n:height: 44.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 136.0\n\n  - 190.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: duplicate\n:height: 41.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 132.0\n\n  - 281.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Text\n:height: 66.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 79.0\n\n  - 37.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Groups\n:height: 52.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 86.0\n\n  - 604.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: generally same as text actions\n:height:
+  23.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 102.0\n\n  -
+  634.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: clone\n:height: 41.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 136.0\n\n  - 374.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: multiple pointers to same data\n:height:
+  16.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 162.0\n\n  -
+  371.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: the big red fox\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 236.0\n\n  - 126.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: the big red\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 627.0\n\n  - 127.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: fox\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 847.0\n\n  - 128.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: the big\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 207.0\n\n  - 230.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: red fox\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 335.0\n\n  - 232.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: the big red fox\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 632.0\n\n  - 232.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: fox\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 216.0\n\n  - 317.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: fox\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 616.0\n\n  - 311.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: fox\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 714.0\n\n  - 316.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: looks the same as duplicate\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 184.0\n\n  - 403.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: but changes to one clone alter
+  all clones\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n
+  \ - 185.0\n\n  - 431.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: pull out to a 'groups view' where
+  you can edit groups like any other object\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 178.0\n\n  - 683.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: need to figure out how to draw
+  groups in this context\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 185.0\n\n  - 736.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: they're not locked to the formations
+  they were in when selected\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 184.0\n\n  - 763.0\n\n'\n"

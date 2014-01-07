@@ -1,0 +1,52 @@
+---
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Spectrum\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 496.0\n\n  - 232.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Line\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 293.0\n\n  - 285.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Curve\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 521.0\n\n  - 276.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Circle\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 746.0\n\n  - 274.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: coordinate system\n:height: 49.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1002.0\n\n  - 95.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: normal and tangent\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1009.0\n\n  - 127.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Common Properties\n:height: 59.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 959.0\n\n  - 48.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: 1D\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 257.0\n\n  - 586.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: 2D\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 639.0\n\n  - 588.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Linear Spectrum\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 186.0\n\n  - 667.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Plane\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 546.0\n\n  - 665.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Curve with axis in normal direction\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 664.0\n\n  - 662.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: axes are tangent and normal to
+  curve\n:height: 19.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n
+  \ - 700.0\n\n  - 685.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: combination of 1D spectra\n:height:
+  18.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 655.0\n\n  -
+  576.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Non-linear spectra need to unbend\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1082.0\n\n  -
+  526.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: ie, curved\n:height: 21.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1157.0\n\n  - 516.0\n\n'\n"

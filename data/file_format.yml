@@ -1,0 +1,49 @@
+---
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: rapid prototyping\n:height: 47.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 134.0\n\n  - 139.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: API changes fast\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 214.0\n\n  - 188.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: don't want to serialize all data\n:height:
+  39.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 81.0\n\n  -
+  420.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: some can be generated from others\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 167.0\n\n  - 462.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: should be able to load old data\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 201.0\n\n  - 240.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: certain values unspecified\n:height:
+  20.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 247.0\n\n  -
+  276.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: default arguments\n:height: 21.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 250.0\n\n  - 301.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: CSV\n:height: 73.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 716.0\n\n  - 93.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: class\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 799.0\n\n  - 182.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: ! ','\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 891.0\n\n  - 181.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: args,for,new,class\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 955.0\n\n  - 179.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: ! ',,'\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1236.0\n\n  - 181.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: args,for,loading\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1311.0\n\n  - 173.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: general format\n:height: 17.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 755.0\n\n  - 159.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: comma separated values\n:height:
+  23.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 838.0\n\n  -
+  99.0\n\n'\n"

@@ -1,0 +1,115 @@
+---
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: space query\n:height: 48.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 78.0\n\n  - 33.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: groups of elements\n:height: 46.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 179.0\n\n  - 75.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: select elements\n:height: 45.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 321.0\n\n  - 4.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: select\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1090.0\n\n  - 569.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: group\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1140.0\n\n  - 622.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: query\n:height: 30\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1052.0\n\n  - 621.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Actions\n:height: 52.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 951.0\n\n  - 527.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: groups and queries and persisting
+  selections\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n
+  \ - 836.0\n\n  - 225.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: queries highlight anything in an
+  area\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  -
+  827.0\n\n  - 288.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: groups are always the same items,
+  even if they move around\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 832.0\n\n  - 327.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: access special elements by tag\n:height:
+  37.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 580.0\n\n  -
+  41.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: pull out the query object so you
+  can get the things inside\n:height: 23.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 626.0\n\n  - 70.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: access a certain text object so
+  you can use it as an input field\n:height: 25.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 625.0\n\n  - 92.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: area\n:height: 48.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 772.0\n\n  - 732.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: items\n:height: 45.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 768.0\n\n  - 818.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: persistent\n:height: 45.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 884.0\n\n  - 686.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: temporary\n:height: 44.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1163.0\n\n  - 679.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: move a bunch of items as one object\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 59.0\n\n  - 201.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Descriptions\n:height: 55.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 786.0\n\n  - 153.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Desires\n:height: 55.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 21.0\n\n  - 156.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: find out what objects have been
+  moved into area\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 64.0\n\n  - 253.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: query what things are this some
+  subspace\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n
+  \ - 64.0\n\n  - 296.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: name or tag groups for programatic
+  selection\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n
+  \ - 53.0\n\n  - 371.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: name or tag areas for programatic
+  selection\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n
+  \ - 61.0\n\n  - 398.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: select whole group or just one
+  thing\n:height: 30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  -
+  93.0\n\n  - 468.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: one object can be in many groups\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 91.0\n\n  - 526.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Questions\n:height: 57.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 43.0\n\n  - 644.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: Do you want temporary groups\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 102.0\n\n  - 691.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: not necessarily needed if you can\n:height:
+  22.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 137.0\n\n  -
+  717.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: pick one element out of a group\n:height:
+  22.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 141.0\n\n  -
+  734.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: groups are not the same as tags\n:height:
+  30\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 826.0\n\n  - 393.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: two groups can have the exact same
+  tags if necessary\n:height: 25.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 840.0\n\n  - 415.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: they should still be distinctly
+  accessable as two separate groups\n:height: 25.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2>
+  '---\n\n  - 841.0\n\n  - 433.0\n\n'\n"

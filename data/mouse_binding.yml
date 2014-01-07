@@ -1,0 +1,25 @@
+---
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: left\n:height: 50.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 300.0\n\n  - 25.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: middle\n:height: 51.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 534.0\n\n  - 26.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: right\n:height: 47.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 831.0\n\n  - 27.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: scroll up\n:height: 45.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1079.0\n\n  - 31.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: scroll down\n:height: 48.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1307.0\n\n  - 29.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: shift\n:height: 48.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 71.0\n\n  - 148.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: ctrl\n:height: 58.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 71.0\n\n  - 355.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: alt\n:height: 53.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 83.0\n\n  - 557.0\n\n'\n"
