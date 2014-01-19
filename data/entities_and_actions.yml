@@ -277,3 +277,10 @@
   '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: maps of normalized ranges ONTO
   objects\n:height: 27.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n
   \ - -488.0\n\n  - 151.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: maybe part of core/\n:height: 18.0\n:position:
+  !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - 1152.0\n\n  - 597.0\n\n'\n"
+- !<tag:example.com,2012-06-28/TextSpace::Text> "---\n:font: !<tag:example.com,2012-06-28/TextSpace::Font>
+  '--- Lucida Sans Unicode\n\n  ...\n\n'\n:string: controls origin, axes, etc\n:height:
+  18.0\n:position: !<tag:example.com,2012-06-28/CP::Vec2> '---\n\n  - -186.0\n\n  -
+  507.0\n\n'\n"
