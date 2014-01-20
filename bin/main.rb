@@ -1,6 +1,4 @@
 #!/usr/bin/env ruby
-# Dir.chdir File.dirname(__FILE__)
-
 require 'rubygems'
 require 'bundler/setup'
 
@@ -24,7 +22,6 @@ require 'require_all'
 	# 		this file
 
 # Must expand '..' shortcut into a proper path. But that results in a shorter string.
-# puts __FILE__
 path_to_root = File.expand_path '../..', __FILE__
 full_path = File.join path_to_root, "lib", "PACKAGE_NAME"
 
@@ -69,16 +66,6 @@ Dir.chdir full_path do
 		end
 	end
 end
-
-
-# # Make sure that the main program executes in the ROOT/bin directly,
-# # although files are loaded from under ROOT/lib
-# Dir.chdir File.dirname(__FILE__)
-# puts "Working directory: #{Dir.pwd}"
-
-
-# better to not change working directory so that
-# command line parameters function as expected.
 
 
 
