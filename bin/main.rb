@@ -101,7 +101,7 @@ class Window < Gosu::Window
 		
 		
 		# Setup rest of environment
-		@filepath = save_path
+		@filepath = File.expand_path save_path
 		@space = TextSpace::Space.load @filepath
 		
 		
