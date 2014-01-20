@@ -1,5 +1,4 @@
 require 'state_machine'
-require File.expand_path '../../../utilities/serialization/serializable', __FILE__
 
 module TextSpace
 	module Component

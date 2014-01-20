@@ -31,6 +31,7 @@ full_path = File.join path_to_root, "lib", "PACKAGE_NAME"
 
 Dir.chdir full_path do
 	[
+		'./utilities/serialization',
 		'./monkey_patches',
 		
 		'./THINGS_TO_DO_THEM_ON/cameras/camera',

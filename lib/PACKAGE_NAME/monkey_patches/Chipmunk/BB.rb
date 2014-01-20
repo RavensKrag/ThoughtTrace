@@ -1,7 +1,5 @@
 require 'yaml'
 
-require File.expand_path '../../../utilities/serialization/serializable', __FILE__
-
 module CP
 	class BB
 		def draw(color, z=0)
