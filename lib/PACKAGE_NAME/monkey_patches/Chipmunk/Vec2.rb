@@ -1,4 +1,4 @@
-require './serialization/serializable'
+require File.expand_path '../../../utilities/serialization/serializable', __FILE__
 
 module CP
 	class Vec2

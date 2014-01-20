@@ -1,4 +1,4 @@
-require './serialization/serializable'
+require File.expand_path '../../../utilities/serialization/serializable', __FILE__
 
 # Allow for easy changes between different sizes of the same font face
 

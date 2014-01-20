@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-Dir.chdir File.dirname(__FILE__)
+# Dir.chdir File.dirname(__FILE__)
 
 require 'rubygems'
 require 'bundler/setup'
@@ -12,19 +12,74 @@ require 'DIS'
 require 'chipmunk'
 require 'require_all'
 
-require_all './monkey_patches'
 
-require './camera'
-require './selection'
+# Doing it this way obfuscates what is a directory, and what is a file,
+# but it makes handling loading files in various directories
+# (especially directories that are not children of the current directory)
+# much easier to manage and understand.
 
-require_all './actions'
-require_all './input_system'
+	# -- file hierarchy --
+	# ROOT
+	# 	this directory
+	# 		this file
 
-require_all './drawing'
+# Must expand '..' shortcut into a proper path. But that results in a shorter string.
+# puts __FILE__
+path_to_root = File.expand_path '../..', __FILE__
+full_path = File.join path_to_root, "lib", "PACKAGE_NAME"
 
-require './font' # required by entities/text
-require './space'
-require_all './entities'
+
+Dir.chdir full_path do
+	[
+		'./monkey_patches',
+		
+		'./THINGS_TO_DO_THEM_ON/cameras/camera',
+		'./THINGS_TO_DO_THEM_ON/collections/groups/selection',
+		
+		'./THINGS_TO_DO/actions',
+		'./THINGS_TO_DO/input_system',
+		
+		# './drawing',
+		
+		'./utilities/multires_caching/font', # required by entities/text
+		
+		'./space',
+		'./drawing',
+		'./THINGS_TO_DO_THEM_ON/entities'
+	
+	
+	
+	
+	].each do |path|
+		absolute_path = File.expand_path(path, Dir.pwd)
+		
+		# puts absolute_path
+		
+		# if it's a path, require_all
+		# if it's a file, require
+		# ---------------------------
+		if File.directory? absolute_path
+			puts "LOAD DIR: #{absolute_path}"
+			require_all absolute_path
+		# elsif File.file? absolute_path
+		else
+			puts "LOAD FILE: #{absolute_path}"
+			require absolute_path
+		end
+	end
+end
+
+
+# # Make sure that the main program executes in the ROOT/bin directly,
+# # although files are loaded from under ROOT/lib
+# Dir.chdir File.dirname(__FILE__)
+# puts "Working directory: #{Dir.pwd}"
+
+
+# better to not change working directory so that
+# command line parameters function as expected.
+
+
 
 
 module DIS
