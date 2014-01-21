@@ -30,47 +30,43 @@ Dir.chdir full_path do
 	
 	Metrics::Timer.new "load" do
 	
-	
-	
-	[
-		'./utilities/serialization',
-		'./monkey_patches',
-		
-		'./space',
-		
-		'./THINGS_TO_DO/actions',
-		'./THINGS_TO_DO/input_system',
-		
-		
-		
-		'./THINGS_TO_DO_THEM_ON/cameras/camera',
-		'./THINGS_TO_DO_THEM_ON/collections/groups/selection',
-		
-		
-		'./utilities/multires_caching/font', # required by entities/text
-		'./drawing', # line drawing required by entities/text
-		
-		'./THINGS_TO_DO_THEM_ON/entities'
-	
-	
-	
-	
-	].each do |path|
-		# if it's a path, require_all
-		# if it's a file, require
-		# ---------------------------
-		if File.directory? path
-			# puts "LOAD DIR: #{path}"
-			require_all path
-		# TODO: Figure out why File.file? doesn't work as expected (doesn't work sans extensions)
-		# elsif File.file? path
-		else
-			# puts "LOAD FILE: #{path}"
-			require path
+		[
+			'./utilities/serialization',
+			'./monkey_patches',
+			
+			'./space',
+			
+			'./THINGS_TO_DO/actions',
+			'./THINGS_TO_DO/input_system',
+			
+			
+			
+			'./THINGS_TO_DO_THEM_ON/cameras/camera',
+			'./THINGS_TO_DO_THEM_ON/collections/groups/selection',
+			
+			
+			'./utilities/multires_caching/font', # required by entities/text
+			'./drawing', # line drawing required by entities/text
+			
+			'./THINGS_TO_DO_THEM_ON/entities'
+
+
+
+
+		].each do |path|
+			# if it's a path, require_all
+			# if it's a file, require
+			# ---------------------------
+			if File.directory? path
+				# puts "LOAD DIR: #{path}"
+				require_all path
+			# TODO: Figure out why File.file? doesn't work sans extensions like require
+			# elsif File.file? path
+			else
+				# puts "LOAD FILE: #{path}"
+				require path
+			end
 		end
-	end
-	
-	
 	
 	end
 end

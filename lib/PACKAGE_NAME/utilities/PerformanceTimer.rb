@@ -19,7 +19,7 @@ module Metrics
 		end
 		
 		def to_s
-			"#{@task_name.to_s.upcase} COMPLETE (#{@dt} ms)"
+			"#{@task_name} complete (#{@dt} ms)"
 		end
 	end
 end
