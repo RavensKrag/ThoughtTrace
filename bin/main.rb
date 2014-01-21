@@ -25,8 +25,13 @@ require 'require_all'
 path_to_root = File.expand_path '../..', __FILE__
 full_path = File.join path_to_root, "lib", "PACKAGE_NAME"
 
-
 Dir.chdir full_path do
+	require './utilities/PerformanceTimer'
+	
+	Metrics::Timer.new "load" do
+	
+	
+	
 	[
 		'./utilities/serialization',
 		'./monkey_patches',
@@ -51,23 +56,24 @@ Dir.chdir full_path do
 	
 	
 	].each do |path|
-		absolute_path = File.expand_path(path, Dir.pwd)
-		
 		# if it's a path, require_all
 		# if it's a file, require
 		# ---------------------------
-		if File.directory? absolute_path
-			# puts "LOAD DIR: #{absolute_path}"
-			require_all absolute_path
+		if File.directory? path
+			# puts "LOAD DIR: #{path}"
+			require_all path
 		# TODO: Figure out why File.file? doesn't work as expected (doesn't work sans extensions)
-		# elsif File.file? absolute_path
+		# elsif File.file? path
 		else
-			# puts "LOAD FILE: #{absolute_path}"
-			require absolute_path
+			# puts "LOAD FILE: #{path}"
+			require path
 		end
 	end
+	
+	
+	
+	end
 end
-
 
 
 
