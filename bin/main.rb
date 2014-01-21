@@ -28,7 +28,7 @@ full_path = File.join path_to_root, "lib", "PACKAGE_NAME"
 Dir.chdir full_path do
 	require './utilities/PerformanceTimer'
 	
-	Metrics::Timer.new "load" do
+	Metrics::Timer.new "load scripts" do
 	
 		[
 			'./utilities/serialization',
@@ -49,10 +49,10 @@ Dir.chdir full_path do
 			'./drawing', # line drawing required by entities/text
 			
 			'./THINGS_TO_DO_THEM_ON/entities'
-
-
-
-
+		
+		
+		
+		
 		].each do |path|
 			# if it's a path, require_all
 			# if it's a file, require
@@ -85,50 +85,55 @@ class Window < Gosu::Window
 	attr_reader :input
 	
 	def initialize(save_path)
-		# Necessary to allow access to text input buffers, etc
-		# Also allows for easy transformation of vectors through camera
-			# (see monkey_patches/Chipmunk/Vec2)
-		# Also used for global access of mouse (should probably reconsider this)
-		# Allows for loading serialized fonts (can't really pass window there?)
-		$window = self
+		Metrics::Timer.new "setup window" do
+			# Necessary to allow access to text input buffers, etc
+			# Also allows for easy transformation of vectors through camera
+				# (see monkey_patches/Chipmunk/Vec2)
+			# Also used for global access of mouse (should probably reconsider this)
+			# Allows for loading serialized fonts (can't really pass window there?)
+			$window = self
+			
+			# Setup window
+			height = 900
+			width = (height.to_f*16/9).to_i
+			fullscreen = false
+			
+			update_interval = 1/60.0 * 1000
+			
+			super(width, height, fullscreen, update_interval)
+			self.caption = "TextSpace"
+		end
 		
-		# Setup window
-		height = 900
-		width = (height.to_f*16/9).to_i
-		fullscreen = false
+		Metrics::Timer.new "set up environment" do
+			@camera = TextSpace::Camera.new
+			
+			@font = TextSpace::Font.new "Lucida Sans Unicode"
+		end
 		
-		update_interval = 1/60.0 * 1000
+		Metrics::Timer.new "open file" do
+			@filepath = File.expand_path save_path
+			
+			# the opening of a space will implicitly cache all fonts used in the file
+			@space = TextSpace::Space.load @filepath
+		end
 		
-		super(width, height, fullscreen, update_interval)
-		self.caption = "TextSpace"
+		Metrics::Timer.new "setup actions and inputs" do
+			# TOOD: consider moving actions under an "Actions" module?
+			@actions = TextSpace::ActionGroup.new
+			@actions.add(
+				TextSpace::MoveCaretAndSelectObject.new(@space),
+				TextSpace::Move.new(@space),
+				TextSpace::PanCamera.new,
+				TextSpace::SpawnNewText.new(@space, @font),
+				TextSpace::Resize.new(@space)
+			)
+			
+			@input = TextSpace::InputSystem.new(@space, @actions)
+		end
 		
-		
-		# Setup rest of environment
-		@filepath = File.expand_path save_path
-		@space = TextSpace::Space.load @filepath
-		
-		
-		@camera = TextSpace::Camera.new
-		
-		
-		
-		@font = TextSpace::Font.new "Lucida Sans Unicode"
-		
-		# TOOD: consider moving actions under an "Actions" module?
-		@actions = TextSpace::ActionGroup.new
-		@actions.add(
-			TextSpace::MoveCaretAndSelectObject.new(@space),
-			TextSpace::Move.new(@space),
-			TextSpace::PanCamera.new,
-			TextSpace::SpawnNewText.new(@space, @font),
-			TextSpace::Resize.new(@space)
-		)
-		
-		@input = TextSpace::InputSystem.new(@space, @actions)
-		
-		
-		@ui = TextSpace::Space.load File.join(Dir.pwd, "data", "UI.yml")
-		
+		Metrics::Timer.new "load interface" do
+			@ui = TextSpace::Space.load File.join(Dir.pwd, "data", "UI.yml")
+		end
 		
 		
 		

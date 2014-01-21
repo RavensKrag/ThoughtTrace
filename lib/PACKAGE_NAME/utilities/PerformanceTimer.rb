@@ -2,9 +2,20 @@
 
 module Metrics
 	class Timer
+		# if true, no timers will execute
+		MANUAL_OVERRIDE = false
+		# MANUAL_OVERRIDE = true
+		
 		attr_reader :dt
 		
 		def initialize(task_name)
+			if MANUAL_OVERRIDE
+				# still need to execute blocks
+				# just want to disable the part that does the timing
+				yield
+				return
+			end
+			
 			@task_name = task_name
 			
 			
