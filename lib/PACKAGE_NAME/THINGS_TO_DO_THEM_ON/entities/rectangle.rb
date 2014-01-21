@@ -94,12 +94,12 @@ module TextSpace
 			
 			def stretch_right(stretch)
 				recompute_geometry @width+stretch, @height
-				
-				self.displace CP::Vec2.new(stretch,0)
 			end
 			
 			def stretch_left(stretch)
 				recompute_geometry @width+stretch, @height
+				
+				self.displace CP::Vec2.new(stretch,0)
 			end
 			
 			def stretch_up(stretch)
@@ -136,8 +136,11 @@ module TextSpace
 			
 			# Stretch in all directions at once, maintaining the current center position
 			# TOOD: Finish implementation of #stretch
-			def stretch
-				recompute_geometry @width, @height
+			# TODO: Consider percentage-based uniform stretch instead of absolute size
+			def stretch(distance)
+				recompute_geometry @width+distance, @height+distance
+				
+				self.displace CP::Vec2.new(distance/2.0,distance/2.0)
 			end
 			
 			# =================================
