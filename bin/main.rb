@@ -31,18 +31,20 @@ Dir.chdir full_path do
 		'./utilities/serialization',
 		'./monkey_patches',
 		
-		'./THINGS_TO_DO_THEM_ON/cameras/camera',
-		'./THINGS_TO_DO_THEM_ON/collections/groups/selection',
+		'./space',
 		
 		'./THINGS_TO_DO/actions',
 		'./THINGS_TO_DO/input_system',
 		
-		# './drawing',
+		
+		
+		'./THINGS_TO_DO_THEM_ON/cameras/camera',
+		'./THINGS_TO_DO_THEM_ON/collections/groups/selection',
+		
 		
 		'./utilities/multires_caching/font', # required by entities/text
+		'./drawing', # line drawing required by entities/text
 		
-		'./space',
-		'./drawing',
 		'./THINGS_TO_DO_THEM_ON/entities'
 	
 	
@@ -51,17 +53,16 @@ Dir.chdir full_path do
 	].each do |path|
 		absolute_path = File.expand_path(path, Dir.pwd)
 		
-		# puts absolute_path
-		
 		# if it's a path, require_all
 		# if it's a file, require
 		# ---------------------------
 		if File.directory? absolute_path
-			puts "LOAD DIR: #{absolute_path}"
+			# puts "LOAD DIR: #{absolute_path}"
 			require_all absolute_path
+		# TODO: Figure out why File.file? doesn't work as expected (doesn't work sans extensions)
 		# elsif File.file? absolute_path
 		else
-			puts "LOAD FILE: #{absolute_path}"
+			# puts "LOAD FILE: #{absolute_path}"
 			require absolute_path
 		end
 	end
