@@ -23,18 +23,18 @@ require 'require_all'
 
 # Must expand '..' shortcut into a proper path. But that results in a shorter string.
 path_to_root = File.expand_path '../..', __FILE__
-full_path = File.join path_to_root, "lib", "PACKAGE_NAME"
+full_path = File.join path_to_root, "lib", "TextSpace"
 
 Dir.chdir full_path do
-	require './utilities/PerformanceTimer'
+	# require './utilities/PerformanceTimer'
 	
-	Metrics::Timer.new "load scripts" do
+	# Metrics::Timer.new "load scripts" do
 	
 		[
-			'./utilities/serialization',
-			'./monkey_patches',
+			'./utilities/meta',
 			
-			
+			# './entities'
+			'./entities/actions'
 		
 		
 		
@@ -54,7 +54,7 @@ Dir.chdir full_path do
 			end
 		end
 	
-	end
+	# end
 end
 
 
@@ -65,3 +65,83 @@ module DIS
 	end
 end
 
+
+class Window < Gosu::Window
+	def initialize
+		# Metrics::Timer.new "setup window" do
+			# Necessary to allow access to text input buffers, etc
+			# Also allows for easy transformation of vectors through camera
+				# (see monkey_patches/Chipmunk/Vec2)
+			# Also used for global access of mouse (should probably reconsider this)
+			# Allows for loading serialized fonts (can't really pass window there?)
+			$window = self
+			
+			# Setup window
+			height = 900
+			width = (height.to_f*16/9).to_i
+			fullscreen = false
+			
+			update_interval = 1/60.0 * 1000
+			
+			super(width, height, fullscreen, update_interval)
+			self.caption = "TextSpace"
+		# end
+		
+		
+		
+		components = {:physics => "dummy"}
+		actions = {:move => "blob"}
+		
+		a = Action.new components, actions
+		# puts a.dependencies
+		puts Action.dependencies
+		
+		
+		# puts Action.dependencies
+		
+		
+		move = Move.new components
+		puts Move.dependencies
+		
+	end
+	
+	def update
+		# @input.update
+	end
+	
+	def draw
+		
+	end
+	
+	def on_shutdown
+		# @input.shutdown
+		
+		
+	end
+	
+	
+	def button_down(id)
+		# @input.button_down id
+		
+		close if id == Gosu::KbEscape
+	end
+	
+	def button_up(id)
+		# @input.button_up id
+	end
+	
+	def needs_cursor?
+		# @input.needs_cursor?
+		true
+	end
+end
+
+
+# filepath = ARGV[0]
+# filename ||= "default.yml"
+# raise "No file path specified" unless filepath
+
+# x = Window.new filepath
+x = Window.new
+x.show
+x.on_shutdown
