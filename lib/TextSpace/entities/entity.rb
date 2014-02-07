@@ -105,6 +105,14 @@ class Entity
 		# (But that has it's own problems, as you don't want people outside of the Entity to be able to add/remove from those collections.  You just want them to have the latest updates.)
 		@actions[action_class.interface] = action_class.new(components, actions)
 		
+		
+		interface = action_class.interface
+		meta_def interface do
+			return @actions[interface]
+		end
+		
+		
+		
 		return nil # prevent leaking of the @actions collection
 		# consider returning this Entity instead?
 	end
