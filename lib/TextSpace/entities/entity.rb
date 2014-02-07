@@ -1,5 +1,6 @@
 class Entity
 	def initialize
+		# These two Hashes map symbols for interface names to actual component/action instances
 		@components = Hash.new
 		@actions = Hash.new
 	end
@@ -27,34 +28,9 @@ class Entity
 		
 		# Having the exception here implies that this is the only way to create Actions
 		# This is the intent of this system, but does it limit expansion?
-		components = action_class.dependencies[:components].inject({}) do |group, component_name|
-			component = @components[component_name]
-			
-			if component.nil?
-				raise "Component #{component_name} required by #{action_class} in #{self}"
-			end
-			
-			group[component_name] = component
-			group
-		end
+		components = resolve_components(action_class, action_class.dependencies[:components])
 		
-		actions = action_class.dependencies[:actions].inject({}) do |group, action_name|
-			sub_action = @actions[action_name]
-			
-			if sub_action.nil?
-				raise "Action #{action_name} required by #{action_class} in #{self}"
-			end
-			
-			group[action_name] = sub_action
-			group
-		end
-		
-		
-		
-		
-		
-		
-		
+		actions = resolve_actions(action_class, action_class.dependencies[:actions])
 		
 		
 		
@@ -122,21 +98,46 @@ class Entity
 		# If an component is added before any of the components it depends on, throw exception.
 		
 		
-		components = component_class.dependencies[:components].inject({}) do |group, component_name|
-			component = @components[component_name]
-			
-			if component.nil?
-				raise "Component #{component_name} required by #{action_class} in #{self}"
-			end
-			
-			group[component_name] = component
-			group
-		end
+		components = resolve_components(component_class, component_class.dependencies[:components])
 		
 		
 		@components[component_class.interface] = component_class.new(components)
 		
 		return nil # prevent leaking of the @actions collection
 		# consider returning this Entity instead?
+	end
+	
+	
+	private
+	
+	
+	# ----- Resolve lists of symbols into actual variables -----
+	
+	# Gather a hash {:component_name => component_instance}
+	def resolve_components(commander, list_of_requirements)
+		list_of_requirements.inject(Hash.new) do |group, component_name|
+			component = @components[component_name]
+			
+			if component.nil?
+				raise "Component #{component_name} required by #{commander} in #{self}"
+			end
+			
+			group[component_name] = component
+			group
+		end
+	end
+	
+	# Gather a hash {:action_name => action_instance}
+	def resolve_actions(commander, list_of_requirements)
+		list_of_requirements.inject(Hash.new) do |group, action_name|
+			sub_action = @actions[action_name]
+			
+			if sub_action.nil?
+				raise "Action #{action_name} required by #{commander} in #{self}"
+			end
+			
+			group[action_name] = sub_action
+			group
+		end
 	end
 end
