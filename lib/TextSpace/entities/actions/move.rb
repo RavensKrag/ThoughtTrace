@@ -1,5 +1,5 @@
 class Move < Action
-	name :move
+	interface_name :move
 	components :physics
 	
 	

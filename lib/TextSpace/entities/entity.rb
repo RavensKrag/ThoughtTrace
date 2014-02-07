@@ -27,7 +27,7 @@ class Entity
 		
 		# Having the exception here implies that this is the only way to create Actions
 		# This is the intent of this system, but does it limit expansion?
-		components = action_class.components.inject(Hash.new) do |group, component_name|
+		components = action_class.dependencies[:components].inject({}) do |group, component_name|
 			component = @components[component_name]
 			
 			if component.nil?
@@ -38,7 +38,7 @@ class Entity
 			group
 		end
 		
-		actions = action_class.actions.inject(Hash.new) do |group, action_name|
+		actions = action_class.dependencies[:actions].inject({}) do |group, action_name|
 			sub_action = @actions[action_name]
 			
 			if sub_action.nil?
@@ -75,7 +75,7 @@ class Entity
 		
 		
 		
-		if @actions.has_key? action_class.name
+		if @actions.has_key? action_class.interface
 			# # Dependencies should be good to go, but need to replace the old action
 			# # (is it safe to say the dependencies are the same?)
 			
@@ -103,7 +103,7 @@ class Entity
 		
 		# NOTE: This method of passing components and actions means that if a different action is bound to the Entity at a later time, the change will not be reflected.  Consider just passing directly the @components and @actions variables.
 		# (But that has it's own problems, as you don't want people outside of the Entity to be able to add/remove from those collections.  You just want them to have the latest updates.)
-		@actions[action_class.name] = action_class.new(components, actions)
+		@actions[action_class.interface] = action_class.new(components, actions)
 		
 		return nil # prevent leaking of the @actions collection
 		# consider returning this Entity instead?
@@ -114,7 +114,7 @@ class Entity
 		# If an component is added before any of the components it depends on, throw exception.
 		
 		
-		components = component_class.components.inject(Hash.new) do |group, component_name|
+		components = component_class.dependencies[:components].inject({}) do |group, component_name|
 			component = @components[component_name]
 			
 			if component.nil?
@@ -126,7 +126,7 @@ class Entity
 		end
 		
 		
-		@components[component_class.name] = self.new(components)
+		@components[component_class.interface] = component_class.new(components)
 		
 		return nil # prevent leaking of the @actions collection
 		# consider returning this Entity instead?

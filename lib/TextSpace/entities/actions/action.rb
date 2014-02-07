@@ -1,23 +1,30 @@
 class Action
 	def initialize(components, actions=nil)
-		
+		@components = components
+		@actions = actions
 	end
 	
 	
 	
 	# View this class as an instance, and thus return it's instance variables
 	def self.dependencies
-		return { :components => @components, :actions => @actions }
+		@components ||= Array.new
+		@actions ||= Array.new
+		
+		return {
+			:components => @components,
+			:actions => @actions
+		}
 	end
 	
-	def self.foo
-		# NOTE: Remember that Class#name is already a thing. Find a new name.
+	def self.interface
 		@name
 	end
 	
 	# meta_def methods stick their instance variables on a Class
 	# the same way that standard methods stick their instance variables on an Object
-	meta_def 'name' do |name|
+	
+	private_meta_def 'interface_name' do |name|
 		@name = name
 	end
 	

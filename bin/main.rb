@@ -33,8 +33,7 @@ Dir.chdir full_path do
 		[
 			'./utilities/meta',
 			
-			# './entities'
-			'./entities/actions'
+			'./entities'
 		
 		
 		
@@ -89,20 +88,28 @@ class Window < Gosu::Window
 		
 		
 		
-		components = {:physics => "dummy"}
-		actions = {:move => "blob"}
+		# components = {:physics => "dummy"}
+		# actions = {:move => "blob"}
 		
-		a = Action.new components, actions
-		# puts a.dependencies
-		puts Action.dependencies
-		
-		
+		# a = Action.new components, actions
+		# # puts a.dependencies
 		# puts Action.dependencies
 		
 		
-		move = Move.new components
-		puts Move.dependencies
+		# # puts Action.dependencies
 		
+		
+		# move = Move.new components
+		# puts Move.dependencies
+		
+		
+		
+		
+		
+		
+		e = Entity.new
+		e.add_component Physics
+		e.add_action Move
 	end
 	
 	def update
