@@ -12,7 +12,24 @@ class Object
 	def class_def name, &blk
 		class_eval { define_method name, &blk }
 	end
- end
+	
+	
+	
+	# Private meta definition
+	def private_meta_def name, &blk
+		meta_eval do
+			define_method name, &blk 
+			private name
+		end
+	end
+	
+	def private_class_def name, &blk
+		class_eval do
+			define_method name, &blk
+			private name
+		end
+	end
+end
  
  
 class Class

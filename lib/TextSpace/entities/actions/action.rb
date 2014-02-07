@@ -21,17 +21,14 @@ class Action
 		@name = name
 	end
 	
-	meta_def 'components' do |*args|
+	private_meta_def 'components' do |*args|
 		@components = args
 	end
 	
-	meta_def 'actions' do |*args|
+	private_meta_def 'actions' do |*args|
 		@actions = args
 	end
 	
-	meta_eval do
-		private :components, :actions
-	end
 	
 	
 	# NOTE: a deep understanding of metaclasses reveals that any class method can be called from within the class definition.
