@@ -102,6 +102,7 @@ class Entity
 			
 			if component.nil?
 				raise "Component #{component_name} required by #{commander} in #{self}"
+				# raise "#{self} does not contain the component #{component_name}"
 			end
 			
 			group[component_name] = component
@@ -116,6 +117,7 @@ class Entity
 			
 			if sub_action.nil?
 				raise "Action #{action_name} required by #{commander} in #{self}"
+				# raise "#{self} does not contain the component #{action_name}"
 			end
 			
 			group[action_name] = sub_action
