@@ -37,21 +37,22 @@ module DependencyListing
 				# because during string interpolation it becomes a string,
 				# and then during eval it becomes just a normal variable name
 				
-				class_eval %Q{
-					private_meta_def '#{type}' do |*args|
-						@dependencies[:#{type}] = args
+				class_eval do
+					private_meta_def type do |*args|
+						@dependencies[type] = args
 					end
 					
 					
 					# Set up hash that lives at the root
+					#   Freeze the arrays, because they're really just null objects.
+					#   Don't want them to be accidentally contaminated.
 					@dependencies ||= Hash.new
-					@dependencies[:#{type}] = Array.new
-				}
+					@dependencies[type] = [].freeze
+				end
 			end
 		end
 		
 		def dependencies
-			puts "current in #{self} #{@dependencies}"
 			return @dependencies
 		end
 		
@@ -60,8 +61,6 @@ module DependencyListing
 		
 		
 		def inherited(subclass)
-			puts "INHERITANCE #{subclass}"
-			
 			# Attach instance variables to the metaclasses of newly formed child classes
 			# clone from the root, which should always remain pristine
 			
@@ -70,7 +69,7 @@ module DependencyListing
 			# is that the arrays that default to empty in the root hash
 			# are being replaced by completely new arrays when the component / action list is set
 			dep = @dependencies
-			puts "clean #{dep}"
+			
 			subclass.class_eval do
 				@dependencies = dep.clone
 			end
