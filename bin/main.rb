@@ -33,8 +33,15 @@ Dir.chdir full_path do
 		[
 			'./utilities/meta',
 			
-			'./entities'
-		
+			# require_all seems to snip the Class#inherited callback.
+			# wait, but only for recursive add or something?
+			# one directory at a time seems to be fine...
+			# './entities'
+			'./entities/share/',
+			'./entities/actions/',
+			'./entities/components/',
+			'./entities/'
+			
 		
 		
 		
