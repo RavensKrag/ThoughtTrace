@@ -1,6 +1,19 @@
 # NOTE: a deep understanding of metaclasses reveals that any class method can be called from within the class definition.
 
 
+=begin
+	example of mixin use:
+	
+	
+	class Foo
+		include DependencyListing
+		dependency_types :one, :two, :three
+	end
+
+	Foo.dependencies[:one]
+	=> []
+=end
+
 module DependencyListing
 	def self.included(base)
 		base.class_eval do |klass|
@@ -20,19 +33,26 @@ module DependencyListing
 				# meta_def methods stick their instance variables on a Class
 				# the same way that standard methods stick their instance variables on an Object
 				
+				# Need to mark the symbol as a symbol
+				# because during string interpolation it becomes a string,
+				# and then during eval it becomes just a normal variable name
+				
 				class_eval %Q{
 					private_meta_def '#{type}' do |*args|
-						@#{type} = args
+						@dependencies[:#{type}] = args
 					end
+					
+					
+					# Set up hash that lives at the root
+					@dependencies ||= Hash.new
+					@dependencies[:#{type}] = Array.new
 				}
 			end
 		end
 		
 		def dependencies
-			return {
-				:components => @components,
-				:actions => @actions
-			}
+			puts "current in #{self} #{@dependencies}"
+			return @dependencies
 		end
 		
 		
@@ -42,11 +62,17 @@ module DependencyListing
 		def inherited(subclass)
 			puts "INHERITANCE #{subclass}"
 			
+			# Attach instance variables to the metaclasses of newly formed child classes
+			# clone from the root, which should always remain pristine
 			
-			# Attach instance variables to the 
+			# NOTE: This is really fragile code, built on janky assumptions.
+			# The only reason the root is staying clean even though this is NOT a deep copy
+			# is that the arrays that default to empty in the root hash
+			# are being replaced by completely new arrays when the component / action list is set
+			dep = @dependencies
+			puts "clean #{dep}"
 			subclass.class_eval do
-				@components ||= Array.new
-				@actions ||= Array.new
+				@dependencies = dep.clone
 			end
 		end
 	end

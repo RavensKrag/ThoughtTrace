@@ -117,6 +117,10 @@ class Window < Gosu::Window
 		e = Entity.new
 		e.add_component Physics
 		e.add_action Move
+		
+		
+		puts "should be clean..."
+		puts Action.dependencies
 	end
 	
 	def update
