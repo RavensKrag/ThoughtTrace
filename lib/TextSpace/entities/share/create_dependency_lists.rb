@@ -22,22 +22,16 @@ module DependencyListing
 	end
 	
 	module ClassMethods
-		# does not work as expected,
-		# as the arrays are only initialized on the metaclass of Action
-		# and not on any of the metaclasses of the child classes of Action (ex. Move)
-		
-		
-		
+		# Write metacode for each type specified
 		def dependency_types(*types)
 			types.each do |type|
-				# meta_def methods stick their instance variables on a Class
-				# the same way that standard methods stick their instance variables on an Object
-				
-				# Need to mark the symbol as a symbol
-				# because during string interpolation it becomes a string,
-				# and then during eval it becomes just a normal variable name
-				
 				class_eval do
+					# Metacode to be written
+					
+					
+					
+					# meta_def methods stick their instance variables on a Class
+					# just like standard methods stick their instance variables on an Object
 					private_meta_def type do |*args|
 						@dependencies[type] = args
 					end
@@ -48,10 +42,13 @@ module DependencyListing
 					#   Don't want them to be accidentally contaminated.
 					@dependencies ||= Hash.new
 					@dependencies[type] = [].freeze
+					
 				end
 			end
 		end
 		
+		# Class-level instance accessor
+		# (intent: provide external access)
 		def dependencies
 			return @dependencies
 		end
@@ -59,7 +56,9 @@ module DependencyListing
 		
 		
 		
-		
+		# Hook into inheritance chain to copy the metaproperties to the child classes.
+			# the arrays are only initialized on the metaclass of Action
+			# and not on any of the metaclasses of the child classes of Action (ex. Move)
 		def inherited(subclass)
 			# Attach instance variables to the metaclasses of newly formed child classes
 			# clone from the root, which should always remain pristine
