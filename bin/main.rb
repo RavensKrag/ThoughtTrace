@@ -26,11 +26,12 @@ path_to_root = File.expand_path '../..', __FILE__
 full_path = File.join path_to_root, "lib", "TextSpace"
 
 Dir.chdir full_path do
-	# require './utilities/PerformanceTimer'
+	require './utilities/performance_timer'
 	
-	# Metrics::Timer.new "load scripts" do
+	Metrics::Timer.new "load scripts" do
 	
 		[
+			'./utilities/PerformanceTimer',
 			'./utilities/meta',
 			
 			# require_all seems to snip the Class#inherited callback.
@@ -60,7 +61,7 @@ Dir.chdir full_path do
 			end
 		end
 	
-	# end
+	end
 end
 
 
@@ -74,7 +75,7 @@ end
 
 class Window < Gosu::Window
 	def initialize
-		# Metrics::Timer.new "setup window" do
+		Metrics::Timer.new "setup window" do
 			# Necessary to allow access to text input buffers, etc
 			# Also allows for easy transformation of vectors through camera
 				# (see monkey_patches/Chipmunk/Vec2)
@@ -91,7 +92,7 @@ class Window < Gosu::Window
 			
 			super(width, height, fullscreen, update_interval)
 			self.caption = "TextSpace"
-		# end
+		end
 		
 		
 		
