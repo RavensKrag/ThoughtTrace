@@ -26,7 +26,7 @@ path_to_root = File.expand_path '../..', __FILE__
 full_path = File.join path_to_root, "lib", "TextSpace"
 
 Dir.chdir full_path do
-	require './utilities/PerformanceTimer'
+	require './utilities/performance_timer'
 	
 	Metrics::Timer.new "load scripts" do
 	
