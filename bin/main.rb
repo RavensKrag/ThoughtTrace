@@ -31,7 +31,6 @@ Dir.chdir full_path do
 	Metrics::Timer.new "load scripts" do
 	
 		[
-			'./utilities/PerformanceTimer',
 			'./utilities/meta',
 			
 			# require_all seems to snip the Class#inherited callback.
