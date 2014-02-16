@@ -1,3 +1,6 @@
+module TextSpace
+
+
 class Entity
 	def initialize
 		# These two Hashes map symbols for interface names to actual component/action instances
@@ -132,4 +135,8 @@ class Entity
 	# 	raise "Components #{unresolved_dependencies.join(', ')} are required by #{action_class} in #{self}"
 	# 	raise "#{action_class} in #{self} needs missing components: #{unresolved_dependencies.join(', ')}"
 	# end
+end
+
+
+
 end

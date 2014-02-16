@@ -114,7 +114,7 @@ class Window < Gosu::Window
 		
 		
 		
-		e = Entity.new
+		e = TextSpace::Entity.new
 		e.add_component TextSpace::Components::Physics
 		e.add_action TextSpace::Actions::Move
 	end
