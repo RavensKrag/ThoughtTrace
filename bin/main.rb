@@ -113,6 +113,15 @@ class Window < Gosu::Window
 		
 		
 		
+		Metrics::Timer.new "setup physics space" do
+			@space = TextSpace::Space.new
+		end
+		
+		
+		
+		
+		
+		
 		
 		e = TextSpace::Entity.new
 		e.add_component TextSpace::Components::Physics
