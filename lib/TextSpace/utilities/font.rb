@@ -62,14 +62,14 @@ module TextSpace
 				
 				return vals
 			}
-			pow2 = ->(n) {
-				vals = [1]
-				(n-1).times do
-					vals.push(vals[-1]*2)
-				end
+			# pow2 = ->(n) {
+			# 	vals = [1]
+			# 	(n-1).times do
+			# 		vals.push(vals[-1]*2)
+			# 	end
 				
-				return vals
-			}
+			# 	return vals
+			# }
 			
 			# TODO: Consider removing font sizes < 5
 			# Really small pixel size fonts aren't noticeably different, but the extra font objects will take up extra memory
@@ -120,26 +120,6 @@ module TextSpace
 		
 		
 		
-		
-		include TextSpace::Serializable
-		
-		def init_with coder
-			name = YAML.load(coder.scalar)
-			initialize(name)
-		end
-		
-		# TODO: Define #encode_with instead (maybe not because of how this object is saved...?)
-		def to_string_representation
-			@name.to_yaml
-		end
-		
-		class << self
-			def from_string_representation(string_representation)
-				puts "YAML UP"
-				name = YAML.load(string_representation)
-				new(name)
-			end
-		end
 		
 		def inspect
 			"#{@name}<id:#{object_id}-#{@font_cache.object_id}>"
