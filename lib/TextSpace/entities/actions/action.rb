@@ -1,3 +1,7 @@
+module TextSpace
+	module Actions
+
+
 class Action
 	include DependencyListing
 	dependency_types :components, :actions
@@ -34,4 +38,9 @@ class Action
 	def on_release(point)
 		
 	end
+end
+
+
+
+end
 end

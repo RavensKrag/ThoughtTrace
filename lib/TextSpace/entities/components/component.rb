@@ -1,3 +1,7 @@
+module TextSpace
+	module Components
+		
+		
 class Component
 	include DependencyListing
 	dependency_types :components
@@ -18,4 +22,9 @@ class Component
 	private_meta_def 'interface_name' do |name|
 		@name = name
 	end
+end
+
+
+
+end
 end

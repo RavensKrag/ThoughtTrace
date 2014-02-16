@@ -1,3 +1,7 @@
+module TextSpace
+	module Actions
+
+
 class Move < Action
 	interface_name :move
 	components :physics
@@ -15,4 +19,9 @@ class Move < Action
 	def on_release(point)
 		
 	end
+end
+
+
+
+end
 end
