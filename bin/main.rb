@@ -32,6 +32,9 @@ Dir.chdir full_path do
 	
 		[
 			'./utilities/meta',
+			'./utilities/font',
+			
+			'./space',
 			
 			# require_all seems to snip the Class#inherited callback.
 			# wait, but only for recursive add or something?
@@ -126,6 +129,17 @@ class Window < Gosu::Window
 		e = TextSpace::Entity.new
 		e.add_component TextSpace::Components::Physics
 		e.add_action TextSpace::Actions::Move
+		
+		
+		font = TextSpace::Font.new "Lucida Sans Unicode"
+		
+		
+		
+		@text = TextSpace::Text.new font
+		@text.string = "Hello World!"
+		# @space.add text
+		
+		# text.font = new_font_ref
 	end
 	
 	def update
@@ -133,7 +147,8 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		
+		@text.draw
+		@space.draw
 	end
 	
 	def on_shutdown
