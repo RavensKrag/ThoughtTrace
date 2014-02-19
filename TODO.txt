@@ -1,0 +1,26 @@
+TODO
+
+
+
+create components and actions using builder pattern
+	user creates a action / component object
+	pass that object into the system
+	system assigns extra values to that object, which resolve dependencies etc.
+
+
+
+If Style is created without a parent, it's parent should default to the baseline style
+	not sure where the baseline style should be declared,
+	it should be a constant variable that can be easily accessed from everywhere
+	it should declare all available properties
+
+
+
+
+edit space point query
+should be able to get a list of things under the mouse
+only highligh the one that the mouse will be working on
+it seems weird that you would highlight something that you can't act on?
+	that means that the selection has to change a little bit depending on what action is active
+	is that too much state going into the selection?
+	will that be the user's expected model of operation?
