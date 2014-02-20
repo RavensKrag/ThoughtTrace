@@ -4,10 +4,13 @@ module TextSpace
 class Text < Entity
 	attr_accessor :font, :string
 	
-	def initialize(font)
+	def initialize(font, string="")
 		super()
 		
 		@font = font
+		@string = string
+		
+		
 		
 		
 		# TODO: cascade into default style
@@ -19,10 +22,11 @@ class Text < Entity
 		
 		
 		# NOTE: @string has not yet been initialized
-						body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-						shape = CP::Shape::Rect.new body, 
-									@font.width(@string, @components[:style][:height]),
-									@components[:style][:height]
+		width = @font.width(@string, @components[:style][:height])
+		height = @components[:style][:height]
+		
+							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
+							shape = CP::Shape::Rect.new body, width, height
 		add_component	TextSpace::Components::Physics.new self, body, shape
 		
 		
@@ -39,28 +43,6 @@ class Text < Entity
 		@font.draw	@string, @components[:style][:height],
 					x,y, z_index, # position relative to top left corner of text
 					@components[:style][:color]
-	end
-	
-	
-	private
-	
-	def new_geometry
-		l = 0
-		b = 0
-		r = @font.width(@string, @components[:style][:height])
-		t = @components[:style][:height]
-		
-		# cw winding
-		verts = [
-			CP::Vec2.new(l, t),
-			CP::Vec2.new(r, t),
-			CP::Vec2.new(r, b),
-			CP::Vec2.new(l, b)
-		]
-		
-		raise "Problem with specified verts." unless CP::Shape::Poly.valid? verts
-		
-		return verts
 	end
 end
 
