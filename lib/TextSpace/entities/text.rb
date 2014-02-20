@@ -19,6 +19,18 @@ class Text < Entity
 		
 		
 		add_action TextSpace::Actions::Move.new
+		
+		
+		
+		
+		
+		
+		# TODO: cascade into default style
+		style = TextSpace::Components::Style.new
+			style[:height] = 30
+			style[:color] = Gosu::Color.argb(0xffFFFFFF)
+		
+		add_component style
 	end
 	
 	def update
