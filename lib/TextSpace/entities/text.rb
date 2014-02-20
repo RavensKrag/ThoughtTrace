@@ -9,8 +9,14 @@ class Text < Entity
 		
 		@font = font
 		
-		@height = 30
-		@color = Gosu::Color.argb(0xffFFFFFF)
+		
+		# TODO: cascade into default style
+		style = TextSpace::Components::Style.new
+			style[:height] = 30
+			style[:color] = Gosu::Color.argb(0xffFFFFFF)
+		
+		add_component style
+		
 		
 		
 						body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
@@ -19,18 +25,6 @@ class Text < Entity
 		
 		
 		add_action TextSpace::Actions::Move.new
-		
-		
-		
-		
-		
-		
-		# TODO: cascade into default style
-		style = TextSpace::Components::Style.new
-			style[:height] = 30
-			style[:color] = Gosu::Color.argb(0xffFFFFFF)
-		
-		add_component style
 	end
 	
 	def update
@@ -44,9 +38,9 @@ class Text < Entity
 		# @font.draw	@string, @height,
 		# 			@components[:physics].body.p.x, @components[:physics].body.p.y, z_index,
 		# 			@color
-		@font.draw	@string, @height,
+		@font.draw	@string, @components[:style][:height],
 					0,0, z_index, # position relative to top left corner of text
-					@color
+					@components[:style][:color]
 	end
 	
 	
@@ -55,8 +49,8 @@ class Text < Entity
 	def new_geometry
 		l = 0
 		b = 0
-		r = @font.width(@string, @height)
-		t = @height
+		r = @font.width(@string, @components[:style][:height])
+		t = @components[:style][:height]
 		
 		# cw winding
 		verts = [
