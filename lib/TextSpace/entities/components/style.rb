@@ -17,12 +17,12 @@ class Style < Component
 		# get the same word used in a lot of different contexts
 		# that way colors etc can get thrown around more easily.
 		# ex) the color of one block of text could be the the color of some other element
-		@properties = [
-			:height, # font height and rectangle height.  Text is a separate object anyhow.
-			:color, # if you want to color the bg, you should be coloring a separate element
-		]
+		# @properties = [
+		# 	:height, # font height and rectangle height.  Text is a separate object anyhow.
+		# 	:color, # if you want to color the bg, you should be coloring a separate element
+		# ]
 		
-		@foo_things = Hash.new
+		@properties = Hash.new
 	end
 	
 	def update
@@ -37,7 +37,7 @@ class Style < Component
 	# Will cascade into parent properties as necessary
 	# (search through parent styles until you find a usable value)
 	def [](property)
-		foo = @foo_things[property]
+		foo = @properties[property]
 		
 		if foo.nil?
 			if @parent_style
@@ -57,7 +57,7 @@ class Style < Component
 	# Set property
 	# Will only ever set the value at this level
 	def []=(property, value)
-		@foo_things[property] = value
+		@properties[property] = value
 	end
 end
 
