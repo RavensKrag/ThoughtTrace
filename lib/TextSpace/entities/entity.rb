@@ -18,18 +18,26 @@ class Entity
 	
 	
 	
-	def add_action(action_class)
+	# Actions provide a high-level(ish) interface for manipulating the data in Components
+	def add_action(action)
 		# require components to be added first.
 		# Trying to add actions before required components results in an exception being thrown.
 		# (exceptions are thrown when symbols attempt to resolve)
-		components = resolve_components(action_class, action_class.dependencies[:components])
-		actions = resolve_actions(action_class, action_class.dependencies[:actions])
+		components = resolve_components(action, action.class.dependencies[:components])
+		actions = resolve_actions(action, action.class.dependencies[:actions])
 		
 		
 		# NOTE: This method of passing components and actions means that if a different action is bound to the Entity at a later time, the change will not be reflected.  Consider just passing directly the @components and @actions variables.
 		# (But that has it's own problems, as you don't want people outside of the Entity to be able to add/remove from those collections.  You just want them to have the latest updates.)
 		# (Maintaining another collection is also weird though, because there's a false signifier that changes made to the cache will percolate back to the main actions collection.)
-		@actions[action_class.interface] = action_class.new(components, actions)
+		
+		
+		action.components = components
+		action.actions = actions
+		
+		
+		
+		@actions[action.class.interface] = action
 		
 		
 		
@@ -63,7 +71,7 @@ class Entity
 		
 		
 		# Create methods for actions (similar to attr_reader)
-		interface = action_class.interface
+		interface = action.class.interface
 		meta_def interface do
 			return @actions[interface]
 		end
@@ -74,17 +82,31 @@ class Entity
 		# consider returning this Entity instead?
 	end
 	
-	def add_component(component_class)
+	# Components provide low-level(ish) control over data.
+	# They are generally manipulated though actions,
+	# but it should be possible to access the components directly.
+	# Actions allow for complex manipulations that span multiple Components.
+	# Manipulation of individual components is only for when you want to get under the hood.
+	# Use of Actions should generally be preferred over direct manipulation.
+	def add_component(component)
 		# require dependencies to be added first
 		# If an component is added before any of the components it depends on, throw exception.
 		# (exceptions are thrown when symbols attempt to resolve)
-		components = resolve_components(component_class, component_class.dependencies[:components])
+		components = resolve_components(component, component.class.dependencies[:components])
 		
 		
-		@components[component_class.interface] = component_class.new(components)
+		component.components = components
+		
+		@components[component.class.interface] = component
 		
 		return nil # prevent leaking of the @actions collection
 		# consider returning this Entity instead?
+	end
+	
+	
+	# Access Components from outside the Entity
+	def [](component_name)
+		@components[component_name]
 	end
 	
 	

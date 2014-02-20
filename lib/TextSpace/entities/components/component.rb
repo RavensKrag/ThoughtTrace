@@ -6,8 +6,11 @@ class Component
 	include DependencyListing
 	dependency_types :components
 	
-	def initialize(components=nil)
-		@components = components
+	
+	attr_accessor :components
+	
+	def initialize
+		
 	end
 	
 	

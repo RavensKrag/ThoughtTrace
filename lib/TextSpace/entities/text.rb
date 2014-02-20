@@ -6,7 +6,10 @@ class Text < Entity
 	
 	def initialize(font)
 		super()
-		self.add_component TextSpace::Components::Physics
+		
+		# 				body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
+		# 				shape = CP::Shape::Poly.new body, new_geometry(), CP::Vec2.new(0,0)
+		# add_component	TextSpace::Components::Physics.new self, body, shape
 		
 		
 		@font = font

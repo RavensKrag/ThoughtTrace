@@ -98,24 +98,6 @@ class Window < Gosu::Window
 		
 		
 		
-		# components = {:physics => "dummy"}
-		# actions = {:move => "blob"}
-		
-		# a = Action.new components, actions
-		# # puts a.dependencies
-		# puts Action.dependencies
-		
-		
-		# # puts Action.dependencies
-		
-		
-		# move = Move.new components
-		# puts Move.dependencies
-		
-		
-		
-		
-		
 		Metrics::Timer.new "setup physics space" do
 			@space = TextSpace::Space.new
 		end
@@ -124,11 +106,6 @@ class Window < Gosu::Window
 		
 		
 		
-		
-		
-		e = TextSpace::Entity.new
-		e.add_component TextSpace::Components::Physics
-		e.add_action TextSpace::Actions::Move
 		
 		
 		font = TextSpace::Font.new "Lucida Sans Unicode"

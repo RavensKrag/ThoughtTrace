@@ -6,9 +6,11 @@ class Action
 	include DependencyListing
 	dependency_types :components, :actions
 	
-	def initialize(components, actions=nil)
-		@components = components
-		@actions = actions
+	
+	attr_accessor :components, :actions
+	
+	def initialize
+		
 	end
 	
 	def self.interface
