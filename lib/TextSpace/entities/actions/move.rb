@@ -8,12 +8,16 @@ class Move < Action
 	
 	
 	def on_press(point)
-		# @components[:physics]
-		# @actions[:move]
+		# mark the initial point for reference
+		@origin = point
+		@start = @components[:physics].body.p
 	end
 	
 	def on_hold(point)
+		# move relative to the initial point
+		displacement = @origin - point
 		
+		@components[:physics].body.p = @start + displacement
 	end
 	
 	def on_release(point)
