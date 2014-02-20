@@ -5,6 +5,9 @@ module TextSpace
 class Physics < Component
 	interface_name :physics
 	
+	
+	attr_reader :body, :shape
+	
 	def initialize(parent, body, shape)
 		# super() # Set up state machine
 		

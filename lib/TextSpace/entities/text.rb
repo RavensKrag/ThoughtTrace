@@ -32,14 +32,10 @@ class Text < Entity
 	end
 	
 	def draw(z_index=0)
-		# @components[:physics].body.p.x
+		x,y = @components[:physics].body.p.to_a
 		
-		
-		# @font.draw	@string, @height,
-		# 			@components[:physics].body.p.x, @components[:physics].body.p.y, z_index,
-		# 			@color
 		@font.draw	@string, @components[:style][:height],
-					0,0, z_index, # position relative to top left corner of text
+					x,y, z_index, # position relative to top left corner of text
 					@components[:style][:color]
 	end
 	
