@@ -31,6 +31,8 @@ Dir.chdir full_path do
 	Metrics::Timer.new "load scripts" do
 	
 		[
+			'./monkey_patches',
+			
 			'./utilities/meta',
 			'./utilities/font',
 			
