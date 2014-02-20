@@ -114,9 +114,9 @@ class Window < Gosu::Window
 		
 		
 		
-		@text = TextSpace::Text.new font
-		@text.string = "Hello World!"
-		# @space.add text
+		text = TextSpace::Text.new font
+		text.string = "Hello World!"
+		@space.add text
 		
 		# text.font = new_font_ref
 	end
@@ -126,7 +126,6 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@text.draw
 		@space.draw
 	end
 	

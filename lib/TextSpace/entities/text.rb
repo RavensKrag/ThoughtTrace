@@ -44,6 +44,11 @@ class Text < Entity
 					x,y, z_index, # position relative to top left corner of text
 					@components[:style][:color]
 	end
+	
+	
+	# when you set the font, recompute the hitbox
+	# when you set the string, recompute the hitbox
+	# when you change the size, recompute the hitbox
 end
 
 

@@ -32,12 +32,21 @@ module TextSpace
 		end
 		
 		def add(object)
-			raise "Physics component on #{object.inspect} not found." unless object.respond_to? :physics
+			# raise "Physics component on #<#{object.class}:#{object.object_id}> not found." unless object.respond_to? :physics
+			
+			unless object[:physics]
+				msg = <<-ERROR_MESSAGE
+					
+					#{object.class} does not have a Physics component
+				ERROR_MESSAGE
+				
+				raise msg.multiline_lstrip
+			end
 			
 			@objects << object
 			
-			add_shape(object.physics.shape)
-			add_body(object.physics.body)
+			add_shape(object[:physics].shape)
+			add_body(object[:physics].body)
 		end
 		
 		def merge(enum)
