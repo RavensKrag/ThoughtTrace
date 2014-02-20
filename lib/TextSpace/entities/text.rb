@@ -18,9 +18,11 @@ class Text < Entity
 		add_component style
 		
 		
-		
+		# NOTE: @string has not yet been initialized
 						body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-						shape = CP::Shape::Poly.new body, new_geometry(), CP::Vec2.new(0,0)
+						shape = CP::Shape::Rect.new body, 
+									@font.width(@string, @components[:style][:height]),
+									@components[:style][:height]
 		add_component	TextSpace::Components::Physics.new self, body, shape
 		
 		
