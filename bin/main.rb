@@ -45,7 +45,9 @@ Dir.chdir full_path do
 			'./entities/share/',
 			'./entities/actions/',
 			'./entities/components/',
-			'./entities/'
+			'./entities/',
+			
+			'./cameras/camera'
 			
 		
 		
@@ -105,6 +107,10 @@ class Window < Gosu::Window
 		end
 		
 		
+		Metrics::Timer.new "create camera" do
+			@camera = TextSpace::Camera.new
+		end
+		
 		
 		
 		
@@ -126,7 +132,9 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@space.draw
+		@camera.draw do
+			@space.draw
+		end
 	end
 	
 	def on_shutdown

@@ -6,6 +6,13 @@ module CP
 				super(body, new_geometry(width, height), offset)
 			end
 			
+		[:top_left, :top_right, :bottom_right, :bottom_left].each_with_index do |corner, i|
+			define_method "#{corner}_vert" do
+				self.vert(i)
+			end
+		end
+		
+			
 			private
 			
 			def new_geometry(width, height)
