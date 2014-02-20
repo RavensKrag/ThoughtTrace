@@ -22,7 +22,7 @@ module CP
 					CP::Vec2.new(l, b)
 				]
 				
-				raise "Problem with specified verts." unless CP::Shape::Poly.valid? verts
+				# raise "Problem with specified verts." unless CP::Shape::Poly.valid? verts
 				
 				return verts
 			end
