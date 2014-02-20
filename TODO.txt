@@ -1,11 +1,12 @@
 TODO
 
 
+using builder pattern, getting dependency list and interface name from the class is a bit obtuse
+	consider moving at least the name into the instance level
+	not like you're really spending that much extra memory anyway
+	it's either just one symbol, or a pointer to some shared collection
 
-create components and actions using builder pattern
-	user creates a action / component object
-	pass that object into the system
-	system assigns extra values to that object, which resolve dependencies etc.
+
 
 
 
