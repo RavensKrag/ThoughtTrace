@@ -2,7 +2,7 @@ module TextSpace
 	module Actions
 
 
-class ResizeRectangle < Action
+class ResizeText < Action
 	interface_name :resize
 	components :physics
 	
