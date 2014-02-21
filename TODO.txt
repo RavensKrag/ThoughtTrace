@@ -18,6 +18,11 @@ If Style is created without a parent, it's parent should default to the baseline
 
 
 
+Figure out how to change Entities when style properties are altered
+
+
+
+
 edit space point query
 should be able to get a list of things under the mouse
 only highligh the one that the mouse will be working on

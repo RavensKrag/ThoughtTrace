@@ -2,8 +2,6 @@ module TextSpace
 
 
 class Text < Entity
-	attr_accessor :font, :string
-	
 	def initialize(font, string="")
 		super()
 		
@@ -40,11 +38,49 @@ class Text < Entity
 	def draw(z_index=0)
 		x,y = @components[:physics].body.p.to_a
 		
+		@components[:physics].draw Gosu::Color.new(0xaaFF0000), z_index
+		
 		@font.draw	@string, @components[:style][:height],
 					x,y, z_index, # position relative to top left corner of text
 					@components[:style][:color]
 	end
 	
+	
+	
+	
+	attr_reader :font, :string
+	# creating methods to set values manually below
+	
+	def font=(font)
+		# Updating the font changes the properties of glyphs,
+		# this will update the width, but not the height,
+		# as the height is locked to a certain pixel size
+		
+		@font = font
+		
+		
+		width = @font.width(@string, @components[:style][:height])
+		height = @components[:style][:height]
+		
+		
+		# @components[:physics].shape.resize! width, height
+		@components[:physics].shape.width = width
+	end
+	
+	def string=(string)
+		# Updating the string changes the number of characters,
+		# which alters the width
+		
+		@string = string
+		
+		
+		width = @font.width(@string, @components[:style][:height])
+		height = @components[:style][:height]
+		
+		
+		# @components[:physics].shape.resize! width, height
+		@components[:physics].shape.width = width
+	end
 	
 	# when you set the font, recompute the hitbox
 	# when you set the string, recompute the hitbox
