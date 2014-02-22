@@ -27,7 +27,10 @@ class Action
 	
 	
 	
-	
+	# points no longer needed to query for Entity,
+	# but still need them to track position,
+	# to figure out where the action occurred relative to the Entity,
+	# etc, etc
 	
 	def on_press(point)
 		

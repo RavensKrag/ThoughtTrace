@@ -125,6 +125,12 @@ class Window < Gosu::Window
 		@space.add text
 		
 		# text.font = new_font_ref
+		
+		
+		
+		
+		
+		
 	end
 	
 	def update
