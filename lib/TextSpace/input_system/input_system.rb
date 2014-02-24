@@ -181,9 +181,15 @@ class InputSystem
 	# TODO: pass set of entities to the human action on press
 	
 	
+	
+	
+	
+	# Use active events to fire actions
+	
+	
 	# fire one or more events that correspond to the given event as appropriate
 	def event_in(event)
-		action_list = @bindings[event.name]
+		action_list = @bindings[event]
 		
 		action_list.each do |action_name|
 			action = @actions[action_name]
@@ -203,7 +209,7 @@ class InputSystem
 	
 	# release currently active events associated with the event
 	def event_out(event)
-		action_list = @bindings[event.name]
+		action_list = @bindings[event]
 		
 		action_list.each do |action_name|
 			action = @actions[action_name]
@@ -216,28 +222,22 @@ class InputSystem
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	def button_down(id)
-		
+		event_in TextSpace::Event.new(id, :down)
 	end
 	
 	def button_up(id)
-		
-	end
-	
-	
-	
-	
-	def event_in(event)
-		action_list = @bindings[event.name]
-		
-		# resolve symbols
-		actions = action_list.collect{ |name| @actions[name] }
-		
-		# process actions
-		actions.each do |action_name|
-			action.press
-			@active_actions.add action
-		end
+		event_out TextSpace::Event.new(id, :up)
 	end
 end
 
