@@ -132,10 +132,14 @@ end
 
 # and then there's the other half of the problem:
 # raw input -> abstracted complex inputs
+
+
+# should mouse be contained it this class?
+# at what point should the position of the mouse clicks be abstracted into just points?
 class Foo
-	def initialize(space)
+	def initialize(space, mouse)
 		@space = space
-		@mouse = Mouse.new
+		@mouse = mouse
 		
 		
 		
