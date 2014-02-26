@@ -7,13 +7,15 @@ class ActionStack
 	end
 	
 	# put a new state on the stack
-	def push(action)
+	def push(action, point)
+		action.setup self, point
+		
 		@stack.push action
 	end
 	
 	# update only the top element of the stack
-	def update
-		@stack.last.update
+	def update(point)
+		@stack.last.update point
 	end
 	
 	# remove top element of stack, and clean up that action state

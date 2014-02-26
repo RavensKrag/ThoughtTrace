@@ -175,11 +175,13 @@ class Foo
 		
 		action = entity.send action_name
 		
-		@stack.push action
+		@stack.push action, point
 	end
 	
 	def hold
-		@stack.update
+		point = @mouse.position_in_world
+		
+		@stack.update(point)
 	end
 	
 	def release

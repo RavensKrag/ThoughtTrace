@@ -18,12 +18,18 @@ class HumanAction
 	end
 	
 	
-	def setup
+	# should have the same interface as a standard Action
+	
+	def setup(stack, point)
+		@stack = stack
+		
 		
 	end
 	
-	def update
-		
+	def update(point)
+		# chain into move?
+		# maybe it's different depending on the entity spawned?
+		# like, selection boxes or text boxes should chain into resize
 	end
 	
 	def cleanup

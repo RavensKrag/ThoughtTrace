@@ -12,7 +12,7 @@ class ActionQueue
 	end
 	
 	# put a new state on the stack
-	def queue(action)
+	def queue(action, point)
 		"Can not queue more than one action." unless @action.nil?
 		# A queue that can only queue one thing isn't really much of queue... but w/e.
 		# The stack doesn't have this problem, and can add as many layers as it wants,
@@ -20,17 +20,17 @@ class ActionQueue
 		
 		
 		@next = action
-		@next.setup(self, point)
+		@next.setup self, point
 		
 		
 		dequeue
 	end
 	
 	# update only the top element of the stack
-	def update
+	def update(point)
 		@active = @next if @active.nil? # move up the next action if able
 		
-		@active.update
+		@active.update point
 	end
 	
 	# remove top element of stack, and clean up that action state
