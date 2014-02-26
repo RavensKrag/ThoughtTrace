@@ -161,7 +161,7 @@ class Foo
 		
 		
 		
-		@stack = ActionStack.new
+		@calling_queue = ActionQueue.new
 	end
 	
 	def press
@@ -179,17 +179,17 @@ class Foo
 		
 		action = entity.send action_name
 		
-		@stack.push action, point
+		@calling_queue.queue action, point
 	end
 	
 	def hold
 		point = @mouse.position_in_world
 		
-		@stack.update(point)
+		@calling_queue.update(point)
 	end
 	
 	def release
-		@stack.pop # need to COMPLETELY purge the stack, not just the top item
+		@calling_queue.dequeue # need to COMPLETELY purge the stack, not just the top item
 		
 		
 		# the queue doesn't have that problem (I don't think)
