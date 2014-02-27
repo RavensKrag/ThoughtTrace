@@ -12,6 +12,10 @@
 # like how Actions operate on types of Entities (instances)?
 	# could even restrict to certain component / action sets,
 	# because the dependency lists are stored at the class level
+module TextSpace
+	module InputSystem
+
+
 class HumanAction
 	def initialize
 		
@@ -37,6 +41,19 @@ class HumanAction
 	end
 end
 
+
+end
+end
+
+
+
+
+
+
+
+
+module TextSpace
+	module InputSystem
 
 
 class Spawn < HumanAction
@@ -67,4 +84,9 @@ class Spawn < HumanAction
 	def cleanup
 		
 	end
+end
+
+
+
+end
 end

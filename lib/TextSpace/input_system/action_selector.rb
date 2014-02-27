@@ -28,6 +28,10 @@
 # Storing the actual Actions in the Entities feels more like OOP,
 # but it means Actions can be triggered outside of this structure (potentially)
 # I like the freedom and potential for expansion, but it could possibly get ugly later on.
+module TextSpace
+	module InputSystem
+
+
 class ActionSelector
 	def initialize(space, selection, mouse)
 		@space = space
@@ -146,4 +150,9 @@ class ActionSelector
 	def query
 		
 	end
+end
+
+
+
+end
 end

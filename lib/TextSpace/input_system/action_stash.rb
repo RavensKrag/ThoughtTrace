@@ -12,6 +12,10 @@
 # The name ActionGlove isn't really that bad.
 # it holds actions, and manages flow control.
 # (not sure what gloves have to do with flow control though... "invisible hand"?)
+module TextSpace
+	module InputSystem
+
+
 class ActionStash
 	def initialize
 		@active = nil
@@ -49,4 +53,9 @@ class ActionStash
 		@active.cleanup
 		@active = nil
 	end
+end
+
+
+
+end
 end
