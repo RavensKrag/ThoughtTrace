@@ -58,11 +58,16 @@ class Split < Action
 	
 	
 	
-	def start(point)
+	
+	
+	# Executed before adding to queue
+	def setup(stash, point)
+		@stash = stash
+		
 		@origin = point
 	end
-
-	def maintain(point)
+	
+	def update(point)
 		# split if you have moved more than a certain distance
 		displacement = point - @origin
 		if displacement.length > MOVEMENT_THRESHOLD
@@ -77,9 +82,7 @@ class Split < Action
 			
 			
 			# --- want to switch action, and switch target
-			# shard.move
-			switch_action :move
-			switch_target shard
+			@stash.push shard.move, point
 			
 			
 			
@@ -92,10 +95,11 @@ class Split < Action
 		
 		# when the cursor moves outside a certain boundary, switch to move
 		
-		next_action :move
+		@stash.push @entity.move, point
 	end
-
-	def cleanup(point)
+	
+	# Executed after removed from queue
+	def cleanup
 		# recursive cleanup
 		@shard.move.cleanup # wait, shouldn't this be on the stack or something?
 		
