@@ -20,9 +20,9 @@ class Action
 	end
 	
 	
-	# executed pre-push
-	def setup(stack, point)
-		@stack = stack
+	# Executed before adding to queue
+	def setup(calling_queue, point)
+		@calling_queue = calling_queue
 	end
 	
 	def update(point)
@@ -31,7 +31,7 @@ class Action
 		
 		# under certain conditions
 		shard = Entity.new			# or some type of Entity
-		@stack.push shard.move		# or some other action
+		@calling_queue.queue shard.move		# or some other action
 		signal_done_with_this_state
 		
 		
@@ -42,7 +42,7 @@ class Action
 			# (it really is a queue after all)
 	end
 	
-	# executed post-pop
+	# Executed after removed from queue
 	def cleanup
 		
 	end
