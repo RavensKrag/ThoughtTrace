@@ -7,13 +7,20 @@ class ActionQueue
 	end
 	
 	# change the currently managed action out, and put a new one in it's place
-	def switch(action, point)
+	# (there might not be a currently set action, 'switch' is a rather odd name)
+	
+	# put a new thing into the collection space
+	# this action will displace any action which currently inhabits the space
+	def push(action, point)
 		# setup new one
 		action.setup self, point
 		
+		# if there's an action currently in play,
 		# clean up old one, and be rid of it
-		@active.cleanup
-		@active = nil
+		if @active
+			@active.cleanup
+			@active = nil
+		end
 		
 		# store the new action
 		@active = action
