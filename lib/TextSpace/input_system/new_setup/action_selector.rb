@@ -1,5 +1,7 @@
 # Figure out what action to fire, and manage the state therein
 # 
+# Selects actions based on where entities were discovered,
+# NOT based on what sort of entities are found.
 
 
 # 2 major problem remain:
@@ -52,7 +54,7 @@ class ActionSelector
 		
 		
 		
-		@stash = ActionStash.new
+		@stash = ActionStash.new # manages flow control for Actions
 	end
 	
 	def press
@@ -68,9 +70,8 @@ class ActionSelector
 		type = action_type(entity)
 		action_name = @action_names[type]
 		
-		action = entity.send action_name
 		
-		@stash.pass_control action, point
+		@stash.pass_control entity.send(action_name), point
 	end
 	
 	def hold
