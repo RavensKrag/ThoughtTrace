@@ -47,23 +47,41 @@ Dir.chdir full_path do
 			'./entities/components/',
 			'./entities/',
 			
-			'./cameras/camera'
+			'./cameras/camera',
+			
+			
+			# './input_system'
+			
+			
+			'./input_system/human_action',
+			
+			'./input_system/action_stash',
+			'./input_system/action_selector',
+			
+			'./input_system/input_abstraction'
+			# './input_system/human_actions' # currently empty folder
 			
 		
 		
 		
 		].each do |path|
-			# if it's a path, require_all
-			# if it's a file, require
-			# ---------------------------
-			if File.directory? path
-				# puts "LOAD DIR: #{path}"
-				require_all path
-			# TODO: Figure out why File.file? doesn't work sans extensions like require
-			# elsif File.file? path
-			else
-				# puts "LOAD FILE: #{path}"
-				require path
+			begin
+				# if it's a path, require_all
+				# if it's a file, require
+				# ---------------------------
+				if File.directory? path
+					# puts "LOAD DIR: #{path}"
+					require_all path
+				# TODO: Figure out why File.file? doesn't work sans extensions like require
+				# elsif File.file? path
+				else
+					# puts "LOAD FILE: #{path}"
+					require path
+				end
+			rescue LoadError => e
+				puts "LOAD ERROR: Failed to load #{path}"
+				
+				raise e
 			end
 		end
 	
