@@ -8,6 +8,10 @@
 # Never work with Actions directly.
 # They should always be used in conjunction with a stash.
 # It provides a way for actions to automatically chain into additional actions.
+
+# The name ActionGlove isn't really that bad.
+# it holds actions, and manages flow control.
+# (not sure what gloves have to do with flow control though... "invisible hand"?)
 class ActionStash
 	def initialize
 		@active = nil
@@ -20,7 +24,7 @@ class ActionStash
 	# this action will displace any action which currently inhabits the space
 	# (consider returning the old action, so the action doesn't just disappear into the void)
 	# (would really only be one pointer to the action, though, rather than the action itself)
-	def push(action, point)
+	def pass_control(action, point)
 		# setup new one
 		action.setup self, point
 		

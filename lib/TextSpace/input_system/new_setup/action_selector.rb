@@ -70,7 +70,7 @@ class ActionSelector
 		
 		action = entity.send action_name
 		
-		@stash.push action, point
+		@stash.pass_control action, point
 	end
 	
 	def hold

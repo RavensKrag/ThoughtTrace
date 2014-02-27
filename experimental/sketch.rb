@@ -86,15 +86,15 @@ class Split < Action
 			@space.add shard
 			
 			# use return simply as a means of jumping out of this method
-			# this is a pretty nice pattern to use in conjunction with @stash.push
-			return @stash.push shard.move, point
+			# this is a pretty nice pattern to use in conjunction with @stash.pass_control
+			return @stash.pass_control shard.move, point
 		end
 		
 		
 		
 		# when the cursor moves outside a certain boundary, switch to move
 		
-		return @stash.push @entity.move, point
+		return @stash.pass_control @entity.move, point
 	end
 	
 	# Executed after removed from queue

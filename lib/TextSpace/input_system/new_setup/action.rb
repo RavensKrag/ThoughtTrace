@@ -31,7 +31,7 @@ class Action
 		
 		# under certain conditions
 		shard = Entity.new			# or some type of Entity
-		@stash.push shard.move		# or some other action
+		@stash.pass_control shard.move		# or some other action
 		signal_done_with_this_state
 		
 		
