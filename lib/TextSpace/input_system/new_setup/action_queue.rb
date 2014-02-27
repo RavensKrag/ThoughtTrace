@@ -8,46 +8,37 @@
 class ActionQueue
 	def initialize
 		@active = nil
-		@next = nil
 	end
 	
 	# put a new state on the stack
 	def queue(action, point)
-		"Can not queue more than one action." unless @action.nil?
-		# A queue that can only queue one thing isn't really much of queue... but w/e.
-		# The stack doesn't have this problem, and can add as many layers as it wants,
-		# but it has a bunch of garbage that lingers around
+		# --- put the new one in, and take the old one out
+		# new in
+		action.setup self, point
 		
+		# old out
+		@active.cleanup
+		@active = nil
 		
-		@next = action
-		@next.setup self, point
-		
-		
-		dequeue
+		# --- move the new one from the staging area to the actual zone
+		@active = action
 	end
 	
 	# update only the top element of the stack
 	def update(point)
-		@active = @next if @active.nil? # move up the next action if able
-		
 		@active.update point
 	end
 	
 	# remove top element of stack, and clean up that action state
 	# (used more as an interrupt or a cleanup phase than anything else)
 	# not sure if this method needs to be exposed or not.
+	
+	# can dequeue be called in such a way that remains an object in @next?
+		# you would have to skip the update cycle
+		# is there a way to queue and dequeue on the same tick with no update in between
+		# if queue always proceeds dequeue,
 	def dequeue
-		@active.cleaup
+		@active.cleanup
 		@active = nil
-	end
-	
-	
-	# purge the entire queue of all elements
-	def purge
-		@active.cleanup if @active
-		@active = nil
-		
-		@next.cleanup if @next
-		@next = nil
 	end
 end
