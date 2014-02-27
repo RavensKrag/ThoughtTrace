@@ -40,4 +40,14 @@ class ActionQueue
 		@active.cleaup
 		@active = nil
 	end
+	
+	
+	# purge the entire queue of all elements
+	def purge
+		@active.cleanup if @active
+		@active = nil
+		
+		@next.cleanup if @next
+		@next = nil
+	end
 end
