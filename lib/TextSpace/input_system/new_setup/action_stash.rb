@@ -1,6 +1,9 @@
 # Manages active actions
 # (maybe these should be HumanActions, rather than Actions?)
 
+# this is a rather weird system, because you just put things into it,
+# and it spits them out automatically.
+# As such #push does not work exactly how #push works with a stack
 class ActionStash
 	def initialize
 		@active = nil
