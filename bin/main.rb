@@ -58,8 +58,10 @@ Dir.chdir full_path do
 			'./input_system/action_stash',
 			'./input_system/action_selector',
 			
-			'./input_system/input_abstraction'
+			'./input_system/input_abstraction',
 			# './input_system/human_actions' # currently empty folder
+			
+			'./input_system/input_manager'
 			
 		
 		
@@ -130,6 +132,11 @@ class Window < Gosu::Window
 		end
 		
 		
+		Metrics::Timer.new "setup input system" do
+			@input = TextSpace::InputSystem::InputManager.new
+		end
+		
+		
 		
 		
 		
@@ -162,20 +169,18 @@ class Window < Gosu::Window
 	end
 	
 	def on_shutdown
-		# @input.shutdown
-		
-		
+		@input.shutdown
 	end
 	
 	
 	def button_down(id)
-		# @input.button_down id
+		@input.button_down id
 		
 		close if id == Gosu::KbEscape
 	end
 	
 	def button_up(id)
-		# @input.button_up id
+		@input.button_up id
 	end
 	
 	def needs_cursor?
