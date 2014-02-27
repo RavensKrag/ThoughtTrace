@@ -109,6 +109,16 @@ class Entity
 		@components[component_name]
 	end
 	
+	# Return list of action names
+	def action_names
+		list = Array.new
+		@actions.each do |name, action|
+			list << name
+		end
+		
+		return list
+	end
+	
 	
 	private
 	

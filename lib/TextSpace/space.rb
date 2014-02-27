@@ -47,6 +47,16 @@ module TextSpace
 			
 			add_shape(object[:physics].shape)
 			add_body(object[:physics].body)
+			
+			
+			
+			# satisfy dependencies on Space for any applicable Actions
+			object.action_names.each do |name|
+				action = object.send(name)
+				if action.respond_to? :space=
+					action.space = self
+				end
+			end
 		end
 		
 		def merge(enum)
@@ -59,6 +69,15 @@ module TextSpace
 		
 		def delete(object)
 			@objects.delete object
+			
+			# remove linkage between this space and any Actions
+			# (same loop from Space#add)
+			object.action_names.each do |name|
+				action = object.send(name)
+				if action.respond_to? :space=
+					action.space = nil
+				end
+			end
 		end
 		
 		

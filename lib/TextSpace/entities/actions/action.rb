@@ -59,7 +59,7 @@ class Action
 		
 		# under certain conditions
 		shard = Entity.new
-		# @space.add shard
+		@space.add shard
 		return @stash.pass_control shard.move
 	end
 	
