@@ -1,10 +1,15 @@
+require 'set'
+
 module TextSpace
 	module InputSystem
 
 
 class InputManager
-	def intialize
+	def initialize(space)
+		@selection = Set.new
 		
+		@mouse = Mouse.new
+		@actions = ActionSelector.new space, @selection, @mouse
 	end	
 	
 	

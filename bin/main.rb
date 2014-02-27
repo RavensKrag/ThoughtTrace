@@ -51,17 +51,15 @@ Dir.chdir full_path do
 			
 			
 			# './input_system'
-			
-			
-			'./input_system/human_action',
-			
-			'./input_system/action_stash',
-			'./input_system/action_selector',
-			
-			'./input_system/input_abstraction',
-			# './input_system/human_actions' # currently empty folder
-			
-			'./input_system/input_manager'
+				'./input_system/human_action',
+				
+				'./input_system/action_stash',
+				'./input_system/action_selector',
+				
+				'./input_system/input_abstraction',
+				# './input_system/human_actions' # currently empty folder
+				
+				'./input_system/input_manager'
 			
 		
 		
@@ -133,7 +131,7 @@ class Window < Gosu::Window
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = TextSpace::InputSystem::InputManager.new
+			@input = TextSpace::InputSystem::InputManager.new @space
 		end
 		
 		
