@@ -136,9 +136,15 @@ end
 
 # should mouse be contained it this class?
 # at what point should the position of the mouse clicks be abstracted into just points?
+
+
+# Storing the actual Actions in the Entities feels more like OOP,
+# but it means Actions can be triggered outside of this structure (potentially)
+# I like the freedom and potential for expansion, but it could possibly get ugly later on.
 class Foo
-	def initialize(space, mouse)
+	def initialize(space, selection, mouse)
 		@space = space
+		@selection = selection
 		@mouse = mouse
 		
 		
@@ -161,7 +167,7 @@ class Foo
 		
 		
 		
-		@calling_queue = ActionQueue.new
+		@stash = ActionStash.new
 	end
 	
 	def press
@@ -179,29 +185,23 @@ class Foo
 		
 		action = entity.send action_name
 		
-		@calling_queue.queue action, point
+		@stash.push action, point
 	end
 	
 	def hold
 		point = @mouse.position_in_world
 		
-		@calling_queue.update(point)
+		@stash.update(point)
 	end
 	
 	def release
-		@calling_queue.dequeue # need to COMPLETELY purge the stack, not just the top item
-		
-		
-		# the queue doesn't have that problem (I don't think)
-		# because it's not really a 'queue' so much as it's an active item, and a waiting area
-		# need to make ABSOLUTELY SURE though,
-		# because failure to run ActionQueue#deque could result in Actions being setup and never cleaned
+		@stash.clear
 	end
 	
 	
 	
 	
-	
+	private
 	
 	
 	def action_type(entity)

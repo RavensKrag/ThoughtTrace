@@ -1,7 +1,7 @@
 # Manages active actions
 # (maybe these should be HumanActions, rather than Actions?)
 
-class ActionQueue
+class ActionStash
 	def initialize
 		@active = nil
 	end

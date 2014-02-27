@@ -20,8 +20,8 @@ class HumanAction
 	
 	# should have the same interface as a standard Action
 	
-	def setup(stack, point)
-		@stack = stack
+	def setup(stash, point)
+		@stash = stash
 		
 		
 	end
@@ -48,8 +48,8 @@ class Spawn < HumanAction
 	
 	# should have the same interface as a standard Action
 	
-	def setup(stack, point)
-		@stack = stack
+	def setup(stash, point)
+		@stash = stash
 		
 		# ah, but this assumes that all Entity objects can be created without parameters
 		obj = @klass.new

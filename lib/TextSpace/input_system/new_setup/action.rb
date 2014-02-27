@@ -21,8 +21,8 @@ class Action
 	
 	
 	# Executed before adding to queue
-	def setup(calling_queue, point)
-		@calling_queue = calling_queue
+	def setup(stash, point)
+		@stash = stash
 	end
 	
 	def update(point)
@@ -31,7 +31,7 @@ class Action
 		
 		# under certain conditions
 		shard = Entity.new			# or some type of Entity
-		@calling_queue.queue shard.move		# or some other action
+		@stash.push shard.move		# or some other action
 		signal_done_with_this_state
 		
 		
