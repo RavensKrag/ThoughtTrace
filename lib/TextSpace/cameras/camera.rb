@@ -19,7 +19,7 @@ class Camera < Entity
 							shape = CP::Shape::Rect.new body, width, height, offset
 		add_component	TextSpace::Components::Physics.new self, body, shape
 		
-		add_action TextSpace::Actions::Move.new
+		add_action TextSpace::Actions::Move.new self
 		
 		
 		

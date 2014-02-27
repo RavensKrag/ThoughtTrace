@@ -31,7 +31,7 @@ class Text < Entity
 		# if you can specify the actions with a 'factory' instead of an instance, you can put real actions onto the action stack, instead of some weird wrapper thing
 			# may not need a wrapper
 			# still good idea though, because it means that the state can be easily wrapped up in that one instance. No garbage can carry over.
-		add_action TextSpace::Actions::Move.new
+		add_action TextSpace::Actions::Move.new self
 	end
 	
 	def update
