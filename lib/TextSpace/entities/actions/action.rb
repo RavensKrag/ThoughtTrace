@@ -2,15 +2,33 @@ module TextSpace
 	module Actions
 
 
+# Things that can be performed on existing Entities
+# 
+# stored within Entity objects, accessed similar to methods
+# mutates data from components
 class Action
 	include DependencyListing
 	dependency_types :components, :actions
+	# components :foo, :baz          # data blocks that are manipulated by this Action
+	# actions :bleh, :things, :buttz # only actions specified in this list can be triggered
 	
 	
 	attr_accessor :components, :actions
 	
-	def initialize
-		
+	
+	
+	# The Entity will be the one to actually set this variable.
+	# It will be done as the Entity is added into a space.
+	# (and cleared when Entity leaves a Space)
+	attr_accessor :space # Space the parent Entity is inside of. Used for creating new Entities.
+	
+	# trying to keep init and setup separated so that the binding between entity and action
+	# can be made explicit at the point where the action is declared.
+	# Otherwise, you make it seem like the binding is tight, by declaring the two thing together,
+	# but the linkage can actually be set to something completely different.
+	# That would be weird and dumb.
+	def initialize(entity)
+		@entity = entity
 	end
 	
 	def self.interface
@@ -27,20 +45,26 @@ class Action
 	
 	
 	
-	# points no longer needed to query for Entity,
-	# but still need them to track position,
-	# to figure out where the action occurred relative to the Entity,
-	# etc, etc
 	
-	def on_press(point)
-		
+	
+	
+	# Executed before adding to queue
+	def setup(stash, point)
+		@stash = stash
 	end
 	
-	def on_hold(point)
+	def update(point)
 		
+		
+		
+		# under certain conditions
+		shard = Entity.new
+		# @space.add shard
+		return @stash.pass_control shard.move
 	end
 	
-	def on_release(point)
+	# Executed after removed from queue
+	def cleanup
 		
 	end
 end
