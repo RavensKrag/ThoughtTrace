@@ -82,30 +82,24 @@ class Split < Action
 			
 			
 			# --- want to switch action, and switch target
-			@stash.push shard.move, point
+			# should probably add the shard to the space before pushing it's action
+			@space.add shard
 			
-			
-			
-			@shard = shard
-			@shard.move.start
-			@shard.move.mantain
+			# use return simply as a means of jumping out of this method
+			# this is a pretty nice pattern to use in conjunction with @stash.push
+			return @stash.push shard.move, point
 		end
 		
 		
 		
 		# when the cursor moves outside a certain boundary, switch to move
 		
-		@stash.push @entity.move, point
+		return @stash.push @entity.move, point
 	end
 	
 	# Executed after removed from queue
 	def cleanup
-		# recursive cleanup
-		@shard.move.cleanup # wait, shouldn't this be on the stack or something?
-		
-		# can I use the standard stack at all?
-		# do I have to make my own stack?
-		# is this like how you can't really use 'while' because the whole game is a big loop?
+		# each action cleans it's own state as it is ejected automatically from the stash
 	end
 end
 
