@@ -159,7 +159,7 @@ class Window < Gosu::Window
 	end
 	
 	def update
-		# @input.update
+		@input.update
 	end
 	
 	def draw

@@ -10,7 +10,11 @@ class InputManager
 		
 		@mouse = Mouse.new
 		@actions = ActionSelector.new space, @selection, @mouse
-	end	
+	end
+	
+	def update
+		@actions.hold
+	end
 	
 	
 	
@@ -20,11 +24,17 @@ class InputManager
 		
 		
 		# ----- Main event parsing -----
-		
+		case id
+			when Gosu::MsLeft
+				@actions.press
+		end
 	end
 	
 	def button_up(id)
-		
+		case id
+			when Gosu::MsLeft
+				@actions.release
+		end
 	end
 	
 	

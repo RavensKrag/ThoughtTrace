@@ -45,7 +45,7 @@ class ActionStash
 	
 	# update the tracked action
 	def update(point)
-		@active.update point
+		@active.update point if @active
 	end
 	
 	# Get rid of the currently tracked action. (Make sure to clean up)
