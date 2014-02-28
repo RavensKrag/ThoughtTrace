@@ -98,6 +98,8 @@ end
 
 
 class Window < Gosu::Window
+	attr_reader :camera
+	
 	def initialize
 		Metrics::Timer.new "setup window" do
 			# Necessary to allow access to text input buffers, etc
