@@ -103,27 +103,6 @@ class ActionSelector
 			# 
 			# the older algorithm is more concurrency-friendly,
 			# but Ruby is really bad at that anyway
-		case entity
-			when nil
-				# firing into empty space
-				
-				# CAN LAUNCH SPAWN ACTIONS
-			when fizzbar
-				# target selection shard
-				# entity with an active selected sub-sector
-			when fizzbar
-				# target selection group
-				# entity which is part of active selection group
-			when fizzbar
-				# target standard entity
-		end
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		if entity.nil?
@@ -142,13 +121,6 @@ class ActionSelector
 			# target standard entity
 			# [:move]
 		end
-	end
-	
-	
-	
-	# get an appropriate entity, and access the proper action from it
-	def query
-		
 	end
 end
 
