@@ -41,13 +41,12 @@ class ActionSelector
 		
 		
 		
-		@action_names = [:foo, :bar, :baz]
-		
 		# if you're going to follow the legacy stile
 		@action_names = {
+			:empty_space => nil,
+			:sub_entity => nil,
 			:selection => nil,
-			:point => nil,
-			:space => nil
+			:entity => nil
 		}
 		# only can have one action name per slot
 		# if you try to put an action where the name is already set, that is a collision
@@ -73,6 +72,9 @@ class ActionSelector
 		
 		type = action_type(entity)
 		action_name = @action_names[type]
+		
+		
+		raise "No action to perform" unless action_name
 		
 		
 		@stash.pass_control entity.send(action_name), point
@@ -109,17 +111,20 @@ class ActionSelector
 			# firing into empty space
 			
 			# CAN LAUNCH SPAWN ACTIONS
-			
-		# elsif entity.
+			return :empty_space
+		# elsif entity.is_a? TextSpace::SubText
 			# target selection shard
 			# entity with an active selected sub-sector
 			# [:split]
+			# return :sub_entity
 		elsif @selection.include? entity
 			# target selection group
 			# entity which is part of active selection group
+			return :selection
 		else
 			# target standard entity
 			# [:move]
+			return :entity
 		end
 	end
 end
