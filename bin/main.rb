@@ -133,7 +133,7 @@ class Window < Gosu::Window
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = TextSpace::InputSystem::InputManager.new @space
+			@input = TextSpace::InputSystem::InputManager.new @space, @camera
 		end
 		
 		

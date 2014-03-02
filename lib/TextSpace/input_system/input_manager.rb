@@ -5,7 +5,10 @@ module TextSpace
 
 
 class InputManager
-	def initialize(space)
+	def initialize(space, camera)
+		@camera = camera
+		
+		
 		@selection = Set.new
 		
 		@mouse = Mouse.new space
