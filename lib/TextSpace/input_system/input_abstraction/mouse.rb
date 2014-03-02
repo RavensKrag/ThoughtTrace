@@ -62,16 +62,26 @@ class Mouse
 	private
 	
 	class State
+		attr_reader :entity
+		
 		def initialize(entity)
 			@entity = entity
 		end
 		
 		def enable
-			
+			puts "on"
 		end
 		
 		def disable
-			
+			puts "off"
+		end
+		
+		def ==(other)
+			if other.is_a? self.class
+				self.entity == other.entity
+			else
+				super(other)
+			end
 		end
 	end
 	private_constant :State
