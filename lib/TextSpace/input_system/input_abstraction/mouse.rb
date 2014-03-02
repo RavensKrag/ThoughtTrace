@@ -22,25 +22,18 @@ class Mouse
 		
 		state = State.new @selected
 		
-		# setup structure
-		# 
-		@enabled = nil
 		
-		
-		# maintain structure
-		# if the state goes in, then set up
-		
-		if @enabled
-			if @enabled == state
-				# do nothing
-			else
-				@enabled.disable
-				
-				state.enable
-				
-				@enabled = state
-			end
+		if @enabled.nil?
+			state.enable
+			
+			@enabled = state
+		# ^^^	no existing state
+		# vvv	some state is active
+		elsif @enabled == state
+			# do nothing
 		else
+			@enabled.disable
+			
 			state.enable
 			
 			@enabled = state
