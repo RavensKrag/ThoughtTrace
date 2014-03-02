@@ -76,10 +76,12 @@ class Mouse
 		
 		def enable
 			puts "#{@entity} on"
+			@entity[:style][:color] = Gosu::Color.argb(0xff0000FF)
 		end
 		
 		def disable
 			puts "#{@entity} off"
+			@entity[:style][:color] = Gosu::Color.argb(0xffFFFFFF)
 		end
 		
 		def ==(other)
