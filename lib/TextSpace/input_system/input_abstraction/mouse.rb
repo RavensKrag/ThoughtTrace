@@ -22,16 +22,28 @@ class Mouse
 		
 		state = State.new @selected
 		
-		
-		# If the states are different, then put the new one in
-		# If there's currently a state active, make sure to deactivate that one first.
-		if @enabled != state
-			@enabled.disable if @enabled
+		if @selected
+			# check to see if the entity is the same
 			
 			
-			state.enable
+			# If the states are different, then put the new one in
+			# If there's currently a state active, make sure to deactivate that one first.
+			if @enabled != state
+				@enabled.disable if @enabled
+				
+				
+				state.enable
+				
+				@enabled = state
+			end
+		else
+			# entity is now null, which means state must have changed.
+			# reject current state
 			
-			@enabled = state
+			if @enabled
+				@enabled.disable
+				@enabled = nil
+			end
 		end
 	end
 	
