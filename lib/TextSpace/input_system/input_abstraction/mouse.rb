@@ -29,9 +29,7 @@ class Mouse
 			@enabled = state
 		# ^^^	no existing state
 		# vvv	some state is active
-		elsif @enabled == state
-			# do nothing
-		else
+		elsif @enabled != state
 			@enabled.disable
 			
 			state.enable
