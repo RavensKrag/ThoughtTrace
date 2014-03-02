@@ -22,28 +22,22 @@ class Mouse
 		
 		state = State.new @selected
 		
-		if @selected
-			# check to see if the entity is the same
+		
+		# check to see if the entity is the same
+		
+		
+		# If the states are different, then put the new one in
+		# If there's currently a state active, make sure to deactivate that one first.
+		# 
+		# but, don't run enable or disable for states that wrap nil
+		if @enabled != state
+			@enabled.disable if @enabled != nil
 			
 			
-			# If the states are different, then put the new one in
-			# If there's currently a state active, make sure to deactivate that one first.
-			if @enabled != state
-				@enabled.disable if @enabled
-				
-				
-				state.enable
-				
-				@enabled = state
-			end
-		else
-			# entity is now null, which means state must have changed.
-			# reject current state
 			
-			if @enabled
-				@enabled.disable
-				@enabled = nil
-			end
+			state.enable if state != nil
+			
+			@enabled = state
 		end
 	end
 	
@@ -81,18 +75,18 @@ class Mouse
 		end
 		
 		def enable
-			puts "on"
+			puts "#{@entity} on"
 		end
 		
 		def disable
-			puts "off"
+			puts "#{@entity} off"
 		end
 		
 		def ==(other)
 			if other.is_a? self.class
 				self.entity == other.entity
 			else
-				super(other)
+				self.entity == other
 			end
 		end
 	end
