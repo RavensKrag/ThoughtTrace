@@ -1,16 +1,16 @@
-module TextSpace
-	module Actions
-
-
 # Things that can be performed on existing Entities
 # 
 # stored within Entity objects, accessed similar to methods
 # mutates data from components
+# can trigger other Actions (can only pick from Actions specified on the list)
+module TextSpace
+	module InputSystem
+
 class Action
-	include DependencyListing
-	dependency_types :components, :actions
-	# components :foo, :baz          # data blocks that are manipulated by this Action
-	# actions :bleh, :things, :buttz # only actions specified in this list can be triggered
+	interface :foo_act
+	
+	components :foo, :baz			# these are the data blocks that are manipulated by this Action
+	actions :bleh, :things, :buttz	# must specify actions in this list if you want to trigger them
 	
 	
 	attr_accessor :components, :actions
@@ -31,22 +31,6 @@ class Action
 		@entity = entity
 	end
 	
-	def self.interface
-		@name
-	end
-	
-	# meta_def methods stick their instance variables on a Class
-	# the same way that standard methods stick their instance variables on an Object
-	private_meta_def 'interface_name' do |name|
-		@name = name
-	end
-	
-	
-	
-	
-	
-	
-	
 	
 	# Executed before adding to queue
 	def setup(stash, point)
@@ -55,6 +39,20 @@ class Action
 	
 	def update(point)
 		
+		
+		
+		# under certain conditions
+		shard = Entity.new			# or some type of Entity
+		
+		# need to add this shard to the space, or it will just disappear
+		# this design implies that all Entities live within the space
+		# which is kinda what I want, but it also means that the Physics module is "special"
+		# because essentially, all Entities have to have physics,
+		# but it's not just bolted on like in Unity.
+		# (not sure if that's better or worse)
+		@space.add shard
+		
+		return @stash.pass_control shard.move		# or some other action
 	end
 	
 	# Executed after removed from queue

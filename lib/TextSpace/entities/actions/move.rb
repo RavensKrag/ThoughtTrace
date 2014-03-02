@@ -7,20 +7,28 @@ class Move < Action
 	components :physics
 	
 	
-	def on_press(point)
+	# Executed before adding to queue
+	def setup(stash, point)
+		super(stash, point)
+		
 		# mark the initial point for reference
 		@origin = point
-		@start = @components[:physics].body.p
+		@start = @components[:physics].body.p.clone
 	end
 	
-	def on_hold(point)
+	def update(point)
+		super(point)
+		
 		# move relative to the initial point
-		displacement = @origin - point
+		displacement = point - @origin
 		
 		@components[:physics].body.p = @start + displacement
 	end
 	
-	def on_release(point)
+	# Executed after removed from queue
+	def cleanup
+		super()
+		
 		
 	end
 end

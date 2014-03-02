@@ -47,6 +47,16 @@ module TextSpace
 			
 			add_shape(object[:physics].shape)
 			add_body(object[:physics].body)
+			
+			
+			
+			# satisfy dependencies on Space for any applicable Actions
+			object.action_names.each do |name|
+				action = object.send(name)
+				if action.respond_to? :space=
+					action.space = self
+				end
+			end
 		end
 		
 		def merge(enum)
@@ -59,6 +69,15 @@ module TextSpace
 		
 		def delete(object)
 			@objects.delete object
+			
+			# remove linkage between this space and any Actions
+			# (same loop from Space#add)
+			object.action_names.each do |name|
+				action = object.send(name)
+				if action.respond_to? :space=
+					action.space = nil
+				end
+			end
 		end
 		
 		
@@ -162,7 +181,7 @@ module TextSpace
 			return nil if selection.empty?
 			
 			selection.sort! do |a, b|
-				a.physics.shape.area <=> b.physics.shape.area
+				a[:physics].shape.area <=> b[:physics].shape.area
 			end
 			
 			# Get the smallest area values, within a certain threshold
@@ -172,17 +191,17 @@ module TextSpace
 				# TODO: Tweak margin
 				size_margin = 1.8 # percentage
 				
-				first_area = selection.first.physics.shape.area
-				o.physics.shape.area.between? first_area, first_area*(size_margin)
+				first_area = selection.first[:physics].shape.area
+				o[:physics].shape.area.between? first_area, first_area*(size_margin)
 			end
 			
 			selection.sort! do |a, b|
 				# Assuming that the shapes all have their center on their local origin
-				distance_to_a = a.physics.body.pos.dist point
-				distance_to_b = b.physics.body.pos.dist point
+				distance_to_a = a[:physics].body.pos.dist point
+				distance_to_b = b[:physics].body.pos.dist point
 				
 				# Listed in order of precedence, but sort order needs to be reverse of that
-				[a.physics.shape.area, distance_to_a].reverse <=> [b.physics.shape.area, distance_to_b].reverse
+				[a[:physics].shape.area, distance_to_a].reverse <=> [b[:physics].shape.area, distance_to_b].reverse
 			end
 			
 			return selection.first
