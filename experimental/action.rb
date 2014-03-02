@@ -52,7 +52,7 @@ class Action
 		# (not sure if that's better or worse)
 		@space.add shard
 		
-		@stash.pass_control shard.move		# or some other action
+		return @stash.pass_control shard.move		# or some other action
 	end
 	
 	# Executed after removed from queue

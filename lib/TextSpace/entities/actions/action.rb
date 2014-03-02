@@ -55,12 +55,6 @@ class Action
 	
 	def update(point)
 		
-		
-		
-		# under certain conditions
-		shard = Entity.new
-		@space.add shard
-		return @stash.pass_control shard.move
 	end
 	
 	# Executed after removed from queue
