@@ -89,6 +89,10 @@ class Mouse
 				self.entity == other
 			end
 		end
+		
+		def nil?
+			self.entity.nil?
+		end
 	end
 	private_constant :State
 end
