@@ -8,12 +8,12 @@ class InputManager
 	def initialize(space)
 		@selection = Set.new
 		
-		@mouse = Mouse.new
-		@actions = ActionSelector.new space, @selection, @mouse
+		@mouse = Mouse.new space
+		@actions = ActionSelector.new space, @selection
 	end
 	
 	def update
-		@actions.hold
+		@actions.hold @mouse.position_in_world
 	end
 	
 	
@@ -26,7 +26,7 @@ class InputManager
 		# ----- Main event parsing -----
 		case id
 			when Gosu::MsLeft
-				@actions.press
+				@actions.press @mouse.position_in_world
 		end
 	end
 	

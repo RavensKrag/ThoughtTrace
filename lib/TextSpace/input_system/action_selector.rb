@@ -33,10 +33,9 @@ module TextSpace
 
 
 class ActionSelector
-	def initialize(space, selection, mouse)
+	def initialize(space, selection)
 		@space = space
 		@selection = selection
-		@mouse = mouse
 		
 		
 		@stash = ActionStash.new # manages flow control for Actions
@@ -52,9 +51,8 @@ class ActionSelector
 		]
 	end
 	
-	def press
+	def press(point)
 		# triggered on button press
-							point = @mouse.position_in_world
 							layers = CP::ALL_LAYERS
 							group = CP::NO_GROUP
 							set = nil
@@ -97,9 +95,7 @@ class ActionSelector
 		
 	end
 	
-	def hold
-		point = @mouse.position_in_world
-		
+	def hold(point)
 		@stash.update(point)
 	end
 	

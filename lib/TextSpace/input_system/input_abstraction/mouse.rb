@@ -3,8 +3,30 @@ module TextSpace
 
 
 class Mouse
-	def initialize
+	attr_reader :selected
+	
+	def initialize(space)
+		@space = space
+	end
+	
+	def update
+		@selected = entity_under_cursor
+		# used for mouseover events as well as mouse picking
 		
+		
+		# apply mouseover effects
+		# consider using a structure similar to the action selector
+		# (though maybe just a simple stack this time)
+		# (simple stack is more complicated, lol)
+	end
+	
+	
+	def entity_under_cursor
+							point = self.position_in_world
+							layers = CP::ALL_LAYERS
+							group = CP::NO_GROUP
+							set = nil
+		return @space.point_query_best point, layers, group, set
 	end
 	
 	def world_position
