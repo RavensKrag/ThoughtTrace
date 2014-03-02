@@ -30,6 +30,7 @@ class Mouse
 		# If there's currently a state active, make sure to deactivate that one first.
 		# 
 		# but, don't run enable or disable for states that wrap nil
+		# (note that you can't just use the "if cond" syntax shortcut to check for non-nil)
 		if @enabled != state
 			@enabled.disable if @enabled != nil
 			
