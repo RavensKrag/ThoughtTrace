@@ -159,6 +159,7 @@ class Window < Gosu::Window
 	end
 	
 	def update
+		@space.update
 		@input.update
 	end
 	
