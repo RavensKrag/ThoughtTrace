@@ -26,9 +26,8 @@ class Mouse
 		# If the states are different, then put the new one in
 		# If there's currently a state active, make sure to deactivate that one first.
 		if @enabled != state
-			if @enabled
-				@enabled.disable
-			end
+			@enabled.disable if @enabled
+			
 			
 			state.enable
 			
