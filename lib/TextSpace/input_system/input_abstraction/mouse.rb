@@ -67,6 +67,8 @@ class Mouse
 	
 	private
 	
+	# States tend to flicker when the mouse is moved rapidly.
+	# Seems to be an issue primarily in the vertical direction.
 	class State
 		attr_reader :entity
 		
