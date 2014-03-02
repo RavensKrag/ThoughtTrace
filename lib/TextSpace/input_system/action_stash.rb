@@ -50,8 +50,10 @@ class ActionStash
 	
 	# Get rid of the currently tracked action. (Make sure to clean up)
 	def clear
-		@active.cleanup
-		@active = nil
+		if @active
+			@active.cleanup
+			@active = nil
+		end
 	end
 end
 
