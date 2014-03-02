@@ -39,25 +39,17 @@ class ActionSelector
 		@mouse = mouse
 		
 		
-		
-		
-		# if you're going to follow the legacy stile
-		@action_names = {
-			:empty_space => nil,
-			:sub_entity => nil,
-			:selection => nil,
-			:entity => nil
-		}
-		# only can have one action name per slot
-		# if you try to put an action where the name is already set, that is a collision
-		# 
-		# should put actions into the correct categories automatically
-		# the user need only know what actions they want,
-		# the designer of the action must know where the action should go
-		
-		
-		
 		@stash = ActionStash.new # manages flow control for Actions
+		
+		
+		
+		# actions sorted in order of priority
+		# each instance should have different action names
+		@actions = [:move]
+		
+		@human_actions = [
+			TextSpace::InputSystem::Spawn.new(@space, TextSpace::Text)
+		]
 	end
 	
 	def press
@@ -70,14 +62,39 @@ class ActionSelector
 		
 		
 		
-		type = action_type(entity)
-		action_name = @action_names[type]
+		
+		# lands on empty space, or an entity
+		# if it lands on empty space
+			# fire some spawning actions
+		# if it lands on an entity, 
+			# fire one of the actions managed by this selector
+			# which can be processed by the selected entity
 		
 		
-		raise "No action to perform" unless action_name
+		if entity
+			# manipulate existing entity
+			
+			
+			# O(2n^2)  [create list #action_names = O(n); #include? O(n); #find O(n)]
+			action_name = @actions.find { |action| entity.action_names.include? action } 
+			
+			
+			raise "No action to perform" unless action_name
+			
+			
+			@stash.pass_control entity.send(action_name), point
+			
+		else
+			# spawn action
+			# maybe chain into another action which manipulates the new Entity?
+			
+			
+			# action = TextSpace::InputSystem::Spawn.new(@space, TextSpace::Text)
+			# @stash.pass_control action, point
+		end
 		
 		
-		@stash.pass_control entity.send(action_name), point
+		
 	end
 	
 	def hold
@@ -88,44 +105,6 @@ class ActionSelector
 	
 	def release
 		@stash.clear
-	end
-	
-	
-	
-	
-	private
-	
-	
-	def action_type(entity)
-		# DISAMGUATE WHICH ACTION TO LAUNCH
-		# (selection, point, space) are the legacy pick callback types
-			# legacy callbacks returned either a valid object, or nil
-			# getting a non-nil object was a signal that the pick was successful,
-			# and that the action should proceed
-			# 
-			# the older algorithm is more concurrency-friendly,
-			# but Ruby is really bad at that anyway
-		
-		
-		if entity.nil?
-			# firing into empty space
-			
-			# CAN LAUNCH SPAWN ACTIONS
-			return :empty_space
-		# elsif entity.is_a? TextSpace::SubText
-			# target selection shard
-			# entity with an active selected sub-sector
-			# [:split]
-			# return :sub_entity
-		elsif @selection.include? entity
-			# target selection group
-			# entity which is part of active selection group
-			return :selection
-		else
-			# target standard entity
-			# [:move]
-			return :entity
-		end
 	end
 end
 
