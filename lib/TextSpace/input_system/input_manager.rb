@@ -13,6 +13,7 @@ class InputManager
 	end
 	
 	def update
+		@mouse.update
 		@actions.hold @mouse.position_in_world
 	end
 	
