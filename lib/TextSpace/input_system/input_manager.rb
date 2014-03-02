@@ -9,13 +9,15 @@ class InputManager
 		@selection = Set.new
 		
 		@mouse = Mouse.new space
-		@actions = ActionSelector.new space, @selection
+		
+		@actions = {
+			:left => ActionSelector.new(space, @selection),
+			:middle => ActionSelector.new(space, @selection),
+			:right => ActionSelector.new(space, @selection)
+		}
 	end
 	
-	def update
-		@mouse.update
-		@actions.hold @mouse.position_in_world
-	end
+	
 	
 	
 	
@@ -25,16 +27,40 @@ class InputManager
 		
 		
 		# ----- Main event parsing -----
+		point = @mouse.position_in_world
+		
 		case id
 			when Gosu::MsLeft
-				@actions.press @mouse.position_in_world
+				@actions[:left].press point
+			when Gosu::MsMiddle
+				
+			when Gosu::MsRight
+				
 		end
 	end
+	
+	
+	
+	def update
+		@mouse.update
+		
+		
+		
+		point = @mouse.position_in_world
+		
+		@actions[:left].hold point
+	end
+	
+	
 	
 	def button_up(id)
 		case id
 			when Gosu::MsLeft
-				@actions.release
+				@actions[:left].release
+			when Gosu::MsMiddle
+				
+			when Gosu::MsRight
+				
 		end
 	end
 	
