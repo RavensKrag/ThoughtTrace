@@ -18,6 +18,33 @@ class Mouse
 		# consider using a structure similar to the action selector
 		# (though maybe just a simple stack this time)
 		# (simple stack is more complicated, lol)
+		
+		
+		state = State.new @selected
+		
+		# setup structure
+		# 
+		@enabled = nil
+		
+		
+		# maintain structure
+		# if the state goes in, then set up
+		
+		if @enabled
+			if @enabled == state
+				# do nothing
+			else
+				@enabled.disable
+				
+				state.enable
+				
+				@enabled = state
+			end
+		else
+			state.enable
+			
+			@enabled = state
+		end
 	end
 	
 	
@@ -42,6 +69,24 @@ class Mouse
 	
 	alias :position_on_screen :screen_position
 	alias :position_in_screen_coordinates :screen_position
+	
+	
+	private
+	
+	class State
+		def initialize(entity)
+			@entity = entity
+		end
+		
+		def enable
+			
+		end
+		
+		def disable
+			
+		end
+	end
+	private_constant :State
 end
 
 
