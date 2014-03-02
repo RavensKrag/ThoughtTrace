@@ -18,13 +18,14 @@ If Style is created without a parent, it's parent should default to the baseline
 
 
 
-Split space.rb into multiple files
-	have the queries be declared in a totally separate file
-	this would make it much easier to jump to the queries section,
+Make Camera only draw items from the space that it detects.
+	Not sure if this should be a modification to the core camera,
+	or if it should be some camera subclass.
 	
-	and you wouldn't have to worry about that sector of the code getting in the way
-	when you're just trying to look at something else
-
+	This is much better than the current structure of passing in things to render,
+	and only using Camera for transform.
+	
+	This will allow for things like camera culling, which is nice.
 
 
 Figure out how to change Entities when style properties are altered
