@@ -23,13 +23,19 @@ class Mouse
 		state = State.new @selected
 		
 		
+		# check to see if the entity is the same
+		
+		
 		# If the states are different, then put the new one in
 		# If there's currently a state active, make sure to deactivate that one first.
+		# 
+		# but, don't run enable or disable for states that wrap nil
 		if @enabled != state
-			@enabled.disable if @enabled
+			@enabled.disable if @enabled != nil
 			
 			
-			state.enable
+			
+			state.enable if state != nil
 			
 			@enabled = state
 		end
@@ -61,17 +67,35 @@ class Mouse
 	
 	private
 	
+	# States tend to flicker when the mouse is moved rapidly.
+	# Seems to be an issue primarily in the vertical direction.
 	class State
+		attr_reader :entity
+		
 		def initialize(entity)
 			@entity = entity
 		end
 		
 		def enable
-			
+			puts "#{@entity} on"
+			@entity[:style][:color] = Gosu::Color.argb(0xff0000FF)
 		end
 		
 		def disable
-			
+			puts "#{@entity} off"
+			@entity[:style][:color] = Gosu::Color.argb(0xffFFFFFF)
+		end
+		
+		def ==(other)
+			if other.is_a? self.class
+				self.entity == other.entity
+			else
+				self.entity == other
+			end
+		end
+		
+		def nil?
+			self.entity.nil?
 		end
 	end
 	private_constant :State
