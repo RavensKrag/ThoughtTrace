@@ -11,7 +11,7 @@ class Rectangle < Entity
 		style = TextSpace::Components::Style.new
 			style[:width] = width
 			style[:height] = height
-			style[:color] = Gosu::Color.argb(0xffFFFFFF)
+			style[:color] = Gosu::Color.argb(0xaa2A3082)
 		
 		add_component style
 		
@@ -34,7 +34,7 @@ class Rectangle < Entity
 	def draw(z_index=0)
 		x,y = @components[:physics].body.p.to_a
 		
-		@components[:physics].draw Gosu::Color.new(0xaa2A3082), z_index
+		@components[:physics].draw @components[:style][:color], z_index
 	end
 end
 
