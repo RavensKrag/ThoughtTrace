@@ -141,7 +141,6 @@ class ResizeRectangle < Action
 				
 				
 				
-				
 				# need to adjust the position of the body
 				# so it appears only the edited edge is moving
 				# (same code from uni-directional code, but apply both directions always)
@@ -154,15 +153,11 @@ class ResizeRectangle < Action
 				# whether the distance is positive or negative depends on the displacement
 				# displacement towards the center of the shape is negative,
 				# displacement towards the outside of the shape is positive
-				# figure out direction by comparing displacement to a list of unit vectors
-				# (trying to calculate midpoints of sides is wasteful)
-				# (and because of floating point imprecision, it's totally wrong)
+				# figure out direction by comparing displacement to the @direction vector
 				
 				
 				# flip sign to negative if necessary
 				magnitude *= -1 if local_displacement_direction.dot(@direction) < 0
-				
-				
 				
 				# stretch horizontally or vertically
 				if @region == :right or @region == :left
@@ -170,7 +165,6 @@ class ResizeRectangle < Action
 				elsif @region == :top or @region == :bottom
 					@components[:physics].shape.height += magnitude
 				end
-				
 				
 				
 				# shape always expands in the positive direction of the adjusted axis
