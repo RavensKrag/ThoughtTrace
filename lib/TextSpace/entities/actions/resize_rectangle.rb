@@ -9,6 +9,10 @@ class ResizeRectangle < Action
 	
 	MARGIN = 50
 	
+	# Center is omitted from this list. See the setup code to understand why.
+	# list items in CCW order, starting from :right
+	REGIONS = [:right, :top_right, :top, :top_left, :left, :bottom_left, :bottom, :bottom_right]
+	
 	def setup(stash, point)
 		super(stash, point)
 		
@@ -72,10 +76,7 @@ class ResizeRectangle < Action
 						
 						# omit the first member of the list, as center has already been detected
 						
-						# list items in CCW order, starting from :right
-						
-						list = [:right, :top_right, :top, :top_left, :left, :bottom_left, :bottom, :bottom_right]
-						list[(@direction.to_angle / (Math::PI / 4)).to_i]
+						REGIONS[(@direction.to_angle / (Math::PI / 4)).to_i]
 					end
 		
 		
