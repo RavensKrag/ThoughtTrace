@@ -38,28 +38,27 @@ class ResizeRectangle < Action
 		
 		# Figure out what sector out of nine the point is in
 		# (top, bottom, right, left, top_right, top_left, bottom_right, bottom_left, center)
-		@direction = CP::Vec2.new(0,0)
+		x =	if local_point.x.between? top_right.x - MARGIN, top_right.x
+				# :right
+				1
+			elsif local_point.x.between? bottom_left.x, bottom_left.x + MARGIN
+				# :left
+				-1
+			else
+				0
+			end
 		
-		@direction.x =	if local_point.x.between? top_right.x - MARGIN, top_right.x
-							# :right
-							1
-						elsif local_point.x.between? bottom_left.x, bottom_left.x + MARGIN
-							# :left
-							-1
-						else
-							0
-						end
+		y =	if local_point.y.between? top_right.y - MARGIN, top_right.y
+				# :top
+				1
+			elsif local_point.y.between? bottom_left.y, bottom_left.y + MARGIN
+				# :bottom
+				-1
+			else
+				0
+			end
 		
-		
-		@direction.y =	if local_point.y.between? top_right.y - MARGIN, top_right.y
-							# :top
-							1
-						elsif local_point.y.between? bottom_left.y, bottom_left.y + MARGIN
-							# :bottom
-							-1
-						else
-							0
-						end
+		@direction = CP::Vec2.new(x,y)
 		
 		@direction.normalize!
 		
