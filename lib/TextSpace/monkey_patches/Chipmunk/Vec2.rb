@@ -13,6 +13,10 @@ module CP
 				
 				return theta
 			end
+			
+			def midpoint(v1, v2)
+				return Vec2.new((v1.x + v2.x)/2, (v1.y + v2.y)/2)
+			end
 		end
 		
 		def zero?
