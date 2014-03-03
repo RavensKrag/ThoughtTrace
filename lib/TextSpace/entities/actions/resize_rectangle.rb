@@ -132,18 +132,16 @@ class ResizeRectangle < Action
 				direction = local_point_to_center.normalize
 				
 				
-				
-				
 				# flip sign to negative if necessary
 				# (same logic from uni-directional, different values)
-				magnitude *= -1 if local_displacement.dot(direction) < 0
+				magnitude *= -1 if local_displacement.normalize.dot(direction) <= 0
 				
 				
 				
 				
-				
-				width += magnitude
-				height += magnitude
+				# multiply by two, because resizing is happening in two directions at once
+				width += magnitude * 2
+				height += magnitude * 2
 				
 				@components[:physics].shape.resize!(width, height)
 				
@@ -156,8 +154,8 @@ class ResizeRectangle < Action
 				# (same code from uni-directional code, but apply both directions always)
 				# (also, half the distance, because scaling relative to center)
 				# (ok, I suppose it's totally different)
-				@components[:physics].body.p.x -= magnitude / 2
-				@components[:physics].body.p.y -= magnitude / 2
+				@components[:physics].body.p.x -= magnitude
+				@components[:physics].body.p.y -= magnitude
 			else
 				# ===== Scale in one direction only =====
 				
