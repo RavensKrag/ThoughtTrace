@@ -31,12 +31,16 @@ class ResizeRectangle < Action
 		# TODO: detect corners as well
 		region =	if		local_point.x.between? top_right.x - margin, top_right.x
 						:right
+					
 					elsif	local_point.x.between? bottom_left.x, bottom_left.x + margin
 						:left
+					
 					elsif	local_point.y.between? top_right.y - margin, top_right.y
 						:top
+					
 					elsif	local_point.y.between? bottom_left.y, bottom_left.y + margin
 						:bottom
+					
 					else
 						# must be in the shape somewhere
 						:center
@@ -61,77 +65,64 @@ class ResizeRectangle < Action
 		
 		displacement = point - @origin
 		
-			angle = displacement.to_angle
-			magnitude = displacement.length
-			
-			
-			center = @components[:physics].shape.center
-			point_in_local = @components[:physics].body.world2local point
-			
-			# rescale in the direction specified by @region
-			# whether the distance is positive or negative depends on the displacement
-			# displacement towards the center of the shape is negative,
-			# displacement towards the outside of the shape is positive
-			# figure out direction by comparing displacement to (center of shape to point)
-			
-			
-			
-			
-			# this algorithm is relative to the center though,
-			# so once you pass the center point, it inverts
-			# NOTE that the center currently isn't being updated
-			
-			
-			# this doesn't generate tangential vectors
-			# or rather,
-			# not vectors that are perpendicular to the sides
-			# meaning that the angle you must pull
-			# is based on the angle with the center point from the @origin
-			
-			# probably want to find midpoint of the verts to the get the middle of one side,
-			# then take center to that point
-			
-			
-			center_to_point_in_local = (point_in_local - center)
-			
-			
-			local_origin = @components[:physics].body.world2local @origin
-			local_point = @components[:physics].body.world2local point
-			
-			local_displacement = local_point - local_origin
-			
-			if local_displacement.dot(center_to_point_in_local) < 0 # check if negative
-				magnitude *= -1
-			end
-			
-			
-			
-			if @region == :right or @region == :left
-				@components[:physics].shape.width += magnitude
-			elsif @region == :top or @region == :bottom
-				@components[:physics].shape.height += magnitude
+		
+			if @region == :center
+				# Uniform Scale
 			else
+				# Scale in one direction only
 				
+				angle = displacement.to_angle
+				magnitude = displacement.length
+				
+				
+				# rescale in the direction specified by @region
+				# whether the distance is positive or negative depends on the displacement
+				# displacement towards the center of the shape is negative,
+				# displacement towards the outside of the shape is positive
+				# figure out direction by comparing displacement to a list of unit vectors
+				# (trying to calculate midpoints of sides is wasteful)
+				# (and because of floating point imprecision, it's totally wrong)
+				
+				
+				
+				
+				local_origin = @components[:physics].body.world2local @origin
+				local_point = @components[:physics].body.world2local point
+				
+				local_displacement = local_point - local_origin
+				
+				
+				
+				
+				# list of unit vectors that correspond to directions to stretch the rectangle
+				directions = {
+					:right => CP::Vec2.new(1,0),
+					:left => CP::Vec2.new(-1,0),
+					:top => CP::Vec2.new(0,1),
+					:bottom => CP::Vec2.new(0,-1)
+				}
+				
+				dir = directions[@region]
+				
+				
+				
+				if local_displacement.normalize.dot(dir) < 0 # check if negative
+					magnitude *= -1
+				end
+				
+				
+				
+				if @region == :right or @region == :left
+					@components[:physics].shape.width += magnitude
+				elsif @region == :top or @region == :bottom
+					@components[:physics].shape.height += magnitude
+				else
+					
+				end
 			end
 			
-			
-			
-			# @components[:physics].resize angle, magnitude
-			# need more information than that
-			# for things like rectangles,
-			# it's important where the original click occurred,
-			# so that you can tell one edge drag from another.
 			
 		@origin = point
-		
-		
-		
-		
-		
-		
-		# scale in the direction of the given region (left, top right, etc)
-		# by the magnitude of displacement
-		# if the region is :center, perform uniform scale
 	end
 	
 	def cleanup
