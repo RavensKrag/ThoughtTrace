@@ -21,21 +21,21 @@ class ResizeRectangle < Action
 		# find distance to edges using local x,y coordinate system
 			# don't need to actually use distance formula,
 			# and can get distance even if there's rotation in the shape.
-		margin = 20
+		margin = 50
 		top_right = @components[:physics].shape.top_right_vert
 		bottom_left = @components[:physics].shape.bottom_left_vert
 		
 		
-		vec = @components[:physics].body.world2local point
+		local_point = @components[:physics].body.world2local point
 		
 		# TODO: detect corners as well
-		region =	if		vec.x.between? top_right.x - margin, top_right.x
+		region =	if		local_point.x.between? top_right.x - margin, top_right.x
 						:right
-					elsif	vec.x.between? bottom_left.x, bottom_left.x + margin
+					elsif	local_point.x.between? bottom_left.x, bottom_left.x + margin
 						:left
-					elsif	vec.y.between? top_right.y - margin, top_right.y
+					elsif	local_point.y.between? top_right.y - margin, top_right.y
 						:top
-					elsif	vec.y.between? bottom_left.y, bottom_left.y + margin
+					elsif	local_point.y.between? bottom_left.y, bottom_left.y + margin
 						:bottom
 					else
 						# must be in the shape somewhere
@@ -59,7 +59,7 @@ class ResizeRectangle < Action
 		# because it will be called every tick
 		# as long as the button is held
 		
-		displacement = @origin - point
+		displacement = point - @origin
 		
 			angle = displacement.to_angle
 			magnitude = displacement.length
@@ -74,26 +74,42 @@ class ResizeRectangle < Action
 			# displacement towards the outside of the shape is positive
 			# figure out direction by comparing displacement to (center of shape to point)
 			
+			
+			
+			
+			# this algorithm is relative to the center though,
+			# so once you pass the center point, it inverts
+			# NOTE that the center currently isn't being updated
+			
+			
+			# this doesn't generate tangential vectors
+			# or rather,
+			# not vectors that are perpendicular to the sides
+			# meaning that the angle you must pull
+			# is based on the angle with the center point from the @origin
+			
+			# probably want to find midpoint of the verts to the get the middle of one side,
+			# then take center to that point
+			
+			
+			center_to_point_in_local = (point_in_local - center)
+			
+			
+			local_origin = @components[:physics].body.world2local @origin
+			local_point = @components[:physics].body.world2local point
+			
+			local_displacement = local_point - local_origin
+			
+			if local_displacement.dot(center_to_point_in_local) < 0 # check if negative
+				magnitude *= -1
+			end
+			
+			
+			
 			if @region == :right or @region == :left
-				if @region == :right
-					if point_in_local.x < center.x
-						# invert sign
-						magnitude *= -1
-					end
-				elsif @region == :left
-					if point_in_local.x > center.x
-						# invert sign
-						magnitude *= -1
-					end
-				end
-				
-				
-				
 				@components[:physics].shape.width += magnitude
-				
-				
 			elsif @region == :top or @region == :bottom
-				
+				@components[:physics].shape.height += magnitude
 			else
 				
 			end
