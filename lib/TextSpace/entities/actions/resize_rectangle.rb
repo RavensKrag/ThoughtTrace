@@ -9,10 +9,6 @@ class ResizeRectangle < Action
 	
 	MARGIN = 50
 	
-	# Center is omitted from this list. See the setup code to understand why.
-	# list items in CCW order, starting from :right
-	REGIONS = [:right, :top_right, :top, :top_left, :left, :bottom_left, :bottom, :bottom_right]
-	
 	def setup(stash, point)
 		super(stash, point)
 		
@@ -60,28 +56,7 @@ class ResizeRectangle < Action
 		
 		@direction = CP::Vec2.new(x,y)
 		
-		@direction.normalize!
-		
-		
-		
-		
-		
-		
-		@region =	if @direction == CP::Vec2.new(0,0)
-						:center
-					else
-						# list = [[0,0],[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]]
-						# list.each{|x,y| puts (CP::Vec2.new(x,y).to_angle / (Math::PI/4)).to_i } 
-						
-						# omit the first member of the list, as center has already been detected
-						
-						REGIONS[(@direction.to_angle / (Math::PI / 4)).to_i]
-					end
-		
-		
-		
-		# puts @direction
-		# puts @region
+		@direction.normalize! unless @direction.zero?
 	end
 	
 	def update(point)
@@ -107,7 +82,7 @@ class ResizeRectangle < Action
 			magnitude = local_displacement.length
 			
 			
-			if @region == :center
+			if @direction.zero?
 				# ===== Uniform Scale =====
 				
 				# Sign-age of scale is relative to center of rectangle
@@ -160,9 +135,10 @@ class ResizeRectangle < Action
 				magnitude *= -1 if local_displacement_direction.dot(@direction) < 0
 				
 				# stretch horizontally or vertically
-				if @region == :right or @region == :left
+				if @direction.x != 0
 					@components[:physics].shape.width += magnitude
-				elsif @region == :top or @region == :bottom
+				end
+				if @direction.y != 0
 					@components[:physics].shape.height += magnitude
 				end
 				
@@ -172,8 +148,8 @@ class ResizeRectangle < Action
 				
 				# need to adjust the position of the body
 				# so it appears only the edited edge is moving
-				@components[:physics].body.p.x -= magnitude if @region == :left
-				@components[:physics].body.p.y -= magnitude if @region == :bottom
+				@components[:physics].body.p.x -= magnitude if @direction.x < 0
+				@components[:physics].body.p.y -= magnitude if @direction.y < 0
 			end
 			
 			
