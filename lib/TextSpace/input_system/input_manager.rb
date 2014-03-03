@@ -13,6 +13,10 @@ class InputManager
 		
 		@mouse = Mouse.new space
 		
+		# Don't want to use ActionSelector for camera, because it queries the space
+		# queries are not necessary when you know exactly what methods to fire
+		# and what objects to fire them on.
+		# need another collection that is more useful for that scenario
 		@actions = {
 			:left => ActionSelector.new(space, @selection),
 			:middle => ActionSelector.new(space, @selection),
