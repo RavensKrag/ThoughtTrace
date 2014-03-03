@@ -100,14 +100,12 @@ class ResizeRectangle < Action
 				
 				local_displacement = local_point - local_origin
 				
-				
-				
 				# flip sign to negative if necessary
 				magnitude *= -1 if local_displacement.dot(@direction) < 0
 				
 				
 				
-				
+				# stretch horizontally or vertically
 				if @region == :right or @region == :left
 					@components[:physics].shape.width += magnitude
 				elsif @region == :top or @region == :bottom
