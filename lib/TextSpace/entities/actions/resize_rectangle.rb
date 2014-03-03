@@ -80,8 +80,8 @@ class ResizeRectangle < Action
 		
 		
 		
-		puts @direction
-		puts @region
+		# puts @direction
+		# puts @region
 	end
 	
 	def update(point)
@@ -101,13 +101,65 @@ class ResizeRectangle < Action
 		displacement = point - @origin
 		
 		
+			magnitude = displacement.length
+			
 			if @region == :center
-				# Uniform Scale
+				# ===== Uniform Scale =====
+				
+				# Sign-age of scale is relative to center of rectangle
+				# towards center is negative (shrinking)
+				# away from center is positive (growing)
+				
+				width = @components[:physics].shape.width
+				height = @components[:physics].shape.height
+				
+				
+				# copied from uni-directional scale
+				local_origin = @components[:physics].body.world2local @origin
+				local_point = @components[:physics].body.world2local point
+				
+				local_displacement = local_point - local_origin
+				
+				
+				
+				
+				
+				# find vector from point to center in local space
+				center = @components[:physics].shape.center
+				local_point_to_center = local_point - center
+				
+				# only really need the direction
+				direction = local_point_to_center.normalize
+				
+				
+				
+				
+				# flip sign to negative if necessary
+				# (same logic from uni-directional, different values)
+				magnitude *= -1 if local_displacement.dot(direction) < 0
+				
+				
+				
+				
+				
+				width += magnitude
+				height += magnitude
+				
+				@components[:physics].shape.resize!(width, height)
+				
+				
+				
+				
+				
+				# need to adjust the position of the body
+				# so it appears only the edited edge is moving
+				# (same code from uni-directional code, but apply both directions always)
+				# (also, half the distance, because scaling relative to center)
+				# (ok, I suppose it's totally different)
+				@components[:physics].body.p.x -= magnitude / 2
+				@components[:physics].body.p.y -= magnitude / 2
 			else
-				# Scale in one direction only
-				
-				magnitude = displacement.length
-				
+				# ===== Scale in one direction only =====
 				
 				# rescale in the direction specified by @region
 				# whether the distance is positive or negative depends on the displacement
