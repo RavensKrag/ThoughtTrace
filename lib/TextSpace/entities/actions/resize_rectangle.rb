@@ -47,6 +47,18 @@ class ResizeRectangle < Action
 					end
 		
 		@region = region
+		
+		
+		
+		# list of unit vectors that correspond to directions to stretch the rectangle
+		directions = {
+			:right => CP::Vec2.new(1,0),
+			:left => CP::Vec2.new(-1,0),
+			:top => CP::Vec2.new(0,1),
+			:bottom => CP::Vec2.new(0,-1)
+		}
+		
+		@direction = directions[@region]
 	end
 	
 	def update(point)
@@ -90,20 +102,8 @@ class ResizeRectangle < Action
 				
 				
 				
-				
-				# list of unit vectors that correspond to directions to stretch the rectangle
-				directions = {
-					:right => CP::Vec2.new(1,0),
-					:left => CP::Vec2.new(-1,0),
-					:top => CP::Vec2.new(0,1),
-					:bottom => CP::Vec2.new(0,-1)
-				}
-				
-				dir = directions[@region]
-				
-				
 				# flip sign to negative if necessary
-				magnitude *= -1 if local_displacement.dot(dir) < 0
+				magnitude *= -1 if local_displacement.dot(@direction) < 0
 				
 				
 				
