@@ -29,37 +29,59 @@ class ResizeRectangle < Action
 		
 		local_point = @components[:physics].body.world2local point
 		
-		# TODO: detect corners as well
-		region =	if		local_point.x.between? top_right.x - MARGIN, top_right.x
-						:right
-					
-					elsif	local_point.x.between? bottom_left.x, bottom_left.x + MARGIN
-						:left
-					
-					elsif	local_point.y.between? top_right.y - MARGIN, top_right.y
-						:top
-					
-					elsif	local_point.y.between? bottom_left.y, bottom_left.y + MARGIN
-						:bottom
-					
-					else
-						# must be in the shape somewhere
+		
+		
+		
+		# Figure out what sector out of nine the point is in
+		# (top, bottom, right, left, top_right, top_left, bottom_right, bottom_left, center)
+		@direction = CP::Vec2.new(0,0)
+		
+		@direction.x =	if local_point.x.between? top_right.x - MARGIN, top_right.x
+							# :right
+							1
+						elsif local_point.x.between? bottom_left.x, bottom_left.x + MARGIN
+							# :left
+							-1
+						else
+							0
+						end
+		
+		
+		@direction.y =	if local_point.y.between? top_right.y - MARGIN, top_right.y
+							# :top
+							1
+						elsif local_point.y.between? bottom_left.y, bottom_left.y + MARGIN
+							# :bottom
+							-1
+						else
+							0
+						end
+		
+		@direction.normalize!
+		
+		
+		
+		
+		
+		
+		@region =	if @direction == CP::Vec2.new(0,0)
 						:center
+					else
+						# list = [[0,0],[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]]
+						# list.each{|x,y| puts (CP::Vec2.new(x,y).to_angle / (Math::PI/4)).to_i } 
+						
+						# omit the first member of the list, as center has already been detected
+						
+						# list items in CCW order, starting from :right
+						
+						list = [:right, :top_right, :top, :top_left, :left, :bottom_left, :bottom, :bottom_right]
+						list[(@direction.to_angle / (Math::PI / 4)).to_i]
 					end
 		
-		@region = region
 		
 		
-		
-		# list of unit vectors that correspond to directions to stretch the rectangle
-		directions = {
-			:right => CP::Vec2.new(1,0),
-			:left => CP::Vec2.new(-1,0),
-			:top => CP::Vec2.new(0,1),
-			:bottom => CP::Vec2.new(0,-1)
-		}
-		
-		@direction = directions[@region]
+		puts @direction
+		puts @region
 	end
 	
 	def update(point)
