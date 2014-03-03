@@ -71,7 +71,6 @@ class ResizeRectangle < Action
 			else
 				# Scale in one direction only
 				
-				angle = displacement.to_angle
 				magnitude = displacement.length
 				
 				
@@ -82,8 +81,6 @@ class ResizeRectangle < Action
 				# figure out direction by comparing displacement to a list of unit vectors
 				# (trying to calculate midpoints of sides is wasteful)
 				# (and because of floating point imprecision, it's totally wrong)
-				
-				
 				
 				
 				local_origin = @components[:physics].body.world2local @origin
@@ -105,9 +102,9 @@ class ResizeRectangle < Action
 				dir = directions[@region]
 				
 				
-				
-				if local_displacement.normalize.dot(dir) < 0 # check if negative
-					magnitude *= -1
+				# flip sign to negative if necessary
+				magnitude *= -1 if local_displacement.dot(dir) < 0
+					
 				end
 				
 				
@@ -116,8 +113,6 @@ class ResizeRectangle < Action
 					@components[:physics].shape.width += magnitude
 				elsif @region == :top or @region == :bottom
 					@components[:physics].shape.height += magnitude
-				else
-					
 				end
 			end
 			
