@@ -98,10 +98,14 @@ class ResizeRectangle < Action
 		# because it will be called every tick
 		# as long as the button is held
 		
-		displacement = point - @origin
-		
-		
-			magnitude = displacement.length
+		local_origin = @components[:physics].body.world2local @origin
+		local_point = @components[:physics].body.world2local point
+		local_displacement = local_point - local_origin
+			
+			
+			local_displacement_direction = local_displacement.normalize
+			magnitude = local_displacement.length
+			
 			
 			if @region == :center
 				# ===== Uniform Scale =====
@@ -109,19 +113,6 @@ class ResizeRectangle < Action
 				# Sign-age of scale is relative to center of rectangle
 				# towards center is negative (shrinking)
 				# away from center is positive (growing)
-				
-				width = @components[:physics].shape.width
-				height = @components[:physics].shape.height
-				
-				
-				# copied from uni-directional scale
-				local_origin = @components[:physics].body.world2local @origin
-				local_point = @components[:physics].body.world2local point
-				
-				local_displacement = local_point - local_origin
-				
-				
-				
 				
 				
 				# find vector from point to center in local space
@@ -134,10 +125,13 @@ class ResizeRectangle < Action
 				
 				# flip sign to negative if necessary
 				# (same logic from uni-directional, different values)
-				magnitude *= -1 if local_displacement.normalize.dot(direction) <= 0
+				magnitude *= -1 if local_displacement_direction.dot(direction) <= 0
 				
 				
 				
+				
+				width = @components[:physics].shape.width
+				height = @components[:physics].shape.height
 				
 				# multiply by two, because resizing is happening in two directions at once
 				width += magnitude * 2
@@ -148,12 +142,9 @@ class ResizeRectangle < Action
 				
 				
 				
-				
 				# need to adjust the position of the body
 				# so it appears only the edited edge is moving
 				# (same code from uni-directional code, but apply both directions always)
-				# (also, half the distance, because scaling relative to center)
-				# (ok, I suppose it's totally different)
 				@components[:physics].body.p.x -= magnitude
 				@components[:physics].body.p.y -= magnitude
 			else
@@ -168,13 +159,8 @@ class ResizeRectangle < Action
 				# (and because of floating point imprecision, it's totally wrong)
 				
 				
-				local_origin = @components[:physics].body.world2local @origin
-				local_point = @components[:physics].body.world2local point
-				
-				local_displacement = local_point - local_origin
-				
 				# flip sign to negative if necessary
-				magnitude *= -1 if local_displacement.dot(@direction) < 0
+				magnitude *= -1 if local_displacement_direction.dot(@direction) < 0
 				
 				
 				
