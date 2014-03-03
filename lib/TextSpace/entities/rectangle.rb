@@ -34,7 +34,7 @@ class Rectangle < Entity
 	def draw(z_index=0)
 		x,y = @components[:physics].body.p.to_a
 		
-		@components[:physics].draw Gosu::Color.new(0xaaFF0000), z_index
+		@components[:physics].draw Gosu::Color.new(0xaa2A3082), z_index
 	end
 end
 
