@@ -104,8 +104,7 @@ class ResizeRectangle < Action
 				
 				# flip sign to negative if necessary
 				magnitude *= -1 if local_displacement.dot(dir) < 0
-					
-				end
+				
 				
 				
 				
@@ -114,6 +113,16 @@ class ResizeRectangle < Action
 				elsif @region == :top or @region == :bottom
 					@components[:physics].shape.height += magnitude
 				end
+				
+				
+				
+				# shape always expands in the positive direction of the adjusted axis
+				# thus, if you stretch left or down, you need to shift the center
+				
+				# need to adjust the position of the body
+				# so it appears only the edited edge is moving
+				@components[:physics].body.p.x -= magnitude if @region == :left
+				@components[:physics].body.p.y -= magnitude if @region == :bottom
 			end
 			
 			
