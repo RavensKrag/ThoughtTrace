@@ -7,7 +7,9 @@ class ResizeText < Action
 	components :physics
 	
 	
-	def on_press(point)
+	def setup(stash, point)
+		super(stash, point)
+		
 		# mark the initial point for reference
 		@origin = point
 		
@@ -25,7 +27,9 @@ class ResizeText < Action
 		end
 	end
 	
-	def on_hold(point)
+	def update(point)
+		super(point)
+		
 		# apply one tick of resize change
 		# each time this method is called, one d_size / d_t should be applied
 		
@@ -51,7 +55,9 @@ class ResizeText < Action
 		@origin = point
 	end
 	
-	def on_release(point)
+	def cleanup
+		super()
+		
 		
 	end
 end
