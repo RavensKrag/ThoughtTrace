@@ -22,6 +22,10 @@ class InputManager
 			:middle => ActionSelector.new(space, @selection),
 			:right => ActionSelector.new(space, @selection)
 		}
+		
+		
+		@actions[:left].actions << :move
+		@actions[:right].actions << :resize
 	end
 	
 	
@@ -42,7 +46,7 @@ class InputManager
 			when Gosu::MsMiddle
 				
 			when Gosu::MsRight
-				
+				@actions[:right].press point
 		end
 	end
 	
@@ -56,6 +60,7 @@ class InputManager
 		point = @mouse.position_in_world
 		
 		@actions[:left].hold point
+		@actions[:right].hold point
 	end
 	
 	
@@ -67,7 +72,7 @@ class InputManager
 			when Gosu::MsMiddle
 				
 			when Gosu::MsRight
-				
+				@actions[:right].release
 		end
 	end
 	

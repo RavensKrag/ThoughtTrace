@@ -154,7 +154,7 @@ class Window < Gosu::Window
 		
 		
 		
-		
+		@space.add TextSpace::Rectangle.new 200, 200
 		
 	end
 	

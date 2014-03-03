@@ -33,6 +33,8 @@ module TextSpace
 
 
 class ActionSelector
+	attr_reader :actions
+	
 	def initialize(space, selection)
 		@space = space
 		@selection = selection
@@ -44,7 +46,7 @@ class ActionSelector
 		
 		# actions sorted in order of priority
 		# each instance should have different action names
-		@actions = [:move]
+		@actions = Array.new
 		
 		@human_actions = [
 			TextSpace::InputSystem::Spawn.new(@space, TextSpace::Text)
