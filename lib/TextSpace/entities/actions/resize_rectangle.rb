@@ -7,6 +7,8 @@ class ResizeRectangle < Action
 	components :physics
 	
 	
+	MARGIN = 50
+	
 	def setup(stash, point)
 		super(stash, point)
 		
@@ -21,7 +23,6 @@ class ResizeRectangle < Action
 		# find distance to edges using local x,y coordinate system
 			# don't need to actually use distance formula,
 			# and can get distance even if there's rotation in the shape.
-		margin = 50
 		top_right = @components[:physics].shape.top_right_vert
 		bottom_left = @components[:physics].shape.bottom_left_vert
 		
@@ -29,16 +30,16 @@ class ResizeRectangle < Action
 		local_point = @components[:physics].body.world2local point
 		
 		# TODO: detect corners as well
-		region =	if		local_point.x.between? top_right.x - margin, top_right.x
+		region =	if		local_point.x.between? top_right.x - MARGIN, top_right.x
 						:right
 					
-					elsif	local_point.x.between? bottom_left.x, bottom_left.x + margin
+					elsif	local_point.x.between? bottom_left.x, bottom_left.x + MARGIN
 						:left
 					
-					elsif	local_point.y.between? top_right.y - margin, top_right.y
+					elsif	local_point.y.between? top_right.y - MARGIN, top_right.y
 						:top
 					
-					elsif	local_point.y.between? bottom_left.y, bottom_left.y + margin
+					elsif	local_point.y.between? bottom_left.y, bottom_left.y + MARGIN
 						:bottom
 					
 					else
