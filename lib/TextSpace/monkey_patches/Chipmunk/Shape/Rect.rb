@@ -52,7 +52,7 @@ module CP
 			
 			# returns the center of this shape, in local space
 			def center
-				top_right_vert - bottom_left_vert
+				bottom_right_vert / 2
 			end
 			
 			
