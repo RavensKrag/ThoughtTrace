@@ -25,7 +25,7 @@ class InputManager
 		
 		
 		@actions[:left].actions << :move
-		@actions[:right].actions << :move
+		@actions[:right].actions << :resize
 	end
 	
 	

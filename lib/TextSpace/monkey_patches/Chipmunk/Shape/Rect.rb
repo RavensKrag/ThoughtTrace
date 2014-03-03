@@ -50,6 +50,13 @@ module CP
 		end
 		
 			
+			# returns the center of this shape, in local space
+			def center
+				top_right_vert - bottom_left_vert
+			end
+			
+			
+			
 			private
 			
 			def update_geometry(offset=CP::Vec2.new(0,0))
