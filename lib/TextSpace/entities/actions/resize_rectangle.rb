@@ -131,7 +131,7 @@ class ResizeRectangle < Action
 			else
 				# ===== Scale in one direction only =====
 				
-				# rescale in the direction specified by @region
+				# rescale in the direction specified by @direction
 				# whether the distance is positive or negative depends on the displacement
 				# displacement towards the center of the shape is negative,
 				# displacement towards the outside of the shape is positive
