@@ -125,7 +125,42 @@ class ResizeText < Action
 			elsif @direction.x != 0
 				# Horizontal Scaling
 				
+				height = @components[:style][:height]
+				target_width = @components[:physics].shape.width + magnitude
 				
+				
+				# guess and check heights until you get pretty close to the target width
+				
+				width_tolerance = 10
+				
+				delta =	if magnitude > 0
+							# positive
+							# looking for bigger size
+							# current height is smallest possible value
+							1
+						elsif magnitude < 0
+							# negative
+							# looking for smaller size
+							# current height is largest possible value
+							-1
+						else
+							return
+							0
+						end
+				
+				
+				begin
+					height += delta
+					width = @entity.font.width(@entity.string, height)
+				end until width >= target_width - width_tolerance
+				
+				
+				
+				
+				if height >= MINIMUM_FONT_HEIGHT
+					@components[:physics].shape.resize!(width, height)
+					@components[:style][:height] = height
+				end
 			end
 			
 			
