@@ -4,8 +4,11 @@ module TextSpace
 
 class ResizeText < Action
 	interface_name :resize
-	components :physics
+	components :physics, :style
 	
+	
+	MARGIN = 50
+	MINIMUM_FONT_HEIGHT = 10
 	
 	def setup(stash, point)
 		super(stash, point)
@@ -15,16 +18,46 @@ class ResizeText < Action
 		
 		# test in which region of the shape the point lies
 		# ASSUMPTION: point is already known to lie within the shape
-		case @components[:physics].shape.foo point
-			when :right
-				
-			when :left
-				
-			when :top
-				
-			when :bottom
-				
-		end
+		
+		
+		# convert to local space
+		# find distance to edges using local x,y coordinate system
+			# don't need to actually use distance formula,
+			# and can get distance even if there's rotation in the shape.
+		top_right = @components[:physics].shape.top_right_vert
+		bottom_left = @components[:physics].shape.bottom_left_vert
+		
+		
+		local_point = @components[:physics].body.world2local point
+		
+		
+		
+		
+		# Figure out what sector out of nine the point is in
+		# (top, bottom, right, left, top_right, top_left, bottom_right, bottom_left, center)
+		x =	if local_point.x.between? top_right.x - MARGIN, top_right.x
+				# :right
+				1
+			elsif local_point.x.between? bottom_left.x, bottom_left.x + MARGIN
+				# :left
+				-1
+			else
+				0
+			end
+		
+		y =	if local_point.y.between? top_right.y - MARGIN, top_right.y
+				# :top
+				1
+			elsif local_point.y.between? bottom_left.y, bottom_left.y + MARGIN
+				# :bottom
+				-1
+			else
+				0
+			end
+		
+		@direction = CP::Vec2.new(x,y)
+		
+		@direction.normalize! unless @direction.zero?
 	end
 	
 	def update(point)
@@ -41,16 +74,69 @@ class ResizeText < Action
 		# because it will be called every tick
 		# as long as the button is held
 		
-		displacement = @origin - point
-		
-			angle = displacement.to_angle
-			magnitude = displacement.length
+		local_origin = @components[:physics].body.world2local @origin
+		local_point = @components[:physics].body.world2local point
+		local_displacement = local_point - local_origin
 			
-			@components[:physics].resize angle, magnitude
-			# need more information than that
-			# for things like rectangles,
-			# it's important where the original click occurred,
-			# so that you can tell one edge drag from another.
+			
+			local_displacement_direction = local_displacement.normalize
+			magnitude = local_displacement.length
+			
+			
+			# Scale either vertically (changing font height)
+			# or horizontally (changing target width, and deriving font height from that)
+			
+			
+			# rescale in the direction specified by @direction vector
+			# whether the distance is positive or negative depends on the displacement
+			# displacement towards the center of the shape is negative,
+			# displacement towards the outside of the shape is positive
+			# figure out direction by comparing displacement to the @direction vector
+			
+			
+			# flip sign to negative if necessary
+			magnitude *= -1 if local_displacement_direction.dot(@direction) < 0
+			
+			
+			
+			# still using 9-slice resize code from rectangle
+			# what should be done on diagonal resize?
+				# should you just not do anything?
+				# should the regions be redesigned so there is no diagonal resize region?
+				# just resize vertical?
+					# all text resizes change both the width and height of the hitbox
+			
+			
+			
+			if @direction.y != 0
+				# Vertical Scaling
+				
+				height = @components[:style][:height]
+				height += magnitude
+				
+				height = MINIMUM_FONT_HEIGHT if height < MINIMUM_FONT_HEIGHT
+				
+				@components[:style][:height] = height
+				
+				
+				# TODO: find a way to make hitbox resize automatically when font size changes
+				@entity.resize!
+			
+			elsif @direction.x != 0
+				# Horizontal Scaling
+				
+				
+			end
+			
+			
+			# shape always expands in the positive direction of the adjusted axis
+			# thus, if you stretch left or down, you need to shift the center
+			
+			# need to adjust the position of the body
+			# so it appears only the edited edge is moving
+			@components[:physics].body.p.x -= magnitude if @direction.x < 0
+			@components[:physics].body.p.y -= magnitude if @direction.y < 0
+			
 			
 		@origin = point
 	end
