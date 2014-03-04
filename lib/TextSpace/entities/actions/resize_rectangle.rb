@@ -8,6 +8,7 @@ class ResizeRectangle < Action
 	
 	
 	MARGIN = 50
+	MINIMUM_DIMENSION = 10
 	
 	def setup(stash, point)
 		super(stash, point)
@@ -112,7 +113,13 @@ class ResizeRectangle < Action
 				width += magnitude * 2
 				height += magnitude * 2
 				
+				# limit minimum size
+				width = MINIMUM_DIMENSION if width < MINIMUM_DIMENSION
+				height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
+				
+				
 				@components[:physics].shape.resize!(width, height)
+				
 				
 				
 				
@@ -136,10 +143,22 @@ class ResizeRectangle < Action
 				
 				# stretch horizontally or vertically
 				if @direction.x != 0
-					@components[:physics].shape.width += magnitude
+					width = @components[:physics].shape.width
+					width += magnitude
+					
+					# limit minimum
+					width = MINIMUM_DIMENSION if width < MINIMUM_DIMENSION
+					
+					@components[:physics].shape.width = width
 				end
 				if @direction.y != 0
-					@components[:physics].shape.height += magnitude
+					height = @components[:physics].shape.height
+					height += magnitude
+					
+					# limit minimum
+					height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
+					
+					@components[:physics].shape.height = height
 				end
 				
 				
