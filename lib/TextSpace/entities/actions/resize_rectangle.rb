@@ -80,6 +80,7 @@ class ResizeRectangle < Action
 			
 			
 			local_displacement_direction = local_displacement.normalize
+			return if local_displacement.zero? # short circuit when there is no movement
 			magnitude = local_displacement.length
 			
 			
