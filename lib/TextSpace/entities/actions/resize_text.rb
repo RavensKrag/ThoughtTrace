@@ -108,7 +108,6 @@ class ResizeText < Action
 					# all text resizes change both the width and height of the hitbox
 			
 			
-			
 			if @direction.y != 0
 				# Vertical Scaling
 				
@@ -122,7 +121,6 @@ class ResizeText < Action
 				
 				# TODO: find a way to make hitbox resize automatically when font size changes
 				@entity.resize!
-			
 			elsif @direction.x != 0
 				# Horizontal Scaling
 				
@@ -130,35 +128,100 @@ class ResizeText < Action
 				target_width = @components[:physics].shape.width + magnitude
 				
 				
-				# guess and check heights until you get pretty close to the target width
 				
-				width_tolerance = 10
+				width_tolerance = 20
+				variance_tolerance = 10
 				
-				delta =	if magnitude > 0
-							# positive
-							# looking for bigger size
-							# current height is smallest possible value
-							1
-						elsif magnitude < 0
-							# negative
-							# looking for smaller size
-							# current height is largest possible value
-							-1
-						else
-							return
-							0
-						end
+				max_size = 100000
+				min_size = 20
+				
+				size_step = 1
 				
 				
-				begin
-					height += delta
-					width = @entity.font.width(@entity.string, height)
-				end until width >= target_width - width_tolerance
+				# initial probing of size using typography rules,
+				# then guess and check to get a more precise measurement
+				ems_per_char = 0.625
+				
+				
+				heuristic_height = nil
+				if magnitude > 0
+					# positive
+					# growing
+					
+					i = @components[:style][:height]
+					while i < max_size do
+						i += size_step
+						
+						
+						heuristic_height = i
+						em_width = @entity.font.width("m", heuristic_height)
+						heuristic_width = @entity.string.length * em_width * ems_per_char
+						
+						break if heuristic_width > target_width + width_tolerance
+					end
+				elsif magnitude < 0
+					# negative
+					# shrinking
+					
+					i = @components[:style][:height]
+					while i > min_size do
+						i -= size_step
+						
+						
+						heuristic_height = i
+						em_width = @entity.font.width("m", heuristic_height)
+						heuristic_width = @entity.string.length * em_width * ems_per_char
+						
+						break if heuristic_width < target_width - width_tolerance
+					end
+				else
+					raise "Magnitude of the displacement should not be zero: #{local_displacement} => #{magnitude}"
+					
+					# TODO: need to ignore displacements of 0.0
+					# maybe there should be a movement threshold?
+					# but the only real problem is if there's no motion at all
+					
+					# should probably guard rectangle resize against that as well
+				end
 				
 				
 				
 				
-				if height >= MINIMUM_FONT_HEIGHT
+				
+				# narrow the range some more
+				# the limits of the search should now be the desired width,
+				# and the result of the heuristic pass
+				
+				# iterate along range of possible heights, and pick the best possible value
+				
+				# possible heights should be bounded by
+					# the original height of the text object
+					# the heuristic search for height
+				
+				
+				original_height = @components[:style][:height]
+				
+				smaller_height = [original_height, heuristic_height].min
+				larger_height = [original_height, heuristic_height].max
+				
+				
+				width = nil
+				height = original_height
+				(smaller_height..larger_height).step(size_step/10.0) do |h|
+					# use actual width calculation instead of heuristic this time
+					
+					new_width = @entity.font.width(@entity.string, h)
+					
+					break if new_width > target_width
+					
+					width = new_width
+					height = h
+				end
+				
+				
+				
+				
+				if height and width and height >= MINIMUM_FONT_HEIGHT
 					@components[:physics].shape.resize!(width, height)
 					@components[:style][:height] = height
 				end
@@ -170,7 +233,11 @@ class ResizeText < Action
 			
 			# need to adjust the position of the body
 			# so it appears only the edited edge is moving
+			
+			# TODO: consider making horizontal offset split relative to initial position of cursor, and not the current position. Current position means that as entity resizes, and the regions thus change size, the type of resizing will change.  It's rather odd.
+			
 			@components[:physics].body.p.x -= magnitude if @direction.x < 0
+			
 			@components[:physics].body.p.y -= magnitude if @direction.y < 0
 			
 			
