@@ -129,9 +129,17 @@ class ResizeText < Action
 				target_width = @components[:physics].shape.width + magnitude
 				
 				
+				
+				# initial probing of size using typography rules,
+				# then guess and check to get a more precise measurement
+				# width = @entity.string.length * em_width * ems_per_char
+				
+				
+				
 				# guess and check heights until you get pretty close to the target width
 				
-				width_tolerance = 10
+				width_tolerance = 20
+				variance_tolerance = 10
 				
 				delta =	if magnitude > 0
 							# positive
@@ -144,16 +152,32 @@ class ResizeText < Action
 							# current height is largest possible value
 							-1
 						else
-							return
 							0
 						end
+				
+				# short-circuit if there is to be no change
+				return if delta == 0
 				
 				
 				begin
 					height += delta
 					width = @entity.font.width(@entity.string, height)
-				end until width >= target_width - width_tolerance
+					
+					variance = width - target_width
+					
+					
+					
+					break if delta > 0 and width > target_width + width_tolerance
+					break if delta < 0 and width < target_width - width_tolerance
+				end until variance.abs < variance_tolerance
+				# end until variance < variance_tolerance or width >= target_width + width_tolerance
 				
+				# ^ this check is incorrect.
+				# I mean to say, stop when within tolerance range on variance,
+				# but in the worst case, stop when width gets too large
+				
+				puts "target #{target_width} current #{width}"
+				puts "variance: #{variance}"
 				
 				
 				
