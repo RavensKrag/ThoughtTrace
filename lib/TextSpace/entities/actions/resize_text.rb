@@ -140,6 +140,8 @@ class ResizeText < Action
 				target_height = height * ratio
 				
 				
+				target_height = MINIMUM_FONT_HEIGHT if target_height < MINIMUM_FONT_HEIGHT
+				
 				
 				@components[:style][:height] = target_height
 				@entity.resize!
