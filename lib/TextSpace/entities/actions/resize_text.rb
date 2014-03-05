@@ -108,6 +108,8 @@ class ResizeText < Action
 					# all text resizes change both the width and height of the hitbox
 			
 			
+			vec_before = @components[:physics].shape.top_right_vert
+			
 			if @direction.y != 0
 				# Vertical Scaling
 				
@@ -236,7 +238,28 @@ class ResizeText < Action
 			
 			# TODO: consider making horizontal offset split relative to initial position of cursor, and not the current position. Current position means that as entity resizes, and the regions thus change size, the type of resizing will change.  It's rather odd.
 			
-			@components[:physics].body.p.x -= magnitude if @direction.x < 0
+			vec_after = @components[:physics].shape.top_right_vert
+			
+			offset = vec_after.x - vec_before.x
+			
+			
+			if local_point.x < @components[:physics].shape.width * 1/3 
+				# left
+				puts "left #{offset}"
+				
+				@components[:physics].body.p.x -= offset
+			elsif local_point.x < @components[:physics].shape.width * 2/3 
+				# center
+				puts "center"
+				
+				@components[:physics].body.p.x -= offset / 2
+			else
+				# right
+				puts "right"
+				
+				# no movement
+			end
+			# @components[:physics].body.p.x -= magnitude if @direction.x < 0
 			
 			@components[:physics].body.p.y -= magnitude if @direction.y < 0
 			
