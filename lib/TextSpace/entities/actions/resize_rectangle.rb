@@ -160,8 +160,6 @@ class ResizeRectangle < Action
 				if projection.x != 0
 					# Horizontal Stretch
 					
-					# signed_op = @direction.x < 0 ? :- : :+
-					# width = width.send signed_op, projection.x
 					if @direction.x < 0
 						width -= projection.x
 					else
