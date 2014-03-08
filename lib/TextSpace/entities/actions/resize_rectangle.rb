@@ -98,9 +98,13 @@ class ResizeRectangle < Action
 			# thus, the current implementation scales corners faster
 				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
+			# get axes
+			width = @components[:physics].shape.width
+			height = @components[:physics].shape.height
 			
 			if @direction.zero?
 				# ===== Uniform Scale =====
+				# scale about the center
 				
 				# Sign-age of scale is relative to center of rectangle
 				# towards center is negative (shrinking)
@@ -126,20 +130,11 @@ class ResizeRectangle < Action
 				
 				
 				# --- Apply magnitude of transform in appropriate directions
-				# get axes
-				width = @components[:physics].shape.width
-				height = @components[:physics].shape.height
-				
 				# multiply by two, because resizing is happening in two directions at once
 				width  += radial_displacement * 2
 				height += radial_displacement * 2
 				
-				# limit minimum size
-				width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
-				height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
 				
-				
-				@components[:physics].shape.resize!(width, height)
 				
 				
 				
@@ -152,60 +147,87 @@ class ResizeRectangle < Action
 				@components[:physics].body.p.y -= radial_displacement
 			else
 				# ===== Scale in one direction only =====
+				# pin down part (edge or vert) of the rectangle, and stretch out the rest
 				
 				# rescale in the direction specified by @direction
-				# whether the distance is positive or negative depends on the displacement
 				# displacement towards the center of the shape is negative,
 				# displacement towards the outside of the shape is positive
-				# figure out direction by comparing displacement to the @direction vector
 				
 				projection = local_displacement.project(@direction)
 				
 				
-				# stretch horizontally or vertically
+				# Compute new dimensions
 				if projection.x != 0
-					width = @components[:physics].shape.width
+					# Horizontal Stretch
 					
-					# signed_op = @direction.x < 0 ? :- : :+
-					# width = width.send signed_op, projection.x
 					if @direction.x < 0
 						width -= projection.x
 					else
 						width += projection.x
 					end
-					
-					# limit minimum
-					width = MINIMUM_DIMENSION if width < MINIMUM_DIMENSION
-					
-					@components[:physics].shape.width = width
 				end
 				if projection.y != 0
-					height = @components[:physics].shape.height
-					
+					# Vertical Stretch
 					
 					if @direction.y < 0
 						height -= projection.y
 					else
 						height += projection.y
 					end
-					
-					# limit minimum
-					height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
-					
-					@components[:physics].shape.height = height
 				end
-				
-				
-				# shape always expands in the positive direction of the adjusted axis
-				# thus, if you stretch left or down, you need to shift the center
-				
-				# need to adjust the position of the body
-				# so it appears only the edited edge is moving
-				
-				# Changed to always adding the component of direction, because it's unsigned
-				@components[:physics].body.p.x += projection.x if @direction.x < 0
-				@components[:physics].body.p.y += projection.y if @direction.y < 0
 			end
+			
+			
+			
+			# limit minimum size (like a clamp, but lower bound only)
+			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
+			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
+			
+			
+			
+			
+			
+			# assuming doubles for width and height,
+			# the only way they could be exactly the same value
+			# is if no modifications were made to the data
+			
+			# must clamp new values first before comparing to old values to get proper deltas
+			delta_width  = @components[:physics].shape.width  - width
+			delta_height = @components[:physics].shape.height - height
+			
+			
+			# shape always expands in the positive direction of the adjusted axis
+			# thus, if you stretch left or down, you need to shift the center
+			# in order to make it feel like the rest of the geometry is firmly planted in place.
+			
+			# (currently does not trigger for uniform scale)
+			# (uniform scale counter-steering is being handled the the )
+			
+			
+			# To make the radial resize and the 9-slice style converge,
+			# the counter steering should be made explicitly about what is being pinned down
+			# for scaling in one direction, that's one edge
+			# for scaling at a corner, that's the opposing vert
+			# for scaling about the center, it's the center that gets locked down
+			
+			
+			if @direction.x < 0
+				@components[:physics].body.p.x += delta_width
+			end
+			if @direction.y < 0
+				@components[:physics].body.p.y += delta_height
+			end
+			
+			
+			
+			
+			
+			# Apply transform if necessary
+			# (check is supposed to see if the deltas for the two dimensions are nonzero)
+			unless delta_width == 0 and delta_height == 0
+				@components[:physics].shape.resize!(width, height)
+			end
+			
 			
 			
 		@origin = point
