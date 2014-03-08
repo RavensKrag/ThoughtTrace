@@ -88,9 +88,8 @@ class ResizeRectangle < Action
 		local_displacement = local_point - local_origin
 			
 			
-			local_displacement_direction = local_displacement.normalize
 			return if local_displacement.zero? # short circuit when there is no movement
-			magnitude = local_displacement.length
+			
 			
 			# only use the component of the displacement in the direction of the edited component
 			# ie) the direction of a corner, or one of the edges
@@ -108,30 +107,35 @@ class ResizeRectangle < Action
 				# away from center is positive (growing)
 				
 				
-				# find vector from point to center in local space
+				# --- Magnitude of transform
+				# find vector starting from center, and going towards the current point
 				center = @components[:physics].shape.center
-				local_point_to_center = local_point - center
+				center_to_point = local_point - center
+				radial_axis = center_to_point.normalize
 				
-				# only really need the direction
-				direction = local_point_to_center.normalize
 				
+				
+				# displacement in local space along the radial vector
+				radial_displacement = local_displacement.project(radial_axis).length
 				
 				# flip sign to negative if necessary
-				# (same logic from uni-directional, different values)
-				magnitude *= -1 if local_displacement_direction.dot(direction) <= 0
+				same_direction = local_displacement.dot(radial_axis) > 0
+				radial_displacement *= -1 unless same_direction
 				
 				
 				
 				
+				# --- Apply magnitude of transform in appropriate directions
+				# get axes
 				width = @components[:physics].shape.width
 				height = @components[:physics].shape.height
 				
 				# multiply by two, because resizing is happening in two directions at once
-				width += magnitude * 2
-				height += magnitude * 2
+				width  += radial_displacement * 2
+				height += radial_displacement * 2
 				
 				# limit minimum size
-				width = MINIMUM_DIMENSION if width < MINIMUM_DIMENSION
+				width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
 				height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
 				
 				
@@ -140,11 +144,12 @@ class ResizeRectangle < Action
 				
 				
 				
+				
 				# need to adjust the position of the body
 				# so it appears only the edited edge is moving
 				# (same code from uni-directional code, but apply both directions always)
-				@components[:physics].body.p.x -= magnitude
-				@components[:physics].body.p.y -= magnitude
+				@components[:physics].body.p.x -= radial_displacement
+				@components[:physics].body.p.y -= radial_displacement
 			else
 				# ===== Scale in one direction only =====
 				
