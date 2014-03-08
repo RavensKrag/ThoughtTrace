@@ -202,6 +202,15 @@ class ResizeRectangle < Action
 			
 			# (currently does not trigger for uniform scale)
 			# (uniform scale counter-steering is being handled the the )
+			
+			
+			# To make the radial resize and the 9-slice style converge,
+			# the counter steering should be made explicitly about what is being pinned down
+			# for scaling in one direction, that's one edge
+			# for scaling at a corner, that's the opposing vert
+			# for scaling about the center, it's the center that gets locked down
+			
+			
 			if @direction.x < 0
 				@components[:physics].body.p.x += delta_width
 			end
