@@ -99,6 +99,10 @@ class ResizeRectangle < Action
 				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
 			
+			# get axes
+			width = @components[:physics].shape.width
+			height = @components[:physics].shape.height
+			
 			if @direction.zero?
 				# ===== Uniform Scale =====
 				# scale about the center
@@ -127,20 +131,11 @@ class ResizeRectangle < Action
 				
 				
 				# --- Apply magnitude of transform in appropriate directions
-				# get axes
-				width = @components[:physics].shape.width
-				height = @components[:physics].shape.height
-				
 				# multiply by two, because resizing is happening in two directions at once
 				width  += radial_displacement * 2
 				height += radial_displacement * 2
 				
-				# limit minimum size
-				width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
-				height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
 				
-				
-				@components[:physics].shape.resize!(width, height)
 				
 				
 				
@@ -163,10 +158,6 @@ class ResizeRectangle < Action
 				
 				
 				# Compute new dimensions
-				width = @components[:physics].shape.width
-				height = @components[:physics].shape.height
-				
-				
 				if projection.x != 0
 					# Horizontal Stretch
 					
@@ -177,9 +168,6 @@ class ResizeRectangle < Action
 					else
 						width += projection.x
 					end
-					
-					# limit minimum
-					width = MINIMUM_DIMENSION if width < MINIMUM_DIMENSION
 				end
 				if projection.y != 0
 					# Vertical Stretch
@@ -189,16 +177,8 @@ class ResizeRectangle < Action
 					else
 						height += projection.y
 					end
-					
-					# limit minimum
-					height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
 				end
 				
-				# Set dimensions
-				@components[:physics].shape.resize!(width, height)
-				
-				
-				# NOTE: Setting the height and width independently is actually kinda weird. The operations both require recomputing the geometry, so doing it this way means the geometry could be computed twice.
 				
 				
 				
@@ -209,9 +189,27 @@ class ResizeRectangle < Action
 				# so it appears only the edited edge is moving
 				
 				# Changed to always adding the component of direction, because it's unsigned
+				
+				# TODO: do not displace if the dimension has not been altered
+				# the current check is supposed to do this, but does not
+				# it does not take into account that some values could go through processing,
+				# and then end up being below the minimum value
+				# if the value is already at the minimum, this results in no visible difference in transform,
+				# but the position "counter-steering" is still being applied
+				# as such, certain transforms mean the shape just gets pushed across the screen
 				@components[:physics].body.p.x += projection.x if @direction.x < 0
 				@components[:physics].body.p.y += projection.y if @direction.y < 0
 			end
+			
+			
+			
+			
+			# limit minimum size
+			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
+			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
+			
+			# Apply transform if necessary
+			@components[:physics].shape.resize!(width, height) unless width == 0 and height == 0
 			
 			
 		@origin = point
