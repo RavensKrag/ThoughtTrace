@@ -55,6 +55,10 @@ class ResizeRectangle < Action
 				0
 			end
 		
+		
+		x *= @entity[:physics].shape.width
+		y *= @entity[:physics].shape.height
+		
 		@direction = CP::Vec2.new(x,y)
 		
 		@direction.normalize! unless @direction.zero?
@@ -82,6 +86,13 @@ class ResizeRectangle < Action
 			local_displacement_direction = local_displacement.normalize
 			return if local_displacement.zero? # short circuit when there is no movement
 			magnitude = local_displacement.length
+			
+			# only use the component of the displacement in the direction of the edited component
+			# ie) the direction of a corner, or one of the edges
+			# this is NOT currently the value of the @direction vector
+			# that merely shows which edges should be scaled
+			# thus, the current implementation scales corners faster
+				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
 			
 			if @direction.zero?
@@ -138,23 +149,35 @@ class ResizeRectangle < Action
 				# displacement towards the outside of the shape is positive
 				# figure out direction by comparing displacement to the @direction vector
 				
+				projection = local_displacement.project(@direction)
 				
-				# flip sign to negative if necessary
-				magnitude *= -1 if local_displacement_direction.dot(@direction) < 0
 				
 				# stretch horizontally or vertically
-				if @direction.x != 0
+				if projection.x != 0
 					width = @components[:physics].shape.width
-					width += magnitude
+					
+					# signed_op = @direction.x < 0 ? :- : :+
+					# width = width.send signed_op, projection.x
+					if @direction.x < 0
+						width -= projection.x
+					else
+						width += projection.x
+					end
 					
 					# limit minimum
 					width = MINIMUM_DIMENSION if width < MINIMUM_DIMENSION
 					
 					@components[:physics].shape.width = width
 				end
-				if @direction.y != 0
+				if projection.y != 0
 					height = @components[:physics].shape.height
-					height += magnitude
+					
+					
+					if @direction.y < 0
+						height -= projection.y
+					else
+						height += projection.y
+					end
 					
 					# limit minimum
 					height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
@@ -168,8 +191,10 @@ class ResizeRectangle < Action
 				
 				# need to adjust the position of the body
 				# so it appears only the edited edge is moving
-				@components[:physics].body.p.x -= magnitude if @direction.x < 0
-				@components[:physics].body.p.y -= magnitude if @direction.y < 0
+				
+				# Changed to always adding the component of direction, because it's unsigned
+				@components[:physics].body.p.x += projection.x if @direction.x < 0
+				@components[:physics].body.p.y += projection.y if @direction.y < 0
 			end
 			
 			
