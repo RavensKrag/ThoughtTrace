@@ -101,6 +101,7 @@ class ResizeRectangle < Action
 			
 			if @direction.zero?
 				# ===== Uniform Scale =====
+				# scale about the center
 				
 				# Sign-age of scale is relative to center of rectangle
 				# towards center is negative (shrinking)
@@ -152,19 +153,22 @@ class ResizeRectangle < Action
 				@components[:physics].body.p.y -= radial_displacement
 			else
 				# ===== Scale in one direction only =====
+				# pin down part (edge or vert) of the rectangle, and stretch out the rest
 				
 				# rescale in the direction specified by @direction
-				# whether the distance is positive or negative depends on the displacement
 				# displacement towards the center of the shape is negative,
 				# displacement towards the outside of the shape is positive
-				# figure out direction by comparing displacement to the @direction vector
 				
 				projection = local_displacement.project(@direction)
 				
 				
-				# stretch horizontally or vertically
+				# Compute new dimensions
+				width = @components[:physics].shape.width
+				height = @components[:physics].shape.height
+				
+				
 				if projection.x != 0
-					width = @components[:physics].shape.width
+					# Horizontal Stretch
 					
 					# signed_op = @direction.x < 0 ? :- : :+
 					# width = width.send signed_op, projection.x
@@ -176,12 +180,9 @@ class ResizeRectangle < Action
 					
 					# limit minimum
 					width = MINIMUM_DIMENSION if width < MINIMUM_DIMENSION
-					
-					@components[:physics].shape.width = width
 				end
 				if projection.y != 0
-					height = @components[:physics].shape.height
-					
+					# Vertical Stretch
 					
 					if @direction.y < 0
 						height -= projection.y
@@ -191,9 +192,14 @@ class ResizeRectangle < Action
 					
 					# limit minimum
 					height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
-					
-					@components[:physics].shape.height = height
 				end
+				
+				# Set dimensions
+				@components[:physics].shape.resize!(width, height)
+				
+				
+				# NOTE: Setting the height and width independently is actually kinda weird. The operations both require recomputing the geometry, so doing it this way means the geometry could be computed twice.
+				
 				
 				
 				# shape always expands in the positive direction of the adjusted axis
