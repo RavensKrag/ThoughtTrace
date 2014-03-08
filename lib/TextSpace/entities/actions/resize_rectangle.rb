@@ -55,13 +55,18 @@ class ResizeRectangle < Action
 				0
 			end
 		
-		
-		x *= @entity[:physics].shape.width
-		y *= @entity[:physics].shape.height
-		
 		@direction = CP::Vec2.new(x,y)
 		
-		@direction.normalize! unless @direction.zero?
+		
+		
+		# Reshape diagonals to point at the actual corners,
+		# not just the corners of an ideal square
+		if x != 0 && y != 0
+			@direction.x *= @entity[:physics].shape.width
+			@direction.y *= @entity[:physics].shape.height
+			
+			@direction.normalize!
+		end
 	end
 	
 	def update(point)
