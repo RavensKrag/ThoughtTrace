@@ -98,7 +98,6 @@ class ResizeRectangle < Action
 			# thus, the current implementation scales corners faster
 				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
-			
 			# get axes
 			width = @components[:physics].shape.width
 			height = @components[:physics].shape.height
@@ -178,38 +177,50 @@ class ResizeRectangle < Action
 						height += projection.y
 					end
 				end
-				
-				
-				
-				
-				# shape always expands in the positive direction of the adjusted axis
-				# thus, if you stretch left or down, you need to shift the center
-				
-				# need to adjust the position of the body
-				# so it appears only the edited edge is moving
-				
-				# Changed to always adding the component of direction, because it's unsigned
-				
-				# TODO: do not displace if the dimension has not been altered
-				# the current check is supposed to do this, but does not
-				# it does not take into account that some values could go through processing,
-				# and then end up being below the minimum value
-				# if the value is already at the minimum, this results in no visible difference in transform,
-				# but the position "counter-steering" is still being applied
-				# as such, certain transforms mean the shape just gets pushed across the screen
-				@components[:physics].body.p.x += projection.x if @direction.x < 0
-				@components[:physics].body.p.y += projection.y if @direction.y < 0
+			end
+			
+			
+			
+			# limit minimum size (like a clamp, but lower bound only)
+			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
+			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
+			
+			
+			
+			
+			
+			# assuming doubles for width and height,
+			# the only way they could be exactly the same value
+			# is if no modifications were made to the data
+			
+			# must clamp new values first before comparing to old values to get proper deltas
+			delta_width  = @components[:physics].shape.width  - width
+			delta_height = @components[:physics].shape.height - height
+			
+			
+			# shape always expands in the positive direction of the adjusted axis
+			# thus, if you stretch left or down, you need to shift the center
+			# in order to make it feel like the rest of the geometry is firmly planted in place.
+			
+			# (currently does not trigger for uniform scale)
+			# (uniform scale counter-steering is being handled the the )
+			if @direction.x < 0
+				@components[:physics].body.p.x += delta_width
+			end
+			if @direction.y < 0
+				@components[:physics].body.p.y += delta_height
 			end
 			
 			
 			
 			
-			# limit minimum size
-			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
-			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
 			
 			# Apply transform if necessary
-			@components[:physics].shape.resize!(width, height) unless width == 0 and height == 0
+			# (check is supposed to see if the deltas for the two dimensions are nonzero)
+			unless delta_width == 0 and delta_height == 0
+				@components[:physics].shape.resize!(width, height)
+			end
+			
 			
 			
 		@origin = point
