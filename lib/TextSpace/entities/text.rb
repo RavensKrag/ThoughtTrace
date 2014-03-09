@@ -32,6 +32,8 @@ class Text < Entity
 			# may not need a wrapper
 			# still good idea though, because it means that the state can be easily wrapped up in that one instance. No garbage can carry over.
 		add_action TextSpace::Actions::Move.new self
+		
+		add_action TextSpace::Actions::ResizeText.new self
 	end
 	
 	def update
@@ -88,6 +90,15 @@ class Text < Entity
 	# when you set the font, recompute the hitbox
 	# when you set the string, recompute the hitbox
 	# when you change the size, recompute the hitbox
+	
+	# update hitbox to match font size
+	def resize!
+		width = @font.width(@string, @components[:style][:height])
+		height = @components[:style][:height]
+		
+		
+		@components[:physics].shape.resize! width, height
+	end
 end
 
 

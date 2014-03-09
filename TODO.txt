@@ -7,6 +7,14 @@ using builder pattern, getting dependency list and interface name from the class
 	it's either just one symbol, or a pointer to some shared collection
 
 
+BUG
+	resizing text horizontally from center of right edge
+	immediately after resizing from center of bottom edge
+	results in text disappearing and program freezing
+	
+	not sure if this is a Gosu issue,
+	an issue with limited system resources,
+	or an issue with my code
 
 
 
