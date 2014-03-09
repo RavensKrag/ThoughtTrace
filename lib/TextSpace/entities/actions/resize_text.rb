@@ -192,26 +192,36 @@ class ResizeText < Action
 			
 			x_offset =	if @direction.x < 0
 							# left
-							puts "left"
 							
 							delta_width
 						elsif @direction.x > 0
 							# right
-							puts "right"
 							
 							# no movement
 							0
 						else
 							# center
-							puts "center"
 							
 							delta_width / 2
 						end
 			@components[:physics].body.p.x += x_offset
 			
-			if @direction.y < 0
-				@components[:physics].body.p.y += delta_height
-			end
+			
+			y_offset =	if @direction.y < 0
+							# bottom
+							
+							delta_height
+						elsif @direction.y > 0
+							# top
+							
+							# no movement
+							0
+						else
+							# center
+							
+							delta_height / 2
+						end
+			@components[:physics].body.p.y += y_offset
 			
 			
 			
