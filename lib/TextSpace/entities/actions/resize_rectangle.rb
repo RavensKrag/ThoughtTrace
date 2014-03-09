@@ -186,10 +186,21 @@ class ResizeRectangle < Action
 			
 			
 			
-			
 			# must clamp new values first before comparing to old values to get proper deltas
-			delta_width  = @components[:physics].shape.width  - width
-			delta_height = @components[:physics].shape.height - height
+			old_width  = @components[:physics].shape.width
+			old_height = @components[:physics].shape.height
+			
+				
+				@components[:physics].shape.resize!(width, height)
+			
+			
+			new_width  = @components[:physics].shape.width
+			new_height = @components[:physics].shape.height
+			
+			
+			delta_width = old_width - new_width
+			delta_height = old_height - new_height
+			
 			
 			
 			# shape always expands in the positive direction of the adjusted axis
@@ -212,16 +223,6 @@ class ResizeRectangle < Action
 			end
 			if @direction.y < 0
 				@components[:physics].body.p.y += delta_height
-			end
-			
-			
-			
-			
-			
-			# Apply transform if necessary
-			# (check is supposed to see if the deltas for the two dimensions are nonzero)
-			unless delta_width == 0 and delta_height == 0
-				@components[:physics].shape.resize!(width, height)
 			end
 			
 			
