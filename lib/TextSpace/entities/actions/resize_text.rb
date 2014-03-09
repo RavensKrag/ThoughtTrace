@@ -13,6 +13,8 @@ class ResizeText < Action
 	def setup(stash, point)
 		super(stash, point)
 		
+		# THIS METHOD CONTAINS CODE COPIED FROM resize_rectangle.rb
+		
 		# mark the initial point for reference
 		@origin = point
 		
@@ -57,7 +59,16 @@ class ResizeText < Action
 		
 		@direction = CP::Vec2.new(x,y)
 		
-		@direction.normalize! unless @direction.zero?
+		
+		
+		# Reshape diagonals to point at the actual corners,
+		# not just the corners of an ideal square
+		if x != 0 && y != 0
+			@direction.x *= @entity[:physics].shape.width
+			@direction.y *= @entity[:physics].shape.height
+			
+			@direction.normalize!
+		end
 	end
 	
 	def update(point)
@@ -79,107 +90,163 @@ class ResizeText < Action
 		local_displacement = local_point - local_origin
 			
 			
-			local_displacement_direction = local_displacement.normalize
 			return if local_displacement.zero? # short circuit when there is no movement
-			magnitude = local_displacement.length
 			
 			
-			# Scale either vertically (changing font height)
-			# or horizontally (changing target width, and deriving font height from that)
+			# only use the component of the displacement in the direction of the edited component
+			# ie) the direction of a corner, or one of the edges
+			# this is NOT currently the value of the @direction vector
+			# that merely shows which edges should be scaled
+			# thus, the current implementation scales corners faster
+				# (diagonal straight-line distance is shorter than taxi-cab distance)
+			
+			# get axes
 			
 			
-			# rescale in the direction specified by @direction vector
-			# whether the distance is positive or negative depends on the displacement
-			# displacement towards the center of the shape is negative,
-			# displacement towards the outside of the shape is positive
-			# figure out direction by comparing displacement to the @direction vector
+			# for text, you always want to end up computing the height,
+			# as opposed to the standard rectangle, where you need both width and height
+			width = @components[:physics].shape.width
+			height = @components[:physics].shape.height
 			
-			
-			# flip sign to negative if necessary
-			magnitude *= -1 if local_displacement_direction.dot(@direction) < 0
-			
-			
-			
-			# still using 9-slice resize code from rectangle
-			# what should be done on diagonal resize?
-				# should you just not do anything?
-				# should the regions be redesigned so there is no diagonal resize region?
-				# just resize vertical?
-					# all text resizes change both the width and height of the hitbox
-			
-			
-			vec_before = @components[:physics].shape.top_right_vert
-			
-			if @direction.y != 0
-				# Vertical Scaling
+		
+				# ===== Scale in one direction only =====
+				# pin down part (edge or vert) of the rectangle, and stretch out the rest
 				
-				height = @components[:style][:height]
-				height += magnitude
+				# rescale in the direction specified by @direction
+				# displacement towards the center of the shape is negative,
+				# displacement towards the outside of the shape is positive
 				
-				height = MINIMUM_FONT_HEIGHT if height < MINIMUM_FONT_HEIGHT
+				projection = local_displacement.project(@direction)
+				
+				
+				# Compute new dimensions
+				if projection.y != 0
+					# Vertical Scaling
+					
+					if @direction.y < 0
+						height -= projection.y
+					else
+						height += projection.y
+					end
+				elsif projection.x != 0
+					# Horizontal Scaling
+					
+					# simple ratio solution courtesy of this link
+					# http://tech.pro/tutorial/691/csharp-tutorial-font-scaling
+					
+					
+					if @direction.x < 0
+						width -= projection.x
+					else
+						width += projection.x
+					end
+					
+					
+					original_width = @components[:physics].shape.width
+					ratio = width.to_f / original_width.to_f
+					
+					height = height * ratio
+				end
+			
+			
+			# limit minimum size (like a clamp, but lower bound only)
+			height = MINIMUM_FONT_HEIGHT if height < MINIMUM_FONT_HEIGHT
+			
+			
+			
+			
+			# assuming doubles for width and height,
+			# the only way they could be exactly the same value
+			# is if no modifications were made to the data
+			
+			# must clamp new values first before comparing to old values to get proper deltas
+			old_width  = @components[:physics].shape.width
+			old_height = @components[:physics].shape.height
+			
+				
+				# (use Entity-level resize so that the text drives the hitbox as opposed to the generic rectangle shape resize)
 				
 				@components[:style][:height] = height
 				
-				
 				# TODO: find a way to make hitbox resize automatically when font size changes
 				@entity.resize!
-			elsif @direction.x != 0
-				# Horizontal Scaling
-				
-				# simple ratio solution courtesy of this link
-				# http://tech.pro/tutorial/691/csharp-tutorial-font-scaling
-				
-				current_width = @components[:physics].shape.width
-				target_width = current_width + magnitude
-				
-				ratio = target_width.to_f / current_width.to_f
-				
-				
-				
-				height = @components[:style][:height]
-				target_height = height * ratio
-				
-				
-				target_height = MINIMUM_FONT_HEIGHT if target_height < MINIMUM_FONT_HEIGHT
-				
-				
-				@components[:style][:height] = target_height
-				@entity.resize!
-			end
+			
+			
+			new_width  = @components[:physics].shape.width
+			new_height = @components[:physics].shape.height
+			
+			
+			delta_width = old_width - new_width
+			delta_height = old_height - new_height
+			
+			
 			
 			
 			# shape always expands in the positive direction of the adjusted axis
 			# thus, if you stretch left or down, you need to shift the center
+			# in order to make it feel like the rest of the geometry is firmly planted in place.
 			
-			# need to adjust the position of the body
-			# so it appears only the edited edge is moving
-			
-			# TODO: consider making horizontal offset split relative to initial position of cursor, and not the current position. Current position means that as entity resizes, and the regions thus change size, the type of resizing will change.  It's rather odd.
-			
-			vec_after = @components[:physics].shape.top_right_vert
-			
-			offset = vec_after.x - vec_before.x
+			# if @direction.x < 0
+			# 	@components[:physics].body.p.x += delta_width
+			# end
+			# if @direction.y < 0
+			# 	@components[:physics].body.p.y += delta_height
+			# end
 			
 			
-			if local_point.x < @components[:physics].shape.width * 1/3 
-				# left
-				puts "left #{offset}"
-				
-				@components[:physics].body.p.x -= offset
-			elsif local_point.x < @components[:physics].shape.width * 2/3 
-				# center
-				puts "center"
-				
-				@components[:physics].body.p.x -= offset / 2
-			else
-				# right
-				puts "right"
-				
-				# no movement
+			
+			
+			
+			
+			# x_offset =	if local_point.x < @components[:physics].shape.width * 1/3 
+			# 				# left
+			# 				puts "left"
+							
+			# 				delta_width
+			# 			elsif local_point.x < @components[:physics].shape.width * 2/3 
+			# 				# center
+			# 				puts "center"
+							
+			# 				delta_width / 2
+			# 			else
+			# 				# right
+			# 				puts "right"
+							
+			# 				# no movement
+			# 				0
+			# 			end
+			# @components[:physics].body.p.x += x_offset
+			
+			# if @direction.y < 0
+			# 	@components[:physics].body.p.y += delta_height
+			# end
+			
+			
+			
+			
+			x_offset =	if @direction.x < 0
+							# left
+							puts "left"
+							
+							delta_width
+						elsif @direction.x > 0
+							# right
+							puts "right"
+							
+							# no movement
+							0
+						else
+							# center
+							puts "center"
+							
+							delta_width / 2
+						end
+			@components[:physics].body.p.x += x_offset
+			
+			if @direction.y < 0
+				@components[:physics].body.p.y += delta_height
 			end
-			# @components[:physics].body.p.x -= magnitude if @direction.x < 0
 			
-			@components[:physics].body.p.y -= magnitude if @direction.y < 0
 			
 			
 		@origin = point
