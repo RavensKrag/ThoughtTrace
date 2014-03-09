@@ -186,43 +186,9 @@ class ResizeText < Action
 			# thus, if you stretch left or down, you need to shift the center
 			# in order to make it feel like the rest of the geometry is firmly planted in place.
 			
-			# if @direction.x < 0
-			# 	@components[:physics].body.p.x += delta_width
-			# end
-			# if @direction.y < 0
-			# 	@components[:physics].body.p.y += delta_height
-			# end
-			
-			
-			
-			
-			
-			
-			# x_offset =	if local_point.x < @components[:physics].shape.width * 1/3 
-			# 				# left
-			# 				puts "left"
-							
-			# 				delta_width
-			# 			elsif local_point.x < @components[:physics].shape.width * 2/3 
-			# 				# center
-			# 				puts "center"
-							
-			# 				delta_width / 2
-			# 			else
-			# 				# right
-			# 				puts "right"
-							
-			# 				# no movement
-			# 				0
-			# 			end
-			# @components[:physics].body.p.x += x_offset
-			
-			# if @direction.y < 0
-			# 	@components[:physics].body.p.y += delta_height
-			# end
-			
-			
-			
+			# Needs a "center" counter-steering type not present in rectangle resizing
+			# because the height and width change together.
+			# Center counter-steering maintains the feel that the main edge is moving.
 			
 			x_offset =	if @direction.x < 0
 							# left
