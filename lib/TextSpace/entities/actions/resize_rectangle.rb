@@ -187,10 +187,6 @@ class ResizeRectangle < Action
 			
 			
 			
-			# assuming doubles for width and height,
-			# the only way they could be exactly the same value
-			# is if no modifications were made to the data
-			
 			# must clamp new values first before comparing to old values to get proper deltas
 			delta_width  = @components[:physics].shape.width  - width
 			delta_height = @components[:physics].shape.height - height

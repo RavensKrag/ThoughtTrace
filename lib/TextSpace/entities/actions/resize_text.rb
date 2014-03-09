@@ -155,10 +155,6 @@ class ResizeText < Action
 			
 			
 			
-			# assuming doubles for width and height,
-			# the only way they could be exactly the same value
-			# is if no modifications were made to the data
-			
 			# must clamp new values first before comparing to old values to get proper deltas
 			old_width  = @components[:physics].shape.width
 			old_height = @components[:physics].shape.height
