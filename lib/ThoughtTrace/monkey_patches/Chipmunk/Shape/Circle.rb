@@ -9,8 +9,8 @@ module CP
 							glColor4ub(color.red, color.green, color.blue, color.alpha)
 							
 							
-							# iterations = 60 # seems like high iterations cause crashes?
-							iterations = 12
+							iterations = 60 # seems like high iterations cause crashes?
+							# iterations = 12
 							
 							
 							rotation_angle = 2*Math::PI / iterations # radians
