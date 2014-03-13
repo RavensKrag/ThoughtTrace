@@ -1,0 +1,13 @@
+each folder is one set of files
+	(better than having one file with multiple sections in it)
+
+
+fonts
+	number name
+	int string
+text
+	font.number x y height text
+	
+
+
+be aware that using binary save formats may incure issues with different platforms or architectures

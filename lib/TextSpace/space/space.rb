@@ -90,51 +90,5 @@ module TextSpace
 				obj.gc?
 			end
 		end
-	
-	
-	# 	   _____           _       ___             __  _           
-	# 	  / ___/___  _____(_)___ _/ (_)___  ____ _/ /_(_)___  ____ 
-	# 	  \__ \/ _ \/ ___/ / __ `/ / /_  / / __ `/ __/ / __ \/ __ \
-	# 	 ___/ /  __/ /  / / /_/ / / / / /_/ /_/ / /_/ / /_/ / / / /
-	# 	/____/\___/_/  /_/\__,_/_/_/ /___/\__,_/\__/_/\____/_/ /_/ 
-		class << self
-			def load(filepath)
-				# Create new space
-				s = Space.new
-				
-				# Populate space with data from file
-				if File.exist? filepath
-					# TODO: FINISH LOADING IMPLEMENTATION
-					
-					# errors will happen if file exists, but is empty
-					entities = YAML.load_file(filepath)
-					
-					entities.each do |e|
-						s.add e
-					end
-				else
-					warn "Could not find Space data at #{filepath}. Will write to new file on close."
-				end
-				
-				
-				
-				return s
-			end
-		end
-		
-		def dump(filepath)
-			# TOOD: Rethinking dump implementation
-			
-			# Create data directory if it does not exist
-			FileUtils.mkdir_p(File.dirname(filepath))
-			
-			# Write data to file
-			File.open(filepath, "w") do |f|
-				# f.puts YAML::dump(@objects)
-				# f.print YAML::dump(@objects)
-				
-				YAML::dump(@objects, f)
-			end
-		end
 	end
 end
