@@ -93,7 +93,7 @@ end
 
 
 
-
+# src: http://rosettacode.org/wiki/Strip_comments_from_a_string
 class String
   def strip_comment( markers = ['#',';'] )
     re = Regexp.union( markers ) # construct a regular expression which will match any of the markers
