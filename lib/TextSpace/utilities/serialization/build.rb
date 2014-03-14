@@ -192,6 +192,17 @@ Dir['./*.rb'].each do |file|
 		
 		
 		
+		# If line starts with "return" keyword...
+		match = line.match(/return/)
+		if match
+			if match.begin(0) == 0 # beginning of the match with index 0
+				parts = line.split
+				parts.shift # eject the return statement, keep the rest of the line
+				line = "# examining this object: #{parts.join(' ')}"
+			end
+		end
+		
+		
 		f.puts line
 	end
 		

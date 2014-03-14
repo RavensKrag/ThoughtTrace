@@ -10,6 +10,6 @@ text[:style][:height] = height
 text.resize! # this only needs to be run when loading
 # need to figure out how to resize automatically on font size change ASAP
 
-SPACE.add # need more unique identifier for space
+return text # need more unique identifier for space
 # may not actually need to expose this to the script
 # might want to just add the returned object to the space instead
