@@ -105,6 +105,11 @@ class String
   end
 end
 
+class String
+	def strip_extension
+		File.basename(self,File.extname(self))
+	end
+end
 
 
 # TODO: migrate to using Rake asap, so that you can have proper build, clean, and clobber tasks
@@ -123,7 +128,7 @@ Dir['./*.rb'].each do |file|
 	next if file.include? '_reverse.rb'
 	
 	
-	name = File.basename(file,File.extname(file))
+	name = file.strip_extension
 	puts name
 	
 	
