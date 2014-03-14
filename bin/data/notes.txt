@@ -11,3 +11,115 @@ text
 
 
 be aware that using binary save formats may incure issues with different platforms or architectures
+
+
+
+
+
+you can actually pass 'nil' as a name to a font, and Gosu is ok with that
+I suppose it uses some sort of default font
+may want to override that behavior, so I can tell when I forgot to set a font
+
+
+
+
+# Script should be able to run forwards (dump)
+#                  as well as backwards (load)
+height = text[:style][:height]
+
+x = text[:physics].body.p.x
+y = text[:physics].body.p.y
+
+string = text.string
+
+font = text.font
+font_name = font.name
+
+
+
+
+
+
+
+
+font = TextSpace::Font.new font_name # remove overlapping "font" to resolve
+text = TextSpace::Text.new font
+
+text.string = string
+
+text[:physics].body.p.x = x
+text[:physics].body.p.y = y
+
+text[:style][:height] = height
+text.resize! # this only needs to be run when loading
+# need to figure out how to resize automatically on font size change ASAP
+
+SPACE.add # need more unique identifier for space
+# may not actually need to expose this to the script
+# might want to just add the returned object to the space instead
+
+
+
+
+
+
+
+
+take from space
+grab parameters
+dump to disk
+
+
+
+load from disk
+init
+set parameters
+add to space
+
+
+
+
+
+
+font = TextSpace::Font.new font_name # remove overlapping "font" to resolve
+
+font_name = font.font_name
+# remove redundancy
+font_name = font.name
+
+
+
+TODO: eventually migrate from standard CSV to some similar format that will list the types to parse in the header. This would allow for faster parsing.
+
+
+
+
+
+
+
+
+
+SPACE.add
+
+
+text.resize!
+height = text[:style][:height]
+
+y = text[:physics].body.p.y
+x = text[:physics].body.p.x
+
+string = text.string
+
+TextSpace::Text.new font = text
+# font = text.font
+TextSpace::Font.new font_name = font
+# font_name = font.font_name
+# font_name = font.name
+
+
+
+
+# source
+Class.new arg = var
+# compiled
+arg = var.arg
