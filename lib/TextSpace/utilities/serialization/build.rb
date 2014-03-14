@@ -203,6 +203,27 @@ Dir['./*.rb'].each do |file|
 		end
 		
 		
+		# If line tries to assign many values into one variable, that is the "return"
+		# from the reverse file
+		# Using an actual return statement will cause ruby to auto-pack the multi-return
+		# into a single array containing all the values.
+		# Not sure if this is the way to go or not,
+		# but the end result should be an array with the desired values inside of it
+		# 
+		# Currently looking for just the "args" variable being assigned
+		# the equal sign for setting the variable may have any amount of whitespace on either side of it
+		regex = /args\s*=\s*/
+		match = line.match regex
+		if match
+			if match.begin(0) == 0 # beginning of the match with index 0
+				puts "FOUND IT"
+				
+				line.sub! regex, "return "
+				
+			end
+		end
+		
+		
 		f.puts line
 	end
 		

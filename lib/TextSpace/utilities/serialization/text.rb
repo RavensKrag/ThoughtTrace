@@ -1,3 +1,7 @@
+# Split argument array into necessary variables
+# (argument array is the data loaded from the disk, packed into an array)
+font_name, x, y, height, string = args
+
 font = TextSpace::Font.new font_name # remove overlapping "font" to resolve
 text = TextSpace::Text.new font
 
