@@ -18,6 +18,13 @@ BUG
 
 
 
+May want to change how text resizes horizontally on center drag
+	computes 'center' as the center of the vertical distance of the hitbox
+	this is not the same as the 'center' of the text, which should be located at the midline
+
+
+
+
 If Style is created without a parent, it's parent should default to the baseline style
 	not sure where the baseline style should be declared,
 	it should be a constant variable that can be easily accessed from everywhere
