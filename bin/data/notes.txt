@@ -10,7 +10,9 @@ text
 	
 
 
-be aware that using binary save formats may incure issues with different platforms or architectures
+be aware that using binary save formats may incur issues with different platforms or architectures
+	saving as text is actually kinda nice like that
+	it's a widely established standard for byte-aligned data transfer
 
 
 
