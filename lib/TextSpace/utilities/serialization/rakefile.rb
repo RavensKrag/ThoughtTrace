@@ -133,17 +133,17 @@ Dir.chdir path_to_this_file
 task :default => :build
 
 
-ending_part = "_reverse.rb"
+compiled_file_suffix = "_reverse.rb"
 
 
 
-CLEAN.include "*#{ending_part}"
+CLEAN.include "*#{compiled_file_suffix}"
 # CLOBBER.include
 
 task :build do
 	Dir['./*.rb'].each do |file|
 		next if File.basename(file) == File.basename(__FILE__)
-		next if file.include? ending_part
+		next if file.include? compiled_file_suffix
 		
 		
 		name = file.strip_extension
@@ -151,7 +151,7 @@ task :build do
 		
 		
 		
-		File.open("#{name}#{ending_part}", 'w') do |f|
+		File.open("#{name}#{compiled_file_suffix}", 'w') do |f|
 		
 		
 		File.readlines(file).reverse_each do |line|
