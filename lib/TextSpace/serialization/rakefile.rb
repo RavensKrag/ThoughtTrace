@@ -118,8 +118,46 @@ task :build do
 			# perform necessary transforms on BODY
 			# 	must extract BODY code from source file,
 			# 	and then apply transforms defined in template
-			
-			
+				# extract body
+					# start on line that says BODY and then find the code between the curly braces
+					find_between_curly_braces = %r{
+					  (?<re>
+					    \{
+					      (?:
+					        (?> [^\{\}]+ )
+					        |
+					        \g<re>
+					      )*
+					    \}
+					  )
+					}x
+					
+					# same code from 'basic replacement section'
+					# or rather, similar
+					# searching for the index in the source_lines array where the line is found
+					# rather than the line itself
+					marker = 'BODY'
+					index = source_lines.index{|line| line.include? marker}
+					
+					# all lines as one string
+					# starting from the line where BODY is declared, until the end
+					source_blob = source_lines[index..-1].join
+					
+					# extract desired code from the blob
+					body = source_blob.scan(find_between_curly_braces)
+					body = body.first.first # get the string out of the nested array structure
+					
+					# strip the brace characters off the found string
+					# (take off the first and last characters)
+					body = body[1..-2]
+					
+				# transform body as necessary
+					# nothing yet
+				
+				# place body code into proper spot in template
+					template_lines.each do |line|
+						line.gsub! /BODY/, body
+					end
 			
 			
 			# --- write compiled file
