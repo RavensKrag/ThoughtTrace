@@ -117,7 +117,9 @@ task :build do
 				# source    -----	raw source file
 				# out       -----	compiled file
 				
-				
+				lines.each do |line|
+					out.puts line
+				end
 			end
 		end
 	end
