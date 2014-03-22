@@ -155,6 +155,11 @@ task :build do
 					# split into separate lines
 					body_lines = body.split("\n")
 						
+						# remove leading and trailing empty lines
+						first_content_line = body_lines.index{ |line| line != "" }
+						last_content_line = body_lines.rindex{ |line| line != "" }
+						body_lines = body_lines[first_content_line..last_content_line]
+						
 						# indent each line with one tab
 						body_lines = body_lines.collect{ |line|	"	#{line}" }
 						# (except not the first line - that should have no leading whitespace)

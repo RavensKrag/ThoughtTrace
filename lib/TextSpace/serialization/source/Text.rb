@@ -28,7 +28,7 @@ text[:physics].body.p.y = y
 text[:style][:height] = height
 text.resize! # this only needs to be run when loading
 # need to figure out how to resize automatically on font size change ASAP
-	
+
 }
 
 OBJECT text # need more unique identifier for space
