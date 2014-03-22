@@ -17,6 +17,15 @@ class StringWrapper
 	
 	def strip_comments
 		@string = @string.strip_comment
+		
+		return self
+	end
+	
+	# x = a --> a = x
+	def reverse_assignment
+		@string = @string.split('=').collect{ |i| i.strip }.reverse.join(' = ')
+		
+		return self
 	end
 end
 

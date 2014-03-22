@@ -4,7 +4,7 @@ module TextSpace
 
 
 def dump(OBJECT)
-	BODY.strip_comments
+	BODY.strip_comments.reverse_assignment
 	
 	return ARGS
 end
