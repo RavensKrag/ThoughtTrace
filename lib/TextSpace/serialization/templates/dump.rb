@@ -1,5 +1,6 @@
-class CLASS_NAME
-	class << self
+module TextSpace
+	class CLASS_NAME
+		class << self
 
 
 def dump(OBJECT)
@@ -10,5 +11,6 @@ end
 
 
 
+end
 end
 end

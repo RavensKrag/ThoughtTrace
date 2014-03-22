@@ -1,4 +1,5 @@
-class CLASS_NAME
+module TextSpace
+	class CLASS_NAME
 
 
 def load(ARGS)
@@ -9,4 +10,5 @@ end
 
 
 
+end
 end
