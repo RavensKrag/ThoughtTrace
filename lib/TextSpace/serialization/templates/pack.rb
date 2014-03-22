@@ -3,7 +3,7 @@ module TextSpace
 		class << self
 
 
-def dump(OBJECT)
+def pack(OBJECT)
 	BODY.strip_comments.reverse_assignment
 	
 	return ARGS

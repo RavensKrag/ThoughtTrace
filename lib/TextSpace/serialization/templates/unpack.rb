@@ -2,7 +2,7 @@ module TextSpace
 	class CLASS_NAME
 
 
-def load(ARGS)
+def unpack(ARGS)
 	BODY
 	
 	return OBJECT

@@ -28,8 +28,10 @@ require_all './build_system'
 # load and dump files really just control moving data in and out of an array
 # the actual disk operation is handled separately
 # so serialization methods can be changed as necessary
-LOAD_FILE_SUFFIX = '_load.rb'
-DUMP_FILE_SUFFIX = '_dump.rb'
+CONFIG = {
+	:read  => ['./templates/unpack.rb', '_unpack.rb'],
+	:write => ['./templates/pack.rb', '_pack.rb']
+}
 
 SOURCE_DIRECTORY = './source'
 OUTPUT_DIRECTORY = './compiled_files'
@@ -60,11 +62,8 @@ task :build do
 	Dir["#{SOURCE_DIRECTORY}/*.rb"].each do |path_to_source|
 		name = path_to_source.strip_extension
 		
-		config = {
-			:load => ['./templates/load.rb', LOAD_FILE_SUFFIX],
-			:dump => ['./templates/dump.rb', DUMP_FILE_SUFFIX]
-		}
-		config.each do |config_name, data|
+		
+		CONFIG.each do |config_name, data|
 			template_file, suffix = data
 			
 			
