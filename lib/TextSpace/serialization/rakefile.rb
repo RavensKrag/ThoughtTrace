@@ -62,30 +62,50 @@ task :build do
 				output_filename = "#{name}#{suffix}"
 				filepath = File.expand_path File.join(OUTPUT_DIRECTORY, output_filename)
 				
+				
+				# ACTIVE FILE HANDLES:
+				# file      -----	raw source file
+				# template  -----	mold to base the construction of the output file on
+				
+				
+				# =================================
+				# =========== Procedure ===========
+				# =================================
+				# load file
+				# perform necessary operations
+				# and then perform one write pass
+				# =================================
+				
+				
+				
+				# --- filling out fields
+				# substitute CLASS_NAME for proper name of class
+				# 	name should be derived from name of source file
+				
+				
+				
+				# --- basic replacement
+				# substitute ARGS and OBJECT with proper values
+				# 	requires parsing of the source for ARGS and OBJECT values
+				
+				
+				
+				# --- body compilation
+				# perform necessary transforms on BODY
+				# 	must extract BODY code from source file,
+				# 	and then apply transforms defined in template
+				
+				
+				
+				
+				
+				
+				
 				File.new(filepath, 'w') do |out|
 					# ACTIVE FILE HANDLES:
 					# file      -----	raw source file
 					# template  -----	mold to base the construction of the output file on
 					# out       -----	compiled file
-					
-					
-					# --- filling out fields
-					# substitute CLASS_NAME for proper name of class
-					# 	name should be derived from name of source file
-					
-					
-					
-					# --- basic replacement
-					# substitute ARGS and OBJECT with proper values
-					# 	requires parsing of the source for ARGS and OBJECT values
-					
-					
-					
-					# --- body compilation
-					# perform necessary transforms on BODY
-					# 	must extract BODY code from source file,
-					# 	and then apply transforms defined in template
-					
 					
 					
 				end
