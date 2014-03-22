@@ -8,12 +8,15 @@ module TextSpace
 
 
 class StringWrapper
-	def initialize
-		
+	attr_reader :string
+	
+	def initialize(string)
+		@string = string
 	end
 	
-	def reverse_assignment
-		
+	
+	def strip_comments
+		@string = @string.strip_comment
 	end
 end
 

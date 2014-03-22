@@ -160,10 +160,69 @@ task :build do
 						last_content_line = body_lines.rindex{ |line| line != "" }
 						body_lines = body_lines[first_content_line..last_content_line]
 						
+						
+						
+						
+						# =========================================
+						# Transform body as requested in template
+						# =========================================
+							# find BODY line in template, and figure out what the transforms are
+								# same code as above, to find
+								# except searching through template_lines, instead of source_lines
+								marker = 'BODY'
+								index = template_lines.index{|line| line.include? marker}
+								
+								# copy the line so the original remains unchanged
+								line = template_lines[index].clone
+								
+								# remove the transform declarations from the original line, if any
+								template_lines[index] = line.split('.').first
+								
+								
+								
+								# remove whitespace
+								line.strip!
+								
+								# TRANSFORM FORMAT:
+									# BODY.foo.baz.bar
+									# (just basic method chaining)
+								transforms = line.split('.')
+								line = transforms.shift # remove "BODY", keep transforms
+								
+								# p transforms # DEBUG OUT
+								
+								line = nil
+								
+								
+							# actually apply transforms if any have been found
+								unless transforms.empty?
+									body_lines.collect! do |line|
+										line = TextSpace::StringWrapper.new line
+										
+										transforms.inject(line) do |line, method|
+											unless line.respond_to? method
+												raise "Build failed. Undefined transform '#{method}'"
+											end
+											
+											line.send method
+										end
+										
+										# puts line.string # DEBUG OUT
+										
+										line.string
+									end
+								end
+							
+						# =========================================
+						
+						
+						
 						# indent each line with one tab
 						body_lines = body_lines.collect{ |line|	"	#{line}" }
 						# (except not the first line - that should have no leading whitespace)
 						body_lines[0].lstrip!
+						
+						
 						
 					# rejoin body as one text blob
 					# (preparation for gsub!)

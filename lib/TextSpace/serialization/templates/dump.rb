@@ -4,7 +4,7 @@ module TextSpace
 
 
 def dump(OBJECT)
-	BODY.strip_comments.flip
+	BODY.strip_comments
 	
 	return ARGS
 end
