@@ -155,7 +155,10 @@ task :build do
 					# split into separate lines
 					body_lines = body.split("\n")
 						
-						
+						# indent each line with one tab
+						body_lines = body_lines.collect{ |line|	"	#{line}" }
+						# (except not the first line - that should have no leading whitespace)
+						body_lines[0].lstrip!
 						
 					# rejoin body as one text blob
 					# (preparation for gsub!)
