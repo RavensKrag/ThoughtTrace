@@ -152,7 +152,14 @@ task :build do
 					body = body[1..-2]
 					
 				# transform body as necessary
-					# nothing yet
+					# split into separate lines
+					body_lines = body.split("\n")
+						
+						
+						
+					# rejoin body as one text blob
+					# (preparation for gsub!)
+					body = body_lines.join("\n")
 				
 				# place body code into proper spot in template
 					template_lines.each do |line|
