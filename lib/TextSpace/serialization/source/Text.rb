@@ -13,7 +13,7 @@
 # ]
 
 
-ARGS font_name, x, y, height, string
+ARGS font_name x y height string
 
 BODY {
 

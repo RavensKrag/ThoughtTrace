@@ -16,4 +16,24 @@ class String
 			rstrip
 		end
 	end
+	
+	
+	
+	def foo(keyword)
+		line = self.clone
+		
+		line = line.strip_comment
+		
+		match = line.match(keyword)
+		
+		return nil unless match
+		return nil unless match.begin(0) == 0 # beginning of the match with index 0
+		
+		
+		parts = line.split
+		parts.shift # eject the return statement, keep the rest of the line
+		line = parts.join(', ')
+		# puts line
+		return line
+	end
 end

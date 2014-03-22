@@ -57,8 +57,8 @@ task :build do
 	# generate files that will perform load and dump
 	# place generated files into OUTPUT_DIRECTORY
 	
-	Dir["#{SOURCE_DIRECTORY}/*.rb"].each do |source|
-		name = source.strip_extension
+	Dir["#{SOURCE_DIRECTORY}/*.rb"].each do |path_to_source|
+		name = path_to_source.strip_extension
 		
 		config = {
 			:load => ['./templates/load.rb', LOAD_FILE_SUFFIX],
@@ -66,10 +66,6 @@ task :build do
 		}
 		config.each do |config_name, data|
 			template_file, suffix = data
-			
-			
-			# ACTIVE FILE HANDLES:
-			# source    -----	raw source file
 			
 			
 			# =================================
@@ -81,17 +77,27 @@ task :build do
 			# =================================
 			
 			
-			# --- load file into memory
-			# copy entire template file into memory for editing
+			# --- load files into memory
+			# copy entire file into memory for editing
+			
+			# source file
+			# NOTE: this will currently open the source file twice:
+			# once for the load pass, and again for dump pass
+			source = File.open(path_to_source, 'r')
+			source_lines = source.readlines
+			source.close
+			
+			# template file
 			template = File.open(template_file, 'r')
-			lines = template.readlines
+			template_lines = template.readlines
 			template.close
+			
 			
 			
 			# --- filling out fields
 			# substitute CLASS_NAME for proper name of class
 			# 	name should be derived from name of source file
-			lines.each do |line|
+			template_lines.each do |line|
 				line.gsub! /CLASS_NAME/, name
 			end
 			
@@ -99,6 +105,16 @@ task :build do
 			# --- basic replacement
 			# substitute ARGS and OBJECT with proper values
 			# 	requires parsing of the source for ARGS and OBJECT values
+			
+			args, obj = %w[ARGS OBJECT].collect do |marker|
+				source_lines.find{|line| line.include? marker}.foo(marker)
+			end
+			
+			
+			template_lines.each do |line|
+				line.gsub! /ARGS/, args if args
+				line.gsub! /OBJECT/, obj if obj
+			end
 			
 			
 			
@@ -119,7 +135,7 @@ task :build do
 				# source    -----	raw source file
 				# out       -----	compiled file
 				
-				lines.each do |line|
+				template_lines.each do |line|
 					out.puts line
 				end
 			end
