@@ -91,7 +91,9 @@ task :build do
 			# --- filling out fields
 			# substitute CLASS_NAME for proper name of class
 			# 	name should be derived from name of source file
-			
+			lines.each do |line|
+				line.gsub! /CLASS_NAME/, name
+			end
 			
 			
 			# --- basic replacement
