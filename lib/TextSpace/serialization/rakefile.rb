@@ -236,6 +236,10 @@ task :build do
 			
 			# --- write compiled file
 			# write the edited lines in template_lines into the proper output file
+				# create the output directory if necessary
+				Dir.mkdir OUTPUT_DIRECTORY unless File.exists? OUTPUT_DIRECTORY
+				
+				
 				output_filename = "#{name}#{suffix}"
 				filepath = File.expand_path File.join(OUTPUT_DIRECTORY, output_filename)
 				
