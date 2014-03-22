@@ -50,44 +50,45 @@ task :build do
 	Dir["#{SOURCE_DIRECTORY}/*.rb"].each do |file|
 		name = file.strip_extension
 		
-		
-		
-		#  __     __    __   ____ 
-		# (  )   /  \  / _\ (    \
-		# / (_/\(  O )/    \ ) D (
-		# \____/ \__/ \_/\_/(____/
-		File.open('./templates/load.rb', 'r') do |template|
+		{
+			:load => ['./templates/load.rb', LOAD_FILE_SUFFIX]
+			:dump => ['./templates/dump.rb', DUMP_FILE_SUFFIX]
+		}.each do |config_name, data|
+			template_file, suffix = data
 			
-			output_filename = "#{name}#{LOAD_FILE_SUFFIX}"
-			filepath = File.expand_path File.join(OUTPUT_DIRECTORY, output_filename)
 			
-			File.new(output_filename, 'w') do |out|
-				# ACTIVE FILE HANDLES:
-				# file      -----	raw source file
-				# template  -----	mold to base the construction of the output file on
-				# out       -----	compiled file
+			File.open(template_file, 'r') do |template|
 				
+				output_filename = "#{name}#{suffix}"
+				filepath = File.expand_path File.join(OUTPUT_DIRECTORY, output_filename)
 				
-			end
-			
-		end
-		
-		
-		#  ____  _  _  _  _  ____ 
-		# (    \/ )( \( \/ )(  _ \
-		#  ) D () \/ (/ \/ \ ) __/
-		# (____/\____/\_)(_/(__)  
-		File.open('./templates/dump.rb', 'r') do |template|
-			
-			output_filename = "#{name}#{DUMP_FILE_SUFFIX}"
-			filepath = File.expand_path File.join(OUTPUT_DIRECTORY, output_filename)
-			
-			File.new(output_filename, 'w') do |out|
-				# ACTIVE FILE HANDLES:
-				# file      -----	raw source file
-				# template  -----	mold to base the construction of the output file on
-				# out       -----	compiled file
-				
+				File.new(filepath, 'w') do |out|
+					# ACTIVE FILE HANDLES:
+					# file      -----	raw source file
+					# template  -----	mold to base the construction of the output file on
+					# out       -----	compiled file
+					
+					
+					# --- filling out fields
+					# substitute CLASS_NAME for proper name of class
+					# 	name should be derived from name of source file
+					
+					
+					
+					# --- basic replacement
+					# substitute ARGS and OBJECT with proper values
+					# 	requires parsing of the source for ARGS and OBJECT values
+					
+					
+					
+					# --- body compilation
+					# perform necessary transforms on BODY
+					# 	must extract BODY code from source file,
+					# 	and then apply transforms defined in template
+					
+					
+					
+				end
 				
 			end
 			
