@@ -125,19 +125,14 @@ task :build do
 			
 			
 			
+			
+			# --- write compiled file
+			# write the edited lines in template_lines into the proper output file
 			output_filename = "#{name}#{suffix}"
 			filepath = File.expand_path File.join(OUTPUT_DIRECTORY, output_filename)
 			
-			# raise "no file found" unless File.exists? filepath
-			
 			File.open(filepath, 'w') do |out|
-				# ACTIVE FILE HANDLES:
-				# source    -----	raw source file
-				# out       -----	compiled file
-				
-				template_lines.each do |line|
-					out.puts line
-				end
+				template_lines.each{ |line| out.puts line }
 			end
 		end
 	end
