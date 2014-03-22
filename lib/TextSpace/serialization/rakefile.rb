@@ -47,8 +47,8 @@ task :build do
 	# generate files that will perform load and dump
 	# place generated files into OUTPUT_DIRECTORY
 	
-	Dir["#{SOURCE_DIRECTORY}/*.rb"].each do |file|
-		name = file.strip_extension
+	Dir["#{SOURCE_DIRECTORY}/*.rb"].each do |source|
+		name = source.strip_extension
 		
 		{
 			:load => ['./templates/load.rb', LOAD_FILE_SUFFIX]
@@ -64,7 +64,7 @@ task :build do
 				
 				
 				# ACTIVE FILE HANDLES:
-				# file      -----	raw source file
+				# source    -----	raw source file
 				# template  -----	mold to base the construction of the output file on
 				
 				
@@ -103,7 +103,7 @@ task :build do
 				
 				File.new(filepath, 'w') do |out|
 					# ACTIVE FILE HANDLES:
-					# file      -----	raw source file
+					# source    -----	raw source file
 					# template  -----	mold to base the construction of the output file on
 					# out       -----	compiled file
 					
