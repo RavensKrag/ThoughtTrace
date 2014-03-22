@@ -79,44 +79,40 @@ task :build do
 			
 			# --- load files into memory
 			# copy entire file into memory for editing
-			
-			# source file
-			# NOTE: this will currently open the source file twice:
-			# once for the load pass, and again for dump pass
-			source = File.open(path_to_source, 'r')
-			source_lines = source.readlines
-			source.close
-			
-			# template file
-			template = File.open(template_file, 'r')
-			template_lines = template.readlines
-			template.close
-			
+				# source file
+				# NOTE: this will currently open the source file twice:
+				# once for the load pass, and again for dump pass
+				source = File.open(path_to_source, 'r')
+				source_lines = source.readlines
+				source.close
+				
+				# template file
+				template = File.open(template_file, 'r')
+				template_lines = template.readlines
+				template.close
 			
 			
 			# --- filling out fields
 			# substitute CLASS_NAME for proper name of class
 			# 	name should be derived from name of source file
-			template_lines.each do |line|
-				line.gsub! /CLASS_NAME/, name
-			end
+				template_lines.each do |line|
+					line.gsub! /CLASS_NAME/, name
+				end
 			
 			
 			# --- basic replacement
 			# substitute ARGS and OBJECT with proper values
 			# 	requires parsing of the source for ARGS and OBJECT values
-			
-			args, obj = %w[ARGS OBJECT].collect do |marker|
-				source_lines.find{|line| line.include? marker}.foo(marker)
-			end
-			
-			
-			template_lines.each do |line|
-				line.gsub! /ARGS/, args if args
-				line.gsub! /OBJECT/, obj if obj
-			end
-			
-			
+				args, obj = %w[ARGS OBJECT].collect do |marker|
+					source_lines.find{|line| line.include? marker}.foo(marker)
+				end
+				
+				
+				template_lines.each do |line|
+					line.gsub! /ARGS/, args if args
+					line.gsub! /OBJECT/, obj if obj
+				end
+				
 			
 			# --- body compilation
 			# perform necessary transforms on BODY
@@ -128,12 +124,12 @@ task :build do
 			
 			# --- write compiled file
 			# write the edited lines in template_lines into the proper output file
-			output_filename = "#{name}#{suffix}"
-			filepath = File.expand_path File.join(OUTPUT_DIRECTORY, output_filename)
-			
-			File.open(filepath, 'w') do |out|
-				template_lines.each{ |line| out.puts line }
-			end
+				output_filename = "#{name}#{suffix}"
+				filepath = File.expand_path File.join(OUTPUT_DIRECTORY, output_filename)
+				
+				File.open(filepath, 'w') do |out|
+					template_lines.each{ |line| out.puts line }
+				end
 		end
 	end
 end
