@@ -38,6 +38,20 @@ OUTPUT_DIRECTORY = './compiled_files'
 
 
 
+#  _  _  ____  ____  _  _   __  ____  ____ 
+# ( \/ )(  __)(_  _)/ )( \ /  \(    \/ ___)
+# / \/ \ ) _)   )(  ) __ ((  O )) D (\___ \
+# \_)(_/(____) (__) \_)(_/ \__/(____/(____/
+def read_file_to_array(filepath)
+	file = File.open(filepath, 'r')
+	lines = file.readlines
+	file.close
+	
+	return lines
+end
+
+
+
 #  ____  __   ____  __ _  ____ 
 # (_  _)/ _\ / ___)(  / )/ ___)
 #   )( /    \\___ \ )  ( \___ \
@@ -80,15 +94,10 @@ task :data_packing do
 				# source file
 				# NOTE: this will currently open the source file twice:
 				# once for the load pass, and again for dump pass
-				source = File.open(path_to_source, 'r')
-				source_lines = source.readlines
-				source.close
+				source_lines = read_file_to_array(path_to_source)
 				
 				# template file
-				template = File.open(template_file, 'r')
-				template_lines = template.readlines
-				template.close
-			
+				template_lines = read_file_to_array(template_file)
 			
 			# --- filling out fields
 			# substitute CLASS_NAME for proper name of class
