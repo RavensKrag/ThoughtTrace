@@ -96,7 +96,7 @@ end
 
 
 
-
+# extract the BODY definition from the source
 def extract_body(source_lines)
 	# start on line that says BODY and then find the code between the curly braces
 	find_between_curly_braces = %r{
@@ -131,6 +131,34 @@ def extract_body(source_lines)
 	body = body[1..-2]
 	
 	return body
+end
+
+# Extract the BODY transform information from the template
+# 
+# find BODY line in template, and figure out what the transforms are
+# take the transforms off the line,
+# but leave the BODY marker in place, so you know where the body should go
+def extract_transforms(template_lines)
+	# take the transform declarations off the original line
+	# "BODY.one.two.three" -> "BODY", ["one", "two", "three"]
+	# (preserve any indentation on the original line)
+	marker = 'BODY'
+	index = template_lines.index_of_line_containing marker
+	
+	line = template_lines[index]
+	
+	
+	line.chomp! # strip newline so it doesn't end up in the parts array
+		parts = line.split('.')
+	line = parts.shift + "\n" # reintroduce the newline that was stripped
+	
+	
+	template_lines[index] = line
+	
+	
+	transforms = parts
+	
+	return transforms
 end
 
 
@@ -217,50 +245,30 @@ task :data_packing do
 						# =========================================
 						# Transform body as requested in template
 						# =========================================
-							# find BODY line in template, and figure out what the transforms are
-								# same code as above, to find
-								# except searching through template_lines, instead of source_lines
-								marker = 'BODY'
-								index = template_lines.index_of_line_containing marker
+						transforms = extract_transforms(template_lines)
+						
+						# p transforms # DEBUG OUT
+							
+							
+						# actually apply transforms if any have been found
+						unless transforms.empty?
+							body_lines.collect! do |line|
+								line = TextSpace::StringWrapper.new line
 								
-								# copy the line so the original remains unchanged
-								line = template_lines[index].clone
-								
-								# remove the transform declarations from the original line, if any
-								template_lines[index] = line.split('.').first
-								
-								
-								
-								# remove whitespace
-								line.strip!
-								
-								# TRANSFORM FORMAT:
-									# BODY.foo.baz.bar
-									# (just basic method chaining)
-								transforms = line.split('.')
-								line = transforms.shift # remove "BODY", keep transforms
-								
-								# p transforms # DEBUG OUT
-								
-								
-							# actually apply transforms if any have been found
-								unless transforms.empty?
-									body_lines.collect! do |line|
-										line = TextSpace::StringWrapper.new line
-										
-										transforms.inject(line) do |line, method|
-											unless line.respond_to? method
-												raise "Build failed. Undefined transform '#{method}'"
-											end
-											
-											line.send method
-										end
-										
-										# puts line.string # DEBUG OUT
-										
-										line.string
+								transforms.inject(line) do |line, method|
+									unless line.respond_to? method
+										raise "Build failed. Undefined transform '#{method}'"
 									end
+									
+									line.send method
 								end
+								
+								# puts line.string # DEBUG OUT
+								
+								
+								line.string # <-- this is the collected value
+							end
+						end
 							
 						# =========================================
 						
