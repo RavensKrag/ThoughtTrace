@@ -50,6 +50,89 @@ def read_file_to_array(filepath)
 	return lines
 end
 
+def find_and_replace(lines_as_array, regex, replacement)
+	return if replacement.nil?
+	
+	lines_as_array.each do |line|
+		line.gsub! regex, replacement
+	end
+end
+
+
+
+class Array
+	def find_line_containing(marker)
+		return self.find{|line| line.include? marker}
+	end
+	
+	def index_of_line_containing(marker)
+		# same code from 'basic replacement section'
+		# or rather, similar
+		# searching for the index in the array where the line is found
+		# rather than the line itself
+		
+		return self.index{|line| line.include? marker}
+	end
+	
+	
+	
+	
+	# remove leading and trailing empty lines
+	def strip_blank_lines
+		first_content_line = self.index{ |line| line != "" }
+		last_content_line = self.rindex{ |line| line != "" }
+		return self[first_content_line..last_content_line]
+	end
+	
+	def indent_each_line
+		return self.collect{ |line|	"	#{line}" }
+	end
+	
+	# in place version of above method
+	def indent_each_line!
+		return self.collect!{ |line|	"	#{line}" }
+	end
+end
+
+
+
+
+def extract_body(source_lines)
+	# start on line that says BODY and then find the code between the curly braces
+	find_between_curly_braces = %r{
+	  (?<re>
+	    \{
+	      (?:
+	        (?> [^\{\}]+ )
+	        |
+	        \g<re>
+	      )*
+	    \}
+	  )
+	}x
+	
+	# same code from 'basic replacement section'
+	# or rather, similar
+	# searching for the index in the source_lines array where the line is found
+	# rather than the line itself
+	marker = 'BODY'
+	index = source_lines.index_of_line_containing marker
+	
+	# all lines as one string
+	# starting from the line where BODY is declared, until the end
+	source_blob = source_lines[index..-1].join
+	
+	# extract desired code from the blob
+	body = source_blob.scan(find_between_curly_braces)
+	body = body.first.first # get the string out of the nested array structure
+	
+	# strip the brace characters off the found string
+	# (take off the first and last characters)
+	body = body[1..-2]
+	
+	return body
+end
+
 
 
 #  ____  __   ____  __ _  ____ 
@@ -102,23 +185,18 @@ task :data_packing do
 			# --- filling out fields
 			# substitute CLASS_NAME for proper name of class
 			# 	name should be derived from name of source file
-				template_lines.each do |line|
-					line.gsub! /CLASS_NAME/, name
-				end
+				find_and_replace(template_lines, /CLASS_NAME/, name)
 			
 			
 			# --- basic replacement
 			# substitute ARGS and OBJECT with proper values
 			# 	requires parsing of the source for ARGS and OBJECT values
 				args, obj = %w[ARGS OBJECT].collect do |marker|
-					source_lines.find{|line| line.include? marker}.extract_value_list(marker)
+					source_lines.find_line_containing(marker).extract_value_list(marker)
 				end
 				
-				
-				template_lines.each do |line|
-					line.gsub! /ARGS/, args if args
-					line.gsub! /OBJECT/, obj if obj
-				end
+				find_and_replace(template_lines, /ARGS/, args)
+				find_and_replace(template_lines, /OBJECT/, obj)
 				
 			
 			# --- body compilation
@@ -126,48 +204,14 @@ task :data_packing do
 			# 	must extract BODY code from source file,
 			# 	and then apply transforms defined in template
 				# extract body
-					# start on line that says BODY and then find the code between the curly braces
-					find_between_curly_braces = %r{
-					  (?<re>
-					    \{
-					      (?:
-					        (?> [^\{\}]+ )
-					        |
-					        \g<re>
-					      )*
-					    \}
-					  )
-					}x
-					
-					# same code from 'basic replacement section'
-					# or rather, similar
-					# searching for the index in the source_lines array where the line is found
-					# rather than the line itself
-					marker = 'BODY'
-					index = source_lines.index{|line| line.include? marker}
-					
-					# all lines as one string
-					# starting from the line where BODY is declared, until the end
-					source_blob = source_lines[index..-1].join
-					
-					# extract desired code from the blob
-					body = source_blob.scan(find_between_curly_braces)
-					body = body.first.first # get the string out of the nested array structure
-					
-					# strip the brace characters off the found string
-					# (take off the first and last characters)
-					body = body[1..-2]
+					body = extract_body(source_lines)
 					
 				# transform body as necessary
 					# split into separate lines
 					body_lines = body.split("\n")
 						
 						# remove leading and trailing empty lines
-						first_content_line = body_lines.index{ |line| line != "" }
-						last_content_line = body_lines.rindex{ |line| line != "" }
-						body_lines = body_lines[first_content_line..last_content_line]
-						
-						
+						body_lines = body_lines.strip_blank_lines
 						
 						
 						# =========================================
@@ -177,7 +221,7 @@ task :data_packing do
 								# same code as above, to find
 								# except searching through template_lines, instead of source_lines
 								marker = 'BODY'
-								index = template_lines.index{|line| line.include? marker}
+								index = template_lines.index_of_line_containing marker
 								
 								# copy the line so the original remains unchanged
 								line = template_lines[index].clone
@@ -197,8 +241,6 @@ task :data_packing do
 								line = transforms.shift # remove "BODY", keep transforms
 								
 								# p transforms # DEBUG OUT
-								
-								line = nil
 								
 								
 							# actually apply transforms if any have been found
@@ -225,7 +267,7 @@ task :data_packing do
 						
 						
 						# indent each line with one tab
-						body_lines = body_lines.collect{ |line|	"	#{line}" }
+						body_lines.indent_each_line!
 						# (except not the first line - that should have no leading whitespace)
 						body_lines[0].lstrip!
 						
@@ -236,9 +278,8 @@ task :data_packing do
 					body = body_lines.join("\n")
 				
 				# place body code into proper spot in template
-					template_lines.each do |line|
-						line.gsub! /BODY/, body
-					end
+					find_and_replace(template_lines, /BODY/, body)
+					
 			
 			
 			# --- write compiled file
