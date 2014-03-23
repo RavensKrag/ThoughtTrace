@@ -280,40 +280,32 @@ task :data_packing do
 			# 	must extract BODY code from source file,
 			# 	and then apply transforms defined in template
 				# extract body
-					body = extract_body(source_lines)
-					
+				body = extract_body(source_lines)
+				
+				
 				# transform body as necessary
-					body = body.split_and_rejoin do |body_lines|
-						# remove leading and trailing empty lines
-						body_lines.strip_blank_lines!
-						
-						
-						# =========================================
-						# Transform body as requested in template
-						# =========================================
-						transforms = extract_transforms(template_lines)
-						
-						apply_transforms(body_lines, transforms) unless transforms.empty?
-						
-						# =========================================
-						
-						
-						
-						# indent each line with one tab
-						body_lines.indent_each_line!
-						# (except not the first line - that should have no leading whitespace)
-						body_lines[0].lstrip!
-						
-						
-						# DEBUG OUT
-						# puts "final output"
-						# puts body_lines
-						# puts "=========="
-					end
+				body = body.split_and_rejoin do |body_lines|
+					body_lines.strip_blank_lines!
+					
+					
+					# =========================================
+					# Transform body as requested in template
+					# =========================================
+					transforms = extract_transforms(template_lines)
+					
+					apply_transforms(body_lines, transforms) unless transforms.empty?
+					# =========================================
+					
+					
+					
+					body_lines.indent_each_line!
+					# (except not the first line - that should have no leading whitespace)
+					body_lines[0].lstrip!
+				end
 					
 				
 				# place body code into proper spot in template
-					find_and_replace(template_lines, /BODY/, body)
+				find_and_replace(template_lines, /BODY/, body)
 					
 			
 			
