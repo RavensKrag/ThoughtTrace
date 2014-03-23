@@ -59,6 +59,24 @@ def find_and_replace(lines_as_array, regex, replacement)
 end
 
 
+class String
+	# split lines into array entries
+	# allow manipulation of the array inside a block
+	# when the block closes, rejoin the array into one String again
+	# (can't figure out how to do this in-place, so I'll just return a new string)
+	
+	# Make sure to perform all operations on the array in-place
+	# (non-in-place operations will rebind the variable, which is not what you want)
+	def split_and_rejoin(marker="\n", &block)
+		lines_as_array = self.split(marker)
+		
+			block.call lines_as_array
+		
+		output = lines_as_array.join(marker)
+		
+		return output
+	end
+end
 
 class Array
 	def find_line_containing(marker)
@@ -82,6 +100,18 @@ class Array
 		first_content_line = self.index{ |line| line != "" }
 		last_content_line = self.rindex{ |line| line != "" }
 		return self[first_content_line..last_content_line]
+	end
+	
+	# in-place version of above method
+	def strip_blank_lines!
+		first_content_line = self.index{ |line| line != "" }
+		last_content_line = self.rindex{ |line| line != "" }
+		
+		self[0..first_content_line] = nil # remove from start to first good line
+		self[last_content_line..-1] = nil # remove from last good line to end
+		self.compact! # remove the 'nil's from the last two statements
+		
+		return self
 	end
 	
 	def indent_each_line(indent_sequence="\t")
@@ -235,11 +265,9 @@ task :data_packing do
 					body = extract_body(source_lines)
 					
 				# transform body as necessary
-					# split into separate lines
-					body_lines = body.split("\n")
-						
+					body = body.split_and_rejoin do |body_lines|
 						# remove leading and trailing empty lines
-						body_lines = body_lines.strip_blank_lines
+						body_lines.strip_blank_lines!
 						
 						
 						# =========================================
@@ -269,7 +297,7 @@ task :data_packing do
 								line.string # <-- this is the collected value
 							end
 						end
-							
+						
 						# =========================================
 						
 						
@@ -280,10 +308,12 @@ task :data_packing do
 						body_lines[0].lstrip!
 						
 						
-						
-					# rejoin body as one text blob
-					# (preparation for gsub!)
-					body = body_lines.join("\n")
+						# DEBUG OUT
+						# puts "final output"
+						# puts body_lines
+						# puts "=========="
+					end
+					
 				
 				# place body code into proper spot in template
 					find_and_replace(template_lines, /BODY/, body)
