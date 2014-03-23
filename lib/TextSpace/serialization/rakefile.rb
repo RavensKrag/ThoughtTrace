@@ -135,11 +135,11 @@ module Parser
 			
 			
 			# figure out if there's a each-line transform on the last line or not
-			parts = lines[-1].split('}')
+			parts = lines.last.split('}')
 			if parts.size != 1
-				foo = parts.shift # take off the first element (pop is the last element)
+				p = parts.shift # take off the first element (pop is the last element)
 				
-				line_transforms << foo unless foo =~ /^\s*$/ # s is whitespace only
+				line_transforms << p unless p =~ /^\s*$/ # s is whitespace only
 			end
 			
 			
