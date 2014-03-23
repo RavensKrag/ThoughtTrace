@@ -37,8 +37,8 @@ class Array
 		first_content_line = self.index{ |line| line != "" }
 		last_content_line = self.rindex{ |line| line != "" }
 		
-		self[0..first_content_line] = nil # remove from start to first good line
-		self[last_content_line..-1] = nil # remove from last good line to end
+		self[0..(first_content_line-1)] = nil # remove from start to first good line
+		self[(last_content_line+1)..-1] = nil # remove from last good line to end
 		self.compact! # remove the 'nil's from the last two statements
 		
 		return self
