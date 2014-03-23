@@ -84,13 +84,13 @@ class Array
 		return self[first_content_line..last_content_line]
 	end
 	
-	def indent_each_line
-		return self.collect{ |line|	"	#{line}" }
+	def indent_each_line(indent_sequence="\t")
+		return self.collect{ |line|	"#{indent_sequence}#{line}" }
 	end
 	
 	# in place version of above method
-	def indent_each_line!
-		return self.collect!{ |line|	"	#{line}" }
+	def indent_each_line!(indent_sequence="\t")
+		return self.collect!{ |line|	"#{indent_sequence}#{line}" }
 	end
 end
 
