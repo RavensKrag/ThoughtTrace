@@ -46,10 +46,7 @@ class String
 		
 		line = line.strip_comment
 		
-		match = line.match(keyword)
-		
-		return nil unless match
-		return nil unless match.begin(0) == 0 # beginning of the match with index 0
+		return nil unless line.starts_with? keyword
 		
 		
 		parts = line.split
@@ -57,5 +54,17 @@ class String
 		line = parts.join(', ')
 		# puts line
 		return line
+	end
+	
+	
+	
+	
+	def starts_with?(expression)
+		match = self.match(expression)
+		if match and match.begin(0) == 0 # first starts at the beginning of the line
+			return true
+		else
+			return false
+		end
 	end
 end
