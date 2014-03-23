@@ -4,7 +4,10 @@ module TextSpace
 
 
 def pack(OBJECT)
-	BODY.strip_comments.reverse_assignment
+	BODY {
+		strip_comments
+		reverse_assignment
+	}.reverse
 	
 	return ARGS
 end

@@ -52,12 +52,8 @@ end
 
 
 
-
-
-# extract the BODY definition from the source
-def extract_body(source_lines)
-	# start on line that says BODY and then find the code between the curly braces
-	find_between_curly_braces = %r{
+module Parser
+	MATCHING_CURLY_BRACES = %r{
 	  (?<re>
 	    \{
 	      (?:
@@ -69,74 +65,160 @@ def extract_body(source_lines)
 	  )
 	}x
 	
-	# same code from 'basic replacement section'
-	# or rather, similar
-	# searching for the index in the source_lines array where the line is found
-	# rather than the line itself
-	marker = 'BODY'
-	index = source_lines.index_of_line_containing marker
+	class << self
 	
-	# all lines as one string
-	# starting from the line where BODY is declared, until the end
-	source_blob = source_lines[index..-1].join
-	
-	# extract desired code from the blob
-	body = source_blob.scan(find_between_curly_braces)
-	body = body.first.first # get the string out of the nested array structure
-	
-	# strip the brace characters off the found string
-	# (take off the first and last characters)
-	body = body[1..-2]
-	
-	return body
-end
-
-# Extract the BODY transform information from the template
-# 
-# find BODY line in template, and figure out what the transforms are
-# take the transforms off the line,
-# but leave the BODY marker in place, so you know where the body should go
-def extract_transforms(template_lines)
-	# take the transform declarations off the original line
-	# "BODY.one.two.three" -> "BODY", ["one", "two", "three"]
-	# (preserve any indentation on the original line)
-	marker = 'BODY'
-	index = template_lines.index_of_line_containing marker
-	
-	line = template_lines[index]
-	
-	
-	line.chomp! # strip newline so it doesn't end up in the parts array
-		parts = line.split('.')
-	line = parts.shift + "\n" # reintroduce the newline that was stripped
-	
-	
-	template_lines[index] = line
-	
-	
-	transforms = parts
-	
-	return transforms
-end
-
-def apply_transforms(body_lines, transforms)
-	body_lines.collect! do |line|
-		line = TextSpace::StringWrapper.new line
+	# extract the BODY definition from the source
+	def extract_body(source_lines)
+		# start on line that says BODY and then find the code between the curly braces
 		
-		transforms.inject(line) do |line, method|
-			unless line.respond_to? method
-				raise "Build failed. Undefined transform '#{method}'"
+		# same code from 'basic replacement section'
+		# or rather, similar
+		# searching for the index in the source_lines array where the line is found
+		# rather than the line itself
+		marker = 'BODY'
+		index = source_lines.index_of_line_containing marker
+		
+		# all lines as one string
+		# starting from the line where BODY is declared, until the end
+		source_blob = source_lines[index..-1].join
+		
+		# extract desired code from the blob
+		body = source_blob.scan(MATCHING_CURLY_BRACES)
+		body = body.first.first # get the string out of the nested array structure
+		
+		# strip the brace characters off the found string
+		# (take off the first and last characters)
+		body = body[1..-2]
+		
+		return body
+	end
+
+	# Extract the BODY transform information from the template
+	# 
+	# find BODY line in template, and figure out what the transforms are
+	# take the transforms off the line,
+	# but leave the BODY marker in place, so you know where the body should go
+	def extract_transforms(template_lines)
+		marker = 'BODY'
+		
+		# TODO: store 'curly-brace finding' part of regex in variable, because it ends up being used at least twice
+		
+		expression = /\s*#{marker}\s*\{\s*/ # '   BODY { ' <-- any amount of whitespace anywhere
+		
+			
+		index = template_lines.index_of_line_containing marker
+		line = template_lines[index]
+		
+		
+		transforms = nil
+		if line.starts_with? expression
+		# --- curly-brace (multi-line) format
+			# statements listed between curly braces, one statement per line
+			# - these statements should be applied to every line in the BODY
+			# 
+			# additional statements listed as in one-line format, after the ending brace
+			# - these statements apply to the Array of lines as a whole
+			
+			# find the first line that contains a closing curly brace
+			# which comes after the line with the body marker
+			# the index of that line, is the ending index for the scan
+			
+			stop_index =	(index..(template_lines.size-1)).find do |i|
+								template_lines[i].include? '}'
+							end
+			
+			
+			# assuming the 'first line' never contains transforms
+			# (maybe that's weird considering how the last line could? I don't think so...)
+			parts = template_lines[(index+1)..stop_index]
+			line_transforms = parts[0..-2] # last line may or may not be (is '}' on a new line?)
+			
+			
+			# figure out if there's a each-line transform on the last line or not
+			foo = parts[-1].split('}')
+			if foo.size != 1
+				s = foo.shift # take off the first element (pop is the last element)
+				if s =~ /^\s*$/ # s is whitespace only
+					
+				else
+					
+					line_transforms << s
+				end
 			end
 			
-			line.send method
+			
+			raise "should only be one element left in foo" unless foo.size == 1
+			array_transforms = foo.first # the only element, but I like this way of getting it
+			
+			
+			
+			
+			# --- refine each-line transforms
+			line_transforms.each do |line|
+				line.strip!
+			end
+			
+			transforms = line_transforms
+			
+			# --- refine array-wide transforms
+			
+			
+			
+			
+			# --- clean up ---
+			# take the opening curly-brace off, along with any whitespace around it
+			# (leaves the indentation intact, though)
+			template_lines[index].sub! /\s*\{\s*/, ''
+			
+			# remove lines associated with transforms
+			template_lines[(index+1)..stop_index] = nil
+			template_lines.compact!
+		else
+		# --- one-line format
+			# take the transform declarations off the original line
+			# "BODY.one.two.three" -> "BODY", ["one", "two", "three"]
+			# (preserve any indentation on the original line)
+			
+			line.chomp! # strip newline so it doesn't end up in the parts array
+				parts = line.split('.')
+			line = parts.shift + "\n" # reintroduce the newline that was stripped
+			
+			
+			template_lines[index] = line
+			
+			
+			transforms = parts
 		end
 		
-		# puts line.string # DEBUG OUT
 		
 		
-		line.string # <-- this is the collected value
+		return transforms
+	end
+
+	def apply_transforms(body_lines, transforms)
+		body_lines.collect! do |line|
+			line = TextSpace::StringWrapper.new line
+			
+			transforms.inject(line) do |line, method|
+				unless line.respond_to? method
+					raise "Build failed. Undefined transform '#{method}'"
+				end
+				
+				line.send method
+			end
+			
+			# puts line.string # DEBUG OUT
+			
+			
+			line.string # <-- this is the collected value
+		end
+	end
+	
+	
 	end
 end
+
+
 
 
 #  ____  __   ____  __ _  ____ 
@@ -208,7 +290,7 @@ task :data_packing do
 			# 	must extract BODY code from source file,
 			# 	and then apply transforms defined in template
 				# extract body
-				body = extract_body(source_lines)
+				body = Parser.extract_body(source_lines)
 				
 				
 				# transform body as necessary
@@ -219,9 +301,9 @@ task :data_packing do
 					# =========================================
 					# Transform body as requested in template
 					# =========================================
-					transforms = extract_transforms(template_lines)
+					transforms = Parser.extract_transforms(template_lines)
 					
-					apply_transforms(body_lines, transforms) unless transforms.empty?
+					Parser.apply_transforms(body_lines, transforms) unless transforms.empty?
 					# =========================================
 					
 					
