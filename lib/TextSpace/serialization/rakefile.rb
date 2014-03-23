@@ -50,15 +50,6 @@ def read_file_to_array(filepath)
 	return lines
 end
 
-def find_and_replace(lines_as_array, regex, replacement)
-	return if replacement.nil?
-	
-	lines_as_array.each do |line|
-		line.gsub! regex, replacement
-	end
-end
-
-
 class String
 	# split lines into array entries
 	# allow manipulation of the array inside a block
@@ -79,6 +70,16 @@ class String
 end
 
 class Array
+	def find_and_replace(regex, replacement)
+		return if replacement.nil?
+		
+		self.each do |line|
+			line.gsub! regex, replacement
+		end
+	end
+	
+	
+	
 	def find_line_containing(marker)
 		return self.find{|line| line.include? marker}
 	end
@@ -261,7 +262,7 @@ task :data_packing do
 			# --- filling out fields
 			# substitute CLASS_NAME for proper name of class
 			# 	name should be derived from name of source file
-				find_and_replace(template_lines, /CLASS_NAME/, name)
+				template_lines.find_and_replace(/CLASS_NAME/, name)
 			
 			
 			# --- basic replacement
@@ -271,8 +272,8 @@ task :data_packing do
 					source_lines.find_line_containing(marker).extract_value_list(marker)
 				end
 				
-				find_and_replace(template_lines, /ARGS/, args)
-				find_and_replace(template_lines, /OBJECT/, obj)
+				template_lines.find_and_replace(/ARGS/, args)
+				template_lines.find_and_replace(/OBJECT/, obj)
 				
 			
 			# --- body compilation
@@ -305,7 +306,7 @@ task :data_packing do
 					
 				
 				# place body code into proper spot in template
-				find_and_replace(template_lines, /BODY/, body)
+				template_lines.find_and_replace(/BODY/, body)
 					
 			
 			
