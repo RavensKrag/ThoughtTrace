@@ -130,25 +130,21 @@ module Parser
 			
 			# assuming the 'first line' never contains transforms
 			# (maybe that's weird considering how the last line could? I don't think so...)
-			parts = template_lines[(index+1)..stop_index]
-			line_transforms = parts[0..-2] # last line may or may not be (is '}' on a new line?)
+			lines = template_lines[(index+1)..stop_index]
+			line_transforms = lines[0..-2] # last line may or may not be (is '}' on a new line?)
 			
 			
 			# figure out if there's a each-line transform on the last line or not
-			foo = parts[-1].split('}')
-			if foo.size != 1
-				s = foo.shift # take off the first element (pop is the last element)
-				if s =~ /^\s*$/ # s is whitespace only
-					
-				else
-					
-					line_transforms << s
-				end
+			parts = lines[-1].split('}')
+			if parts.size != 1
+				foo = parts.shift # take off the first element (pop is the last element)
+				
+				line_transforms << foo unless foo =~ /^\s*$/ # s is whitespace only
 			end
 			
 			
-			raise "should only be one element left in foo" unless foo.size == 1
-			array_transforms = foo.first # the only element, but I like this way of getting it
+			raise "should only be one element left in parts" unless parts.size == 1
+			array_transforms_string = parts.first
 			
 			
 			
@@ -161,7 +157,8 @@ module Parser
 			transforms = line_transforms
 			
 			# --- refine array-wide transforms
-			
+			array_transforms = array_transforms_string.split('.')
+			array_transforms.shift # first element is always empty string; discard it
 			
 			
 			
