@@ -191,6 +191,24 @@ def extract_transforms(template_lines)
 	return transforms
 end
 
+def apply_transforms(body_lines, transforms)
+	body_lines.collect! do |line|
+		line = TextSpace::StringWrapper.new line
+		
+		transforms.inject(line) do |line, method|
+			unless line.respond_to? method
+				raise "Build failed. Undefined transform '#{method}'"
+			end
+			
+			line.send method
+		end
+		
+		# puts line.string # DEBUG OUT
+		
+		
+		line.string # <-- this is the collected value
+	end
+end
 
 
 #  ____  __   ____  __ _  ____ 
@@ -275,28 +293,7 @@ task :data_packing do
 						# =========================================
 						transforms = extract_transforms(template_lines)
 						
-						# p transforms # DEBUG OUT
-							
-							
-						# actually apply transforms if any have been found
-						unless transforms.empty?
-							body_lines.collect! do |line|
-								line = TextSpace::StringWrapper.new line
-								
-								transforms.inject(line) do |line, method|
-									unless line.respond_to? method
-										raise "Build failed. Undefined transform '#{method}'"
-									end
-									
-									line.send method
-								end
-								
-								# puts line.string # DEBUG OUT
-								
-								
-								line.string # <-- this is the collected value
-							end
-						end
+						apply_transforms(body_lines, transforms) unless transforms.empty?
 						
 						# =========================================
 						
