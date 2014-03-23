@@ -18,6 +18,25 @@ class String
 	end
 	
 	
+	# split lines into array entries
+	# allow manipulation of the array inside a block
+	# when the block closes, rejoin the array into one String again
+	# (can't figure out how to do this in-place, so I'll just return a new string)
+	
+	# Make sure to perform all operations on the array in-place
+	# (non-in-place operations will rebind the variable, which is not what you want)
+	def split_and_rejoin(marker="\n", &block)
+		lines_as_array = self.split(marker)
+		
+			block.call lines_as_array
+		
+		output = lines_as_array.join(marker)
+		
+		return output
+	end
+	
+	
+	
 	# If the string is of the form
 		# KEYWORD a b c d
 		# return the list of values, leaving the original string intact
