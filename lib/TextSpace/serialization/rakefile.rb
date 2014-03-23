@@ -43,9 +43,8 @@ OUTPUT_DIRECTORY = './compiled_files'
 #   )( /    \\___ \ )  ( \___ \
 #  (__)\_/\_/(____/(__\_)(____/
 
-# source files are 'foo.rb' built files are 'foo_reverse.rb'
 task :default => :build
-
+task :build => :data_packing
 
 
 
@@ -53,7 +52,7 @@ CLEAN.include OUTPUT_DIRECTORY
 # CLOBBER.include
 
 
-task :build do
+task :data_packing do
 	# Examine the files in SOURCE_DIRECTORY
 	# combining that data with the data from templates/
 	# generate files that will perform load and dump
