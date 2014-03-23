@@ -102,7 +102,7 @@ task :data_packing do
 			# substitute ARGS and OBJECT with proper values
 			# 	requires parsing of the source for ARGS and OBJECT values
 				args, obj = %w[ARGS OBJECT].collect do |marker|
-					source_lines.find{|line| line.include? marker}.foo(marker)
+					source_lines.find{|line| line.include? marker}.extract_value_list(marker)
 				end
 				
 				

@@ -18,8 +18,11 @@ class String
 	end
 	
 	
-	
-	def foo(keyword)
+	# If the string is of the form
+		# KEYWORD a b c d
+		# return the list of values, leaving the original string intact
+	# return nil in all other cases
+	def extract_value_list(keyword)
 		line = self.clone
 		
 		line = line.strip_comment
