@@ -63,8 +63,7 @@ task :default => :build
 task :build => :data_packing
 
 
-# create the output directory if necessary
-Dir.mkdir OUTPUT_DIRECTORY unless File.exists? OUTPUT_DIRECTORY
+directory OUTPUT_DIRECTORY
 
 
 CLEAN.include OUTPUT_DIRECTORY
@@ -90,7 +89,9 @@ pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source
 		output_filename = "#{name}#{suffix}"
 		path_to_target = File.join(OUTPUT_DIRECTORY, output_filename)
 		
-		file path_to_target => path_to_source do
+		
+		file path_to_target => [path_to_source, OUTPUT_DIRECTORY] do
+			puts "Compiling #{path_to_source} ----into---> #{path_to_target}"
 			# =================================
 			# =========== Procedure ===========
 			# =================================
