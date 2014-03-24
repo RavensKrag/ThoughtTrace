@@ -157,7 +157,7 @@ module Parser
 			
 			
 			body_lines.collect! do |line|
-				line = ThoughtTrace::StringWrapper.new line
+				line = ThoughtTrace::StringWrapper.new line, obj, args
 				
 				transforms.inject(line) do |line, method|
 					unless line.is_a? ThoughtTrace::StringWrapper

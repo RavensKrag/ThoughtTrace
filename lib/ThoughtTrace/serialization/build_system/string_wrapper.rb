@@ -12,8 +12,11 @@ module ThoughtTrace
 class StringWrapper
 	attr_reader :string
 	
-	def initialize(string)
+	def initialize(string, obj, args)
 		@string = string
+		
+		@object = obj
+		@args = args
 	end
 	
 	
