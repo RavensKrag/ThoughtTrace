@@ -50,9 +50,6 @@ module ThoughtTrace
 			
 			packed_array.compact! # necessary only because not all Entities are being processed
 			
-			puts filepath
-			p packed_array
-			
 			CSV.open(filepath, "wb") do |csv|
 				header = "font name,x,y,height,string".split(',')
 				
@@ -74,8 +71,6 @@ module ThoughtTrace
 			path = File.join(filepath, 'text.csv')
 			full_path = File.expand_path path
 			
-			puts full_path
-			
 			File.open(full_path, 'r') do |f|
 				csv = CSV.new(f,
 						:headers => true, :header_converters => :symbol, :converters => :all
@@ -84,7 +79,6 @@ module ThoughtTrace
 				rows_as_hashes = csv.to_a.map {|row| row.to_hash }
 				
 				rows_as_hashes.each do |row|
-					p row
 					font = ThoughtTrace::Font.new row[:font_name]
 					
 					text = ThoughtTrace::Text.new font
