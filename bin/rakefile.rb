@@ -3,6 +3,15 @@ require 'rubygems'
 require 'rake'
 require 'rake/clean'
 
+# -- file hierarchy --
+		# ROOT
+		# 	this directory
+		# 		this file
+
+# Must expand '..' shortcut into a proper path. But that results in a shorter string.
+path_to_root = File.expand_path '../..', __FILE__
+
+
 task :default => :run
 
 # run the program
@@ -19,8 +28,6 @@ end
 
 # run the serialization build system
 task :build_pack_unpack_system do
-	path_to_root = File.expand_path '../..', __FILE__
-	
 	Dir.chdir path_to_root do
 		Dir.chdir File.join('lib', 'ThoughtTrace', 'serialization') do
 			`rake`
@@ -42,14 +49,7 @@ task :load_dependencies do
 	# but it makes handling loading files in various directories
 	# (especially directories that are not children of the current directory)
 	# much easier to manage and understand.
-
-		# -- file hierarchy --
-		# ROOT
-		# 	this directory
-		# 		this file
-
-	# Must expand '..' shortcut into a proper path. But that results in a shorter string.
-	path_to_root = File.expand_path '../..', __FILE__
+	
 	full_path = File.join path_to_root, "lib", "ThoughtTrace"
 
 	Dir.chdir full_path do
