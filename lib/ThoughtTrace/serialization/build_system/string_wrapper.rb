@@ -48,7 +48,10 @@ class StringWrapper
 			# take all arguments,
 			# create one line for each argument that needs to be extracted from the object
 			lines =	arg_blob.split(/,\s*/).collect do |arg|
-						"#{arg} = #{var_name}.#{arg}"
+						# accessor should not repeat the name of the variable
+						accessor =	arg.sub(/#{var_name}_/, '')
+						
+						"#{arg} = #{var_name}.#{accessor}"
 					end
 			
 			# merge the lines into one blob that will be appended to file
