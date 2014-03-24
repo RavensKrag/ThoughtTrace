@@ -70,6 +70,7 @@ CLEAN.include OUTPUT_DIRECTORY
 # CLOBBER.include
 
 
+build_system_files = Dir["./build_system/*.rb"] # needed only as a dependency
 
 
 # Examine the files in SOURCE_DIRECTORY
@@ -90,7 +91,9 @@ pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source
 		path_to_target = File.join(OUTPUT_DIRECTORY, output_filename)
 		
 		
-		file path_to_target => [path_to_source, template_file, OUTPUT_DIRECTORY] do
+		dependencies = [path_to_source, template_file, OUTPUT_DIRECTORY] + build_system_files
+		
+		file path_to_target => dependencies do
 			puts "Compiling #{path_to_source} ----into---> #{path_to_target}"
 			# =================================
 			# =========== Procedure ===========
