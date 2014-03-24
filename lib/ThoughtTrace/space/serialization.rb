@@ -45,17 +45,14 @@ module ThoughtTrace
 								# currently only have builds for Text
 								next unless entity.is_a? ThoughtTrace::Text
 								
-								entity.pack
+								
+								class_name = entity.class.name.split('::').last # ignore modules
+								[class_name] + entity.pack
 							end
 			
 			packed_array.compact! # necessary only because not all Entities are being processed
 			
 			CSV.open(filepath, "wb") do |csv|
-				header = "font name,x,y,height,string".split(',')
-				
-				
-				csv << header
-				
 				packed_array.each do |data|
 					csv << data
 				end
@@ -71,27 +68,25 @@ module ThoughtTrace
 			path = File.join(filepath, 'text.csv')
 			full_path = File.expand_path path
 			
-			File.open(full_path, 'r') do |f|
-				csv = CSV.new(f,
-						:headers => true, :header_converters => :symbol, :converters => :all
-					)
+			
+			
+			# it's not actually an array of arrays, but CSV::Table has a similar interface
+			arr_of_arrs = CSV.read(full_path,
+							:headers => false, :header_converters => :symbol, :converters => :all
+							)
+			
+			arr_of_arrs.each do |row|
+				args = row.to_a
 				
-				rows_as_hashes = csv.to_a.map {|row| row.to_hash }
+				klass_name = args.shift
 				
-				rows_as_hashes.each do |row|
-					font = ThoughtTrace::Font.new row[:font_name]
-					
-					text = ThoughtTrace::Text.new font
-					text.string = row[:string]
-					
-					text[:physics].body.p = CP::Vec2.new(row[:x], row[:y])
-					
-					text[:style][:height] = row[:height]
-					text.resize!
-					
-					space.add text
-				end
+				klass = ThoughtTrace.const_get klass_name
+				
+				obj = klass.unpack(*args)
+				
+				space.add obj
 			end
+			
 			
 			# Return the space with all the stuff in it
 			return space

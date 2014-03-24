@@ -1,3 +1,2 @@
-font name,x,y,height,string
-Lucida Sans Unicode,476.0,184.0,30,Hello World!
-Lucida Sans Unicode,845.0,153.0,50,Check this out
+Text,Lucida Sans Unicode,373.0,211.0,30,Hello World!
+Text,Lucida Sans Unicode,845.0,153.0,50,Check this out
