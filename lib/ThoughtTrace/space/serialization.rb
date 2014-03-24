@@ -2,43 +2,14 @@ require 'csv'
 
 module ThoughtTrace
 	class Space < CP::Space
-		# should ideally be able to specify format,
-		# and then the system can load / save the necessary data in accordance with the schema
+		# Convert entities back and forth between arrays of data using pack / unpack
+		# and then save to disk using CSV ( can easily substitute for another format later )
 		
-		# FORMATTING = {
-		# 	# mapping of numbers to font names
-		# 	:font => %w[number name],
-		# 	:font => [
-		# 		['number', 'L'], # 32-bit unsigned
-		# 		['name', '']
-		# 	]
-			
-		# 	# must jump through font association table to resolve font
-		# 	:text => %w[font.number x y height text]
-			
-			
-		# 	:text => %w[font.number components-physics-body-x components-physics-body-y components-style-height text]
-		# }	
+		# This class handles extracting class names and saving them in the CSV
+		# pack / unpack does not currently encode that data, and I don't think it should
 		
-		# filepath points to the directory containing the necessary project files
-		
-		# consider using Array#pack and String#unpack instead of CSV
-		
-		
-		
-		
-		
-		
-		# # to serialize string using pack use
-		# # dump
-		# 	[str].pack "Z#{str.length+1}" # always end strings with a null terminator
-		# # load
-		# 	blob_string.unpack 'Z*' # unpack a null-terminated string
-		
-		
-		
-		
-		
+		# The creation of pack / unpack methods are semi-automated.
+		# Details can be found in the serialization/ directory
 		
 		def dump(filepath)
 			packed_array =	@objects.collect do |entity|
