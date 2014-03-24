@@ -107,6 +107,9 @@ module Parser
 				line.strip!
 			end
 			
+			line_transforms.collect! { |line| line.strip_comment }
+			line_transforms.reject! { |line| line.whitespace_only? }
+			
 			
 			# --- refine array-wide transforms
 			array_transforms = array_transforms_string.strip!.split('.')
