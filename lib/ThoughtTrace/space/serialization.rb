@@ -11,7 +11,7 @@ module ThoughtTrace
 		# The creation of pack / unpack methods are semi-automated.
 		# Details can be found in the serialization/ directory
 		
-		def dump(filepath)
+		def dump(path_to_folder)
 			packed_array =	@objects.collect do |entity|
 								# currently only have builds for Text
 								next unless entity.is_a? ThoughtTrace::Text
@@ -23,7 +23,11 @@ module ThoughtTrace
 			
 			packed_array.compact! # necessary only because not all Entities are being processed
 			
-			CSV.open(filepath, "wb") do |csv|
+			
+			path = File.join(path_to_folder, 'text.csv')
+			full_path = File.expand_path path
+			
+			CSV.open(full_path, "wb") do |csv|
 				packed_array.each do |data|
 					csv << data
 				end
@@ -31,12 +35,12 @@ module ThoughtTrace
 		end
 		
 	class << self
-		def load(filepath)
+		def load(path_to_folder)
 			# Create a new space
 			space = ThoughtTrace::Space.new
 			
 			# Populate that space with data from the disk
-			path = File.join(filepath, 'text.csv')
+			path = File.join(path_to_folder, 'text.csv')
 			full_path = File.expand_path path
 			
 			

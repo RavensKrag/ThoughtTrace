@@ -65,7 +65,7 @@ class Window < Gosu::Window
 	def on_shutdown
 		@input.shutdown
 		
-		@space.dump File.join(@filepath, 'text.csv')
+		@space.dump @filepath
 	end
 	
 	
