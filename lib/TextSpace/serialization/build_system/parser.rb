@@ -153,6 +153,9 @@ module Parser
 
 
 		def transform_each_line(body_lines, transforms)
+			return if transforms.empty?
+			
+			
 			body_lines.collect! do |line|
 				line = TextSpace::StringWrapper.new line
 				

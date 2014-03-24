@@ -136,13 +136,8 @@ task :data_packing do
 					transforms = Parser.extract_transforms(template_lines)
 					
 					
-					unless transforms[:each_line].empty?
-						Parser.transform_each_line(body_lines, transforms[:each_line])
-					end
-					
-					unless transforms[:whole_array].empty?
-						Parser.transform_whole_array(body_lines, transforms[:whole_array])
-					end
+					Parser.transform_each_line(body_lines, transforms[:each_line])
+					Parser.transform_whole_array(body_lines, transforms[:whole_array])
 					# =========================================
 					
 					
