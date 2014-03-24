@@ -45,7 +45,7 @@ class Window < Gosu::Window
 			@input = ThoughtTrace::InputSystem::InputManager.new @space, @camera
 		end
 		
-		@space.add TextSpace::Circle.new 150
+		@space.add ThoughtTrace::Circle.new 150
 	end
 	
 	def update
