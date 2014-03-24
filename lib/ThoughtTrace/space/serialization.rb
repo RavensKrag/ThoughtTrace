@@ -41,36 +41,27 @@ module ThoughtTrace
 		
 		
 		def dump(filepath)
-			@objects.each do |entity|
-				if entity.is_a? ThoughtTrace::Text
-					
-					font = entity.font
-					pos = entity[:physics].body.p # CP::Vec2
-					height = entity[:style][:height] # Float
-					string = entity.string
-					
-					data = [font, pos, height, string]
-					
-					blob = data.pack '' # need to figure out formatting string
-					
-					
-					# nuke file from last save, and put all the known objects into it
-					# (note, current position of loop makes this code not follow logic)
-					# NOTE: can optimize by only editing the effected objects
-						# would require objects to have a unique ID that persists between sessions
-						# could translate between line number and that unique ID
-					File.open(File.join(filepath, 'text',), 'w') do |f|
-						f.puts blob
-					end
+			packed_array =	@objects.collect do |entity|
+								# currently only have builds for Text
+								next unless entity.is_a? ThoughtTrace::Text
+								
+								entity.class.pack entity
+							end
+			
+			packed_array.compact! # necessary only because not all Entities are being processed
+			
+			puts filepath
+			p packed_array
+			
+			CSV.open(filepath, "wb") do |csv|
+				header = "font name,x,y,height,string".split(',')
+				
+				
+				csv << header
+				
+				packed_array.each do |data|
+					csv << data
 				end
-			end
-			
-			
-			
-			
-			
-			File.open(File.join(filepath, 'font'), 'w') do |f|
-				f.puts
 			end
 		end
 		

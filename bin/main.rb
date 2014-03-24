@@ -59,8 +59,11 @@ Dir.chdir full_path do
 				'./input_system/input_abstraction',
 				# './input_system/human_actions' # currently empty folder
 				
-				'./input_system/input_manager'
+				'./input_system/input_manager',
 			
+			
+			# serialization
+			'./serialization/compiled_files'
 		
 		
 		
@@ -123,7 +126,8 @@ class Window < Gosu::Window
 		
 		
 		Metrics::Timer.new "setup physics space" do
-			@space = ThoughtTrace::Space.load './data/test'
+			@filepath = './data/test'
+			@space = ThoughtTrace::Space.load @filepath
 		end
 		
 		
@@ -155,6 +159,8 @@ class Window < Gosu::Window
 	
 	def on_shutdown
 		@input.shutdown
+		
+		@space.dump File.join(@filepath, 'text.csv')
 	end
 	
 	
