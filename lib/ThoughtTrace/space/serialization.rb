@@ -16,12 +16,11 @@ module ThoughtTrace
 			# create data folder if it does not exist
 			dirname = File.dirname(path_to_folder)
 			FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
-
+			
 			
 			# pack data
 			packed_array =	@objects.collect do |entity|
-								# currently only have builds for Text
-								next unless entity.is_a? ThoughtTrace::Text
+								next unless entity.respond_to? :pack
 								
 								
 								class_name = entity.class.name.split('::').last # ignore modules
