@@ -201,8 +201,7 @@ module Parser
 		
 		
 		
-		
-		return line_transforms
+		return {:each_line => line_transforms, :whole_array => array_transforms}
 	end
 	
 	# --- one-line format
@@ -223,7 +222,7 @@ module Parser
 		
 		transforms = parts
 		
-		return transforms
+		return {:each_line => transforms, :whole_array => []}
 	end
 	
 	
@@ -316,8 +315,9 @@ task :data_packing do
 					transforms = Parser.extract_transforms(template_lines)
 					
 					
-					
-					Parser.apply_transforms(body_lines, transforms) unless transforms.empty?
+					unless transforms[:each_line].empty?
+						Parser.apply_transforms(body_lines, transforms[:each_line]) 
+					end
 					# =========================================
 					
 					
