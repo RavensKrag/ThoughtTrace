@@ -1,6 +1,15 @@
 TODO
 
 
+ASAP!: RENAME INNER FOLDER AND MAIN RUBY FILE TO MATCH NEW PROJECT NAME
+	Should be 'ThoughtTrace' not the old name 'TextSpace'
+	
+	+ rename the folder under lib/
+	+ rename the ruby file there as well
+	+ rename the module that holds all the stuff
+
+
+
 using builder pattern, getting dependency list and interface name from the class is a bit obtuse
 	consider moving at least the name into the instance level
 	not like you're really spending that much extra memory anyway

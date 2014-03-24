@@ -93,7 +93,8 @@ module TextSpace
 				rows_as_hashes = csv.to_a.map {|row| row.to_hash }
 				
 				rows_as_hashes.each do |row|
-					font = TextSpace::Font.new row[:font]
+					p row
+					font = TextSpace::Font.new row[:font_name]
 					
 					text = TextSpace::Text.new font
 					text.string = row[:string]
