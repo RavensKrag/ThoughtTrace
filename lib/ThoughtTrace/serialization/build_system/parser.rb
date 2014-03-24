@@ -160,8 +160,12 @@ module Parser
 				line = ThoughtTrace::StringWrapper.new line
 				
 				transforms.inject(line) do |line, method|
+					unless line.is_a? ThoughtTrace::StringWrapper
+						raise "Some transform did not return self"
+					end
+					
 					unless line.respond_to? method
-						raise "Build failed. Undefined transform '#{method}'"
+						raise "Transform undefined: '#{method}' (create method with that name in ThoughtTrace::StringWrapper)"
 					end
 					
 					line.send method
