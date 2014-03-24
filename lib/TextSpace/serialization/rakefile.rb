@@ -115,28 +115,6 @@ module Parser
 			return extract_single_line_transforms(template_lines, index)
 		end
 	end
-
-	def apply_transforms(body_lines, transforms)
-		body_lines.collect! do |line|
-			line = TextSpace::StringWrapper.new line
-			
-			transforms.inject(line) do |line, method|
-				unless line.respond_to? method
-					raise "Build failed. Undefined transform '#{method}'"
-				end
-				
-				line.send method
-			end
-			
-			# puts line.string # DEBUG OUT
-			
-			
-			line.string # <-- this is the collected value
-		end
-	end
-	
-	
-	
 	
 	
 	# --- curly-brace (multi-line) format
@@ -223,6 +201,34 @@ module Parser
 		transforms = parts
 		
 		return {:each_line => transforms, :whole_array => []}
+	end
+	
+	
+	
+	
+	def transform_each_line(body_lines, transforms)
+		body_lines.collect! do |line|
+			line = TextSpace::StringWrapper.new line
+			
+			transforms.inject(line) do |line, method|
+				unless line.respond_to? method
+					raise "Build failed. Undefined transform '#{method}'"
+				end
+				
+				line.send method
+			end
+			
+			# puts line.string # DEBUG OUT
+			
+			
+			line.string # <-- this is the collected value
+		end
+	end
+	
+	def transform_whole_array(body_lines, transforms)
+		transforms.each do |t|
+			body_lines.send t
+		end
 	end
 	
 	
@@ -316,7 +322,11 @@ task :data_packing do
 					
 					
 					unless transforms[:each_line].empty?
-						Parser.apply_transforms(body_lines, transforms[:each_line]) 
+						Parser.transform_each_line(body_lines, transforms[:each_line])
+					end
+					
+					unless transforms[:whole_array].empty?
+						Parser.transform_whole_array(body_lines, transforms[:whole_array])
 					end
 					# =========================================
 					

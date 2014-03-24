@@ -7,7 +7,7 @@ def pack(OBJECT)
 	BODY {
 		strip_comments
 		reverse_assignment
-	}.reverse
+	}.reverse!
 	
 	return ARGS
 end
