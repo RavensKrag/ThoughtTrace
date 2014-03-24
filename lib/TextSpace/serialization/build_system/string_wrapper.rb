@@ -40,19 +40,20 @@ class StringWrapper
 			
 			
 			# split up into three segments
-			a = parts[0].split('.new')[0].strip # 'Class'
-			b = parts[0].split('.new')[1].strip # 'arg1, arg2, ..., argn'
-			c = parts[1]                        # 'var'
+			class_name = parts[0].split('.new')[0].strip # 'Class'
+			arg_blob   = parts[0].split('.new')[1].strip # 'arg1, arg2, ..., argn'
+			var_name   = parts[1]                        # 'var'
 			
 			
 			# take all arguments,
 			# create one line for each argument that needs to be extracted from the object
-			lines =	b.split(/,\s/).collect do |arg|
-						"#{arg} = #{c}.#{arg}"
+			lines =	arg_blob.split(/,\s*/).collect do |arg|
+						"#{arg} = #{var_name}.#{arg}"
 					end
 			
 			# merge the lines into one blob that will be appended to file
 			@string = lines.join("\n")
+				# WARNING: this means that the Array containing all lines will not necessarily have one array entry per line, as this blob could have multiple lines encoded into one string.
 			
 			return self
 		end
