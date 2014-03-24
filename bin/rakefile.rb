@@ -9,7 +9,7 @@ require 'rake/clean'
 		# 		this file
 
 # Must expand '..' shortcut into a proper path. But that results in a shorter string.
-path_to_root = File.expand_path '../..', __FILE__
+PATH_TO_ROOT = File.expand_path '../..', __FILE__
 
 
 task :default => :run
@@ -28,7 +28,7 @@ end
 
 # run the serialization build system
 task :build_pack_unpack_system do
-	Dir.chdir path_to_root do
+	Dir.chdir PATH_TO_ROOT do
 		Dir.chdir File.join('lib', 'ThoughtTrace', 'serialization') do
 			`rake`
 		end
@@ -50,7 +50,7 @@ task :load_dependencies do
 	# (especially directories that are not children of the current directory)
 	# much easier to manage and understand.
 	
-	full_path = File.join path_to_root, "lib", "ThoughtTrace"
+	full_path = File.join PATH_TO_ROOT, "lib", "ThoughtTrace"
 
 	Dir.chdir full_path do
 		require './utilities/performance_timer'
