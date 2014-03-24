@@ -92,7 +92,7 @@ module Parser
 			if parts.size != 1
 				p = parts.shift # take off the first element (pop is the last element)
 				
-				line_transforms << p unless p =~ /^\s*$/ # s is whitespace only
+				line_transforms << p unless p.whitespace_only?
 			end
 			
 			

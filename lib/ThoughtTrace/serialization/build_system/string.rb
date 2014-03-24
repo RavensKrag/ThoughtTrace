@@ -67,4 +67,8 @@ class String
 			return false
 		end
 	end
+	
+	def whitespace_only?
+		self =~ /^\s*$/
+	end
 end
