@@ -1,4 +1,5 @@
 require 'csv'
+require 'fileutils'
 
 module ThoughtTrace
 	class Space < CP::Space
@@ -12,6 +13,12 @@ module ThoughtTrace
 		# Details can be found in the serialization/ directory
 		
 		def dump(path_to_folder)
+			# create data folder if it does not exist
+			dirname = File.dirname(path_to_folder)
+			FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
+
+			
+			# pack data
 			packed_array =	@objects.collect do |entity|
 								# currently only have builds for Text
 								next unless entity.is_a? ThoughtTrace::Text
@@ -24,6 +31,7 @@ module ThoughtTrace
 			packed_array.compact! # necessary only because not all Entities are being processed
 			
 			
+			# write to disk
 			path = File.join(path_to_folder, 'text.csv')
 			full_path = File.expand_path path
 			
