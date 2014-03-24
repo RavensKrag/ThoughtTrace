@@ -32,7 +32,7 @@ module ThoughtTrace
 			
 			
 			# write to disk
-			path = File.join(path_to_folder, 'text.csv')
+			path = File.join(path_to_folder, 'entities.csv')
 			full_path = File.expand_path path
 			
 			CSV.open(full_path, "wb") do |csv|
@@ -48,7 +48,7 @@ module ThoughtTrace
 			space = ThoughtTrace::Space.new
 			
 			# Populate that space with data from the disk
-			path = File.join(path_to_folder, 'text.csv')
+			path = File.join(path_to_folder, 'entities.csv')
 			full_path = File.expand_path path
 			
 			
