@@ -144,9 +144,16 @@ pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source
 					# =========================================
 					transforms = Parser.extract_transforms(template_lines)
 					
-					
-					Parser.transform_each_line(body_lines, transforms[:each_line])
-					Parser.transform_whole_array(body_lines, transforms[:whole_array])
+					[
+						:each_line, :whole_array
+					].each do |transform_type|
+						
+						Parser.send("transform_#{transform_type}",
+							body_lines, transforms[transform_type], 
+							obj, args
+						)
+						
+					end
 					# =========================================
 					
 					

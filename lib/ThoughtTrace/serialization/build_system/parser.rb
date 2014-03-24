@@ -152,7 +152,7 @@ module Parser
 
 
 
-		def transform_each_line(body_lines, transforms)
+		def transform_each_line(body_lines, transforms, obj, args)
 			return if transforms.empty?
 			
 			
@@ -174,7 +174,7 @@ module Parser
 			end
 		end
 
-		def transform_whole_array(body_lines, transforms)
+		def transform_whole_array(body_lines, transforms, obj, args)
 			transforms.each do |t|
 				body_lines.send t
 			end
