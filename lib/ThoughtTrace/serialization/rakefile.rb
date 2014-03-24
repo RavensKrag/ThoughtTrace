@@ -90,7 +90,7 @@ pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source
 		path_to_target = File.join(OUTPUT_DIRECTORY, output_filename)
 		
 		
-		file path_to_target => [path_to_source, OUTPUT_DIRECTORY] do
+		file path_to_target => [path_to_source, template_file, OUTPUT_DIRECTORY] do
 			puts "Compiling #{path_to_source} ----into---> #{path_to_target}"
 			# =================================
 			# =========== Procedure ===========
