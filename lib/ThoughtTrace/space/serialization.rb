@@ -45,7 +45,7 @@ module ThoughtTrace
 								# currently only have builds for Text
 								next unless entity.is_a? ThoughtTrace::Text
 								
-								entity.class.pack entity
+								entity.pack
 							end
 			
 			packed_array.compact! # necessary only because not all Entities are being processed
