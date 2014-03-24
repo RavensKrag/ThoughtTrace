@@ -107,89 +107,13 @@ module Parser
 		
 			
 		index = template_lines.index_of_line_containing marker
-		line = template_lines[index]
 		
 		
-		transforms = nil
-		if line.starts_with? expression
-		# --- curly-brace (multi-line) format
-			# statements listed between curly braces, one statement per line
-			# - these statements should be applied to every line in the BODY
-			# 
-			# additional statements listed as in one-line format, after the ending brace
-			# - these statements apply to the Array of lines as a whole
-			
-			# find the first line that contains a closing curly brace
-			# which comes after the line with the body marker
-			# the index of that line, is the ending index for the scan
-			
-			stop_index =	(index..(template_lines.size-1)).find do |i|
-								template_lines[i].include? '}'
-							end
-			
-			
-			# assuming the 'first line' never contains transforms
-			# (maybe that's weird considering how the last line could? I don't think so...)
-			lines = template_lines[(index+1)..stop_index]
-			line_transforms = lines[0..-2] # last line may or may not be (is '}' on a new line?)
-			
-			
-			# figure out if there's a each-line transform on the last line or not
-			parts = lines.last.split('}')
-			if parts.size != 1
-				p = parts.shift # take off the first element (pop is the last element)
-				
-				line_transforms << p unless p =~ /^\s*$/ # s is whitespace only
-			end
-			
-			
-			raise "should only be one element left in parts" unless parts.size == 1
-			array_transforms_string = parts.first
-			
-			
-			
-			
-			# --- refine each-line transforms
-			line_transforms.each do |line|
-				line.strip!
-			end
-			
-			transforms = line_transforms
-			
-			# --- refine array-wide transforms
-			array_transforms = array_transforms_string.split('.')
-			array_transforms.shift # first element is always empty string; discard it
-			
-			
-			
-			# --- clean up ---
-			# take the opening curly-brace off, along with any whitespace around it
-			# (leaves the indentation intact, though)
-			template_lines[index].sub! /\s*\{\s*/, ''
-			
-			# remove lines associated with transforms
-			template_lines[(index+1)..stop_index] = nil
-			template_lines.compact!
+		if template_lines[index].starts_with? expression
+			return extract_multi_line_transforms(template_lines, index)
 		else
-		# --- one-line format
-			# take the transform declarations off the original line
-			# "BODY.one.two.three" -> "BODY", ["one", "two", "three"]
-			# (preserve any indentation on the original line)
-			
-			line.chomp! # strip newline so it doesn't end up in the parts array
-				parts = line.split('.')
-			line = parts.shift + "\n" # reintroduce the newline that was stripped
-			
-			
-			template_lines[index] = line
-			
-			
-			transforms = parts
+			return extract_single_line_transforms(template_lines, index)
 		end
-		
-		
-		
-		return transforms
 	end
 
 	def apply_transforms(body_lines, transforms)
@@ -209,6 +133,97 @@ module Parser
 			
 			line.string # <-- this is the collected value
 		end
+	end
+	
+	
+	
+	
+	
+	# --- curly-brace (multi-line) format
+	def extract_multi_line_transforms(template_lines, index)
+		# statements listed between curly braces, one statement per line
+		# - these statements should be applied to every line in the BODY
+		# 
+		# additional statements listed as in one-line format, after the ending brace
+		# - these statements apply to the Array of lines as a whole
+		
+		# find the first line that contains a closing curly brace
+		# which comes after the line with the body marker
+		# the index of that line, is the ending index for the scan
+		
+		stop_index =	(index..(template_lines.size-1)).find do |i|
+							template_lines[i].include? '}'
+						end
+		
+		
+		# assuming the 'first line' never contains transforms
+		# (maybe that's weird considering how the last line could? I don't think so...)
+		lines = template_lines[(index+1)..stop_index]
+		line_transforms = lines[0..-2] # ignore last line
+		# last line may or may not be a line transform (is '}' on a new line?)
+		
+		
+		# figure out if there's a each-line transform on the last line or not
+		parts = lines.last.split('}')
+		if parts.size != 1
+			p = parts.shift # take off the first element (pop is the last element)
+			
+			line_transforms << p unless p =~ /^\s*$/ # s is whitespace only
+		end
+		
+		
+		raise "should only be one element left in parts" unless parts.size == 1
+		array_transforms_string = parts.first
+		
+		
+		
+		
+		# --- refine each-line transforms
+		line_transforms.each do |line|
+			line.strip!
+		end
+		
+		
+		# --- refine array-wide transforms
+		array_transforms = array_transforms_string.strip!.split('.')
+		array_transforms.shift # first element is always empty string; discard it
+		
+		
+		
+		# --- clean up ---
+		# take the opening curly-brace off, along with any whitespace around it
+		# (leaves the indentation intact, though)
+		template_lines[index].sub! /\s*\{\s*/, ''
+		
+		# remove lines associated with transforms
+		template_lines[(index+1)..stop_index] = nil
+		template_lines.compact!
+		
+		
+		
+		
+		return line_transforms
+	end
+	
+	# --- one-line format
+	def extract_single_line_transforms(template_lines, index)
+		line = template_lines[index]
+		
+		# take the transform declarations off the original line
+		# "BODY.one.two.three" -> "BODY", ["one", "two", "three"]
+		# (preserve any indentation on the original line)
+		
+		line.chomp! # strip newline so it doesn't end up in the parts array
+			parts = line.split('.')
+		line = parts.shift + "\n" # reintroduce the newline that was stripped
+		
+		
+		template_lines[index] = line
+		
+		
+		transforms = parts
+		
+		return transforms
 	end
 	
 	
@@ -299,6 +314,8 @@ task :data_packing do
 					# Transform body as requested in template
 					# =========================================
 					transforms = Parser.extract_transforms(template_lines)
+					
+					
 					
 					Parser.apply_transforms(body_lines, transforms) unless transforms.empty?
 					# =========================================
