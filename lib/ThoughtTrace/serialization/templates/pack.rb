@@ -1,5 +1,5 @@
 module ThoughtTrace
-	class CLASS_NAME
+	class CLASS_NAME < Entity
 		class << self
 
 

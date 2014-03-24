@@ -1,6 +1,6 @@
 module ThoughtTrace
-	class CLASS_NAME
-
+	class CLASS_NAME < Entity
+		class << self
 
 def unpack(ARGS)
 	BODY
@@ -10,5 +10,6 @@ end
 
 
 
+end
 end
 end
