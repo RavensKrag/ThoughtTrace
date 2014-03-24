@@ -102,8 +102,6 @@ pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source
 			# --- load files into memory
 			# copy entire file into memory for editing
 				# source file
-				# NOTE: this will currently open the source file twice:
-				# once for the load pass, and again for dump pass
 				source_lines = read_file_to_array(path_to_source)
 				
 				# template file
