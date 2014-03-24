@@ -30,19 +30,19 @@ class StringWrapper
 		return self
 	end
 	
+	# format: Class.new arg1, arg2, ..., argn = var
+	# result: arg = var.arg
 	def extraction_from_initialization
 		if @string.include? '.new'
-			# format: Class.new arg1, arg2, ..., argn = var
-			# result: arg = var.arg
 			
 			parts = @string.split('=').collect{ |i| i.strip }
 			# ['Class.new arg1, arg2, ..., argn', 'var']
 			
 			
 			# split up into three segments
-			a = parts[0].split('.new')[0].strip
-			b = parts[0].split('.new')[1].strip
-			c = parts[1]
+			a = parts[0].split('.new')[0].strip # 'Class'
+			b = parts[0].split('.new')[1].strip # 'arg1, arg2, ..., argn'
+			c = parts[1]                        # 'var'
 			
 			
 			# take all arguments,
