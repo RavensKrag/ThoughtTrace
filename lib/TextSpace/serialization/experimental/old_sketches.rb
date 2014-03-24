@@ -6,8 +6,8 @@
 	# (argument array is the data loaded from the disk, packed into an array)
 	font_name, x, y, height, string = args
 
-	font = TextSpace::Font.new font_name # remove overlapping "font" to resolve
-	text = TextSpace::Text.new font
+	font = ThoughtTrace::Font.new font_name # remove overlapping "font" to resolve
+	text = ThoughtTrace::Text.new font
 
 	text.string = string
 
@@ -35,8 +35,8 @@
 # (argument array is the data loaded from the disk, packed into an array)
 INPUT font_name, x, y, height, string
 
-font = TextSpace::Font.new font_name # remove overlapping "font" to resolve
-text = TextSpace::Text.new font
+font = ThoughtTrace::Font.new font_name # remove overlapping "font" to resolve
+text = ThoughtTrace::Text.new font
 
 text.string = string
 
@@ -67,8 +67,8 @@ OUTPUT text # need more unique identifier for space
 # (argument array is the data loaded from the disk, packed into an array)
 font_name, x, y, height, string = args
 
-font = TextSpace::Font.new font_name # remove overlapping "font" to resolve
-text = TextSpace::Text.new font
+font = ThoughtTrace::Font.new font_name # remove overlapping "font" to resolve
+text = ThoughtTrace::Text.new font
 
 text.string = string
 
@@ -90,8 +90,8 @@ class Foo
 		# (argument array is the data loaded from the disk, packed into an array)
 		font_name, x, y, height, string = args
 
-		font = TextSpace::Font.new font_name # remove overlapping "font" to resolve
-		text = TextSpace::Text.new font
+		font = ThoughtTrace::Font.new font_name # remove overlapping "font" to resolve
+		text = ThoughtTrace::Text.new font
 		
 		text.string = string
 

@@ -1,4 +1,4 @@
-module TextSpace
+module ThoughtTrace
 
 
 class Event

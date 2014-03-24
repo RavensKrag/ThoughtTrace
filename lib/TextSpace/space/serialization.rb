@@ -1,6 +1,6 @@
 require 'csv'
 
-module TextSpace
+module ThoughtTrace
 	class Space < CP::Space
 		# should ideally be able to specify format,
 		# and then the system can load / save the necessary data in accordance with the schema
@@ -42,7 +42,7 @@ module TextSpace
 		
 		def dump(filepath)
 			@objects.each do |entity|
-				if entity.is_a? TextSpace::Text
+				if entity.is_a? ThoughtTrace::Text
 					
 					font = entity.font
 					pos = entity[:physics].body.p # CP::Vec2
@@ -77,7 +77,7 @@ module TextSpace
 	class << self
 		def load(filepath)
 			# Create a new space
-			space = TextSpace::Space.new
+			space = ThoughtTrace::Space.new
 			
 			# Populate that space with data from the disk
 			path = File.join(filepath, 'text.csv')
@@ -94,9 +94,9 @@ module TextSpace
 				
 				rows_as_hashes.each do |row|
 					p row
-					font = TextSpace::Font.new row[:font_name]
+					font = ThoughtTrace::Font.new row[:font_name]
 					
-					text = TextSpace::Text.new font
+					text = ThoughtTrace::Text.new font
 					text.string = row[:string]
 					
 					text[:physics].body.p = CP::Vec2.new(row[:x], row[:y])

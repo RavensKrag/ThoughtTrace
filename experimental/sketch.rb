@@ -15,9 +15,9 @@ class Foo < Entity
 		
 						body = CP::Body.new
 						shape = CP::Shape.new body 
-		add_component TextSpace::Components::Physics.new body, shape
+		add_component ThoughtTrace::Components::Physics.new body, shape
 		
-		add_action TextSpace::Actions::Move.new
+		add_action ThoughtTrace::Actions::Move.new
 	end
 end
 

@@ -1,4 +1,4 @@
-module TextSpace
+module ThoughtTrace
 
 
 class Camera < Entity
@@ -17,9 +17,9 @@ class Camera < Entity
 		
 							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
 							shape = CP::Shape::Rect.new body, width, height, offset
-		add_component	TextSpace::Components::Physics.new self, body, shape
+		add_component	ThoughtTrace::Components::Physics.new self, body, shape
 		
-		add_action TextSpace::Actions::Move.new self
+		add_action ThoughtTrace::Actions::Move.new self
 		
 		
 		

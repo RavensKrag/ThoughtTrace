@@ -1,4 +1,4 @@
-module TextSpace
+module ThoughtTrace
 	class Space < CP::Space
 		module Layers
 

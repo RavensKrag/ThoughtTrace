@@ -11,7 +11,7 @@
 # Could be anything that implements #include? but Set is preferable for performance reasons.
 
 
-module TextSpace
+module ThoughtTrace
 	class Space < CP::Space
 	
 		def empty_at?(position)

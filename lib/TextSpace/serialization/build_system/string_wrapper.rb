@@ -5,7 +5,7 @@
 # Contains manipulations to turn the 'load' body into the 'dump' body
 
 # All methods should take no arguments, manipulate @string, and return self
-module TextSpace
+module ThoughtTrace
 
 
 

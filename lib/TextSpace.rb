@@ -1,3 +1,3 @@
-module TextSpace
+module ThoughtTrace
 	
 end

@@ -1,6 +1,6 @@
 # Allow for easy changes between different sizes of the same font face
 
-module TextSpace
+module ThoughtTrace
 	class Font
 		MINIMUM_HEIGHT = 5
 		

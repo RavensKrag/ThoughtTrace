@@ -1,6 +1,6 @@
 require 'fileutils'
 
-module TextSpace
+module ThoughtTrace
 	class Space < CP::Space
 		def initialize
 			@objects =	Array.new

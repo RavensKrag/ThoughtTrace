@@ -1,4 +1,4 @@
-module TextSpace
+module ThoughtTrace
 
 
 class InputSystem
@@ -172,7 +172,7 @@ class InputSystem
 		@active_actions = Set.new
 		
 		
-		@mouse = TextSpace::Mouse.new
+		@mouse = ThoughtTrace::Mouse.new
 	end
 	
 	
@@ -233,11 +233,11 @@ class InputSystem
 	
 	
 	def button_down(id)
-		event_in TextSpace::Event.new(id, :down)
+		event_in ThoughtTrace::Event.new(id, :down)
 	end
 	
 	def button_up(id)
-		event_out TextSpace::Event.new(id, :up)
+		event_out ThoughtTrace::Event.new(id, :up)
 	end
 end
 

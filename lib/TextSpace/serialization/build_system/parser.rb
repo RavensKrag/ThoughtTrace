@@ -157,7 +157,7 @@ module Parser
 			
 			
 			body_lines.collect! do |line|
-				line = TextSpace::StringWrapper.new line
+				line = ThoughtTrace::StringWrapper.new line
 				
 				transforms.inject(line) do |line, method|
 					unless line.respond_to? method

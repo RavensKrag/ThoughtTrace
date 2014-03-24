@@ -1,4 +1,4 @@
-module TextSpace
+module ThoughtTrace
 
 
 class Text < Entity
@@ -12,7 +12,7 @@ class Text < Entity
 		
 		
 		# TODO: cascade into default style
-		style = TextSpace::Components::Style.new
+		style = ThoughtTrace::Components::Style.new
 			style[:height] = 30
 			style[:color] = Gosu::Color.argb(0xffFFFFFF)
 		
@@ -25,15 +25,15 @@ class Text < Entity
 		
 							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
 							shape = CP::Shape::Rect.new body, width, height
-		add_component	TextSpace::Components::Physics.new self, body, shape
+		add_component	ThoughtTrace::Components::Physics.new self, body, shape
 		
 		
 		# if you can specify the actions with a 'factory' instead of an instance, you can put real actions onto the action stack, instead of some weird wrapper thing
 			# may not need a wrapper
 			# still good idea though, because it means that the state can be easily wrapped up in that one instance. No garbage can carry over.
-		add_action TextSpace::Actions::Move.new self
+		add_action ThoughtTrace::Actions::Move.new self
 		
-		add_action TextSpace::Actions::ResizeText.new self
+		add_action ThoughtTrace::Actions::ResizeText.new self
 	end
 	
 	def update

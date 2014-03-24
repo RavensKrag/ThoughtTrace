@@ -1,4 +1,4 @@
-module TextSpace
+module ThoughtTrace
 
 
 class Rectangle < Entity
@@ -8,7 +8,7 @@ class Rectangle < Entity
 		
 		
 		# TODO: cascade into default style
-		style = TextSpace::Components::Style.new
+		style = ThoughtTrace::Components::Style.new
 			style[:width] = width
 			style[:height] = height
 			style[:color] = Gosu::Color.argb(0xaa2A3082)
@@ -19,12 +19,12 @@ class Rectangle < Entity
 		# TODO: Update geometry when style is updated, and vice versa. (or else maybe width and height shouldn't be stored in Style)
 							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
 							shape = CP::Shape::Rect.new body, style[:width], style[:height]
-		add_component	TextSpace::Components::Physics.new self, body, shape
+		add_component	ThoughtTrace::Components::Physics.new self, body, shape
 		
 		
-		add_action TextSpace::Actions::Move.new self
+		add_action ThoughtTrace::Actions::Move.new self
 		
-		add_action TextSpace::Actions::ResizeRectangle.new self
+		add_action ThoughtTrace::Actions::ResizeRectangle.new self
 	end
 	
 	def update

@@ -44,8 +44,8 @@ font_name = font.name
 
 
 
-font = TextSpace::Font.new font_name # remove overlapping "font" to resolve
-text = TextSpace::Text.new font
+font = ThoughtTrace::Font.new font_name # remove overlapping "font" to resolve
+text = ThoughtTrace::Text.new font
 
 text.string = string
 
@@ -83,7 +83,7 @@ add to space
 
 
 
-font = TextSpace::Font.new font_name # remove overlapping "font" to resolve
+font = ThoughtTrace::Font.new font_name # remove overlapping "font" to resolve
 
 font_name = font.font_name
 # remove redundancy
@@ -112,9 +112,9 @@ x = text[:physics].body.p.x
 
 string = text.string
 
-TextSpace::Text.new font = text
+ThoughtTrace::Text.new font = text
 # font = text.font
-TextSpace::Font.new font_name = font
+ThoughtTrace::Font.new font_name = font
 # font_name = font.font_name
 # font_name = font.name
 

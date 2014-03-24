@@ -23,7 +23,7 @@ require 'require_all'
 
 # Must expand '..' shortcut into a proper path. But that results in a shorter string.
 path_to_root = File.expand_path '../..', __FILE__
-full_path = File.join path_to_root, "lib", "TextSpace"
+full_path = File.join path_to_root, "lib", "ThoughtTrace"
 
 Dir.chdir full_path do
 	require './utilities/performance_timer'
@@ -117,29 +117,29 @@ class Window < Gosu::Window
 			update_interval = 1/60.0 * 1000
 			
 			super(width, height, fullscreen, update_interval)
-			self.caption = "TextSpace"
+			self.caption = "ThoughtTrace"
 		end
 		
 		
 		
 		Metrics::Timer.new "setup physics space" do
-			@space = TextSpace::Space.load './data/test'
+			@space = ThoughtTrace::Space.load './data/test'
 		end
 		
 		
 		Metrics::Timer.new "create camera" do
-			@camera = TextSpace::Camera.new
+			@camera = ThoughtTrace::Camera.new
 		end
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = TextSpace::InputSystem::InputManager.new @space, @camera
+			@input = ThoughtTrace::InputSystem::InputManager.new @space, @camera
 		end
 		
 		
 		
 		
-		@space.add TextSpace::Rectangle.new 200, 200
+		@space.add ThoughtTrace::Rectangle.new 200, 200
 	end
 	
 	def update

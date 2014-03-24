@@ -28,7 +28,7 @@
 # Storing the actual Actions in the Entities feels more like OOP,
 # but it means Actions can be triggered outside of this structure (potentially)
 # I like the freedom and potential for expansion, but it could possibly get ugly later on.
-module TextSpace
+module ThoughtTrace
 	module InputSystem
 
 
@@ -49,7 +49,7 @@ class ActionSelector
 		@actions = Array.new
 		
 		@human_actions = [
-			TextSpace::InputSystem::Spawn.new(@space, TextSpace::Text)
+			ThoughtTrace::InputSystem::Spawn.new(@space, ThoughtTrace::Text)
 		]
 	end
 	
@@ -89,7 +89,7 @@ class ActionSelector
 			# maybe chain into another action which manipulates the new Entity?
 			
 			
-			# action = TextSpace::InputSystem::Spawn.new(@space, TextSpace::Text)
+			# action = ThoughtTrace::InputSystem::Spawn.new(@space, ThoughtTrace::Text)
 			# @stash.pass_control action, point
 		end
 		

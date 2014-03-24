@@ -1,4 +1,4 @@
-module TextSpace
+module ThoughtTrace
 	class CLASS_NAME
 		class << self
 

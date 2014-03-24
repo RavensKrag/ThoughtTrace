@@ -1,6 +1,6 @@
 require 'set'
 
-module TextSpace
+module ThoughtTrace
 	module InputSystem
 
 

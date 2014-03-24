@@ -3,7 +3,7 @@
 # stored within Entity objects, accessed similar to methods
 # mutates data from components
 # can trigger other Actions (can only pick from Actions specified on the list)
-module TextSpace
+module ThoughtTrace
 	module InputSystem
 
 class Action

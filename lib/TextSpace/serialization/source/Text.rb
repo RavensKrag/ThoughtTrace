@@ -17,8 +17,8 @@ ARGS font_name x y height string
 
 BODY {
 
-font = TextSpace::Font.new font_name
-text = TextSpace::Text.new font
+font = ThoughtTrace::Font.new font_name
+text = ThoughtTrace::Text.new font
 
 text.string = string
 

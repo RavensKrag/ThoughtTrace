@@ -2,7 +2,7 @@ TODO
 
 
 ASAP!: RENAME INNER FOLDER AND MAIN RUBY FILE TO MATCH NEW PROJECT NAME
-	Should be 'ThoughtTrace' not the old name 'TextSpace'
+	Should be 'ThoughtTrace' not the old name 'ThoughtTrace'
 	
 	+ rename the folder under lib/
 	+ rename the ruby file there as well
