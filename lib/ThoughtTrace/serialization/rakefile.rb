@@ -164,7 +164,7 @@ pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source
 			
 			# --- write compiled file
 			# write the edited lines in template_lines into the proper output file
-				File.open(File.expand_path(path_to_target), 'w') do |out|
+				File.open(path_to_target, 'w') do |out|
 					template_lines.each{ |line| out.puts line }
 				end
 			
