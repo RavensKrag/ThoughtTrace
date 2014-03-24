@@ -83,7 +83,7 @@ class StringWrapper
 	
 	# blank out lines with bang commands
 	def ignore_bang_commands
-		if @string =~ /.*!(?:\(.*\))?/
+		if @string =~ /.*!(?:\(.*\))?/  # some_text!(foo) <-- parens and contents optional
 			@string = ''
 		end
 		
