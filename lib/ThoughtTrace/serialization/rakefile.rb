@@ -62,25 +62,34 @@ task :default => :build
 task :build => :data_packing
 
 
+# create the output directory if necessary
+Dir.mkdir OUTPUT_DIRECTORY unless File.exists? OUTPUT_DIRECTORY
+
 
 CLEAN.include OUTPUT_DIRECTORY
 # CLOBBER.include
 
 
-task :data_packing do
-	# Examine the files in SOURCE_DIRECTORY
-	# combining that data with the data from templates/
-	# generate files that will perform load and dump
-	# place generated files into OUTPUT_DIRECTORY
+
+
+# Examine the files in SOURCE_DIRECTORY
+# combining that data with the data from templates/
+# generate files that will perform load and dump
+# place generated files into OUTPUT_DIRECTORY
+# 
+# lump all of this under the :data_packing task
+pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source|
+	name = path_to_source.strip_extension
 	
-	Dir["#{SOURCE_DIRECTORY}/*.rb"].each do |path_to_source|
-		name = path_to_source.strip_extension
+	
+	CONFIG.collect do |config_name, data|
+		template_file, suffix = data
 		
 		
-		CONFIG.each do |config_name, data|
-			template_file, suffix = data
-			
-			
+		output_filename = "#{name}#{suffix}"
+		path_to_target = File.join(OUTPUT_DIRECTORY, output_filename)
+		
+		file path_to_target => path_to_source do
 			# =================================
 			# =========== Procedure ===========
 			# =================================
@@ -155,16 +164,18 @@ task :data_packing do
 			
 			# --- write compiled file
 			# write the edited lines in template_lines into the proper output file
-				# create the output directory if necessary
-				Dir.mkdir OUTPUT_DIRECTORY unless File.exists? OUTPUT_DIRECTORY
-				
-				
-				output_filename = "#{name}#{suffix}"
-				filepath = File.expand_path File.join(OUTPUT_DIRECTORY, output_filename)
-				
-				File.open(filepath, 'w') do |out|
+				File.open(File.expand_path(path_to_target), 'w') do |out|
 					template_lines.each{ |line| out.puts line }
 				end
+			
+			
 		end
+		
+		# pseudo-return
+		path_to_target # <-- needed for task generation
 	end
 end
+
+pack_and_dump_files.flatten!
+
+task :data_packing => pack_and_dump_files
