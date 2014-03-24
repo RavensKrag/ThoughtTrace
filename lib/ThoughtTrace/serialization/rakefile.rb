@@ -139,9 +139,6 @@ pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source
 				
 				# transform body as necessary
 				body = body.split_and_rejoin do |body_lines|
-					body_lines.strip_blank_lines!
-					
-					
 					# =========================================
 					# Transform body as requested in template
 					# =========================================

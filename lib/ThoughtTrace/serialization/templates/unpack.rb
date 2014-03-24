@@ -3,7 +3,9 @@ module ThoughtTrace
 		class << self
 
 def unpack(ARGS)
-	BODY
+	BODY {
+		
+	}.strip_blank_lines!
 	
 	return OBJECT
 end

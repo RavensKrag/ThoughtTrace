@@ -11,7 +11,7 @@ def pack
 		replace_object_with_self
 		
 		ignore_bang_commands
-	}.reverse!
+	}.reverse!.strip_blank_lines!
 	
 	return ARGS
 end
