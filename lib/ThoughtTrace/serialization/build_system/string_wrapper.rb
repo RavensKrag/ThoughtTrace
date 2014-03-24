@@ -75,12 +75,20 @@ class StringWrapper
 		
 		# consider the case when there's an equals sign
 		# foo = OBJECT.some.other.things		(not necessarily dot operator delineated)
-		@string.gsub!(/#{@object}/, 'self')
+		@string.gsub!(/#{@object}(?:)/, 'self')
 		
 		return self
 	end
-
-
+	
+	
+	# blank out lines with bang commands
+	def ignore_bang_commands
+		if @string =~ /.*!(?:\(.*\))?/
+			@string = ''
+		end
+		
+		return self
+	end
 end
 
 

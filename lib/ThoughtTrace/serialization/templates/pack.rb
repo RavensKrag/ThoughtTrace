@@ -9,6 +9,8 @@ def pack
 		extraction_from_initialization
 		
 		replace_object_with_self
+		
+		ignore_bang_commands
 	}.reverse!
 	
 	return ARGS
