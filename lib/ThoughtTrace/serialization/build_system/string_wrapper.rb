@@ -61,8 +61,23 @@ class StringWrapper
 			@string = lines.join("\n")
 				# WARNING: this means that the Array containing all lines will not necessarily have one array entry per line, as this blob could have multiple lines encoded into one string.
 			
-			return self
 		end
+		
+		return self
+	end
+	
+	# OBJECT is the thing being examined
+	# this replaces it with a reference to self
+	# but the replacement is not on the OBJECT tag,
+	# but on variables within the BODY text that have the same name
+	def replace_object_with_self
+		# NOTE: be careful not to replace all instances of the OBJECT name, just the variable names
+		
+		# consider the case when there's an equals sign
+		# foo = OBJECT.some.other.things		(not necessarily dot operator delineated)
+		@string.gsub!(/#{@object}/, 'self')
+		
+		return self
 	end
 
 
