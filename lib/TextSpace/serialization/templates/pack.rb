@@ -7,6 +7,7 @@ def pack(OBJECT)
 	BODY {
 		strip_comments
 		reverse_assignment
+		extraction_from_initialization
 	}.reverse!
 	
 	return ARGS
