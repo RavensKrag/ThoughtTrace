@@ -123,7 +123,7 @@ class Window < Gosu::Window
 		
 		
 		Metrics::Timer.new "setup physics space" do
-			@space = TextSpace::Space.new
+			@space = TextSpace::Space.load './data/test'
 		end
 		
 		
@@ -139,23 +139,7 @@ class Window < Gosu::Window
 		
 		
 		
-		
-		
-		font = TextSpace::Font.new "Lucida Sans Unicode"
-		
-		
-		
-		text = TextSpace::Text.new font
-		text.string = "Hello World!"
-		@space.add text
-		
-		# text.font = new_font_ref
-		
-		
-		
-		
 		@space.add TextSpace::Rectangle.new 200, 200
-		
 	end
 	
 	def update
