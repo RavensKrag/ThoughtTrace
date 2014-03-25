@@ -37,9 +37,36 @@ class Array
 		first_content_line = self.index{ |line| line != "" }
 		last_content_line = self.rindex{ |line| line != "" }
 		
-		self[0..(first_content_line-1)] = nil # remove from start to first good line
-		self[(last_content_line+1)..-1] = nil # remove from last good line to end
-		self.compact! # remove the 'nil's from the last two statements
+		# move markers towards the outside, but make sure they do not exceed string boundaries
+		# ie. lower end should not go before the start, high end should not go beyond the end
+		min = 0
+		max = self.size - 1
+		
+		first_content_line -= 1
+		last_content_line += 1
+		
+		
+		# clear all values outside of the good range
+		# skip clearing a side it's associated ranges are malformed
+		# (ie. high end is lower than low end)
+		if first_content_line < last_content_line
+			unless first_content_line < min
+				# clear from start to first good line
+				self[0..first_content_line] = nil
+			end
+			unless last_content_line > max
+				# clear from last good line to end
+				self[last_content_line..-1] = nil
+			end
+			
+			
+			self.compact! # remove the 'nil's from the last two statements
+		end
+		
+		# what do you do if the first and last lines are the same line?
+			# I mean, this sort of implies that the body is blank, which would be weird, but...
+		
+		
 		
 		return self
 	end
