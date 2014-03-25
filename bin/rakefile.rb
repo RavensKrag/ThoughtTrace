@@ -118,5 +118,7 @@ task :load_dependencies do
 end
 
 task :load_main do
-	require './main'
+	Dir.chdir PATH_TO_ROOT do
+		require './main'
+	end
 end
