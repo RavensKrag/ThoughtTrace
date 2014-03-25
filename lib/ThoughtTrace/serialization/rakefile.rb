@@ -58,134 +58,136 @@ end
 # (_  _)/ _\ / ___)(  / )/ ___)
 #   )( /    \\___ \ )  ( \___ \
 #  (__)\_/\_/(____/(__\_)(____/
-
-task :default => :build
-task :build => :data_packing
-
-
-directory OUTPUT_DIRECTORY
-
-
-CLEAN.include OUTPUT_DIRECTORY
-# CLOBBER.include
-
-
-build_system_files = Dir["./build_system/*.rb"] # needed only as a dependency
-
-
-# Examine the files in SOURCE_DIRECTORY
-# combining that data with the data from templates/
-# generate files that will perform load and dump
-# place generated files into OUTPUT_DIRECTORY
-# 
-# lump all of this under the :data_packing task
-pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source|
-	name = path_to_source.strip_extension
+namespace :serialization do
+	
+	task :build => :data_packing
 	
 	
-	CONFIG.collect do |config_name, data|
-		template_file, suffix = data
+	directory OUTPUT_DIRECTORY
+	
+	
+	CLEAN.include OUTPUT_DIRECTORY
+	# CLOBBER.include
+	
+	
+	build_system_files = Dir["./build_system/*.rb"] # needed only as a dependency
+	
+	
+	# Examine the files in SOURCE_DIRECTORY
+	# combining that data with the data from templates/
+	# generate files that will perform load and dump
+	# place generated files into OUTPUT_DIRECTORY
+	# 
+	# lump all of this under the :data_packing task
+	pack_and_dump_files = Dir["#{SOURCE_DIRECTORY}/*.rb"].collect do |path_to_source|
+		name = path_to_source.strip_extension
 		
 		
-		output_filename = "#{name}#{suffix}"
-		path_to_target = File.join(OUTPUT_DIRECTORY, output_filename)
-		
-		
-		dependencies = [path_to_source, template_file, OUTPUT_DIRECTORY] + build_system_files
-		
-		file path_to_target => dependencies do
-			puts "Compiling #{path_to_source} ----into---> #{path_to_target}"
-			# =================================
-			# =========== Procedure ===========
-			# =================================
-			# load file
-			# perform necessary operations
-			# and then perform one write pass
-			# =================================
+		CONFIG.collect do |config_name, data|
+			template_file, suffix = data
 			
 			
-			# --- load files into memory
-			# copy entire file into memory for editing
-				# source file
-				source_lines = read_file_to_array(path_to_source)
-				
-				# template file
-				template_lines = read_file_to_array(template_file)
-			
-			# --- filling out fields
-			# substitute CLASS_NAME for proper name of class
-			# 	name should be derived from name of source file
-				template_lines.find_and_replace(/CLASS_NAME/, name)
+			output_filename = "#{name}#{suffix}"
+			path_to_target = File.join(OUTPUT_DIRECTORY, output_filename)
 			
 			
-			# --- basic replacement
-			# substitute ARGS and OBJECT with proper values
-			# 	requires parsing of the source for ARGS and OBJECT values
-				args, obj = %w[ARGS OBJECT].collect do |marker|
-					source_lines.find_line_containing(marker).extract_value_list(marker)
-				end
-				
-				template_lines.find_and_replace(/ARGS/, args)
-				template_lines.find_and_replace(/OBJECT/, obj)
-				
+			dependencies = [path_to_source, template_file, OUTPUT_DIRECTORY] + build_system_files
 			
-			# --- body compilation
-			# perform necessary transforms on BODY
-			# 	must extract BODY code from source file,
-			# 	and then apply transforms defined in template
-				# extract body
-				body = Parser.extract_body(source_lines)
+			file path_to_target => dependencies do
+				puts "Compiling #{path_to_source} ----into---> #{path_to_target}"
+				# =================================
+				# =========== Procedure ===========
+				# =================================
+				# load file
+				# perform necessary operations
+				# and then perform one write pass
+				# =================================
 				
 				
-				# transform body as necessary
-				body = body.split_and_rejoin do |body_lines|
-					# =========================================
-					# Transform body as requested in template
-					# =========================================
-					transforms = Parser.extract_transforms(template_lines)
+				# --- load files into memory
+				# copy entire file into memory for editing
+					# source file
+					source_lines = read_file_to_array(path_to_source)
 					
-					[
-						# need to transform each line
-						# before performing transforms on the whole array
-						# clumping the two mostly just because of similar method call structure
-						:each_line, :whole_array
-					].each do |transform_type|
-						
-						Parser.send("transform_#{transform_type}",
-							body_lines, transforms[transform_type], 
-							obj, args
-						)
-						
+					# template file
+					template_lines = read_file_to_array(template_file)
+				
+				# --- filling out fields
+				# substitute CLASS_NAME for proper name of class
+				# 	name should be derived from name of source file
+					template_lines.find_and_replace(/CLASS_NAME/, name)
+				
+				
+				# --- basic replacement
+				# substitute ARGS and OBJECT with proper values
+				# 	requires parsing of the source for ARGS and OBJECT values
+					args, obj = %w[ARGS OBJECT].collect do |marker|
+						source_lines.find_line_containing(marker).extract_value_list(marker)
 					end
-					# =========================================
 					
-					
-					
-					body_lines.indent_each_line!
-					# (except not the first line - that should have no leading whitespace)
-					body_lines[0].lstrip!
-				end
+					template_lines.find_and_replace(/ARGS/, args)
+					template_lines.find_and_replace(/OBJECT/, obj)
 					
 				
-				# place body code into proper spot in template
-				template_lines.find_and_replace(/BODY/, body)
+				# --- body compilation
+				# perform necessary transforms on BODY
+				# 	must extract BODY code from source file,
+				# 	and then apply transforms defined in template
+					# extract body
+					body = Parser.extract_body(source_lines)
 					
+					
+					# transform body as necessary
+					body = body.split_and_rejoin do |body_lines|
+						# =========================================
+						# Transform body as requested in template
+						# =========================================
+						transforms = Parser.extract_transforms(template_lines)
+						
+						[
+							# need to transform each line
+							# before performing transforms on the whole array
+							# clumping the two mostly just because of similar method call structure
+							:each_line, :whole_array
+						].each do |transform_type|
+							
+							Parser.send("transform_#{transform_type}",
+								body_lines, transforms[transform_type], 
+								obj, args
+							)
+							
+						end
+						# =========================================
+						
+						
+						
+						body_lines.indent_each_line!
+						# (except not the first line - that should have no leading whitespace)
+						body_lines[0].lstrip!
+					end
+						
+					
+					# place body code into proper spot in template
+					template_lines.find_and_replace(/BODY/, body)
+					
+				
+				
+				# --- write compiled file
+				# write the edited lines in template_lines into the proper output file
+					File.open(path_to_target, 'w') do |out|
+						template_lines.each{ |line| out.puts line }
+					end
+				
+				
+			end
 			
-			
-			# --- write compiled file
-			# write the edited lines in template_lines into the proper output file
-				File.open(path_to_target, 'w') do |out|
-					template_lines.each{ |line| out.puts line }
-				end
-			
-			
+			# pseudo-return
+			path_to_target # <-- needed for task generation
 		end
-		
-		# pseudo-return
-		path_to_target # <-- needed for task generation
 	end
+
+	pack_and_dump_files.flatten!
+
+	task :data_packing => pack_and_dump_files
+
 end
-
-pack_and_dump_files.flatten!
-
-task :data_packing => pack_and_dump_files
