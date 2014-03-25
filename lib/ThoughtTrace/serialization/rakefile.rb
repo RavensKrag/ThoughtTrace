@@ -43,16 +43,24 @@ namespace :serialization do
 	#  / __)/  \ (  ( \(  __)(  )/ __)
 	# ( (__(  O )/    / ) _)  )(( (_ \
 	#  \___)\__/ \_)__)(__)  (__)\___/
-	# load and dump files really just control moving data in and out of an array
+	# pack / unpack files really just control moving data in and out of an array
 	# the actual disk operation is handled separately
 	# so serialization methods can be changed as necessary
+	# (pack   = put data into an array from an object)
+	# (unpack = take data out of array, and create an object from it)
+	# 
+	# Must expand all paths so tasks can be run from anywhere.
 	CONFIG = {
-		:read  => [File.expand_path('./templates/unpack.rb', path_to_this_file), '_unpack.rb'],
-		:write => [File.expand_path('./templates/pack.rb', path_to_this_file), '_pack.rb']
+		:read  => File.expand_path('./templates/unpack.rb', path_to_this_file),
+		:write => File.expand_path('./templates/pack.rb', path_to_this_file)
 	}
 
 	SOURCE_DIRECTORY = File.expand_path './source', path_to_this_file
 	OUTPUT_DIRECTORY = File.expand_path './compiled_files', path_to_this_file
+	
+	
+	path = File.expand_path "./build_system/*.rb", path_to_this_file
+	BUILD_SYSTEM_FILES = Dir[path] # needed only as a dependency
 	
 	
 	#  ____  __   ____  __ _  ____ 
@@ -69,9 +77,6 @@ namespace :serialization do
 	# CLOBBER.include
 	
 	
-	path = File.expand_path "./build_system/*.rb", path_to_this_file
-	p path
-	build_system_files = Dir[path] # needed only as a dependency
 	
 	
 	# Examine the files in SOURCE_DIRECTORY
@@ -84,15 +89,15 @@ namespace :serialization do
 		name = path_to_source.strip_extension
 		
 		
-		CONFIG.collect do |config_name, data|
-			template_file, suffix = data
+		CONFIG.collect do |config_name, template_file|
+			suffix = File.basename template_file
 			
 			
-			output_filename = "#{name}#{suffix}"
+			output_filename = "#{name}_#{suffix}"
 			path_to_target = File.join(OUTPUT_DIRECTORY, output_filename)
 			
 			
-			dependencies = [path_to_source, template_file, OUTPUT_DIRECTORY] + build_system_files
+			dependencies = [path_to_source, template_file, OUTPUT_DIRECTORY] + BUILD_SYSTEM_FILES
 			
 			file path_to_target => dependencies do
 				puts "Compiling #{path_to_source} ----into---> #{path_to_target}"
