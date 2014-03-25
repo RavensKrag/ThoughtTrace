@@ -96,7 +96,7 @@ class StringWrapper
 		
 		# can't seem to get non-capturing groups working with #sub, so I'll do it this way
 		exp = /(\=\s*)?(#{@object})((\[.*\])|(\..*))/
-		@string.sub!(exp, '\1self\4\5')
+		@string.gsub!(exp, '\1self\4\5')
 		# '\1\2\4\5' is orig string (replace second group only) (\3 wraps \4 and \5, so omit it)
 		# NOTE: this expression no longer matches OBJECT by itself
 		# but that's not really useful for the problem I'm trying to solve here
