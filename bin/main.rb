@@ -44,6 +44,8 @@ class Window < Gosu::Window
 		Metrics::Timer.new "setup input system" do
 			@input = ThoughtTrace::InputSystem::InputManager.new @space, @camera
 		end
+		
+		@space.add ThoughtTrace::Circle.new 150
 	end
 	
 	def update
