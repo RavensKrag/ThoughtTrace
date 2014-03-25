@@ -115,6 +115,14 @@ class StringWrapper
 		
 		return self
 	end
+	
+	
+	def special_case_property_substitution
+		@string.gsub! /self.width/, 'self[:physics].shape.width'
+		@string.gsub! /self.height/, 'self[:physics].shape.height'
+		
+		return self
+	end
 end
 
 
