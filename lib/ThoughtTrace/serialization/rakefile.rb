@@ -10,35 +10,6 @@ require 'rake/clean'
 # (could possibly just query that, actually)
 
 
-#  ____  ____  ____  _  _  ____ 
-# / ___)(  __)(_  _)/ )( \(  _ \
-# \___ \ ) _)   )(  ) \/ ( ) __/
-# (____/(____) (__) \____/(__)  
-path_to_this_file = File.expand_path '..', __FILE__
-Dir.chdir path_to_this_file
-
-require 'require_all'
-require_all './build_system'
-
-
-
-#   ___  __   __ _  ____  __  ___ 
-#  / __)/  \ (  ( \(  __)(  )/ __)
-# ( (__(  O )/    / ) _)  )(( (_ \
-#  \___)\__/ \_)__)(__)  (__)\___/
-# load and dump files really just control moving data in and out of an array
-# the actual disk operation is handled separately
-# so serialization methods can be changed as necessary
-CONFIG = {
-	:read  => ['./templates/unpack.rb', '_unpack.rb'],
-	:write => ['./templates/pack.rb', '_pack.rb']
-}
-
-SOURCE_DIRECTORY = './source'
-OUTPUT_DIRECTORY = './compiled_files'
-
-
-
 #  _  _  ____  ____  _  _   __  ____  ____ 
 # ( \/ )(  __)(_  _)/ )( \ /  \(    \/ ___)
 # / \/ \ ) _)   )(  ) __ ((  O )) D (\___ \
@@ -54,12 +25,40 @@ end
 
 
 
-#  ____  __   ____  __ _  ____ 
-# (_  _)/ _\ / ___)(  / )/ ___)
-#   )( /    \\___ \ )  ( \___ \
-#  (__)\_/\_/(____/(__\_)(____/
 namespace :serialization do
+	#  ____  ____  ____  _  _  ____ 
+	# / ___)(  __)(_  _)/ )( \(  _ \
+	# \___ \ ) _)   )(  ) \/ ( ) __/
+	# (____/(____) (__) \____/(__)  
+	path_to_this_file = File.expand_path '..', __FILE__
 	
+	Dir.chdir path_to_this_file do
+		require 'require_all'
+		require_all './build_system'
+	end
+	
+	
+	
+	#   ___  __   __ _  ____  __  ___ 
+	#  / __)/  \ (  ( \(  __)(  )/ __)
+	# ( (__(  O )/    / ) _)  )(( (_ \
+	#  \___)\__/ \_)__)(__)  (__)\___/
+	# load and dump files really just control moving data in and out of an array
+	# the actual disk operation is handled separately
+	# so serialization methods can be changed as necessary
+	CONFIG = {
+		:read  => [File.expand_path('./templates/unpack.rb', path_to_this_file), '_unpack.rb'],
+		:write => [File.expand_path('./templates/pack.rb', path_to_this_file), '_pack.rb']
+	}
+
+	SOURCE_DIRECTORY = File.expand_path './source', path_to_this_file
+	OUTPUT_DIRECTORY = File.expand_path './compiled_files', path_to_this_file
+	
+	
+	#  ____  __   ____  __ _  ____ 
+	# (_  _)/ _\ / ___)(  / )/ ___)
+	#   )( /    \\___ \ )  ( \___ \
+	#  (__)\_/\_/(____/(__\_)(____/
 	task :build => :data_packing
 	
 	
@@ -70,7 +69,9 @@ namespace :serialization do
 	# CLOBBER.include
 	
 	
-	build_system_files = Dir["./build_system/*.rb"] # needed only as a dependency
+	path = File.expand_path "./build_system/*.rb", path_to_this_file
+	p path
+	build_system_files = Dir[path] # needed only as a dependency
 	
 	
 	# Examine the files in SOURCE_DIRECTORY
@@ -189,5 +190,6 @@ namespace :serialization do
 	pack_and_dump_files.flatten!
 
 	task :data_packing => pack_and_dump_files
-
+	
+	
 end

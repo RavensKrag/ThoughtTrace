@@ -11,11 +11,18 @@ require 'rake/clean'
 # Must expand '..' shortcut into a proper path. But that results in a shorter string.
 PATH_TO_ROOT = File.expand_path '../..', __FILE__
 
+Dir.chdir PATH_TO_ROOT do
+	require File.expand_path File.join '.', 'lib', 'ThoughtTrace', 'serialization', 'rakefile.rb'
+end
+
+
+
+
 
 task :default => :run
 
 # run the program
-task :run => [:build_pack_unpack_system, :load_dependencies, :load_main] do
+task :run => ['serialization:build', :load_dependencies, :load_main] do
 	# filepath = ARGV[0]
 	# filename ||= "default.yml"
 	# raise "No file path specified" unless filepath
@@ -24,15 +31,6 @@ task :run => [:build_pack_unpack_system, :load_dependencies, :load_main] do
 	x = Window.new
 	x.show
 	x.on_shutdown
-end
-
-# run the serialization build system
-task :build_pack_unpack_system do
-	Dir.chdir PATH_TO_ROOT do
-		Dir.chdir File.join('lib', 'ThoughtTrace', 'serialization') do
-			`rake`
-		end
-	end
 end
 
 task :load_dependencies do
