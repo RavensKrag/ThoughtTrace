@@ -34,29 +34,29 @@ class Array
 	
 	# in-place version of above method
 	def strip_blank_lines!
-		first_content_line = self.index{ |line| line != "" }
-		last_content_line = self.rindex{ |line| line != "" }
+		start_index = self.index{ |line| line != "" }
+		end_index = self.rindex{ |line| line != "" }
 		
 		# move markers towards the outside, but make sure they do not exceed string boundaries
 		# ie. lower end should not go before the start, high end should not go beyond the end
 		min = 0
 		max = self.size - 1
 		
-		first_content_line -= 1
-		last_content_line += 1
+		start_index -= 1
+		end_index += 1
 		
 		
 		# clear all values outside of the good range
 		# skip clearing a side it's associated ranges are malformed
 		# (ie. high end is lower than low end)
-		if first_content_line < last_content_line
-			unless first_content_line < min
+		if start_index < end_index
+			unless start_index < min
 				# clear from start to first good line
-				self[0..first_content_line] = nil
+				self[0..start_index] = nil
 			end
-			unless last_content_line > max
+			unless end_index > max
 				# clear from last good line to end
-				self[last_content_line..-1] = nil
+				self[end_index..-1] = nil
 			end
 			
 			
