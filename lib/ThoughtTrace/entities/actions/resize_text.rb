@@ -4,7 +4,7 @@ module ThoughtTrace
 
 class ResizeText < Action
 	interface_name :resize
-	components :physics, :style
+	components :physics
 	
 	
 	MARGIN = 50
@@ -160,12 +160,7 @@ class ResizeText < Action
 			old_height = @components[:physics].shape.height
 			
 				
-				# (use Entity-level resize so that the text drives the hitbox as opposed to the generic rectangle shape resize)
-				
-				@components[:style][:height] = height
-				
-				# TODO: find a way to make hitbox resize automatically when font size changes
-				@entity.resize!
+				@entity.resize!(height)
 			
 			
 			new_width  = @components[:physics].shape.width

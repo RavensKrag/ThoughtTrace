@@ -2,6 +2,8 @@ module ThoughtTrace
 
 
 class Text < Entity
+	DEFAULT_FONT_SIZE = 30
+	
 	def initialize(font, string="")
 		super()
 		
@@ -13,15 +15,15 @@ class Text < Entity
 		
 		# TODO: cascade into default style
 		style = ThoughtTrace::Components::Style.new
-			style[:height] = 30
+			style[:height] = 30 # <-- depreciated
 			style[:color] = Gosu::Color.argb(0xffFFFFFF)
 		
 		add_component style
 		
 		
 		# NOTE: @string has not yet been initialized
-		width = @font.width(@string, @components[:style][:height])
-		height = @components[:style][:height]
+		height = DEFAULT_FONT_SIZE
+		width = @font.width(@string, height)
 		
 							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
 							shape = CP::Shape::Rect.new body, width, height
@@ -45,7 +47,7 @@ class Text < Entity
 		
 		@components[:physics].draw Gosu::Color.new(0xaaFF0000), z_index
 		
-		@font.draw	@string, @components[:style][:height],
+		@font.draw	@string, @components[:physics].shape.height,
 					x,y, z_index, # position relative to top left corner of text
 					@components[:style][:color]
 	end
@@ -64,8 +66,8 @@ class Text < Entity
 		@font = font
 		
 		
-		width = @font.width(@string, @components[:style][:height])
-		height = @components[:style][:height]
+		width = @font.width(@string, @components[:physics].shape.height)
+		height = @components[:physics].shape.height
 		
 		
 		# @components[:physics].shape.resize! width, height
@@ -79,8 +81,8 @@ class Text < Entity
 		@string = string
 		
 		
-		width = @font.width(@string, @components[:style][:height])
-		height = @components[:style][:height]
+		width = @font.width(@string, @components[:physics].shape.height)
+		height = @components[:physics].shape.height
 		
 		
 		# @components[:physics].shape.resize! width, height
@@ -92,9 +94,9 @@ class Text < Entity
 	# when you change the size, recompute the hitbox
 	
 	# update hitbox to match font size
-	def resize!
-		width = @font.width(@string, @components[:style][:height])
-		height = @components[:style][:height]
+	def resize!(new_height)
+		height = new_height
+		width = @font.width(@string, new_height)
 		
 		
 		@components[:physics].shape.resize! width, height
