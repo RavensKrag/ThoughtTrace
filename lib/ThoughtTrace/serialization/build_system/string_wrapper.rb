@@ -118,8 +118,9 @@ class StringWrapper
 	
 	
 	def special_case_property_substitution
-		@string.gsub! /self.width/, 'self[:physics].shape.width'
-		@string.gsub! /self.height/, 'self[:physics].shape.height'
+		[:width, :height, :radius].each do |property|
+			@string.gsub! /self.#{property}/, "self[:physics].shape.#{property}"
+		end
 		
 		return self
 	end
