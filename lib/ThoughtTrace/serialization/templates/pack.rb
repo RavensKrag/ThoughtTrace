@@ -11,6 +11,8 @@ def pack
 		replace_object_with_self
 		
 		ignore_bang_commands
+		
+		special_case_property_substitution
 	}.reverse!.strip_blank_lines!
 	
 	return ARGS
