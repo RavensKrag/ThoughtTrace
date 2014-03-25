@@ -36,20 +36,20 @@ end
 task :load_dependencies do
 	require 'gosu'
 	require 'gl'
-
+	
 	require 'DIS'
-
+	
 	require 'chipmunk'
 	require 'require_all'
-
-
+	
+	
 	# Doing it this way obfuscates what is a directory, and what is a file,
 	# but it makes handling loading files in various directories
 	# (especially directories that are not children of the current directory)
 	# much easier to manage and understand.
 	
 	full_path = File.join PATH_TO_ROOT, "lib", "ThoughtTrace"
-
+	
 	Dir.chdir full_path do
 		require './utilities/performance_timer'
 		
