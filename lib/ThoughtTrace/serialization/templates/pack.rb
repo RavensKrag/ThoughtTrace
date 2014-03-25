@@ -10,6 +10,7 @@ def pack
 		
 		replace_object_with_self
 		
+		process_bang_command_with_arguments
 		ignore_bang_commands
 		
 		special_case_property_substitution
