@@ -92,7 +92,7 @@ module Parser
 			if parts.size != 1
 				p = parts.shift # take off the first element (pop is the last element)
 				
-				line_transforms << p unless p =~ /^\s*$/ # s is whitespace only
+				line_transforms << p unless p.whitespace_only?
 			end
 			
 			
@@ -106,6 +106,9 @@ module Parser
 			line_transforms.each do |line|
 				line.strip!
 			end
+			
+			line_transforms.collect! { |line| line.strip_comment }
+			line_transforms.reject! { |line| line.whitespace_only? }
 			
 			
 			# --- refine array-wide transforms
@@ -152,16 +155,20 @@ module Parser
 
 
 
-		def transform_each_line(body_lines, transforms)
+		def transform_each_line(body_lines, transforms, obj, args)
 			return if transforms.empty?
 			
 			
 			body_lines.collect! do |line|
-				line = ThoughtTrace::StringWrapper.new line
+				line = ThoughtTrace::StringWrapper.new line, obj, args
 				
 				transforms.inject(line) do |line, method|
+					unless line.is_a? ThoughtTrace::StringWrapper
+						raise "Some transform did not return self"
+					end
+					
 					unless line.respond_to? method
-						raise "Build failed. Undefined transform '#{method}'"
+						raise "Transform undefined: '#{method}' (create method with that name in ThoughtTrace::StringWrapper)"
 					end
 					
 					line.send method
@@ -174,7 +181,7 @@ module Parser
 			end
 		end
 
-		def transform_whole_array(body_lines, transforms)
+		def transform_whole_array(body_lines, transforms, obj, args)
 			transforms.each do |t|
 				body_lines.send t
 			end

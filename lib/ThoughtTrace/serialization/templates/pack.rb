@@ -1,20 +1,22 @@
 module ThoughtTrace
-	class CLASS_NAME
-		class << self
+	class CLASS_NAME < Entity
 
 
-def pack(OBJECT)
+def pack
 	BODY {
 		strip_comments
 		reverse_assignment
 		extraction_from_initialization
-	}.reverse!
+		
+		replace_object_with_self
+		
+		ignore_bang_commands
+	}.reverse!.strip_blank_lines!
 	
 	return ARGS
 end
 
 
 
-end
 end
 end

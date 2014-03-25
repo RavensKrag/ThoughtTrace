@@ -1,112 +1,74 @@
 require 'csv'
+require 'fileutils'
 
 module ThoughtTrace
 	class Space < CP::Space
-		# should ideally be able to specify format,
-		# and then the system can load / save the necessary data in accordance with the schema
+		# Convert entities back and forth between arrays of data using pack / unpack
+		# and then save to disk using CSV ( can easily substitute for another format later )
 		
-		# FORMATTING = {
-		# 	# mapping of numbers to font names
-		# 	:font => %w[number name],
-		# 	:font => [
-		# 		['number', 'L'], # 32-bit unsigned
-		# 		['name', '']
-		# 	]
+		# This class handles extracting class names and saving them in the CSV
+		# pack / unpack does not currently encode that data, and I don't think it should
+		
+		# The creation of pack / unpack methods are semi-automated.
+		# Details can be found in the serialization/ directory
+		
+		def dump(path_to_folder)
+			# create data folder if it does not exist
+			dirname = File.dirname(path_to_folder)
+			FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
 			
-		# 	# must jump through font association table to resolve font
-		# 	:text => %w[font.number x y height text]
+			
+			# pack data
+			packed_array =	@objects.collect do |entity|
+								next unless entity.respond_to? :pack
+								
+								
+								class_name = entity.class.name.split('::').last # ignore modules
+								[class_name] + entity.pack
+							end
+			
+			packed_array.compact! # necessary only because not all Entities are being processed
 			
 			
-		# 	:text => %w[font.number components-physics-body-x components-physics-body-y components-style-height text]
-		# }	
-		
-		# filepath points to the directory containing the necessary project files
-		
-		# consider using Array#pack and String#unpack instead of CSV
-		
-		
-		
-		
-		
-		
-		# # to serialize string using pack use
-		# # dump
-		# 	[str].pack "Z#{str.length+1}" # always end strings with a null terminator
-		# # load
-		# 	blob_string.unpack 'Z*' # unpack a null-terminated string
-		
-		
-		
-		
-		
-		
-		def dump(filepath)
-			@objects.each do |entity|
-				if entity.is_a? ThoughtTrace::Text
-					
-					font = entity.font
-					pos = entity[:physics].body.p # CP::Vec2
-					height = entity[:style][:height] # Float
-					string = entity.string
-					
-					data = [font, pos, height, string]
-					
-					blob = data.pack '' # need to figure out formatting string
-					
-					
-					# nuke file from last save, and put all the known objects into it
-					# (note, current position of loop makes this code not follow logic)
-					# NOTE: can optimize by only editing the effected objects
-						# would require objects to have a unique ID that persists between sessions
-						# could translate between line number and that unique ID
-					File.open(File.join(filepath, 'text',), 'w') do |f|
-						f.puts blob
-					end
+			# write to disk
+			path = File.join(path_to_folder, 'entities.csv')
+			full_path = File.expand_path path
+			
+			CSV.open(full_path, "wb") do |csv|
+				packed_array.each do |data|
+					csv << data
 				end
-			end
-			
-			
-			
-			
-			
-			File.open(File.join(filepath, 'font'), 'w') do |f|
-				f.puts
 			end
 		end
 		
 	class << self
-		def load(filepath)
+		def load(path_to_folder)
 			# Create a new space
 			space = ThoughtTrace::Space.new
 			
 			# Populate that space with data from the disk
-			path = File.join(filepath, 'text.csv')
+			path = File.join(path_to_folder, 'entities.csv')
 			full_path = File.expand_path path
 			
-			puts full_path
 			
-			File.open(full_path, 'r') do |f|
-				csv = CSV.new(f,
-						:headers => true, :header_converters => :symbol, :converters => :all
-					)
+			
+			# it's not actually an array of arrays, but CSV::Table has a similar interface
+			arr_of_arrs = CSV.read(full_path,
+							:headers => false, :header_converters => :symbol, :converters => :all
+							)
+			
+			arr_of_arrs.each do |row|
+				args = row.to_a
 				
-				rows_as_hashes = csv.to_a.map {|row| row.to_hash }
+				klass_name = args.shift
 				
-				rows_as_hashes.each do |row|
-					p row
-					font = ThoughtTrace::Font.new row[:font_name]
-					
-					text = ThoughtTrace::Text.new font
-					text.string = row[:string]
-					
-					text[:physics].body.p = CP::Vec2.new(row[:x], row[:y])
-					
-					text[:style][:height] = row[:height]
-					text.resize!
-					
-					space.add text
-				end
+				klass = ThoughtTrace.const_get klass_name
+				
+				obj = klass.unpack(*args)
+				
+				space.add obj
 			end
+			
 			
 			# Return the space with all the stuff in it
 			return space
