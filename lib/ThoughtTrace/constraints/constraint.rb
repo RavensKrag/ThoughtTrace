@@ -3,7 +3,9 @@ module ThoughtTrace
 
 
 class Constraint
-	
+	def initialize
+		
+	end
 end
 
 
