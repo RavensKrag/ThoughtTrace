@@ -259,7 +259,10 @@ class Query
 	end
 	
 	def draw
+		# the main Entity may already be drawn
+		# this should render only the information specific to viewing the Query
 		
+		# or put another way, it should render for the Query view
 	end
 	
 	
@@ -278,9 +281,14 @@ class Query
 		
 		
 		# body
-		# this will create a new handler for each Query type,
-		# but it will also clobber handlers, as the collision type name for this object is not unique
-		# not sure how to make unique handlers without making maintenance a pain
+		# Establish collision callbacks between any Entity, and any Query
+		# The collision handler is written very generally
+		# Specifics are delegated to each Query object
+		
+		# clobbering of collision handlers is acceptable, as it's always the same handler object
+		# it is a bit inefficient though
+		
+		# NOTE: This style allows for Entities with diverse collision_type properties. If the collision type of each Entity is always going to be the same, this step can be performed once in #initialize, rather than being performed on each bind.
 		@space.add_collision_handler(
 			@@collision_type,
 			@bound_entity[:physics].shape.collision_type,
@@ -321,17 +329,20 @@ class Query
 	
 	
 	
-	# callbacks for particular query events
+	# ===== callbacks for particular query events =====
+	# called once when the Query first detects an Entity
 	def on_add(entity)
 		
 	end
 	
+	# called every tick while the Query is aware of the Entity
 	def on_tick(entity)
 		# maybe this should be in #update?
 		# maybe #update should only be for updating the Query itself?
 		
 	end
 	
+	# called once when the Query first loses track of an Entity
 	def on_remove(entity)
 		
 	end
