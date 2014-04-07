@@ -1,3 +1,11 @@
+# THIS CLASS IS CURRENTLY UNUSED
+# would theoretically allow for returning to old actions
+# (like the system stack)
+# unlike the action stash, which is what is currently being used to handle actions
+# the stack is currently in a conceptual / sketch stage, and doesn't currently work as intended
+
+
+
 # Manages active actions
 # (maybe these should be HumanActions, rather than Actions?)
 # similar to how the "system stack" manages different function calls, this manages actions
