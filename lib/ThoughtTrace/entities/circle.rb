@@ -30,6 +30,8 @@ class Circle < Entity
 		
 		
 		add_action ThoughtTrace::Actions::Move.new self
+		
+		add_action ThoughtTrace::Actions::ResizeCircle.new self
 	end
 	
 	def update

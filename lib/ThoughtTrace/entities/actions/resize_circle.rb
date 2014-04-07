@@ -6,6 +6,7 @@ class ResizeCircle < Action
 	interface_name :resize
 	components :physics
 	
+	MINIMUM_DIMENSION = 10
 	
 	def setup(stash, point)
 		super(stash, point)
@@ -13,18 +14,6 @@ class ResizeCircle < Action
 		# mark the initial point for reference
 		@origin = point
 		
-		# test in which region of the shape the point lies
-		# ASSUMPTION: point is already known to lie within the shape
-		case @components[:physics].shape.foo point
-			when :right
-				
-			when :left
-				
-			when :top
-				
-			when :bottom
-				
-		end
 	end
 	
 	def update(point)
@@ -41,16 +30,30 @@ class ResizeCircle < Action
 		# because it will be called every tick
 		# as long as the button is held
 		
+		
+		# Alter the size of the circle by an amount equal to the radial displacement
+		# Away from the center is positive,
+		# towards the center is negative.
+		
 		displacement = @origin - point
 		
-			angle = displacement.to_angle
-			magnitude = displacement.length
+		# project displacement along the radial axis
+		center = @components[:physics].body.p.clone
+		r = (point - center).normalize
+		
+		radial_displacement = displacement.project(r)
+		magnitude = radial_displacement.length
+		
+		# flip sign if necessary
+		magnitude = -magnitude unless displacement.dot(r) < 0
+		
+			shape = @components[:physics].shape
 			
-			@components[:physics].resize angle, magnitude
-			# need more information than that
-			# for things like rectangles,
-			# it's important where the original click occurred,
-			# so that you can tell one edge drag from another.
+			# limit minimum size
+			radius = shape.radius + magnitude
+			radius = MINIMUM_DIMENSION if radius < MINIMUM_DIMENSION
+			
+			shape.set_radius! radius
 			
 		@origin = point
 	end
