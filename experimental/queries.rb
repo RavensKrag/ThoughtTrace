@@ -242,30 +242,13 @@ class Query
 			# no need to delete and re-create
 	# also, this means that the initialization of Queries feels like Action / Component
 	
-	def initialize
+	def initialize(space)
+		@space = space
 		
+		@collision_handler = CollisionHandler.new
+		@collision_type = :query
 	end
 	
-	
-	# connect an Entity to this query
-	# TODO: figure out if binding multiple Entities to one Query is permissible or not
-	# NOTE: currently, only one Entity can be bound at a time
-	def bind(entity)
-		raise "#{self} already has one Entity bound to it." if @bound_entity
-		
-		raise_errors_if_depencies_unmet entity
-		
-		
-		@bound_entity = entity
-	end
-	
-	# Remove the linkage between the Query an it's Entity
-	# NOTE: if multiple Entities can be bound to one Query, you should only unbind one. In that case, you would need to specify which Entity you want unbound.
-		# I suppose you could take zero args to unbind all?
-		# but unbind all is a rather different sort of procedure, so it should be it's own thing
-	def unbind
-		@bound_entity = nil
-	end
 	
 	
 	
@@ -276,6 +259,117 @@ class Query
 	
 	def draw
 		
+	end
+	
+	
+	
+	
+	
+	# connect an Entity to this query
+	# TODO: figure out if binding multiple Entities to one Query is permissible or not
+	# NOTE: currently, only one Entity can be bound at a time
+	def bind(entity)
+		# start
+		raise "#{self} already has one Entity bound to it." if @bound_entity
+		
+		raise_errors_if_depencies_unmet entity
+		
+		
+		# body
+		# this will create a new handler for each Query type,
+		# but it will also clobber handlers, as the collision type name for this object is not unique
+		# not sure how to make unique handlers without making maintenance a pain
+		@space.add_collision_handler(
+			@collision_type,
+			entity[:physics].shape.collision_type,
+			
+			@collision_handler
+		)	
+		
+		
+		# cleanup
+		@bound_entity = entity
+		
+		return self
+	end
+	
+	# Remove the linkage between the Query an it's Entity
+	# NOTE: if multiple Entities can be bound to one Query, you should only unbind one. In that case, you would need to specify which Entity you want unbound.
+		# I suppose you could take zero args to unbind all?
+		# but unbind all is a rather different sort of procedure, so it should be it's own thing
+	def unbind
+		# start
+		
+		
+		
+		# body
+		
+		
+		
+		# cleanup
+		@bound_entity = nil
+		
+		return self
+	end
+	
+	
+	
+	
+	
+	
+	
+	# callbacks for particular query events
+	def on_add
+		
+	end
+	
+	def on_remove
+		
+	end
+	
+	
+	
+	
+	
+	
+	
+	# add / remove things from the set of things to be queried
+	class CollisionHandler
+		def begin(arbiter)
+			query_object, entity = parse_arbiter(arbiter)
+			
+			
+		end
+
+		def pre_solve(arbiter)
+			query_object, entity = parse_arbiter(arbiter)
+			
+			
+		end
+
+		def post_solve(arbiter)
+			query_object, entity = parse_arbiter(arbiter)
+			
+			
+		end
+
+		def separate(arbiter)
+			query_object, entity = parse_arbiter(arbiter)
+			
+			
+		end
+		
+		
+		private
+		
+		
+		def parse_arbiter(arbiter)
+			query_object = arbiter.a.obj
+			entity       = arbiter.b.obj
+			
+			
+			return query_object, entity
+		end
 	end
 	
 	
