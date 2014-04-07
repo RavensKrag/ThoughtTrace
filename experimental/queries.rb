@@ -31,8 +31,56 @@ build on physics collisions with sensor objects more than Chipmunk queries
 =end
 
 
-class Query
-	def initialize
+class Query < Entity
+	def initialize(shape, *shape_args)
+		super()
+		
+		
+		# should be allowed to have queries of different shapes though...
+		
+		# TODO: Update geometry when style is updated, and vice versa. (or else maybe width and height shouldn't be stored in Style)
+							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
+							shape = CP::Shape::Circle.new body, style[:radius]
+		add_component	ThoughtTrace::Components::Physics.new self, body, shape
+		
+		
+		
+		
+		
+		
+		case shape
+			when :circle
+				
+			when :rectangle
+			
+			when :
+		end
+		
+		# need to pair shape with proper resize action
+		
+		{
+			CP::Shape::Circle => ThoughtTrace::Actions::ResizeCircle,
+			CP::Shape::Rect => ThoughtTrace::Actions::ResizeRectangle,
+			CP::Shape::Text => ThoughtTrace::Actions::ResizeText
+			# text is not a shape type...
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		# physics = ThoughtTrace::Components::Physics.new
 		
 		@body = body
@@ -143,6 +191,103 @@ class Query
 
 		def separate(arbiter)
 			
+		end
+	end
+end
+
+
+
+
+# Try transforming Entity into query instead
+
+def create_query(entity)
+	# wait, this is unnecessary when the entity already exists....
+		# need to pair shape with proper resize action
+		
+		action_mapping = {
+			ThoughtTrace::Circle    => ThoughtTrace::Actions::ResizeCircle,
+			ThoughtTrace::Rectangle => ThoughtTrace::Actions::ResizeRectangle,
+			ThoughtTrace::Text      => ThoughtTrace::Actions::ResizeText
+		}
+		
+		
+		# can condense that into logic
+		# based on naming convention of Entities and associated Actions
+		resize_class = ThoughtTrace::Actions.const_get "Resize#{entity.class.name}"
+		
+		resize_action = resize_class.new entity
+	
+	
+	
+	# but now you have to add a component externally
+	# I mean...
+	# this is permissible with the current API,
+	# but idk if it's wise?
+	# but it's not like you can ever delete components, so I suppose that's ok?
+	entity.add_component Query.new entity
+	
+	# but I think you may need to remove the Query attribute on things occasionally
+	# it's not really an innate property
+	# but something that an Entity might have
+	# or might not have
+end
+
+
+
+# Query as a wrapper of Entity
+
+class Query
+	# use bind / unbind because hijacking the destructor in Ruby is really weird
+	# side effect: one query can easily be passed around between different Entity objects
+			# no need to delete and re-create
+	# also, this means that the initialization of Queries feels like Action / Component
+	
+	def initialize
+		
+	end
+	
+	
+	# connect an Entity to this query
+	# TODO: figure out if binding multiple Entities to one Query is permissible or not
+	# NOTE: currently, only one Entity can be bound at a time
+	def bind(entity)
+		raise "#{self} already has one Entity bound to it." if @bound_entity
+		
+		raise_errors_if_depencies_unmet entity
+		
+		
+		@bound_entity = entity
+	end
+	
+	# Remove the linkage between the Query an it's Entity
+	# NOTE: if multiple Entities can be bound to one Query, you should only unbind one. In that case, you would need to specify which Entity you want unbound.
+		# I suppose you could take zero args to unbind all?
+		# but unbind all is a rather different sort of procedure, so it should be it's own thing
+	def unbind
+		@bound_entity = nil
+	end
+	
+	
+	
+	
+	def update
+		
+	end
+	
+	def draw
+		
+	end
+	
+	
+	private
+	
+	def raise_errors_if_depencies_unmet(entity)
+		[
+			:physics
+		].each do |component_name|
+			unless entity[component_name]
+				raise "#{entity} does not have a #{component_name.to_s.capitalize} component"
+			end
 		end
 	end
 end
