@@ -65,3 +65,21 @@ Actions know what other actions they need to chain into.
 You don't have to know all the phases the reaction is going to go through in order to use it.
 All you need to know is the first step.
 Then, the system can do whatever sub-tasks it needs to on it's own.
+
+
+
+
+
+
+
+ActionStash triggers the state-like flow of Action
+moving firing #setup #update #cleanup as necessary
+
+ActionSelector adds takes Actions from Entities
+and adds them to the Stash when necessary
+
+(note that the state of an Action is maintained by the Action, not the Stash)
+(as such, it is possible to detect if one Action is being accessed from multiple places)
+	[this isn't something that's currently being done]
+	[should probably do something to prevent weird jumps between phases]
+	[but right now the jumps can't happen because of the way the rest of the system works, so it's unnecessary to have an explicit block on it]
