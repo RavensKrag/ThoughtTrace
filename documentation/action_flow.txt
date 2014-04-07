@@ -1,0 +1,67 @@
+input manager                 raw input --> complex input => actions
+
+	action selector           figure out what action to fire
+	                          (can manage many actions)
+	
+		action stash          can manage passing flow between multiple actions
+			
+			action            performs transformations of the data inside an Entity
+
+
+
+
+Entity                        contains both Components and Actions
+	
+	Component                 low-level(ish) control over data
+	
+	Action                    high-level(ish) interface for manipulating the data in Components
+
+
+
+
+
+
+
+
++ Actions are attached to Entity objects
+
++ Actions are referenced by an "interface name" rather than a class name
+	This allows for polymorphic implementation of an interface
+
++ ActionSelector has a list of actions it can launch
+	Listed by interface name. No pointers to actual Action objects or anything.
+
++ ActionSelector polls the space at a point to figure out what Entity to affect
+
++ ActionSelector then fires one of it's available actions that the Entity can respond to by taking the actual Action object from the Entity and giving it to the ActionStash
+
++ ActionStash manages the execution state of an Action
+
++ Actions can call other actions if necessary.
+	Chaining reduces code duplication. That's pretty cool.
+
++ To do this, they interface with the ActionStash
+
+
+
+
+
+
+	(trying to channel _why here...)
+think of an Action like a hazardous material
+you never want to touch it directly.
+Instead, you always use gloves.
+ActionStash is your gloves.
+You interface with the Stash, and the stash interfaces with the Actions
+
+The best part of this is that Actions can manipulate what's in the Stash.
+So if an Action needs to pass control to another Action,
+the first action can simply tell the second action to take it's place in the Stash.
+
+Slightly mysterious, to see things turn into other things right in your hands...
+It's almost like one Action transforms into another.
+
+Actions know what other actions they need to chain into.
+You don't have to know all the phases the reaction is going to go through in order to use it.
+All you need to know is the first step.
+Then, the system can do whatever sub-tasks it needs to on it's own.
