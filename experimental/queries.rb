@@ -243,10 +243,11 @@ class Query
 	# also, this means that the initialization of Queries feels like Action / Component
 	
 	def initialize(space)
-		@space = space
+		@@collision_handler ||= CollisionHandler.new
+		@@collision_type ||= :query
 		
-		@collision_handler = CollisionHandler.new
-		@collision_type = :query
+		
+		@space = space
 	end
 	
 	
@@ -281,11 +282,11 @@ class Query
 		# but it will also clobber handlers, as the collision type name for this object is not unique
 		# not sure how to make unique handlers without making maintenance a pain
 		@space.add_collision_handler(
-			@collision_type,
+			@@collision_type,
 			@bound_entity[:physics].shape.collision_type,
 			
-			@collision_handler
-		)	
+			@@collision_handler
+		)
 		
 		@bound_entity[:physics].shape.sensor = true
 		
