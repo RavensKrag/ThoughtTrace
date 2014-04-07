@@ -271,8 +271,9 @@ class Query
 	def bind(entity)
 		# start
 		raise "#{self} already has one Entity bound to it." if @bound_entity
-		
 		raise_errors_if_depencies_unmet entity
+		
+		@bound_entity = entity
 		
 		
 		# body
@@ -281,14 +282,14 @@ class Query
 		# not sure how to make unique handlers without making maintenance a pain
 		@space.add_collision_handler(
 			@collision_type,
-			entity[:physics].shape.collision_type,
+			@bound_entity[:physics].shape.collision_type,
 			
 			@collision_handler
 		)	
 		
+		@bound_entity[:physics].shape.sensor = true
 		
 		# cleanup
-		@bound_entity = entity
 		
 		return self
 	end
@@ -303,7 +304,8 @@ class Query
 		
 		
 		# body
-		
+		# TODO: consider restoring the shape's previous sensor status instead of forcing false
+		@bound_entity[:physics].shape.sensor = false
 		
 		
 		# cleanup
@@ -319,11 +321,17 @@ class Query
 	
 	
 	# callbacks for particular query events
-	def on_add
+	def on_add(entity)
 		
 	end
 	
-	def on_remove
+	def on_tick(entity)
+		# maybe this should be in #update?
+		# maybe #update should only be for updating the Query itself?
+		
+	end
+	
+	def on_remove(entity)
 		
 	end
 	
@@ -338,25 +346,32 @@ class Query
 		def begin(arbiter)
 			query_object, entity = parse_arbiter(arbiter)
 			
-			
+			if true # some condition for collision
+				query_object.on_add entity
+				
+				
+				return true
+			else 
+				return false
+			end
 		end
 
 		def pre_solve(arbiter)
 			query_object, entity = parse_arbiter(arbiter)
 			
-			
+			query_object.on_tick entity
 		end
 
-		def post_solve(arbiter)
-			query_object, entity = parse_arbiter(arbiter)
+		# def post_solve(arbiter)
+		# 	query_object, entity = parse_arbiter(arbiter)
 			
 			
-		end
+		# end
 
 		def separate(arbiter)
 			query_object, entity = parse_arbiter(arbiter)
 			
-			
+			query_object.on_remove entity
 		end
 		
 		
