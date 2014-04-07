@@ -72,6 +72,8 @@ task :load_dependencies do
 				'./entities/components/',
 				'./entities/',
 				
+				'./queries',
+				
 				'./cameras/camera',
 				
 				
