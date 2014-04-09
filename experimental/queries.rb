@@ -330,6 +330,8 @@ class Query
 	
 	
 	# ===== callbacks for particular query events =====
+	# --- these (unfortunately) have to be public, because they are called by the CollisionHandler
+	
 	# called once when the Query first detects an Entity
 	def on_add(entity)
 		
