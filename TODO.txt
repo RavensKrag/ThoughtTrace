@@ -1,6 +1,12 @@
 TODO
 
 
+improve mouseover state
+	+ On Mar 2nd: "Note flickering of mouseover state on drag"
+	
+
+
+
 using builder pattern, getting dependency list and interface name from the class is a bit obtuse
 	consider moving at least the name into the instance level
 	not like you're really spending that much extra memory anyway
