@@ -4,6 +4,13 @@ TODO
 improve mouseover state
 	+ On Mar 2nd: "Note flickering of mouseover state on drag"
 	
+implement Action#draw
+	actions should be able to render information,
+	to show things like what axis scaling in occuring on,
+	or other helpful visualizations
+	
+	they also should be able to change the cursor, but I'm not sure that belongs here
+	as that is altering the state of the cursor, more than anything
 
 
 
