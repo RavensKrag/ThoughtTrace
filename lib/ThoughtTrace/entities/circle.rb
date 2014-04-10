@@ -8,9 +8,17 @@ class Circle < Entity
 		
 		
 		# TODO: cascade into default style
-		style = ThoughtTrace::Components::Style.new
-			style[:radius] = radius
-			style[:color] = Gosu::Color.argb(0xaa2A3082)
+		style = ThoughtTrace::Components::Style.new "circle_style_#{self.object_id}"
+		style.edit(:default) do |s|
+			s[:radius] = radius
+			s[:color] = Gosu::Color.argb(0xaa2A3082)
+		end
+		
+		style.edit(:hover) do |s|
+			s[:radius] = radius
+			s[:color] = Gosu::Color.argb(0xaa0000FF)
+		end
+			
 		
 		add_component style
 		

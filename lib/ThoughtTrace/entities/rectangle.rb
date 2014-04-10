@@ -8,10 +8,18 @@ class Rectangle < Entity
 		
 		
 		# TODO: cascade into default style
-		style = ThoughtTrace::Components::Style.new
-			style[:width] = width
-			style[:height] = height
-			style[:color] = Gosu::Color.argb(0xaa2A3082)
+		style = ThoughtTrace::Components::Style.new "rectangle_style_#{self.object_id}"
+		style.edit(:default) do |s|
+			s[:width] = width
+			s[:height] = height
+			s[:color] = Gosu::Color.argb(0xaa2A3082)
+		end
+		
+		style.edit(:hover) do |s|
+			s[:width] = width
+			s[:height] = height
+			s[:color] = Gosu::Color.argb(0xaa0000FF)
+		end
 		
 		add_component style
 		

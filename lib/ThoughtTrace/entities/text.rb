@@ -14,9 +14,16 @@ class Text < Entity
 		
 		
 		# TODO: cascade into default style
-		style = ThoughtTrace::Components::Style.new
-			style[:height] = 30 # <-- depreciated
-			style[:color] = Gosu::Color.argb(0xffFFFFFF)
+		style = ThoughtTrace::Components::Style.new "text_style_#{self.object_id}"
+		style.edit(:default) do |s|
+			s[:height] = 30 # <-- depreciated
+			s[:color] = Gosu::Color.argb(0xffFFFFFF)
+		end
+		
+		style.edit(:hover) do |s|
+			s[:height] = 30 # <-- depreciated
+			s[:color] = Gosu::Color.argb(0xff0000FF)
+		end
 		
 		add_component style
 		
