@@ -199,6 +199,31 @@ end
 		# maybe have it default to "switching" to the current mode with zero args?
 
 
+def edit(mode=@mode) # not sure if you can use an instance variable like this
+	old_mode = @mode
+		@mode = mode
+		
+		self.tap |mode_handle|
+			yield mode_handle
+		end
+	@mode = old_mode
+end
+
+
+# try to avoid switching where unnecessary
+def edit(mode=@mode)
+	old_mode = @mode unless @mode == mode
+	
+		@mode = mode
+		
+		self.tap |mode_handle|
+			yield mode_handle
+		end
+	
+	@mode = old_mode if old_mode # will not exist if trying to switch to the currently active mode
+end
+	# it's probably more efficient to just perform the switch every time
+	# it's just one variable being changed, after all
 
 
 
