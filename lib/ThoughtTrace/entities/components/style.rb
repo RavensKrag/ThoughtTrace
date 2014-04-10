@@ -22,7 +22,11 @@ class Style < Component
 		# 	:color, # if you want to color the bg, you should be coloring a separate element
 		# ]
 		
-		@properties = Hash.new
+		@mode = :default
+		
+		# {:mode_name => {:property_name => value} }
+		# ex) @properties[:default][:color]
+		@properties = {@mode => Hash.new}
 	end
 	
 	def update
@@ -33,11 +37,25 @@ class Style < Component
 		
 	end
 	
+	
+	
+	
+	def mode=(new_mode)
+		@properties[new_mode] ||= Hash.new
+		
+		@mode = new_mode
+	end
+	
+	def mode
+		return @mode
+	end
+	
+	
 	# Request the value of a certain property
 	# Will cascade into parent properties as necessary
 	# (search through parent styles until you find a usable value)
 	def [](property)
-		foo = @properties[property]
+		foo = @properties[@mode][property]
 		
 		if foo.nil?
 			if @parent_style
@@ -57,7 +75,19 @@ class Style < Component
 	# Set property
 	# Will only ever set the value at this level
 	def []=(property, value)
-		@properties[property] = value
+		@properties[@mode][property] = value
+	end
+	
+	# Edit one style mode (not necessarily the active mode)
+	# Protects against forgetting to switch back after temporarily switching modes to make an edit
+	def edit(mode=@mode)
+		old_mode = @mode
+			@mode = mode
+			
+			self.tap do |mode_handle|
+				yield mode_handle
+			end
+		@mode = old_mode
 	end
 end
 
