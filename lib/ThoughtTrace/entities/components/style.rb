@@ -5,9 +5,11 @@ module ThoughtTrace
 class Style < Component
 	interface_name :style
 	
-	attr_accessor :parent_style
+	attr_accessor :name, :parent_style
 	
-	def initialize(parent_style=nil)
+	def initialize(name, parent_style=nil)
+		@name = name
+		
 		# should have various properties
 		# properties can cascade off another style component, like in CSS
 		@parent_style = parent_style
@@ -58,13 +60,16 @@ class Style < Component
 		foo = @properties[@mode][property]
 		
 		if foo.nil?
+			warn "Warning: Property :#{property} not defined for :#{@mode} mode of style #{@name}"
+			
 			if @parent_style
 				# Delegate up the cascade chain, trying to find a usable value
 				foo = @parent_style[property]
 			else
 				# Bottom of the chain
 				# TOOD: Figure out a way to give a sense of the chain where the property was not found. Maybe that information is in the backtrace already?
-				raise "Style property #{property} not defined"
+				# Would be easier to return proper debug information at the top of the chain. Then you could alert where the property was requested.
+				raise "ERROR: Style property #{property} not defined"
 			end
 		end
 		
@@ -81,13 +86,17 @@ class Style < Component
 	# Edit one style mode (not necessarily the active mode)
 	# Protects against forgetting to switch back after temporarily switching modes to make an edit
 	def edit(mode=@mode)
-		old_mode = @mode
-			@mode = mode
+		# want to use the methods to get / set mode, rather than instance variables
+		# kinda weird relative to standard ruby style, but it needs to happen
+		# so that the hashes can be initialized correctly,
+		# without having to repeat the init code all over the place
+		old_mode = self.mode
+			self.mode = mode
 			
 			self.tap do |mode_handle|
 				yield mode_handle
 			end
-		@mode = old_mode
+		self.mode = old_mode
 	end
 end
 
