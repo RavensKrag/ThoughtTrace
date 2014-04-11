@@ -16,6 +16,7 @@ class Space < CP::Space
 		
 		# The creation of pack / unpack methods are semi-automated.
 		# Details can be found in the serialization/ directory
+		SERIALIZATION_FILENAME = "entities.csv"
 		
 		def dump(path_to_folder)
 			# pack data
@@ -31,7 +32,7 @@ class Space < CP::Space
 			
 			
 			# write to disk
-			path = File.join(path_to_folder, 'entities.csv')
+			path = File.join(path_to_folder, SERIALIZATION_FILENAME)
 			full_path = File.expand_path path
 			
 			CSV.open(full_path, "wb") do |csv|
@@ -48,7 +49,7 @@ class Space < CP::Space
 				
 				
 				# Populate that space with data from the disk
-				path = File.join(path_to_folder, 'entities.csv')
+				path = File.join(path_to_folder, SERIALIZATION_FILENAME)
 				full_path = File.expand_path path
 				
 				
