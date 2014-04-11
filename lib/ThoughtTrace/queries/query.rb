@@ -34,6 +34,8 @@ class Query
 	
 	
 	
+	attr_reader :bound_entity
+	
 	# connect an Entity to this query
 	# TODO: figure out if binding multiple Entities to one Query is permissible or not
 	# NOTE: currently, only one Entity can be bound at a time

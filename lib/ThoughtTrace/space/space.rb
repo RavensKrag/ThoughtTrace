@@ -1,34 +1,72 @@
 require 'fileutils'
 
 module ThoughtTrace
-	class Space < CP::Space
-		def initialize
-			@objects =	Array.new
-			
-			
-			# set variables needed for physics space
-			# iteration constants, etc
-			@dt = 1.0/60
-			
-			super()
+
+
+class Space < CP::Space
+	attr_reader :entities, :queries, :constraints
+	
+	def initialize
+		# TODO: consider implementing these lists as custom types. Would enable attaching #add / #delete to the collections themselves, instead of the Space as a whole.
+		@entities =	EntityList.new self
+		@queries = QueryList.new self
+		@constraints = ConstraintList.new self
+		
+		# set variables needed for physics space
+		# iteration constants, etc
+		@dt = 1.0/60
+		
+		super()
+	end
+	
+	def update
+		@entities.each &:update
+		@queries.each &:update
+		@constraints.each &:update
+		
+		step(@dt)
+	end
+	
+	def draw
+		@entities.each &:draw
+		@queries.each &:draw
+		@constraints.each &:draw
+	end
+	
+	def empty?
+		# TODO: consider checking all lists to see if they are empty instead of just @entities
+		@entities.empty?
+	end
+	
+	
+	def merge(enum)
+		enum.each do |obj|
+			self.add obj
 		end
 		
-		def update
-			@objects.each do |obj|
-				obj.update
-			end
+		# enum.each &:add
+	end
+	
+	
+	# Clean up unnecessary objects
+	# ie, empty strings
+	def gc
+		@entities.delete_if &:gc?
+		@queries.delete_if &:gc?
+		@constraints.delete_if &:gc?
+	end
+	
+	
+	
+	
+	
+	
+	
+	class EntityList < Array
+		def initialize(space)
+			@space = space
 			
-			step(@dt)
-		end
-		
-		def draw
-			@objects.each do |obj|
-				obj.draw
-			end
-		end
-		
-		def empty?
-			@objects.empty?
+			@list = Array.new
 		end
 		
 		def add(object)
@@ -43,10 +81,10 @@ module ThoughtTrace
 				raise msg.multiline_lstrip
 			end
 			
-			@objects << object
+			self.push object
 			
-			add_shape(object[:physics].shape)
-			add_body(object[:physics].body)
+			@space.add_shape(object[:physics].shape)
+			@space.add_body(object[:physics].body)
 			
 			
 			
@@ -54,22 +92,12 @@ module ThoughtTrace
 			object.action_names.each do |name|
 				action = object.send(name)
 				if action.respond_to? :space=
-					action.space = self
+					action.space = @space
 				end
 			end
 		end
 		
-		def merge(enum)
-			enum.each do |obj|
-				self.add obj
-			end
-			
-			# enum.each &:add
-		end
-		
 		def delete(object)
-			@objects.delete object
-			
 			# remove linkage between this space and any Actions
 			# (same loop from Space#add)
 			object.action_names.each do |name|
@@ -79,16 +107,41 @@ module ThoughtTrace
 				end
 			end
 		end
+	end
+	
+	class QueryList < Array
+		def initialize(space)
+			@space = space
+			
+			
+		end
 		
+		def add(object)
+			
+		end
 		
-		
-		
-		# Clean up unnecessary objects
-		# ie, empty strings
-		def gc
-			@objects.delete_if do |obj|
-				obj.gc?
-			end
+		def delete(object)
+			
 		end
 	end
+	
+	class ConstraintList < Array
+		def initialize(space)
+			@space = space
+			
+			
+		end
+		
+		def add(object)
+			
+		end
+		
+		def delete(object)
+			
+		end
+	end
+end
+
+
+
 end

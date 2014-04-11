@@ -71,7 +71,7 @@ class Spawn < HumanAction
 		# ah, but this assumes that all Entity objects can be created without parameters
 		obj = @klass.new
 		obj[:physics].body.p = point
-		@space.add obj
+		@space.entities.add obj
 		
 	end
 	
