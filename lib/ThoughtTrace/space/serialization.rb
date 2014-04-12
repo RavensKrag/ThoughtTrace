@@ -17,12 +17,11 @@ class Space < CP::Space
 		
 		def dump(path_to_folder, *args)
 			# pack data
-			packed_array =	self.collect do |entity|
-								next unless entity.respond_to? :pack
+			packed_array =	self.collect do |object|
+								next unless object.respond_to? :pack
 								
-								
-								class_name = entity.class.name.split('::').last # ignore modules
-								[class_name] + entity.pack(*args)
+								class_name = object.class.name.split('::').last # ignore modules
+								[class_name] + object.pack(*args)
 							end
 			
 			packed_array.compact! # necessary only because not all Entities are being processed
@@ -63,7 +62,8 @@ class Space < CP::Space
 					
 					klass_name = args.shift
 					
-					klass = ThoughtTrace.const_get klass_name
+					namespace = self.const_get 'CONST_SPACE'
+					klass = namespace.const_get klass_name
 					
 					obj = klass.unpack(*passthrough_args,*args)
 					
@@ -81,14 +81,17 @@ class Space < CP::Space
 		# The creation of pack / unpack methods for Entity objects are semi-automated.
 		# Details can be found in the serialization/ directory
 		SERIALIZATION_FILENAME = "entities.csv"
+		CONST_SPACE = ThoughtTrace
 	end
 	
 	class QueryList < List
 		SERIALIZATION_FILENAME = "queries.csv"
+		CONST_SPACE = ThoughtTrace::Queries
 	end
 	
 	class ConstraintList < List
 		SERIALIZATION_FILENAME = "constraints.csv"
+		CONST_SPACE = ThoughtTrace::Constraints
 	end
 	
 	
@@ -98,7 +101,7 @@ class Space < CP::Space
 	# one for each type of data to be serialized.
 	# Currently, the serialization format is CSV, but this can easily be switched out.
 	
-	# NOTE: Entity IDs are based on file lines, but it's line indexes, not numbers (zero-based)
+	# NOTE: Entity IDs are based on line INDEXES (zero-based)
 	
 	def dump(path_to_folder)
 		# create data folder if it does not exist
@@ -128,10 +131,12 @@ class Space < CP::Space
 			
 			# have to pass space twice so that it ends up in #load as well as #unpack
 			queries = ThoughtTrace::Space::QueryList.load(
-								path_to_folder, space, id_to_entity_table, space
+								path_to_folder, space,    # load arguments
+								id_to_entity_table, space # unpack arguments
 						)
 			components = ThoughtTrace::Space::ConstraintList.load(
-								path_to_folder, space, id_to_entity_table, space
+								path_to_folder, space,    # load arguments
+								id_to_entity_table, space # unpack arguments
 						)
 			
 			
