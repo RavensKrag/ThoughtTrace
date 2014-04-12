@@ -1,4 +1,5 @@
 module ThoughtTrace
+	module Queries
 
 
 class Query
@@ -243,4 +244,5 @@ end
 
 
 
+end
 end
