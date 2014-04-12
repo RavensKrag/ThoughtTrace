@@ -114,7 +114,6 @@ class Query
 	# ===== serialization =====
 	# convert ONE object to / from array on pack / unpack
 	def pack(entity_to_id_table)
-		puts "packing query"
 		entity_id = entity_to_id_table[@bound_entity]
 		
 		
@@ -123,10 +122,11 @@ class Query
 	
 	
 	class << self
-		def unpack(id_to_entity_table, space, # provided by system
+		def unpack(
+			id_to_entity_table, space, # provided by system
 			id # loaded from file
 		)
-		puts "unpacking query"
+		# ---
 			# 'args' array contains only elements stored in the file on disk
 			query = self.new(space)
 			
