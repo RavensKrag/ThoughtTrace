@@ -43,7 +43,7 @@ class Space < CP::Space
 		end
 		
 		class << self
-			def load(space, path_to_folder)
+			def load(path_to_folder, space)
 				list = self.new(space)
 				
 				
@@ -79,13 +79,15 @@ class Space < CP::Space
 	end
 	
 	class QueryList < Array
-		def dump(path_to_folder)
+		def dump(path_to_folder, entity_to_id_table)
 			
 		end
 		
 		class << self
-			def load(space, path_to_folder)
+			def load(path_to_folder, id_to_entity_table, space)
 				list = self.new(space)
+				
+				
 				
 				return list
 			end
@@ -93,12 +95,12 @@ class Space < CP::Space
 	end
 	
 	class ConstraintList < Array
-		def dump(path_to_folder)
+		def dump(path_to_folder, entity_to_id_table)
 			
 		end
 		
 		class << self
-			def load(space, path_to_folder)
+			def load(path_to_folder, id_to_entity_table, space)
 				list = self.new(space)
 				
 				return list
@@ -118,8 +120,12 @@ class Space < CP::Space
 		FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
 		
 		@entities.dump path_to_folder
-		@queries.dump path_to_folder
-		@components.dump path_to_folder
+		
+		
+		entity_to_id_table = @entities.each_with_index.map{|x,i| [x,i]}.to_h
+		
+		@queries.dump path_to_folder, entity_to_id_table
+		@components.dump path_to_folder, entity_to_id_table
 	end
 	
 	class << self
@@ -128,9 +134,19 @@ class Space < CP::Space
 			space = ThoughtTrace::Space.new
 			
 			
-			entities = ThoughtTrace::Space::EntityList.load space, path_to_folder
-			queries = ThoughtTrace::Space::QueryList.load space, path_to_folder
-			components = ThoughtTrace::Space::ConstraintList.load space, path_to_folder
+			entities = ThoughtTrace::Space::EntityList.load path_to_folder, space
+			
+			
+			
+			id_to_entity_table = entities
+			
+			queries = ThoughtTrace::Space::QueryList.load(
+								path_to_folder, id_to_entity_table, space
+						)
+			components = ThoughtTrace::Space::ConstraintList.load(
+								path_to_folder, id_to_entity_table, space
+						)
+			
 			
 			
 			# can't think of a better way to set these variables
