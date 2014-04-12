@@ -64,6 +64,14 @@ class Space < CP::Space
 		def initialize(space)
 			@space = space
 		end
+		
+		def add(object)
+			self.push object
+		end
+		
+		def delete(object)
+			self.delete object
+		end
 	end
 	
 	class EntityList < List
@@ -79,7 +87,7 @@ class Space < CP::Space
 				raise msg.multiline_lstrip
 			end
 			
-			self.push object
+			super(object)
 			
 			@space.add_shape(object[:physics].shape)
 			@space.add_body(object[:physics].body)
@@ -96,7 +104,7 @@ class Space < CP::Space
 		end
 		
 		def delete(object)
-			self.delete object
+			super(object)
 			
 			# remove linkage between this space and any Actions
 			# (same loop from Space#add)
@@ -110,23 +118,23 @@ class Space < CP::Space
 	end
 	
 	class QueryList < List
-		def add(object)
-			self.push object
-		end
+		# def add(object)
+			
+		# end
 		
-		def delete(object)
-			self.delete object
-		end
+		# def delete(object)
+			
+		# end
 	end
 	
 	class ConstraintList < List
-		def add(object)
-			self.push object
-		end
+		# def add(object)
+			
+		# end
 		
-		def delete(object)
-			self.delete object
-		end
+		# def delete(object)
+			
+		# end
 	end
 end
 
