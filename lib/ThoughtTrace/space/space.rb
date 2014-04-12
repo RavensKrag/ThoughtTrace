@@ -96,6 +96,8 @@ class Space < CP::Space
 		end
 		
 		def delete(object)
+			self.delete object
+			
 			# remove linkage between this space and any Actions
 			# (same loop from Space#add)
 			object.action_names.each do |name|
@@ -109,21 +111,21 @@ class Space < CP::Space
 	
 	class QueryList < List
 		def add(object)
-			
+			self.push object
 		end
 		
 		def delete(object)
-			
+			self.delete object
 		end
 	end
 	
 	class ConstraintList < List
 		def add(object)
-			
+			self.push object
 		end
 		
 		def delete(object)
-			
+			self.delete object
 		end
 	end
 end
