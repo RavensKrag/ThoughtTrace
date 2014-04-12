@@ -60,15 +60,13 @@ class Space < CP::Space
 	
 	
 	
-	
-	
-	class EntityList < Array
+	class List < Array
 		def initialize(space)
 			@space = space
-			
-			@list = Array.new
 		end
-		
+	end
+	
+	class EntityList < List
 		def add(object)
 			# raise "Physics component on #<#{object.class}:#{object.object_id}> not found." unless object.respond_to? :physics
 			
@@ -109,13 +107,7 @@ class Space < CP::Space
 		end
 	end
 	
-	class QueryList < Array
-		def initialize(space)
-			@space = space
-			
-			
-		end
-		
+	class QueryList < List
 		def add(object)
 			
 		end
@@ -125,13 +117,7 @@ class Space < CP::Space
 		end
 	end
 	
-	class ConstraintList < Array
-		def initialize(space)
-			@space = space
-			
-			
-		end
-		
+	class ConstraintList < List
 		def add(object)
 			
 		end

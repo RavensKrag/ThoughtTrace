@@ -95,6 +95,48 @@ class Query
 	
 	
 	
+	# ===== serialization =====
+	# convert ONE object to / from array on pack / unpack
+	def pack(entity_to_id_table)
+		entity_id = entity_to_id_table[@bound_entity]
+		
+		
+		return entity_id
+	end
+	
+	
+	class << self
+		def unpack(id_to_entity_table, space, *args)
+			# 'args' array contains only elements stored in the file on disk
+			id = *args
+			
+			
+			query = self.new(space)
+			
+			
+			
+			entity = id_to_entity_table[id]
+			
+			query.bind(entity)
+			
+			
+			return query
+		end
+	end
+	# =========================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	# ===== callbacks for particular query events =====
 	# called once when the Query first detects an Entity

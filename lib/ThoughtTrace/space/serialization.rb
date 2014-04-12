@@ -6,33 +6,31 @@ module ThoughtTrace
 
 
 class Space < CP::Space
-	
-	class EntityList < Array
+	class List < Array
 		# Convert entities back and forth between arrays of data using pack / unpack
 		# and then save to disk using CSV ( can easily substitute for another format later )
 		
 		# This class handles extracting class names and saving them in the CSV
 		# pack / unpack does not currently encode that data, and I don't think it should
 		
-		# The creation of pack / unpack methods are semi-automated.
-		# Details can be found in the serialization/ directory
-		SERIALIZATION_FILENAME = "entities.csv"
+		# Can accept optional arguments to pass through to pack / unpack
 		
-		def dump(path_to_folder)
+		def dump(path_to_folder, *args)
 			# pack data
 			packed_array =	self.collect do |entity|
 								next unless entity.respond_to? :pack
 								
 								
 								class_name = entity.class.name.split('::').last # ignore modules
-								[class_name] + entity.pack
+								[class_name] + entity.pack(*args)
 							end
 			
 			packed_array.compact! # necessary only because not all Entities are being processed
 			
 			
 			# write to disk
-			path = File.join(path_to_folder, SERIALIZATION_FILENAME)
+			filename = self.class.const_get 'SERIALIZATION_FILENAME'
+			path = File.join(path_to_folder, filename)
 			full_path = File.expand_path path
 			
 			CSV.open(full_path, "wb") do |csv|
@@ -43,13 +41,14 @@ class Space < CP::Space
 		end
 		
 		class << self
-			def load(path_to_folder, space)
+			def load(path_to_folder, space, *passthrough_args)
 				list = self.new(space)
 				
 				
 				
 				# Populate that space with data from the disk
-				path = File.join(path_to_folder, SERIALIZATION_FILENAME)
+				filename = self.const_get 'SERIALIZATION_FILENAME'
+				path = File.join(path_to_folder, filename)
 				full_path = File.expand_path path
 				
 				
@@ -66,7 +65,7 @@ class Space < CP::Space
 					
 					klass = ThoughtTrace.const_get klass_name
 					
-					obj = klass.unpack(*args)
+					obj = klass.unpack(*passthrough_args,*args)
 					
 					list.add obj
 				end
@@ -78,34 +77,18 @@ class Space < CP::Space
 		end
 	end
 	
-	class QueryList < Array
-		def dump(path_to_folder, entity_to_id_table)
-			
-		end
-		
-		class << self
-			def load(path_to_folder, id_to_entity_table, space)
-				list = self.new(space)
-				
-				
-				
-				return list
-			end
-		end
+	class EntityList < List
+		# The creation of pack / unpack methods for Entity objects are semi-automated.
+		# Details can be found in the serialization/ directory
+		SERIALIZATION_FILENAME = "entities.csv"
 	end
 	
-	class ConstraintList < Array
-		def dump(path_to_folder, entity_to_id_table)
-			
-		end
-		
-		class << self
-			def load(path_to_folder, id_to_entity_table, space)
-				list = self.new(space)
-				
-				return list
-			end
-		end
+	class QueryList < List
+		SERIALIZATION_FILENAME = "queries.csv"
+	end
+	
+	class ConstraintList < List
+		SERIALIZATION_FILENAME = "constraints.csv"
 	end
 	
 	
@@ -114,6 +97,9 @@ class Space < CP::Space
 	# That folder will contain multiple files,
 	# one for each type of data to be serialized.
 	# Currently, the serialization format is CSV, but this can easily be switched out.
+	
+	# NOTE: Entity IDs are based on file lines, but it's line indexes, not numbers (zero-based)
+	
 	def dump(path_to_folder)
 		# create data folder if it does not exist
 		dirname = File.dirname(path_to_folder)
@@ -140,11 +126,12 @@ class Space < CP::Space
 			
 			id_to_entity_table = entities
 			
+			# have to pass space twice so that it ends up in #load as well as #unpack
 			queries = ThoughtTrace::Space::QueryList.load(
-								path_to_folder, id_to_entity_table, space
+								path_to_folder, space, id_to_entity_table, space
 						)
 			components = ThoughtTrace::Space::ConstraintList.load(
-								path_to_folder, id_to_entity_table, space
+								path_to_folder, space, id_to_entity_table, space
 						)
 			
 			
