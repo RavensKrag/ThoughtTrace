@@ -79,12 +79,15 @@ class Mouse
 		
 		def enable
 			puts "#{@entity} on"
+			
+			@old_mode = @entity[:style].mode
+			
 			@entity[:style].mode = :hover
 		end
 		
 		def disable
 			puts "#{@entity} off"
-			@entity[:style].mode = :default
+			@entity[:style].mode = @old_mode
 		end
 		
 		def ==(other)
