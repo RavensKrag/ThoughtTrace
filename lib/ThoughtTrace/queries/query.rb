@@ -40,32 +40,44 @@ class Query
 	# TODO: figure out if binding multiple Entities to one Query is permissible or not
 	# NOTE: currently, only one Entity can be bound at a time
 	def bind(entity)
-		# start
+		# ===== start
 		raise "#{self} already has one Entity bound to it." if @bound_entity
 		raise_errors_if_depencies_unmet entity
 		
 		@bound_entity = entity
 		
 		
-		# body
-		# Establish collision callbacks between any Entity, and any Query
-		# The collision handler is written very generally
-		# Specifics are delegated to each Query object
-		
-		# clobbering of collision handlers is acceptable, as it's always the same handler object
-		# it is a bit inefficient though
-		
-		# NOTE: This style allows for Entities with diverse collision_type properties. If the collision type of each Entity is always going to be the same, this step can be performed once in #initialize, rather than being performed on each bind.
-		@space.add_collision_handler(
-			@@collision_type,
-			@bound_entity[:physics].shape.collision_type,
+		# ===== body
+		# -- physics
+			# Establish collision callbacks between any Entity, and any Query
+			# The collision handler is written very generally
+			# Specifics are delegated to each Query object
 			
-			@@collision_handler
-		)
+			# clobbering of collision handlers is acceptable, as it's always the same handler object
+			# it is a bit inefficient though
+			
+			# NOTE: This style allows for Entities with diverse collision_type properties. If the collision type of each Entity is always going to be the same, this step can be performed once in #initialize, rather than being performed on each bind.
+			@space.add_collision_handler(
+				@@collision_type,
+				@bound_entity[:physics].shape.collision_type,
+				
+				@@collision_handler
+			)
+			
+			@bound_entity[:physics].shape.sensor = true
+		# -- style
+			# TODO: find a way to revert the style that doesn't clash with things like mouseover
+			# TODO: move query style definition somewhere else. don't want it in my flow code
+			@bound_entity[:style].mode = :query
+			@bound_entity[:style].edit(:query) do |s|
+				s[:color] = Gosu::Color.argb(0xaaFF0000)
+			end
 		
-		@bound_entity[:physics].shape.sensor = true
 		
-		# cleanup
+		
+		
+		
+		# ===== cleanup
 		
 		return self
 	end
@@ -75,16 +87,19 @@ class Query
 		# I suppose you could take zero args to unbind all?
 		# but unbind all is a rather different sort of procedure, so it should be it's own thing
 	def unbind
-		# start
+		# ===== start
 		
 		
 		
-		# body
-		# TODO: consider restoring the shape's previous sensor status instead of forcing false
-		@bound_entity[:physics].shape.sensor = false
+		# ===== body
+		# -- physics
+			# TODO: consider restoring the shape's previous sensor status instead of forcing false
+			@bound_entity[:physics].shape.sensor = false
+		# -- style
+			@bound_entity[:style].mode = :default
 		
 		
-		# cleanup
+		# ===== cleanup
 		@bound_entity = nil
 		
 		return self
@@ -213,9 +228,11 @@ class Query
 	
 	private
 	
+	# TODO: Move dependencies list to the top of the file somehow
 	def raise_errors_if_depencies_unmet(entity)
 		[
-			:physics
+			:physics,
+			:style
 		].each do |component_name|
 			unless entity[component_name]
 				raise "#{entity} does not have a #{component_name.to_s.capitalize} component"
