@@ -5,7 +5,7 @@ gem 'require_all'
 gem 'chipmunk', '6.1.3.1'
 gem 'DIS', "~>0.01.0"
 
-gem 'gosu'
+gem 'gosu', "0.8.0.pre3"
 gem 'opengl', "0.8.0.pre1"
 
 
