@@ -14,22 +14,11 @@ class ResizeCircle < Action
 		# mark the initial point for reference
 		@origin = point
 		
+		@original_radius = @components[:physics].shape.radius
 	end
 	
 	def update(point)
 		super(point)
-		
-		# apply one tick of resize change
-		# each time this method is called, one d_size / d_t should be applied
-		
-		# can think of this method as a loop
-		# each time the game loop hits this method,
-		# it will advance the resizing algorithm by one tick
-		
-		# this method has circular flow
-		# because it will be called every tick
-		# as long as the button is held
-		
 		
 		# Alter the size of the circle by an amount equal to the radial displacement
 		# Away from the center is positive,
@@ -47,15 +36,16 @@ class ResizeCircle < Action
 		# flip sign if necessary
 		magnitude = -magnitude unless displacement.dot(r) < 0
 		
-			shape = @components[:physics].shape
-			
-			# limit minimum size
-			radius = shape.radius + magnitude
-			radius = MINIMUM_DIMENSION if radius < MINIMUM_DIMENSION
-			
-			shape.set_radius! radius
-			
-		@origin = point
+		
+		
+		shape = @components[:physics].shape
+		
+		# limit minimum size
+		radius = @original_radius + magnitude
+		radius = MINIMUM_DIMENSION if radius < MINIMUM_DIMENSION
+		
+		
+		shape.set_radius! radius
 	end
 	
 	def cleanup
