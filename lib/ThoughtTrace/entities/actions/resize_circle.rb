@@ -24,7 +24,7 @@ class ResizeCircle < Action
 		# Away from the center is positive,
 		# towards the center is negative.
 		
-		displacement = @origin - point
+		displacement = point - @origin
 		
 		# project displacement along the radial axis
 		center = @components[:physics].body.p.clone
@@ -34,18 +34,16 @@ class ResizeCircle < Action
 		magnitude = radial_displacement.length
 		
 		# flip sign if necessary
-		magnitude = -magnitude unless displacement.dot(r) < 0
+		magnitude = -magnitude unless displacement.dot(r) > 0
 		
 		
-		
-		shape = @components[:physics].shape
 		
 		# limit minimum size
 		radius = @original_radius + magnitude
 		radius = MINIMUM_DIMENSION if radius < MINIMUM_DIMENSION
 		
 		
-		shape.set_radius! radius
+		@components[:physics].shape.set_radius! radius
 	end
 	
 	def cleanup
