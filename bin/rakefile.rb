@@ -61,6 +61,7 @@ task :load_dependencies do
 				'./utilities/meta',
 				'./utilities/font',
 				
+				'./physics',
 				
 				# require_all seems to snip the Class#inherited callback.
 				# wait, but only for recursive add or something?

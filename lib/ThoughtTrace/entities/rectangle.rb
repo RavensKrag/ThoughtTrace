@@ -25,8 +25,8 @@ class Rectangle < Entity
 		
 		
 		# TODO: Update geometry when style is updated, and vice versa. (or else maybe width and height shouldn't be stored in Style)
-							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-							shape = CP::Shape::Rect.new body, style[:width], style[:height]
+				body = CP::Body.new(Float::INFINITY, Float::INFINITY)
+				shape = ThoughtTrace::Physics::Rectangle.new body, style[:width], style[:height]
 		add_component	ThoughtTrace::Components::Physics.new self, body, shape
 		
 		
