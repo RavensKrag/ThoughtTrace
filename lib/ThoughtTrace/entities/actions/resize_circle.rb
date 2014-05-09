@@ -6,6 +6,7 @@ class ResizeCircle < Action
 	interface_name :resize
 	components :physics
 	
+	MINIMUM_DIMENSION = 10
 	
 	def setup(stash, point)
 		super(stash, point)
@@ -13,46 +14,36 @@ class ResizeCircle < Action
 		# mark the initial point for reference
 		@origin = point
 		
-		# test in which region of the shape the point lies
-		# ASSUMPTION: point is already known to lie within the shape
-		case @components[:physics].shape.foo point
-			when :right
-				
-			when :left
-				
-			when :top
-				
-			when :bottom
-				
-		end
+		@original_radius = @components[:physics].shape.radius
 	end
 	
 	def update(point)
 		super(point)
 		
-		# apply one tick of resize change
-		# each time this method is called, one d_size / d_t should be applied
+		# Alter the size of the circle by an amount equal to the radial displacement
+		# Away from the center is positive,
+		# towards the center is negative.
 		
-		# can think of this method as a loop
-		# each time the game loop hits this method,
-		# it will advance the resizing algorithm by one tick
+		displacement = point - @origin
 		
-		# this method has circular flow
-		# because it will be called every tick
-		# as long as the button is held
+		# project displacement along the radial axis
+		center = @components[:physics].body.p.clone
+		r = (point - center).normalize
 		
-		displacement = @origin - point
+		radial_displacement = displacement.project(r)
+		magnitude = radial_displacement.length
 		
-			angle = displacement.to_angle
-			magnitude = displacement.length
-			
-			@components[:physics].resize angle, magnitude
-			# need more information than that
-			# for things like rectangles,
-			# it's important where the original click occurred,
-			# so that you can tell one edge drag from another.
-			
-		@origin = point
+		# flip sign if necessary
+		magnitude = -magnitude unless displacement.dot(r) > 0
+		
+		
+		
+		# limit minimum size
+		radius = @original_radius + magnitude
+		radius = MINIMUM_DIMENSION if radius < MINIMUM_DIMENSION
+		
+		
+		@components[:physics].shape.set_radius! radius
 	end
 	
 	def cleanup
