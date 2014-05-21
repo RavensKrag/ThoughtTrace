@@ -1,0 +1,23 @@
+what do you want
+what do you have to do
+
+
+what do you want to do
+what interfaces are available
+
+
+actions have certain interfaces
+different specific actions are tied to the same interface
+what specific methods are tied to this interface?
+what arguments are needed for the function?
+
+
+
+interfaces are provided by actions
+
+actions trigger methods
+
+methods are tied to items
+
+methods may be inside namespaces
+components create namespaces for the methods on items

@@ -1,0 +1,62 @@
+TODO:
+think about how action system works
+
+Entity
+	action
+	component
+	
+	other transforming methods?
+	should transforming methods always be actions?
+	what does that mean for actions?
+	should human actions be the only action types, and the rest of the actions just be methods?
+	
+	there are a bunch of tasks that need to be done in the click-hold-release phases
+	but there are some things that can be programmatically driven in one step
+	
+	can the current actions all be performed non-iteratively?
+
+
+
+why are some methods not in a action?
+	because you don't need the press-hold-release framework
+		(surely this is the main thing, yeah?)
+	because you don't want a namespace
+		because you don't need it
+		because you don't know what to call it
+		because you don't think it belongs in an existing one
+		because your ideas aren't organized enough yet to put them in a nice neat package
+	
+
+
+
+
+
+
+press-hold-release framework
+transformation sequence
+entity method
+
+button parsing
+mouse parsing
+
+
+
+
+
+
+
+
+-- higher elements drive lower ones --
+input
+	turns raw button inputs into something more abstract (my library DIS is supposed to do this)
+mouse gestural control thingy (has structure of old action)
+	press-hold-release framework
+string of method calls thingy (new action?)
+	take data from above, feed it to methods
+entity.method
+	manipulate data in the entity
+component
+	namespaced reusable data container for Entity objects
+	contains data that could be reused between disparate Entity types
+	can't really use modules, because you need to initialize stuff
+	could just use a standard object, but the "component" structure allows for dependency management
