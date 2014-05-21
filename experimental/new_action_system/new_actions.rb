@@ -172,7 +172,7 @@ class ResizeCircle < Foo
 		displacement = point - @origin
 		
 		# project displacement along the radial axis
-		center = @components[:physics].body.p.clone
+		center = @entity[:physics].body.p.clone
 		r = (point - center).normalize
 		
 		radial_displacement = displacement.project(r)
