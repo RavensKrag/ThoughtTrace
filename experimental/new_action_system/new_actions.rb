@@ -158,10 +158,7 @@ end
 
 class ResizeCircle < Foo
 	def initialize(space, stash, entity)
-		@space = space # for queries and modifications to the space (ex, new objects)
-		
-		@stash = stash # for passing control to other Foo objects for chaining actions
-		@entity = entity
+		super(space, stash, entity)
 	end
 	
 	
@@ -218,14 +215,6 @@ class ResizeCircle < Foo
 	# (Consider better name. Current class name derives from a design pattern.)
 	# (this class also has ideas from the command pattern, though)
 	class Memento < Foo::Memento
-		# TODO: insure that #forward and #reverse maintain the redo / undo paradigm. Currently, you could run #forward twice in a row, to apply the operation twice. That's not desirable.
-		def initialize(entity, past, future)
-			@entity = entity
-			
-			@past = past     # encapsulates the condition before execution
-			@future = future # encapsulates condition after execution
-		end
-		
 		# set future state
 		def forward
 			@entity.radius = @future
