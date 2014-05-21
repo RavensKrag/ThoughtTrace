@@ -22,24 +22,23 @@ class Bar
 		entity = list.first
 		
 		
-		foo = entity.foo
-		@foo = foo
-		@foo.press(point)
+		@action = entity.action
+		@action.press(point)
 	end
 	
 	# adjust operation interactively
 	def hold(point)
-		@foo.hold(point)
+		@action.hold(point)
 	end
 	
 	# complete operation
 	def release(point)
-		@foo.release(point)
+		@action.release(point)
 	end
 	
 	# revert to the state before this structure was invoked
 	def cancel
-		@foo.cancel
+		@action.cancel
 	end
 end
 
@@ -67,11 +66,11 @@ class Circle < Entity
 end
 
 
-class Foo
+class Action
 	def initialize(space, stash, entity)
 		@space = space # for queries and modifications to the space (ex, new objects)
 		
-		@stash = stash # for passing control to other Foo objects for chaining actions
+		@stash = stash # for passing control to other Action objects for chaining actions
 		@entity = entity
 	end
 	
@@ -164,7 +163,7 @@ class Foo
 	end
 end
 
-class ResizeCircle < Foo
+class ResizeCircle < Action
 	def initialize(space, stash, entity)
 		super(space, stash, entity)
 	end
@@ -222,7 +221,7 @@ class ResizeCircle < Foo
 	# it becomes easy to redo / undo actions as necessary
 	# (Consider better name. Current class name derives from a design pattern.)
 	# (this class also has ideas from the command pattern, though)
-	class Memento < Foo::Memento
+	class Memento < Action::Memento
 		# set future state
 		def forward
 			@entity.radius = @future
