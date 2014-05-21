@@ -251,8 +251,6 @@ end
 
 
 class Foo
-	# TODO: all Foo should have a #draw as well, to visually display information to the user
-	
 	def initialize(space, stash, entity)
 		@space = space # for queries and modifications to the space (ex, new objects)
 		
@@ -336,6 +334,88 @@ class Foo
 		# set past state
 		def reverse
 			
+		end
+	end
+end
+
+class ResizeCircle < Foo
+	def initialize(space, stash, entity)
+		@space = space # for queries and modifications to the space (ex, new objects)
+		
+		@stash = stash # for passing control to other Foo objects for chaining actions
+		@entity = entity
+	end
+	
+	
+	# called on first tick
+	def setup(point)
+		# mark the initial point for reference
+		@origin = point
+		
+		@original_radius = @entity.radius
+	end
+	
+	# return two values: past and future used by Memento
+	# called each tick
+	def update(point)
+		# Alter the size of the circle by an amount equal to the radial displacement
+		# Away from the center is positive,
+		# towards the center is negative.
+		
+		displacement = point - @origin
+		
+		# project displacement along the radial axis
+		center = @entity[:physics].body.p.clone
+		r = (point - center).normalize
+		
+		radial_displacement = displacement.project(r)
+		magnitude = radial_displacement.length
+		
+		# flip sign if necessary
+		magnitude = -magnitude unless displacement.dot(r) > 0
+		
+		
+		
+		# limit minimum size
+		radius = @original_radius + magnitude
+		radius = MINIMUM_DIMENSION if radius < MINIMUM_DIMENSION
+		
+		
+		
+		return @original_radius, radius
+	end
+	
+	
+	# display information to the user about the current transformation
+	# called each tick
+	def draw(point)
+		
+	end
+	
+	
+	
+	# perform the transformation here
+	# by encapsulating the transform in this object,
+	# it becomes easy to redo / undo actions as necessary
+	# (Consider better name. Current class name derives from a design pattern.)
+	# (this class also has ideas from the command pattern, though)
+	class Memento
+		# TODO: insure that #forward and #reverse maintain the redo / undo paradigm. Currently, you could run #forward twice in a row, to apply the operation twice. That's not desirable.
+		def initialize(entity, past, future)
+			@entity = entity
+			
+			@past = past     # encapsulates the condition before execution
+			@future = future # encapsulates condition after execution
+		end
+		
+		# set future state
+		def forward
+			@entity.radius = @future
+		end
+		
+		# set past state
+		def reverse
+			@entity.radius = @past
 		end
 	end
 end
