@@ -5,6 +5,151 @@ class Entity
 end
 
 
+# controls extraction of entity from space
+class Foo
+	def initialize(space, selection)
+		@space = space
+		@selection = selection
+	end
+	
+	def query
+		list = @space.point_query(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
+		
+		# diverge based on which group classifies the found entity
+			# selection
+			# entity
+			# empty
+		
+		# if list.empty?
+		# 	# empty
+		# elsif list.any? {|i| @selection.include? i } # any item from the list is also in selection
+		# 	# selection
+		# else
+		# 	# entity
+		# end
+		
+		
+		
+		
+		# pick path:
+			# selection
+			# entity
+			# empty
+		
+		# pick corresponding action
+		# (the name, not the actual action objects yet)
+		
+		
+		
+		{
+			:selection => {
+				:press => nil,
+				:hold => nil
+			},
+			:existing => {
+				:press => nil,
+				:hold => nil
+			},
+			:empty => {
+				:press => nil,
+				:hold => nil
+			}
+		}
+	end
+end
+
+# controls click and drag flow
+class Baz
+	def initialize
+		
+	end
+	
+	def start
+		
+	end
+	
+	def update
+		
+	end
+	
+	def stop
+		
+	end
+	
+	def cancel
+		
+	end
+end
+
+
+# provides three-state system used in a variety of places
+class Haz
+	def initialize
+		
+	end
+	
+	def setup
+		
+	end
+	
+	def update
+		
+	end
+	
+	def cleanup
+		
+	end
+end
+
+# juggles executing Haz objects
+class Qux
+	def initialize
+		
+	end
+	
+	
+	# code taken from ActionStash
+	def initialize
+		@active = nil
+	end
+	
+	# put a new thing into the collection space
+	# this action will displace any action which currently inhabits the space
+	# (consider returning the old action, so the action doesn't just disappear into the void)
+	# (would really only be one pointer to the action, though, rather than the action itself)
+	def pass_control(action, point)
+		# setup new one
+		action.setup self, point
+		
+		# if there's an action currently in play,
+		# clean up old one, and be rid of it
+		if @active
+			@active.cleanup
+			@active = nil
+		end
+		
+		# store the new action
+		@active = action
+	end
+	
+	# update the tracked action
+	def update(point)
+		@active.update point if @active
+	end
+	
+	# Get rid of the currently tracked action. (Make sure to clean up)
+	def clear
+		if @active
+			@active.cleanup
+			@active = nil
+		end
+	end
+end
+
+
+
+
+
 
 
 
