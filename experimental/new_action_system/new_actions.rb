@@ -92,6 +92,8 @@ class Foo
 		end
 		
 		def release(point)
+			cleanup(point)
+			
 			return @memo
 		end
 		
@@ -118,6 +120,12 @@ class Foo
 		# return two values: past and future used by Memento
 		# called each tick
 		def update(point)
+			
+		end
+		
+		# not often used, but you can define this callback if you need it
+		# really, just added for completeness
+		def cleanup(point)
 			
 		end
 	
