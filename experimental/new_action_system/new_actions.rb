@@ -219,7 +219,7 @@ class ResizeCircle < Foo
 	# it becomes easy to redo / undo actions as necessary
 	# (Consider better name. Current class name derives from a design pattern.)
 	# (this class also has ideas from the command pattern, though)
-	class Memento
+	class Memento < Foo::Memento
 		# TODO: insure that #forward and #reverse maintain the redo / undo paradigm. Currently, you could run #forward twice in a row, to apply the operation twice. That's not desirable.
 		def initialize(entity, past, future)
 			@entity = entity
@@ -269,7 +269,8 @@ class Foo
 			past, future = update(point)
 			
 			# MEMO creation (pseudo return)
-			@memo = Memento.new(@entity, past, future)
+			memo_class = self.class.const_get 'Memento'
+			@memo = memo_class.new(@entity, past, future)
 			@memo.forward
 		end
 		
