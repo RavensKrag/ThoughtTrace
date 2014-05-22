@@ -35,13 +35,15 @@ class Foo
 			# selection
 			# entity
 			# empty
+		type = :selection
+		
 		
 		# pick corresponding action
 		# (the name, not the actual action objects yet)
 		
 		
 		# type => press / hold => action name
-		action_bindings = {
+		@action_bindings = {
 			:selection => {
 				:press => nil,
 				:hold => nil
@@ -57,13 +59,12 @@ class Foo
 		}
 		
 		
-		type = :selection
 		
 		# resolve symbols into actual Actions
 		actions = entity.class.actions
 		
 		press_and_hold_actions =
-			action_bindings[type].collect do |button_phase, bound_action_name|
+			@action_bindings[type].collect do |button_phase, bound_action_name|
 				action_class = actions[bound_action_name]
 				action_class.new(space, stash, entity)
 			end
