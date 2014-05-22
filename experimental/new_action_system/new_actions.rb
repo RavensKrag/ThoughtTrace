@@ -224,7 +224,7 @@ class Bar
 	def press(point)
 		press_handler, hold_handler = @foo.query(point)
 		
-		
+		# NOTE: May want to refrain from allocating and deallocating Baz all the time. But you would have to remember to reset the internal state of the object before using it again. Easier for now to just make new ones.
 		@baz = Baz.new(press_handler, hold_handler)
 		@baz.press(point)
 	end
