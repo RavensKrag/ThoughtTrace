@@ -60,38 +60,38 @@ end
 
 # controls click and drag flow
 class Baz
-	def initialize
+	def initialize(space, stash, entity)
 		# minimum distance for drag to be detected,
 		# in whatever units are used for the Space
 		@delta_threshold = 20
 		
 		
-		@click = Haz.new
-		@drag = Haz.new
+		@click = Action.new(space, stash, entity)
+		@drag = Action.new(space, stash, entity)
 		
 		@active = nil
 	end
 	
-	def setup(point)
+	def press(point)
 		@origin = point
 		
-		@click.setup(@origin)
+		@click.press(@origin)
 		@active = @click
 	end
 	
-	def update(point)
+	def hold(point)
 		if @active == @click and delta_exceeded?(point)
 			@click.cancel(point)
-			@drag.setup(@origin)
+			@drag.press(@origin)
 			
 			@active = @drag
 		end
 		
-		@active.update(point)
+		@active.hold(point)
 	end
 	
-	def cleanup(point)
-		@active.cleanup(point)
+	def release(point)
+		@active.release(point)
 	end
 	
 	def cancel(point)
