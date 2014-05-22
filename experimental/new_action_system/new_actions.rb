@@ -138,9 +138,12 @@ end
 
 
 # controls overall flow
+# Will oversee the entire process, from extracting an Entity from the space,
+# to firing the appropriate actions as necessary.
+# Should illustrate program flow, sort of like a 'main' method.
 	# controls operations for one input event binding
-	# should assume that multiple Bar objects will be used in tandem
-class Bar
+	# should assume that multiple instances will be used in tandem
+class ActionFlowController
 	def initialize(space, selection, stash)
 		@space = space
 		@selection = selection
@@ -185,6 +188,8 @@ class Bar
 		@action_controller.cancel(point)
 		@action_controller = nil
 	end
+	
+	# NOTE: Setting of the click and drag controller to nil is done to wipe state. Do not want unnecessary Actions hanging around. That's just likely to cause errors. Don't want anything firing on accident.
 	
 	
 	
