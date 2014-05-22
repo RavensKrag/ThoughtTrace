@@ -269,10 +269,12 @@ class Action
 	
 	# outer API
 	# used to give external code something to call
+		# called on first tick
 		def press(point)
 			setup(point)
 		end
 		
+		# called each tick
 		def hold(point)
 			# IMPLEMENTATION core
 			past, future = update(point)
@@ -283,6 +285,7 @@ class Action
 			@memo.forward
 		end
 		
+		# called on final tick
 		def release(point)
 			cleanup(point)
 			
