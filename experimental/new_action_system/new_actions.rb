@@ -32,6 +32,9 @@ class Foo
 		}
 	end
 	
+	# try to split entity extraction / categorization from click/drag action extraction
+		# maybe the same Entity should always be acted upon, regardless of action
+		# ie, selection of Entity is independent of what tool is being used
 	def query(point)
 		list = @space.point_query(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
 		
@@ -63,18 +66,18 @@ class Foo
 		
 		
 		
-		return resolve_action_symbols(entity, type)
+		return resolve_action_symbols(entity, @action_bindings[type])
 	end
 	
 	
 	private
 	
 	# resolve symbols into actual Actions
-	def resolve_action_symbols(entity, type)
+	def resolve_action_symbols(entity, phase_bindings)
 		actions = entity.class.actions
 		
 		press_and_hold_actions =
-			@action_bindings[type].collect do |button_phase, bound_action_name|
+			phase_bindings.collect do |button_phase, bound_action_name|
 				action_class = actions[bound_action_name]
 				action_class.new(space, stash, entity)
 			end
@@ -216,20 +219,90 @@ end
 
 
 # controls overall flow
+	# controls operations for one input event binding
+	# should assume that multiple Bar objects will be used in tandem
 class Bar
 	def initialize(space)
 		@space = space
 		
 		@foo = Foo.new(space, selection)
+		@fizz = Fizz.new() # stores set of click/drag bindings
 		@baz = nil
 	end
 	
 	# start operation
 	def press(point)
-		press_handler, hold_handler = @foo.query(point)
+		# extract potential entity list
+		# sort list by priority
+		# determine category of highest priority Entity
+		
+		# get action names
+		
+		# get click and drag actions
+		# wrap actions in click-and-drag controller
+		# delegate control flow to controller
+		
+		entity = @space.point_query_best(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
+		category = self.categorize(entity)
+		
+		click_and_drag = 
+			[:click, :drag].collect do |event|
+				action_name = @action_bindings[category][event]
+				entity.class.actions[action_name].new(@space, stash, entity)
+			end
+			
+		@baz = Baz.new(*click_and_drag)
+		@baz.press(point)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		entity, category = @foo.query(point)
+		click_handler, drag_handler = @fizz.foobar(entity, category) # extract specific binding
+		# what happens if the Action specified is not found?
+			# throw exception?
+			# null object (empty action) to allow rest of program to execute as expected?
+		
+		
+		# or, compressed into one statement
+		click_handler, drag_handler = @fizz.foobar(*@foo.query(point))
+			# this feels really odd though
+			# having two double returns chaining like this is really bizarre
+		
+		
+		
+		
+		
+		click_handler, drag_handler = @foo.query(point)
 		
 		# NOTE: May want to refrain from allocating and deallocating Baz all the time. But you would have to remember to reset the internal state of the object before using it again. Easier for now to just make new ones.
-		@baz = Baz.new(press_handler, hold_handler)
+		@baz = Baz.new(click_handler, drag_handler)
 		@baz.press(point)
 	end
 	
@@ -241,12 +314,31 @@ class Bar
 	# complete operation
 	def release(point)
 		@baz.release(point)
+		@baz = nil
 	end
 	
 	# revert to the state before this structure was invoked
 	def cancel(point)
 		@baz.cancel(point)
 		@baz = nil
+	end
+	
+	
+	
+	private
+	
+	def categorize(entity)
+		if entity.nil?
+			# space is empty at desired point
+			return :empty
+		elsif @selection.include? entity
+			# entity is part of the currently active selection
+			return :selection
+		else
+			# assuming we have found an existing Entity
+			# but that it has no special characteristics
+			return :existing
+		end
 	end
 end
 
