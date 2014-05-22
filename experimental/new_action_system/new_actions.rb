@@ -222,11 +222,10 @@ end
 	# controls operations for one input event binding
 	# should assume that multiple Bar objects will be used in tandem
 class Bar
-	def initialize(space)
+	def initialize(space, selection)
 		@space = space
+		@selection = selection
 		
-		@foo = Foo.new(space, selection)
-		@fizz = Fizz.new() # stores set of click/drag bindings
 		@baz = nil
 	end
 	
