@@ -12,6 +12,29 @@ class Foo
 		@selection = selection
 	end
 	
+	def press(point)
+		phases = query(point)
+		
+		
+		@baz = Baz.new(phases[:press], phases[:hold])
+		@baz.press(point)
+	end
+	
+	def hold(point)
+		@baz.hold(point)
+	end
+	
+	def release(point)
+		@baz.release(point)
+	end
+	
+	def cancel(point)
+		@baz.cancel(point)
+	end
+	
+	
+	private
+	
 	def query(point)
 		list = @space.point_query(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
 		
@@ -75,20 +98,7 @@ class Foo
 				phases[:hold] = action_class.new(space, stash, entity)
 		
 		
-		@baz = Baz.new(phases[:press], phases[:hold])
-		@baz.press(point)
-	end
-	
-	def update(point)
-		@baz.hold(point)
-	end
-	
-	def cleanup(point)
-		@baz.release(point)
-	end
-	
-	def cancel(point)
-		@baz.cancel(point)
+		return phases
 	end
 end
 
