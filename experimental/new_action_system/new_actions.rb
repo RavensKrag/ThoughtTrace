@@ -6,7 +6,7 @@ end
 
 
 # controls click and drag flow
-class Baz
+class ClickAndDragController
 	def initialize(click_handler, drag_handler)
 		# minimum distance for drag to be detected,
 		# in whatever units are used for the Space
@@ -14,7 +14,7 @@ class Baz
 		
 		
 		# NOTE: may not be able to fire the click and drag events like this if the Actions can switch themselves out for other Actions, as was the case with ActionStash.
-		# NOTE: handlers are currently just raw Actions, but you could weave another abstraction layer between Baz and Action if it becomes necessary.
+		# NOTE: handlers are currently just raw Actions, but you could weave another abstraction layer between ClickAndDragController and Action if it becomes necessary.
 		@click = click_handler
 		@drag = drag_handler
 		
@@ -153,7 +153,7 @@ class Bar
 			# was needed to allow Actions to baton pass to other Actions
 			# (not sure if that's still necessary or not)
 		
-		@baz = nil
+		@action_controller = nil
 	end
 	
 	# start operation
@@ -164,26 +164,26 @@ class Bar
 		click_and_drag = resolve_action_symbols(entity, category)
 		
 		
-		# NOTE: May want to refrain from allocating and deallocating Baz all the time. But you would have to remember to reset the internal state of the object before using it again. Easier for now to just make new ones.
-		@baz = Baz.new(*click_and_drag)
-		@baz.press(point)
+		# NOTE: May want to refrain from allocating and deallocating ClickAndDragController all the time. But you would have to remember to reset the internal state of the object before using it again. Easier for now to just make new ones.
+		@action_controller = ClickAndDragController.new(*click_and_drag)
+		@action_controller.press(point)
 	end
 	
 	# adjust operation interactively
 	def hold(point)
-		@baz.hold(point)
+		@action_controller.hold(point)
 	end
 	
 	# complete operation
 	def release(point)
-		@baz.release(point)
-		@baz = nil
+		@action_controller.release(point)
+		@action_controller = nil
 	end
 	
 	# revert to the state before this structure was invoked
 	def cancel(point)
-		@baz.cancel(point)
-		@baz = nil
+		@action_controller.cancel(point)
+		@action_controller = nil
 	end
 	
 	
@@ -238,7 +238,7 @@ end
 
 
 class Action
-	# NOTE: You might think that setting @entity in #press would remove the need to allocate a new Baz object all the time. But that just means that Baz has to be more aware of how Action works, which is not desirable.
+	# NOTE: You might think that setting @entity in #press would remove the need to allocate a new ClickAndDragController object all the time. But that just means that the controller would have to be more aware of how Action works, which is not desirable.
 	
 	def initialize(space, stash, entity)
 		@space = space # for queries and modifications to the space (ex, new objects)
