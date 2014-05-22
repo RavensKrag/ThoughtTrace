@@ -72,7 +72,7 @@ class Baz
 		@active = nil
 	end
 	
-	def start(point)
+	def setup(point)
 		@origin = point
 		
 		@click.setup
@@ -90,7 +90,7 @@ class Baz
 		@active.update
 	end
 	
-	def stop(point)
+	def cleanup(point)
 		@active.cleanup
 	end
 	
