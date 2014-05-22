@@ -271,6 +271,8 @@ end
 
 
 class Action
+	# NOTE: You might think that setting @entity in #press would remove the need to allocate a new Baz object all the time. But that just means that Baz has to be more aware of how Action works, which is not desirable.
+	
 	def initialize(space, stash, entity)
 		@space = space # for queries and modifications to the space (ex, new objects)
 		
