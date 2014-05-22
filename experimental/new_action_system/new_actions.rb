@@ -59,8 +59,14 @@ class Foo
 		}
 		
 		
-		
-		# resolve symbols into actual Actions
+		return resolve_action_symbols(entity, type)
+	end
+	
+	
+	private
+	
+	# resolve symbols into actual Actions
+	def resolve_action_symbols(entity, type)
 		actions = entity.class.actions
 		
 		press_and_hold_actions =
