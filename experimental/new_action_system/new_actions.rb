@@ -250,59 +250,9 @@ class Bar
 				action_name = @action_bindings[category][event]
 				entity.class.actions[action_name].new(@space, stash, entity)
 			end
-			
-		@baz = Baz.new(*click_and_drag)
-		@baz.press(point)
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		entity, category = @foo.query(point)
-		click_handler, drag_handler = @fizz.foobar(entity, category) # extract specific binding
-		# what happens if the Action specified is not found?
-			# throw exception?
-			# null object (empty action) to allow rest of program to execute as expected?
-		
-		
-		# or, compressed into one statement
-		click_handler, drag_handler = @fizz.foobar(*@foo.query(point))
-			# this feels really odd though
-			# having two double returns chaining like this is really bizarre
-		
-		
-		
-		
-		
-		click_handler, drag_handler = @foo.query(point)
 		
 		# NOTE: May want to refrain from allocating and deallocating Baz all the time. But you would have to remember to reset the internal state of the object before using it again. Easier for now to just make new ones.
-		@baz = Baz.new(click_handler, drag_handler)
+		@baz = Baz.new(*click_and_drag)
 		@baz.press(point)
 	end
 	
