@@ -61,23 +61,51 @@ end
 # controls click and drag flow
 class Baz
 	def initialize
+		# minimum distance for drag to be detected,
+		# in whatever units are used for the Space
+		@delta_threshold = 20
 		
+		
+		@click = Haz.new
+		@drag = Haz.new
+		
+		@active = nil
 	end
 	
-	def start
+	def start(point)
+		@origin = point
 		
+		@click.setup
+		@active = @click
 	end
 	
-	def update
+	def update(point)
+		if @active == @click and delta_exceeded?(point)
+			@click.cancel
+			@drag.setup
+			
+			@active = @drag
+		end
 		
+		@active.update
 	end
 	
-	def stop
-		
+	def stop(point)
+		@active.cleanup
 	end
 	
-	def cancel
+	def cancel(point)
+		@active.cancel
+	end
+	
+	
+	private
+	
+	def delta_exceeded?(point)
+		displacement = point - @origin
+		delta = displacement.length
 		
+		return delta > @delta_threshold
 	end
 end
 
@@ -99,6 +127,11 @@ class Haz
 	def cleanup
 		
 	end
+	
+	
+	# "cancel" isn't part of the core 3 states,
+	# but is necessary for many operations
+	def cancel
 end
 
 # juggles executing Haz objects
