@@ -12,7 +12,7 @@ class Foo
 		@selection = selection
 	end
 	
-	def query
+	def query(point)
 		list = @space.point_query(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
 		
 		# diverge based on which group classifies the found entity
@@ -75,7 +75,20 @@ class Foo
 				phases[:hold] = action_class.new(space, stash, entity)
 		
 		
-		baz = Baz.new(phases[:press], phases[:hold])
+		@baz = Baz.new(phases[:press], phases[:hold])
+		@baz.press(point)
+	end
+	
+	def update(point)
+		@baz.hold(point)
+	end
+	
+	def cleanup(point)
+		@baz.release(point)
+	end
+	
+	def cancel(point)
+		@baz.cancel(point)
 	end
 end
 
