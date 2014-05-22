@@ -87,6 +87,7 @@ class Baz
 		@delta_threshold = 20
 		
 		
+		# NOTE: may not be able to fire the click and drag events like this if the Actions can switch themselves out for other Actions, as was the case with ActionStash.
 		@click = click_handler
 		@drag = drag_handler
 		
