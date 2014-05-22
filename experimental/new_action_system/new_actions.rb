@@ -199,6 +199,15 @@ class ActionFlowController
 	
 	
 	
+	
+	
+	def draw
+		# Should be the only phase where you have to check if variable is set.
+		# Same reasoning as in ClickAndDragController#draw delegation
+		@action_controller.draw if @action_controller
+	end
+	
+	
 	private
 	
 	def categorize(entity)
