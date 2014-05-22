@@ -40,8 +40,8 @@ class Foo
 		# (the name, not the actual action objects yet)
 		
 		
-		
-		{
+		# type => press / hold => action name
+		aciton_bindings = {
 			:selection => {
 				:press => nil,
 				:hold => nil
@@ -55,19 +55,40 @@ class Foo
 				:hold => nil
 			}
 		}
+		
+		
+		type = :selection
+		phases = aciton_bindings[type].clone # get a copy of bindings
+		
+		# resolve symbols into actual Actions
+		# TODO: turn this into a loop or something to reduce duplication
+			actions = entity.class.actions
+			
+			# press phase
+				# retrieve action by :symbol for interface
+				action_class = actions[phases[:press]]
+				
+				phases[:press] = action_class.new(space, stash, entity)
+			# hold phase
+				action_class = actions[phases[:hold]]
+				
+				phases[:hold] = action_class.new(space, stash, entity)
+		
+		
+		baz = Baz.new(phases[:press], phases[:hold])
 	end
 end
 
 # controls click and drag flow
 class Baz
-	def initialize(space, stash, entity)
+	def initialize(click_handler, drag_handler)
 		# minimum distance for drag to be detected,
 		# in whatever units are used for the Space
 		@delta_threshold = 20
 		
 		
-		@click = Action.new(space, stash, entity)
-		@drag = Action.new(space, stash, entity)
+		@click = click_handler
+		@drag = drag_handler
 		
 		@active = nil
 	end
