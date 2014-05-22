@@ -7,9 +7,29 @@ end
 
 # controls extraction of entity from space
 class Foo
+	# TOOD: create interface for binding actions to specific phases
+	# TODO: implement algorithm to determine what Entity should be operated on
+	# TODO: consider placing Entity selection algorithm in a public method, for use elsewhere (ex, mouseover effect)
+	
 	def initialize(space, selection)
 		@space = space
 		@selection = selection
+		
+		# type => press / hold => action name
+		@action_bindings = {
+			:selection => {
+				:press => nil,
+				:hold => nil
+			},
+			:existing => {
+				:press => nil,
+				:hold => nil
+			},
+			:empty => {
+				:press => nil,
+				:hold => nil
+			}
+		}
 	end
 	
 	def query(point)
@@ -41,22 +61,6 @@ class Foo
 		# pick corresponding action
 		# (the name, not the actual action objects yet)
 		
-		
-		# type => press / hold => action name
-		@action_bindings = {
-			:selection => {
-				:press => nil,
-				:hold => nil
-			},
-			:existing => {
-				:press => nil,
-				:hold => nil
-			},
-			:empty => {
-				:press => nil,
-				:hold => nil
-			}
-		}
 		
 		
 		return resolve_action_symbols(entity, type)
