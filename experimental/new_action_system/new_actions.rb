@@ -12,29 +12,6 @@ class Foo
 		@selection = selection
 	end
 	
-	def press(point)
-		phases = query(point)
-		
-		
-		@baz = Baz.new(phases[:press], phases[:hold])
-		@baz.press(point)
-	end
-	
-	def hold(point)
-		@baz.hold(point)
-	end
-	
-	def release(point)
-		@baz.release(point)
-	end
-	
-	def cancel(point)
-		@baz.cancel(point)
-	end
-	
-	
-	private
-	
 	def query(point)
 		list = @space.point_query(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
 		
@@ -98,7 +75,7 @@ class Foo
 				phases[:hold] = action_class.new(space, stash, entity)
 		
 		
-		return phases
+		return phases[:press], phases[:hold]
 	end
 end
 
@@ -237,33 +214,34 @@ end
 class Bar
 	def initialize(space)
 		@space = space
+		
+		@foo = Foo.new(space, selection)
+		@baz = nil
 	end
 	
 	# start operation
 	def press(point)
-		list = @space.point_query(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
-		
-		# get some desirable element out of the query
-		entity = list.first
+		press_handler, hold_handler = @foo.query(point)
 		
 		
-		@action = entity.action
-		@action.press(point)
+		@baz = Baz.new(press_handler, hold_handler)
+		@baz.press(point)
 	end
 	
 	# adjust operation interactively
 	def hold(point)
-		@action.hold(point)
+		@baz.hold(point)
 	end
 	
 	# complete operation
 	def release(point)
-		@action.release(point)
+		@baz.release(point)
 	end
 	
 	# revert to the state before this structure was invoked
-	def cancel
-		@action.cancel
+	def cancel(point)
+		@baz.cancel(point)
+		@baz = nil
 	end
 end
 
