@@ -41,7 +41,7 @@ class Foo
 		
 		
 		# type => press / hold => action name
-		aciton_bindings = {
+		action_bindings = {
 			:selection => {
 				:press => nil,
 				:hold => nil
@@ -63,7 +63,7 @@ class Foo
 		actions = entity.class.actions
 		
 		press_and_hold_actions =
-			aciton_bindings[type].collect do |button_phase, bound_action_name|
+			action_bindings[type].collect do |button_phase, bound_action_name|
 				action_class = actions[bound_action_name]
 				action_class.new(space, stash, entity)
 			end
