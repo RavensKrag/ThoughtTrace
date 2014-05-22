@@ -222,33 +222,28 @@ end
 	# controls operations for one input event binding
 	# should assume that multiple Bar objects will be used in tandem
 class Bar
-	def initialize(space, selection)
+	def initialize(space, selection, stash)
 		@space = space
 		@selection = selection
+		@stash = stash
+		# TODO: Should probably pass @selection to Action objects as they are initialized.
+		# TODO: Consider the removal of the Action stash. May not be needed in new format.
+			# was needed for automated handling of Actions
+			# (now irrelevant. should be using direct interfaces for that purpose)
+			
+			# was needed to allow Actions to baton pass to other Actions
+			# (not sure if that's still necessary or not)
 		
 		@baz = nil
 	end
 	
 	# start operation
 	def press(point)
-		# extract potential entity list
-		# sort list by priority
-		# determine category of highest priority Entity
-		
-		# get action names
-		
-		# get click and drag actions
-		# wrap actions in click-and-drag controller
-		# delegate control flow to controller
-		
 		entity = @space.point_query_best(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
 		category = self.categorize(entity)
 		
-		click_and_drag = 
-			[:click, :drag].collect do |event|
-				action_name = @action_bindings[category][event]
-				entity.class.actions[action_name].new(@space, stash, entity)
-			end
+		click_and_drag = resolve_action_symbols(entity, category)
+		
 		
 		# NOTE: May want to refrain from allocating and deallocating Baz all the time. But you would have to remember to reset the internal state of the object before using it again. Easier for now to just make new ones.
 		@baz = Baz.new(*click_and_drag)
@@ -287,6 +282,14 @@ class Bar
 			# assuming we have found an existing Entity
 			# but that it has no special characteristics
 			return :existing
+		end
+	end
+	
+	# resolve symbols into actual Actions
+	def resolve_action_symbols(entity, category)
+		[:click, :drag].collect do |event|
+			action_name = @action_bindings[category][event]
+			entity.class.actions[action_name].new(@space, @stash, entity)
 		end
 	end
 end
