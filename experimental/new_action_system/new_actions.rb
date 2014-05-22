@@ -88,6 +88,7 @@ class Baz
 		
 		
 		# NOTE: may not be able to fire the click and drag events like this if the Actions can switch themselves out for other Actions, as was the case with ActionStash.
+		# NOTE: handlers are currently just raw Actions, but you could weave another abstraction layer between Baz and Action if it becomes necessary.
 		@click = click_handler
 		@drag = drag_handler
 		
