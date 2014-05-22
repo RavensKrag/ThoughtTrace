@@ -58,24 +58,17 @@ class Foo
 		
 		
 		type = :selection
-		phases = aciton_bindings[type].clone # get a copy of bindings
 		
 		# resolve symbols into actual Actions
-		# TODO: turn this into a loop or something to reduce duplication
-			actions = entity.class.actions
-			
-			# press phase
-				# retrieve action by :symbol for interface
-				action_class = actions[phases[:press]]
-				
-				phases[:press] = action_class.new(space, stash, entity)
-			# hold phase
-				action_class = actions[phases[:hold]]
-				
-				phases[:hold] = action_class.new(space, stash, entity)
+		actions = entity.class.actions
 		
+		press_and_hold_actions =
+			aciton_bindings[type].collect do |button_phase, bound_action_name|
+				action_class = actions[bound_action_name]
+				action_class.new(space, stash, entity)
+			end
 		
-		return phases[:press], phases[:hold]
+		return press_and_hold_actions
 	end
 end
 
