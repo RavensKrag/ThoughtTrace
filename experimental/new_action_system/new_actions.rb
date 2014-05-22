@@ -47,6 +47,12 @@ class ClickAndDragController
 		@active.cancel(point)
 	end
 	
+	def draw
+		# This should be the only phase where it is necessary to check if @active is set.
+		# The other phases should either not be called when @active is unset, or will set @active.
+		@active.draw if @active
+	end
+	
 	
 	private
 	
