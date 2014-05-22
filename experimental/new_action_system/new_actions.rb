@@ -75,27 +75,27 @@ class Baz
 	def setup(point)
 		@origin = point
 		
-		@click.setup
+		@click.setup(@origin)
 		@active = @click
 	end
 	
 	def update(point)
 		if @active == @click and delta_exceeded?(point)
-			@click.cancel
-			@drag.setup
+			@click.cancel(point)
+			@drag.setup(@origin)
 			
 			@active = @drag
 		end
 		
-		@active.update
+		@active.update(point)
 	end
 	
 	def cleanup(point)
-		@active.cleanup
+		@active.cleanup(point)
 	end
 	
 	def cancel(point)
-		@active.cancel
+		@active.cancel(point)
 	end
 	
 	
@@ -116,22 +116,24 @@ class Haz
 		
 	end
 	
-	def setup
+	def setup(point)
 		
 	end
 	
-	def update
+	def update(point)
 		
 	end
 	
-	def cleanup
+	def cleanup(point)
 		
 	end
 	
 	
 	# "cancel" isn't part of the core 3 states,
 	# but is necessary for many operations
-	def cancel
+	def cancel(point)
+		
+	end
 end
 
 # juggles executing Haz objects
