@@ -1,4 +1,15 @@
 class Entity
+	# TODO: Specify how Actions are attached to Entity objects
+	# + specify API
+	# + specify how Action interface names are related to the Actions themselves
+		# manually specify interface name?
+		# derived from class name?
+	# The Action classes are stored on the Entity class (used as factories)
+	# but should they be accessed only though the class, or through an instance as well?
+		# allowing access through an instance may be slightly more convenient,
+		# but first exposure to this API may be by using an instance of Entity
+		# which may make it seem like the Actions can only be accessed through an instance,
+		# rather than it being a convenience feature.
 	def initialize
 		
 	end
@@ -136,6 +147,31 @@ class Qux
 	end
 end
 
+
+
+
+# TODO: sketch out how Haz-style structure applies to input event parsing system.
+# TODO: sketch out how input event system interfaces with ActionFlowController
+
+
+
+# TODO: Make sure new system involving interactions between Action and entity.method allows for things like the inter-related properties required for Text resizing.
+# (this was one of the major objectives of this overhaul)
+
+
+
+
+# TODO: Update documentation to reflect new Action structure and philosophy
+# Actions are no longer about high-level control over the backend data from Components
+# Action now house code needed to execute procedures using a combination of button and mouse inputs
+# Components are namespaces for core functionality
+# entity#methods manipulate data from anywhere in the Entity (including Components)
+# Actions cause change by firing entity#methods
+# precise method sequence is held in the nested Memento class for each Entity subclass
+# this compartmentalization allows for easy undo / redo
+# as well as the potential for extracting method sequences for macros etc
+# 
+# (some of these ideas are written in new_actions.rb)
 
 
 
