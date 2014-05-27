@@ -198,6 +198,27 @@ class ActionFlowController
 			# was needed to allow Actions to baton pass to other Actions
 			# (not sure if that's still necessary or not)
 		
+		
+		
+		
+		# TOOD: create interface for binding actions to specific phases
+		@action_bindings = {
+			:selection => {
+				:press => nil,
+				:hold => nil
+			},
+			:existing => {
+				:press => nil,
+				:hold => nil
+			},
+			:empty => {
+				:press => nil,
+				:hold => nil
+			}
+		}
+		
+		
+		
 		@action_controller = nil
 	end
 	
