@@ -310,7 +310,20 @@ class Circle < Entity
 	end
 	
 	
-	action ResizeCircle
+	
+	# Having a #resize for circle is kinda unnecessary,
+	# but will will be necessary for rectangle and text,
+	# so might as well have one here for unified interface.
+	# This allows for Actions to always call methods with the same name
+	# This allows for easy discoverability, for when you want to do things code-side
+	def resize(r)
+		self.radius = r
+	end
+	alias :resize :radius=
+	
+	action :resize
+	
+	# NOTE: If you store polymorphic actions under their respective classes, it would be easier to find them. Could automate where to look for actions, and look for them just by their class names. The current structure is kinda funky, because you're using naming convention to do the work of namespacing.
 end
 
 
@@ -474,15 +487,16 @@ class ResizeCircle < Action
 	# it becomes easy to redo / undo actions as necessary
 	# (Consider better name. Current class name derives from a design pattern.)
 	# (this class also has ideas from the command pattern, though)
+	# TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @past value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
 	class Memento < Action::Memento
 		# set future state
 		def forward
-			@entity.radius = @future
+			@entity.resize(@future)
 		end
 		
 		# set past state
 		def reverse
-			@entity.radius = @past
+			@entity.resize(@past)
 		end
 	end
 end
