@@ -1,0 +1,21 @@
+the new actions are linked to their corresponding Entity objects on initialization
+it's thus possible to have an object that fulfills the interface of Action without being tied to a specific Entity
+this can be done without changing any surrounding code
+
+this would allow for creation of "Action" types that operate on groups or constraints, which aren't Entity objects in a strict sense
+
+could also be specially formulated for Query objects
+even though those are built on top of Entity objects
+(or at least, they were in order to maintain the same move and resize interfaces, among other things)
+
+
+
+
+
+
+
+
+
+note that this becomes obvious because a lot of things were moved into #initialize
+early binding makes these things more apparent,
+while late binding make things more dynamic (a core idea behind Ruby)
