@@ -1,18 +1,27 @@
-# Assuming the following structure between Entity and Action
+# Assuming the following structure between Entity and Action, as well as Memento
+module ThoughtTrace
+
 class Entity
 	module Actions
 		class Action
-			
+			class Memento
+				
+			end 
 		end
 	end
 end
 
 class Foo < Entity
 	module Actions
-		class Bar < Entity::Actions::Action 
-			
+		class Bar < Action 
+			class Memento < Actions::Memento
+				
+			end 
 		end
 	end
+end
+
+
 end
 
 
