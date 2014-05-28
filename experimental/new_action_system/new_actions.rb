@@ -1,3 +1,26 @@
+# Assuming the following structure between Entity and Action
+class Entity
+	module Actions
+		class Action
+			
+		end
+	end
+end
+
+class Foo < Entity
+	module Actions
+		class Bar < Entity::Actions::Action 
+			
+		end
+	end
+end
+
+
+
+
+
+
+
 class Entity
 	# TODO: Specify how Actions are attached to Entity objects
 	# + specify API
