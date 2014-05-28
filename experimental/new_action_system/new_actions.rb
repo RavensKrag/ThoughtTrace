@@ -254,6 +254,9 @@ end
 # precise method sequence is held in the nested Memento class for each Entity subclass
 # this compartmentalization allows for easy undo / redo
 # as well as the potential for extracting method sequences for macros etc
+	# ruby methods can be treated as objects,
+	# which can be handled much like procs.
+	# src: http://viget.com/extend/convert-ruby-method-to-lambda
 # 
 # (some of these ideas are written in new_actions.rb)
 
@@ -443,6 +446,7 @@ class Action
 		def release(point)
 			cleanup(point)
 			
+			#NOTE: If #press runs, and then #release (no #hold) @memo will be nil. May want to do something about that, because having to check for returns that are nil might get annoying.
 			return @memo
 		end
 		
