@@ -13,7 +13,68 @@ class Entity
 	def initialize
 		
 	end
+	
+	class << self
+		# name styled after things like "const_get" and "instance_variable_get"
+		# Recursively looks for an action of a particular name within the inheritance tree
+		# Should not dig deeper than Entity, as Entity is what holds the Action structure.
+		def action_get(action_name)
+			klass = self
+			
+			begin
+				return klass::Actions.const_get action_name
+			rescue NameError => e
+				if klass == Entity
+					# base of the chain
+					# recursion base case
+					
+					# No where left to look, so just raise the exception again
+					# (this is correct, not a stub)
+					
+					raise
+				else
+					# continue recursive traversal
+					
+					klass = klass.superclass
+					return klass.action_get(action_name)
+				end
+			end
+		end
+	end
+	
+	# ideally, the exception flow will percolate back "down" the inheritance chain
+	# to the child class (the class that originally launched the call)
+	# so that the error message on the backtrace can accurately report
+	# what class was trying to access what action
 end
+
+
+
+
+
+circle = Circle.new
+circle.actions[:move] # like methods, actions are actually stored on the class, not the instance
+# use a class instance variable instead of a class variable, so that changes do not get "inherited"
+# by child classes
+# ie) each class in the hierarchy should have it's own list of actions
+
+# if the desired action is not attached to the current class, percolate up the inheritance chain
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # controls click and drag flow
