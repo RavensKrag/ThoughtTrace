@@ -403,13 +403,15 @@ class Foo
 			# makes for a faster short-circuit
 			
 			
-			all_mods_pressed = e.modifiers.all?{ |k| @active_keys.include? k }
+			all_mods_pressed = e.modifiers.subset? @active_keys
 			# all? will return true for an empty array
 			# which is what you want in the case where no modifiers are listed
 			next unless all_mods_pressed
 			
-			all_keys_pressed = e.keys.all?{ |k| @active_keys.include? k }
+			all_keys_pressed = e.keys.subset? @active_keys
 			next unless all_keys_pressed
+			
+			# NOTE: #subset? checks each element of self against the given set
 			
 			
 			e.call
@@ -452,11 +454,10 @@ class Foo
 			@event = block
 			
 			
-			@keys = keys.split('+')
-			@modifiers = modifiers.split(',')
+			raise "Must specify at least one key" if keys.empty?
 			
-			
-			raise "Must specify at least one key" if @keys.empty?
+			@keys = keys.split('+').to_set
+			@modifiers = modifiers.split(',').to_set
 		end
 		
 		def call(*args)
