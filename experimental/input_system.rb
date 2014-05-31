@@ -398,27 +398,29 @@ class Foo
 	end
 	
 	def press
-		events.each do |e|
-			# check modifiers first, because that's probably a shorter list
-			# makes for a faster short-circuit
-			
-			
-			all_mods_pressed = e.modifiers.subset? @active_keys
-			# all? will return true for an empty array
-			# which is what you want in the case where no modifiers are listed
-			next unless all_mods_pressed
-			
-			all_keys_pressed = e.keys.subset? @active_keys
-			next unless all_keys_pressed
-			
-			# NOTE: #subset? checks each element of self against the given set
-			
-			
-			e.call
-			
-			
-			# NOTE: this implementation will execute all active combinations. not sure if more than one combination could be active during one press, but if that happens, things could get weird. Alternative would be to execute only the first match, but that would mean that the order in which events are declared would set an implicit priority.
-		end
+		# NOTE: this implementation will execute all active combinations. not sure if more than one combination could be active during one press, but if that happens, things could get weird. Alternative would be to execute only the first match, but that would mean that the order in which events are declared would set an implicit priority.
+		
+		launched_events = 
+			events.collect do |e|
+				# check modifiers first, because that's probably a shorter list
+				# makes for a faster short-circuit
+				
+				
+				all_mods_pressed = e.modifiers.subset? @active_keys
+				# all? will return true for an empty array
+				# which is what you want in the case where no modifiers are listed
+				next unless all_mods_pressed
+				
+				all_keys_pressed = e.keys.subset? @active_keys
+				next unless all_keys_pressed
+				
+				# NOTE: #subset? checks each element of self against the given set
+				
+				
+				e # pseudo return
+			end
+		
+		launched_events.each{ |e| e.call }
 	end
 	private :press
 	
