@@ -372,7 +372,7 @@ end
 # http://www.jstiles.com/Blog/How-To-Implement-Keyboard-Shortcuts-in-Your-Web-Application---Part-2
 # http://code.tutsplus.com/tutorials/detecting-key-combos-the-easy-way--active-8608
 
-class Foo
+class InputSystem
 	def initialize
 		@active_keys = Set.new
 		# may want to have two sets:
@@ -380,7 +380,12 @@ class Foo
 		# so that you can specify inputs by code or by character as necessary
 		
 		
+		# all available events that can be fired
 		@events = []
+		
+		
+		# list of currently active events
+		@collection = []
 	end
 	
 	
@@ -390,13 +395,37 @@ class Foo
 	def button_down(id)
 		@active_keys.add id
 		
-		self.press
+		@collection.concat self.press
+		@collection.concat self.foo
+	end
+	
+	def update
+		@collection.each do |event|
+			event.hold
+		end
 	end
 	
 	def button_up(id)
 		@active_keys.delete id
+		
+		
+		# need to remove events from update cycle at some point
+		@collection.delete_if do |event|
+			if condition
+				event.release
+				
+				true # pseudo return
+			end
+		end
 	end
 	
+	
+	
+	
+	
+	private
+	
+	# handle combinations of keys with / without modifiers ex: (a+b shift,control) (x shift) (esc)
 	def press
 		# NOTE: this implementation will execute all active combinations. not sure if more than one combination could be active during one press, but if that happens, things could get weird. Alternative would be to execute only the first match, but that would mean that the order in which events are declared would set an implicit priority.
 		
@@ -422,13 +451,45 @@ class Foo
 		
 		launched_events.each{ |e| e.call }
 	end
-	private :press
 	
 	
 	
-	def update
+	# handle sequences of inputs
+	# this is fighting-game style combo detection
+	
+	# TODO: add timestamps to button recording if you want this to actually work
+	# NOTE: not actually checking timestamps right now, so it will not work quite as expected.
+	# NOTE: @active_keys is currently a set, so you can't detect strings of multiple buttons (ex: AAA) so this is pretty super useless.
+		# TODO: consider keeping "keys" and "modifiers" in Event as sets, but turning @active_keys into an array
+		# NOTE: ideally, it should probably be a circular buffer or something.
+	def foo
+		# Assuming that each object in @active_keys resolves to one character in the string
 		
+		
+		joined_input_string = @active_keys.inject(""){|all,i| all << i.to_s}
+			# must manually convert i to string
+			# if you don't, and it's an integer,
+			# the concat operator will interpret it as a codepoint instead of a literal int
+		
+		# TODO: create @sequences array, filled with sequences to look for
+		
+		matched_sequences = 
+			@sequences.select do |seq|
+				combo = seq.keys.join('')
+				
+				
+				# NOTE: the $ character is a zero-width match for the end of the string
+				regexp = /#{combo}$/
+				joined_input_string =~ regexp # check if there is a match
+			end
+		
+		matched_sequences.each{ |seq| seq.call }
 	end
+	
+	public
+	
+	
+	
 	
 	
 	
@@ -466,22 +527,10 @@ class Foo
 			@event.call(*args)
 		end
 	end
-	
-	
-	
-	
-	
-	
-	
-	
-	# join all items in a set into a string
-	def bar
-		# must manually convert i to string
-		# if you don't, and it's an integer,
-		# the concat operator will interpret it as a codepoint instead of a literal int
-		s.inject(""){|all,i| all << i.to_s}
-	end
 end
+
+# TODO: track end of events as well as their start. negative edge detection is expected for Action to work, so it should exist at this level as well.
+
 
 
 # TODO: button IDs currently saved (inside the event) in string format. need to at least convert to int so that proper comparisons can be made with incoming button ID codes. This goes for both @keys and @modifiers. Not as simple as parsing the ints though, because it's not clear how the strings are specified.
