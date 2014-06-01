@@ -409,17 +409,11 @@ class InputSystem
 		@active_keys.delete id
 		
 		
-		# need to remove events from update cycle at some point
-		# TODO figure out when events should be removed from the cycle
 		@collection.delete_if do |event|
-			# break chord if any of the main keys are released
-			# TODO: consider removing chord if the modifiers are released as well
-			unless all_keys_pressed(event)
+			if event.keys.include? id or event.mods.include? id
 				event.release
 				
 				true # pseudo return
-			else
-				false # pseudo return
 			end
 		end
 	end
