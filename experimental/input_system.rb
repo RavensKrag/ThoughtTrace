@@ -509,15 +509,15 @@ class InputSystem
 	class Event
 		attr_reader :name, :keys, :modifiers
 		
-		def initialize(name, keys, modifiers="", &block)
+		def initialize(name, keys, modifiers=[], &block)
 			@name = name
 			@event = block
 			
 			
 			raise "Must specify at least one key" if keys.empty?
 			
-			@keys = keys.split('+').to_set
-			@modifiers = modifiers.split(',').to_set
+			@keys = keys.to_set
+			@modifiers = modifiers.to_set
 		end
 		
 		def call(*args)
