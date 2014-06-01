@@ -435,15 +435,15 @@ class InputSystem
 		# NOTE: this implementation will execute all active combinations. not sure if more than one combination could be active during one press, but if that happens, things could get weird. Alternative would be to execute only the first match, but that would mean that the order in which events are declared would set an implicit priority.
 		
 		launched_events = 
-			events.collect do |e|
+			events.select do |e|
 				# check modifiers first, because that's probably a shorter list
 				# makes for a faster short-circuit
 				
-				next unless all_mods_pressed(event)
-				next unless all_keys_pressed(event)
+				next unless all_mods_pressed(e)
+				next unless all_keys_pressed(e)
 				
 				
-				e # pseudo return
+				true # pseudo return
 			end
 		
 		launched_events.each{ |e| e.call }
