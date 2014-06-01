@@ -503,7 +503,7 @@ class InputSystem
 	class Event
 		attr_reader :name, :keys, :modifiers
 		
-		def initialize(name, keys, modifiers=[], &block)
+		def initialize(name, keys: [], modifiers: [], &block)
 			@name = name
 			@event = block
 			
