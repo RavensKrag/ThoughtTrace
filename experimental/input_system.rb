@@ -522,6 +522,9 @@ class InputSystem
 	# TODO: Consider feeding Event an object that implements #press, #hold, and #release instead of just one block for a method callback. Might be better than having Event implement these methods itself.
 		# Or you could made the base Event implement the methods, and create a subclass that serves as a wrapper for the action flow controller, I suppose
 	
+	# TODO: Consider if @keys and @modifiers need to be Sets. Might be better to leave them as arrays. (Only because Set#subset? is implemented with a linear scan.)
+		# NOTE: currently using #include? in InputSystem#button_up to determine if chords have been invalidated.
+	
 	
 	
 	private
