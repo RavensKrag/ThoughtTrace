@@ -410,11 +410,16 @@ class InputSystem
 		
 		
 		# need to remove events from update cycle at some point
+		# TODO figure out when events should be removed from the cycle
 		@collection.delete_if do |event|
-			if condition
+			# break chord if any of the main keys are released
+			# TODO: consider removing chord if the modifiers are released as well
+			unless all_keys_pressed(event)
 				event.release
 				
 				true # pseudo return
+			else
+				false # pseudo return
 			end
 		end
 	end
@@ -434,16 +439,8 @@ class InputSystem
 				# check modifiers first, because that's probably a shorter list
 				# makes for a faster short-circuit
 				
-				
-				all_mods_pressed = e.modifiers.subset? @active_keys
-				# all? will return true for an empty array
-				# which is what you want in the case where no modifiers are listed
-				next unless all_mods_pressed
-				
-				all_keys_pressed = e.keys.subset? @active_keys
-				next unless all_keys_pressed
-				
-				# NOTE: #subset? checks each element of self against the given set
+				next unless all_mods_pressed(event)
+				next unless all_keys_pressed(event)
 				
 				
 				e # pseudo return
@@ -526,6 +523,25 @@ class InputSystem
 		def call(*args)
 			@event.call(*args)
 		end
+	end
+	
+	# TODO: Consider feeding Event an object that implements #press, #hold, and #release instead of just one block for a method callback. Might be better than having Event implement these methods itself.
+		# Or you could made the base Event implement the methods, and create a subclass that serves as a wrapper for the action flow controller, I suppose
+	
+	
+	
+	private
+	
+	# NOTE: #subset? checks each element of self against the given set
+	
+	def all_keys_pressed(event)
+		event.keys.subset? @active_keys
+	end
+	
+	def all_mods_pressed(event)
+		event.modifiers.subset? @active_keys
+			# all? will return true for an empty array
+			# which is what you want in the case where no modifiers are listed
 	end
 end
 
