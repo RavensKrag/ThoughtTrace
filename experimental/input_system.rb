@@ -391,23 +391,8 @@ class InputSystem
 	
 	
 	def button_down(id)
-		@active_keys.add id
-		
-		@collection.concat self.press
-		@collection.concat self.foo
-		
-		
-		
-		
-		
-		new_events = self.press + self.foo
-		new_events.each{ |e| e.press }
-		@collection.concat new_events
-		
-		
-		
-		
-		pressed_events = self.press(id) + self.foo
+		# pressed_events = self.press(id) + self.foo
+		pressed_events = self.press(id)
 		pressed_events.each{ |e| e.press }
 		
 		@active_events.concat pressed_events
@@ -424,7 +409,6 @@ class InputSystem
 		
 		
 		released_events = self.release(id)
-		
 		released_events.each{ |e| e.release }
 		
 		@idle_events.concat released_events
