@@ -515,15 +515,62 @@ class InputSystem
 	
 	
 	
-	
+	# TODO: register and rebind events under the new system of dual collections
 	
 	
 	def register(event)
-		@events.push event
+		# event must be idle if it's new
+		@idle_events.push event
+		
+		return nil # prevent leakage
 	end
 	
 	def unregister(event_name)
-		@events.delete_if{ |event| event.name == event_name }
+		# event could be idle, or active
+		
+		@idle_events.delete_if{ |event| event.name == event_name }
+		@active_events.delete_if do |event|
+			if event.name == event_name
+				event.cancel # also, stop the event
+				
+				true # pseudo return
+			end
+		end
+		
+		return nil # prevent leakage
+	end
+	
+	def rebind(event_name, new_binding)
+		# I think #find may only exist for use in this method
+		# not sure if I should expose #find to the external API or not
+		
+		event = self.find(event_name)
+		event.rebind(new_binding) if event
+		
+		return nil # prevent leakage
+	end
+	
+	
+	
+	
+	# this sorta implies you want to transform the Event in some way
+	# would be bad if an Event was transformed while it was executing
+	# TODO: remove the need to search for active events, and maybe completely remove this method.
+	def find(event_name)
+		i = @idle_events.find_index{ |e| e.name == event_name }
+		return @idle_events[i] if i
+		
+		
+		i = @active_events.find_index{ |e| e.name == event_name }
+		if i
+			event = @active_events[i]
+			event.cancel
+			
+			return event
+		end
+		
+		
+		return nil # nothing found if you've hit this point
 	end
 	
 	
@@ -694,13 +741,6 @@ class Event
 	
 	def rebind(new_binding)
 		@binding = new_binding
-		# @callbacks.cancel
-			# only need to cancel if the event is currently active
-			# not sure how you would check that though
-			# 
-			# if the event is active, it should stop when the next button up happens
-			# unless the old binding and the new one share no buttons in common
-			# that could result in the old event never stopping
 	end
 	
 	
