@@ -380,12 +380,10 @@ class InputSystem
 		# so that you can specify inputs by code or by character as necessary
 		
 		
-		# all available events that can be fired
-		@events = []
+		@all_events = [] # hopefully this will be unnecessary
 		
-		
-		# list of currently active events
-		@collection = []
+		@idle_events = Array.new
+		@active_events = Array.new
 	end
 	
 	
@@ -397,10 +395,26 @@ class InputSystem
 		
 		@collection.concat self.press
 		@collection.concat self.foo
+		
+		
+		
+		
+		
+		new_events = self.press + self.foo
+		new_events.each{ |e| e.press }
+		@collection.concat new_events
+		
+		
+		
+		
+		pressed_events = self.press(id) + self.foo
+		pressed_events.each{ |e| e.press }
+		
+		@active_events.concat pressed_events
 	end
 	
 	def update
-		@collection.each do |event|
+		@active_events.each do |event|
 			event.hold
 		end
 	end
@@ -409,14 +423,14 @@ class InputSystem
 		@active_keys.delete id
 		
 		
-		@collection.delete_if do |event|
-			if event.keys.include? id or event.mods.include? id
-				event.release
-				
-				true # pseudo return
-			end
-		end
+		released_events = self.release(id)
+		
+		released_events.each{ |e| e.release }
+		
+		@idle_events.concat released_events
 	end
+	
+	# TODO: Move #press and #release calls inside respective methods for efficiency (less looping)
 	
 	
 	
@@ -425,7 +439,7 @@ class InputSystem
 	private
 	
 	# handle combinations of keys with / without modifiers ex: (a+b shift,control) (x shift) (esc)
-	def press
+	def press(id)
 		# NOTE: this implementation will execute all active combinations. not sure if more than one combination could be active during one press, but if that happens, things could get weird. Alternative would be to execute only the first match, but that would mean that the order in which events are declared would set an implicit priority.
 		
 		# TODO: make sure not to add the same events multiple times
@@ -435,8 +449,8 @@ class InputSystem
 			
 			# maybe just active and inactive events?
 		
-		launched_events = 
-			@events.select do |e|
+		launched_events, @idle_events = 
+			@idle_events.partition do |e|
 				# check modifiers first, because that's probably a shorter list
 				# makes for a faster short-circuit
 				
@@ -447,7 +461,18 @@ class InputSystem
 				true # pseudo return
 			end
 		
-		launched_events.each{ |e| e.call }
+		return launched_events
+	end
+	
+	def release(id)
+		released_events, @active_events = 
+			@active_events.partition do |event|
+				if event.keys.include? id or event.mods.include? id
+					true # pseudo return
+				end
+			end
+		
+		return released_events
 	end
 	
 	
