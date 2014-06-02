@@ -541,6 +541,7 @@ class Fiz
 		
 		action_flow = ActionFlowController.new(space, selection, stash)
 		# TODO: register action names in action flow controller
+		action_flow.bindings[categorization][phase] = action_name
 		
 			name = :click
 			binding = Event::Binding.new(keys:[Gosu::MsLeft], modifiers:[])
