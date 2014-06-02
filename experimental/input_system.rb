@@ -554,28 +554,65 @@ class InputSystem
 	
 	
 	
+	
+	
+	
+	
 	class Event
-		attr_reader :name, :keys, :modifiers
+		attr_reader :name, :binding, :callbacks
 		
-		def initialize(name, keys: [], modifiers: [], &block)
+		def initialize(name, binding, callbacks)
 			@name = name
-			@event = block
-			
-			
-			raise "Must specify at least one key" if keys.empty?
-			
-			@keys = keys.to_set
-			@modifiers = modifiers.to_set
+			@binding = binding
+			@callbacks = callbacks
 		end
 		
-		def call(*args)
-			@event.call(*args)
+		def rebind(new_binding)
+			@binding = new_binding
+		end
+		
+		
+		class Binding
+			# NOTE: keys and modifiers should be in the same format received by button_up/_down
+			attr_reader :keys, :modifiers
+			
+			def initialize(keys: [], modifiers: [])
+				raise "Must specify at least one key" if keys.empty?
+				
+				@keys = keys.to_set
+				@modifiers = modifiers.to_set
+			end
+		end
+		
+		
+		# just needs to provide #press #hold and #release
+		# this class really exists as an example reference implementation
+		# rather than something to be used or subclassed
+		class EventCallback
+			def initialize
+				
+			end
+			
+			def press
+				
+			end
+			
+			def hold
+				
+			end
+			
+			def release
+				
+			end
+			
+			
+			
+			# may need this. not totally sure yet
+			def cancel
+				
+			end
 		end
 	end
-	
-	# TODO: Consider feeding Event an object that implements #press, #hold, and #release instead of just one block for a method callback. Might be better than having Event implement these methods itself.
-		# Or you could made the base Event implement the methods, and create a subclass that serves as a wrapper for the action flow controller, I suppose
-	
 	# TODO: Consider if @keys and @modifiers need to be Sets. Might be better to leave them as arrays. (Only because Set#subset? is implemented with a linear scan.)
 		# NOTE: currently using #include? in InputSystem#button_up to determine if chords have been invalidated.
 		# NOTE: Set linear scan may actually be faster. Hash#each seems faster than Array#each, for small data sets(hundreds or thousands), and only slightly slower for large data sets(millions).
@@ -696,72 +733,6 @@ end
 	fire event
 	on Qux.new(keys:[Gosu::MsLeft], modifiers:[])
 end
-
-
-
-
-
-
-
-name, keys: [], modifiers: [], &block
-
-
-class Event
-	attr_reader :name, :binding, :callbacks
-	
-	def initialize(name, binding, callbacks)
-		@name = name
-		@binding = binding
-		@callbacks = callbacks
-	end
-	
-	def rebind(new_binding)
-		@binding = new_binding
-	end
-	
-	
-	class Binding
-		# NOTE: keys and modifiers should be in the same format received by button_up/_down
-		attr_reader :keys, :modifiers
-		
-		def initialize(keys: [], modifiers: [])
-			raise "Must specify at least one key" if keys.empty?
-			
-			@keys = keys.to_set
-			@modifiers = modifiers.to_set
-		end
-	end
-	
-	
-	# just needs to provide #press #hold and #release
-	# this class really exists as an example reference implementation
-	# rather than something to be used or subclassed
-	class EventCallback
-		def initialize
-			
-		end
-		
-		def press
-			
-		end
-		
-		def hold
-			
-		end
-		
-		def release
-			
-		end
-		
-		
-		
-		# may need this. not totally sure yet
-		def cancel
-			
-		end
-	end
-end
-
 
 
 
