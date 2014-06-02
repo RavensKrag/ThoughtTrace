@@ -326,6 +326,8 @@ class InputSystem
 		# just needs to provide #press #hold and #release
 		# this class really exists as an example reference implementation
 		# rather than something to be used or subclassed
+		# TODO: Rename this class
+		# TODO: Consider removing this class, and just noting the interface in documentation
 		class EventCallback
 			def initialize
 				
@@ -343,9 +345,6 @@ class InputSystem
 				
 			end
 			
-			
-			
-			# may need this. not totally sure yet
 			def cancel
 				
 			end
@@ -492,7 +491,7 @@ x.rebind(new_input)
 
 
 
-
+# TODO: consider implementing one of the keyword argument interfaces for Event
 
 
 # TODO: consider creating structure to enforce what keys are modifiers and what keys are "standard" keys. This would allow for the usage of keys typically used for input as accelerators, as long as they are not being currently used as standard keys, or vice versa (shift as a stand-alone key is more common for games, etc)
