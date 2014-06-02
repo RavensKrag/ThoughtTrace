@@ -486,8 +486,8 @@ class InputSystem
 	
 	
 	
-	def register(*args, &block)
-		@events.push Event.new(*args, &block)
+	def register(event)
+		@events.push event
 	end
 	
 	def unregister(event_name)
