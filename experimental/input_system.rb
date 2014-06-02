@@ -426,13 +426,6 @@ class InputSystem
 	def press(id)
 		# NOTE: this implementation will execute all active combinations. not sure if more than one combination could be active during one press, but if that happens, things could get weird. Alternative would be to execute only the first match, but that would mean that the order in which events are declared would set an implicit priority.
 		
-		# TODO: make sure not to add the same events multiple times
-			# not sure if the events should be stored in a Set or something
-			# need to separate "all events", "active events", "inactive events"
-			# or something like that
-			
-			# maybe just active and inactive events?
-		
 		launched_events, @idle_events = 
 			@idle_events.partition do |e|
 				# check modifiers first, because that's probably a shorter list
@@ -594,6 +587,7 @@ class InputSystem
 	private
 	
 	# NOTE: #subset? checks each element of self against the given set
+	# TODO: Consider using arrays and (ary1 & ary2) to check subset. May be faster.
 	
 	def all_keys_pressed(event)
 		event.keys.subset? @active_keys
