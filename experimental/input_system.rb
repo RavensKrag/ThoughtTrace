@@ -757,23 +757,6 @@ x.rebind(new_input)
 
 
 
-
-
-
-
-
-
-
-
-
-
-# TODO: track end of events as well as their start. negative edge detection is expected for Action to work, so it should exist at this level as well.
-
-
-
-# TODO: button IDs currently saved (inside the event) in string format. need to at least convert to int so that proper comparisons can be made with incoming button ID codes. This goes for both @keys and @modifiers. Not as simple as parsing the ints though, because it's not clear how the strings are specified.
-# NOTE: remember that Ruby has named arguments now, so you could consider doing that instead of using hash arguments if you don't care about backwards compatibility.
-
 # TODO: consider creating structure to enforce what keys are modifiers and what keys are "standard" keys. This would allow for the usage of keys typically used for input as accelerators, as long as they are not being currently used as standard keys, or vice versa (shift as a stand-alone key is more common for games, etc)
 
 # TODO: add on structure to detect sequences
