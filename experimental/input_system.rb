@@ -482,8 +482,6 @@ class InputSystem
 				regexp = /#{combo}$/
 				joined_input_string =~ regexp # check if there is a match
 			end
-		
-		matched_sequences.each{ |seq| seq.call }
 	end
 	
 	public
