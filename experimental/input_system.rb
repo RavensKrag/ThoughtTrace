@@ -131,14 +131,14 @@ class InputSystem
 	def button_down(id)
 		# pressed_events = self.press(id) + self.foo
 		pressed_events = self.press(id)
-		pressed_events.each{ |e| e.press }
+		pressed_events.each{ |e| e.callbacks.press }
 		
 		@active_events.concat pressed_events
 	end
 	
 	def update
 		@active_events.each do |event|
-			event.hold
+			event.callbacks.hold
 		end
 	end
 	
@@ -147,7 +147,7 @@ class InputSystem
 		
 		
 		released_events = self.release(id)
-		released_events.each{ |e| e.release }
+		released_events.each{ |e| e.callbacks.release }
 		
 		@idle_events.concat released_events
 	end
@@ -182,7 +182,7 @@ class InputSystem
 	def release(id)
 		released_events, @active_events = 
 			@active_events.partition do |event|
-				if event.keys.include? id or event.mods.include? id
+				if event.binding.keys.include? id or event.binding.modifiers.include? id
 					true # pseudo return
 				end
 			end
@@ -244,7 +244,7 @@ class InputSystem
 		@idle_events.delete_if{ |event| event.name == event_name }
 		@active_events.delete_if do |event|
 			if event.name == event_name
-				event.cancel # also, stop the event
+				event.callbacks.cancel # also, stop the event
 				
 				true # pseudo return
 			end
@@ -277,7 +277,7 @@ class InputSystem
 		i = @active_events.find_index{ |e| e.name == event_name }
 		if i
 			event = @active_events[i]
-			event.cancel
+			event.callbacks.cancel
 			
 			return event
 		end
@@ -363,11 +363,11 @@ class InputSystem
 	# TODO: Consider using arrays and (ary1 & ary2) to check subset. May be faster.
 	
 	def all_keys_pressed(event)
-		event.keys.subset? @active_keys
+		event.binding.keys.subset? @active_keys
 	end
 	
 	def all_mods_pressed(event)
-		event.modifiers.subset? @active_keys
+		event.binding.modifiers.subset? @active_keys
 			# all? will return true for an empty array
 			# which is what you want in the case where no modifiers are listed
 	end
