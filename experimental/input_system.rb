@@ -524,6 +524,7 @@ class InputSystem
 	
 	# TODO: Consider if @keys and @modifiers need to be Sets. Might be better to leave them as arrays. (Only because Set#subset? is implemented with a linear scan.)
 		# NOTE: currently using #include? in InputSystem#button_up to determine if chords have been invalidated.
+		# NOTE: Set linear scan may actually be faster. Hash#each seems faster than Array#each, for small data sets(hundreds or thousands), and only slightly slower for large data sets(millions).
 	
 	
 	
