@@ -190,6 +190,9 @@ class InputSystem
 		return released_events
 	end
 	
+	# TODO: Optimize: Consider using #delete_if to delete items, putting them in an array as you go. May be more efficient because you don't have to create an extra array.
+	
+	
 	
 	
 	# handle sequences of inputs
