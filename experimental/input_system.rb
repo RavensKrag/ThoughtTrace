@@ -606,6 +606,214 @@ output.reverse
 
 
 
+
+
+
+
+
+
+keys -> name
+name -> callbacks
+
+def bind(keys, name)
+def bind(name, keys)
+	
+end
+
+def register(name, callbacks)
+	
+end
+
+
+# You can't really do this
+@input.bind[:click] = Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
+@input.register[:click] = event
+
+
+
+
+@input.bind(:click, Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
+@inputs[:click] = Qux.new(keys:[Gosu::MsLeft], modifiers:[])
+
+@inputs.register(:click) do
+	press do
+		
+	end
+	
+	hold do
+		
+	end
+	
+	release do
+		
+	end
+end
+@inputs.register(:fire => event, :on => :click)
+
+
+
+
+@input.bind(:click, Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
+@inputs.register(fire: event, on: :click)
+
+
+@input.bind(:click, Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
+@inputs.register(:fire => event, :on => :click)
+
+
+@input.bind('click', Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
+@inputs.register(fire: event, on: 'click')
+
+
+
+
+@input.bind(:event_name => :click, :input => Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
+@inputs.register(:fire => event, :on => :click)
+
+
+
+
+
+@input.bind(:event_name => :click, :input => Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
+@inputs.register(fire: event, on: :click)
+
+
+@input.bind event_name: :click, input: Qux.new(keys:[Gosu::MsLeft], modifiers:[])
+@inputs.register fire: event, on: :click
+
+
+@input.bind event: :click, input: Qux.new(keys:[Gosu::MsLeft], modifiers:[])
+@inputs.fire event: event, on: :click
+
+
+
+
+
+
+@inputs.register(
+	:input => Qux.new(keys:[Gosu::MsLeft], modifiers:[]),
+	:name => :click,
+	:callbacks => event
+)
+
+
+@inputs.register(
+	:name => :click,
+	:on => Qux.new(keys:[Gosu::MsLeft], modifiers:[]),
+	:fire => event
+)
+
+@inputs.register(:click) do
+	fire event
+	on Qux.new(keys:[Gosu::MsLeft], modifiers:[])
+end
+
+
+
+
+
+
+
+name, keys: [], modifiers: [], &block
+
+
+class Event
+	attr_reader :name, :binding, :callbacks
+	
+	def initialize(name, binding, callbacks)
+		@name = name
+		@binding = binding
+		@callbacks = callbacks
+	end
+	
+	def rebind(new_binding)
+		@binding = new_binding
+		# @callbacks.cancel
+			# only need to cancel if the event is currently active
+			# not sure how you would check that though
+			# 
+			# if the event is active, it should stop when the next button up happens
+			# unless the old binding and the new one share no buttons in common
+			# that could result in the old event never stopping
+	end
+	
+	
+	class Binding
+		# NOTE: keys and modifiers should be in the same format received by button_up/_down
+		attr_reader :keys, :modifiers
+		
+		def initialize(keys: [], modifiers: [])
+			raise "Must specify at least one key" if keys.empty?
+			
+			@keys = keys.to_set
+			@modifiers = modifiers.to_set
+		end
+	end
+	
+	
+	# just needs to provide #press #hold and #release
+	# this class really exists as an example reference implementation
+	# rather than something to be used or subclassed
+	class EventCallback
+		def initialize
+			
+		end
+		
+		def press
+			
+		end
+		
+		def hold
+			
+		end
+		
+		def release
+			
+		end
+		
+		
+		
+		# may need this. not totally sure yet
+		def cancel
+			
+		end
+	end
+end
+
+
+
+
+
+
+
+	click = Input.new keys:[Gosu::MsLeft], modifiers:[]
+	event = EventCallback.new
+x = Foo.new :click, click, event
+
+x = Foo.new :click, on: click, fire: event
+
+
+x.callbacks.press if x.input.keys.subset? @ansotehu
+
+
+new_input = Input.new keys:[Gosu::MsLeft], modifiers:[Gosu::KbLeftControl]
+x.rebind(new_input)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # TODO: track end of events as well as their start. negative edge detection is expected for Action to work, so it should exist at this level as well.
 
 
