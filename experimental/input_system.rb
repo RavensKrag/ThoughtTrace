@@ -504,3 +504,63 @@ x.rebind(new_input)
 # TODO: consider using something other than regex lookup for sequences for efficiency (FSM is the most common choice. may want to delay until at least GUI library is up and runnig)
 
 # TODO: consider using a better structure than a #each loop to find keyboard shorcuts. May not be worth the implementation time -> execution time tradeoff though, as explained by Jon Blow in his talk on how the data structures in Braid (as well as... Doom? Quake? something by ID) are pretty "horrible" in the sense that they're all linear. But they're super fast, so who cares.
+
+
+
+# mouse is initialized on a different level, so that one mouse can be shared among various input subsystems
+class Qux
+	def initialize(mouse, action_flow)
+		@mouse = mouse
+		@action_flow = action_flow
+	end
+	
+	def press
+		@action_flow.press(@mouse.position_in_space)
+	end
+	
+	def hold
+		@action_flow.hold(@mouse.position_in_space)
+	end
+	
+	def release
+		@action_flow.release(@mouse.position_in_space)
+	end
+	
+	def cancel
+		@action_flow.cancel
+	end
+end
+
+class Fiz
+	def initialize
+		@mouse = Mouse.new
+		
+		
+		@input = InputSystem.new
+		
+		
+		action_flow = ActionFlowController.new(space, selection, stash)
+		# TODO: register action names in action flow controller
+		
+			name = :click
+			binding = Event::Binding.new(keys:[Gosu::MsLeft], modifiers:[])
+			callbacks = Qux.new @mouse, action_flow
+		event = Event.new name, binding, callbacks
+		
+		@input.register event
+	end
+	
+	def button_down(id)
+		@input.button_down(id)
+	end
+	
+	def update
+		@input.update
+	end
+	
+	def button_up(id)
+		@input.button_up(id)
+	end
+end
+
+# TODO: consider compressing the chain of classes used to get from low level input to event firing. It's getting rather large, and some of the transformations are really basic. This makes it easy to follow, and easy to change, but may make things inefficient => input lag.
