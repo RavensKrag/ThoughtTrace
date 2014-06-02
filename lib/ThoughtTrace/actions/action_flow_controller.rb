@@ -8,6 +8,8 @@ module ThoughtTrace
 	# controls operations for one input event binding
 	# should assume that multiple instances will be used in tandem
 class ActionFlowController
+	attr_reader :bindings
+	
 	def initialize(space, selection, stash)
 		@space = space
 		@selection = selection
@@ -23,8 +25,8 @@ class ActionFlowController
 		
 		
 		
-		# TOOD: create interface for binding actions to specific phases
-		@action_bindings = {
+		# TODO: may want to create a better interface to bind these things visually once GUI systems are operational. Not sure how to make this any better in text form. Gonna be weird no matter how you do it, and nested Hashes are straightforward to implement.
+		@bindings = {
 			:selection => {
 				:press => nil,
 				:hold => nil
@@ -106,7 +108,7 @@ class ActionFlowController
 	# resolve symbols into actual Actions
 	def resolve_action_symbols(entity, category)
 		[:click, :drag].collect do |event|
-			action_name = @action_bindings[category][event]
+			action_name = @bindings[category][event]
 			entity.class.actions[action_name].new(@space, @stash, entity)
 		end
 	end
