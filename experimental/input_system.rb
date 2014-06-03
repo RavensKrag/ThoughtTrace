@@ -531,22 +531,50 @@ class Qux
 	end
 end
 
+
+# Controls overall execution flow for all input systems.
+# Like a main method for the entire input system.
 class Fiz
-	def initialize
+	attr_reader :mouse, :input
+	
+	def initialize(space)
+		@space = space
+		
+		
+		
 		@mouse = Mouse.new
 		
+		@selection = [] # TODO: create actual selection collection. Array is placeholder. May work, may not. Haven't actually thought about it at all.
 		
+		@stash = ThoughtTrace::InputSystem::ActionStash.new
 		@input = InputSystem.new
 		
 		
-		action_flow = ActionFlowController.new(space, selection, stash)
+		
+		
+		
+		
+		# NOTE: Action names and Event names may not necessarily have the same requirements.
+			# Action names
+				# Control what sort of action will be fired
+				# Like methods, specifics are resolved with polymorphism
+			# Event names
+				# unique ID for this specific Event
+				# must be distinct among keyboard, mouse, joystick etc events
+				# each Event is one combination of (name, binding, callback)
+				# thus, it is possible for many events to trigger one Action
+				# because you want multiple bindings on one Action
+				# (thing mouse bindings vs keyboard, rather than multiple keyboard shortcuts)
+		
+		
+		action_flow = ActionFlowController.new(@space, @selection, @stash)
 		# TODO: register action names in action flow controller
 		action_flow.bindings[categorization][phase] = action_name
 		
-			name = :click
+			event_name = :click
 			binding = Event::Binding.new(keys:[Gosu::MsLeft], modifiers:[])
 			callbacks = Qux.new @mouse, action_flow
-		event = Event.new name, binding, callbacks
+		event = Event.new event_name, binding, callbacks
 		
 		@input.register event
 	end
