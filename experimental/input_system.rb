@@ -592,4 +592,40 @@ class Fiz
 	end
 end
 
+
+# CSV format with test header
+data = <<-EOF
+	categorization,phase,action_name,event_name,,list,of,keys,,list,of,modifiers
+	
+EOF
+
+# something a bit different
+data = <<-EOF
+	categorization,phase,action_name
+	event_name
+	list,of,keys
+	list,of,modifiers
+	
+EOF
+
+# YAML
+data = <<-END_OF_THE_STRING
+---
+:categorization: selection
+:phase: drag
+:action_name: move and spaces are ok
+:event_name: click
+:keys:
+- 1
+- 2
+:modifiers:
+- 6
+END_OF_THE_STRING
+# note that the keys and modifiers are going to come out as integers
+# this makes the YAML not really "human readable"
+# but I'm not really using it for a human readable format,
+# I just want to be able to serialize without having to worry about low-level things
+
+
+
 # TODO: consider compressing the chain of classes used to get from low level input to event firing. It's getting rather large, and some of the transformations are really basic. This makes it easy to follow, and easy to change, but may make things inefficient => input lag.
