@@ -419,31 +419,6 @@ end
 
 
 
-@input.bind(:click, Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
-@inputs.register(fire: event, on: :click)
-
-
-@input.bind(:click, Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
-@inputs.register(:fire => event, :on => :click)
-
-
-@input.bind('click', Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
-@inputs.register(fire: event, on: 'click')
-
-
-
-
-@input.bind(:event_name => :click, :input => Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
-@inputs.register(:fire => event, :on => :click)
-
-
-
-
-
-@input.bind(:event_name => :click, :input => Qux.new(keys:[Gosu::MsLeft], modifiers:[]))
-@inputs.register(fire: event, on: :click)
-
-
 @input.bind event_name: :click, input: Qux.new(keys:[Gosu::MsLeft], modifiers:[])
 @inputs.register fire: event, on: :click
 
@@ -453,20 +428,10 @@ end
 
 
 
-
-
-
 @inputs.register(
 	:input => Qux.new(keys:[Gosu::MsLeft], modifiers:[]),
 	:name => :click,
 	:callbacks => event
-)
-
-
-@inputs.register(
-	:name => :click,
-	:on => Qux.new(keys:[Gosu::MsLeft], modifiers:[]),
-	:fire => event
 )
 
 @inputs.register(:click) do
