@@ -489,12 +489,6 @@ event.bind_to()
 
 
 
-
-
-
-# TODO: consider implementing one of the keyword argument interfaces for Event
-
-
 # TODO: consider creating structure to enforce what keys are modifiers and what keys are "standard" keys. This would allow for the usage of keys typically used for input as accelerators, as long as they are not being currently used as standard keys, or vice versa (shift as a stand-alone key is more common for games, etc)
 
 # TODO: add on structure to detect sequences
@@ -571,7 +565,7 @@ class Fiz
 		
 			event_name = :click
 			callbacks = Qux.new @mouse, action_flow
-		event = Event.new event_name, binding, callbacks
+		event = Event.new event_name, callbacks
 		event.bind_to keys:[Gosu::MsLeft], modifiers:[]
 		# access with event.binding
 		
