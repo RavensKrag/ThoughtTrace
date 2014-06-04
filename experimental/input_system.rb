@@ -308,8 +308,8 @@ class InputSystem
 			@callbacks = callbacks
 		end
 		
-		def rebind(new_binding)
-			@binding = new_binding
+		def bind_to(keys: [], modifiers: [])
+			@binding = Binding.new(keys, modifiers)
 		end
 		
 		
@@ -317,13 +317,14 @@ class InputSystem
 			# NOTE: keys and modifiers should be in the same format received by button_up/_down
 			attr_reader :keys, :modifiers
 			
-			def initialize(keys: [], modifiers: [])
+			def initialize(keys, modifiers)
 				raise "Must specify at least one key" if keys.empty?
 				
 				@keys = keys.to_set
 				@modifiers = modifiers.to_set
 			end
 		end
+		private_constant :Binding
 		
 		
 		# just needs to provide #press #hold and #release
@@ -459,6 +460,15 @@ x.rebind(new_input)
 
 
 
+
+# problem with this interface is that you can only have one binding per event
+# but the sames goes for the other interface
+ev = Event.new(:click, callbacks)
+ev.bind(keys:[Gosu::MsLeft], modifiers:[Gosu::KbLeftControl])
+# this reduces the feeling that Event represents three pieces of data in tandem
+# feels more like two pieces, and a subservient piece
+
+
 # TODO: consider implementing one of the keyword argument interfaces for Event
 
 
@@ -537,9 +547,10 @@ class Fiz
 		action_flow.bindings[categorization][phase] = action_name
 		
 			event_name = :click
-			binding = Event::Binding.new(keys:[Gosu::MsLeft], modifiers:[])
 			callbacks = Qux.new @mouse, action_flow
 		event = Event.new event_name, binding, callbacks
+		event.bind_to keys:[Gosu::MsLeft], modifiers:[]
+		# access with event.binding
 		
 		@input.register event
 	end
