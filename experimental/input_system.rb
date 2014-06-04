@@ -469,6 +469,29 @@ ev.bind(keys:[Gosu::MsLeft], modifiers:[Gosu::KbLeftControl])
 # feels more like two pieces, and a subservient piece
 
 
+
+
+# example of new Event binding style
+
+event = Event.new event_name, callbacks
+event.bind_to keys:[Gosu::MsLeft], modifiers:[]
+
+event.unbind! # TODO: consider implementing #unbind!
+
+
+@input.register event
+
+
+@input.find(event_name).bind_to()
+event.bind_to()
+
+
+
+
+
+
+
+
 # TODO: consider implementing one of the keyword argument interfaces for Event
 
 
