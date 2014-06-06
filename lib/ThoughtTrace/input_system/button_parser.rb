@@ -153,16 +153,6 @@ class ButtonParser
 		return nil # prevent leakage
 	end
 	
-	def rebind(event_name, new_binding)
-		# I think #find may only exist for use in this method
-		# not sure if I should expose #find to the external API or not
-		
-		event = self.find(event_name)
-		event.rebind(new_binding) if event
-		
-		return nil # prevent leakage
-	end
-	
 	
 	
 	
