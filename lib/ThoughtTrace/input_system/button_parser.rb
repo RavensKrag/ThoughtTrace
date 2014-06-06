@@ -187,33 +187,24 @@ class ButtonParser
 	
 	
 	class ButtonEvent
-		attr_reader :name, :binding, :callbacks
+		attr_reader :name, :callbacks, :keys, :modifiers
 		
-		def initialize(name, binding, callbacks)
+		def initialize(name, callbacks)
 			@name = name
-			@binding = binding
 			@callbacks = callbacks
+			
+			@keys = nil
+			@modifiers = nil
 		end
 		
 		# TODO: consider removing Binding class. It's kinda an unnecessary level of abstraction, now that we have the #bind_to interface.
 		def bind_to(keys: [], modifiers: [])
-			@binding = Binding.new(keys, modifiers)
-		end
-		
-		
-		class Binding
-			# NOTE: keys and modifiers should be in the same format received by button_up/_down
-			attr_reader :keys, :modifiers
+			raise "Must specify at least one key" if keys.empty?
 			
-			def initialize(keys, modifiers)
-				raise "Must specify at least one key" if keys.empty?
-				
-				@keys = keys.to_set
-				@modifiers = modifiers.to_set
-			end
+			@keys = keys.to_set
+			@modifiers = modifiers.to_set
 		end
-		private_constant :Binding
-		
+				
 		
 		# just needs to provide #press #hold and #release
 		# this class really exists as an example reference implementation
