@@ -110,7 +110,7 @@ end
 # http://www.jstiles.com/Blog/How-To-Implement-Keyboard-Shortcuts-in-Your-Web-Application---Part-2
 # http://code.tutsplus.com/tutorials/detecting-key-combos-the-easy-way--active-8608
 
-class InputSystem
+class ButtonParser
 	def initialize
 		@active_keys = Set.new
 		# may want to have two sets:
@@ -299,7 +299,7 @@ class InputSystem
 	
 	
 	
-	class Event
+	class ButtonEvent
 		attr_reader :name, :binding, :callbacks
 		
 		def initialize(name, binding, callbacks)
@@ -308,6 +308,7 @@ class InputSystem
 			@callbacks = callbacks
 		end
 		
+		# TODO: consider removing Binding class. It's kinda an unnecessary level of abstraction, now that we have the #bind_to interface.
 		def bind_to(keys: [], modifiers: [])
 			@binding = Binding.new(keys, modifiers)
 		end
@@ -500,7 +501,8 @@ event.bind_to()
 
 
 # mouse is initialized on a different level, so that one mouse can be shared among various input subsystems
-class Qux
+# converts zero-arg press-hold-release structure into one-arg (point - position of mouse)
+class MouseActionController
 	def initialize(mouse, action_flow)
 		@mouse = mouse
 		@action_flow = action_flow
@@ -526,7 +528,9 @@ end
 
 # Controls overall execution flow for all input systems.
 # Like a main method for the entire input system.
-class Fiz
+class InputManager
+	# TODO: control mouseover effects from this class as well
+	
 	attr_reader :mouse, :input
 	
 	def initialize(space)
@@ -539,7 +543,14 @@ class Fiz
 		@selection = [] # TODO: create actual selection collection. Array is placeholder. May work, may not. Haven't actually thought about it at all.
 		
 		@stash = ThoughtTrace::InputSystem::ActionStash.new
-		@input = InputSystem.new
+		
+		
+		
+		# manages many input events
+		# input events correspond to button presses
+		# those buttons can be keyboard keys, mouse buttons, or gamepad buttons
+		@buttons = InputSystem::ButtonParser.new
+		
 		
 		
 		
@@ -564,24 +575,24 @@ class Fiz
 		action_flow.bindings[categorization][phase] = action_name
 		
 			event_name = :click
-			callbacks = Qux.new @mouse, action_flow
-		event = Event.new event_name, callbacks
+			callbacks = MouseActionController.new @mouse, action_flow
+		event = InputSystem::ButtonEvent.new event_name, callbacks
 		event.bind_to keys:[Gosu::MsLeft], modifiers:[]
 		# access with event.binding
 		
-		@input.register event
+		@buttons.register event
 	end
 	
 	def button_down(id)
-		@input.button_down(id)
+		@buttons.button_down(id)
 	end
 	
 	def update
-		@input.update
+		@buttons.update
 	end
 	
 	def button_up(id)
-		@input.button_up(id)
+		@buttons.button_up(id)
 	end
 end
 
