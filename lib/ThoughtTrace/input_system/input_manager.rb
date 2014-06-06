@@ -8,12 +8,12 @@ class InputManager
 	
 	attr_reader :mouse, :input
 	
-	def initialize(space)
+	def initialize(window, space)
 		@space = space
 		
 		
 		# TODO: properly implement mouse.
-		@mouse = InputSystem::Mouse.new
+		@mouse = InputSystem::Mouse.new window
 		
 		@selection = [] # TODO: create actual selection collection. Array is placeholder. May work, may not. Haven't actually thought about it at all.
 		
