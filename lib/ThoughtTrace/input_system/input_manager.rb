@@ -53,7 +53,6 @@ class InputManager
 			callbacks = MouseActionController.new @mouse, action_flow
 		event = InputSystem::ButtonEvent.new event_name, callbacks
 		event.bind_to keys:[Gosu::MsLeft], modifiers:[]
-		# access with event.binding
 		
 		@buttons.register event
 	end
