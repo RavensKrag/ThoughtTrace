@@ -220,6 +220,18 @@ event.bind_to()
 
 
 
+# The real question seems to be whether or not "callbacks" should be mutable
+# making "callbacks" mutable would push Event closer to the Builder pattern
+# but callbacks always has to be an object with a fixed interface, so maybe Builder is bad?
+event = Event.new event_name
+event.callback_object = callbacks
+event.bind keys:[Gosu::MsLeft], modifiers:[]
+
+# you need this sort of interface if you want to be able to change the callback object
+# current interface implies that the callbacks are never to be altered
+
+
+
 
 
 

@@ -56,41 +56,6 @@ class InputManager
 		# access with event.binding
 		
 		@buttons.register event
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		# The real question seems to be whether or not "callbacks" should be mutable
-		# making "callbacks" mutable would push Event closer to the Builder pattern
-		# but callbacks always has to be an object with a fixed interface, so maybe Builder is bad?
-		
-		event = Event.new event_name, callbacks
-		event.bind keys:[Gosu::MsLeft], modifiers:[]
-		
-		
-		event.unbind!
-		
-		
-		
-		
-		@input.register event
-		
-		
-		
-		@input.find(event_name).bind()
-		event.bind()
 	end
 	
 	def button_down(id)
