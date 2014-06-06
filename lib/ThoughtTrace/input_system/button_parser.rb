@@ -154,11 +154,11 @@ class ButtonParser
 	end
 	
 	
+	# TODO: try to merge #find and #unregister. Way too much code duplication right now.
 	
 	
-	# this sorta implies you want to transform the Event in some way
-	# would be bad if an Event was transformed while it was executing
-	# TODO: remove the need to search for active events, and maybe completely remove this method.
+	# Find is useful for extracting an event and the rebinding it
+	# ex) @buttons.find(event_name).bind_to()
 	def find(event_name)
 		i = @idle_events.find_index{ |e| e.name == event_name }
 		return @idle_events[i] if i
