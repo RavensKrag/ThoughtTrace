@@ -599,3 +599,47 @@ class ResizeCircle < Action
 		end
 	end
 end
+
+
+
+
+
+
+
+
+
+# TOOD: create interface for binding actions to specific phases
+
+class Foo
+	def initialize
+		@bindings = {
+			:selection => {
+				:press => nil,
+				:hold => nil
+			},
+			:existing => {
+				:press => nil,
+				:hold => nil
+			},
+			:empty => {
+				:press => nil,
+				:hold => nil
+			}
+		}
+	end
+	
+	def bind(categorization, phase, action_name)
+		
+	end
+	
+	def access(categorization, phase)
+		
+	end
+end
+
+
+x = Foo.new 
+x[:selection][:press] = action_name
+action_name = x[:selection][:press]
+
+
