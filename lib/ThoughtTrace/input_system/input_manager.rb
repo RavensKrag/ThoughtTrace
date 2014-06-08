@@ -1,8 +1,12 @@
-module InputSystem
+module ThoughtTrace
 
 
 # Controls overall execution flow for all input systems.
 # Like a main method for the entire input system.
+# 
+# As it is a "main", this class is more a portion of ThoughtTrace proper,
+# rather than something than can be externalized.
+# This is reflected in the module chosen to hold this class.
 class InputManager
 	# TODO: control mouseover effects from this class as well
 	
@@ -45,12 +49,12 @@ class InputManager
 				# (thing mouse bindings vs keyboard, rather than multiple keyboard shortcuts)
 		
 		
-		action_flow = ActionFlowController.new(@space, @selection, @stash)
+		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)
 		# TODO: register action names in action flow controller
 		action_flow.bindings[categorization][phase] = action_name
 		
 			event_name = :click
-			callbacks = MouseActionController.new @mouse, action_flow
+			callbacks = InputSystem::MouseActionController.new @mouse, action_flow
 		event = InputSystem::ButtonEvent.new event_name, callbacks
 		event.bind_to keys:[Gosu::MsLeft], modifiers:[]
 		
