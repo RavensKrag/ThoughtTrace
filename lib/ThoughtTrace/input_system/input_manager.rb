@@ -22,7 +22,7 @@ class InputManager
 		
 		@selection = [] # TODO: create actual selection collection. Array is placeholder. May work, may not. Haven't actually thought about it at all.
 		
-		@stash = ThoughtTrace::InputSystem::ActionStash.new
+		@stash = ThoughtTrace::ActionStash.new
 		
 		
 		

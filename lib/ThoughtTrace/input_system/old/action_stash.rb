@@ -13,7 +13,6 @@
 
 
 module ThoughtTrace
-	module InputSystem
 
 
 # Maybe the name should be changed? "Stash" isn't really that descriptive...
@@ -61,5 +60,4 @@ end
 
 
 
-end
 end

@@ -87,6 +87,9 @@ task :load_dependencies do
 					'./input_system/button_parser',
 					'./input_system/mouse',
 					'./input_system/mouse_action_controller',
+					
+					'./actions/action_flow_controller',
+					
 					'./input_system/input_manager',
 				
 				
