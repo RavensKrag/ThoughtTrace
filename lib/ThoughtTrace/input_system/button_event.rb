@@ -6,7 +6,7 @@ class ButtonEvent
 	
 	def initialize(name, callbacks)
 		@name = name
-		@callbacks = callbacks
+		@callbacks = callbacks # provides these methods: initialize, press, hold, release, cancel
 		
 		@keys = nil
 		@modifiers = nil
@@ -18,34 +18,6 @@ class ButtonEvent
 		
 		@keys = keys.to_set
 		@modifiers = modifiers.to_set
-	end
-			
-	
-	# just needs to provide #press #hold and #release
-	# this class really exists as an example reference implementation
-	# rather than something to be used or subclassed
-	# TODO: Rename this class
-	# TODO: Consider removing this class, and just noting the interface in documentation
-	class EventCallback
-		def initialize
-			
-		end
-		
-		def press
-			
-		end
-		
-		def hold
-			
-		end
-		
-		def release
-			
-		end
-		
-		def cancel
-			
-		end
 	end
 end
 
