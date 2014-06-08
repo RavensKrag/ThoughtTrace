@@ -42,7 +42,7 @@ class Window < Gosu::Window
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = ThoughtTrace::InputSystem::InputManager.new @space, @camera
+			@input = ThoughtTrace::InputManager.new self, @space, @camera
 		end
 	end
 	
