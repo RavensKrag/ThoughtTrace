@@ -6,7 +6,7 @@ module InputSystem
 class InputManager
 	# TODO: control mouseover effects from this class as well
 	
-	attr_reader :mouse, :input
+	attr_reader :mouse, :buttons
 	
 	def initialize(window, space)
 		@space = space
