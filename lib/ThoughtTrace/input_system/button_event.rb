@@ -27,5 +27,7 @@ end
 
 
 # TODO: Consider if @keys and @modifiers need to be Sets. Might be better to leave them as arrays. (Only because Set#subset? is implemented with a linear scan.)
-# NOTE: currently using #include? in InputSystem#button_up to determine if chords have been invalidated.
-# NOTE: Set linear scan may actually be faster. Hash#each seems faster than Array#each, for small data sets(hundreds or thousands), and only slightly slower for large data sets(millions).
+	# NOTE: currently using #include? in InputSystem#button_up to determine if chords have been invalidated.
+	# NOTE: Set linear scan may actually be faster. Hash#each seems faster than Array#each, for small data sets(hundreds or thousands), and only slightly slower for large data sets(millions).
+
+# TODO: consider if ButtonEvent should really be a private class under ButtonParser and how that would even work. (This basically means that ButtonEvent is only useful as a wrapper for data that ButtonParser works with. This statement is pretty true, but I'm not sure if that would make for a worse interface, or a better one.)
