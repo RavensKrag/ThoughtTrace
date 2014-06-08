@@ -27,7 +27,7 @@ class ButtonParser
 	
 	def button_down(id)
 		# pressed_events = self.press(id) + self.foo
-		pressed_events = self.press(id)
+		pressed_events = press(id)
 		pressed_events.each{ |e| e.callbacks.press }
 		
 		@active_events.concat pressed_events
@@ -43,7 +43,7 @@ class ButtonParser
 		@active_keys.delete id
 		
 		
-		released_events = self.release(id)
+		released_events = release(id)
 		released_events.each{ |e| e.callbacks.release }
 		
 		@idle_events.concat released_events
