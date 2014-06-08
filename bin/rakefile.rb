@@ -80,6 +80,9 @@ task :load_dependencies do
 				'./cameras/camera',
 				
 				
+				# new actions
+				'./actions',
+				
 				# './input_system'
 					'./input_system/old/action_stash',
 					
