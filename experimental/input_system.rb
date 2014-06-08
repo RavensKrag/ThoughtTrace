@@ -276,3 +276,40 @@ END_OF_THE_STRING
 
 
 # TODO: consider compressing the chain of classes used to get from low level input to event firing. It's getting rather large, and some of the transformations are really basic. This makes it easy to follow, and easy to change, but may make things inefficient => input lag.
+
+
+
+
+
+
+
+
+
+		
+# event name needs to be unique
+# as in, different from all other events in the collection to which it is bound
+# so specify the name on the button parser, not on the event
+event = InputSystem::ButtonEvent.new callback
+event.bind_to keys:[Gosu::MsLeft], modifiers:[]
+@buttons.register :click, event
+
+# name -> binding -> callback
+
+
+
+
+event = InputSystem::ButtonEvent.new callback
+event.bind_to keys:[Gosu::MsLeft], modifiers:[]
+@buttons.register :click, event
+
+
+
+
+event = @buttons.register(:click)
+event.bind_to(keys:[Gosu::MsLeft], modifiers:[])
+event.callbacks = mouse_actions
+
+@buttons.unregister(:click)
+# no difference between re-binding something that already exists, and starting fresh
+# that might be cool, or it might be horrible
+# (In this style, #register returns the object currently in the collection by that name, or creates a new object as necessary)
