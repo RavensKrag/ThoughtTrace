@@ -81,14 +81,12 @@ task :load_dependencies do
 				
 				
 				# './input_system'
-					'./input_system/human_action',
+					'./input_system/old/action_stash',
 					
-					'./input_system/action_stash',
-					'./input_system/action_selector',
-					
-					'./input_system/input_abstraction',
-					# './input_system/human_actions' # currently empty folder
-					
+					'./input_system/button_event',
+					'./input_system/button_parser',
+					'./input_system/mouse',
+					'./input_system/mouse_action_controller',
 					'./input_system/input_manager',
 				
 				

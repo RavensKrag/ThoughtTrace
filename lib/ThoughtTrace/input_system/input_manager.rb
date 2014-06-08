@@ -12,8 +12,9 @@ class InputManager
 	
 	attr_reader :mouse, :buttons
 	
-	def initialize(window, space)
+	def initialize(window, space, camera)
 		@space = space
+		@camera = camera
 		
 		
 		# TODO: properly implement mouse.
