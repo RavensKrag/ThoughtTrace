@@ -147,6 +147,11 @@ class ActionFlowController
 		def cleanup(point)
 			puts "cleanup null"
 		end
+		
+		def cancel
+			puts "cancel nil"
+			super()
+		end
 	end
 end
 
