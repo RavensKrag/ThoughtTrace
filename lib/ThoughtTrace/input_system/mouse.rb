@@ -26,6 +26,8 @@ class Mouse
 	alias :position_in_world :world_position
 	alias :position_in_world_coordinates :world_position
 	
+	alias :position_in_space :world_position
+	
 	alias :position_on_screen :screen_position
 	alias :position_in_screen_coordinates :screen_position
 end
