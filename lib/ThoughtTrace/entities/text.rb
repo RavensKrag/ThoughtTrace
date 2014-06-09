@@ -1,11 +1,11 @@
 module ThoughtTrace
 
 
-class Text < Entity
+class Text < Rectangle
 	DEFAULT_FONT_SIZE = 30
 	
 	def initialize(font, string="")
-		super()
+		# super()
 		
 		@font = font
 		@string = string
@@ -13,36 +13,44 @@ class Text < Entity
 		
 		
 		
-		# TODO: cascade into default style
-		style = ThoughtTrace::Components::Style.new "text_style_#{self.object_id}"
-		style.edit(:default) do |s|
+		# # TODO: cascade into default style
+		# style = ThoughtTrace::Components::Style.new "text_style_#{self.object_id}"
+		# style.edit(:default) do |s|
+		# 	s[:height] = 30 # <-- depreciated
+		# 	s[:color] = Gosu::Color.argb(0xffFFFFFF)
+		# end
+		
+		# style.edit(:hover) do |s|
+		# 	s[:height] = 30 # <-- depreciated
+		# 	s[:color] = Gosu::Color.argb(0xff0000FF)
+		# end
+		
+		# add_component style
+		
+		
+		# # NOTE: @string has not yet been initialized
+		height = DEFAULT_FONT_SIZE
+		width = @font.width(@string, height)
+		
+		# 					body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
+		# 					shape = CP::Shape::Rect.new body, width, height
+		# add_component	ThoughtTrace::Components::Physics.new self, body, shape
+		
+		
+		
+		
+		super(width, height)
+		
+		
+		@components[:style].edit(:default) do |s|
 			s[:height] = 30 # <-- depreciated
 			s[:color] = Gosu::Color.argb(0xffFFFFFF)
 		end
 		
-		style.edit(:hover) do |s|
+		@components[:style].edit(:hover) do |s|
 			s[:height] = 30 # <-- depreciated
 			s[:color] = Gosu::Color.argb(0xff0000FF)
 		end
-		
-		add_component style
-		
-		
-		# NOTE: @string has not yet been initialized
-		height = DEFAULT_FONT_SIZE
-		width = @font.width(@string, height)
-		
-							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-							shape = CP::Shape::Rect.new body, width, height
-		add_component	ThoughtTrace::Components::Physics.new self, body, shape
-		
-		
-		# if you can specify the actions with a 'factory' instead of an instance, you can put real actions onto the action stack, instead of some weird wrapper thing
-			# may not need a wrapper
-			# still good idea though, because it means that the state can be easily wrapped up in that one instance. No garbage can carry over.
-		add_action ThoughtTrace::Actions::Move.new self
-		
-		add_action ThoughtTrace::Actions::ResizeText.new self
 	end
 	
 	def update

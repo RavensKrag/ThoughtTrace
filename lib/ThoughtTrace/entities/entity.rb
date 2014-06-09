@@ -18,6 +18,67 @@ class Entity
 	
 	
 	
+	
+	
+	# TODO: Specify how Actions are attached to Entity objects
+	# + specify API
+	# + specify how Action interface names are related to the Actions themselves
+		# manually specify interface name?
+		# derived from class name?
+	# The Action classes are stored on the Entity class (used as factories)
+	# but should they be accessed only though the class, or through an instance as well?
+		# allowing access through an instance may be slightly more convenient,
+		# but first exposure to this API may be by using an instance of Entity
+		# which may make it seem like the Actions can only be accessed through an instance,
+		# rather than it being a convenience feature.
+	class << self
+		# name styled after things like "const_get" and "instance_variable_get"
+		# Recursively looks for an action of a particular name within the inheritance tree
+		# Should not dig deeper than Entity, as Entity is what holds the Action structure.
+		def action_get(action_name)
+			klass = self
+			
+			begin
+				return klass::Actions.const_get action_name
+			rescue NameError => e
+				if klass == Entity
+					# base of the chain
+					# recursion base case
+					
+					# No where left to look, so just raise the exception again
+					# (this is correct, not a stub)
+					
+					raise
+				else
+					# continue recursive traversal
+					
+					klass = klass.superclass
+					return klass.action_get(action_name)
+				end
+			end
+		end
+	end
+	
+	# ideally, the exception flow will percolate back "down" the inheritance chain
+	# to the child class (the class that originally launched the call)
+	# so that the error message on the backtrace can accurately report
+	# what class was trying to access what action
+	
+	
+	
+	# Access actions from an instance.
+	# 
+	# This feels more natural, as Action objects are kinda like methods,
+	# and while methods are attached to the class,
+	# they are accessed through the instance.
+	def action(action_name)
+		self.class.action_get(action_name)
+	end
+	
+	
+	
+	
+	
 	# Actions provide a high-level(ish) interface for manipulating the data in Components
 	def add_action(action)
 		# require components to be added first.

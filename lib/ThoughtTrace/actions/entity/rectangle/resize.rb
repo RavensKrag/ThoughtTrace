@@ -3,7 +3,7 @@ module ThoughtTrace
 		module Actions
 
 
-class Resize < Action
+class Resize < Entity::Actions::Action
 	MARGIN = 50
 	MINIMUM_DIMENSION = 10
 	
@@ -241,7 +241,7 @@ class Resize < Action
 	# (Consider better name. Current class name derives from a design pattern.)
 	# (this class also has ideas from the command pattern, though)
 	# TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @past value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
-	class Memento < Action::Memento
+	class Memento < ThoughtTrace::Entity::Actions::Action::Memento
 		# set future state
 		def forward
 			@entity.baz(@future)

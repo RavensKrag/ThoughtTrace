@@ -27,11 +27,6 @@ class Circle < Entity
 							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
 							shape = CP::Shape::Circle.new body, style[:radius]
 		add_component	ThoughtTrace::Components::Physics.new self, body, shape
-		
-		
-		add_action ThoughtTrace::Actions::Move.new self
-		
-		add_action ThoughtTrace::Actions::ResizeCircle.new self
 	end
 	
 	def update

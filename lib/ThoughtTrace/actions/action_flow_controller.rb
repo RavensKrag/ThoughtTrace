@@ -109,7 +109,7 @@ class ActionFlowController
 	def resolve_action_symbols(entity, category)
 		[:click, :drag].collect do |event|
 			action_name = @bindings[category][event]
-			entity.class.actions[action_name].new(@space, @stash, entity)
+			entity.action(action_name).new(@space, @stash, entity)
 		end
 	end
 end

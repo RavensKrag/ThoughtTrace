@@ -28,11 +28,6 @@ class Rectangle < Entity
 							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
 							shape = CP::Shape::Rect.new body, style[:width], style[:height]
 		add_component	ThoughtTrace::Components::Physics.new self, body, shape
-		
-		
-		add_action ThoughtTrace::Actions::Move.new self
-		
-		add_action ThoughtTrace::Actions::ResizeRectangle.new self
 	end
 	
 	def update

@@ -19,8 +19,6 @@ class Camera < Entity
 							shape = CP::Shape::Rect.new body, width, height, offset
 		add_component	ThoughtTrace::Components::Physics.new self, body, shape
 		
-		add_action ThoughtTrace::Actions::Move.new self
-		
 		
 		
 		# Center position

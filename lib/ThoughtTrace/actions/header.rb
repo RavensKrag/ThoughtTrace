@@ -7,9 +7,9 @@ path_to_file = File.expand_path(File.dirname(__FILE__))
 Dir.chdir path_to_file do
 	[
 		'./entity',
-		'./group',
-		'./query',
-		'./constraint',
+		# './group',
+		# './query',
+		# './constraint',
 		
 		
 		'./click_and_drag_controller',

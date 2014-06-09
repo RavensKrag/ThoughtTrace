@@ -67,7 +67,6 @@ task :load_dependencies do
 				# one directory at a time seems to be fine...
 				# './entities'
 				'./entities/share/',
-				'./entities/actions/',
 				'./entities/components/',
 				'./entities/',
 				
