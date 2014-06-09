@@ -26,6 +26,9 @@ class ButtonParser
 	
 	
 	def button_down(id)
+		@active_keys.add id
+		
+		
 		# pressed_events = self.press(id) + self.foo
 		pressed_events = press(id)
 		pressed_events.each{ |e| e.callbacks.press }
