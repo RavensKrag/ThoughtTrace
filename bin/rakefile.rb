@@ -80,7 +80,7 @@ task :load_dependencies do
 				
 				
 				# new actions
-				'./actions',
+				'./actions/header',
 				
 				# './input_system'
 					'./input_system/old/action_stash',
