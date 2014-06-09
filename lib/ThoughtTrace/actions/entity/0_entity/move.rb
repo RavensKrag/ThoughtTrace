@@ -9,37 +9,21 @@ class Move < Action
 		# mark the initial point for reference
 		@origin = point
 		
-		@original_radius = @entity.radius
+		# mark the initial point for reference
+		@origin = point
+		@start = @entity[:physics].body.p.clone
 	end
 	
 	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
-		# Alter the size of the circle by an amount equal to the radial displacement
-		# Away from the center is positive,
-		# towards the center is negative.
-		
+		# move relative to the initial point
 		displacement = point - @origin
 		
-		# project displacement along the radial axis
-		center = @entity[:physics].body.p.clone
-		r = (point - center).normalize
-		
-		radial_displacement = displacement.project(r)
-		magnitude = radial_displacement.length
-		
-		# flip sign if necessary
-		magnitude = -magnitude unless displacement.dot(r) > 0
+		current = @entity[:physics].body.p = @start + displacement
 		
 		
-		
-		# limit minimum size
-		radius = @original_radius + magnitude
-		radius = MINIMUM_DIMENSION if radius < MINIMUM_DIMENSION
-		
-		
-		
-		return @original_radius, radius
+		return @start, current
 	end
 	
 	
