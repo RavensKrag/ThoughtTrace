@@ -79,7 +79,7 @@ class ButtonParser
 	def release(id)
 		released_events, @active_events = 
 			@active_events.partition do |event|
-				if event.binding.keys.include? id or event.binding.modifiers.include? id
+				if event.keys.include? id or event.modifiers.include? id
 					true # pseudo return
 				end
 			end
@@ -184,11 +184,11 @@ class ButtonParser
 	# TODO: Consider using arrays and (ary1 & ary2) to check subset. May be faster.
 	
 	def all_keys_pressed(event)
-		event.binding.keys.subset? @active_keys
+		event.keys.subset? @active_keys
 	end
 	
 	def all_mods_pressed(event)
-		event.binding.modifiers.subset? @active_keys
+		event.modifiers.subset? @active_keys
 			# all? will return true for an empty array
 			# which is what you want in the case where no modifiers are listed
 	end
