@@ -10,7 +10,7 @@ klass = ThoughtTrace.const_get(:CLASS_NAME)
 klass.instance_eval do
 self.instance_eval do
 
-	def unpack(ARGS)
+def unpack(ARGS)
 
 
 BODY {

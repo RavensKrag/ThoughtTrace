@@ -8,7 +8,8 @@
 
 klass = ThoughtTrace.const_get(:CLASS_NAME)
 klass.class_eval do
-	def pack
+
+def pack
 
 
 BODY {
