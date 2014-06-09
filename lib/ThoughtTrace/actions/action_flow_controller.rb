@@ -50,10 +50,10 @@ class ActionFlowController
 	def press(point)
 		entity = @space.point_query_best(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
 		category = categorize(entity)
-			puts "category: #{category}"
+			# puts "category: #{category}"
 		
 		click_and_drag = resolve_action_symbols(entity, category)
-			puts "[#{click_and_drag[0].class.name}, #{click_and_drag[1].class.name}]"
+			# puts "[#{click_and_drag[0].class.name}, #{click_and_drag[1].class.name}]"
 		
 		# NOTE: May want to refrain from allocating and deallocating ClickAndDragController all the time. But you would have to remember to reset the internal state of the object before using it again. Easier for now to just make new ones.
 		@action_controller = ClickAndDragController.new(*click_and_drag)

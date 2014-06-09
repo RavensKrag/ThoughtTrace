@@ -17,8 +17,6 @@ class Move < Action
 	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
-		puts "hold -> move"
-		
 		# move relative to the initial point
 		displacement = point - @origin
 		

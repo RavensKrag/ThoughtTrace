@@ -25,7 +25,6 @@ class ClickAndDragController
 	end
 	
 	def hold(point)
-		puts "hold"
 		if @active == @click and delta_exceeded?(point)
 			@click.cancel
 			@drag.press(@origin)
@@ -60,7 +59,6 @@ class ClickAndDragController
 		delta = displacement.length
 		
 		
-		puts "exceed?: #{delta > @delta_threshold}"
 		return delta > @delta_threshold
 	end
 end
