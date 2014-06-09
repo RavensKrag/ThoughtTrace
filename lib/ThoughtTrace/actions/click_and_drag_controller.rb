@@ -25,8 +25,9 @@ class ClickAndDragController
 	end
 	
 	def hold(point)
+		puts "hold"
 		if @active == @click and delta_exceeded?(point)
-			@click.cancel(point)
+			@click.cancel
 			@drag.press(@origin)
 			
 			@active = @drag
@@ -39,14 +40,16 @@ class ClickAndDragController
 		@active.release(point)
 	end
 	
-	def cancel(point)
-		@active.cancel(point)
+	def cancel
+		@active.cancel
 	end
 	
 	def draw
 		# This should be the only phase where it is necessary to check if @active is set.
 		# The other phases should either not be called when @active is unset, or will set @active.
 		@active.draw if @active
+		
+		# TODO: visualize the drag threshold.
 	end
 	
 	
@@ -56,6 +59,8 @@ class ClickAndDragController
 		displacement = point - @origin
 		delta = displacement.length
 		
+		
+		puts "exceed?: #{delta > @delta_threshold}"
 		return delta > @delta_threshold
 	end
 end

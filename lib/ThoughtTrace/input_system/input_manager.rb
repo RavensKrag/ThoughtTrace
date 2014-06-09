@@ -52,7 +52,9 @@ class InputManager
 		
 		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)
 		# TODO: register action names in action flow controller
-		action_flow.bindings[categorization][phase] = action_name
+		# action_flow.bindings[categorization][phase] = action_name
+		action_flow.bindings[:existing][:drag] = :move
+		# NOTE: There's no warning if you try to assign an action name to a phase that does not exist. This is really dangerous, and had me hunting bugs in a bunch of the wrong places.
 		
 			event_name = :click
 			callbacks = InputSystem::MouseActionController.new @mouse, action_flow
@@ -72,6 +74,10 @@ class InputManager
 	
 	def button_up(id)
 		@buttons.button_up(id)
+	end
+	
+	def shutdown
+		
 	end
 end
 

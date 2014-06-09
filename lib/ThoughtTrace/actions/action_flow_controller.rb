@@ -49,10 +49,11 @@ class ActionFlowController
 	# start operation
 	def press(point)
 		entity = @space.point_query_best(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
-		category = self.categorize(entity)
+		category = categorize(entity)
+			puts "category: #{category}"
 		
-		click_and_drag = self.resolve_action_symbols(entity, category)
-		
+		click_and_drag = resolve_action_symbols(entity, category)
+			puts "[#{click_and_drag[0].class.name}, #{click_and_drag[1].class.name}]"
 		
 		# NOTE: May want to refrain from allocating and deallocating ClickAndDragController all the time. But you would have to remember to reset the internal state of the object before using it again. Easier for now to just make new ones.
 		@action_controller = ClickAndDragController.new(*click_and_drag)
@@ -71,8 +72,8 @@ class ActionFlowController
 	end
 	
 	# revert to the state before this structure was invoked
-	def cancel(point)
-		@action_controller.cancel(point)
+	def cancel
+		@action_controller.cancel
 		@action_controller = nil
 	end
 	
@@ -109,7 +110,42 @@ class ActionFlowController
 	def resolve_action_symbols(entity, category)
 		[:click, :drag].collect do |event|
 			action_name = @bindings[category][event]
-			entity.action(action_name).new(@space, @stash, entity)
+			
+			
+			klass =
+				unless action_name.nil?
+					entity.action(action_name)
+				else
+					# use NullObject to stub callbacks
+					# ThoughtTrace::Entity::Actions::Action
+					NullAction
+				end
+			
+			
+			klass.new(@space, @stash, entity)
+		end
+	end
+	
+	
+	# Actually, the base Action is itself sort of a NullObject,
+	# as it just stubs out all necessary callbacks.
+	# 
+	# This allows for easy debug outputs though.
+	class NullAction < ThoughtTrace::Entity::Actions::Action
+		def initialize(*args)
+			super(*args)
+		end
+		
+		def setup(point)
+			puts "setup null"
+		end
+		
+		def update(point)
+			puts "update null"
+		end
+		
+		def cleanup(point)
+			puts "cleanup null"
 		end
 	end
 end

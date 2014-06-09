@@ -35,11 +35,23 @@ class Entity
 		# name styled after things like "const_get" and "instance_variable_get"
 		# Recursively looks for an action of a particular name within the inheritance tree
 		# Should not dig deeper than Entity, as Entity is what holds the Action structure.
-		def action_get(action_name)
+		
+		# expects names as standard symbols, rather than in constant-symbol format
+		# ex) expected    -  :move_over_there
+		#     rather than -  :MoveOverThere
+		
+		# NOTE: I think this is a cleaner interface, but it requires a bunch of string manipulation. As this is something that needs to be called very often, it may become a major source of latency.
+		# The weird part is really that you're using symbols in a not-very-symbol-like way
+		# so the solution may actually be just to use Strings instead
+		# as constant lookup can also be done using strings
+		def action_get(action_symbol_name)
+			action_const_name = action_symbol_name.to_s.constantize
+			
+			
 			klass = self
 			
 			begin
-				return klass::Actions.const_get action_name
+				return klass::Actions.const_get action_const_name
 			rescue NameError => e
 				if klass == Entity
 					# base of the chain
@@ -53,7 +65,7 @@ class Entity
 					# continue recursive traversal
 					
 					klass = klass.superclass
-					return klass.action_get(action_name)
+					return klass.action_get(action_symbol_name)
 				end
 			end
 		end

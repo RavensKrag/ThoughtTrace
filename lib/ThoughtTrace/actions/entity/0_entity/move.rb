@@ -17,6 +17,8 @@ class Move < Action
 	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
+		puts "hold -> move"
+		
 		# move relative to the initial point
 		displacement = point - @origin
 		
@@ -44,12 +46,12 @@ class Move < Action
 	class Memento < Action::Memento
 		# set future state
 		def forward
-			@entity.resize(@future)
+			@entity[:physics].body.p = @future
 		end
 		
 		# set past state
 		def reverse
-			@entity.resize(@past)
+			@entity[:physics].body.p = @past
 		end
 	end
 end
