@@ -643,3 +643,46 @@ x[:selection][:press] = action_name
 action_name = x[:selection][:press]
 
 
+
+
+
+
+
+
+
+
+
+
+
+# TODO: Consider if it's worth it to attach Memento to class. Consider attaching instances to each instance of parent class.
+
+
+# ParentMemento = self.superclass.const_get 'Memento'
+klass = ThoughtTrace::Entity::Actions::Action::Memento
+Memento = klass.new do
+	forward &:resize
+	reverse &:resize
+end
+
+
+
+# if you define the interface below, you get the one above for free
+# (this is similar to how Enumerable#map works)
+# (http://phrogz.net/symbol-to-proc-with-multiple-arguments)
+# or looking at it another way, it's how the 'map' concept works in functional programming
+
+Memento = klass.new do
+	forward do |entity, future|
+		entity.resize(future)
+	end
+	
+	reverse do |entity, past|
+		entity.resize(past)
+	end
+end
+
+
+Memento.forward.call(@entity, @future)
+Memento.reverse.call(@entity, @past)
+
+	
