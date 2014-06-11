@@ -50,16 +50,40 @@ class InputManager
 				# (thing mouse bindings vs keyboard, rather than multiple keyboard shortcuts)
 		
 		
-		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)
-		# TODO: register action names in action flow controller
+		# action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)
+		# # TODO: register action names in action flow controller
 		# action_flow.bindings[categorization][phase] = action_name
-		action_flow.bindings[:existing][:drag] = :move
-		# NOTE: There's no warning if you try to assign an action name to a phase that does not exist. This is really dangerous, and had me hunting bugs in a bunch of the wrong places.
+		# # NOTE: There's no warning if you try to assign an action name to a phase that does not exist. This is really dangerous, and had me hunting bugs in a bunch of the wrong places.
 		
-			event_name = :click
-			callbacks = InputSystem::MouseActionController.new @mouse, action_flow
-		event = InputSystem::ButtonEvent.new event_name, callbacks
-		event.bind_to keys:[Gosu::MsLeft], modifiers:[]
+		# 	event_name = :click
+		# 	callbacks = InputSystem::MouseActionController.new @mouse, action_flow
+		# event = InputSystem::ButtonEvent.new event_name, callbacks
+		# event.bind_to keys:[Gosu::MsLeft], modifiers:[]
+		
+		# @buttons.register event
+		
+		
+		
+		
+		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)
+		callbacks = InputSystem::MouseActionController.new @mouse, action_flow
+		
+			event = InputSystem::ButtonEvent.new :click, callbacks
+			event.bind_to keys:[Gosu::MsLeft], modifiers:[]
+			
+			action_flow.bindings[:existing][:drag] = :move
+		
+		@buttons.register event
+		
+		
+		
+		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)
+		callbacks = InputSystem::MouseActionController.new @mouse, action_flow
+		
+			event = InputSystem::ButtonEvent.new :right_click, callbacks
+			event.bind_to keys:[Gosu::MsRight], modifiers:[]
+			
+			action_flow.bindings[:existing][:drag] = :move
 		
 		@buttons.register event
 	end
