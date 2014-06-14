@@ -1,0 +1,21 @@
+NOTE: GL infects object will gl-prefixed functions
+
+
+many gl functions removed for brevity,
+but this is the basics of what's going on
+
+Need to find a better way of using custom OpenGL from ruby
+
+Would be great not to have to drop to C when prototyping
+
+Hopefully, this is just the weird version I'm using.
+Maybe there's a newer better version.
+
+
+
+2.1.1 :003 > x = 1.private_methods.clone
+ => [:initialize_copy, :default_src_encoding, :irb_binding, :initialize_dup, :initialize_clone, :sprintf, :format, :Integer, :Float, :String, :Array, :Hash, :warn, :raise, :fail, :global_variables, :__method__, :__callee__, :__dir__, :eval, :local_variables, :iterator?, :block_given?, :catch, :throw, :loop, :respond_to_missing?, :trace_var, :untrace_var, :at_exit, :syscall, :open, :printf, :print, :putc, :puts, :gets, :readline, :select, :readlines, :`, :p, :test, :srand, :rand, :trap, :exec, :fork, :exit!, :system, :spawn, :sleep, :exit, :abort, :load, :require, :require_relative, :autoload, :autoload?, :proc, :lambda, :binding, :caller, :caller_locations, :Rational, :Complex, :set_trace_func, :gem, :gem_original_require, :initialize, :singleton_method_removed, :singleton_method_undefined, :method_missing] 
+2.1.1 :004 > require 'gl'
+ => true 
+2.1.1 :005 > y = 1.private_methods.clone
+ => [:initialize_copy, :default_src_encoding, :irb_binding, :enable_error_checking, :disable_error_checking, :is_error_checking_enabled?, :glNewList, :glEndList, :glCallList, :glCallLists, :glDeleteLists, :glGenLists, :glListBase, :glBegin, :glBitmap, :glColor3b, :glColor3d, :glColor3f, :glColor3i, :glColor3s, :glColor3ub, :glColor3ui, :glColor3us, :glColor4b, :glColor4d, :glColor4f, :glColor4i, :glColor4s, :glColor4ub, :glColor4ui, :glColor4us, :glEdgeFlag, :glEdgeFlagv, :glEnd, :glIndexd, :glIndexdv, :glIndexf, :glIndexfv, :glIndexi, :glIndexiv, :glIndexs, :glIndexsv, :glNormal3b, :glNormal3d, :glNormal3f, :glNormal3i, :glNormal3s, ..., :initialize_dup, :initialize_clone, :sprintf, :format, :Integer, :Float, :String, :Array, :Hash, :warn, :raise, :fail, :global_variables, :__method__, :__callee__, :__dir__, :eval, :local_variables, :iterator?, :block_given?, :catch, :throw, :loop, :respond_to_missing?, :trace_var, :untrace_var, :at_exit, :syscall, :open, :printf, :print, :putc, :puts, :gets, :readline, :select, :readlines, :`, :p, :test, :srand, :rand, :trap, :exec, :fork, :exit!, :system, :spawn, :sleep, :exit, :abort, :load, :require, :require_relative, :autoload, :autoload?, :proc, :lambda, :binding, :caller, :caller_locations, :Rational, :Complex, :set_trace_func, :gem, :gem_original_require, :initialize, :singleton_method_removed, :singleton_method_undefined, :method_missing] 
