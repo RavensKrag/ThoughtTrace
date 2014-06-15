@@ -4,6 +4,8 @@ module ThoughtTrace
 
 
 class Resize < Entity::Actions::Action
+	MINIMUM_DIMENSION = 10
+	
 	def initialize(space, stash, entity)
 		super(space, stash, entity)
 	end
@@ -66,12 +68,12 @@ class Resize < Entity::Actions::Action
 	class Memento < ParentMemento
 		# set future state
 		def forward
-			@entity.resize(@future)
+			@entity.resize!(@future)
 		end
 		
 		# set past state
 		def reverse
-			@entity.resize(@past)
+			@entity.resize!(@past)
 		end
 	end
 end

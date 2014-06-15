@@ -38,6 +38,17 @@ class Circle < Entity
 		
 		@components[:physics].draw @components[:style][:color], z_index
 	end
+	
+	
+	
+	def radius
+		@components[:physics].shape.radius
+	end
+	
+	
+	def resize!(radius)
+		@components[:physics].shape.set_radius! radius
+	end
 end
 
 
