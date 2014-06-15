@@ -67,11 +67,8 @@ class Resize < Entity::Actions::Action
 		
 		
 		# TODO: remove @original_width/height if unnecessary
-		@original_width = @entity[:physics].shape.width
-		@original_height = @entity[:physics].shape.height
-		
-		
-		@original = [@original_width, @original_height, nil]
+		shape = @entity[:physics].shape
+		@original = [shape.width, shape.height, nil]
 	end
 	
 	# return two values: past and future used by Memento
