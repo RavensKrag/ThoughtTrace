@@ -66,8 +66,12 @@ class Resize < Entity::Actions::Action
 		
 		
 		
+		# TODO: remove @original_width/height if unnecessary
 		@original_width = @entity[:physics].shape.width
 		@original_height = @entity[:physics].shape.height
+		
+		
+		@original = [@original_width, @original_height, nil]
 	end
 	
 	# return two values: past and future used by Memento
@@ -89,8 +93,7 @@ class Resize < Entity::Actions::Action
 				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
 			# get axes
-			width = @entity[:physics].shape.width
-			height = @entity[:physics].shape.height
+			width, height = @original
 			
 			if @direction.zero?
 				# ===== Uniform Scale =====
@@ -123,18 +126,6 @@ class Resize < Entity::Actions::Action
 				# multiply by two, because resizing is happening in two directions at once
 				width  += radial_displacement * 2
 				height += radial_displacement * 2
-				
-				
-				
-				
-				
-				
-				
-				# need to adjust the position of the body
-				# so it appears only the edited edge is moving
-				# (same code from uni-directional code, but apply both directions always)
-				@entity[:physics].body.p.x -= radial_displacement
-				@entity[:physics].body.p.y -= radial_displacement
 			else
 				# ===== Scale in one direction only =====
 				# pin down part (edge or vert) of the rectangle, and stretch out the rest
@@ -172,56 +163,10 @@ class Resize < Entity::Actions::Action
 			# limit minimum size (like a clamp, but lower bound only)
 			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
 			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
-			
-			
-			
-			
-			# must clamp new values first before comparing to old values to get proper deltas
-			old_width  = @entity[:physics].shape.width
-			old_height = @entity[:physics].shape.height
-			
-				
-				@entity[:physics].shape.resize!(width, height)
-			
-			
-			new_width  = @entity[:physics].shape.width
-			new_height = @entity[:physics].shape.height
-			
-			
-			delta_width = old_width - new_width
-			delta_height = old_height - new_height
-			
-			
-			
-			# shape always expands in the positive direction of the adjusted axis
-			# thus, if you stretch left or down, you need to shift the center
-			# in order to make it feel like the rest of the geometry is firmly planted in place.
-			
-			# (currently does not trigger for uniform scale)
-			# (uniform scale counter-steering is being handled the the )
-			
-			
-			# To make the radial resize and the 9-slice style converge,
-			# the counter steering should be made explicitly about what is being pinned down
-			# for scaling in one direction, that's one edge
-			# for scaling at a corner, that's the opposing vert
-			# for scaling about the center, it's the center that gets locked down
-			
-			
-			if @direction.x < 0
-				@entity[:physics].body.p.x += delta_width
-			end
-			if @direction.y < 0
-				@entity[:physics].body.p.y += delta_height
-			end
-			
-			
-			
-		@origin = point
 		
 		
 		
-		
+		current = [width, height, anchor_point()]
 		
 		return @original, current
 	end
@@ -245,13 +190,95 @@ class Resize < Entity::Actions::Action
 	class Memento < ParentMemento
 		# set future state
 		def forward
-			@entity.baz(@future)
+			width, height, anchor = @future
+			@entity.resize!(width, height, anchor)
 		end
 		
 		# set past state
 		def reverse
-			@entity.baz(@past)
+			width  = @past[0]
+			height = @past[1]
+			anchor = @future[2]
+			
+			
+			# use anchor from the future instead
+			# anchor on @past is always going to be nil
+			# because the notion of an anchor in that context makes no sense,
+			# and thus can not be set
+			
+			@entity.resize!(width, height, anchor)
 		end
+	end
+	
+	
+	private
+	
+	def anchor_point
+		# top_right = @entity[:physics].shape.top_right_vert
+		# bottom_left = @entity[:physics].shape.bottom_left_vert
+		
+		# top = top_right.y
+		# right = top_right.x
+		# bottom = bottom_left.y
+		# left = bottom_left.x
+		
+		# x = 
+		# 	if @direction.x > 0
+		# 		# pos
+		# 		right
+		# 	elsif @direction.x < 0
+		# 		# neg
+		# 		left
+		# 	else
+		# 		# zero
+		# 		# center
+		# 		(right - left) / 2
+		# 	end
+		# y = 
+		# 	if @direction.y > 0
+		# 		# pos
+		# 		top
+		# 	elsif @direction.y < 0
+		# 		# neg
+		# 		bottom
+		# 	else
+		# 		# zero
+		# 		(top - bottom) / 2
+		# 	end
+		
+		
+		
+		
+		
+		# normalized anchor
+		# NOTE: remember that the anchor specifies the amount of counter-steering
+		# TODO: allow for more analog anchor specification
+		# TODO: consider anchoring based on where the initial point of context was.
+		x = 
+			if @direction.x > 0
+				# pos
+				0.0
+			elsif @direction.x < 0
+				# neg
+				1.0
+			else
+				# zero
+				# center
+				0.5
+			end
+		y = 
+			if @direction.y > 0
+				# pos
+				0.0
+			elsif @direction.y < 0
+				# neg
+				1.0
+			else
+				# zero
+				0.5
+			end
+		
+		return CP::Vec2.new(x,y)
 	end
 end
 
