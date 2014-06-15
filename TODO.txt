@@ -107,3 +107,66 @@ is there any reason to keep Component?
 	
 	(or like, sometimes the action, but never the component)
 	(meaning the structure is NOT actually entity/component at all)
+
+
+
+
+
+
+
+
+
+
+TODO: implement screen space to world space conversion in accordance with new systems
+
+old system had assumed that there was a global variable with a pointer to Window
+trying to remove that
+need to figure out how to perform coordinate space conversions in a sane manner now
+
+
+
+
+
+
+
+
+TODO: consider using Class#inherited to assemble Action lists on Entity classes.
+	(or at least like, cache them?)
+
+actually, that could get really messy. it's probably better to just traverse the hierarchy
+
+or maybe you want to figure out how Ruby as a language resolves methods?
+
+
+
+
+
+
+
+
+
+TODO: custom subclass of Hash to deal with action bindings
+
+need to make sure there's some sort of error when you try to declare inputs for phases that don't actually exist. otherwise, you can just go a bug hunt without knowing where the problem is.
+
+need to find a balance between duck-typing-style dynamicism and strict protection
+
+
+
+
+
+
+
+
+
+
+
+TODO: Ruby methods are objects. Apply structure to Action
+
+methods in Ruby can be manipulated as objects, because everything is an object
+how does this work?
+how is it specifically implemented?
+
+
+would this help implementation of the Action objects,
+to help them function more like method calls?
