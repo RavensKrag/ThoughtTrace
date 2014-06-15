@@ -93,7 +93,7 @@ class Resize < Entity::Actions::Action
 			width, height = @original
 			
 			if @direction.zero?
-				# ===== Uniform Scale =====
+				# ===== Radial Scaling =====
 				# scale about the center
 				
 				# Sign-age of scale is relative to center of rectangle
@@ -124,7 +124,9 @@ class Resize < Entity::Actions::Action
 				width  += radial_displacement * 2
 				height += radial_displacement * 2
 			else
-				# ===== Scale in one direction only =====
+				# ===== Cartesian Scaling =====
+				# scale along the axes of the rectangle
+				
 				# pin down part (edge or vert) of the rectangle, and stretch out the rest
 				
 				# rescale in the direction specified by @direction
