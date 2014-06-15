@@ -43,7 +43,9 @@ class Resize < Rectangle::Actions::Resize
 			width, height = @original
 			
 		
-				# ===== Scale in one direction only =====
+				# ===== Cartesian Scaling =====
+				# scale along the axes of the rectangle
+				
 				# pin down part (edge or vert) of the rectangle, and stretch out the rest
 				
 				# rescale in the direction specified by @direction
