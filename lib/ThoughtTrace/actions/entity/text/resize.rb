@@ -10,22 +10,16 @@ class Resize < Rectangle::Actions::Resize
 	# called on first tick
 	def setup(point)
 		super(point) # sets @origin and @direction
+		
+		# Currently using the same @original as Rectangle,
+		# because the original width is also needed for interactive resize
+		# even though it's not necessary as an argument to Text#resize!
+		# @original =
 	end
 	
 	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
-		# apply one tick of resize change
-		# each time this method is called, one d_size / d_t should be applied
-		
-		# can think of this method as a loop
-		# each time the game loop hits this method,
-		# it will advance the resizing algorithm by one tick
-		
-		# this method has circular flow
-		# because it will be called every tick
-		# as long as the button is held
-		
 		local_origin = @entity[:physics].body.world2local @origin
 		local_point = @entity[:physics].body.world2local point
 		local_displacement = local_point - local_origin
@@ -46,8 +40,7 @@ class Resize < Rectangle::Actions::Resize
 			
 			# for text, you always want to end up computing the height,
 			# as opposed to the standard rectangle, where you need both width and height
-			width = @entity[:physics].shape.width
-			height = @entity[:physics].shape.height
+			width, height = @original
 			
 		
 				# ===== Scale in one direction only =====
@@ -75,16 +68,17 @@ class Resize < Rectangle::Actions::Resize
 					# simple ratio solution courtesy of this link
 					# http://tech.pro/tutorial/691/csharp-tutorial-font-scaling
 					
+					new_width = width
+					original_width = width
 					
 					if @direction.x < 0
-						width -= projection.x
+						new_width -= projection.x
 					else
-						width += projection.x
+						new_width += projection.x
 					end
 					
 					
-					original_width = @entity[:physics].shape.width
-					ratio = width.to_f / original_width.to_f
+					ratio = new_width.to_f / original_width.to_f
 					
 					height = height * ratio
 				end
@@ -92,75 +86,10 @@ class Resize < Rectangle::Actions::Resize
 			
 			# limit minimum size (like a clamp, but lower bound only)
 			height = MINIMUM_FONT_HEIGHT if height < MINIMUM_FONT_HEIGHT
-			
-			
-			
-			
-			# must clamp new values first before comparing to old values to get proper deltas
-			old_width  = @entity[:physics].shape.width
-			old_height = @entity[:physics].shape.height
-			
-				
-				@entity.resize!(height)
-			
-			
-			new_width  = @entity[:physics].shape.width
-			new_height = @entity[:physics].shape.height
-			
-			
-			delta_width = old_width - new_width
-			delta_height = old_height - new_height
-			
-			
-			
-			
-			# shape always expands in the positive direction of the adjusted axis
-			# thus, if you stretch left or down, you need to shift the center
-			# in order to make it feel like the rest of the geometry is firmly planted in place.
-			
-			# Needs a "center" counter-steering type not present in rectangle resizing
-			# because the height and width change together.
-			# Center counter-steering maintains the feel that the main edge is moving.
-			
-			x_offset =	if @direction.x < 0
-							# left
-							
-							delta_width
-						elsif @direction.x > 0
-							# right
-							
-							# no movement
-							0
-						else
-							# center
-							
-							delta_width / 2
-						end
-			@entity[:physics].body.p.x += x_offset
-			
-			
-			y_offset =	if @direction.y < 0
-							# bottom
-							
-							delta_height
-						elsif @direction.y > 0
-							# top
-							
-							# no movement
-							0
-						else
-							# center
-							
-							delta_height / 2
-						end
-			@entity[:physics].body.p.y += y_offset
-			
-			
-			
-		@origin = point
 		
 		
 		
+		current = [height, anchor_point()]
 		
 		return @original, current
 	end
@@ -184,12 +113,16 @@ class Resize < Rectangle::Actions::Resize
 	class Memento < ParentMemento
 		# set future state
 		def forward
-			@entity.baz(@future)
+			height, anchor = @future
+			@entity.resize!(height, anchor)
 		end
 		
 		# set past state
 		def reverse
-			@entity.baz(@past)
+			width = @past[0]
+			height = @past[1]
+			anchor = @future[1]
+			@entity.resize!(height, anchor)
 		end
 	end
 end

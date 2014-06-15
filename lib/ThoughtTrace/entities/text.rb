@@ -109,12 +109,31 @@ class Text < Rectangle
 	# when you change the size, recompute the hitbox
 	
 	# update hitbox to match font size
-	def resize!(new_height)
+	def resize!(new_height, normalized_anchor=CP::Vec2.new(0,0))
 		height = new_height
 		width = @font.width(@string, new_height)
 		
 		
-		@components[:physics].shape.resize! width, height
+		delta_width, delta_height =
+			measure_dimension_delta do
+				@components[:physics].shape.resize!(width, height)
+			end
+		
+		
+		
+		
+		@components[:physics].body.p.x -= delta_width * normalized_anchor.x
+		@components[:physics].body.p.y -= delta_height * normalized_anchor.y
+		
+		
+		
+		# shape always expands in the positive direction of the adjusted axis
+		# thus, if you stretch left or down, you need to shift the center
+		# in order to make it feel like the rest of the geometry is firmly planted in place.
+		
+		# Needs a "center" counter-steering type not present in rectangle resizing
+		# because the height and width change together.
+		# Center counter-steering maintains the feel that the main edge is moving.
 	end
 end
 
