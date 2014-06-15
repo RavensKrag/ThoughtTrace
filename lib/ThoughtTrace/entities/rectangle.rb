@@ -53,10 +53,7 @@ class Rectangle < Entity
 			end
 		
 		
-		
-		
-		# TODO: need to counter-steer appropriately
-		# normalized_anchor = CP::Vec2.new(0,0)
+		# essentially, the anchor controls the amount of counter-steering
 			# values should normalized, ie within the following range
 			# x = (0..1)
 			# y = (0..1)
@@ -73,54 +70,12 @@ class Rectangle < Entity
 		
 		
 		
-		
-		
-		
 		# consider anchors in the context of undo/redo
 		# the same anchor should allow for forwards/backwards application of the transform
 		# thus, anchors should always be normalized
 		# other wise, you need a forwards anchor conversion
 		# and a backwards anchor conversion
 		# and that could get really messy, really fast
-		
-		
-		
-		
-		
-		# pos = @components[:physics].body.p
-		
-		# if direction.zero?
-		# 	# radial scaling
-		# 	pos.x -= radial_displacement
-		# 	pos.y -= radial_displacement
-		# else
-		# 	# 9-slice style scaling
-			
-		# 	if direction.x < 0
-		# 		pos.x += delta_width
-		# 	end
-		# 	if direction.y < 0
-		# 		pos.y += delta_height
-		# 	end
-		# end
-		
-		
-		# previously, the 9-slice and radial scaling signage had been opposites
-		# but only because the 9-slice signage was calculated incorrectly
-		
-		
-		
-		
-		
-		
-		# NOTES:
-		# + should the anchor be given in normalized coordinates, or in local-space coordinates?
-		# + if the left edge is anchored, no counter. center? half counter. right? full counter.
-			# is the above logic on normalized anchors consistent with this idea?
-		# + countersteering has been done based on the delta of the width/height
-			# ie) right edge anchored, 100% delta width countersteering
-			#     center horizontal anchored, 50% delta width countersteering
-			# (this is indeed the same as normalized anchors)
 	end
 	
 	
