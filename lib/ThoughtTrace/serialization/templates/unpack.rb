@@ -18,15 +18,11 @@ klass = ThoughtTrace.const_get(:CLASS_NAME)
 klass.instance_eval do
 
 def unpack(ARGS)
+	BODY {
+		
+	}.strip_blank_lines!
 
-
-BODY {
-	
-}.strip_blank_lines!
-
-return OBJECT
-
-
+	return OBJECT
 
 end
 end
