@@ -214,42 +214,6 @@ class Resize < Entity::Actions::Action
 	private
 	
 	def anchor_point
-		# top_right = @entity[:physics].shape.top_right_vert
-		# bottom_left = @entity[:physics].shape.bottom_left_vert
-		
-		# top = top_right.y
-		# right = top_right.x
-		# bottom = bottom_left.y
-		# left = bottom_left.x
-		
-		# x = 
-		# 	if @direction.x > 0
-		# 		# pos
-		# 		right
-		# 	elsif @direction.x < 0
-		# 		# neg
-		# 		left
-		# 	else
-		# 		# zero
-		# 		# center
-		# 		(right - left) / 2
-		# 	end
-		# y = 
-		# 	if @direction.y > 0
-		# 		# pos
-		# 		top
-		# 	elsif @direction.y < 0
-		# 		# neg
-		# 		bottom
-		# 	else
-		# 		# zero
-		# 		(top - bottom) / 2
-		# 	end
-		
-		
-		
-		
-		
 		# normalized anchor
 		# NOTE: remember that the anchor specifies the amount of counter-steering
 		# TODO: allow for more analog anchor specification
