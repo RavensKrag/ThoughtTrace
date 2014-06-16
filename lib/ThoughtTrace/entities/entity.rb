@@ -57,10 +57,10 @@ class Entity
 					# base of the chain
 					# recursion base case
 					
-					# No where left to look, so just raise the exception again
-					# (this is correct, not a stub)
+					# No acceptable action found.
+					# Return a null object so that method chaining doesn't just fail
 					
-					raise
+					return ThoughtTrace::Entity::Actions::NullAction
 				else
 					# continue recursive traversal
 					

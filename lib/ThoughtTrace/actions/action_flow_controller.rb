@@ -112,45 +112,19 @@ class ActionFlowController
 			action_name = @bindings[category][event]
 			
 			
-			klass =
-				unless action_name.nil?
-					entity.action(action_name)
-				else
-					# use NullObject to stub callbacks
-					# ThoughtTrace::Entity::Actions::Action
-					NullAction
-				end
+			
+			klass = entity.action(action_name)
+			
+			# these are more of warning debug messages,
+			# as opposed to total failure exceptions
+			if action_name.nil?
+				puts "no action defined for #{category} -> #{event}"
+			elsif klass == ThoughtTrace::Entity::Actions::NullAction
+				puts "no handler defined for action '#{action_name}' on #{entity.class}"
+			end
 			
 			
 			klass.new(@space, @stash, entity)
-		end
-	end
-	
-	
-	# Actually, the base Action is itself sort of a NullObject,
-	# as it just stubs out all necessary callbacks.
-	# 
-	# This allows for easy debug outputs though.
-	class NullAction < ThoughtTrace::Entity::Actions::Action
-		def initialize(*args)
-			super(*args)
-		end
-		
-		def setup(point)
-			puts "setup null"
-		end
-		
-		def update(point)
-			puts "update null"
-		end
-		
-		def cleanup(point)
-			puts "cleanup null"
-		end
-		
-		def cancel
-			puts "cancel nil"
-			super()
 		end
 	end
 end
