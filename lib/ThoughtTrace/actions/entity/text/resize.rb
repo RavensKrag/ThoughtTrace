@@ -54,9 +54,18 @@ class Resize < Rectangle::Actions::Resize
 				
 				projection = local_displacement.project(@direction)
 				
+				# NOTE: projection gets all sorts of screwy when @direction is (0,0)
+				
+				# switching to using @direction instead
+				
+				# this leaves the center zone inactive
+				# but on Rectangle, the center zone is used for radial (aka uniform) scaling
+				# that doesn't make sense for Text
+				# so it's acceptable to have an inactive zone instead
+				
 				
 				# Compute new dimensions
-				if projection.y != 0
+				if @direction.y != 0
 					# Vertical Scaling
 					
 					if @direction.y < 0
@@ -64,7 +73,7 @@ class Resize < Rectangle::Actions::Resize
 					else
 						height += projection.y
 					end
-				elsif projection.x != 0
+				elsif @direction.x != 0
 					# Horizontal Scaling
 					
 					# simple ratio solution courtesy of this link
