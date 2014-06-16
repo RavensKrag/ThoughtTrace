@@ -71,7 +71,7 @@ class InputManager
 			event = InputSystem::ButtonEvent.new :click, callbacks
 			event.bind_to keys:[Gosu::MsLeft], modifiers:[]
 			
-			action_flow.bindings[:existing][:drag] = :resize
+			action_flow.bindings[:existing][:drag] = :move
 		
 		@buttons.register event
 		
@@ -83,7 +83,7 @@ class InputManager
 			event = InputSystem::ButtonEvent.new :right_click, callbacks
 			event.bind_to keys:[Gosu::MsRight], modifiers:[]
 			
-			action_flow.bindings[:existing][:drag] = :move
+			action_flow.bindings[:existing][:drag] = :resize
 		
 		@buttons.register event
 	end
