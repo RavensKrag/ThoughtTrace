@@ -124,16 +124,6 @@ class Text < Rectangle
 		
 		@components[:physics].body.p.x -= delta_width * normalized_anchor.x
 		@components[:physics].body.p.y -= delta_height * normalized_anchor.y
-		
-		
-		
-		# shape always expands in the positive direction of the adjusted axis
-		# thus, if you stretch left or down, you need to shift the center
-		# in order to make it feel like the rest of the geometry is firmly planted in place.
-		
-		# Needs a "center" counter-steering type not present in rectangle resizing
-		# because the height and width change together.
-		# Center counter-steering maintains the feel that the main edge is moving.
 	end
 end
 
