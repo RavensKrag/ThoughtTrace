@@ -135,45 +135,6 @@ class ActionFlowController
 		# Same reasoning as in ClickAndDragController#draw delegation
 		@action_controller.draw if @action_controller
 	end
-	
-	
-	private
-	
-	def categorize(entity)
-		if entity.nil?
-			# space is empty at desired point
-			return :empty
-		elsif @selection.include? entity
-			# entity is part of the currently active selection
-			return :selection
-		else
-			# assuming we have found an existing Entity
-			# but that it has no special characteristics
-			return :existing
-		end
-	end
-	
-	# resolve symbols into actual Actions
-	def resolve_action_symbols(entity, category)
-		[:click, :drag].collect do |event|
-			action_name = @bindings[category][event]
-			
-			
-			
-			klass = entity.action(action_name)
-			
-			# these are more of warning debug messages,
-			# as opposed to total failure exceptions
-			if action_name.nil?
-				puts "no action defined for #{category} -> #{event}"
-			elsif klass == ThoughtTrace::Entity::Actions::NullAction
-				puts "no handler defined for action '#{action_name}' on #{entity.class}"
-			end
-			
-			
-			klass.new(@space, @stash, entity)
-		end
-	end
 end
 
 
