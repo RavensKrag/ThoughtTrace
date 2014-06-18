@@ -16,6 +16,12 @@ class Foo < Entity::Actions::Action
 		return @original, current
 	end
 	
+	# not often used, but you can define this callback if you need it
+	# really, just added for completeness
+	def cleanup(point)
+		
+	end
+	
 	
 	# display information to the user about the current transformation
 	# called each tick
