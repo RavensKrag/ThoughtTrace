@@ -91,9 +91,8 @@ class ActionFlowController
 				# TODO: make easy way to check if Action is a the null object for that type of action. Sorta like how you can call #nil? on an object to check if it is nil or not
 				action = place_to_look.action_get(action_name).new(*standard_args,  target)
 				
-				if action.is_a? ThoughtTrace::Entity::Actions::NullAction
+				if action_name and action.is_a? ThoughtTrace::Entity::Actions::NullAction
 					puts "#{place_to_look.inspect} does not define action '#{action_name}'"
-					# puts "action '#{action_name}' undefined for #{place_to_look.inspect}"
 				end
 				
 				
