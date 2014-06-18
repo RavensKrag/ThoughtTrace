@@ -117,6 +117,7 @@ class Entity
 	private
 	
 	
+	# TODO: figure out if this code is still necessary
 	# ----- Resolve lists of symbols into actual variables -----
 	
 	

@@ -243,31 +243,10 @@ end
 
 
 
-# TODO: sketch out how Haz-style structure applies to input event parsing system.
-# TODO: sketch out how input event system interfaces with ActionFlowController
-
 
 
 # TODO: Make sure new system involving interactions between Action and entity.method allows for things like the inter-related properties required for Text resizing.
 # (this was one of the major objectives of this overhaul)
-
-
-
-
-# TODO: Update documentation to reflect new Action structure and philosophy
-# Actions are no longer about high-level control over the backend data from Components
-# Action now house code needed to execute procedures using a combination of button and mouse inputs
-# Components are namespaces for core functionality
-# entity#methods manipulate data from anywhere in the Entity (including Components)
-# Actions cause change by firing entity#methods
-# precise method sequence is held in the nested Memento class for each Entity subclass
-# this compartmentalization allows for easy undo / redo
-# as well as the potential for extracting method sequences for macros etc
-	# ruby methods can be treated as objects,
-	# which can be handled much like procs.
-	# src: http://viget.com/extend/convert-ruby-method-to-lambda
-# 
-# (some of these ideas are written in new_actions.rb)
 
 
 
