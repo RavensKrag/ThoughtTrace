@@ -48,15 +48,62 @@ class ActionFlowController
 	
 	# start operation
 	def press(point)
-		entity = @space.point_query_best(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
-		category = categorize(entity)
-			# puts "category: #{category}"
+		# TODO: fix crash when point is in empty space
+		# resolve_action_symbols() doesn't work without an Entity, but that's exactly what happens in empty space
 		
-		click_and_drag = resolve_action_symbols(entity, category)
-			# puts "[#{click_and_drag[0].class.name}, #{click_and_drag[1].class.name}]"
+		entity = @space.point_query_best(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
+		
+		
+		
+		
+		standard_args = [@space, @stash]
+		
+		
+		# one of these
+		binding, place_to_look, target = 
+			if entity.nil?
+				# space is empty at desired point
+				
+				# no target, because most actions in empty space create new things
+				# the target supposed to be a thing which already exists
+				# but that doesn't make sense for an action that creates something new
+				[@bindings[:empty], ThoughtTrace::SomeModule, nil]
+			elsif @selection.include? entity
+				# entity is part of the currently active selection
+				
+				[@bindings[:selection], ThoughtTrace::SomeOtherModule, entity]
+			else
+				# assuming we have found an existing Entity
+				# but that it has no special characteristics
+				
+				[@bindings[:existing], entity.class, entity]
+			end
+		
+		
+		# using that information, generate both of these
+		click_action, drag_action = 
+			[:click, :drag].collect do |event|
+				action_name = binding[event]
+				puts "no action bound to #{event}" if action_name.nil?
+				
+				
+				
+				# TODO: make easy way to check if Action is a the null object for that type of action. Sorta like how you can call #nil? on an object to check if it is nil or not
+				action = place_to_look.action_get(action_name).new(*standard_args,  target)
+				
+				if action.is_a? ThoughtTrace::Entity::Actions::NullAction
+					puts "#{place_to_look.inspect} does not define action '#{action_name}'"
+					# puts "action '#{action_name}' undefined for #{place_to_look.inspect}"
+				end
+				
+				
+				# pseudo-return
+				action
+			end
+		
 		
 		# NOTE: May want to refrain from allocating and deallocating ClickAndDragController all the time. But you would have to remember to reset the internal state of the object before using it again. Easier for now to just make new ones.
-		@action_controller = ClickAndDragController.new(*click_and_drag)
+		@action_controller = ClickAndDragController.new(click_action, drag_action)
 		@action_controller.press(point)
 	end
 	
