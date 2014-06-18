@@ -91,76 +91,7 @@ class Entity
 	
 	
 	
-	# Actions provide a high-level(ish) interface for manipulating the data in Components
-	def add_action(action)
-		# require components to be added first.
-		# Trying to add actions before required components results in an exception being thrown.
-		# (exceptions are thrown when symbols attempt to resolve)
-		components = resolve_components(action, action.class.dependencies[:components])
-		actions = resolve_actions(action, action.class.dependencies[:actions])
-		
-		
-		# NOTE: This method of passing components and actions means that if a different action is bound to the Entity at a later time, the change will not be reflected.  Consider just passing directly the @components and @actions variables.
-		# (But that has it's own problems, as you don't want people outside of the Entity to be able to add/remove from those collections.  You just want them to have the latest updates.)
-		# (Maintaining another collection is also weird though, because there's a false signifier that changes made to the cache will percolate back to the main actions collection.)
-		
-		
-		action.components = components
-		action.actions = actions
-		
-		
-		
-		@actions[action.class.interface] = action
-		
-		
-		
-		
-		
-		# if @actions.has_key? action_class.interface
-			# # Dependencies should be good to go, but need to replace the old action
-			# # (is it safe to say the dependencies are the same?)
-			
-			# # Iterate over all actions which list the desired action as a dependency
-			# @actions.select{ |name, action| action.class.actions.include? action }
-			# .each do |action|
-			# 	action.actions[action_class.name] = 
-			# end
-			
-			
-			
-			
-			
-			# @actions.select{ |name, action| 
-			# 	action.class.dependencies[:actions].include? action_class.name 
-			# }.each do |name, action|
-			# 	action.actions[action_class.name] = 
-			# end
-		# end
-		
-		
-		
-		
-		
-		
-		
-		# Create methods for actions (similar to attr_reader)
-		interface = action.class.interface
-		meta_def interface do
-			return @actions[interface]
-		end
-		
-		
-		
-		return nil # prevent leaking of the @actions collection
-		# consider returning this Entity instead?
-	end
-	
-	# Components provide low-level(ish) control over data.
-	# They are generally manipulated though actions,
-	# but it should be possible to access the components directly.
-	# Actions allow for complex manipulations that span multiple Components.
-	# Manipulation of individual components is only for when you want to get under the hood.
-	# Use of Actions should generally be preferred over direct manipulation.
+	# Components provide namespacing for common subsystems. (ex, physics)
 	def add_component(component)
 		# require dependencies to be added first
 		# If an component is added before any of the components it depends on, throw exception.
@@ -180,16 +111,6 @@ class Entity
 	# Access Components from outside the Entity
 	def [](component_name)
 		@components[component_name]
-	end
-	
-	# Return list of action names
-	def action_names
-		list = Array.new
-		@actions.each do |name, action|
-			list << name
-		end
-		
-		return list
 	end
 	
 	
@@ -214,21 +135,6 @@ class Entity
 			end
 			
 			group[component_name] = component
-			group
-		end
-	end
-	
-	# Gather a hash in the form {:action_name => action_instance}
-	def resolve_actions(commander, list_of_requirements)
-		list_of_requirements.inject(Hash.new) do |group, action_name|
-			sub_action = @actions[action_name]
-			
-			if sub_action.nil?
-				raise "Action #{action_name} required by #{commander} in #{self}"
-				# raise "#{self} does not contain the component #{action_name}"
-			end
-			
-			group[action_name] = sub_action
 			group
 		end
 	end
