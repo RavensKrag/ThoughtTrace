@@ -28,16 +28,16 @@ class ActionFlowController
 		# TODO: may want to create a better interface to bind these things visually once GUI systems are operational. Not sure how to make this any better in text form. Gonna be weird no matter how you do it, and nested Hashes are straightforward to implement.
 		@bindings = {
 			:selection => {
-				:press => nil,
-				:hold => nil
+				:click => nil,
+				:drag => nil
 			},
 			:existing => {
-				:press => nil,
-				:hold => nil
+				:click => nil,
+				:drag => nil
 			},
 			:empty => {
-				:press => nil,
-				:hold => nil
+				:click => nil,
+				:drag => nil
 			}
 		}
 		
