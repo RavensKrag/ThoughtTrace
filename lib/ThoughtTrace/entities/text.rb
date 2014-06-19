@@ -81,12 +81,7 @@ class Text < Rectangle
 		@font = font
 		
 		
-		width = @font.width(@string, @components[:physics].shape.height)
-		height = @components[:physics].shape.height
-		
-		
-		# @components[:physics].shape.resize! width, height
-		@components[:physics].shape.width = width
+		self.resize!(@components[:physics].shape.height)
 	end
 	
 	def string=(string)
@@ -96,12 +91,7 @@ class Text < Rectangle
 		@string = string
 		
 		
-		width = @font.width(@string, @components[:physics].shape.height)
-		height = @components[:physics].shape.height
-		
-		
-		# @components[:physics].shape.resize! width, height
-		@components[:physics].shape.width = width
+		self.resize!(@components[:physics].shape.height)
 	end
 	
 	# when you set the font, recompute the hitbox
