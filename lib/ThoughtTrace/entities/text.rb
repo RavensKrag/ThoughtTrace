@@ -35,6 +35,8 @@ class Text < Rectangle
 		super(width, height)
 		
 		
+		
+		
 		@components[:style].edit(:default) do |s|
 			s[:height] = 30 # <-- depreciated
 			s[:color] = Gosu::Color.argb(0xffFFFFFF)
@@ -86,6 +88,43 @@ class Text < Rectangle
 		
 		self.resize!(@components[:physics].shape.height)
 	end
+	
+	
+	# interface to set height and width
+	# changing one property affects the other
+	# This API exists to make constraints etc easier to implement
+	# The resize action is still driven by #resize!
+	
+	def height=(new_height, normalized_anchor=CP::Vec2.new(0,0))
+		self.resize!(new_height, normalized_anchor)
+	end
+	
+	def width=(new_width, normalized_anchor=CP::Vec2.new(0,0))
+		original_width = @components[:physics].shape.width
+		
+		ratio = new_width.to_f / original_width.to_f
+		
+		height = height * ratio
+		
+		
+		self.resize!(height, normalized_anchor)
+	end
+	
+	def height
+		@components[:physics].shape.height
+	end
+	
+	def width
+		@components[:physics].shape.width
+	end
+	
+	alias :size :height
+	alias :size= :height=
+	
+	
+	# TODO: separate line height (hitbox size) and font size (height to render font at)
+	
+	
 	
 	# when you set the font, recompute the hitbox
 	# when you set the string, recompute the hitbox
