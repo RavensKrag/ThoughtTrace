@@ -32,13 +32,6 @@ class Text < Rectangle
 		height = DEFAULT_FONT_SIZE
 		width = @font.width(@string, height)
 		
-		# 					body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-		# 					shape = CP::Shape::Rect.new body, width, height
-		# add_component	ThoughtTrace::Components::Physics.new self, body, shape
-		
-		
-		
-		
 		super(width, height)
 		
 		
