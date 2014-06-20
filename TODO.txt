@@ -14,11 +14,6 @@ implement Action#draw
 
 
 
-using builder pattern, getting dependency list and interface name from the class is a bit obtuse
-	consider moving at least the name into the instance level
-	not like you're really spending that much extra memory anyway
-	it's either just one symbol, or a pointer to some shared collection
-
 
 BUG
 	resizing text horizontally from center of right edge
