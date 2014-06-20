@@ -35,6 +35,10 @@ class InputManager
 		
 		
 		
+		# hold actions flow controllers, so that input manager can direct action UI drawing
+		# need to draw actions so that they can show polymorphic interface information
+		# NOTE: storing actions this way means that the button parser doesn't have to know anything about the input system.
+		@actions = Array.new
 		
 		# NOTE: Action names and Event names may not necessarily have the same requirements.
 			# Action names
@@ -73,6 +77,7 @@ class InputManager
 			action_flow.bindings[:existing][:click] = :edit
 			action_flow.bindings[:existing][:drag] = :move
 		
+		@actions << action_flow
 		@buttons.register event
 		
 		
@@ -85,6 +90,7 @@ class InputManager
 			
 			action_flow.bindings[:existing][:drag] = :resize
 		
+		@actions << action_flow
 		@buttons.register event
 	end
 	
@@ -99,6 +105,10 @@ class InputManager
 	
 	# draw things in world space
 	def draw
+		@actions.each do |action|
+			action.draw @mouse.position_in_space
+		end
+		
 		@text_input.draw
 	end
 	
