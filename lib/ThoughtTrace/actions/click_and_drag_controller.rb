@@ -43,10 +43,10 @@ class ClickAndDragController
 		@active.cancel
 	end
 	
-	def draw
+	def draw(point)
 		# This should be the only phase where it is necessary to check if @active is set.
 		# The other phases should either not be called when @active is unset, or will set @active.
-		@active.draw if @active
+		@active.draw(point) if @active
 		
 		# TODO: visualize the drag threshold.
 	end

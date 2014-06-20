@@ -6,10 +6,11 @@ module ThoughtTrace
 class Action
 	# NOTE: You might think that setting @entity in #press would remove the need to allocate a new ClickAndDragController object all the time. But that just means that the controller would have to be more aware of how Action works, which is not desirable.
 	
-	def initialize(space, stash, entity)
-		@space = space # for queries and modifications to the space (ex, new objects)
+	def initialize(space, selection, text_input, entity)
+		@space = space           # for queries and modifications to the space (ex, new objects)
+		@selection = selection   # for altering the selection, or just querying it
+		@text_input = text_input # for manipulating the text input buffer
 		
-		@stash = stash # for passing control to other Action objects for chaining actions
 		@entity = entity
 	end
 	

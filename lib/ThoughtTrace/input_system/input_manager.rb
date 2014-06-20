@@ -22,7 +22,8 @@ class InputManager
 		
 		@selection = [] # TODO: create actual selection collection. Array is placeholder. May work, may not. Haven't actually thought about it at all.
 		
-		@stash = ThoughtTrace::ActionStash.new
+		@text_input = ThoughtTrace::TextInput.new
+		
 		
 		
 		
@@ -30,8 +31,6 @@ class InputManager
 		# input events correspond to button presses
 		# those buttons can be keyboard keys, mouse buttons, or gamepad buttons
 		@buttons = InputSystem::ButtonParser.new
-		
-		
 		
 		
 		
@@ -65,19 +64,20 @@ class InputManager
 		
 		
 		
-		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)
+		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @text_input)
 		callbacks = InputSystem::MouseActionController.new @mouse, action_flow
 		
 			event = InputSystem::ButtonEvent.new :click, callbacks
 			event.bind_to keys:[Gosu::MsLeft], modifiers:[]
 			
+			action_flow.bindings[:existing][:click] = :edit
 			action_flow.bindings[:existing][:drag] = :move
 		
 		@buttons.register event
 		
 		
 		
-		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)
+		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @text_input)
 		callbacks = InputSystem::MouseActionController.new @mouse, action_flow
 		
 			event = InputSystem::ButtonEvent.new :right_click, callbacks
@@ -94,6 +94,12 @@ class InputManager
 	
 	def update
 		@buttons.update
+		@text_input.update
+	end
+	
+	# draw things in world space
+	def draw
+		@text_input.draw
 	end
 	
 	def button_up(id)

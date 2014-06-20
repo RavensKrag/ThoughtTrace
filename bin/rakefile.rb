@@ -56,9 +56,10 @@ task :load_dependencies do
 		Metrics::Timer.new "load scripts" do
 		
 			[
+				'./utilities/meta',
+				
 				'./monkey_patches',
 				
-				'./utilities/meta',
 				'./utilities/font',
 				
 				
@@ -91,6 +92,8 @@ task :load_dependencies do
 					'./input_system/mouse_action_controller',
 					
 					'./actions/action_flow_controller',
+					
+					'./input_system/text_input',
 					
 					'./input_system/input_manager',
 				

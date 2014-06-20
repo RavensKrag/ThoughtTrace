@@ -10,17 +10,11 @@ module ThoughtTrace
 class ActionFlowController
 	attr_reader :bindings
 	
-	def initialize(space, selection, stash)
+	def initialize(space, selection, text_input)
 		@space = space
 		@selection = selection
-		@stash = stash
+		@text_input = text_input
 		# TODO: Should probably pass @selection to Action objects as they are initialized.
-		# TODO: Consider the removal of the Action stash. May not be needed in new format.
-			# was needed for automated handling of Actions
-			# (now irrelevant. should be using direct interfaces for that purpose)
-			
-			# was needed to allow Actions to baton pass to other Actions
-			# (not sure if that's still necessary or not)
 		
 		
 		
@@ -56,7 +50,7 @@ class ActionFlowController
 		
 		
 		
-		standard_args = [@space, @stash]
+		standard_args = [@space, @selection, @text_input]
 		
 		
 		# one of these
@@ -129,10 +123,10 @@ class ActionFlowController
 	
 	
 	
-	def draw
+	def draw(point)
 		# Should be the only phase where you have to check if variable is set.
 		# Same reasoning as in ClickAndDragController#draw delegation
-		@action_controller.draw if @action_controller
+		@action_controller.draw(point) if @action_controller
 	end
 end
 
