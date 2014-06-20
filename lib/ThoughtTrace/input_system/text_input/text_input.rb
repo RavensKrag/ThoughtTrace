@@ -4,18 +4,21 @@ module ThoughtTrace
 class TextInput
 	def initialize
 		@buffer = nil
+		
+		@caret = Caret.new(4)
 	end
 	
 	def update
-		# dump buffer into active text object
-		@text.string = @buffer.text if @buffer
-	end
-	
-	def draw
-		# draw the caret
 		if @buffer
+			# dump buffer into active text object
+			@text.string = @buffer.text 
+			
+			
+			
+			# update caret
+			
+			# TODO: adjust height and position of caret as necessary, but maintain width and general properties of it's geometry
 			pos = @text[:physics].body.p.clone
-			puts "pos: #{pos}"
 			
 			font = @text.font
 			string = @text.string
@@ -33,31 +36,19 @@ class TextInput
 			
 			pos.x += offset
 			
+			@caret.position = pos
+			@caret.height = height
 			
-			w,h = [10,height]
-			verts = [
-				CP::Vec2.new(0,0),
-				CP::Vec2.new(w,0),
-				CP::Vec2.new(w,h),
-				CP::Vec2.new(0,h)
-			]
-			verts.each{ |v|  v.x -= w/2 }
-			verts.each{ |v|  v.x += pos.x }
-			verts.each{ |v|  v.y += pos.y }
-			
-			
-			# debug output
-			puts verts.collect{ |v|  v.to_s }.join(', ')
-			
-			
-			
+			@caret.update
+		end
+	end
+	
+	def draw
+		# draw the caret
+		if @buffer
 			color = Gosu::Color.argb(0xffaaaaaa)
 			z = 100
-			$window.draw_quad	verts[0].x, verts[0].y, color,
-								verts[1].x, verts[1].y, color,
-								verts[2].x, verts[2].y, color,
-								verts[3].x, verts[3].y, color,
-								z
+			@caret.draw color, z
 		end
 	end
 	
