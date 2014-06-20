@@ -18,23 +18,35 @@ class TextInput
 			
 			
 			@verts = create_geometry @width, @height
+			
+			@dt = 800
+			@visible = true
 		end
 		
 		# control flashing of caret
+		# TODO: only flash when caret is not being moved
 		def update
-			
+			# divide time into 2 phases, where each phase has length @dt
+			if Gosu.milliseconds % (@dt*2) < @dt
+				# even
+				@visible = true
+			else
+				# odd
+				@visible = false
+			end
 		end
 		
 		# render the caret
 		def draw(color, z=0)
-			# TODO: use GPU transform instead of manually calculating translation
-			verts = @verts.collect{ |v|  v + @position }
-			
-			$window.draw_quad	verts[0].x, verts[0].y, color,
-								verts[1].x, verts[1].y, color,
-								verts[2].x, verts[2].y, color,
-								verts[3].x, verts[3].y, color,
-								z
+			if @visible
+				$window.translate @position.x,@position.y do
+					$window.draw_quad	@verts[0].x, @verts[0].y, color,
+										@verts[1].x, @verts[1].y, color,
+										@verts[2].x, @verts[2].y, color,
+										@verts[3].x, @verts[3].y, color,
+										z
+				end
+			end
 		end
 		
 		
