@@ -6,6 +6,7 @@ class TextInput
 		@buffer = nil
 		
 		@caret = Caret.new(4)
+		@caret.color = Gosu::Color.argb(0xffaaaaaa)
 	end
 	
 	def update
@@ -46,9 +47,8 @@ class TextInput
 	def draw
 		# draw the caret
 		if @buffer
-			color = Gosu::Color.argb(0xffaaaaaa)
 			z = 100
-			@caret.draw color, z
+			@caret.draw z
 		end
 	end
 	

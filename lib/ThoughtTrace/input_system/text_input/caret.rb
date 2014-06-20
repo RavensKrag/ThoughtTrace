@@ -6,6 +6,8 @@ class TextInput
 		attr_reader :width, :height # mutators defined manually
 		attr_reader :position       # mutators defined manually
 		
+		attr_accessor :color
+		
 		def initialize(width)
 			@width = width
 			
@@ -13,8 +15,11 @@ class TextInput
 			# the "real" height should always be set before the Caret is actually used
 			@height = 10
 			
-			@position = CP::Vec2.new(0,0)
 			
+			
+			@color = Gosu::Color.argb(0xffaaaaaa)
+			
+			@position = CP::Vec2.new(0,0)
 			
 			
 			@verts = create_geometry @width, @height
@@ -54,13 +59,13 @@ class TextInput
 		end
 		
 		# render the caret
-		def draw(color, z=0)
+		def draw(z=0)
 			if @visible
 				$window.translate @position.x,@position.y do
-					$window.draw_quad	@verts[0].x, @verts[0].y, color,
-										@verts[1].x, @verts[1].y, color,
-										@verts[2].x, @verts[2].y, color,
-										@verts[3].x, @verts[3].y, color,
+					$window.draw_quad	@verts[0].x, @verts[0].y, @color,
+										@verts[1].x, @verts[1].y, @color,
+										@verts[2].x, @verts[2].y, @color,
+										@verts[3].x, @verts[3].y, @color,
 										z
 				end
 			end
