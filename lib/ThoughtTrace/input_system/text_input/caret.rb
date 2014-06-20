@@ -4,7 +4,7 @@ module ThoughtTrace
 class TextInput
 	class Caret
 		attr_reader :width, :height # mutators defined manually
-		attr_accessor :position
+		attr_reader :position       # mutators defined manually
 		
 		def initialize(width)
 			@width = width
@@ -26,13 +26,30 @@ class TextInput
 		# control flashing of caret
 		# TODO: only flash when caret is not being moved
 		def update
-			# divide time into 2 phases, where each phase has length @dt
-			if Gosu.milliseconds % (@dt*2) < @dt
-				# even
+			# if caret has been moved recently, don't blink
+			# otherwise, blink based on which of two time phases is active
+			
+			
+			if @dirty
+				# has been modified recently
+				timestamp = @dirty
+				dt = Gosu.milliseconds - timestamp
+				# puts "#{Gosu.milliseconds}  -> #{dt}"
+				
+				# clear dirty flag if enough time has elapsed
+				# (should be able to use the same @dt as with standard flickering)
+				@dirty = nil if dt > @dt
+				
+				
+				
 				@visible = true
 			else
-				# odd
-				@visible = false
+				# divide time into 2 phases, where each phase has length @dt
+				if Gosu.milliseconds % (@dt*2) < @dt
+					@visible = true
+				else
+					@visible = false
+				end
 			end
 		end
 		
@@ -60,7 +77,10 @@ class TextInput
 			@verts = create_geometry @width, @height
 		end
 		
-		
+		def position=(pos)
+			@dirty = Gosu.milliseconds
+			@position = pos
+		end
 		
 		
 		

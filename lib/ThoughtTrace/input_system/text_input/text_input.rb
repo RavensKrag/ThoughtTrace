@@ -36,7 +36,7 @@ class TextInput
 			
 			pos.x += offset
 			
-			@caret.position = pos
+			@caret.position = pos if @caret.position != pos
 			@caret.height = height
 			
 			@caret.update
