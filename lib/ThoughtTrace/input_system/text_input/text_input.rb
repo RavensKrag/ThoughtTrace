@@ -84,7 +84,7 @@ class TextInput
 			
 			
 			puts "approx char count: #{estimated_character_count}"
-			estimated_i = estimated_character_count.round - 1
+			estimated_i = estimated_character_count.to_i - 1
 			estimated_i = 0 if estimated_i < 0
 			estimated_offset = foo(@text, estimated_i)
 		
@@ -96,16 +96,40 @@ class TextInput
 		
 		
 		
-		target = (0..@text.string.size).min_by do |i|
+		# target = (0..@text.string.size).min_by do |i|
+		# 	offset = foo(@text, i)
+			
+			
+		# 	puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
+			
+		# 	(offset - measured_offset).abs
+		# end
+		
+		# puts "--> #{target}"
+		
+		
+		
+		
+		target = 0
+		
+		infinity = 1.0/0.0
+		min = infinity
+		(estimated_i..@text.string.size).each do |i|
 			offset = foo(@text, i)
 			
 			
 			puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
 			
-			(offset - measured_offset).abs
+			
+			bar = (offset - measured_offset).abs
+			if bar < min
+				min = bar
+				target = i
+			else
+				break
+			end
 		end
 		
-		puts "--> #{target}"
 		
 		
 		@buffer.caret_pos = target
