@@ -4,9 +4,9 @@ module Enumerable
 		min = nil
 		
 		self.each do |i|
+			foo = yield i
+			
 			if min
-				foo = yield i
-				
 				if foo < min
 					min = foo
 					target = i
@@ -14,7 +14,6 @@ module Enumerable
 					break
 				end
 			else
-				foo = yield i
 				min = foo
 				target = i
 			end
