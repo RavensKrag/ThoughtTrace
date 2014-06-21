@@ -6,7 +6,7 @@ class TextInput
 		attr_reader :width, :height # mutators defined manually
 		attr_reader :position       # mutators defined manually
 		
-		attr_accessor :color
+		attr_accessor :color, :dt
 		
 		def initialize(width)
 			@width = width
