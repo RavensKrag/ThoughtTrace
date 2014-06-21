@@ -85,43 +85,19 @@ class TextInput
 			
 			puts "approx char count: #{estimated_character_count}"
 			estimated_i = estimated_character_count.round - 1
+			estimated_i = 0 if estimated_i < 0
 			estimated_offset = foo(@text, estimated_i)
 		
 		
 		
-		# puts "#{estimated_offset} vs #{measured_offset}"
-		
-		# foo = 
-		# 	if estimated_offset < measured_offset
-		# 		estimated_i.upto(@text.string.size)
-		# 	else
-		# 		estimated_i.downto(0)
-		# 	end
-			
-		# possible = 
-		# 	foo.select do |i|
-		# 		offset = foo(@text, i)
-				
-		# 		# (check if new offset is closer to measured distance than original estimation)
-		# 		[offset, estimated_offset].min_by{ |x| (x - measured_offset).abs  } == offset
-		# 	end
-		
-		# target = possible.last
+		puts "#{estimated_offset} vs #{measured_offset}"
 		
 		
 		
 		
 		
-		foo = (0..@text.string.size)
-		
-		target = foo.min_by	do |i|
-			# substring = @text.string[0..i]
-			substring = @text.string.each_char.first(i).join
-			# joining is not super efficient, but it's the only way I know of to do this right
-			# note that string[0..0] returns the first character, rather than no characters
-			
-			offset = @text.font.width(substring, height)
-			
+		target = (0..@text.string.size).min_by do |i|
+			offset = foo(@text, i)
 			
 			
 			puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
@@ -129,10 +105,9 @@ class TextInput
 			(offset - measured_offset).abs
 		end
 		
-		
-		
-		
 		puts "--> #{target}"
+		
+		
 		@buffer.caret_pos = target
 	end
 	
@@ -149,18 +124,16 @@ class TextInput
 	private
 	
 	def foo(text, i)
-		puts i
 		height = text[:physics].shape.height
 		
-		width = 
-			if i <= 0
-				0
-			else
-				text.font.width(text.string[0..i], height)
-			end
+		# substring = @text.string[0..i]
+		substring = text.string.each_char.first(i).join
+		# joining is not super efficient, but it's the only way I know of to do this right
+		# note that string[0..0] returns the first character, rather than no characters
 		
-		width = text.font.width(text.string[0..i], height)
-		return width
+		offset = text.font.width(substring, height)
+		
+		return offset
 	end
 end
 
