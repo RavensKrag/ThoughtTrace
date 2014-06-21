@@ -81,30 +81,9 @@ class TextInput
 	private
 	
 	def nearest_character_boundary(point)
-		# estimate to get a good starting position, and then get closer
-		height = @text[:physics].shape.height
-		
-		
 		# offset based on measurements between the position of the cursor, and the Text object
 			displacement = point - @text[:physics].body.p
 			measured_offset = displacement.x
-		
-		# offset based on math, using average characters per em
-			ems_per_char = 0.625
-			px_per_em = @text.font.width('m', height)
-			estimated_character_count = measured_offset / (ems_per_char * px_per_em)
-			
-			
-			puts "approx char count: #{estimated_character_count}"
-			estimated_i = estimated_character_count.to_i - 1
-			estimated_i = 0 if estimated_i < 0
-			estimated_offset = foo(@text, estimated_i)
-		
-		
-		
-		puts "#{estimated_offset} vs #{measured_offset}"
-		
-		
 		
 		
 		
@@ -118,6 +97,26 @@ class TextInput
 		# end
 		
 		# puts "--> #{target}"
+		
+		
+		
+		
+		
+		# optimizing by finding a nice upper and lower bound
+		# rather than making smart jumps between points
+		
+		# offset based on estimated  math, using average characters per em
+			height = @text[:physics].shape.height
+			
+			ems_per_char = 0.625
+			px_per_em = @text.font.width('m', height)
+			estimated_character_count = measured_offset / (ems_per_char * px_per_em)
+			
+			
+			puts "approx char count: #{estimated_character_count}"
+			estimated_i = estimated_character_count.to_i - 1
+			estimated_i = 0 if estimated_i < 0
+			estimated_offset = foo(@text, estimated_i)
 		
 		
 		
