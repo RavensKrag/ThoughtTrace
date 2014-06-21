@@ -35,7 +35,7 @@ class Edit < Entity::Actions::Action
 		
 		# past and future aren't really used
 		# but need to smuggle the text input handle into the Memento somehow
-		return @text_input,nil
+		return @text_input,point
 	end
 	
 	# not often used, but you can define this callback if you need it
@@ -64,13 +64,15 @@ class Edit < Entity::Actions::Action
 		# set future state
 		def forward
 			text_input = @past
+			point = @future
 			
-			text_input.add @entity
+			text_input.add @entity, point
 		end
 		
 		# set past state
 		def reverse
 			text_input = @past
+			point = @future
 			
 			text_input.clear
 		end
