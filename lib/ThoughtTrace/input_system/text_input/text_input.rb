@@ -109,26 +109,16 @@ class TextInput
 		
 		
 		
-		
-		target = 0
-		
-		infinity = 1.0/0.0
-		min = infinity
-		(estimated_i..@text.string.size).each do |i|
+		target = (estimated_i..@text.string.size).short_circuiting_min_by do |i|
 			offset = foo(@text, i)
 			
 			
 			puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
 			
-			
-			bar = (offset - measured_offset).abs
-			if bar < min
-				min = bar
-				target = i
-			else
-				break
-			end
+			(offset - measured_offset).abs
 		end
+		
+		puts "--> #{target}"
 		
 		
 		
