@@ -64,12 +64,24 @@ class TextInput
 		
 		
 		
-		
 		# move caret based on where the user clicked
-		
+		@buffer.caret_pos = nearest_character_boundary(point)
+	end
+	
+	# remove all text objects and close the buffer
+	def clear
+		if @buffer
+			@text = nil
+			@buffer.close
+			@buffer = nil
+		end
+	end
+	
+	
+	private
+	
+	def nearest_character_boundary(point)
 		# estimate to get a good starting position, and then get closer
-		
-		
 		height = @text[:physics].shape.height
 		
 		
@@ -119,29 +131,15 @@ class TextInput
 		end
 		
 		puts "--> #{target}"
-		
-		
-		
-		@buffer.caret_pos = target
-	end
-	
-	# remove all text objects and close the buffer
-	def clear
-		if @buffer
-			@text = nil
-			@buffer.close
-			@buffer = nil
-		end
 	end
 	
 	
-	private
-	
-	def foo(text, i)
+	# width of the first n characters of the given Text object, at it's stored font size
+	def foo(text, n)
 		height = text[:physics].shape.height
 		
 		# substring = @text.string[0..i]
-		substring = text.string.each_char.first(i).join
+		substring = text.string.each_char.first(n).join
 		# joining is not super efficient, but it's the only way I know of to do this right
 		# note that string[0..0] returns the first character, rather than no characters
 		
