@@ -3,10 +3,10 @@ module CP
 		class Circle
 			def draw(color, z=0)
 				$window.gl z do
-					glPushMatrix()
-					glTranslatef(self.body.p.x, self.body.p.y, 0)
-						glBegin(GL_TRIANGLE_FAN)
-							glColor4ub(color.red, color.green, color.blue, color.alpha)
+					GL.PushMatrix()
+					GL.Translatef(self.body.p.x, self.body.p.y, 0)
+						GL.Begin(GL::GL_TRIANGLE_FAN)
+							GL.Color4ub(color.red, color.green, color.blue, color.alpha)
 							
 							
 							iterations = 60 # seems like high iterations cause crashes?
@@ -20,16 +20,16 @@ module CP
 							vec = CP::Vec2.new(self.radius, 0)
 							
 							# center
-							glVertex2f(0, 0)
+							GL.Vertex2f(0, 0)
 							
 							# verts on the edge of the circle
 							(iterations+1).times do # extra iteration to loop back to start
-								glVertex2f(vec.x, vec.y)
+								GL.Vertex2f(vec.x, vec.y)
 								
 								vec = vec.rotate rotation_vector
 							end
-						glEnd()
-					glPopMatrix()
+						GL.End()
+					GL.PopMatrix()
 				end
 			end
 			

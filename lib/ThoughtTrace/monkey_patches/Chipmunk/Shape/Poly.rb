@@ -5,18 +5,18 @@ module CP
 			# Assumes that the poly is convex whole, but that's an assumption built into Chipmunk.
 			def draw(color, z=0)
 				$window.gl z do
-					glBegin(GL_TRIANGLE_FAN)
-						glColor4ub(color.red, color.green, color.blue, color.alpha)
+					GL.Begin(GL::GL_TRIANGLE_FAN)
+						GL.Color4ub(color.red, color.green, color.blue, color.alpha)
 						
 						# TODO: Convert coordinates on GPU using local coordinates and transform
 						# transform should account for translation and rotation
 						self.each_vert do |v|
 							vec = self.body.local2world(v)
 							
-							glVertex2f(vec.x, vec.y)
+							GL.Vertex2f(vec.x, vec.y)
 						end
 					
-					glEnd()
+					GL.End()
 				end
 			end
 			
