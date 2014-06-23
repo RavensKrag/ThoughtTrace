@@ -15,6 +15,11 @@ class Window < Gosu::Window
 				# (see monkey_patches/Chipmunk/Vec2)
 			# Also used for global access of mouse (should probably reconsider this)
 			# Allows for loading serialized fonts (can't really pass window there?)
+			
+			
+			# store window in global variable
+				# but do not make any new properties visible
+				# (necessary both for text input as well as the initialization of things like Font objects)
 			$window = self
 			
 			# Setup window
