@@ -151,6 +151,7 @@ class Text < Rectangle
 	
 	
 	
+	EMS_PER_CHAR = 0.625
 	
 	def nearest_character_boundary(point)
 		# offset based on measurements between the position of the cursor, and the Text object
@@ -178,9 +179,9 @@ class Text < Rectangle
 		# rather than making smart jumps between points
 		
 		# offset based on estimated  math, using average characters per em
-			ems_per_char = 0.625
+			
 			px_per_em = @font.width('m', self.height)
-			estimated_character_count = measured_offset / (ems_per_char * px_per_em)
+			estimated_character_count = measured_offset / (EMS_PER_CHAR * px_per_em)
 			
 			
 			puts "approx char count: #{estimated_character_count}"
