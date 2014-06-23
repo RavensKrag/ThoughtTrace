@@ -211,14 +211,22 @@ class Text < Rectangle
 	
 	# width of the first n characters
 	def width_of_first(n)
-		# substring = @text.string[0..i]
-		substring = @string.each_char.first(n).join
-		# joining is not super efficient, but it's the only way I know of to do this right
-		# note that string[0..0] returns the first character, rather than no characters
+		if n == 0
+			return 0
+		else
+			# note that string[0..0] returns the first character, rather than no characters
+			substring = @string[0..n-1]
+			offset = @font.width(substring, self.height)
+			
+			return offset
+		end
 		
-		offset = @font.width(substring, self.height)
 		
-		return offset
+		# joining is not super efficient, but it's a sure way to get correct results
+		# substring = @string.each_char.first(n).join
+		# offset = @font.width(substring, self.height)
+		# 
+		# return offset
 	end
 end
 
