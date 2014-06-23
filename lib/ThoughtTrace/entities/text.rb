@@ -185,8 +185,10 @@ class Text < Rectangle
 			
 			
 			puts "approx char count: #{estimated_character_count}"
+			
 			estimated_i = estimated_character_count.to_i - 1
 			estimated_i = 0 if estimated_i < 0
+			
 			estimated_offset = width_of_first(estimated_i)
 		
 		
