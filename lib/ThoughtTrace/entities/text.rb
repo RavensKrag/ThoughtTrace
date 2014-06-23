@@ -160,7 +160,7 @@ class Text < Rectangle
 		
 		
 		# target = (0..@string.size).min_by do |i|
-		# 	offset = foo(i)
+		# 	offset = width_of_first(i)
 			
 			
 		# 	puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
@@ -188,12 +188,12 @@ class Text < Rectangle
 			puts "approx char count: #{estimated_character_count}"
 			estimated_i = estimated_character_count.to_i - 1
 			estimated_i = 0 if estimated_i < 0
-			estimated_offset = foo(estimated_i)
+			estimated_offset = width_of_first(estimated_i)
 		
 		
 		
 		target = (estimated_i..@string.size).short_circuiting_min_by do |i|
-			offset = foo(i)
+			offset = width_of_first(i)
 			
 			
 			puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
@@ -209,7 +209,7 @@ class Text < Rectangle
 	
 	
 	# width of the first n characters
-	def foo(n)
+	def width_of_first(n)
 		height = @components[:physics].shape.height
 		
 		# substring = @text.string[0..i]
