@@ -130,6 +130,9 @@ class TextInput
 		end
 		
 		puts "--> #{target}"
+		
+		
+		return target
 	end
 	
 	
