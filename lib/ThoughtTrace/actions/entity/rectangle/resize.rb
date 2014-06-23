@@ -1,18 +1,14 @@
 module ThoughtTrace
-	module Actions
+	class Rectangle
+		module Actions
 
 
-class ResizeRectangle < Action
-	interface_name :resize
-	components :physics
-	
-	
+class Resize < Entity::Actions::Action
 	MARGIN = 50
 	MINIMUM_DIMENSION = 10
 	
-	def setup(stash, point)
-		super(stash, point)
-		
+	# called on first tick
+	def setup(point)
 		# mark the initial point for reference
 		@origin = point
 		
@@ -24,11 +20,11 @@ class ResizeRectangle < Action
 		# find distance to edges using local x,y coordinate system
 			# don't need to actually use distance formula,
 			# and can get distance even if there's rotation in the shape.
-		top_right = @components[:physics].shape.top_right_vert
-		bottom_left = @components[:physics].shape.bottom_left_vert
+		top_right = @entity[:physics].shape.top_right_vert
+		bottom_left = @entity[:physics].shape.bottom_left_vert
 		
 		
-		local_point = @components[:physics].body.world2local point
+		local_point = @entity[:physics].body.world2local point
 		
 		
 		
@@ -67,24 +63,19 @@ class ResizeRectangle < Action
 			
 			@direction.normalize!
 		end
+		
+		
+		
+		# TODO: remove @original_width/height if unnecessary
+		shape = @entity[:physics].shape
+		@original = [shape.width, shape.height, nil]
 	end
 	
+	# return two values: past and future used by Memento
+	# called each tick
 	def update(point)
-		super(point)
-		
-		# apply one tick of resize change
-		# each time this method is called, one d_size / d_t should be applied
-		
-		# can think of this method as a loop
-		# each time the game loop hits this method,
-		# it will advance the resizing algorithm by one tick
-		
-		# this method has circular flow
-		# because it will be called every tick
-		# as long as the button is held
-		
-		local_origin = @components[:physics].body.world2local @origin
-		local_point = @components[:physics].body.world2local point
+		local_origin = @entity[:physics].body.world2local @origin
+		local_point = @entity[:physics].body.world2local point
 		local_displacement = local_point - local_origin
 			
 			
@@ -99,11 +90,10 @@ class ResizeRectangle < Action
 				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
 			# get axes
-			width = @components[:physics].shape.width
-			height = @components[:physics].shape.height
+			width, height = @original
 			
 			if @direction.zero?
-				# ===== Uniform Scale =====
+				# ===== Radial Scaling =====
 				# scale about the center
 				
 				# Sign-age of scale is relative to center of rectangle
@@ -113,7 +103,7 @@ class ResizeRectangle < Action
 				
 				# --- Magnitude of transform
 				# find vector starting from center, and going towards the current point
-				center = @components[:physics].shape.center
+				center = @entity[:physics].shape.center
 				center_to_point = local_point - center
 				radial_axis = center_to_point.normalize
 				
@@ -133,20 +123,10 @@ class ResizeRectangle < Action
 				# multiply by two, because resizing is happening in two directions at once
 				width  += radial_displacement * 2
 				height += radial_displacement * 2
-				
-				
-				
-				
-				
-				
-				
-				# need to adjust the position of the body
-				# so it appears only the edited edge is moving
-				# (same code from uni-directional code, but apply both directions always)
-				@components[:physics].body.p.x -= radial_displacement
-				@components[:physics].body.p.y -= radial_displacement
 			else
-				# ===== Scale in one direction only =====
+				# ===== Cartesian Scaling =====
+				# scale along the axes of the rectangle
+				
 				# pin down part (edge or vert) of the rectangle, and stretch out the rest
 				
 				# rescale in the direction specified by @direction
@@ -182,62 +162,91 @@ class ResizeRectangle < Action
 			# limit minimum size (like a clamp, but lower bound only)
 			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
 			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
-			
-			
-			
-			
-			# must clamp new values first before comparing to old values to get proper deltas
-			old_width  = @components[:physics].shape.width
-			old_height = @components[:physics].shape.height
-			
-				
-				@components[:physics].shape.resize!(width, height)
-			
-			
-			new_width  = @components[:physics].shape.width
-			new_height = @components[:physics].shape.height
-			
-			
-			delta_width = old_width - new_width
-			delta_height = old_height - new_height
-			
-			
-			
-			# shape always expands in the positive direction of the adjusted axis
-			# thus, if you stretch left or down, you need to shift the center
-			# in order to make it feel like the rest of the geometry is firmly planted in place.
-			
-			# (currently does not trigger for uniform scale)
-			# (uniform scale counter-steering is being handled the the )
-			
-			
-			# To make the radial resize and the 9-slice style converge,
-			# the counter steering should be made explicitly about what is being pinned down
-			# for scaling in one direction, that's one edge
-			# for scaling at a corner, that's the opposing vert
-			# for scaling about the center, it's the center that gets locked down
-			
-			
-			if @direction.x < 0
-				@components[:physics].body.p.x += delta_width
-			end
-			if @direction.y < 0
-				@components[:physics].body.p.y += delta_height
-			end
-			
-			
-			
-		@origin = point
+		
+		
+		
+		current = [width, height, anchor_point()]
+		
+		return @original, current
 	end
 	
-	def cleanup
-		super()
+	
+	# display information to the user about the current transformation
+	# called each tick
+	def draw(point)
 		
+	end
+	
+	
+	
+	# perform the transformation here
+	# by encapsulating the transform in this object,
+	# it becomes easy to redo / undo actions as necessary
+	# (Consider better name. Current class name derives from a design pattern.)
+	# (this class also has ideas from the command pattern, though)
+	# TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @past value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
+	ParentMemento = self.superclass.const_get 'Memento'
+	class Memento < ParentMemento
+		# set future state
+		def forward
+			width, height, anchor = @future
+			@entity.resize!(width, height, anchor)
+		end
 		
+		# set past state
+		def reverse
+			width  = @past[0]
+			height = @past[1]
+			anchor = @future[2]
+			
+			
+			# use anchor from the future instead
+			# anchor on @past is always going to be nil
+			# because the notion of an anchor in that context makes no sense,
+			# and thus can not be set
+			
+			@entity.resize!(width, height, anchor)
+		end
+	end
+	
+	
+	private
+	
+	def anchor_point
+		# normalized anchor
+		# NOTE: remember that the anchor specifies the amount of counter-steering
+		# TODO: allow for more analog anchor specification
+		# TODO: consider anchoring based on where the initial point of context was.
+		x = 
+			if @direction.x > 0
+				# pos
+				0.0
+			elsif @direction.x < 0
+				# neg
+				1.0
+			else
+				# zero
+				# center
+				0.5
+			end
+		y = 
+			if @direction.y > 0
+				# pos
+				0.0
+			elsif @direction.y < 0
+				# neg
+				1.0
+			else
+				# zero
+				0.5
+			end
+		
+		return CP::Vec2.new(x,y)
 	end
 end
 
 
 
+end
 end
 end

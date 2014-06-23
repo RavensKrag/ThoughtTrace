@@ -56,9 +56,10 @@ task :load_dependencies do
 		Metrics::Timer.new "load scripts" do
 		
 			[
+				'./utilities/meta',
+				
 				'./monkey_patches',
 				
-				'./utilities/meta',
 				'./utilities/font',
 				
 				
@@ -67,7 +68,6 @@ task :load_dependencies do
 				# one directory at a time seems to be fine...
 				# './entities'
 				'./entities/share/',
-				'./entities/actions/',
 				'./entities/components/',
 				'./entities/',
 				
@@ -80,14 +80,20 @@ task :load_dependencies do
 				'./cameras/camera',
 				
 				
+				# new actions
+				'./actions/header',
+				
 				# './input_system'
-					'./input_system/human_action',
+					'./input_system/old/action_stash',
 					
-					'./input_system/action_stash',
-					'./input_system/action_selector',
+					'./input_system/button_event',
+					'./input_system/button_parser',
+					'./input_system/mouse',
+					'./input_system/mouse_action_controller',
 					
-					'./input_system/input_abstraction',
-					# './input_system/human_actions' # currently empty folder
+					'./actions/action_flow_controller',
+					
+					'./input_system/text_input',
 					
 					'./input_system/input_manager',
 				

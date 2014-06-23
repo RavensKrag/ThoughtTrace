@@ -6,5 +6,10 @@ class String
 	end
 end
 
+# Convert from camel_case to ConstantCase
+def constantize
+	self.split('_').collect{|i| i.capitalize}.join
+end
+
 
 end

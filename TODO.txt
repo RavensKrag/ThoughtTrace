@@ -14,11 +14,6 @@ implement Action#draw
 
 
 
-using builder pattern, getting dependency list and interface name from the class is a bit obtuse
-	consider moving at least the name into the instance level
-	not like you're really spending that much extra memory anyway
-	it's either just one symbol, or a pointer to some shared collection
-
 
 BUG
 	resizing text horizontally from center of right edge
@@ -68,3 +63,94 @@ it seems weird that you would highlight something that you can't act on?
 	that means that the selection has to change a little bit depending on what action is active
 	is that too much state going into the selection?
 	will that be the user's expected model of operation?
+
+
+
+
+
+
+create action or something that allows for the movement of the Camera
+	move action was not added to Camera explicitly under new structure
+	because all of the "add_action" calls were removed
+	
+	really just a matter of creating a new action flow for
+	when you know exactly what Entity you want, 
+	and exactly what Action to fire on it
+	
+	and then hook that up to the input system
+
+
+is there any reason to keep Component?
+	it's this weird strict-typed flavor in a duck-typed system
+	especially that Actions have been reworked to be more like methods,
+	maybe components should just be like any other thing attached to a class?
+	
+	not really sure if there's any motivation to adhere strictly to entity/component style
+	considering how in the current structure, methods are attached to the object,
+	not to the components
+	
+	(or like, sometimes the action, but never the component)
+	(meaning the structure is NOT actually entity/component at all)
+
+
+
+
+
+
+
+
+
+
+TODO: implement screen space to world space conversion in accordance with new systems
+
+old system had assumed that there was a global variable with a pointer to Window
+trying to remove that
+need to figure out how to perform coordinate space conversions in a sane manner now
+
+
+
+
+
+
+
+
+TODO: consider using Class#inherited to assemble Action lists on Entity classes.
+	(or at least like, cache them?)
+
+actually, that could get really messy. it's probably better to just traverse the hierarchy
+
+or maybe you want to figure out how Ruby as a language resolves methods?
+
+
+
+
+
+
+
+
+
+TODO: custom subclass of Hash to deal with action bindings
+
+need to make sure there's some sort of error when you try to declare inputs for phases that don't actually exist. otherwise, you can just go a bug hunt without knowing where the problem is.
+
+need to find a balance between duck-typing-style dynamicism and strict protection
+
+
+
+
+
+
+
+
+
+
+
+TODO: Ruby methods are objects. Apply structure to Action
+
+methods in Ruby can be manipulated as objects, because everything is an object
+how does this work?
+how is it specifically implemented?
+
+
+would this help implementation of the Action objects,
+to help them function more like method calls?

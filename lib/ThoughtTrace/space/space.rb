@@ -91,16 +91,6 @@ class Space < CP::Space
 			
 			@space.add_shape(object[:physics].shape)
 			@space.add_body(object[:physics].body)
-			
-			
-			
-			# satisfy dependencies on Space for any applicable Actions
-			object.action_names.each do |name|
-				action = object.send(name)
-				if action.respond_to? :space=
-					action.space = @space
-				end
-			end
 		end
 		
 		def delete(object)

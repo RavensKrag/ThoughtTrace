@@ -1,0 +1,37 @@
+BUG: why is 'binding' a private method of ButtonEvent?
+
+create camera complete (0 ms)
+setup input system complete (0 ms)
+rake aborted!
+private method `binding' called for #<InputSystem::ButtonEvent:0x000000013a5970>
+ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb:191:in `all_mods_pressed'
+ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb:69:in `block in press'
+ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb:65:in `each'
+ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb:65:in `partition'
+ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb:65:in `press'
+ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb:30:in `button_down'
+ThoughtTrace/lib/ThoughtTrace/input_system/input_manager.rb:67:in `button_down'
+ThoughtTrace/bin/main.rb:68:in `button_down'
+ThoughtTrace/bin/rakefile.rb:32:in `block in <top (required)>'
+Tasks: TOP => default => run
+(See full trace by running task with --trace)
+
+
+
+
+why is 'binding' a private method of ButtonEvent?
+it's not a method at all
+it was a class,
+but I think I've eradicated the class?
+
+
+
+
+
+
+ok, the reason for this is that Object#binding is a thing in Ruby core already
+
+Binding objects in Ruby control preservation of scope,    (known)
+for things like evaluation of variables and methods,      (this part is speculative reasoning)
+for things that get evaluated later,
+whether they be lambdas, blocks, or just methods

@@ -1,11 +1,11 @@
 module ThoughtTrace
 
 
-class Text < Entity
+class Text < Rectangle
 	DEFAULT_FONT_SIZE = 30
 	
 	def initialize(font, string="")
-		super()
+		# super()
 		
 		@font = font
 		@string = string
@@ -13,36 +13,39 @@ class Text < Entity
 		
 		
 		
-		# TODO: cascade into default style
-		style = ThoughtTrace::Components::Style.new "text_style_#{self.object_id}"
-		style.edit(:default) do |s|
+		# # TODO: cascade into default style
+		# style = ThoughtTrace::Components::Style.new "text_style_#{self.object_id}"
+		# style.edit(:default) do |s|
+		# 	s[:height] = 30 # <-- depreciated
+		# 	s[:color] = Gosu::Color.argb(0xffFFFFFF)
+		# end
+		
+		# style.edit(:hover) do |s|
+		# 	s[:height] = 30 # <-- depreciated
+		# 	s[:color] = Gosu::Color.argb(0xff0000FF)
+		# end
+		
+		# add_component style
+		
+		
+		# # NOTE: @string has not yet been initialized
+		height = DEFAULT_FONT_SIZE
+		width = @font.width(@string, height)
+		
+		super(width, height)
+		
+		
+		
+		
+		@components[:style].edit(:default) do |s|
 			s[:height] = 30 # <-- depreciated
 			s[:color] = Gosu::Color.argb(0xffFFFFFF)
 		end
 		
-		style.edit(:hover) do |s|
+		@components[:style].edit(:hover) do |s|
 			s[:height] = 30 # <-- depreciated
 			s[:color] = Gosu::Color.argb(0xff0000FF)
 		end
-		
-		add_component style
-		
-		
-		# NOTE: @string has not yet been initialized
-		height = DEFAULT_FONT_SIZE
-		width = @font.width(@string, height)
-		
-							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-							shape = CP::Shape::Rect.new body, width, height
-		add_component	ThoughtTrace::Components::Physics.new self, body, shape
-		
-		
-		# if you can specify the actions with a 'factory' instead of an instance, you can put real actions onto the action stack, instead of some weird wrapper thing
-			# may not need a wrapper
-			# still good idea though, because it means that the state can be easily wrapped up in that one instance. No garbage can carry over.
-		add_action ThoughtTrace::Actions::Move.new self
-		
-		add_action ThoughtTrace::Actions::ResizeText.new self
 	end
 	
 	def update
@@ -73,12 +76,7 @@ class Text < Entity
 		@font = font
 		
 		
-		width = @font.width(@string, @components[:physics].shape.height)
-		height = @components[:physics].shape.height
-		
-		
-		# @components[:physics].shape.resize! width, height
-		@components[:physics].shape.width = width
+		self.resize!(@components[:physics].shape.height)
 	end
 	
 	def string=(string)
@@ -88,25 +86,139 @@ class Text < Entity
 		@string = string
 		
 		
-		width = @font.width(@string, @components[:physics].shape.height)
-		height = @components[:physics].shape.height
-		
-		
-		# @components[:physics].shape.resize! width, height
-		@components[:physics].shape.width = width
+		self.resize!(@components[:physics].shape.height)
 	end
+	
+	
+	# interface to set height and width
+	# changing one property affects the other
+	# This API exists to make constraints etc easier to implement
+	# The resize action is still driven by #resize!
+	
+	def height=(new_height, normalized_anchor=CP::Vec2.new(0,0))
+		self.resize!(new_height, normalized_anchor)
+	end
+	
+	def width=(new_width, normalized_anchor=CP::Vec2.new(0,0))
+		original_width = @components[:physics].shape.width
+		
+		ratio = new_width.to_f / original_width.to_f
+		
+		height = height * ratio
+		
+		
+		self.resize!(height, normalized_anchor)
+	end
+	
+	def height
+		@components[:physics].shape.height
+	end
+	
+	def width
+		@components[:physics].shape.width
+	end
+	
+	alias :size :height
+	alias :size= :height=
+	
+	
+	# TODO: separate line height (hitbox size) and font size (height to render font at)
+	
+	
 	
 	# when you set the font, recompute the hitbox
 	# when you set the string, recompute the hitbox
 	# when you change the size, recompute the hitbox
 	
 	# update hitbox to match font size
-	def resize!(new_height)
+	def resize!(new_height, normalized_anchor=CP::Vec2.new(0,0))
 		height = new_height
 		width = @font.width(@string, new_height)
 		
 		
-		@components[:physics].shape.resize! width, height
+		delta_width, delta_height =
+			measure_dimension_delta do
+				@components[:physics].shape.resize!(width, height)
+			end
+		
+		
+		
+		
+		@components[:physics].body.p.x -= delta_width * normalized_anchor.x
+		@components[:physics].body.p.y -= delta_height * normalized_anchor.y
+	end
+	
+	
+	
+	
+	EMS_PER_CHAR = 0.625
+	
+	def nearest_character_boundary(point)
+		# offset based on measurements between the position of the cursor, and the Text object
+			displacement = point - @components[:physics].body.p
+			measured_offset = displacement.x
+		
+		
+		
+		# target = (0..@string.size).min_by do |i|
+		# 	offset = width_of_first(i)
+			
+			
+		# 	puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
+			
+		# 	(offset - measured_offset).abs
+		# end
+		
+		# puts "--> #{target}"
+		
+		
+		
+		
+		
+		# optimizing by finding a nice upper and lower bound
+		# rather than making smart jumps between points
+		
+		# offset based on estimated  math, using average characters per em
+			
+			px_per_em = @font.width('m', self.height)
+			estimated_character_count = measured_offset / (EMS_PER_CHAR * px_per_em)
+			
+			
+			puts "approx char count: #{estimated_character_count}"
+			
+			estimated_i = estimated_character_count.to_i - 1
+			estimated_i = 0 if estimated_i < 0
+			
+			estimated_offset = width_of_first(estimated_i)
+		
+		
+		
+		target = (estimated_i..@string.size).short_circuiting_min_by do |i|
+			offset = width_of_first(i)
+			
+			
+			puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
+			
+			(offset - measured_offset).abs
+		end
+		
+		puts "--> #{target}"
+		
+		
+		return target
+	end
+	
+	
+	# width of the first n characters
+	def width_of_first(n)
+		# substring = @text.string[0..i]
+		substring = @string.each_char.first(n).join
+		# joining is not super efficient, but it's the only way I know of to do this right
+		# note that string[0..0] returns the first character, rather than no characters
+		
+		offset = @font.width(substring, self.height)
+		
+		return offset
 	end
 end
 
