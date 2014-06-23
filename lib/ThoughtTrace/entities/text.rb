@@ -178,10 +178,8 @@ class Text < Rectangle
 		# rather than making smart jumps between points
 		
 		# offset based on estimated  math, using average characters per em
-			height = @components[:physics].shape.height
-			
 			ems_per_char = 0.625
-			px_per_em = @font.width('m', height)
+			px_per_em = @font.width('m', self.height)
 			estimated_character_count = measured_offset / (ems_per_char * px_per_em)
 			
 			
@@ -210,14 +208,12 @@ class Text < Rectangle
 	
 	# width of the first n characters
 	def width_of_first(n)
-		height = @components[:physics].shape.height
-		
 		# substring = @text.string[0..i]
 		substring = @string.each_char.first(n).join
 		# joining is not super efficient, but it's the only way I know of to do this right
 		# note that string[0..0] returns the first character, rather than no characters
 		
-		offset = @font.width(substring, height)
+		offset = @font.width(substring, self.height)
 		
 		return offset
 	end
