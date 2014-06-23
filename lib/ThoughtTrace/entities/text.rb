@@ -147,6 +147,80 @@ class Text < Rectangle
 		@components[:physics].body.p.x -= delta_width * normalized_anchor.x
 		@components[:physics].body.p.y -= delta_height * normalized_anchor.y
 	end
+	
+	
+	
+	
+	
+	def nearest_character_boundary(point)
+		# offset based on measurements between the position of the cursor, and the Text object
+			displacement = point - @components[:physics].body.p
+			measured_offset = displacement.x
+		
+		
+		
+		# target = (0..@string.size).min_by do |i|
+		# 	offset = foo(i)
+			
+			
+		# 	puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
+			
+		# 	(offset - measured_offset).abs
+		# end
+		
+		# puts "--> #{target}"
+		
+		
+		
+		
+		
+		# optimizing by finding a nice upper and lower bound
+		# rather than making smart jumps between points
+		
+		# offset based on estimated  math, using average characters per em
+			height = @components[:physics].shape.height
+			
+			ems_per_char = 0.625
+			px_per_em = @font.width('m', height)
+			estimated_character_count = measured_offset / (ems_per_char * px_per_em)
+			
+			
+			puts "approx char count: #{estimated_character_count}"
+			estimated_i = estimated_character_count.to_i - 1
+			estimated_i = 0 if estimated_i < 0
+			estimated_offset = foo(estimated_i)
+		
+		
+		
+		target = (estimated_i..@string.size).short_circuiting_min_by do |i|
+			offset = foo(i)
+			
+			
+			puts "#{i.to_s.rjust(4)} :: #{measured_offset} vs #{offset} => #{(offset - measured_offset).abs}"
+			
+			(offset - measured_offset).abs
+		end
+		
+		puts "--> #{target}"
+		
+		
+		return target
+	end
+	
+	
+	# width of the first n characters
+	def foo(n)
+		height = @components[:physics].shape.height
+		
+		# substring = @text.string[0..i]
+		substring = @string.each_char.first(n).join
+		# joining is not super efficient, but it's the only way I know of to do this right
+		# note that string[0..0] returns the first character, rather than no characters
+		
+		offset = @font.width(substring, height)
+		
+		return offset
+	end
 end
 
 
