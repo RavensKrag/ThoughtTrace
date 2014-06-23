@@ -20,7 +20,16 @@ class TextInput
 			@window.text_input = nil
 		end
 		
-		delegate methods:[:text, :text=, :caret_pos, :caret_pos=], to: :@input
+		def caret_pos
+			@input.caret_pos
+		end
+		
+		def caret_pos=(pos)
+			@input.caret_pos = pos
+			@input.selection_start = pos
+		end
+		
+		delegate methods:[:text, :text=], to: :@input
 		# maybe need to raise some sort of error if the buffer is not open?
 	end
 	private_constant :Buffer
