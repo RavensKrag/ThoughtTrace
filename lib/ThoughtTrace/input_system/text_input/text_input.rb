@@ -19,7 +19,6 @@ class TextInput
 			
 			
 			# update caret
-			# TODO: adjust height and position of caret as necessary, but maintain width and general properties of it's geometry
 			update_caret_position()
 			
 			@caret.height = @text.height

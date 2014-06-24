@@ -29,11 +29,9 @@ class TextInput
 		end
 		
 		# control flashing of caret
-		# TODO: only flash when caret is not being moved
 		def update
 			# if caret has been moved recently, don't blink
 			# otherwise, blink based on which of two time phases is active
-			
 			
 			if @dirty
 				# has been modified recently
@@ -73,11 +71,15 @@ class TextInput
 		
 		
 		def width=(w)
+			return if @width == w
+			
 			@width = w
-			@verts = create_geometry @width, @height 
+			@verts = create_geometry @width, @height
 		end
 		
 		def height=(h)
+			return if @height == h
+			
 			@height = h
 			@verts = create_geometry @width, @height
 		end
