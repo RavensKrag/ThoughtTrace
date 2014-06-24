@@ -95,16 +95,12 @@ class TextInput
 		
 		pos = @text[:physics].body.p.clone
 		
-		font = @text.font
-		string = @text.string
-		height = @text.height
-		
 		offset = 
 			if i == 0
 				0
 			else
-				substring = string[0..(i-1)]
-				font.width(substring, height)
+				substring = @text.string[0..(i-1)]
+				@text.font.width(substring, @text.height)
 			end
 		
 		pos.x += offset
