@@ -18,31 +18,11 @@ class TextInput
 			@text.string = @buffer.text 
 			
 			
-			
 			# update caret
-			
 			# TODO: adjust height and position of caret as necessary, but maintain width and general properties of it's geometry
-			pos = @text[:physics].body.p.clone
+			update_caret_position()
 			
-			font = @text.font
-			string = @text.string
-			height = @text[:physics].shape.height
-			
-			
-			i = @buffer.caret_pos
-			offset = 
-				if i == 0
-					0
-				else
-					substring = string[0..(i-1)]
-					font.width(substring, height)
-				end
-			
-			pos.x += offset
-			
-			@caret.position = pos if @caret.position != pos
-			@caret.height = height
-			
+			@caret.height = @text.height
 			@caret.update
 		end
 	end
@@ -56,9 +36,8 @@ class TextInput
 	end
 	
 	
-	# specify the text object to begin editing, and the point clicked (in world space)
-	# (point used to figure out initial caret index)
-	def add(text, point=nil)
+	# specify the text object to begin editing, and where to start the input caret
+	def add(text, index)
 		@text = text
 		@buffer = Buffer.new $window
 		
@@ -66,13 +45,9 @@ class TextInput
 		@buffer.text = @text.string
 		
 		
-		
-		# move caret based on where the user clicked
-		if point
-			@buffer.caret_pos = @text.nearest_character_boundary(point)
-		else
-			@buffer.caret_pos = 0
-		end
+		# Move the caret into position
+		# (both backend and frontend)
+		self.caret_index = index
 	end
 	
 	# remove all text objects and close the buffer
@@ -100,6 +75,42 @@ class TextInput
 	
 	def caret_index
 		@buffer.caret_pos
+	end
+	
+	def caret_index=(i)
+		raise "Index can not be negative" if i < 0
+		
+		@buffer.caret_pos = i
+		update_caret_position()
+	end
+	
+	
+	
+	private
+	
+	# can't be placed in the Caret class
+	# because I don't want to let Caret know about the Text or Buffer objects
+	def update_caret_position
+		i = @buffer.caret_pos
+		
+		
+		pos = @text[:physics].body.p.clone
+		
+		font = @text.font
+		string = @text.string
+		height = @text.height
+		
+		offset = 
+			if i == 0
+				0
+			else
+				substring = string[0..(i-1)]
+				font.width(substring, height)
+			end
+		
+		pos.x += offset
+		
+		@caret.position = pos if @caret.position != pos
 	end
 end
 

@@ -52,7 +52,7 @@ class PressEnter
 			
 			
 			@text_input.clear
-			@text_input.add new_text
+			@text_input.add new_text, 0
 		end
 	end
 	

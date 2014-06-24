@@ -66,7 +66,8 @@ class Edit < Entity::Actions::Action
 			text_input = @past
 			point = @future
 			
-			text_input.add @entity, point
+			
+			text_input.add @entity, @entity.nearest_character_boundary(point)
 		end
 		
 		# set past state
