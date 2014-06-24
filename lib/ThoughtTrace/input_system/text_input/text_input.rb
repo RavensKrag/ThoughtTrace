@@ -4,6 +4,7 @@ module ThoughtTrace
 class TextInput
 	def initialize
 		@buffer = nil
+		@text = nil
 		
 		@caret = Caret.new(4)
 		@caret.color = Gosu::Color.argb(0xffaaaaaa)
