@@ -2,6 +2,8 @@ module ThoughtTrace
 
 
 class TextInput
+	attr_reader :text
+	
 	def initialize
 		@buffer = nil
 		@text = nil
@@ -56,7 +58,7 @@ class TextInput
 	
 	# specify the text object to begin editing, and the point clicked (in world space)
 	# (point used to figure out initial caret index)
-	def add(text, point)
+	def add(text, point=nil)
 		@text = text
 		@buffer = Buffer.new $window
 		
@@ -66,7 +68,11 @@ class TextInput
 		
 		
 		# move caret based on where the user clicked
-		@buffer.caret_pos = @text.nearest_character_boundary(point)
+		if point
+			@buffer.caret_pos = @text.nearest_character_boundary(point)
+		else
+			@buffer.caret_pos = 0
+		end
 	end
 	
 	# remove all text objects and close the buffer
@@ -76,6 +82,24 @@ class TextInput
 			@buffer.close
 			@buffer = nil
 		end
+	end
+	
+	
+	# Return true if the text input buffer is connected
+	def active?
+		!@buffer.nil?
+	end
+	alias :open? :active?
+	alias :connected? :active?
+	
+	
+	
+	def caret_position
+		@caret.position
+	end
+	
+	def caret_index
+		@buffer.caret_pos
 	end
 end
 

@@ -92,6 +92,18 @@ class InputManager
 		
 		@actions << action_flow
 		@buttons.register event
+		
+		
+		
+		
+		
+		callbacks = ThoughtTrace::Events::PressEnter.new @space, @text_input
+		event = InputSystem::ButtonEvent.new :enter, callbacks
+		
+		event.bind_to keys:[Gosu::KbReturn], modifiers:[]
+		
+		@buttons.register event
+		
 	end
 	
 	def button_down(id)

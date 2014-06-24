@@ -1,0 +1,2 @@
+the rest of the files in the input_system directory can be easily pulled out into another library
+but the files inside this directory define events specific to ThoughtTrace
