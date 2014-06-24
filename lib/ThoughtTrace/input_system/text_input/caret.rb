@@ -85,6 +85,8 @@ class TextInput
 		end
 		
 		def position=(pos)
+			return if @position == pos
+			
 			@dirty = Gosu.milliseconds
 			@position = pos
 		end

@@ -105,7 +105,7 @@ class TextInput
 		
 		pos.x += offset
 		
-		@caret.position = pos if @caret.position != pos
+		@caret.position = pos:
 	end
 end
 
