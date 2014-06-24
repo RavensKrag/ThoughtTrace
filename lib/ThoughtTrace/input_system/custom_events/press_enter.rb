@@ -32,7 +32,6 @@ class PressEnter
 			main, splinter = str.slice!(0..i-1), str
 			# first i characters, rest of the string
 			# ie) up to and including index i, everything after that
-			# (this may not be the correct split index, but the rest of the logic is solid)
 			
 			@text_input.text.string = main
 			
@@ -43,7 +42,7 @@ class PressEnter
 			
 			new_text[:physics].body.p = old_text[:physics].body.p.clone
 			new_text[:physics].body.p.y += height
-			# TODO: should be minus, eventually. Really would like -y to be down the screen
+			# TODO: coordinate system - should be subtraction, eventually. Really would like -y to be down the screen
 			
 			
 			@space.entities.add new_text
