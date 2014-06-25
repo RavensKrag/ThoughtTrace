@@ -66,6 +66,7 @@ class Window < Gosu::Window
 	def on_shutdown
 		@input.shutdown
 		
+		@space.gc
 		@space.dump @filepath
 	end
 	

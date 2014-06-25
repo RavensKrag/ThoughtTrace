@@ -62,6 +62,10 @@ class Text < Rectangle
 					@components[:style][:color]
 	end
 	
+	def gc?
+		@string == ""
+	end
+	
 	
 	
 	

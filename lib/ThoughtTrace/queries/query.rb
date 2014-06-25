@@ -31,6 +31,10 @@ class Query
 		# or put another way, it should render for the Query view
 	end
 	
+	def gc?
+		
+	end
+	
 	
 	
 	

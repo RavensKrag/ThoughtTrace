@@ -16,6 +16,13 @@ class Entity
 		
 	end
 	
+	# let Space know that you should be deleted
+	# useful for removing empty strings, etc which can not be selected by the user
+	# and contain no useful information
+	def gc?
+		
+	end
+	
 	
 	
 	
