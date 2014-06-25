@@ -1,55 +1,8 @@
 module ThoughtTrace
 	module Actions
-		# module Constraint
-		# 	class << self
-		# 		def action_get(action_name)
-					
-		# 		end
-		# 	end
-		# end
-		
-		# module EmptySpace
-		# 	class << self
-		# 		def action_get(action_name)
-					
-		# 		end
-		# 	end
-		# end
-		
-		# # module Entity
-		# # 	class << self
-		# # 		def action_get(action_name)
-					
-		# # 		end
-		# # 	end
-		# # end
-		
-		
-		# module Group
-		# 	class << self
-		# 		def action_get(action_name)
-					
-		# 		end
-		# 	end
-		# end
-		
-		# module Query
-		# 	class << self
-		# 		def action_get(action_name)
-					
-		# 		end
-		# 	end
-		# end
-		
-		# module Selection
-		# 	class << self
-		# 		def action_get(action_name)
-					
-		# 		end
-		# 	end
-		# end
-		
-		
+		# Entity actions are processed differently,
+		# because they are subject to polymorphism
+		# in the same way that methods are
 		
 		[:Constraint, :EmptySpace, :Group, :Query, :Selection].each do |name|
 			mod = Module.new
