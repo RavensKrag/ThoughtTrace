@@ -61,11 +61,11 @@ class ActionFlowController
 				# no target, because most actions in empty space create new things
 				# the target supposed to be a thing which already exists
 				# but that doesn't make sense for an action that creates something new
-				[@bindings[:empty], ThoughtTrace::SomeModule, nil]
+				[@bindings[:empty], ThoughtTrace::Actions::EmptySpace, nil]
 			elsif @selection.include? entity
 				# entity is part of the currently active selection
 				
-				[@bindings[:selection], ThoughtTrace::SomeOtherModule, entity]
+				[@bindings[:selection], ThoughtTrace::Actions::Selection, entity]
 			else
 				# assuming we have found an existing Entity
 				# but that it has no special characteristics
@@ -85,7 +85,7 @@ class ActionFlowController
 				# TODO: make easy way to check if Action is a the null object for that type of action. Sorta like how you can call #nil? on an object to check if it is nil or not
 				action = place_to_look.action_get(action_name).new(*standard_args,  target)
 				
-				if action_name and action.is_a? ThoughtTrace::Entity::Actions::NullAction
+				if action_name and action.is_a? ThoughtTrace::Actions::NullAction
 					puts "#{place_to_look.inspect} does not define action '#{action_name}'"
 				end
 				
