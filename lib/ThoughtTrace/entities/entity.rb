@@ -60,7 +60,7 @@ class Entity
 					# No acceptable action found.
 					# Return a null object so that method chaining doesn't just fail
 					
-					return ThoughtTrace::Entity::Actions::NullAction
+					return ThoughtTrace::Actions::NullAction
 				else
 					# continue recursive traversal
 					

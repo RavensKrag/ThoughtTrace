@@ -5,25 +5,26 @@ module ThoughtTrace
 # Stubs out all required callbacks
 # doesn't actually descend from any sort of Action,
 # but you should be coding based on interface anyway
-class NullAction
-	def initialize(*args)
-		
+class NullAction < BaseAction
+	def initialize(space, selection, text_input, target)
+		@target = target
+		@target ||= "empty space"
 	end
 	
 	def setup(point)
-		puts "setup null"
+		puts "#{@target} -> setup null "
 	end
 	
 	def update(point)
-		puts "update null"
+		puts "#{@target} -> update null"
 	end
 	
 	def cleanup(point)
-		puts "cleanup null"
+		puts "#{@target} -> cleanup null"
 	end
 	
 	def cancel
-		puts "cancel null"
+		puts "#{@target} -> cancel null"
 	end
 end
 

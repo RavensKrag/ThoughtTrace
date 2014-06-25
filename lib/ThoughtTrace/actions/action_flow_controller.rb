@@ -42,9 +42,6 @@ class ActionFlowController
 	
 	# start operation
 	def press(point)
-		# TODO: fix crash when point is in empty space
-		# resolve_action_symbols() doesn't work without an Entity, but that's exactly what happens in empty space
-		
 		entity = @space.point_query_best(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
 		
 		
