@@ -4,25 +4,6 @@ module ThoughtTrace
 
 
 class Edit < Entity::Actions::Action
-	# in the old system (TextSpace2)
-	# the action to edit a text object just switched on the text object
-	# the active objects were managed in the 'selection' collection
-		# when a new Text object was switched on, the current selection was cleared
-		# when the selection was cleared, all entities inside were deactivated
-	
-	
-	# NOTE: currently, 'selection' is not being passed into Entity objects
-	# it is being maintained by the input manager
-	# it is being passed to the action flow controller
-	# it's just NOT being passed to action on #initialize
-		# would have to change the flow controller Entity init step
-		# as well as the initializer of Entity
-	
-	
-	# may want to solidify documentation of current systems before moving on to this new system
-	
-	
-	
 	# called on first tick
 	def setup(point)
 		
