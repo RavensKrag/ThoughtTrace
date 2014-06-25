@@ -76,6 +76,9 @@ class InputManager
 			
 			action_flow.bindings[:existing][:click] = :edit
 			action_flow.bindings[:existing][:drag] = :move
+			
+			action_flow.bindings[:empty][:click] = :spawn_text
+			# action_flow.bindings[:empty][:drag] = 
 		
 		@actions << action_flow
 		@buttons.register event
