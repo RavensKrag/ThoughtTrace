@@ -1,0 +1,345 @@
+TODO: ensure Enumerable#short_circuting_min_by NEVER returns nil
+
+utilized in Text#nearest_character_boundary() [text.rb:160]
+	specifically, block starting line 200
+
+
+
+calling context is Text#nearest_character_boundary
+assuming in that context that the estimated character position
+is always within the length of the string
+is always less than the actual value
+
+
+
+
+
+
+
+
+
+
+
+
+================================
+debug output below
+================================
+================================
+
+
+ravenskrag@ravensnest:~/Code/Tools/ThoughtTrace/bin$ rake
+[:text, :text=]
+:@input
+load scripts complete (53 ms)
+setup window complete (870 ms)
+cached font sizes: [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987]
+
+
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 185: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 247: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 279: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 301: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 386: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 466: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 533: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 627: saw number, expected matrix
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 1309: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 1440: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "/home/ravenskrag/.config/fontconfig/fonts.conf", line 1518: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 185: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 247: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 279: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 301: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 386: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 466: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 533: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 627: saw number, expected matrix
+Fontconfig warning: "~/.fonts.conf", line 1309: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 1440: Having multiple values in <test> isn't supported and may not work as expected
+Fontconfig warning: "~/.fonts.conf", line 1518: Having multiple values in <test> isn't supported and may not work as expected
+setup physics space complete (164 ms)
+create camera complete (0 ms)
+setup input system complete (0 ms)
+no action bound to click
+setup null
+update null
+update null
+update null
+update null
+update null
+cancel nil
+approx char count: 4.684484640665493
+   3 :: 365.9791666666667 vs 211.75298967771454 => 154.22617698895215
+   4 :: 365.9791666666667 vs 250.39692447923414 => 115.58224218743254
+   5 :: 365.9791666666667 vs 329.6564234088815 => 36.32274325778519
+   6 :: 365.9791666666667 vs 362.7797960958983 => 3.1993705707683944
+   7 :: 365.9791666666667 vs 486.203791941568 => 120.22462527490131
+--> 6
+approx char count: 4.684484640665493
+   3 :: 365.9791666666667 vs 211.75298967771454 => 154.22617698895215
+   4 :: 365.9791666666667 vs 250.39692447923414 => 115.58224218743254
+   5 :: 365.9791666666667 vs 329.6564234088815 => 36.32274325778519
+   6 :: 365.9791666666667 vs 362.7797960958983 => 3.1993705707683944
+   7 :: 365.9791666666667 vs 486.203791941568 => 120.22462527490131
+--> 6
+approx char count: 4.684484640665493
+   3 :: 365.9791666666667 vs 211.75298967771454 => 154.22617698895215
+   4 :: 365.9791666666667 vs 250.39692447923414 => 115.58224218743254
+   5 :: 365.9791666666667 vs 329.6564234088815 => 36.32274325778519
+   6 :: 365.9791666666667 vs 362.7797960958983 => 3.1993705707683944
+   7 :: 365.9791666666667 vs 486.203791941568 => 120.22462527490131
+--> 6
+approx char count: 4.684484640665493
+   3 :: 365.9791666666667 vs 211.75298967771454 => 154.22617698895215
+   4 :: 365.9791666666667 vs 250.39692447923414 => 115.58224218743254
+   5 :: 365.9791666666667 vs 329.6564234088815 => 36.32274325778519
+   6 :: 365.9791666666667 vs 362.7797960958983 => 3.1993705707683944
+   7 :: 365.9791666666667 vs 486.203791941568 => 120.22462527490131
+--> 6
+approx char count: 4.684484640665493
+   3 :: 365.9791666666667 vs 211.75298967771454 => 154.22617698895215
+   4 :: 365.9791666666667 vs 250.39692447923414 => 115.58224218743254
+   5 :: 365.9791666666667 vs 329.6564234088815 => 36.32274325778519
+   6 :: 365.9791666666667 vs 362.7797960958983 => 3.1993705707683944
+   7 :: 365.9791666666667 vs 486.203791941568 => 120.22462527490131
+--> 6
+approx char count: 4.684484640665493
+   3 :: 365.9791666666667 vs 211.75298967771454 => 154.22617698895215
+   4 :: 365.9791666666667 vs 250.39692447923414 => 115.58224218743254
+   5 :: 365.9791666666667 vs 329.6564234088815 => 36.32274325778519
+   6 :: 365.9791666666667 vs 362.7797960958983 => 3.1993705707683944
+   7 :: 365.9791666666667 vs 486.203791941568 => 120.22462527490131
+--> 6
+no action bound to click
+setup null
+update null
+update null
+cancel nil
+ThoughtTrace::Rectangle does not define action 'edit'
+setup null
+update null
+update null
+update null
+cancel nil
+no action bound to click
+setup null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+cancel nil
+approx char count: 2.390527453047339
+   1 :: 87.85416666666667 vs 57.8375684017837 => 30.016598264882973
+   2 :: 87.85416666666667 vs 94.95000812626157 => 7.095841459594894
+   3 :: 87.85416666666667 vs 122.42285311710883 => 34.56868645044216
+--> 2
+approx char count: 2.390527453047339
+   1 :: 87.85416666666667 vs 57.8375684017837 => 30.016598264882973
+   2 :: 87.85416666666667 vs 94.95000812626157 => 7.095841459594894
+   3 :: 87.85416666666667 vs 122.42285311710883 => 34.56868645044216
+--> 2
+approx char count: 2.390527453047339
+   1 :: 87.85416666666667 vs 57.8375684017837 => 30.016598264882973
+   2 :: 87.85416666666667 vs 94.95000812626157 => 7.095841459594894
+   3 :: 87.85416666666667 vs 122.42285311710883 => 34.56868645044216
+--> 2
+approx char count: 2.390527453047339
+   1 :: 87.85416666666667 vs 57.8375684017837 => 30.016598264882973
+   2 :: 87.85416666666667 vs 94.95000812626157 => 7.095841459594894
+   3 :: 87.85416666666667 vs 122.42285311710883 => 34.56868645044216
+--> 2
+approx char count: 2.390527453047339
+   1 :: 87.85416666666667 vs 57.8375684017837 => 30.016598264882973
+   2 :: 87.85416666666667 vs 94.95000812626157 => 7.095841459594894
+   3 :: 87.85416666666667 vs 122.42285311710883 => 34.56868645044216
+--> 2
+no action bound to click
+setup null
+update null
+update null
+update null
+update null
+update null
+update null
+cancel nil
+approx char count: 1.8059702132834428
+   0 :: 28.47916666666667 vs 0 => 28.47916666666667
+   1 :: 28.47916666666667 vs 11.774526671612964 => 16.704639995053707
+   2 :: 28.47916666666667 vs 19.848487817861855 => 8.630678848804816
+   3 :: 28.47916666666667 vs 35.99641011035963 => 7.517243443692962
+   4 :: 28.47916666666667 vs 43.06112611332741 => 14.58195944666074
+--> 3
+approx char count: 1.8059702132834428
+   0 :: 28.47916666666667 vs 0 => 28.47916666666667
+   1 :: 28.47916666666667 vs 11.774526671612964 => 16.704639995053707
+   2 :: 28.47916666666667 vs 19.848487817861855 => 8.630678848804816
+   3 :: 28.47916666666667 vs 35.99641011035963 => 7.517243443692962
+   4 :: 28.47916666666667 vs 43.06112611332741 => 14.58195944666074
+--> 3
+approx char count: 1.87202618304509
+   0 :: 29.520833333333336 vs 0 => 29.520833333333336
+   1 :: 29.520833333333336 vs 11.774526671612964 => 17.74630666172037
+   2 :: 29.520833333333336 vs 19.848487817861855 => 9.67234551547148
+   3 :: 29.520833333333336 vs 35.99641011035963 => 6.475576777026298
+   4 :: 29.520833333333336 vs 43.06112611332741 => 13.540292779994076
+--> 3
+approx char count: 2.2023060318533276
+   1 :: 34.72916666666667 vs 11.774526671612964 => 22.954639995053707
+   2 :: 34.72916666666667 vs 19.848487817861855 => 14.880678848804816
+   3 :: 34.72916666666667 vs 35.99641011035963 => 1.267243443692962
+   4 :: 34.72916666666667 vs 43.06112611332741 => 8.33195944666074
+--> 3
+approx char count: 2.7307537899465073
+   1 :: 43.0625 vs 11.774526671612964 => 31.287973328387036
+   2 :: 43.0625 vs 19.848487817861855 => 23.214012182138145
+   3 :: 43.0625 vs 35.99641011035963 => 7.0660898896403666
+   4 :: 43.0625 vs 43.06112611332741 => 0.0013738866725887533
+--> 4
+approx char count: 1.4096343947135577
+   0 :: 22.22916666666667 vs 0 => 22.22916666666667
+   1 :: 22.22916666666667 vs 11.774526671612964 => 10.454639995053707
+   2 :: 22.22916666666667 vs 19.848487817861855 => 2.3806788488048163
+   3 :: 22.22916666666667 vs 35.99641011035963 => 13.767243443692962
+--> 2
+approx char count: 1.4096343947135577
+   0 :: 22.22916666666667 vs 0 => 22.22916666666667
+   1 :: 22.22916666666667 vs 11.774526671612964 => 10.454639995053707
+   2 :: 22.22916666666667 vs 19.848487817861855 => 2.3806788488048163
+   3 :: 22.22916666666667 vs 35.99641011035963 => 13.767243443692962
+--> 2
+approx char count: 1.4096343947135577
+   0 :: 22.22916666666667 vs 0 => 22.22916666666667
+   1 :: 22.22916666666667 vs 11.774526671612964 => 10.454639995053707
+   2 :: 22.22916666666667 vs 19.848487817861855 => 2.3806788488048163
+   3 :: 22.22916666666667 vs 35.99641011035963 => 13.767243443692962
+--> 2
+approx char count: 1.4096343947135577
+   0 :: 22.22916666666667 vs 0 => 22.22916666666667
+   1 :: 22.22916666666667 vs 11.774526671612964 => 10.454639995053707
+   2 :: 22.22916666666667 vs 19.848487817861855 => 2.3806788488048163
+   3 :: 22.22916666666667 vs 35.99641011035963 => 13.767243443692962
+--> 2
+approx char count: 1.4096343947135577
+   0 :: 22.22916666666667 vs 0 => 22.22916666666667
+   1 :: 22.22916666666667 vs 11.774526671612964 => 10.454639995053707
+   2 :: 22.22916666666667 vs 19.848487817861855 => 2.3806788488048163
+   3 :: 22.22916666666667 vs 35.99641011035963 => 13.767243443692962
+--> 2
+no action bound to click
+setup null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+cancel nil
+no action bound to click
+setup null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+cleanup null
+no action bound to click
+setup null
+update null
+update null
+update null
+update null
+update null
+update null
+update null
+cancel nil
+approx char count: 0.8040740740740753
+   0 :: 3.4791666666666714 vs 0 => 3.4791666666666714
+   1 :: 3.4791666666666714 vs 4.230769230769231 => 0.7516025641025594
+   2 :: 3.4791666666666714 vs 6.153846153846154 => 2.674679487179483
+--> 1
+approx char count: 0.8040740740740753
+   0 :: 3.4791666666666714 vs 0 => 3.4791666666666714
+   1 :: 3.4791666666666714 vs 4.230769230769231 => 0.7516025641025594
+   2 :: 3.4791666666666714 vs 6.153846153846154 => 2.674679487179483
+--> 1
+approx char count: 0.8040740740740753
+   0 :: 3.4791666666666714 vs 0 => 3.4791666666666714
+   1 :: 3.4791666666666714 vs 4.230769230769231 => 0.7516025641025594
+   2 :: 3.4791666666666714 vs 6.153846153846154 => 2.674679487179483
+--> 1
+approx char count: 0.8040740740740753
+   0 :: 3.4791666666666714 vs 0 => 3.4791666666666714
+   1 :: 3.4791666666666714 vs 4.230769230769231 => 0.7516025641025594
+   2 :: 3.4791666666666714 vs 6.153846153846154 => 2.674679487179483
+--> 1
+approx char count: 0.8040740740740753
+   0 :: 3.4791666666666714 vs 0 => 3.4791666666666714
+   1 :: 3.4791666666666714 vs 4.230769230769231 => 0.7516025641025594
+   2 :: 3.4791666666666714 vs 6.153846153846154 => 2.674679487179483
+--> 1
+approx char count: 0.8040740740740753
+   0 :: 3.4791666666666714 vs 0 => 3.4791666666666714
+   1 :: 3.4791666666666714 vs 4.230769230769231 => 0.7516025641025594
+   2 :: 3.4791666666666714 vs 6.153846153846154 => 2.674679487179483
+--> 1
+approx char count: 0.8040740740740753
+   0 :: 3.4791666666666714 vs 0 => 3.4791666666666714
+   1 :: 3.4791666666666714 vs 4.230769230769231 => 0.7516025641025594
+   2 :: 3.4791666666666714 vs 6.153846153846154 => 2.674679487179483
+--> 1
+approx char count: 1.285555555555559
+   0 :: 5.562500000000014 vs 0 => 5.562500000000014
+   1 :: 5.562500000000014 vs 4.230769230769231 => 1.3317307692307834
+   2 :: 5.562500000000014 vs 6.153846153846154 => 0.59134615384614
+--> 2
+approx char count: 2.24851851851852
+   1 :: 9.729166666666671 vs 4.230769230769231 => 5.498397435897441
+   2 :: 9.729166666666671 vs 6.153846153846154 => 3.575320512820517
+--> 2
+approx char count: 4.174444444444448
+--> 
+rake aborted!
+undefined method `<' for nil:NilClass
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/text_input/text_input.rb:80:in `caret_index='
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/text_input/text_input.rb:49:in `add'
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/entity/text/edit.rb:70:in `forward'
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/entity/0_entity/action.rb:32:in `hold'
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/click_and_drag_controller.rb:35:in `hold'
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/action_flow_controller.rb:105:in `hold'
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/mouse_action_controller.rb:19:in `hold'
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb:41:in `block in update'
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb:40:in `each'
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb:40:in `update'
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/input_manager.rb:114:in `update'
+/home/ravenskrag/Code/Tools/ThoughtTrace/bin/main.rb:56:in `update'
+/home/ravenskrag/Code/Tools/ThoughtTrace/bin/rakefile.rb:32:in `block in <top (required)>'
+/home/ravenskrag/.rvm/gems/ruby-2.1.1/bin/ruby_executable_hooks:15:in `eval'
+/home/ravenskrag/.rvm/gems/ruby-2.1.1/bin/ruby_executable_hooks:15:in `<main>'
+Tasks: TOP => default => run
