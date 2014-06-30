@@ -1,0 +1,14 @@
+TODO: Clean up old git branches
+
+old branches used to mark benchmark phases in development
+are starting to clutter up the list of branches
+
+convert some branches to tags?
+just drop branches?
+
+consider what happens to branches that are being held locally, but belong to old "remotes"
+ie, some of the older projects (MARK_I, MARK_II, etc)
+	(not those branches in particular, but the branches RELATED to them)
+if my local copy of the repo is lost, some of those branches could be lost too
+as they are not being backed up remotely anywhere
+and I want to delete the old project folders soon

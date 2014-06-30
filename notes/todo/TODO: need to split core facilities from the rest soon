@@ -1,0 +1,55 @@
+need to split core facilities from the rest soon
+
+core:
+	Text rendering
+	Text resizing methods
+	Text resizing action
+	Space to hold Entities (including Text)
+
+bonus:
+	Text split
+		(utilizes constraints and queries, as well as Text)
+		(categorized as "bonus" because it's built on many core technologies)
+
+aux:
+	button event input system (should be able to pull it out into a separate library)
+
+
+
+
+core   --- stays with main library deployment (main gem, dependent on all aux gems)
+bonus  --- built on top of core technologies. could move upstream to core, or stay in local project
+aux    --- should be separate library (separate gem)
+
+
+
+
+
+
+
+
+
+
+serialization build system
+	in it's current form, it's only good for this particular project
+	but the logic could be very useful as a stand-alone library
+	(whose primary usage would probably end up being in ThoughtTrace)
+	
+	would require quite a bit of clean up to properly abstract things properly
+	in order to make it a proper library
+
+
+
+
+
+
+
+
+
+===== monkey patches =====
+-- local
+	only useful for a particular project
+
+-- upstream
+	should be sent back upstream
+==========================
