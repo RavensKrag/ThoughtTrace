@@ -6,15 +6,33 @@ class CloneFactory
 		@prototypes = Hash.new
 	end
 	
-	# Store prototype of a particular class for later cloning
+	# Store one instance as a prototype,
+	# a basis from which other objects
+	# of the same class can be created, via cloning
 	def register_prototype(prototype)
 		@prototypes[prototypes.class] = prototype
 	end
 	
-	# Generate new clone based on the given class
+	# Create a new object of the type specified by the given class
 	def make(klass)
-		@prototypes[klass].clone
-		# TODO: update #clone methods for all Entity objects
+		prototype = @prototypes[klass]
+		
+		raise "No prototype registered for type #{klass}" if prototype.nil?
+		
+		clone = prototype.clone
+		
+		
+		# special manipulations to "reset" certain classes
+		# (clones should be "empty", but similar in style)
+		# (thus, they are not REALLY clones, and have to be manipulated from the true clones)
+		case clone.class
+			when ThoughtTrace::Text
+				# don't allow the text from the prototype to leak
+				clone.string = ""
+			else
+		end
+		
+		return clone
 	end
 end
 
