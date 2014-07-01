@@ -83,6 +83,10 @@ task :load_dependencies do
 				# new actions
 				'./actions/header',
 				
+				
+				'./cloning',
+				
+				
 				# './input_system'
 					'./input_system/old/action_stash',
 					
