@@ -1,6 +1,15 @@
 module CP
 	module Shape
 		class Poly
+			alias :old_init, :initialize
+			
+			attr_reader :offset
+			
+			def initialize(body, verts, offset)
+				old_init(body, verts, offset)
+				@offset = offset
+			end
+			
 			# Draw poly from verts in world space coordinates
 			# Assumes that the poly is convex whole, but that's an assumption built into Chipmunk.
 			def draw(color, z=0)
