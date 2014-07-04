@@ -1,0 +1,50 @@
+clone collection
+
+when does Text get added?
+on Edit action?
+on buffer open?
+
+consider separation between human interface and tech backend
+consider what happens on automation of complex tasks
+
+
+
+
+
+
+
+
+don't want the Entities used for templating to be editable
+should not be able to reach into the collection and edit them
+would be a weird way of passing around Entity objects in an unauthorized way
+
+can't totally prevent this sort of thing (Ruby has instance_variable_get, after all)
+maybe the Entities should be at least cloned upon insertion,
+so that way the original Entity can be GCed or w/e without issues?
+
+(would also mean that if the reference object changed,
+the protoype in the clone factory would remain unchanged)
+
+(not sure if that's good or bad)
+
+
+
+
+
+
+
+
+
+
+clone factory
+
+send clone factory to all actions
+should generate new objects using clone factory
+will generate clones of Text etc so that style properties are the same as last Text edited
+
+Text edit action should update the reference clone
+by putting a clone into the factory
+
+(or maybe the copies should be made only when the new objects are requested?)
+	(just don't allow read access to the objects being stored in the mean time)
+	(don't want to be able to edit "random" entities through this collection)
