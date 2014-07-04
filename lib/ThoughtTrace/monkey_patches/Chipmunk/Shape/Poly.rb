@@ -1,7 +1,7 @@
 module CP
 	module Shape
 		class Poly
-			alias :old_init, :initialize
+			alias :old_init :initialize
 			
 			attr_reader :offset
 			

@@ -20,7 +20,7 @@ class Rect
 		# vectors (objects which need to be cloned)
 		#   read                write
 		[
-			:surface_v,         :surface_v=,
+			:surface_v,         :surface_v=
 		].each_slice(2) do |r, w|
 			other.send r, self.send(w).clone
 		end
@@ -31,11 +31,11 @@ class Rect
 			:obj,               :obj=,
 			:body,              :body=,           # if you need the deep clone, that's on you
 			:sensor?,           :sensor=,
-			:collision_type,    :collision_type=  # not sure if this will have side effects
+			:collision_type,    :collision_type=,  # not sure if this will have side effects
 			:e,                 :e=,
 			:u,                 :u=,
 			:group,             :group=,
-			:layers,            :layers=,
+			:layers,            :layers=
 		].each_slice(2) do |r, w|
 			other.send r, self.send(w)
 		end
