@@ -34,9 +34,6 @@ class Window < Gosu::Window
 		end
 		
 		
-		Metrics::Timer.new "setup factory to create new objects based on established prototypes" do
-			@clone_factory = ThoughtTrace::CloneFactory.new
-		end
 		
 		
 		
@@ -45,6 +42,10 @@ class Window < Gosu::Window
 			@space = ThoughtTrace::Space.load @filepath
 		end
 		
+		Metrics::Timer.new "setup factory to create new objects based on established prototypes" do
+			filepath = File.join(@filepath, 'prototypes.csv')
+			@clone_factory = ThoughtTrace::CloneFactory.load filepath
+		end
 		
 		Metrics::Timer.new "create camera" do
 			@camera = ThoughtTrace::Camera.new
