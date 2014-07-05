@@ -1,6 +1,6 @@
 generally speaking...
 
-@past is stuff set once, created during #setup and never changed
+@initial is stuff set once, created during #setup and never changed
 @future is stuff that is altered in a process of iterative creation, created many times in #update
 
 other variables can be added as necessary within Memento itself,
@@ -10,7 +10,24 @@ and allow for passing of state between the two halves of #forward and #reverse
 
 
 
+values stored in instance variables of Action,
+which are set on initialization,
+should always be passed to Memento though @initial,
+as they are values that will not change for the entire execution of the Action
 
 
 
-TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @past value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
+It's conceivable that these values could change,
+but the values will never be updated in Action,
+because the values are only ever passed on Action initialization
+
+Thus, the Action will always retain a snapshot of the values used when the action was initiated.
+
+
+
+
+
+
+
+
+TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @initial value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
