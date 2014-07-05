@@ -1,0 +1,7 @@
+generally speaking...
+
+@past is stuff set once, created during #setup and never changed
+@future is stuff that is altered in a process of iterative creation, created many times in #update
+
+other variables can be added as necessary within Memento itself,
+and allow for passing of state between the two halves of #forward and #reverse
