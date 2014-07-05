@@ -58,9 +58,8 @@ class Space < CP::Space
 								)
 				
 				arr_of_arrs.each do |row|
-					args = row.to_a
-					
-					klass_name = args.shift
+					# split row into the first element, and then everything else
+					klass_name, *args = row.to_a
 					
 					namespace = self.const_get 'CONST_SPACE'
 					klass = namespace.const_get klass_name
