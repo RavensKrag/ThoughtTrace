@@ -35,9 +35,6 @@ class Foo < Entity::Actions::Action
 	# perform the transformation here
 	# by encapsulating the transform in this object,
 	# it becomes easy to redo / undo actions as necessary
-	# (Consider better name. Current class name derives from a design pattern.)
-	# (this class also has ideas from the command pattern, though)
-	# TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @past value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
 	ParentMemento = self.superclass.const_get 'Memento'
 	class Memento < ParentMemento
 		# set future state
@@ -47,7 +44,7 @@ class Foo < Entity::Actions::Action
 		
 		# set past state
 		def reverse
-			@entity.baz(@past)
+			@entity.baz(@initial)
 		end
 	end
 end

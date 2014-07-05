@@ -88,11 +88,11 @@ class BaseAction
 	# (this class also has ideas from the command pattern, though)
 	class Memento
 		# TODO: insure that #forward and #reverse maintain the redo / undo paradigm. Currently, you could run #forward twice in a row, to apply the operation twice. That's not desirable.
-		def initialize(entity, past, future)
+		def initialize(entity, initial_state, future_state)
 			@entity = entity
 			
-			@past = past     # encapsulates the condition before execution
-			@future = future # encapsulates condition after execution
+			@initial = initial_state # encapsulates the condition before execution
+			@future = future_state   # encapsulates condition after execution
 		end
 		
 		# set future state
