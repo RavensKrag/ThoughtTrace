@@ -10,8 +10,8 @@ class Entity
 		# (independent of disk write/read format)
 		# it's easy to do the entire process in memory
 		
-		data = self.dump
-		other = self.class.load(*data)
+		data = self.pack
+		other = self.class.unpack(*data)
 		
 		return other
 	end

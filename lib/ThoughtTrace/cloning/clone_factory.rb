@@ -28,12 +28,17 @@ class CloneFactory
 		# special manipulations to "reset" certain classes
 		# (clones should be "empty", but similar in style)
 		# (thus, they are not REALLY clones, and have to be manipulated from the true clones)
-		case clone.class
-			when ThoughtTrace::Text
-				# don't allow the text from the prototype to leak
-				clone.string = ""
-			else
+		if clone.is_a? ThoughtTrace::Text
+			# don't allow the text from the prototype to leak
+			clone.string = ""
 		end
+		
+		
+		# Make sure that position is always reset. Want prototypes to spawn in a reliable way.
+		if clone[:physics]
+			clone[:physics].body.p = CP::Vec2.new(0,0)
+		end
+		
 		
 		return clone
 	end

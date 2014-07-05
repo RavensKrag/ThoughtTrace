@@ -70,7 +70,7 @@ class Space < CP::Space
 		end
 		
 		def delete(object)
-			self.delete object
+			super(object)
 		end
 	end
 	
@@ -95,15 +95,6 @@ class Space < CP::Space
 		
 		def delete(object)
 			super(object)
-			
-			# remove linkage between this space and any Actions
-			# (same loop from Space#add)
-			object.action_names.each do |name|
-				action = object.send(name)
-				if action.respond_to? :space=
-					action.space = nil
-				end
-			end
 		end
 	end
 	

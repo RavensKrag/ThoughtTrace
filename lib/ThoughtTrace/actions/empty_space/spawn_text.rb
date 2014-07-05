@@ -47,7 +47,7 @@ class SpawnText < Actions::BaseAction
 			
 			
 			space.entities.add @text
-			text_input.add @text
+			text_input.add @text, 0
 			
 			
 			
