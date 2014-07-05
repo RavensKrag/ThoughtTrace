@@ -6,16 +6,14 @@ module ThoughtTrace
 class SpawnText < Actions::BaseAction
 	# called on first tick
 	def setup(point)
-		@origin = point
-		
-		return @origin
+		return @space, @text_input, point
 	end
 	
 	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		
-		return @space, @text_input
+		return nil
 	end
 	
 	# not often used, but you can define this callback if you need it
@@ -42,9 +40,7 @@ class SpawnText < Actions::BaseAction
 		def forward
 			# TODO: new Text should have the same size, font, etc as the last Text object accessed. ie, user should be able to create multiple similar Text objects in succession, without having to rely on the default font
 			
-			point = @initial
-			space, text_input = @future
-			
+			space, text_input, point = @initial
 			
 			@text = ThoughtTrace::Text.new font
 			@text[:physics].body.p = point
@@ -63,8 +59,7 @@ class SpawnText < Actions::BaseAction
 		
 		# set past state
 		def reverse
-			point = @initial
-			space, text_input = @future
+			space, text_input, point = @initial
 			
 			
 			space.entities.delete @text
