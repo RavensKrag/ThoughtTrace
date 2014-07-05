@@ -9,7 +9,6 @@ class SpawnText < Actions::BaseAction
 		return @space, @text_input, point
 	end
 	
-	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		

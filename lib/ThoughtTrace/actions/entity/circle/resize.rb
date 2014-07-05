@@ -21,7 +21,6 @@ class Resize < Entity::Actions::Action
 		return @original_radius
 	end
 	
-	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		# Alter the size of the circle by an amount equal to the radial displacement

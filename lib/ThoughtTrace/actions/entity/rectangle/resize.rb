@@ -75,7 +75,6 @@ class Resize < Entity::Actions::Action
 		return @original_width, @original_height, nil
 	end
 	
-	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		local_origin = @entity[:physics].body.world2local @origin

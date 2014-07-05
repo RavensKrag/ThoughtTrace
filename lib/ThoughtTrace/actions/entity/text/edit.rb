@@ -9,7 +9,6 @@ class Edit < Entity::Actions::Action
 		return @text_input
 	end
 	
-	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		return point

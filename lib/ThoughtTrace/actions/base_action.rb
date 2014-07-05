@@ -56,12 +56,13 @@ class BaseAction
 	# separate from outer API so that you don't have to think about
 	# creating or managing memos in child class implementation
 		# called on first tick
+		# returns value(s) passed to Memento as @initial
 		def setup(point)
 			
 		end
 		
-		# return two values: past and future used by Memento
 		# called each tick
+		# returns value(s) passed to Memento as @future
 		def update(point)
 			
 		end

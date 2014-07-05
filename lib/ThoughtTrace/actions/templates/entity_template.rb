@@ -10,7 +10,6 @@ class Foo < Entity::Actions::Action
 		return @original
 	end
 	
-	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		

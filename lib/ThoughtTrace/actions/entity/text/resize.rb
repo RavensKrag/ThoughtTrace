@@ -12,7 +12,6 @@ class Resize < Rectangle::Actions::Resize
 		return super(point) # sets @origin and @direction
 	end
 	
-	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		local_origin = @entity[:physics].body.world2local @origin
