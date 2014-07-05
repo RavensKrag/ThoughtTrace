@@ -31,3 +31,9 @@ Thus, the Action will always retain a snapshot of the values used when the actio
 
 
 TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @initial value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
+
+
+
+NOTE: some mementos make use of variables stored in @initial as well as @future
+which means that to fully separate the variables being sent to each phase
+would be to understand and allow for control of that dynamic
