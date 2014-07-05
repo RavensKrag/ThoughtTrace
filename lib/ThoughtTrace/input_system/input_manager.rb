@@ -12,9 +12,10 @@ class InputManager
 	
 	attr_reader :mouse, :buttons
 	
-	def initialize(window, space, camera)
+	def initialize(window, space, camera, clone_factory)
 		@space = space
 		@camera = camera
+		@clone_factory = clone_factory
 		
 		
 		# TODO: properly implement mouse.
@@ -68,7 +69,9 @@ class InputManager
 		
 		
 		
-		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @text_input)
+		action_flow = ThoughtTrace::ActionFlowController.new(
+						@space, @selection, @text_input, @clone_factory
+						)
 		callbacks = InputSystem::MouseActionController.new @mouse, action_flow
 		
 			event = InputSystem::ButtonEvent.new :click, callbacks
@@ -85,7 +88,9 @@ class InputManager
 		
 		
 		
-		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @text_input)
+		action_flow = ThoughtTrace::ActionFlowController.new(
+						@space, @selection, @text_input, @clone_factory
+						)
 		callbacks = InputSystem::MouseActionController.new @mouse, action_flow
 		
 			event = InputSystem::ButtonEvent.new :right_click, callbacks

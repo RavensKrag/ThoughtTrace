@@ -1,6 +1,9 @@
 module ThoughtTrace
 
 
+# Not really a factory that produces exact copies of the registered objects,
+# but rather one that generates SIMILAR objects
+# (in the mathematical sense (ie equivalent, but not equal))
 class CloneFactory
 	def initialize
 		@prototypes = Hash.new

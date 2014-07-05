@@ -34,6 +34,11 @@ class Window < Gosu::Window
 		end
 		
 		
+		Metrics::Timer.new "setup factory to create new objects based on established prototypes" do
+			@clone_factory = ThoughtTrace::CloneFactory.new
+		end
+		
+		
 		
 		Metrics::Timer.new "setup physics space" do
 			@filepath = './data/test'
@@ -47,7 +52,7 @@ class Window < Gosu::Window
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = ThoughtTrace::InputManager.new self, @space, @camera
+			@input = ThoughtTrace::InputManager.new self, @space, @camera, @clone_factory
 		end
 	end
 	
