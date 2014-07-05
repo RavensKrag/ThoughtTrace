@@ -6,8 +6,8 @@ module ThoughtTrace
 # doesn't actually descend from any sort of Action,
 # but you should be coding based on interface anyway
 class NullAction < BaseAction
-	def initialize(space, selection, text_input, target)
-		@target = target
+	def initialize(*args)
+		@target = args.last
 		@target ||= "empty space"
 	end
 	

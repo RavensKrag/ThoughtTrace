@@ -12,6 +12,8 @@ class Move < Action
 		# mark the initial point for reference
 		@origin = point
 		@start = @entity[:physics].body.p.clone
+		
+		return @start
 	end
 	
 	# return two values: past and future used by Memento
@@ -23,7 +25,7 @@ class Move < Action
 		current = @entity[:physics].body.p = @start + displacement
 		
 		
-		return @start, current
+		return current
 	end
 	
 	

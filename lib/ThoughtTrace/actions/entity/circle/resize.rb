@@ -17,6 +17,8 @@ class Resize < Entity::Actions::Action
 		@origin = point
 		
 		@original_radius = @entity.radius
+		
+		return @original_radius
 	end
 	
 	# return two values: past and future used by Memento
@@ -46,7 +48,7 @@ class Resize < Entity::Actions::Action
 		
 		
 		
-		return @original_radius, radius
+		return radius
 	end
 	
 	

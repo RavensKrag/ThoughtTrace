@@ -18,17 +18,17 @@ class BaseAction
 	# used to give external code something to call
 		# called on first tick
 		def press(point)
-			setup(point)
+			@initial_state = setup(point)
 		end
 		
 		# called each tick
 		def hold(point)
 			# IMPLEMENTATION core
-			past, future = update(point)
+			modified_state = update(point)
 			
 			# MEMO creation (pseudo return)
 			memo_class = self.class.const_get 'Memento'
-			@memo = memo_class.new(@target, past, future)
+			@memo = memo_class.new(@target, @initial_state, modified_state)
 			@memo.forward
 		end
 		

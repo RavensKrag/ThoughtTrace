@@ -9,12 +9,7 @@ class Resize < Rectangle::Actions::Resize
 	
 	# called on first tick
 	def setup(point)
-		super(point) # sets @origin and @direction
-		
-		# Currently using the same @original as Rectangle,
-		# because the original width is also needed for interactive resize
-		# even though it's not necessary as an argument to Text#resize!
-		# @original =
+		return super(point) # sets @origin and @direction
 	end
 	
 	# return two values: past and future used by Memento
@@ -40,7 +35,8 @@ class Resize < Rectangle::Actions::Resize
 			
 			# for text, you always want to end up computing the height,
 			# as opposed to the standard rectangle, where you need both width and height
-			width, height = @original
+			width = @original_width
+			height = @original_height
 			
 		
 				# ===== Cartesian Scaling =====
@@ -100,9 +96,7 @@ class Resize < Rectangle::Actions::Resize
 		
 		
 		
-		current = [height, anchor_point()]
-		
-		return @original, current
+		return height, anchor_point()
 	end
 	
 	

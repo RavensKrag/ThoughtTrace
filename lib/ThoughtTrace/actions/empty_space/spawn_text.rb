@@ -7,13 +7,15 @@ class SpawnText < Actions::BaseAction
 	# called on first tick
 	def setup(point)
 		@origin = point
+		
+		return @origin
 	end
 	
 	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		
-		return @origin, self
+		return @space, @text_input
 	end
 	
 	# not often used, but you can define this callback if you need it
@@ -44,17 +46,15 @@ class SpawnText < Actions::BaseAction
 			# TODO: new Text should have the same size, font, etc as the last Text object accessed. ie, user should be able to create multiple similar Text objects in succession, without having to rely on the default font
 			
 			point = @past
-			action = @future
+			space, text_input = @future
 			
 			
 			@text = ThoughtTrace::Text.new font
 			@text[:physics].body.p = point
-			text = @text
 			
-			action.instance_eval do
-				@space.entities.add text
-				@text_input.add text
-			end
+			
+			space.entities.add @text
+			text_input.add @text
 			
 			
 			

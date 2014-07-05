@@ -7,13 +7,14 @@ class Foo < Entity::Actions::Action
 	# called on first tick
 	def setup(point)
 		@original = nil
+		return @original
 	end
 	
 	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		
-		return @original, current
+		return current
 	end
 	
 	# not often used, but you can define this callback if you need it

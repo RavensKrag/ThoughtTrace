@@ -6,17 +6,13 @@ module ThoughtTrace
 class Edit < Entity::Actions::Action
 	# called on first tick
 	def setup(point)
-		
+		return @text_input
 	end
 	
 	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
-		
-		
-		# past and future aren't really used
-		# but need to smuggle the text input handle into the Memento somehow
-		return @text_input,point
+		return point
 	end
 	
 	# not often used, but you can define this callback if you need it

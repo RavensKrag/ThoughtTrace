@@ -66,9 +66,13 @@ class Resize < Entity::Actions::Action
 		
 		
 		
-		# TODO: remove @original_width/height if unnecessary
+		
 		shape = @entity[:physics].shape
-		@original = [shape.width, shape.height, nil]
+		@original_width = shape.width
+		@original_height = shape.height
+		
+		
+		return @original_width, @original_height, nil
 	end
 	
 	# return two values: past and future used by Memento
@@ -90,7 +94,8 @@ class Resize < Entity::Actions::Action
 				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
 			# get axes
-			width, height = @original
+			width = @original_width
+			height = @original_height
 			
 			if @direction.zero?
 				# ===== Radial Scaling =====
@@ -165,9 +170,7 @@ class Resize < Entity::Actions::Action
 		
 		
 		
-		current = [width, height, anchor_point()]
-		
-		return @original, current
+		return width, height, anchor_point()
 	end
 	
 	
