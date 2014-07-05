@@ -5,3 +5,12 @@ generally speaking...
 
 other variables can be added as necessary within Memento itself,
 and allow for passing of state between the two halves of #forward and #reverse
+
+
+
+
+
+
+
+
+TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @past value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
