@@ -6,7 +6,7 @@ module ThoughtTrace
 class Edit < Entity::Actions::Action
 	# called on first tick
 	def setup(point)
-		return @text_input
+		return @text_input, @clone_factory
 	end
 	
 	# called each tick
@@ -36,19 +36,24 @@ class Edit < Entity::Actions::Action
 	class Memento < ParentMemento
 		# set future state
 		def forward
-			text_input = @initial
+			text_input, clone_factory = @initial
 			point = @future
 			
 			
 			text_input.add @entity, @entity.nearest_character_boundary(point)
+			
+			
+			@old_prototype = clone_factory.make ThoughtTrace::Text
+			clone_factory.register_prototype @entity
 		end
 		
 		# set past state
 		def reverse
-			text_input = @initial
+			text_input, clone_factory = @initial
 			point = @future
 			
 			text_input.clear
+			clone_factory.register_prototype @old_prototype
 		end
 	end
 end
