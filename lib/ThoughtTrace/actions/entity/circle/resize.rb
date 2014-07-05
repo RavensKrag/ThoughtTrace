@@ -6,11 +6,6 @@ module ThoughtTrace
 class Resize < Entity::Actions::Action
 	MINIMUM_DIMENSION = 10
 	
-	def initialize(space, stash, entity)
-		super(space, stash, entity)
-	end
-	
-	
 	# called on first tick
 	def setup(point)
 		# mark the initial point for reference
