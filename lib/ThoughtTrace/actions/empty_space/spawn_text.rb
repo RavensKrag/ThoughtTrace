@@ -6,7 +6,7 @@ module ThoughtTrace
 class SpawnText < Actions::BaseAction
 	# called on first tick
 	def setup(point)
-		return @space, @text_input, point
+		return @space, @text_input, @clone_factory, point
 	end
 	
 	# called each tick
@@ -39,9 +39,10 @@ class SpawnText < Actions::BaseAction
 		def forward
 			# TODO: new Text should have the same size, font, etc as the last Text object accessed. ie, user should be able to create multiple similar Text objects in succession, without having to rely on the default font
 			
-			space, text_input, point = @initial
+			space, text_input, clone_factory, point = @initial
 			
-			@text = ThoughtTrace::Text.new font
+			
+			@text = clone_factory.make ThoughtTrace::Text
 			@text[:physics].body.p = point
 			
 			
@@ -58,7 +59,7 @@ class SpawnText < Actions::BaseAction
 		
 		# set past state
 		def reverse
-			space, text_input, point = @initial
+			space, text_input, clone_factory, point = @initial
 			
 			
 			space.entities.delete @text
