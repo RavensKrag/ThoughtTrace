@@ -36,8 +36,6 @@ class PressEnter
 				# (the end isn't really a special case)
 				
 				
-				
-				
 				old_text = @text_input.text
 				new_text = @clone_factory.make ThoughtTrace::Text
 				
@@ -49,15 +47,9 @@ class PressEnter
 				# first i characters, rest of the string
 				# ie) up to and including index i, everything after that
 				
-				
-				
 				# --- attach strings to corresponding Text objects
 				old_text.string = main
 				new_text.string = splinter
-				
-				
-				
-				
 				
 				
 				
@@ -67,8 +59,6 @@ class PressEnter
 				# --- move new Text below the old one (one-line-down effect)
 				new_text[:physics].body.p = old_text[:physics].body.p.clone
 				new_text[:physics].body.p.y += old_text.height
-				
-				
 				
 				# --- connect input buffer to the new Text
 				@text_input.clear
