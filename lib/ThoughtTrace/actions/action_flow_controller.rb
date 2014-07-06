@@ -10,11 +10,11 @@ module ThoughtTrace
 class ActionFlowController
 	attr_reader :bindings
 	
-	def initialize(space, selection, text_input)
+	def initialize(space, selection, text_input, clone_factory)
 		@space = space
 		@selection = selection
 		@text_input = text_input
-		# TODO: Should probably pass @selection to Action objects as they are initialized.
+		@clone_factory = clone_factory
 		
 		
 		
@@ -46,8 +46,9 @@ class ActionFlowController
 		
 		
 		
-		
-		standard_args = [@space, @selection, @text_input]
+		# NOTE: Don't have to be concerned about the possibility of wanting to change these values from a centralized container. They Actions are initialized as needed, and these values will get passed again with their newest values.
+		standard_args = [@space, @selection, @text_input, @clone_factory]
+		# TODO: make it so not all Actions have to receive all of these arguments. Ideally, each Action would specify what things it needs, and then the encapsulating system would provide only the elements necessary. May want to delay that though, as managing it in the current text-based system could get hairy really fast.
 		
 		
 		# one of these

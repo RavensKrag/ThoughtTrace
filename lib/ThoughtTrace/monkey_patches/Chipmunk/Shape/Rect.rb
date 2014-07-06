@@ -14,7 +14,7 @@ module CP
 			
 			
 			
-			
+			# TODO: Make sure @offset is ok this way. It may have to become a relative offset system to get things to resize dynamically as intended. (related to the anchor point system used in Rectangle entity [rectangle anchor]). Come back and check on this when Constraints are more developed. May not work as intended.
 			attr_reader :width, :height
 			
 			def width=(width)

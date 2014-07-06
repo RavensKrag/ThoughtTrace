@@ -6,20 +6,16 @@ module ThoughtTrace
 class Resize < Entity::Actions::Action
 	MINIMUM_DIMENSION = 10
 	
-	def initialize(space, stash, entity)
-		super(space, stash, entity)
-	end
-	
-	
 	# called on first tick
 	def setup(point)
 		# mark the initial point for reference
 		@origin = point
 		
 		@original_radius = @entity.radius
+		
+		return @original_radius
 	end
 	
-	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		# Alter the size of the circle by an amount equal to the radial displacement
@@ -46,7 +42,7 @@ class Resize < Entity::Actions::Action
 		
 		
 		
-		return @original_radius, radius
+		return radius
 	end
 	
 	
@@ -61,9 +57,6 @@ class Resize < Entity::Actions::Action
 	# perform the transformation here
 	# by encapsulating the transform in this object,
 	# it becomes easy to redo / undo actions as necessary
-	# (Consider better name. Current class name derives from a design pattern.)
-	# (this class also has ideas from the command pattern, though)
-	# TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @past value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
 	ParentMemento = self.superclass.const_get 'Memento'
 	class Memento < ParentMemento
 		# set future state
@@ -73,7 +66,7 @@ class Resize < Entity::Actions::Action
 		
 		# set past state
 		def reverse
-			@entity.resize!(@past)
+			@entity.resize!(@initial)
 		end
 	end
 end

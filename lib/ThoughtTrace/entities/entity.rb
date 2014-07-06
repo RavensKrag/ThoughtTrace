@@ -5,7 +5,6 @@ class Entity
 	def initialize
 		# These two Hashes map symbols for interface names to actual component/action instances
 		@components = Hash.new
-		@actions = Hash.new
 	end
 	
 	def update

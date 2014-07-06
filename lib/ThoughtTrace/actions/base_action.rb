@@ -5,10 +5,11 @@ module ThoughtTrace
 class BaseAction
 	# NOTE: You might think that setting @entity in #press would remove the need to allocate a new ClickAndDragController object all the time. But that just means that the controller would have to be more aware of how Action works, which is not desirable.
 	
-	def initialize(space, selection, text_input, target)
+	def initialize(space, selection, text_input, clone_factory, target)
 		@space = space           # for queries and modifications to the space (ex, new objects)
 		@selection = selection   # for altering the selection, or just querying it
 		@text_input = text_input # for manipulating the text input buffer
+		@clone_factory = clone_factory
 		
 		@target = target         # That which the Action is perform on
 	end
@@ -17,17 +18,17 @@ class BaseAction
 	# used to give external code something to call
 		# called on first tick
 		def press(point)
-			setup(point)
+			@initial_state = setup(point)
 		end
 		
 		# called each tick
 		def hold(point)
 			# IMPLEMENTATION core
-			past, future = update(point)
+			modified_state = update(point)
 			
 			# MEMO creation (pseudo return)
 			memo_class = self.class.const_get 'Memento'
-			@memo = memo_class.new(@target, past, future)
+			@memo = memo_class.new(@target, @initial_state, modified_state)
 			@memo.forward
 		end
 		
@@ -55,12 +56,13 @@ class BaseAction
 	# separate from outer API so that you don't have to think about
 	# creating or managing memos in child class implementation
 		# called on first tick
+		# returns value(s) passed to Memento as @initial
 		def setup(point)
 			
 		end
 		
-		# return two values: past and future used by Memento
 		# called each tick
+		# returns value(s) passed to Memento as @future
 		def update(point)
 			
 		end
@@ -87,11 +89,11 @@ class BaseAction
 	# (this class also has ideas from the command pattern, though)
 	class Memento
 		# TODO: insure that #forward and #reverse maintain the redo / undo paradigm. Currently, you could run #forward twice in a row, to apply the operation twice. That's not desirable.
-		def initialize(entity, past, future)
+		def initialize(entity, initial_state, future_state)
 			@entity = entity
 			
-			@past = past     # encapsulates the condition before execution
-			@future = future # encapsulates condition after execution
+			@initial = initial_state # encapsulates the condition before execution
+			@future = future_state   # encapsulates condition after execution
 		end
 		
 		# set future state

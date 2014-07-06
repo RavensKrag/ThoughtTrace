@@ -66,12 +66,15 @@ class Resize < Entity::Actions::Action
 		
 		
 		
-		# TODO: remove @original_width/height if unnecessary
+		
 		shape = @entity[:physics].shape
-		@original = [shape.width, shape.height, nil]
+		@original_width = shape.width
+		@original_height = shape.height
+		
+		
+		return @original_width, @original_height
 	end
 	
-	# return two values: past and future used by Memento
 	# called each tick
 	def update(point)
 		local_origin = @entity[:physics].body.world2local @origin
@@ -90,7 +93,8 @@ class Resize < Entity::Actions::Action
 				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
 			# get axes
-			width, height = @original
+			width = @original_width
+			height = @original_height
 			
 			if @direction.zero?
 				# ===== Radial Scaling =====
@@ -165,9 +169,7 @@ class Resize < Entity::Actions::Action
 		
 		
 		
-		current = [width, height, anchor_point()]
-		
-		return @original, current
+		return width, height, anchor_point()
 	end
 	
 	
@@ -182,9 +184,6 @@ class Resize < Entity::Actions::Action
 	# perform the transformation here
 	# by encapsulating the transform in this object,
 	# it becomes easy to redo / undo actions as necessary
-	# (Consider better name. Current class name derives from a design pattern.)
-	# (this class also has ideas from the command pattern, though)
-	# TODO: consider that writing new versions of Memento may be unnecessary if the Memento always passes the @future / @past value(s) to #forward / #reverse. That's not currently what's happening necessarily, but that might be a good direction to go in.
 	ParentMemento = self.superclass.const_get 'Memento'
 	class Memento < ParentMemento
 		# set future state
@@ -195,8 +194,7 @@ class Resize < Entity::Actions::Action
 		
 		# set past state
 		def reverse
-			width  = @past[0]
-			height = @past[1]
+			width, height = @initial
 			anchor = @future[2]
 			
 			

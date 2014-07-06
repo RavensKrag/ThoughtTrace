@@ -8,7 +8,9 @@ end
 class Window < Gosu::Window
 	attr_reader :camera
 	
-	def initialize
+	def initialize(filepath)
+		@filepath = filepath
+		
 		Metrics::Timer.new "setup window" do
 			# Necessary to allow access to text input buffers, etc
 			# Also allows for easy transformation of vectors through camera
@@ -35,11 +37,16 @@ class Window < Gosu::Window
 		
 		
 		
+		
+		
 		Metrics::Timer.new "setup physics space" do
-			@filepath = './data/test'
 			@space = ThoughtTrace::Space.load @filepath
 		end
 		
+		Metrics::Timer.new "setup factory to create new objects based on established prototypes" do
+			filepath = File.join(@filepath, 'prototypes.csv')
+			@clone_factory = ThoughtTrace::CloneFactory.load filepath
+		end
 		
 		Metrics::Timer.new "create camera" do
 			@camera = ThoughtTrace::Camera.new
@@ -47,7 +54,7 @@ class Window < Gosu::Window
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = ThoughtTrace::InputManager.new self, @space, @camera
+			@input = ThoughtTrace::InputManager.new self, @space, @camera, @clone_factory
 		end
 	end
 	
