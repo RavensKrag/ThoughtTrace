@@ -43,6 +43,8 @@ class Edit < Entity::Actions::Action
 			text_input.add @entity, @entity.nearest_character_boundary(point)
 			
 			
+			# NOTE: Can't move prototype registration into TextInput because you would have no way to step back from that transformation in this Action.
+			# TODO: Figure out how to move prototype registration into TextInput, rather than this one action.
 			@old_prototype = clone_factory.make ThoughtTrace::Text
 			clone_factory.register_prototype @entity
 		end
