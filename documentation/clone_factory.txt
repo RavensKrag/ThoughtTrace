@@ -16,7 +16,8 @@ The entire operation can be performed in memory without additional special facil
 
 
 
-
+=== Don't leak data
+-------------------------------------
 Make sure that no data that could identity an Entity leaks outside the CloneFactory.
 This means the factory is responsible for reseting data specific to one instance of an Entity,
 such as the string of a Text object.
@@ -27,3 +28,30 @@ Don't want a new Text to have the same string as the prototype, just the same si
 
 
 (Though, it is a bit weird, because you're clearing and then setting it again...)
+
+
+
+
+
+
+
+
+=== When are prototypes established?
+-------------------------------------
+One group of prototypes is loaded with CloneFactory.load
+this is the default set,
+and exists only so there is SOMETHING to generate new objects from.
+
+
+New prototypes should be bound so that it feels like
+the user is generating objects similar to the objects edited recently.
+
+
+
+-- New Prototype Flow
+
+Text         Registered in Edit action. Can't currently get the prototypes registered in TextInput,
+             although that would certainly be more ideal.
+             Would make automation more straightforward if the prototypes
+             were established closer to the backed, instead of in the Action system.
+
