@@ -46,6 +46,7 @@ class PressEnter
 				main, splinter = str.slice!(0..i-1), str
 				# first i characters, rest of the string
 				# ie) up to and including index i, everything after that
+				# (As expected, splinter will an empty string if the caret is at the end)
 				
 				# --- attach strings to corresponding Text objects
 				old_text.string = main
