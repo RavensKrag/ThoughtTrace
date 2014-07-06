@@ -27,63 +27,20 @@ class PressEnter
 				old_text = @text_input.text
 				
 				old_text[:physics].body.p.y += old_text.height
-			elsif i == @text_input.text.string.size
-				# at the end of the string
-				# if you created a new text object by splintering, it would be empty
-				
-				# Optimize for that empty creation case.
-				
-				
-				
-				
-				# create a new empty Text object, in the style of the old one,
-				# one line down from the old Text.
-				# 
-				# ThoughtTrace does not strictly align text to lines like a text editor,
-				# so this only controls where the line is spawned, not where it will stay.
-				# 
-				# This is nice, because it allows for fast text input with just a keyboard.
-				# No need to jump to the mouse to enter a bunch of lines in quick succession.
-				
-				
-				
-				# create new blank Text, in the style of the currently selected Text
-				old_text = @text_input.text
-				
-				@clone_factory.register_prototype old_text
-				new_text = @clone_factory.make ThoughtTrace::Text
-				
-				# add to space
-				@space.entities.add new_text
-				
-				# move new Text below the old one
-				new_text[:physics].body.p = old_text[:physics].body.p.clone
-				new_text[:physics].body.p.y += old_text.height
-				
-				
-				
-				
-				# connect input buffer to the new Text
-				@text_input.clear
-				@text_input.add new_text, 0
 			else
-				# somewhere in the middle
 				# split the Text object into multiple parts
 				
+				# could be somewhere in the middle,
+				# could be at the end.
+				# (it doesn't actually matter)
+				# (the end isn't really a special case)
 				
-				# copy properties from existing text object
-				# make new text object
-				# put "overflow" portion of string into new text object
-				# remove "overflow" from original text object
-				# put new object in space
-				# move new object to proper position
-				# put the new object into the input system, instead of the old one
+				
+				
+				
 				old_text = @text_input.text
+				new_text = @clone_factory.make ThoughtTrace::Text
 				
-				
-				
-				font = old_text.font
-				height = old_text.height
 				
 				
 				# --- splinter off part of string
@@ -93,21 +50,27 @@ class PressEnter
 				# ie) up to and including index i, everything after that
 				
 				
-				# --- put attributes in the proper places
+				
+				# --- attach strings to corresponding Text objects
 				old_text.string = main
-				
-				new_text = ThoughtTrace::Text.new font, splinter
-				new_text.height = height
+				new_text.string = splinter
 				
 				
-				# --- position the new object within the space
-				new_text[:physics].body.p = old_text[:physics].body.p.clone
-				new_text[:physics].body.p.y += height
 				
+				
+				
+				
+				
+				# --- add to space
 				@space.entities.add new_text
 				
+				# --- move new Text below the old one (one-line-down effect)
+				new_text[:physics].body.p = old_text[:physics].body.p.clone
+				new_text[:physics].body.p.y += old_text.height
 				
-				# --- reconnect input buffer
+				
+				
+				# --- connect input buffer to the new Text
 				@text_input.clear
 				@text_input.add new_text, 0
 			end
