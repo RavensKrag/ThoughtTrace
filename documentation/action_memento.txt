@@ -1,13 +1,15 @@
-generally speaking...
-
+=== generally speaking...
+------
 @initial is stuff set once, created during #setup and never changed
 @future is stuff that is altered in a process of iterative creation, created many times in #update
 
 other variables can be added as necessary within Memento itself,
 and allow for passing of state between the two halves of #forward and #reverse
-
-
-
+------
+---
+	(note that this means that both @initial and @future can be lists of elements)
+	(However, they don't necessarily have to be. Each Action can have it's own way of doing things)
+---
 
 
 values stored in instance variables of Action,    (@space, @selection, @text_input, @clone_factory)
