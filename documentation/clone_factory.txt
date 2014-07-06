@@ -12,6 +12,7 @@ The clone factory is sent to every Action for this purpose.
 Cloning of Entities is achieved by taking advantage of the serialization system
 pack/unpack structure from the serialization,
 allows for "serialization"-like feel, without having to actually go all the way to the disk.
+
 The entire operation can be performed in memory without additional special facilities.
 ---
 
@@ -42,8 +43,6 @@ Text         Registered in Edit action. Can't currently get the prototypes regis
 
 
 
-
-
 === Don't leak data
 -------------------------------------
 Make sure that no data that could identity an Entity leaks outside the CloneFactory.
@@ -56,6 +55,7 @@ Don't want a new Text to have the same string as the prototype, just the same si
 
 
 (Though, it is a bit weird, because you're clearing and then setting it again...)
+
 
 
 
