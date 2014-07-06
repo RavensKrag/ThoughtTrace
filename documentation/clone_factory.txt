@@ -1,0 +1,29 @@
+Create new objects from clones of established prototypes,
+rather than passing necessary arguments to the constructors for those objects.
+
+This allows for zero-argument initialization,
+which is necessary for easy creation of Entity objects through Actions
+
+
+
+Cloning of Entities is achieved by taking advantage of the serialization system
+pack/unpack structure from the serialization,
+allows for "serialization"-like feel, without having to actually go all the way to the disk.
+The entire operation can be performed in memory without additional special facilities.
+
+
+
+
+
+
+
+
+
+read only templates
+freeze the objects
+(note that the default freeze implementation is not a deep freeze)
+(deep like deep copy)
+actually, deep copy might be dangerous
+you don't want to freeze things like Font that will be used all over the place
+	(basically, only freeze objects related by composition, not aggregation)
+		(only objects which have lifetimes linked to the core frozen object)
