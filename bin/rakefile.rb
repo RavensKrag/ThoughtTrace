@@ -27,8 +27,7 @@ task :run => ['serialization:build', :load_dependencies, :load_main] do
 	# filename ||= "default.yml"
 	# raise "No file path specified" unless filepath
 	
-	# x = Window.new filepath
-	x = Window.new
+	x = Window.new './data/test'
 	x.show
 	x.on_shutdown
 end

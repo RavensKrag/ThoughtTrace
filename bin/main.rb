@@ -8,7 +8,9 @@ end
 class Window < Gosu::Window
 	attr_reader :camera
 	
-	def initialize
+	def initialize(filepath)
+		@filepath = filepath
+		
 		Metrics::Timer.new "setup window" do
 			# Necessary to allow access to text input buffers, etc
 			# Also allows for easy transformation of vectors through camera
@@ -38,7 +40,6 @@ class Window < Gosu::Window
 		
 		
 		Metrics::Timer.new "setup physics space" do
-			@filepath = './data/test'
 			@space = ThoughtTrace::Space.load @filepath
 		end
 		
