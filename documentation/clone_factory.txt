@@ -17,13 +17,13 @@ The entire operation can be performed in memory without additional special facil
 
 
 
+Make sure that no data that could identity an Entity leaks outside the CloneFactory.
+This means the factory is responsible for reseting data specific to one instance of an Entity,
+such as the string of a Text object.
+Don't want a new Text to have the same string as the prototype, just the same size and style.
+
+(If you want an EXACT clone, it's easy enough to copy the string over)
 
 
-read only templates
-freeze the objects
-(note that the default freeze implementation is not a deep freeze)
-(deep like deep copy)
-actually, deep copy might be dangerous
-you don't want to freeze things like Font that will be used all over the place
-	(basically, only freeze objects related by composition, not aggregation)
-		(only objects which have lifetimes linked to the core frozen object)
+
+(Though, it is a bit weird, because you're clearing and then setting it again...)
