@@ -72,7 +72,7 @@ class Resize < Entity::Actions::Action
 		@original_height = shape.height
 		
 		
-		return @original_width, @original_height, nil
+		return @original_width, @original_height
 	end
 	
 	# called each tick
@@ -194,8 +194,7 @@ class Resize < Entity::Actions::Action
 		
 		# set past state
 		def reverse
-			width  = @initial[0]
-			height = @initial[1]
+			width, height = @initial
 			anchor = @future[2]
 			
 			
