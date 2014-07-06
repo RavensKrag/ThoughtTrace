@@ -1,15 +1,43 @@
+----------------------
 Create new objects from clones of established prototypes,
 rather than passing necessary arguments to the constructors for those objects.
 
 This allows for zero-argument initialization,
 which is necessary for easy creation of Entity objects through Actions
 
+The clone factory is sent to every Action for this purpose.
+----------------------
 
-
+---
 Cloning of Entities is achieved by taking advantage of the serialization system
 pack/unpack structure from the serialization,
 allows for "serialization"-like feel, without having to actually go all the way to the disk.
 The entire operation can be performed in memory without additional special facilities.
+---
+
+
+
+
+=== When are prototypes established?
+-------------------------------------
+One group of prototypes is loaded with CloneFactory.load
+this is the default set,
+and exists only so there is SOMETHING to generate new objects from.
+
+
+New prototypes should be bound so that it feels like
+the user is generating objects similar to the objects edited recently.
+
+
+
+-- New Prototype Flow
+
+Text         Registered in Edit action. Can't currently get the prototypes registered in TextInput,
+             although that would certainly be more ideal.
+             Would make automation more straightforward if the prototypes
+             were established closer to the backed, instead of in the Action system.
+
+
 
 
 
@@ -36,22 +64,16 @@ Don't want a new Text to have the same string as the prototype, just the same si
 
 
 
-=== When are prototypes established?
--------------------------------------
-One group of prototypes is loaded with CloneFactory.load
-this is the default set,
-and exists only so there is SOMETHING to generate new objects from.
+====NOTES====
+	don't want the Entities used for templating to be editable
+	should not be able to reach into the collection and edit them
+	would be a weird way of passing around Entity objects in an unauthorized way
 
+	can't totally prevent this sort of thing (Ruby has instance_variable_get, after all)
+	maybe the Entities should be at least cloned upon insertion,
+	so that way the original Entity can be GCed or w/e without issues?
 
-New prototypes should be bound so that it feels like
-the user is generating objects similar to the objects edited recently.
+	(would also mean that if the reference object changed,
+	the prototype in the clone factory would remain unchanged)
 
-
-
--- New Prototype Flow
-
-Text         Registered in Edit action. Can't currently get the prototypes registered in TextInput,
-             although that would certainly be more ideal.
-             Would make automation more straightforward if the prototypes
-             were established closer to the backed, instead of in the Action system.
-
+	(not sure if that's good or bad)
