@@ -10,11 +10,10 @@ and allow for passing of state between the two halves of #forward and #reverse
 
 
 
-values stored in instance variables of Action,
+values stored in instance variables of Action,    (@space, @selection, @text_input, @clone_factory)
 which are set on initialization,
 should always be passed to Memento though @initial,
 as they are values that will not change for the entire execution of the Action
-
 
 
 It's conceivable that these values could change,
