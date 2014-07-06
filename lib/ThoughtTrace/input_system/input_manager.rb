@@ -105,7 +105,7 @@ class InputManager
 		
 		
 		
-		callbacks = ThoughtTrace::Events::PressEnter.new @space, @text_input
+		callbacks = ThoughtTrace::Events::PressEnter.new @space, @text_input, @clone_factory
 		event = InputSystem::ButtonEvent.new :enter, callbacks
 		
 		event.bind_to keys:[Gosu::KbReturn], modifiers:[]

@@ -4,9 +4,10 @@ module ThoughtTrace
 
 # NOTE: Events don't need to deal with Memento objects. That's an additional constraint imposed by Action. button events are more general than that
 class PressEnter
-	def initialize(space, text_input)
+	def initialize(space, text_input, clone_factory)
 		@space = space
 		@text_input = text_input
+		@clone_factory = clone_factory
 	end
 	
 	def press
@@ -28,11 +29,43 @@ class PressEnter
 				old_text[:physics].body.p.y += old_text.height
 			elsif i == @text_input.text.string.size
 				# at the end of the string
-				# if you created a new text object, it would be empty
+				# if you created a new text object by splintering, it would be empty
+				
+				# Optimize for that empty creation case.
 				
 				
-				# do nothing
-				return
+				
+				
+				# create a new empty Text object, in the style of the old one,
+				# one line down from the old Text.
+				# 
+				# ThoughtTrace does not strictly align text to lines like a text editor,
+				# so this only controls where the line is spawned, not where it will stay.
+				# 
+				# This is nice, because it allows for fast text input with just a keyboard.
+				# No need to jump to the mouse to enter a bunch of lines in quick succession.
+				
+				
+				
+				# create new blank Text, in the style of the currently selected Text
+				old_text = @text_input.text
+				
+				@clone_factory.register_prototype old_text
+				new_text = @clone_factory.make ThoughtTrace::Text
+				
+				# add to space
+				@space.entities.add new_text
+				
+				# move new Text below the old one
+				new_text[:physics].body.p = old_text[:physics].body.p.clone
+				new_text[:physics].body.p.y += old_text.height
+				
+				
+				
+				
+				# connect input buffer to the new Text
+				@text_input.clear
+				@text_input.add new_text, 0
 			else
 				# somewhere in the middle
 				# split the Text object into multiple parts
