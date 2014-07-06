@@ -1,3 +1,6 @@
+# This file creates the method #action_get for all of the different Action categories
+# (this excludes Entity actions, which are bound to classes, similar to methods)
+
 module ThoughtTrace
 	module Actions
 		# Entity actions are processed differently,
