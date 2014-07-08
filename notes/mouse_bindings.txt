@@ -1,0 +1,113 @@
+mouse bindings
+
+
+
+
+Accelerators
+	----- GENERAL -----
+	control             -    precision
+	shift               -    larger
+	alt                 -    strange
+	
+	
+	
+	----- SPECIFIC -----
+	click (standard)    -    move
+	control             -    insert
+	shift               -    duplicate
+	alt                 -    linked  [doesn't make any sense solo] (constraint?)
+	control shift       -    insert duplicate
+	control alt         -    insert linked (shouldn't be duplicate of control-shift-alt)
+	shift alt           -    duplicate linked   (linked copy. note that solo ALT does nothing)
+	control shift alt   -    insert linked duplicate
+
+	
+	
+
+mouse buttons
+	left          middle           right
+	movement      camera         editing
+
+
+
+
+
+
+
+
+
+
+
+
+
+move
+insert
+duplicate
+linked
+
+group
+query
+
+spawn
+
+
+
+camera
+
+
+
+
+
+Accelerators
+	----- GENERAL -----
+	control             -    precision
+	shift               -    larger
+	alt                 -    strange
+	
+	
+	
+	
+	press left mouse button, and drag ON ENTITY
+	----- SPECIFIC -----
+	click (standard)    -    move
+	control             -    insert
+	shift               -    duplicate
+	alt                 -    link / constraint
+	control shift       -    insert duplicate
+	control alt         -    insert constraint
+	shift alt           -    duplicate linked   (linked copy. note that solo ALT does nothing)
+	control shift alt   -    insert linked duplicate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+existing     empty space       selection
+click         drag
+standard    control    shift    alt   control shift   control alt    shift alt    control shift alt
+
+
+8 x 2 x 3
+48 possible slots in which to bind commands
+(there are extra constraints, due to the sort of mental model I want to enforce)
+
+it is possible that not all the slots will get filled
