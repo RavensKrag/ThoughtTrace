@@ -3,27 +3,6 @@ TODO
 
 improve mouseover state
 	+ On Mar 2nd: "Note flickering of mouseover state on drag"
-	
-implement Action#draw
-	actions should be able to render information,
-	to show things like what axis scaling in occuring on,
-	or other helpful visualizations
-	
-	they also should be able to change the cursor, but I'm not sure that belongs here
-	as that is altering the state of the cursor, more than anything
-
-
-
-
-BUG
-	resizing text horizontally from center of right edge
-	immediately after resizing from center of bottom edge
-	results in text disappearing and program freezing
-	
-	not sure if this is a Gosu issue,
-	an issue with limited system resources,
-	or an issue with my code
-
 
 
 May want to change how text resizes horizontally on center drag
@@ -39,16 +18,6 @@ If Style is created without a parent, it's parent should default to the baseline
 	it should declare all available properties
 
 
-
-
-Make Camera only draw items from the space that it detects.
-	Not sure if this should be a modification to the core camera,
-	or if it should be some camera subclass.
-	
-	This is much better than the current structure of passing in things to render,
-	and only using Camera for transform.
-	
-	This will allow for things like camera culling, which is nice.
 
 
 Figure out how to change Entities when style properties are altered
@@ -106,21 +75,6 @@ TODO: implement screen space to world space conversion in accordance with new sy
 old system had assumed that there was a global variable with a pointer to Window
 trying to remove that
 need to figure out how to perform coordinate space conversions in a sane manner now
-
-
-
-
-
-
-
-
-TODO: consider using Class#inherited to assemble Action lists on Entity classes.
-	(or at least like, cache them?)
-
-actually, that could get really messy. it's probably better to just traverse the hierarchy
-
-or maybe you want to figure out how Ruby as a language resolves methods?
-
 
 
 
