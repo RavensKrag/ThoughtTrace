@@ -1,15 +1,10 @@
 #!/usr/bin/env ruby
 
 path_to_file = File.expand_path(File.dirname(__FILE__))
-Dir.chidir path_to_file
+Dir.chdir path_to_file
 
 require './style'
 require './cascading'
-
-
-
-
-
 
 
 
@@ -28,3 +23,20 @@ require './cascading'
 # Blobs maintain cascade priority / searching for a particular property
 # among multiple Style objects that are cascasding together to form a single, cohesive unit
 
+
+class StyleSpace
+	def initialize
+		@list = Array.new
+	end
+	
+	def add(style)
+		@list << style
+	end
+end
+
+
+
+space = StyleSpace.new
+style = Style.new
+
+space.add style
