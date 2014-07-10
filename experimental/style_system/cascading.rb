@@ -23,6 +23,7 @@ class CascadingStyleBlob
 	# raise: move style as if it had been written one position EARLIER (lower cascade priority)
 	# lower: move style as if it had been written one position LATER (higher cascade priority)
 	# (ok, this interface is really really dumb.)
+	# TODO: fix this interface. it's really really weird. feels like up is down or something
 	
 	def raise(style, by:1)
 		limit = 0
