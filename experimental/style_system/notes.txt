@@ -16,3 +16,12 @@ should they be unique computer-assigned ID number?
 	and can't be guaranteed consistent across multiple sessions
 	
 	(don't want the save data to change just because IDs are being shuffled)
+
+
+
+
+
+
+one one Style object in a space can have a given name
+if the Style is updated in one place, all other places will update as well
+(all references to one style via it's one common name point at the same data)

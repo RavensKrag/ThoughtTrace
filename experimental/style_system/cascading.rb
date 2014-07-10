@@ -15,7 +15,7 @@ class CascadingStyleBlob
 	# search cascade order for a particular property
 	def [](property)
 		# find the first style object in the cascade order which has the desired property
-		style = cascade_stack.reverse_each.find{ |style| style[property] }
+		style = @cascade_stack.reverse_each.find{ |style| style[property] }
 		return style[property]
 	end
 end

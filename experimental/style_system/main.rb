@@ -65,6 +65,17 @@ space["third"] = Style.new
 
 
 
+space["first"][:color] = 'black'
+# space["second"][:color] = ''
+space["third"][:color] = 'blue'
+
+
+space['third'][:size] = '2x3'
+
+
+space['second'][:link] = 'google.com'
+
+
 
 cascade = CascadingStyleBlob.new
 cascade.add space["first"]
@@ -73,6 +84,8 @@ cascade.add space["third"]
 
 
 
-# one one Style object in a space can have a given name
-# if the Style is updated in one place, all other places will update as well
-# (all references to one style via it's one common name point at the same data)
+
+# test to make sure cascade works as expected
+[:color, :size, :link].each do |property|
+	puts "#{property}: #{cascade[property]}"
+end
