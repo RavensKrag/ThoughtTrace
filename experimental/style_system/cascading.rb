@@ -25,30 +25,32 @@ class CascadingStyleBlob
 	# (ok, this interface is really really dumb.)
 	
 	def raise(style, times=1)
+		limit = 0
+		
 		# current position
 		i = @cascade_stack.index style
 		
+		unless i == limit
 		# destination position
 		j = i - times
-		limit = 0
 		j = limit if j < limit
 		
-		unless j == i
 			@cascade_stack.delete_at i
 			@cascade_stack.insert j, style
 		end
 	end
 	
 	def lower(style, times=1)
+		limit = @cascade_stack.size-1
+		
 		# current position
 		i = @cascade_stack.index style
 		
-		# destination position
-		j = i + times
-		limit = @cascade_stack.size-1
-		j = limit if j > limit
-		
-		unless j == i
+		unless i == limit
+			# destination position
+			j = i + times
+			j = limit if j > limit
+			
 			@cascade_stack.delete_at i
 			@cascade_stack.insert j, style
 		end
