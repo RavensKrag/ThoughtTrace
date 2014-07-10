@@ -1,0 +1,11 @@
+need to list ALL actions before trying to figure out which ones are mouse bound
+
+some things are more ambiguous than they initially appear
+ex) toggle query
+not sure if it should be a keyboard command, so that you could convert many items into a query
+(ie, based on selection)
+or if it should be you just click one thing
+
+note the implication if this logic is
+if you have something that affects a whole group / selection,
+it should be a keyboard command
