@@ -24,7 +24,7 @@ class CascadingStyleBlob
 	# lower: move style as if it had been written one position LATER (higher cascade priority)
 	# (ok, this interface is really really dumb.)
 	
-	def raise(style, times=1)
+	def raise(style, by:1)
 		limit = 0
 		
 		# current position
@@ -32,7 +32,7 @@ class CascadingStyleBlob
 		
 		unless i == limit
 		# destination position
-		j = i - times
+		j = i - by
 		j = limit if j < limit
 		
 			@cascade_stack.delete_at i
@@ -40,7 +40,7 @@ class CascadingStyleBlob
 		end
 	end
 	
-	def lower(style, times=1)
+	def lower(style, by:1)
 		limit = @cascade_stack.size-1
 		
 		# current position
@@ -48,7 +48,7 @@ class CascadingStyleBlob
 		
 		unless i == limit
 			# destination position
-			j = i + times
+			j = i + by
 			j = limit if j > limit
 			
 			@cascade_stack.delete_at i

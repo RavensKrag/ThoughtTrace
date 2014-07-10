@@ -128,7 +128,7 @@ end
 
 
 # re-order the cascade, and watch the changes happen
-cascade.lower space["first"], 2 # order: ['third', 'second', 'first']
+cascade.lower space["first"], by:2 # order: ['third', 'second', 'first']
 # 'first' now has the priority
 
 
