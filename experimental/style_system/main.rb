@@ -53,6 +53,13 @@ class StyleSpace
 	end
 end
 
+def test(cascade, properties)
+	properties.each do |property|
+		puts "#{property}: #{cascade[property]}"
+	end
+	puts "\n"
+end
+
 
 
 space = StyleSpace.new
@@ -97,11 +104,8 @@ space["second"][:color] = 'red'
 
 
 
-
 # test to make sure cascade works as expected
-[:color, :size, :link].each do |property|
-	puts "#{property}: #{cascade[property]}"
-end
+test cascade, [:color, :size, :link]
 
 
 
@@ -114,13 +118,8 @@ end
 cascade.raise space["third"] # 'third' moves up one slot. order: ['first', 'third', 'second']
 # 'second' now has the priority
 
+test cascade, [:color, :size, :link]
 
-
-
-# test again
-[:color, :size, :link].each do |property|
-	puts "#{property}: #{cascade[property]}"
-end
 
 
 
@@ -132,9 +131,4 @@ cascade.lower space["first"], by:2 # order: ['third', 'second', 'first']
 # 'first' now has the priority
 
 
-
-
-# test again
-[:color, :size, :link].each do |property|
-	puts "#{property}: #{cascade[property]}"
-end
+test cascade, [:color, :size, :link]
