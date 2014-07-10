@@ -66,8 +66,7 @@ space["third"] = Style.new
 
 
 space["first"][:color] = 'black'
-# space["second"][:color] = ''
-space["third"][:color] = 'blue'
+space["second"][:color] = 'blue'
 
 
 space['third'][:size] = '2x3'
@@ -81,6 +80,20 @@ cascade = CascadingStyleBlob.new
 cascade.add space["first"]
 cascade.add space["second"]
 cascade.add space["third"]
+
+
+
+
+# make sure properties can still change after the objects have been set to the cascade container
+space["third"][:color] = 'blue'
+
+
+# changing properties in the middle of the cascade doesn't change anything,
+# even though the definition is coming later
+# (this is what I want)
+space["second"][:color] = 'red'
+
+
 
 
 
