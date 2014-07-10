@@ -1,3 +1,12 @@
+#!/usr/bin/env ruby
+
+path_to_file = File.expand_path(File.dirname(__FILE__))
+Dir.chidir path_to_file
+
+require './Style'
+require './Cascading'
+
+
 cascade_stack = [
 	# highest priority
 	Style.new()
