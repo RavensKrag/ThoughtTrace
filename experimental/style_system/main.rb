@@ -26,11 +26,30 @@ require './cascading'
 
 class StyleSpace
 	def initialize
-		@list = Array.new
+		@collection = Hash.new
 	end
 	
 	def add(style)
-		@list << style
+		id = generate_id(style)
+		@collection[id] = style
+	end
+	
+	def [](key)
+		warn "no style currently exists with the name '#{key}'" unless @collection[key]
+		
+		@collection[key]
+	end
+	
+	def []=(key, val)
+		@collection[key] = val
+	end
+	
+	
+	private
+	
+	# TODO: generate IDs in a way that can persist across sessions
+	def generate_id(style)
+		return style.object_id
 	end
 end
 
@@ -39,4 +58,21 @@ end
 space = StyleSpace.new
 style = Style.new
 
-space.add style
+# space.add "first", style
+space["first"] = Style.new
+space["second"] = Style.new
+space["third"] = Style.new
+
+
+
+
+cascade = CascadingStyleBlob.new
+cascade.add space["first"]
+cascade.add space["second"]
+cascade.add space["third"]
+
+
+
+# one one Style object in a space can have a given name
+# if the Style is updated in one place, all other places will update as well
+# (all references to one style via it's one common name point at the same data)
