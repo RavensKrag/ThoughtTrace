@@ -3,8 +3,8 @@
 path_to_file = File.expand_path(File.dirname(__FILE__))
 Dir.chidir path_to_file
 
-require './Style'
-require './Cascading'
+require './style'
+require './cascading'
 
 
 cascade_stack = [
