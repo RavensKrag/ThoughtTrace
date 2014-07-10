@@ -102,3 +102,22 @@ space["second"][:color] = 'red'
 [:color, :size, :link].each do |property|
 	puts "#{property}: #{cascade[property]}"
 end
+
+
+
+
+
+
+
+
+# re-order the cascade, and watch the changes happen
+cascade.raise space["third"] # 'third' moves up one slot. order: ['first', 'third', 'second']
+# 'second' now has the priority
+
+
+
+
+# test again
+[:color, :size, :link].each do |property|
+	puts "#{property}: #{cascade[property]}"
+end

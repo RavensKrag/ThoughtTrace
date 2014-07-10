@@ -18,4 +18,23 @@ class CascadingStyleBlob
 		style = @cascade_stack.reverse_each.find{ |style| style[property] }
 		return style[property]
 	end
+	
+	
+	# TODO: need a way to re-arrange the cascade order
+	
+	def raise(style)
+		i = @cascade_stack.index style
+		unless i == 0 # don't want to fall off the... front (that's odd to say)
+			@cascade_stack.delete_at i
+			@cascade_stack.insert i-1, style
+		end
+	end
+	
+	def lower(style)
+		i = @cascade_stack.index style
+		unless i == @cascade_stack.size-1 # don't want to fall off the end
+			@cascade_stack.delete_at i
+			@cascade_stack.insert i+1, style
+		end
+	end
 end
