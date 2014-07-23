@@ -132,3 +132,42 @@ cascade.lower space["first"], by:2 # order: ['third', 'second', 'first']
 
 
 test cascade, [:color, :size, :link]
+
+
+
+
+
+
+
+
+
+
+class StyleComponent
+	def initialize
+		# use one cascading blob for each mode
+		@modes = Hash.new
+	end
+	
+	def mode_switch(mode)
+		@modes[mode] ||= CascadingStyleBlob.new
+		@active_mode = @modes[mode]
+	end
+	
+	delegate methods:[:add, :raise, :lower] to: :@active_mode
+	
+end
+
+
+
+component = StyleComponent.new
+component.mode_switch :default
+component['color'] = 
+
+# when you change the value of some property though the cascade system,
+# which actual Style object are you modifying?
+# The changes have to eventually be applied to one Style in particular,
+# because that's where all the actual data lives.
+
+# I assume you want to change the most recently added Style that defines that value?
+# Or maybe you want to always set the value on a "local" style
+	# don't want changes to percolate back, unless you manually copy them back
