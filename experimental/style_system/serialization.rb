@@ -22,7 +22,7 @@ style_z
 ---
 "
 
-((--(?<name>.*)\n)(?<vars>(.*\n)+?)(---))+
+# ((--(?<name>.*)\n)(?<vars>(.*\n)+?)(---))+
 # => returns matchdata object where params can be accessed like a hash
 
 
@@ -61,20 +61,19 @@ style_y
 style_z
 ---
 "
-regexp = /
-	(
-		(--(?<name>.*)\n) # header
-		(?<vars>(.*\n)*?) # body
-		(---)             # footer
-	)+
-/
+regexp = /((--(?<name>.*)\n)(?<vars>(.*\n)*?)(---))+/
 matches = str.to_enum(:scan, regexp).map{ Regexp.last_match }
 data = matches.map{|i| [i[:name], i[:vars].split("\n")].flatten }
 
+puts "testing"
+p matches
+p data
 
 
+puts "\n\n"
 
 
+require 'yaml'
 str =
 <<-EOF
 ---
@@ -87,3 +86,7 @@ str =
   - :y
   - :z
 EOF
+data = YAML.load str
+
+puts "yaml"
+p data
