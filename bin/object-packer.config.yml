@@ -1,0 +1,3 @@
+---
+:source_directory: ./../lib/ThoughtTrace/serialization/source/
+:output_directory: ./../lib/ThoughtTrace/serialization/compiled_files/

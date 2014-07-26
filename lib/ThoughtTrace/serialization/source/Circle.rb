@@ -1,12 +1,10 @@
-ARGS x y radius
+---
+FIELDS x y radius
 
-BODY {
+OBJECT circle
+---
 
 circle = ThoughtTrace::Circle.new radius
 
 circle[:physics].body.p.x = x
 circle[:physics].body.p.y = y
-
-}
-
-OBJECT circle

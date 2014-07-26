@@ -12,7 +12,7 @@ require 'rake/clean'
 PATH_TO_ROOT = File.expand_path '../..', __FILE__
 
 Dir.chdir PATH_TO_ROOT do
-	require File.expand_path File.join '.', 'lib', 'ThoughtTrace', 'serialization', 'rakefile.rb'
+	# require File.expand_path File.join '.', 'lib', 'ThoughtTrace', 'serialization', 'rakefile.rb'
 end
 
 
@@ -22,7 +22,7 @@ end
 task :default => :run
 
 # run the program
-task :run => ['serialization:build', :load_dependencies, :load_main] do
+task :run => [:build_serialization_system, :load_dependencies, :load_main] do
 	# filepath = ARGV[0]
 	# filename ||= "default.yml"
 	# raise "No file path specified" unless filepath
@@ -30,6 +30,13 @@ task :run => ['serialization:build', :load_dependencies, :load_main] do
 	x = Window.new './data/test'
 	x.show
 	x.on_shutdown
+end
+
+task :build_serialization_system do
+	path = File.join PATH_TO_ROOT, 'bin'
+	Dir.chdir path do
+		system "object-packer.rb"
+	end
 end
 
 task :load_dependencies do
