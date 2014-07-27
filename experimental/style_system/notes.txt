@@ -25,3 +25,19 @@ should they be unique computer-assigned ID number?
 one one Style object in a space can have a given name
 if the Style is updated in one place, all other places will update as well
 (all references to one style via it's one common name point at the same data)
+
+
+
+
+
+
+
+
+
+
+serialization file organization
+	pallet file stores a bunch of style data, and the names for those styles
+	cascade file stores a bunch of style NAMES, and a link to a pallet
+	
+	multiple pallets can exist in one project     (possible, not always going to happen)
+	multiple cascades can exist in one project    (almost definitely there will be multiple)
