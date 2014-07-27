@@ -1,11 +1,11 @@
 ---
-foo:
+style_a:
   color: 0xffAABBCC
   prop1: value
   prop2: 12
-baz:
+style_b:
   prop1: value
   prop2: 12
-bar:
+style_c:
   prop1: value
   prop2: 12
