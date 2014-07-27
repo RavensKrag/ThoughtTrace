@@ -1,0 +1,11 @@
+---
+foo:
+  color: 0xffAABBCC
+  prop1: value
+  prop2: 12
+baz:
+  prop1: value
+  prop2: 12
+bar:
+  prop1: value
+  prop2: 12

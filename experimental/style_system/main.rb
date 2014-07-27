@@ -5,6 +5,7 @@ Dir.chdir path_to_file
 
 require './style'
 require './cascading'
+require './color'
 
 
 
@@ -142,32 +143,33 @@ test cascade, [:color, :size, :link]
 
 
 
-class StyleComponent
-	def initialize
-		# use one cascading blob for each mode
-		@modes = Hash.new
-	end
-	
-	def mode_switch(mode)
-		@modes[mode] ||= CascadingStyleBlob.new
-		@active_mode = @modes[mode]
-	end
-	
-	delegate methods:[:add, :raise, :lower] to: :@active_mode
-	
-end
 
 
 
-component = StyleComponent.new
-component.mode_switch :default
-component['color'] = 
 
-# when you change the value of some property though the cascade system,
-# which actual Style object are you modifying?
-# The changes have to eventually be applied to one Style in particular,
-# because that's where all the actual data lives.
+require 'gosu'
 
-# I assume you want to change the most recently added Style that defines that value?
-# Or maybe you want to always set the value on a "local" style
-	# don't want changes to percolate back, unless you manually copy them back
+color = Gosu::Color.argb 0xffAABBCC
+data = color.pack
+p data.to_s 16
+
+x = Gosu::Color.unpack data
+p x
+puts x == color
+
+puts "\n\n"
+
+
+
+
+
+require 'yaml'
+
+data = [
+	{
+		:source_file => "__FILE__",
+		:pallet_name => "name"
+	},
+	[:foo, :bas, :bar]
+]
+puts data.to_yaml

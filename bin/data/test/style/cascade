@@ -1,0 +1,22 @@
+---
+- ./pallet1
+- :foo
+- :baz
+- :bar
+
+
+
+
+---
+- __FILE__/pallet1
+- :foo
+- :baz
+- :bar
+
+
+
+---
+- other_file/pallet1
+- :foo
+- :baz
+- :bar

@@ -78,13 +78,14 @@ str =
 <<-EOF
 ---
 - - test
-  - :a
-  - :b
-  - :c
+  - - :a
+    - :b
+    - :c
 - - foo
-  - :x
-  - :y
-  - :z
+  - - :x
+    - :y
+    - :z
+
 EOF
 data = YAML.load str
 
