@@ -165,11 +165,37 @@ puts "\n\n"
 
 require 'yaml'
 
+
+# remember that ThoughTrace projects are directories,
+# rather than single files
 data = [
-	{
-		:source_file => "__FILE__",
-		:pallet_name => "name"
-	},
-	[:foo, :bas, :bar]
+	"__FILE__",
+	"name",
+	:foo,
+	:bas,
+	:bar
 ]
 puts data.to_yaml
+
+
+
+
+# split
+project_root, name, *style_list = data
+p [project_root, name, style_list]
+
+
+def load_pallet(data)
+	project_root, name, *style_list = data
+	
+	
+	root_of_this_project = '.' # TODO: replace with real filepath logic
+	
+	# process
+	project_root = root_of_this_project if project_root == '__FILE__'
+	
+	# use
+	pallet_filepath = File.join project_root, 'style', 'pallets', name
+	
+	return ThoughTrace::Style::Pallet.load pallet_filepath
+end

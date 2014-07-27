@@ -1,6 +1,6 @@
 ---
-- :project_root: __FILE__
-  :pallet_name: name
-- - :foo
-  - :bas
-  - :bar
+- __FILE__
+- name
+- :foo
+- :bas
+- :bar
