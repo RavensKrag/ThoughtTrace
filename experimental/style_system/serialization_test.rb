@@ -37,3 +37,44 @@ style[:color] = color
 
 data = style.pack
 p data
+
+
+
+
+# new_style = ThoughtTrace::Style::StyleObject.unpack data
+# p new_style
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require 'csv'
+
+csv_string = 
+	CSV.generate do |csv|
+		csv << [0xffAABBCC, "testing"]
+	end
+
+csv_string.chomp!
+
+p csv_string
+
+
+
+
+
+data = CSV.parse(
+			csv_string,
+			:headers => false, :header_converters => :symbol, :converters => :all
+		)
+p data
