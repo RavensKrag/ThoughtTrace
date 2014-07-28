@@ -44,7 +44,15 @@ p data
 
 
 pallet = ThoughtTrace::Style::Pallet.new "test_pallet"
-pallet [:foo] = style
+pallet[:foo] = style
+	
+	pallet[:baz] = ThoughtTrace::Style::StyleObject.new
+	pallet[:baz][:prop1] = 5
+	pallet[:baz][:prop2] = 23
+
+	pallet[:bar] = ThoughtTrace::Style::StyleObject.new
+	pallet[:bar][:prop1] = 5
+	pallet[:bar][:prop2] = 7
 
 p pallet
 

@@ -73,19 +73,17 @@ class StyleObject
 		def unpack(property_hash)
 			obj = self.new
 			
-			
 			property_hash.each do |property, value_data|
 				value = 
 					if value_data.is_a? String
 						unpack_entry(value_data)
 					else
-						value
+						value_data
 					end
 				
 				
 				obj[property] = value
 			end
-			
 			
 			return obj
 		end
