@@ -26,6 +26,7 @@ end
 
 
 
+# pack
 color = Gosu::Color.argb 0xffAABBCC
 data = color.pack
 puts data.to_s 16
@@ -41,6 +42,9 @@ p data
 
 
 
+
+
+# unpack
 new_style = ThoughtTrace::Style::StyleObject.unpack data
 p new_style
 
