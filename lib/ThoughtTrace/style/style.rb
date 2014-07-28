@@ -7,6 +7,16 @@ class StyleObject
 		@properties = Hash.new
 	end
 	
+	def [](property)
+		return @properties[property]
+	end
+	
+	def []=(property, value) 
+		@properties[property] = value
+	end
+	
+	
+	
 	
 	
 	def pack
