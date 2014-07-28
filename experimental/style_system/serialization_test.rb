@@ -88,3 +88,13 @@ puts "same style?  #{new_style  == style}"
 puts "same color?  #{new_style[:color] == style[:color]}"
 
 
+
+
+
+
+
+
+# dump
+Dir.chdir File.join path_to_root, 'experimental', 'style_system' do
+	pallet.dump File.join Dir.pwd, 'out'
+end

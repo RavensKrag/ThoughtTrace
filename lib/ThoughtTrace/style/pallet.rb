@@ -1,3 +1,5 @@
+require 'yaml'
+
 module ThoughtTrace
 	module Style
 
@@ -60,6 +62,26 @@ class Pallet
 				style = ThoughtTrace::Style::StyleObject.unpack style_data
 				obj[style_id] = style
 			end
+			
+			return obj
+		end
+	end
+	
+	
+	
+	
+	def dump(filepath)
+		data = self.pack
+		
+		File.open(filepath, 'w') do |f|
+			YAML.dump(data, f)
+		end
+	end
+	
+	class << self
+		def load(filepath)
+			data = YAML.load_file(filepath)
+			obj = self.unpack data
 			
 			return obj
 		end
