@@ -89,6 +89,19 @@ puts "same color?  #{new_style[:color] == style[:color]}"
 
 
 
+puts
+puts
+puts
+
+
+
+cascade = ThoughtTrace::Style::Cascade.new pallet
+cascade.add :foo
+p cascade
+
+data = cascade.pack
+p data
+
 
 
 
