@@ -19,6 +19,13 @@ class StyleObject
 	end
 	
 	
+	def ==(other)
+		return (
+			@properties.all?{ |k,v|  v == other[k] }
+		)
+	end
+	
+	
 	
 	
 	

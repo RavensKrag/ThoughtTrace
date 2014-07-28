@@ -3,6 +3,8 @@ module ThoughtTrace
 
 
 class Pallet
+	attr_reader :name, :project
+	
 	def initialize(name)
 		@name = name
 		@project = "project/path/goes/here/"
@@ -17,6 +19,15 @@ class Pallet
 	
 	def []=(name, value) 
 		@styles[name] = value
+	end
+	
+	
+	def ==(other)
+		return (
+			@name == other.name and
+			@project == other.project and
+			@styles.all?{ |k,v|  v == other[k] }
+		)
 	end
 	
 	
