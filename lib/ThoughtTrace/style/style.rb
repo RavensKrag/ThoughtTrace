@@ -21,8 +21,8 @@ class StyleObject
 	
 	def pack
 		hash = Hash.new
-		@properties.collect do |property, value|
-			hash[k] = pack_entry(value)
+		@properties.each do |property, value|
+			hash[property] = pack_entry(value)
 		end
 		
 		return hash
@@ -35,7 +35,7 @@ class StyleObject
 		if value.respond_to? :pack
 			# pack up the special data as necessary
 			# (should have the format "class<arg, arg, ..., arg>" when complete)
-			data = data.pack
+			data = value.pack
 			data = data.join(', ') if data.is_a? Array
 			
 			return "#{value.class}<#{data}>"
