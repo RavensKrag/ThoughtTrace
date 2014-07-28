@@ -35,12 +35,18 @@ class Cascade
 		return style[property]
 	end
 	
+	def each(&block)
+		@styles.each &block
+	end
+	
+	include Enumerable
+	
 	
 	
 	def ==(other)
 		return (
 			@pallet == other.pallet and
-			@styles == other.instance_variable_get(:@styles)
+			other.all?{ |style| @styles.include? style}
 		)
 	end
 	
