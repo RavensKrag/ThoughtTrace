@@ -57,33 +57,30 @@ class StyleSystem
 			
 			
 			
-			
-			pallet_lookup_table = Hash.new
-			pallets.each do |data|
-				p = ThoughtTrace::Style::Pallet.unpack data
+			pallets.each do |name, data|
+				pallet = ThoughtTrace::Style::Pallet.unpack data
 				
-				self.add_pallet p
-				
-				
-				name, collection = data
-				pallet_lookup_table[name] = p
+				obj.pallets[name] = pallet
 			end
 			
 			
-			
-			cascades.each do |data|
-				name, path_to_root, *styles = data
+			cascades.each do |name, data|
+				pallet_name, *style_names = data
 				
-				pallet =
-					if path_to_root == "__FILE__"
-						pallet_lookup_table[name]
-					else
-						raise "DON'T KNOW WHAT TO DO. How do you get a pallet from another file?"
-					end
+				# TODO: need to be able to get pallets from other files
+				pallet = obj.pallets[pallet_name]
 				
 				
-				c = ThoughtTrace::Style::Cascade.new 
+				cascade = ThoughtTrace::Style::Cascade.new pallet
+				
+				style_names.each{ |s|  cascade.add s }
+				
+				
+				
+				obj.cascades[name] = cascade
 			end
+			
+			return obj
 		end
 	end
 	
