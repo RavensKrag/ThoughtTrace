@@ -1,6 +1,6 @@
 ---
 style_a:
-  color: 0xffAABBCC
+  color: Gosu::Color<0xffAABBCC>
   prop1: value
   prop2: 12
 style_b:
