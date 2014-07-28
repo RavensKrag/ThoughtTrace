@@ -30,26 +30,40 @@ class StyleSystem
 	end
 	
 	
+	def get_pallet(name)
+		return @pallets[name]
+	end
+	
+	def get_cascade(name)
+		return @cascades[name]
+	end
+	
+	
 	
 	
 	def pack
 		# note that cascades are linked to pallets (the cascade objects contain references)
 		# need to turn these references into serializable links
 		
+		value_data = @pallets.values.collect{ |p|  p.pack }
+		pallets = @pallets.keys.zip(value_data).to_h
 		
 		
 		
-		pallets = @pallets
+		
+		pallet_lookup_table = @pallets.invert
+		# p pallet_lookup_table
 		
 		
-		cascades = @cascades
 		
 		
-		[
-			@path_to_project_root, 
-			pallets,
-			cascades
-		]
+		keys = @cascades.keys
+		vals = @cascades.values.collect{ |c| [pallet_lookup_table[c.pallet]] + c.pack }
+		cascades = keys.zip(vals).to_h
+		
+		
+		
+		return @path_to_project_root, pallets, cascades
 	end
 	
 	

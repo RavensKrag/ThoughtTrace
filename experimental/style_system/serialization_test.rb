@@ -148,6 +148,8 @@ container = ThoughtTrace::Style::StyleSystem.new "path/to/project/root/here"
 	
 	
 	# ----- cascade -----
+	pallet = container.get_pallet "test_pallet"
+	cascade = ThoughtTrace::Style::Cascade.new pallet
 	container.add_cascade("test_cascade", cascade).tap do |cascade|
 		cascade.add :foo
 	end
