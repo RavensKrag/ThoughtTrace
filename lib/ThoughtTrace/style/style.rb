@@ -1,3 +1,6 @@
+require 'csv'
+
+
 module ThoughtTrace
 	module Style
 
@@ -32,13 +35,24 @@ class StyleObject
 	# pack objects which are "complex"
 	# ie, they aren't part of the basic types YAML supports
 	def pack_entry(value)
-		if value.respond_to? :pack
+		if value.respond_to? :pack and not value.is_a? Array
+			# NOTE: recall that all Array objects respond to #pack, that's where I got the name from. But that's not actually the interface that you're checking for...
+			
+			
 			# pack up the special data as necessary
 			# (should have the format "class<arg, arg, ..., arg>" when complete)
 			data = value.pack
-			data = data.join(', ') if data.is_a? Array
 			
-			return "#{value.class}<#{data}>"
+			
+			csv_string = 
+				CSV.generate do |csv|
+					csv << [data]
+				end
+
+			csv_string.chomp!
+			
+			
+			return "#{value.class}<#{csv_string}>"
 		else
 			# this data should just work. gonna just leave it alone
 			return value
@@ -80,9 +94,22 @@ class StyleObject
 			
 			if matchdata
 				# found specially encoded data
-				klass = matchdata[1]
-				args  = matchdata[2].strip!.split(/\s*,\s*/)
+				klass       = matchdata[1]
+				csv_string  = matchdata[2]
 				
+				
+				# parse strings into actual data
+				klass = Kernel.const_get klass
+				
+				
+				args = CSV.parse(
+							csv_string,
+							:headers => false, :header_converters => :symbol, :converters => :all
+						).first # [[arg, arg, ..., arg]] is the raw CSV conversion
+				
+				
+				
+				# NOTE: Be very careful, as String#unpack is a method that does exist. It is the official counterpart to Array#pack
 				return klass.unpack(*args)
 			else
 				# it's actually just a normal string
