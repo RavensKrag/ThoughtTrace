@@ -37,6 +37,16 @@ class Cascade
 	
 	
 	
+	def ==(other)
+		return (
+			@pallet == other.pallet and
+			@styles == other.instance_variable_get(:@styles)
+		)
+	end
+	
+	
+	
+	
 	
 	
 	def pack

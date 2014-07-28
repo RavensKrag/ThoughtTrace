@@ -158,23 +158,16 @@ container = ThoughtTrace::Style::StyleSystem.new "path/to/project/root/here"
 
 p container
 puts
-p container.pack
 
-# puts name
-# puts "pallets"
-# pallets.each{   |x|  print"\t"; p x }
-# puts "cascades"
-# cascades.each{  |x|  print"\t"; p x }
+data = container.pack
+p data
+puts
 
+new_container = ThoughtTrace::Style::StyleSystem.unpack data
+puts "same container? #{new_container == container}"
 
 
 puts "========================="
-
-
-
-
-
-
 
 
 

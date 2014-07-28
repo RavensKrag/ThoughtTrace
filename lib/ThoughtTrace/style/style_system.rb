@@ -7,6 +7,7 @@ module ThoughtTrace
 # Just tell this object to be serialized, and it will generate a directory
 # with all the proper files within it.
 class StyleSystem
+	attr_reader :path_to_project_root
 	attr_reader :pallets, :cascades
 	
 	def initialize(project_root)
@@ -17,6 +18,14 @@ class StyleSystem
 		
 		@pallets  = Hash.new
 		@cascades = Hash.new
+	end
+	
+	def ==(other)
+		return (
+			@path_to_project_root == other.path_to_project_root and
+			@pallets == other.pallets and
+			@cascades == other.cascades
+		)
 	end
 	
 	
