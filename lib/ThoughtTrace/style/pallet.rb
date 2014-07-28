@@ -5,12 +5,7 @@ module ThoughtTrace
 
 
 class Pallet
-	attr_reader :name, :project
-	
-	def initialize(name)
-		@name = name
-		@project = "project/path/goes/here/"
-		
+	def initialize
 		@styles = Hash.new
 		# {:name => {:property => value}}
 	end
@@ -25,11 +20,7 @@ class Pallet
 	
 	
 	def ==(other)
-		return (
-			@name == other.name and
-			@project == other.project and
-			@styles.all?{ |k,v|  v == other[k] }
-		)
+		return @styles.all?{ |k,v|  v == other[k] }
 	end
 	
 	
@@ -49,13 +40,12 @@ class Pallet
 		
 		collection = collection.to_h
 		
-		return [@name, collection]
+		return collection
 	end
 	
 	class << self
-		def unpack(data)
-			name, property_hash = data
-			obj = self.new name
+		def unpack(property_hash)
+			obj = self.new
 			
 			
 			property_hash.each do |style_id, style_data|

@@ -3,6 +3,8 @@ module ThoughtTrace
 
 
 class Cascade
+	attr_accessor :pallet
+	
 	def initialize(pallet)
 		@styles = Array.new # list of style names
 		@pallet = pallet    # pallets manage the actual style data
@@ -38,8 +40,12 @@ class Cascade
 	
 	
 	def pack
-		return [@pallet.name, @pallet.project] + @styles
+		# assuming that all styles are specified by
+		# identifiers that do not have references anywhere else
+		# (symbols would really be the best thing to use)
+		return @styles.clone
 	end
+	
 	
 	
 	
@@ -51,7 +57,7 @@ class Cascade
 		
 		style_data  = "@styles=#{@styles.inspect}"
 		# pallet_data = "@pallet=\"#<#{@pallet.class}:#{pallet_id}>\""
-		pallet_data = "@pallet={#{@pallet.project} -> #{@pallet.name}}"
+		pallet_data = "@pallet={#{@pallet.inspect}"
 		
 		output = "#<#{self.class}:#{this_id} #{pallet_data} #{style_data}>"
 		return output
@@ -70,10 +76,10 @@ class Cascade
 	end
 	
 	def dump(filepath)
-		yaml = {:list => list, :pallet => }.to_yaml
+		data = self.pack
 		
 		File.open(filepath, 'w') do |f|
-			YAML.dump(yml, f)
+			YAML.dump(data, f)
 		end
 	end
 end

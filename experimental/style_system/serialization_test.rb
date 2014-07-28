@@ -17,6 +17,8 @@ Dir.chdir File.join path_to_root, 'lib', 'ThoughtTrace', 'style' do
 	require './cascade'
 	require './pallet'
 	require './style'
+	
+	require './style_system'
 end
 
 Dir.chdir File.join path_to_root, 'experimental', 'style_system' do
@@ -43,7 +45,7 @@ p data
 
 
 
-pallet = ThoughtTrace::Style::Pallet.new "test_pallet"
+pallet = ThoughtTrace::Style::Pallet.new
 pallet[:foo] = style
 	
 	pallet[:baz] = ThoughtTrace::Style::StyleObject.new
@@ -101,6 +103,82 @@ p cascade
 
 data = cascade.pack
 p data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+puts
+puts
+
+
+puts "========================="
+
+
+container = ThoughtTrace::Style::StyleSystem.new "path/to/project/root/here"
+	# ----- pallet -----
+	container.add_pallet("test_pallet", ThoughtTrace::Style::Pallet.new).tap do |pallet|
+		pallet[:foo] = ThoughtTrace::Style::StyleObject.new
+		pallet[:foo].tap do |style|
+			style[:color] = Gosu::Color.argb 0xffAABBCC
+		end
+		
+		pallet[:baz] = ThoughtTrace::Style::StyleObject.new
+		pallet[:baz].tap do |style|
+			style[:prop1] = 5
+			style[:prop2] = 23
+		end
+		
+		pallet[:bar] = ThoughtTrace::Style::StyleObject.new
+		pallet[:bar].tap do |style|
+			style[:prop1] = 5
+			style[:prop2] = 7
+		end
+	end
+	
+	
+	
+	# ----- cascade -----
+	container.add_cascade("test_cascade", cascade).tap do |cascade|
+		cascade.add :foo
+	end
+
+p container
+puts
+p container.pack
+
+# puts name
+# puts "pallets"
+# pallets.each{   |x|  print"\t"; p x }
+# puts "cascades"
+# cascades.each{  |x|  print"\t"; p x }
+
+
+
+puts "========================="
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

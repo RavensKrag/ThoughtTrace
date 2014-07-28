@@ -13,9 +13,85 @@ class StyleSystem
 		# NOT the root of the ThoughtTrace gem codebase.
 		@path_to_project_root = project_root
 		
-		@pallet_list = Array.new
-		@cascade_list = Array.new
+		@pallets  = Hash.new
+		@cascades = Hash.new
 	end
+	
+	def add_pallet(name, pallet)
+		@pallets[name] = pallet
+		
+		return pallet
+	end
+	
+	def add_cascade(name, cascade)
+		@cascades[name] = cascade
+		
+		return cascade
+	end
+	
+	
+	
+	
+	def pack
+		# note that cascades are linked to pallets (the cascade objects contain references)
+		# need to turn these references into serializable links
+		
+		
+		
+		
+		pallets = @pallets
+		
+		
+		cascades = @cascades
+		
+		
+		[
+			@path_to_project_root, 
+			pallets,
+			cascades
+		]
+	end
+	
+	
+	class << self
+		def unpack(data)
+			path_to_root, pallets, cascades = data
+			
+			obj = self.new path_to_root
+			
+			
+			
+			
+			
+			pallet_lookup_table = Hash.new
+			pallets.each do |data|
+				p = ThoughtTrace::Style::Pallet.unpack data
+				
+				self.add_pallet p
+				
+				
+				name, collection = data
+				pallet_lookup_table[name] = p
+			end
+			
+			
+			
+			cascades.each do |data|
+				name, path_to_root, *styles = data
+				
+				pallet =
+					if path_to_root == "__FILE__"
+						pallet_lookup_table[name]
+					else
+						raise "DON'T KNOW WHAT TO DO. How do you get a pallet from another file?"
+					end
+				
+				
+				c = ThoughtTrace::Style::Cascade.new 
+			end
+		end
+	end
+	
 	
 	
 	
@@ -83,4 +159,5 @@ end
 
 
 
+end
 end
