@@ -7,6 +7,8 @@ module ThoughtTrace
 # Just tell this object to be serialized, and it will generate a directory
 # with all the proper files within it.
 class StyleSystem
+	attr_reader :pallets, :cascades
+	
 	def initialize(project_root)
 		# this should be the path to the directory where the data
 		# for this ThoughtTrace instance is saved
@@ -15,27 +17,6 @@ class StyleSystem
 		
 		@pallets  = Hash.new
 		@cascades = Hash.new
-	end
-	
-	def add_pallet(name, pallet)
-		@pallets[name] = pallet
-		
-		return pallet
-	end
-	
-	def add_cascade(name, cascade)
-		@cascades[name] = cascade
-		
-		return cascade
-	end
-	
-	
-	def get_pallet(name)
-		return @pallets[name]
-	end
-	
-	def get_cascade(name)
-		return @cascades[name]
 	end
 	
 	
@@ -56,7 +37,7 @@ class StyleSystem
 		
 		
 		
-		
+		# TODO: need to be able to be able to link to pallets from other projects as well
 		keys = @cascades.keys
 		vals = @cascades.values.collect{ |c| [pallet_lookup_table[c.pallet]] + c.pack }
 		cascades = keys.zip(vals).to_h

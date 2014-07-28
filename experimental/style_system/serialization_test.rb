@@ -126,7 +126,8 @@ puts "========================="
 
 container = ThoughtTrace::Style::StyleSystem.new "path/to/project/root/here"
 	# ----- pallet -----
-	container.add_pallet("test_pallet", ThoughtTrace::Style::Pallet.new).tap do |pallet|
+	container.pallets["test_pallet"] = ThoughtTrace::Style::Pallet.new
+	container.pallets["test_pallet"].tap do |pallet|
 		pallet[:foo] = ThoughtTrace::Style::StyleObject.new
 		pallet[:foo].tap do |style|
 			style[:color] = Gosu::Color.argb 0xffAABBCC
@@ -148,9 +149,10 @@ container = ThoughtTrace::Style::StyleSystem.new "path/to/project/root/here"
 	
 	
 	# ----- cascade -----
-	pallet = container.get_pallet "test_pallet"
+	pallet = container.pallets["test_pallet"]
 	cascade = ThoughtTrace::Style::Cascade.new pallet
-	container.add_cascade("test_cascade", cascade).tap do |cascade|
+	container.cascades["test_cascade"] = cascade
+	container.cascades["test_cascade"].tap do |cascade|
 		cascade.add :foo
 	end
 
