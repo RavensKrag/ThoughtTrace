@@ -3,17 +3,20 @@ module ThoughtTrace
 
 
 class Pallet
-	def initialize
+	def initialize(name)
+		@name = name
+		@project = "project/path/goes/here/"
+		
 		@styles = Hash.new
 		# {:name => {:property => value}}
 	end
 	
-	def [](key)
-		
+	def [](name)
+		return @styles[name]
 	end
 	
-	def []=(key, val)
-		
+	def []=(name, value) 
+		@styles[name] = value
 	end
 	
 	
@@ -27,15 +30,27 @@ class Pallet
 	
 	def pack
 		collection =
-			@styles.inject do |name, style|
+			@styles.collect do |name, style|
 				[name, style.pack]
 			end
+		
 		collection = collection.to_h
+		
+		return [@name, collection]
 	end
 	
 	class << self
-		def unpack(args)
+		def unpack(data)
+			name, property_hash = data
+			obj = self.new name
 			
+			
+			property_hash.each do |style_id, style_data|
+				style = ThoughtTrace::Style::StyleObject.unpack style_data
+				obj[style_id] = style
+			end
+			
+			return obj
 		end
 	end
 end
