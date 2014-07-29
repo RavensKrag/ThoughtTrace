@@ -1,29 +1,30 @@
-# handles style cascading, but not the actual style property management
+module ThoughtTrace
+	module Style
 
-class CascadingStyleBlob
+
+# A type of list collection that allows for items to be moved up and down in priority at will
+class List
 	def initialize
-		@cascade_stack = Array.new
+		
 	end
 	
-	# add a new style to the cascade
-	# style elements added later have priority over ones that came before
-	# (just like )
-	def add(style)
-		@cascade_stack << style
+	
+	def raise(index, by:1)
+		
 	end
 	
-	# search cascade order for a particular property
-	def [](property)
-		# find the first style object in the cascade order which has the desired property
-		style = @cascade_stack.reverse_each.find{ |style| style[property] }
-		return style[property]
+	def lower(index, by:1)
+		
 	end
+	
+	
 	
 	
 	# raise: move style as if it had been written one position EARLIER (lower cascade priority)
 	# lower: move style as if it had been written one position LATER (higher cascade priority)
 	# (ok, this interface is really really dumb.)
 	# TODO: fix this interface. it's really really weird. feels like up is down or something
+	# remember that this interface is tied to the traversal order of elements in the Cascade
 	
 	def raise(style, by:1)
 		limit = 0
@@ -56,4 +57,9 @@ class CascadingStyleBlob
 			@cascade_stack.insert j, style
 		end
 	end
+end
+
+
+
+end
 end

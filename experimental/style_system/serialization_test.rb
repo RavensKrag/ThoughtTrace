@@ -21,7 +21,7 @@ Dir.chdir File.join path_to_root, 'lib', 'ThoughtTrace', 'style' do
 	require './style_system'
 end
 
-Dir.chdir File.join path_to_root, 'experimental', 'style_system' do
+Dir.chdir File.join path_to_root, 'lib', 'ThoughtTrace', 'serialization', 'manual_serialization' do
 	require './color'
 end
 
@@ -185,7 +185,7 @@ puts "========================="
 
 
 # dump
-Dir.chdir File.join path_to_root, 'experimental', 'style_system' do
+Dir.chdir File.join path_to_root, 'bin', 'data', 'test' do
 	pallet.dump File.join Dir.pwd, 'out'
 end
 
