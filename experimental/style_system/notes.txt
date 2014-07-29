@@ -1,33 +1,18 @@
-when you serialize a Style component, link to actual style objects using their unique IDs
-
-not sure how to generate these IDs though
-should they be user generated?
-	then the "name" of the style could just be it's ID as well
-	
-	would be similar to Blender though, where you can never have two items with the exact same name
-	even if the object hierarchy makes it clear that these are different things.
-	you end up having to do namespacing-by-prefix,
-	even though the hierarchy should give you a sort of "namespacing"
-	which is all sorts of dumb
-
-
-should they be unique computer-assigned ID number?
-	can't use the object ID, because that's managed by Ruby,
-	and can't be guaranteed consistent across multiple sessions
-	
-	(don't want the save data to change just because IDs are being shuffled)
-
-
-
-
-
-
-one one Style object in a space can have a given name
+only one Style object in a space can have a given name
 if the Style is updated in one place, all other places will update as well
 (all references to one style via it's one common name point at the same data)
 
 
+generally, you want to try and refer to things by the names there are assigned in their containers
+rather than creating new names through extra variables all over the place
+(would be a lot cleaner that way, at least in theory)
 
+
+
+
+
+'namespacing' of elements can be achieved through using a different
+StyleSpace / Pallet / StyleObject hierarchy to hold a particular style value
 
 
 
@@ -44,9 +29,21 @@ serialization file organization
 	
 	
 	IMPORTANT pallet is a nested hash, not a bunch of arrays inside a hash.
+	
+	
+	
+	Pallets and Cascades are controlled though the StyleSystem
+	their names are thus stored there, rather than in the pallet / cascade objects
+	this makes the names easier to change
+	
+	but it also make it more like how variables get their names from their contexts,
+	rather than from the objects they describe
 
 
 
 
 each Cascade links to a Pallet
 (eventually, you should be able to link to Pallets from other projects, even)
+
+When these objects are serialized, care must be taken to ensure these links
+(this is the main reason why StyleSystem exists)
