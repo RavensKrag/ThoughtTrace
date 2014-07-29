@@ -90,14 +90,14 @@ class StyleSystem
 		
 		
 		
-		filepath = File.join base_directory, 'style', 'pallets', 'test.out'
+		filepath = File.join base_directory, 'style', 'pallets.out'
 		File.open(filepath, 'w') do |f|
 			YAML.dump(pallet_data, f)
 		end
 		
 		
 		
-		filepath = File.join base_directory, 'style', 'cascades', 'test.out'
+		filepath = File.join base_directory, 'style', 'cascades.out'
 		File.open(filepath, 'w') do |f|
 			YAML.dump(cascade_data, f)
 		end
