@@ -1,0 +1,6 @@
+---
+test_cascade:
+- test_pallet
+- :foo
+- :baz
+- :bar

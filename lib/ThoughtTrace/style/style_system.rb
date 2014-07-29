@@ -7,22 +7,15 @@ module ThoughtTrace
 # Just tell this object to be serialized, and it will generate a directory
 # with all the proper files within it.
 class StyleSystem
-	attr_reader :path_to_project_root
 	attr_reader :pallets, :cascades
 	
-	def initialize(project_root)
-		# this should be the path to the directory where the data
-		# for this ThoughtTrace instance is saved
-		# NOT the root of the ThoughtTrace gem codebase.
-		@path_to_project_root = project_root
-		
+	def initialize
 		@pallets  = Hash.new
 		@cascades = Hash.new
 	end
 	
 	def ==(other)
 		return (
-			@path_to_project_root == other.path_to_project_root and
 			@pallets == other.pallets and
 			@cascades == other.cascades
 		)
@@ -53,15 +46,15 @@ class StyleSystem
 		
 		
 		
-		return @path_to_project_root, pallets, cascades
+		return pallets, cascades
 	end
 	
 	
 	class << self
 		def unpack(data)
-			path_to_root, pallets, cascades = data
+			pallets, cascades = data
 			
-			obj = self.new path_to_root
+			obj = self.new
 			
 			
 			
@@ -89,13 +82,36 @@ class StyleSystem
 	
 	
 	
-	def dump
+	
+	def dump(base_directory)
+		data = self.pack
+		pallet_data, cascade_data = data 
 		
+		
+		
+		
+		filepath = File.join base_directory, 'style', 'pallets', 'test.out'
+		File.open(filepath, 'w') do |f|
+			YAML.dump(pallet_data, f)
+		end
+		
+		
+		
+		filepath = File.join base_directory, 'style', 'cascades', 'test.out'
+		File.open(filepath, 'w') do |f|
+			YAML.dump(cascade_data, f)
+		end
 	end
 	
 	class << self
-		def load
+		def load(filepath)
 			
+			
+			
+			data = YAML.load_file(filepath)
+			obj = self.unpack data
+			
+			return obj
 		end
 	end
 end

@@ -124,7 +124,7 @@ puts
 puts "========================="
 
 
-container = ThoughtTrace::Style::StyleSystem.new "path/to/project/root/here"
+container = ThoughtTrace::Style::StyleSystem.new
 	# ----- pallet -----
 	container.pallets["test_pallet"] = ThoughtTrace::Style::Pallet.new
 	container.pallets["test_pallet"].tap do |pallet|
@@ -154,6 +154,8 @@ container = ThoughtTrace::Style::StyleSystem.new "path/to/project/root/here"
 	container.cascades["test_cascade"] = cascade
 	container.cascades["test_cascade"].tap do |cascade|
 		cascade.add :foo
+		cascade.add :baz
+		cascade.add :bar
 	end
 
 p container
@@ -185,4 +187,15 @@ puts "========================="
 # dump
 Dir.chdir File.join path_to_root, 'experimental', 'style_system' do
 	pallet.dump File.join Dir.pwd, 'out'
+end
+
+
+
+
+
+
+
+
+Dir.chdir File.join path_to_root, 'bin', 'data', 'test' do
+	container.dump File.join Dir.pwd
 end
