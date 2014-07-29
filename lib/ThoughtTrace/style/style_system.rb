@@ -82,6 +82,8 @@ class StyleSystem
 	
 	
 	
+	RELATIVE_PALLET_DATAPATH  = File.join '.', 'style', 'pallets.out'
+	RELATIVE_CASCADE_DATAPATH = File.join '.', 'style', 'cascades.out'
 	
 	def dump(base_directory)
 		data = self.pack
@@ -90,26 +92,28 @@ class StyleSystem
 		
 		
 		
-		filepath = File.join base_directory, 'style', 'pallets.out'
+		filepath = File.expand_path RELATIVE_PALLET_DATAPATH, base_directory
 		File.open(filepath, 'w') do |f|
 			YAML.dump(pallet_data, f)
 		end
 		
 		
-		
-		filepath = File.join base_directory, 'style', 'cascades.out'
+		filepath = File.expand_path RELATIVE_CASCADE_DATAPATH, base_directory
 		File.open(filepath, 'w') do |f|
 			YAML.dump(cascade_data, f)
 		end
 	end
 	
 	class << self
-		def load(filepath)
+		def load(base_directory)
+			filepath = File.expand_path RELATIVE_PALLET_DATAPATH, base_directory
+			pallet_data = YAML.load_file(filepath)
+			
+			filepath = File.expand_path RELATIVE_CASCADE_DATAPATH, base_directory
+			cascade_data = YAML.load_file(filepath)
 			
 			
-			
-			data = YAML.load_file(filepath)
-			obj = self.unpack data
+			obj = self.unpack [pallet_data, cascade_data]
 			
 			return obj
 		end

@@ -197,5 +197,9 @@ end
 
 
 Dir.chdir File.join path_to_root, 'bin', 'data', 'test' do
-	container.dump File.join Dir.pwd
+	container.dump Dir.pwd
+	
+	new_container = ThoughtTrace::Style::StyleSystem.load Dir.pwd
+	
+	puts "serialization SUCESS!" if new_container == container
 end
