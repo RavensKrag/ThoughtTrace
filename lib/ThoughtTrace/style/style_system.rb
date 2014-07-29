@@ -77,10 +77,7 @@ class StyleSystem
 				
 				# TODO: need to be able to get pallets from other files
 				pallet = obj.pallets[pallet_name]
-				
-				
-				cascade = ThoughtTrace::Style::Cascade.new pallet
-				style_names.each{ |s|  cascade.add s }
+				cascade = ThoughtTrace::Style::Cascade.unpack pallet, style_names
 				
 				obj.cascades[name] = cascade
 			end

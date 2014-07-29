@@ -62,6 +62,18 @@ class Cascade
 		return @styles.clone
 	end
 	
+	class << self
+		def unpack(pallet, style_name_list)
+			obj = self.new pallet
+			
+			style_name_list.each do |style_name|
+				obj.add style_name
+			end
+			
+			return obj
+		end
+	end
+	
 	
 	
 	
