@@ -44,3 +44,9 @@ serialization file organization
 	
 	
 	IMPORTANT pallet is a nested hash, not a bunch of arrays inside a hash.
+
+
+
+
+each Cascade links to a Pallet
+(eventually, you should be able to link to Pallets from other projects, even)
