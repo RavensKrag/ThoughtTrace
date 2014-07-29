@@ -25,6 +25,7 @@ class Cascade
 	# style elements added later have priority over ones that came before
 	# (just like )
 	def add(style)
+		# TODO: only allow adding style if it is already defined in the pallet
 		@styles << style
 	end
 	
