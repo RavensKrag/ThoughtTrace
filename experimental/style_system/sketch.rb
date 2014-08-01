@@ -234,3 +234,168 @@ class Group
 		end
 	end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require 'securerandom'
+
+# map IDs to style data
+class Pallet
+	def initialize
+		@storage = Hash.new	
+	end
+	
+	# assign new id to style object, and start tracking the style
+	def add(style)
+		id = SecureRandom.uuid
+		@storage[id] = style
+		
+		return id
+	end
+	
+	def delete(style)
+		@storage.delete_if{ |k,v|  v == style }
+		# well, if you use an array backing as well, it's still going to be linear time to delete
+		# so this works pretty decently, to be honest
+	end
+	
+	
+	
+	# fetch the style object with the associated ID
+	def [](id)
+		return @storage[id]
+	end
+end
+
+
+# map style data to human readable IDs that can be changed at will without affecting the backend
+class NameIndex
+	def initialize
+		
+	end
+	
+	# return the name associated with this style
+	def [](style)
+		
+	end
+	
+	# generate name for Style automatically
+	def store(style)
+		
+	end
+	
+	# assign a new name to Style
+	def rename(style)
+		
+	end
+	
+	# stop tracking this Style
+	def delete(style)
+		
+	end
+end
+
+
+
+pallet = Pallet.new
+# maps object IDs to Styles
+
+names = NameIndex.new
+# a context under which styles can be named
+# objects can have different names under different contexts
+
+
+
+# does this apply to only the Style <=> name mapping, or to any mapping of objects and names in the Style system?
+
+
+pallet = Pallet.new
+cascade = ThoughtTrace::Style::Cascade.new pallet
+
+style = ThoughtTrace::Style::StyleObject.new
+
+
+
+# --- assigning to cascade
+id = pallet.add style
+cascade.add id
+# what happens when you try to add a style object that already is in the Pallet?
+
+
+# --- resolving styles through cascade
+target_property = ""
+@styles.each do |id|
+	style = pallet[id]
+	style[target_property]
+end
+
+
+
+
+
+# --- visualizing data
+name = names[style]
+# do you want to map style objects in this collection, or style IDs?
+# you need to translate to the IDs anyway when you serialize
+
+# but maybe I want to know the name of a particular style, like, independent of pallet?
+
+# (not sure if that makes sense, or is advisable)
+
+
+
+# TODO: on cascade evaluation, iterate using #each, and make sure that the "primary" style for the component is stored as the first element (highest priority)
+# wait... no....
+# the first element in the list should indeed be the highest priority
+# so that you can easily add more ancestors as needed
+# but maybe the iteration order is still reverse_each?
+
+
+
+
+# --- in component
+# + map the primary style of one thing into the cascade of another
+	# this kinda reduces the need for names, sorta
+	# (I think I'm gonna delay having names for a bit?)
+
+# (this should probably be something that affects two components, rather than being in a comp)
+def foo(a,b)
+	id = a[:style].style_id
+	
+	b[:style].cascade.add id
+end
