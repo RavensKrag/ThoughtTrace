@@ -18,6 +18,10 @@ class StyleObject
 		@properties[property] = value
 	end
 	
+	def has_property?(property)
+		@property.has_key? property
+	end
+	
 	
 	def ==(other)
 		return @properties.all?{ |k,v|  v == other[k] }

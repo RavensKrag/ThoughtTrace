@@ -32,7 +32,7 @@ class Cascade
 	# search cascade order for a particular property
 	def [](property)
 		# find the first style object in the cascade order which has the desired property
-		style = @styles.reverse_each.find{ |style| style[property] }
+		style = @styles.reverse_each.find{ |style| style.has_property? property }
 		return style[property]
 	end
 	
