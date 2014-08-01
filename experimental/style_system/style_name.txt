@@ -1,0 +1,33 @@
+style object name properties
+
+
+
+names attached to underlying data, not user visible objects
+	for reference, Blender has both underlying data names and larger object names
+	but this is because they seek to organize data in a linear visual hierarchy,
+	a list of names
+	
+	the entire purpose of THoughtTrace is to allow organization through spatial relations,
+	so organization within a hierarchy list is both unnecessary and undesirable
+
+names can be changed at will
+	changing names should not affect any other piece of data
+
+that implies that
+names are not necessarily unique
+	much like the names of people
+	names are "common identifiers"
+	rather than rigorous and guaranteed unique ones
+
+persist across sessions
+
+
+exist to aid end user organization of data
+through symbolic shorthand for a piece of data (the shorthand likely possesses semantic value)
+	* does this mean they're kinda like tags? or is there something else
+	by which I mean the ThoughtSpace tags (proposed future feature)
+	which label Entities so that they can be referenced by name
+	
+	this is not quite the same as "tags" in the general data organization sense
+	as seen on Delicious bookmarks, or photo management systems
+
