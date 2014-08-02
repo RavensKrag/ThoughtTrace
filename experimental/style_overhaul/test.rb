@@ -23,6 +23,8 @@ Dir.chdir File.join path_to_root, 'lib', 'ThoughtTrace', 'experimental', 'style_
 	require './pallet'
 	require './cascade'
 	require './style'
+	
+	require './style_component'
 end
 
 
