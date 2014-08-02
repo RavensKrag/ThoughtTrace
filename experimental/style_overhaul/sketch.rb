@@ -81,3 +81,66 @@ end
 		:prop3 => Gosu::Color.argb(0xffAABBCC)
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+entity[:style].mode = :default                 # switch to mode with the given name
+
+entity[:style].read(:color)                    # read from entire cascade
+entity[:style].write(:color, "RED")            # write to primary style
+entity[:style].socket(1, StyleObject.new)      # place a given style in the specified index
+entity[:style].move(from:2, to:6)              # move style from one index to another
+entity[:style].each_style{ |style|   }         # iterate through all available style objects
+
+# may want to keep this interface, and alias a more friendly one for normal use
+# naming the methods this way would allow for a better interface
+# when calling methods "lisp-style" using Object#send
+
+
+
+entity[:style][:color]
+entity[:style][:color] = "RED"
+entity[:style].socket(1, StyleObject.new)
+entity[:style].move(source:2, destination:6)
+entity[:style].each_style{ |style|   }
+
+
+
+
+
+
+
+
+
+
+
+entity[:style][:color]
+entity[:style][:color] = "RED"
+entity[:style].cascade[1] = StyleObject.new
+entity[:style].cascade.move(target:2, destination:6)
+entity[:style].cascade.each{ |style|   }
+
+
+
+# how do distinguish between 
+# + accessing a value through the cascade
+#             AND
+# + accessing an element of the cascade?
