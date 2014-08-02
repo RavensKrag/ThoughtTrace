@@ -4,33 +4,19 @@ module Components
 
 class Style
 	def initialize
+		@active_mode = :default
+		
 		@cascade = Cascade.new
-		
-		
-		
-		# s1 = StyleObject.new
-		# s1[:color] = "GREEN"
-		# @cascade.add s1
-		
-		# s1 = StyleObject.new
-		# s1[:color] = "YELLOW"
-		# @cascade.add s1
-		
-		# s1 = StyleObject.new
-		# s1[:color] = "RED"
-		# @cascade.add s1
 	end
 	
-	# Read properties through the Cascade
-	def [](property)
-		@cascade[property]
+	def primary
+		return @cascade.primary
 	end
 	
 	
-	# add new style?
-	def add(style)
-		@cascade.add style
-	 end
+	
+	delegate to: :@cascade,
+			 methods:[:read, :write, :socket, :each_style, :move, :move_up, :move_down]
 end
 
 

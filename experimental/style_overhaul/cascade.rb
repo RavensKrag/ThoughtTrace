@@ -5,17 +5,62 @@
 class Cascade
 	def initialize
 		@styles = Array.new
+		
+		@styles << StyleObject.new
+		# every Cascade initializes with a "primary" style
 	end
 	
-	# add a new style to the cascade
-	def add(style)
-		@styles << style
+	def primary
+		@styles.first
 	end
 	
-	# search cascade order for a particular property
-	def [](property)
+	
+	
+	# read from entire cascade
+	def read(property)
 		# find the first style object in the cascade order which has the desired property
 		style = @styles.each.find{ |style| style.has_property? property }
+		
+		raise "Could not find any styles in this Cascade with that property" unless style
+		
 		return style[property]
 	end
+	
+	# write to primary style
+	def write(property, value)
+		self.primary[property] = value
+	end
+	
+	# place a given style in the specified index
+	def socket(index, style)
+		
+	end
+	
+	# iterate through all available style objects
+	def each_style(&block) 
+		
+	end
+	
+	# move style from one index to another
+	def move(from:nil, to:nil)
+		raise ArgumentError, "Must specify a source index using 'from:'"     unless from
+		raise ArgumentError, "Must specify a destination index using 'to:'"  unless to
+		
+		
+	end
+	
+	# move style at specified index one position up
+	# has no effect if item is already at the top of the list
+	# (low index is "higher", ie earlier in the list is higher priority)
+	def move_up(index)
+		
+	end
+	
+	# move style at specified index one position down
+	# has no effect if the item is already at the bottom of the list
+	# (high index is "lower", ie later in the list is lower priority)
+	def move_down(index)
+		
+	end
+	
 end

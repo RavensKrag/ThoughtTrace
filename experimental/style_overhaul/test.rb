@@ -19,6 +19,11 @@ path_to_root = File.expand_path path, path_to_file
 puts path_to_root
 
 
+
+Dir.chdir File.join path_to_root, "lib", "ThoughtTrace", "monkey_patches" do
+	require './object' # defines <Class:<Object>>#delegate(methods:[], to:nil)  [eigenclass method]
+end
+
 Dir.chdir File.join path_to_root, 'experimental', 'style_overhaul' do
 	require './pallet'
 	require './cascade'
@@ -29,70 +34,31 @@ end
 
 
 
+
 # note that names can change
 # but IDs never change
 # (IDs should persist even across sessions)
 
 
-
-
-pallet = Pallet.new
-
-
-pallet['first'] = StyleObject.new
-pallet['first'][:color] = "GREEN"
-
-pallet['second'] = StyleObject.new
-pallet['second'][:color] = "YELLOW"
-
-pallet['third'] = StyleObject.new
-pallet['third'][:color] = "RED"
-
-
-
 entity = Hash.new # (dummy Entity to provide equivalent interface to the Style component)
 entity[:style] = Components::Style.new
-
-# link styles by name
-entity[:style].add pallet['first']
-entity[:style].add pallet['second']
-entity[:style].add pallet['third']
+entity[:style].primary[:color] = "BLACK"
 
 
-p entity[:style][:color]
+# entity[:style].mode = :default                 # switch to mode with the given name
 
-
-
-
+entity[:style].read(:color)                    # read from entire cascade
+entity[:style].write(:color, "RED")            # write to primary style
+entity[:style].socket(1, StyleObject.new)      # place a given style in the specified index
+# entity[:style].move(from:2, to:6)              # move style from one index to another
+# entity[:style].each_style{ |style|   }         # iterate through all available style objects
 
 
 
 
 
 
-# style = Style.new "test name"
-# pallet.add style
 
 
 
-# id_list = pallet
-# 			.select{   |id, style|  style.name =~ /SOMETHING/  }
-# 			.collect{  |id, style|  id }
-
-
-# id_list.each{ |style_id|  cascade.add style_id }
-
-
-
-
-# lookup_table = Hash.new
-# id_list.each do |style_id|
-# 	style = lookup_table[style_id]
-	
-	
-# end
-
-
-
-# # still not sure where names should go though....
-# # probably going to delay that until I can get this into production
+p entity[:style]
