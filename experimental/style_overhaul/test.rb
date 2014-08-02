@@ -42,7 +42,7 @@ end
 
 entity = Hash.new # (dummy Entity to provide equivalent interface to the Style component)
 entity[:style] = Components::Style.new
-entity[:style].primary[:color] = "BLACK"
+entity[:style].primary_style[:color] = "BLACK"
 
 
 entity[:style].mode = :default                 # switch to mode with the given name

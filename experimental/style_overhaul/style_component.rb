@@ -30,7 +30,7 @@ class Style
 	
 	
 	
-	def primary
+	def primary_style
 		return @active_cascade.primary
 	end
 	
