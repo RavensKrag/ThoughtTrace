@@ -39,6 +39,11 @@ end
 pallet = Pallet.new
 
 
+pallet['test style'] = StyleObject.new
+pallet['test style'][:color] = "BLACK"
+
+
+
 entity = Hash.new # (dummy Entity to provide equivalent interface to the Style component)
 entity[:style] = Components::Style.new
 
