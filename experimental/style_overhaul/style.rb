@@ -12,6 +12,6 @@ class StyleObject
 	end
 	
 	def has_property?(property)
-		@property.has_key? property
+		@properties.has_key? property
 	end
 end

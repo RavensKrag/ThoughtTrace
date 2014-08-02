@@ -42,7 +42,7 @@ pallet = Pallet.new
 entity = Hash.new # (dummy Entity to provide equivalent interface to the Style component)
 entity[:style] = Components::Style.new
 
-
+p entity[:style][:color]
 
 
 
