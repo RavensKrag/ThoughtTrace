@@ -1,4 +1,6 @@
 require 'yaml'
+require 'securerandom'
+
 
 module ThoughtTrace
 	module Style
@@ -6,22 +8,111 @@ module ThoughtTrace
 
 class Pallet
 	def initialize
-		@styles = Hash.new
-		# {:name => {:property => value}}
-	end
-	
-	def [](name)
-		return @styles[name]
-	end
-	
-	def []=(name, value) 
-		@styles[name] = value
+		@forward = Hash.new # id    =>  style
+		@reverse = Hash.new # style =>  id
 	end
 	
 	
 	def ==(other)
-		return @styles.all?{ |k,v|  v == other[k] }
+		return @forward.all?{ |k,v|  v == other.get_style(k) }
 	end
+	
+	
+	
+	
+	
+	
+	def add(style)
+		id = nil
+		begin
+			id = generate_id()
+		end while(@forward.has_key? id)
+		
+		
+		@forward[id] = style
+		@reverse[style] = id
+		
+		return id
+	end
+	
+	
+	
+	# delete and access need to be granted both in terms of 
+	# id => style   AND   style => id
+	
+	
+	def delete_style(style)
+		x = @forward.delete style
+		@reverse.delete x
+	end
+	
+	def delete_id(id)
+		x = @reverse.delete id
+		@forward.delete x
+	end
+	
+	
+	
+	def get_style(id)
+		return @forward[id]
+	end
+	
+	def get_id(style)
+		return @reverse[style]
+	end
+	
+	
+	# could use fetch() and rfetch() for names?
+	# I don't mind preferring one direction over the other,
+	# but idk if it's readily apparent which direction is which
+	
+	
+	
+	def each(&block)
+		@forward.each &block
+	end
+	
+	include Enumerable
+	
+	
+	
+	
+	# return an array of all styles whose names align contain the query
+	def find(regex_or_string)
+		search_results = @storage
+							.select{   |id, style|  style.name =~ regex_or_string  } # => hash
+							.collect{  |id, style|  style.id } # => array
+		return search_results
+	end
+	
+	
+	
+	private
+	
+	def generate_id
+		SecureRandom.uuid
+	end
+	
+	public
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	# is there any reason for StyleObject to be it's own custom class?
@@ -34,8 +125,8 @@ class Pallet
 	
 	def pack
 		collection =
-			@styles.collect do |name, style|
-				[name, style.pack]
+			@forward.collect do |id, style|
+				[id, style.pack]
 			end
 		
 		collection = collection.to_h
@@ -50,7 +141,8 @@ class Pallet
 			
 			property_hash.each do |style_id, style_data|
 				style = ThoughtTrace::Style::StyleObject.unpack style_data
-				obj[style_id] = style
+				hash = obj.instance_variable_get :@forward
+				hash[style_id] = style
 			end
 			
 			return obj

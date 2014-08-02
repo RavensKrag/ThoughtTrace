@@ -1,10 +1,10 @@
 ---
 test_pallet:
-  :foo:
+  58574a1e-e928-4e57-80d5-f65c2da53629:
     :color: Gosu::Color<4289379276>
-  :baz:
+  7af59985-188f-4a94-8f4b-345d8d5658dd:
     :prop1: 5
     :prop2: 23
-  :bar:
+  855c8737-7d3e-49d4-81c8-7ef0d3f6bc1e:
     :prop1: 5
     :prop2: 7

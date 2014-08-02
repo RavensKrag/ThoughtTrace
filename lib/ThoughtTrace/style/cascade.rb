@@ -4,6 +4,7 @@ module ThoughtTrace
 
 class Cascade
 	attr_accessor :pallet
+	attr_accessor :styles
 	
 	def initialize(pallet)
 		@styles = Array.new # list of style names
@@ -22,17 +23,17 @@ class Cascade
 	end
 	
 	# add a new style to the cascade
-	# style elements added later have priority over ones that came before
-	# (just like )
 	def add(style)
 		# TODO: only allow adding style if it is already defined in the pallet
+		# TODO: make sure styles are not added more than once? (maybe this is a bad idea?)
 		@styles << style
 	end
+	
 	
 	# search cascade order for a particular property
 	def [](property)
 		# find the first style object in the cascade order which has the desired property
-		style = @styles.reverse_each.find{ |style| style.has_property? property }
+		style = @styles.each.find{ |style| style.has_property? property }
 		return style[property]
 	end
 	
@@ -41,6 +42,14 @@ class Cascade
 	end
 	
 	include Enumerable
+	
+	
+	# The first Style in the Cascade should be the "primary"
+	def primary_id
+		@styles.first
+	end
+	
+	
 	
 	
 	

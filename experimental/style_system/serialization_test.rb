@@ -46,15 +46,15 @@ p data
 
 
 pallet = ThoughtTrace::Style::Pallet.new
-pallet[:foo] = style
+style_id = pallet.add style
 	
-	pallet[:baz] = ThoughtTrace::Style::StyleObject.new
-	pallet[:baz][:prop1] = 5
-	pallet[:baz][:prop2] = 23
+	id = pallet.add ThoughtTrace::Style::StyleObject.new
+	pallet.get_style(id)[:prop1] = 5
+	pallet.get_style(id)[:prop2] = 23
 
-	pallet[:bar] = ThoughtTrace::Style::StyleObject.new
-	pallet[:bar][:prop1] = 5
-	pallet[:bar][:prop2] = 7
+	id = pallet.add ThoughtTrace::Style::StyleObject.new
+	pallet.get_style(id)[:prop1] = 5
+	pallet.get_style(id)[:prop2] = 7
 
 p pallet
 
@@ -77,7 +77,7 @@ new_pallet = ThoughtTrace::Style::Pallet.unpack data
 p new_pallet
 
 
-new_style = new_pallet[:foo]
+new_style = new_pallet.get_style style_id
 p new_style
 
 
@@ -128,19 +128,19 @@ container = ThoughtTrace::Style::StyleSystem.new
 	# ----- pallet -----
 	container.pallets["test_pallet"] = ThoughtTrace::Style::Pallet.new
 	container.pallets["test_pallet"].tap do |pallet|
-		pallet[:foo] = ThoughtTrace::Style::StyleObject.new
-		pallet[:foo].tap do |style|
+		id = pallet.add ThoughtTrace::Style::StyleObject.new
+		pallet.get_style(id).tap do |style|
 			style[:color] = Gosu::Color.argb 0xffAABBCC
 		end
 		
-		pallet[:baz] = ThoughtTrace::Style::StyleObject.new
-		pallet[:baz].tap do |style|
+		id = pallet.add ThoughtTrace::Style::StyleObject.new
+		pallet.get_style(id).tap do |style|
 			style[:prop1] = 5
 			style[:prop2] = 23
 		end
 		
-		pallet[:bar] = ThoughtTrace::Style::StyleObject.new
-		pallet[:bar].tap do |style|
+		id = pallet.add ThoughtTrace::Style::StyleObject.new
+		pallet.get_style(id).tap do |style|
 			style[:prop1] = 5
 			style[:prop2] = 7
 		end
