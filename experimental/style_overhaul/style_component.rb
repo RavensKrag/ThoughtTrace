@@ -12,8 +12,15 @@ class Style
 		@active_cascade = @cascades[@active_mode]
 	end
 	
+	# Different style modes can be used for things like mouseover, on_click, etc
 	def mode=(mode_name)
 		@active_mode = mode_name
+		
+		# Make sure there is always a Cascade available at the mode you're switching to,
+		# even if you need to create a new Cascade for the new mode.
+		@cascades[@active_mode] ||= Cascade.new
+		
+		
 		@active_cascade = @cascades[@active_mode]
 	end
 	
