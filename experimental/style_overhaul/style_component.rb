@@ -8,17 +8,17 @@ class Style
 		
 		
 		
-		s1 = StyleObject.new
-		s1[:color] = "GREEN"
-		@cascade.add s1
+		# s1 = StyleObject.new
+		# s1[:color] = "GREEN"
+		# @cascade.add s1
 		
-		s1 = StyleObject.new
-		s1[:color] = "YELLOW"
-		@cascade.add s1
+		# s1 = StyleObject.new
+		# s1[:color] = "YELLOW"
+		# @cascade.add s1
 		
-		s1 = StyleObject.new
-		s1[:color] = "RED"
-		@cascade.add s1
+		# s1 = StyleObject.new
+		# s1[:color] = "RED"
+		# @cascade.add s1
 	end
 	
 	# Read properties through the Cascade
@@ -26,7 +26,11 @@ class Style
 		@cascade[property]
 	end
 	
+	
 	# add new style?
+	def add(style)
+		@cascade.add style
+	 end
 end
 
 

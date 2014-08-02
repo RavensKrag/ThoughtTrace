@@ -39,16 +39,27 @@ end
 pallet = Pallet.new
 
 
-pallet['test style'] = StyleObject.new
-pallet['test style'][:color] = "BLACK"
+pallet['first'] = StyleObject.new
+pallet['first'][:color] = "GREEN"
+
+pallet['second'] = StyleObject.new
+pallet['second'][:color] = "YELLOW"
+
+pallet['third'] = StyleObject.new
+pallet['third'][:color] = "RED"
 
 
 
 entity = Hash.new # (dummy Entity to provide equivalent interface to the Style component)
 entity[:style] = Components::Style.new
 
-p entity[:style][:color]
+# link styles by name
+entity[:style].add pallet['first']
+entity[:style].add pallet['second']
+entity[:style].add pallet['third']
 
+
+p entity[:style][:color]
 
 
 
