@@ -19,35 +19,44 @@ class Style < Component
 		
 		
 		
-		@active_mode = :default
-		
-		mode = @active_mode
-		
-		@modes = Hash.new
-		
-		pallet = style_system.pallets[pallet_name]
-		cascade = ThoughtTrace::Style::Cascade.new pallet
-		@modes[mode] = cascade
 		
 		
 		
 		
-		style_name = "???"
-		@modes[mode].pallet[style_name] = ThoughtTrace::Style::StyleObject.new
-		@modes[mode].add style_name
+		# @active_mode = :default
+		
+		# mode = @active_mode
+		
+		# @modes = Hash.new
+		
+		# pallet = style_system.pallets[pallet_name]
+		# cascade = ThoughtTrace::Style::Cascade.new pallet
+		# @modes[mode] = cascade
 		
 		
 		
 		
-		
-		
+		# style_name = "???"
+		# @modes[mode].pallet[style_name] = ThoughtTrace::Style::StyleObject.new
+		# @modes[mode].add style_name
 		
 		
 		
 		
 		
-		@modes = {
-			:name => [cascade, style_name, style]
+		
+		
+		
+		
+		
+		
+		# @modes = {
+		# 	:name => [cascade, style_name, style]
+		# }
+		
+		
+		
+			# when you edit styles on an object
 			# name of mode (NOT the same as the name of the style)
 				# this name only needs to be unique within this component
 				# (style components used for similar things will invariably have similar mode names)
@@ -56,8 +65,7 @@ class Style < Component
 				# this name needs to be unique among all Style names in the StyleSystem
 			# style - the style object associated with that name (linked here for convenience)
 			
-		}
-			# when you edit styles on an object
+			
 			# you should edit the "primary" style in the current mode
 			# (maybe specify the mode? idk, definitely the "primary" style object, though)
 			
@@ -70,17 +78,45 @@ class Style < Component
 		
 		
 		
-		@modes[@current] = Foo.new
+		@cascades = Hash.new
 		
-		@modes[@current][:property] = value   # apply to the "primary" style
-		@modes[@current][:property]           # access through the cascade
+		
+		pallet = style_system.pallets[pallet_name]
+		
+		
+		style = ThoughtTrace::Style::StyleObject.new
+		style_id = pallet.add style
+		
+		
+		cascade = ThoughtTrace::Style::Cascade.new pallet
+		cascade.add style_id
+		@cascades[@current] = cascade
+		
+		
+		@cascades[@current].primary_id
+		
+		
+		
+		# cascade order:
+		# first element in the list should be the "primary" style
+		# "primary" style should have the highest priority
+		
+		
+		
+		
+		
+	
 		
 		# NOTE: potential memory leak where StyleObject is empty (applies no visible change), persists outside of the StyleSystem (will not be serialized, which is good because it does nothing) but is still not being GCed (it's still "cached" in some style Component or something)
+		
+		
 		
 		
 		# shouldn't need to serialize the StyleObjects from the Entity Component side
 		# as they will all be serialized from the StyleSystem
 		# (man these things all need new names)
+		
+		
 		
 		
 		
@@ -129,6 +165,17 @@ class Style < Component
 		cascade, style_name, style = @modes[@current]
 		style[property] = value
 	end
+	
+	
+	# return the "primary" style for the current mode
+	def primary_style
+		@cascades[@current].primary_id
+	end
+	
+	
+	
+	
+	
 	
 	
 	
