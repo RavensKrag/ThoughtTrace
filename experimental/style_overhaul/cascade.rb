@@ -42,11 +42,18 @@ class Cascade
 	end
 	
 	# move style from one index to another
+	# If you specify a destination that is out of range,
+	# ie: larger than the maximum index, or smaller than the minimum index,
+	# then the style will be moved to the maximum extent it can be moved.
+	# (Behavior thus mimics #move_up and #move_down)
 	def move(from:nil, to:nil)
 		raise ArgumentError, "Must specify a source index using 'from:'"     unless from
 		raise ArgumentError, "Must specify a destination index using 'to:'"  unless to
 		
+		@styles.insert(to, @styles[from])
+		@styles.delete_at(from)
 		
+		return self
 	end
 	
 	# move style at specified index one position up
