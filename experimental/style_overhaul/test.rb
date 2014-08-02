@@ -19,7 +19,7 @@ path_to_root = File.expand_path path, path_to_file
 puts path_to_root
 
 
-Dir.chdir File.join path_to_root, 'lib', 'ThoughtTrace', 'experimental', 'style_overhaul' do
+Dir.chdir File.join path_to_root, 'experimental', 'style_overhaul' do
 	require './pallet'
 	require './cascade'
 	require './style'
@@ -29,14 +29,29 @@ end
 
 
 
+# note that names can change
+# but IDs never change
+# (IDs should persist even across sessions)
 
 
 
-# # note that names can change
-# # but IDs never change
-# # (IDs should persist even across sessions)
 
-# pallet = Pallet.new
+pallet = Pallet.new
+
+
+entity = Hash.new # (dummy Entity to provide equivalent interface to the Style component)
+entity[:style] = Components::Style.new
+
+
+
+
+
+
+
+
+
+
+
 
 
 # style = Style.new "test name"
