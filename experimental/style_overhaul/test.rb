@@ -45,7 +45,7 @@ entity[:style] = Components::Style.new
 entity[:style].primary[:color] = "BLACK"
 
 
-# entity[:style].mode = :default                 # switch to mode with the given name
+entity[:style].mode = :default                 # switch to mode with the given name
 
 entity[:style].read(:color)                    # read from entire cascade
 entity[:style].write(:color, "RED")            # write to primary style
