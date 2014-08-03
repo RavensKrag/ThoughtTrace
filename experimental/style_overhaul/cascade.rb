@@ -46,6 +46,18 @@ class Cascade
 		@styles[index] = style
 	end
 	
+	# remove a style object from the specified index
+	# returns the Style which can just been removed
+	# will return 'nil' if the index is beyond the current end of the list
+	def unsocket(index)
+		raise IndexError, "Not allowed to change the primary style"   if index == 0
+		raise IndexError, "Indices must be positive natural numbers." if index < 0
+		
+		style = @styles.delete_at index
+		
+		return style
+	end
+	
 	# iterate through all available style objects
 	def each_style(&block) 
 		
