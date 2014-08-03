@@ -29,6 +29,8 @@ class Cascade
 	# write to primary style
 	def write(property, value)
 		self.primary[property] = value
+		
+		return self
 	end
 	
 	# place a given style in the specified index
@@ -44,6 +46,8 @@ class Cascade
 		warn "Overwriting existing style. Style data may be lost." unless @styles[index].nil?
 		
 		@styles[index] = style
+		
+		return self
 	end
 	
 	# remove a style object from the specified index
