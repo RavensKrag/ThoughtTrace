@@ -20,10 +20,6 @@ puts path_to_root
 
 
 
-Dir.chdir File.join path_to_root, "lib", "ThoughtTrace", "monkey_patches" do
-	require './object' # defines <Class:<Object>>#delegate(methods:[], to:nil)  [eigenclass method]
-end
-
 Dir.chdir File.join path_to_root, 'experimental', 'style_overhaul' do
 	require './pallet'
 	require './cascade'

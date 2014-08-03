@@ -1,3 +1,6 @@
+require 'forwardable'
+
+
 module Components
 
 
@@ -34,8 +37,11 @@ class Style
 		return @active_cascade.primary
 	end
 	
-	delegate to: :@active_cascade,
-			 methods:[:read, :write, :socket, :each_style, :move, :move_up, :move_down]
+	
+	extend Forwardable
+	def_delegators :@active_cascade,
+		:read, :write, :socket, :each_style, :move, :move_up, :move_down
+	# TODO: make sure that you always use def_delegators, and not the Object monkeypatch I wrote. That is not nearly robust enough, especially with the introduction of kwargs to ruby 2.0
 end
 
 
