@@ -54,7 +54,7 @@ class Cascade
 	# returns the Style which can just been removed
 	# will return 'nil' if the index is beyond the current end of the list
 	def unsocket(index)
-		raise IndexError, "Not allowed to change the primary style"   if index == 0
+		raise IndexError, "Not allowed to remove the primary style"   if index == 0
 		raise IndexError, "Indices must be positive natural numbers." if index < 0
 		
 		style = @styles.delete_at index
@@ -75,6 +75,29 @@ class Cascade
 	def move(from:nil, to:nil)
 		raise ArgumentError, "Must specify a source index using 'from:'"     unless from
 		raise ArgumentError, "Must specify a destination index using 'to:'"  unless to
+		
+		if from >= @styles.size
+			message = 
+				if @styles.size == 1
+					"Source index #{from} is too large. Only primary style present, and that can't be moved."
+				else
+					"Source index #{from} is too large. Maximum source index is #{@styles.size-1}."
+				end
+			
+			raise IndexError, message
+		end
+		raise IndexError, "Source index #{from} does not contain a Style."  if @styles[from].nil?
+		
+		raise IndexError, "Not allowed to change the primary style"   if to == 0
+		raise IndexError, "Indices must be positive natural numbers." if to < 0
+		
+		
+		
+		warn "Moving #{from} to #{to} will generate empty slots. Those slots will need to be filled before iterating with #each or similar." if to > @styles.size
+		# trying to read through the cascade with empty slots
+		# (nil values in array) will result in errors.
+		
+		
 		
 		@styles.insert(to, @styles[from])
 		@styles.delete_at(from)
