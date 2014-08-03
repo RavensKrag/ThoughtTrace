@@ -109,14 +109,45 @@ class Cascade
 	# has no effect if item is already at the top of the list
 	# (low index is "higher", ie earlier in the list is higher priority)
 	def move_up(index)
+		raise ArgumentError, "Can not move the primary Style" if index == 0
+		raise IndexError, "Indices must be positive natural numbers." if index < 0
 		
+		
+		# can't be 0: can't move the primary style 
+		# can't be 1: can't move the style at index 1 up, because it would displace the primary
+		if index > 1
+			src = index
+			dst = index - 1
+			
+			swap(@styles, src, dst)
+		end
 	end
 	
 	# move style at specified index one position down
 	# has no effect if the item is already at the bottom of the list
 	# (high index is "lower", ie later in the list is lower priority)
 	def move_down(index)
+		raise ArgumentError, "Can not move the primary Style" if index == 0
+		raise IndexError, "Indices must be positive natural numbers." if index < 0
 		
+		
+		# can't move the final element in the list down any further
+		if src == @styles.size-1
+			src = index
+			dst = index + 1
+			
+			swap(@styles, src, dst)
+		end
 	end
 	
+	
+	
+	private
+	
+	# swap the item at index 'src' with the item at index 'dst'
+	def swap(list, src, dst)
+		swap = list[dst]
+		list[dst] = list[src]
+		list[src] = swap
+	end
 end
