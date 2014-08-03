@@ -33,7 +33,17 @@ class Cascade
 	
 	# place a given style in the specified index
 	def socket(index, style)
+		# do not allow socketing into index 0, the position of the "primary" style
+		# that style will always persist at that location
+		# (at least, in the abstracted model of things.)
+		# (objects are really created / destroyed on load / dump)
 		
+		raise IndexError, "Not allowed to change the primary style"   if index == 0
+		raise IndexError, "Indices must be positive natural numbers." if index < 0
+		
+		warn "Overwriting existing style. Style data may be lost." unless @styles[index].nil?
+		
+		@styles[index] = style
 	end
 	
 	# iterate through all available style objects
