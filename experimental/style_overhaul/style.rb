@@ -3,6 +3,11 @@ class StyleObject
 		@properties = Hash.new
 	end
 	
+	def ==(other)
+		return @properties.all?{ |k,v|  v == other[k] }
+	end
+	
+	
 	def [](property)
 		return @properties[property]
 	end
