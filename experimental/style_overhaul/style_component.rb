@@ -42,6 +42,10 @@ class Style
 	def_delegators :@active_cascade,
 		:read, :write, :socket, :unsocket, :each_style, :move, :move_up, :move_down
 	# TODO: make sure that you always use def_delegators, and not the Object monkeypatch I wrote. That is not nearly robust enough, especially with the introduction of kwargs to ruby 2.0
+	
+	
+	alias :[] :read
+	alias :[]= :write
 end
 
 
