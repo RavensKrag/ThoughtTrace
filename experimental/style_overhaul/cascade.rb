@@ -63,8 +63,14 @@ class Cascade
 	end
 	
 	# iterate through all available style objects
-	def each_style(&block) 
-		
+	def each_style(&block)
+		# iterate and return self, or return an iterator
+		if block
+			@styles.each &block
+			return self
+		else
+			return @styles.each
+		end
 	end
 	
 	# move style from one index to another

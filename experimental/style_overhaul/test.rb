@@ -50,7 +50,7 @@ entity[:style].unsocket(1)                     # remove the style at the specifi
 # entity[:style].move(from:2, to:6)              # move style from one index to another
 # entity[:style].move_up(2)                      # move style in index 2 up one slot
 # entity[:style].move_down(2)                    # move style in index 2 down one slot
-# entity[:style].each_style{ |style|   }         # iterate through all available style objects
+entity[:style].each_style{ |style|  p style  } # iterate through all available style objects
 
 
 
