@@ -48,6 +48,8 @@ entity[:style].write(:color, "RED")            # write to primary style
 entity[:style].socket(1, StyleObject.new)      # place a given style in the specified index
 entity[:style].unsocket(1)                     # remove the style at the specified index
 # entity[:style].move(from:2, to:6)              # move style from one index to another
+# entity[:style].move_up(2)                      # move style in index 2 up one slot
+# entity[:style].move_down(2)                    # move style in index 2 down one slot
 # entity[:style].each_style{ |style|   }         # iterate through all available style objects
 
 
