@@ -46,6 +46,21 @@ class Style
 	
 	alias :[] :read
 	alias :[]= :write
+	
+	
+	
+	
+	def inspect
+		cascade_list = @cascades.collect{ |name, cascade|  name }
+		
+		"#<#{self.class}:#{object_space_id_string} @active_cascade=#{@active_cascade.inspect} @active_mode=#{@active_mode.inspect} @cascades=#{cascade_list.inspect}>"
+	end
+	
+	private
+	
+	def object_space_id_string
+		return ("0x%014x" % (self.object_id << 1))
+	end
 end
 
 
