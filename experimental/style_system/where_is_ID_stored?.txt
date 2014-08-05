@@ -44,3 +44,21 @@ so you could store the data in a bi-directional hash and it would be fine
 
 
 now, are the IDs assigned by the Pallet, or some external thing?
+
+
+
+
+
+
+
+
+
+
+
+if you attach the id to the style directly
+the same style can be referenced with the same id across multiple pallets
+
+what you really want is
+being able to reference multiple styles with the same ID
+the disambiguation comes from using different pallets
+that is the nature of pallet swapping
