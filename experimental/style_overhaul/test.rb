@@ -19,13 +19,21 @@ path_to_root = File.expand_path path, path_to_file
 puts path_to_root
 
 
+Dir.chdir File.join path_to_root, 'lib', 'ThoughtTrace' do
+	require_all './utilities'
+end
 
-Dir.chdir File.join path_to_root, 'experimental', 'style_overhaul' do
+
+Dir.chdir File.join path_to_root, 'lib', 'ThoughtTrace', 'style' do
 	require './pallet'
 	require './cascade'
 	require './style'
-	
-	require './style_component'
+end
+
+Dir.chdir File.join path_to_root, 'lib', 'ThoughtTrace', 'entities', 'components' do
+	require_all './../share/'
+	require './component'
+	require './style'
 end
 
 
@@ -37,15 +45,19 @@ end
 
 
 entity = Hash.new # (dummy Entity to provide equivalent interface to the Style component)
-entity[:style] = Components::Style.new
+entity[:style] = ThoughtTrace::Components::Style.new
 entity[:style].primary_style[:color] = "BLACK"
+
+
+style = ThoughtTrace::Style::StyleObject.new
+
 
 
 entity[:style].mode = :default                 # switch to mode with the given name
 
 entity[:style].read(:color)                    # read from entire cascade
 entity[:style].write(:color, "RED")            # write to primary style
-entity[:style].socket(1, StyleObject.new)      # place a given style in the specified index
+entity[:style].socket(1, style)                # place a given style in the specified index
 entity[:style].unsocket(1)                     # remove the style at the specified index
 # entity[:style].move(from:2, to:6)              # move style from one index to another
 # entity[:style].move_up(2)                      # move style in index 2 up one slot

@@ -13,7 +13,7 @@ class Style < Component
 		@active_mode = :default
 		
 		@cascades = {
-			:default => Cascade.new
+			:default => ThoughtTrace::Style::Cascade.new
 		}
 		@active_cascade = @cascades[@active_mode]
 	end
@@ -24,7 +24,7 @@ class Style < Component
 		
 		# Make sure there is always a Cascade available at the mode you're switching to,
 		# even if you need to create a new Cascade for the new mode.
-		@cascades[@active_mode] ||= Cascade.new
+		@cascades[@active_mode] ||= ThoughtTrace::Style::Cascade.new
 		
 		
 		@active_cascade = @cascades[@active_mode]
