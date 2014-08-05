@@ -10,8 +10,22 @@ class Cascade
 		# every Cascade initializes with a "primary" style
 	end
 	
+	def ==(other)
+		return (
+			other.size == self.size
+			other.all?{ |style| @styles.include? style}
+		)
+	end
+	
+	
 	def primary
 		@styles.first
+	end
+	
+	
+	# the number of styles currently registered within this cascade
+	def size
+		return @styles.size
 	end
 	
 	

@@ -4,8 +4,13 @@ class Pallet
 		@collection = Hash.new
 	end
 	
+	# def ==(other)
+	# 	return @forward.all?{ |k,v|  v == other.get_style(k) }
+	# end
+	
 	
 	def [](k)
+		warn "Style #{k} is not defined" unless @collection.has_key? k
 		@collection[k]
 	end
 	
