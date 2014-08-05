@@ -1,105 +1,82 @@
+require 'forwardable'
+
 module ThoughtTrace
 	module Components
+
 
 
 class Style < Component
 	interface_name :style
 	
-	attr_accessor :name, :parent_style
 	
-	def initialize(name, parent_style=nil)
-		@name = name
+	def initialize
+		@active_mode = :default
 		
-		# should have various properties
-		# properties can cascade off another style component, like in CSS
-		@parent_style = parent_style
-		
-		
-		# Want to write properties in such a way that you
-		# get the same word used in a lot of different contexts
-		# that way colors etc can get thrown around more easily.
-		# ex) the color of one block of text could be the the color of some other element
-		# @properties = [
-		# 	:height, # font height and rectangle height.  Text is a separate object anyhow.
-		# 	:color, # if you want to color the bg, you should be coloring a separate element
-		# ]
-		
-		@mode = :default
-		
-		# {:mode_name => {:property_name => value} }
-		# ex) @properties[:default][:color]
-		@properties = {@mode => Hash.new}
+		@cascades = {
+			:default => ThoughtTrace::Style::Cascade.new
+		}
+		@active_cascade = @cascades[@active_mode]
 	end
 	
-	def update
+	# Different style modes can be used for things like mouseover, on_click, etc
+	def mode=(mode_name)
+		@active_mode = mode_name
 		
-	end
-	
-	def draw(z=0)
+		# Make sure there is always a Cascade available at the mode you're switching to,
+		# even if you need to create a new Cascade for the new mode.
+		@cascades[@active_mode] ||= ThoughtTrace::Style::Cascade.new
 		
-	end
-	
-	
-	
-	
-	def mode=(new_mode)
-		@properties[new_mode] ||= Hash.new
 		
-		@mode = new_mode
+		@active_cascade = @cascades[@active_mode]
 	end
 	
 	def mode
-		return @mode
+		@active_mode
 	end
 	
 	
-	# Request the value of a certain property
-	# Will cascade into parent properties as necessary
-	# (search through parent styles until you find a usable value)
-	def [](property)
-		foo = @properties[@mode][property]
+	# change the mode temporarily to allow manipulation of values within the block
+	# and then change it back to what it was before
+	def edit(mode, &block)
+		stash = self.mode
 		
-		if foo.nil?
-			warn "Warning: Property :#{property} not defined for :#{@mode} mode of style #{@name}"
-			
-			if @parent_style
-				# Delegate up the cascade chain, trying to find a usable value
-				foo = @parent_style[property]
-			else
-				# Bottom of the chain
-				# TOOD: Figure out a way to give a sense of the chain where the property was not found. Maybe that information is in the backtrace already?
-				# Would be easier to return proper debug information at the top of the chain. Then you could alert where the property was requested.
-				raise "ERROR: Style property #{property} not defined"
-			end
-		end
-		
-		
-		return foo
+		self.mode = mode
+			block.call self
+		self.mode = stash
 	end
 	
-	# Set property
-	# Will only ever set the value at this level
-	def []=(property, value)
-		@properties[@mode][property] = value
+	
+	
+	def primary_style
+		return @active_cascade.primary
 	end
 	
-	# Edit one style mode (not necessarily the active mode)
-	# Protects against forgetting to switch back after temporarily switching modes to make an edit
-	def edit(mode=@mode)
-		# want to use the methods to get / set mode, rather than instance variables
-		# kinda weird relative to standard ruby style, but it needs to happen
-		# so that the hashes can be initialized correctly,
-		# without having to repeat the init code all over the place
-		old_mode = self.mode
-			self.mode = mode
-			
-			self.tap do |mode_handle|
-				yield mode_handle
-			end
-		self.mode = old_mode
+	
+	# TODO: make sure that you always use def_delegators, and not the Object monkeypatch I wrote. That is not nearly robust enough, especially with the introduction of kwargs to ruby 2.0
+	extend Forwardable
+	def_delegators :@active_cascade,
+		:read, :write, :socket, :unsocket, :each, :each_style, :move, :move_up, :move_down
+	
+	alias :[] :read
+	alias :[]= :write
+	
+	include Enumerable
+	
+	
+	
+	
+	def inspect
+		cascade_list = @cascades.collect{ |name, cascade|  name }
+		
+		"#<#{self.class}:#{object_space_id_string} @active_cascade=#{@active_cascade.inspect} @active_mode=#{@active_mode.inspect} @cascades=#{cascade_list.inspect}>"
+	end
+	
+	private
+	
+	def object_space_id_string
+		return ("0x%014x" % (self.object_id << 1))
 	end
 end
-
 
 
 end

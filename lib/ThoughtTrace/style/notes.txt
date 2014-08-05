@@ -1,0 +1,49 @@
+only one Style object in a space can have a given name
+if the Style is updated in one place, all other places will update as well
+(all references to one style via it's one common name point at the same data)
+
+
+generally, you want to try and refer to things by the names there are assigned in their containers
+rather than creating new names through extra variables all over the place
+(would be a lot cleaner that way, at least in theory)
+
+
+
+
+
+'namespacing' of elements can be achieved through using a different
+StyleSpace / Pallet / StyleObject hierarchy to hold a particular style value
+
+
+
+
+
+
+
+serialization file organization
+	pallet file stores a bunch of style data, and the names for those styles
+	cascade file stores a bunch of style NAMES, and a link to a pallet
+	
+	multiple pallets can exist in one project     (possible, not always going to happen)
+	multiple cascades can exist in one project    (almost definitely there will be multiple)
+	
+	
+	IMPORTANT pallet is a nested hash, not a bunch of arrays inside a hash.
+	
+	
+	
+	Pallets and Cascades are controlled though the StyleSystem
+	their names are thus stored there, rather than in the pallet / cascade objects
+	this makes the names easier to change
+	
+	but it also make it more like how variables get their names from their contexts,
+	rather than from the objects they describe
+
+
+
+
+each Cascade links to a Pallet
+(eventually, you should be able to link to Pallets from other projects, even)
+
+When these objects are serialized, care must be taken to ensure these links
+(this is the main reason why StyleSystem exists)

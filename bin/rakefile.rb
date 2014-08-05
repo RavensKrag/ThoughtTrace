@@ -67,6 +67,7 @@ task :load_dependencies do
 				'./monkey_patches',
 				
 				'./utilities/font',
+				'./style',
 				
 				
 				# require_all seems to snip the Class#inherited callback.

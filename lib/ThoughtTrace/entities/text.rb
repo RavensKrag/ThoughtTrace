@@ -13,22 +13,9 @@ class Text < Rectangle
 		
 		
 		
-		# # TODO: cascade into default style
-		# style = ThoughtTrace::Components::Style.new "text_style_#{self.object_id}"
-		# style.edit(:default) do |s|
-		# 	s[:height] = 30 # <-- depreciated
-		# 	s[:color] = Gosu::Color.argb(0xffFFFFFF)
-		# end
-		
-		# style.edit(:hover) do |s|
-		# 	s[:height] = 30 # <-- depreciated
-		# 	s[:color] = Gosu::Color.argb(0xff0000FF)
-		# end
-		
-		# add_component style
 		
 		
-		# # NOTE: @string has not yet been initialized
+		# NOTE: @string has not yet been initialized
 		height = DEFAULT_FONT_SIZE
 		width = @font.width(@string, height)
 		
@@ -37,13 +24,12 @@ class Text < Rectangle
 		
 		
 		
+		# TODO: cascade into default style
 		@components[:style].edit(:default) do |s|
-			s[:height] = 30 # <-- depreciated
 			s[:color] = Gosu::Color.argb(0xffFFFFFF)
 		end
 		
 		@components[:style].edit(:hover) do |s|
-			s[:height] = 30 # <-- depreciated
 			s[:color] = Gosu::Color.argb(0xff0000FF)
 		end
 	end

@@ -1,0 +1,39 @@
+style object id properties
+
+can't change unique object id
+ids persist across sessions
+deleting one id does not affect other ids
+creating a new id does not affect other ids
+
+ids with a certain StyleSpace should be unique
+(it's nice if IDs are unique across many documents, but not necessary)
+
+
+
+
+
+need to be able to create multiple pallets with the same IDs
+this is what allows for pallet swapping
+
+this notion is at odds with the idea that IDs are unique within a StyleSpace
+as multiple pallets can exist within on StyleSpace
+
+	should many pallets with the same set of IDs be created by creating "shallow copies"(ish)
+	of one reference pallet?
+	
+	like, say I create a pallet with 5 styles in it, and then I want to have pallet swapping
+	so I "clone" that pallet (shallow) and then change all the style properties
+
+
+
+alternatively, think of the problem this way:
+do you want all pallets to assign keys in the same order?
+this would mean that any pallet of 5 styles could be applied in any case requiring 5 styles or less
+	that kinda gives the id => object mapping value
+	and you would want to be able to control which objects are in which id "slots"
+	
+	
+	this allows for a lot of "happy accidents" though, which could spur creativity
+	this sort of thing is why I desire to paint in b/w and then map colors via color ramp
+	because then you could easily swap out colors
+	or even glitch out the maps for cool effects

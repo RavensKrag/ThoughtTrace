@@ -8,14 +8,12 @@ class Circle < Entity
 		
 		
 		# TODO: cascade into default style
-		style = ThoughtTrace::Components::Style.new "circle_style_#{self.object_id}"
+		style = ThoughtTrace::Components::Style.new
 		style.edit(:default) do |s|
-			s[:radius] = radius
 			s[:color] = Gosu::Color.argb(0xaa2A3082)
 		end
 		
 		style.edit(:hover) do |s|
-			s[:radius] = radius
 			s[:color] = Gosu::Color.argb(0xaa0000FF)
 		end
 			
@@ -25,7 +23,7 @@ class Circle < Entity
 		
 		# TODO: Update geometry when style is updated, and vice versa. (or else maybe width and height shouldn't be stored in Style)
 							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-							shape = CP::Shape::Circle.new body, style[:radius]
+							shape = CP::Shape::Circle.new body, radius
 		add_component	ThoughtTrace::Components::Physics.new self, body, shape
 	end
 	
