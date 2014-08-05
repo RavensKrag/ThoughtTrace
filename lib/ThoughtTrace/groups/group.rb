@@ -7,6 +7,11 @@ class Group
 		@space = space
 		
 		@entities = Array.new
+		
+		@style = ThoughtTrace::Style::StyleObject.new
+		@style.tap do |s|
+			s[:color] = Gosu::Color.argb(0xaa69BDA7)
+		end
 	end
 	
 	
@@ -30,6 +35,9 @@ class Group
 	
 	
 	def add(obj)
+		obj[:style].mode = :group
+		obj[:style].socket(1, @style)
+		
 		@entities << obj
 	end
 	
@@ -64,7 +72,6 @@ class Group
 			entities.each do |e|
 				
 				# DO ACTUAL STUFF HERE
-				p e
 				group.add e
 				
 			end
