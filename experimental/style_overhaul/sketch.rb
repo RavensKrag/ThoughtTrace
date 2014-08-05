@@ -28,24 +28,6 @@
 	}
 }
 
-# + store style into any slot arbitrarily
-# + find property value though cascade search
-
-entity.mode = :default
-entity[:style].primary
-
-entity[:style].move 2, 4
-# select the item currently at index 2
-# insert a copy before the item at index 4
-# delete the original item at index 2
-	# arr.insert(j, arr[i]); arr.delete_at(i)
-
-entity[:style][1] = Style.new
-entity[:style][2] = other[:style].primary
-# should NOT be allowed to slot a new primary style, which resides at index 0
-
-
-
 
 
 
@@ -130,3 +112,89 @@ entity[:style].move_down(2)
 entity[:style].each_style{ |style|   }
 
 
+
+
+# TODO: style naming
+# TODO: pallet swapping
+
+
+# NOTE: can't serialize Styles by name, because names are not guaranteed to be unique, in any way
+
+
+
+{
+	:pallet_1 => {
+		"foo" => {
+			:property => 0
+		},
+		"baz" => {
+			:property => 0
+		},
+		"qux" => {
+			:property => 0
+		}
+	},
+	
+	:pallet_2 => {
+		"foo" => {
+			:property => 0
+		},
+		"baz" => {
+			:property => 0
+		},
+		"qux" => {
+			:property => 0
+		}
+	}
+}
+
+
+p1 = Array.new
+p1 << StyleObject.new("foo")
+p1 << StyleObject.new("baz")
+p1 << StyleObject.new("qux")
+
+
+p2 = Array.new
+p2 << StyleObject.new("foo")
+p2 << StyleObject.new("baz")
+p2 << StyleObject.new("qux")
+
+
+
+# swap out all the styles in the cascade with names that are the same as those in the pallet
+# ex) if cascade defines a style called "foo", it will be replaced with the "foo" from the pallet
+def pallet_swap(cascade, new_pallet)
+	# collect up all styles from the new pallet
+	# which have the same name as the styles currently defined in the cascade
+	conversion_table = 
+		cascade.each_with_object(Hash.new) do |style, h|
+			h[style.name] = new_pallet.find{ |s|  s.name == style.name }
+		end
+	
+	# swap out the styles as appropriate
+	# but never touch the primary style
+	cascade.each_with_index do |style, i|
+		next if i == 0 # ignore the primary style
+		
+		swap_style = conversion_table[style.name]
+		cascade.socket(i, swap_style) if swap_style
+	end
+end
+
+
+# skip conversion of style elements with no name (ie name="")
+# because that's the default name
+# and there's going to be a lot of crazy senseless collision there
+# like, collisions that make no sense
+# that's not stuff you actually want to swap out,
+# it's just stuff that collides because of defaults
+
+
+# (maybe you want to assign UUIDs by default?)
+# could still identify that it was a UUID, but you don't have to be like
+# "HEY!" what up with all the collisons!?!?"
+
+
+pallet_swap(entity[:style], p1)
+pallet_swap(entity[:style], p2)

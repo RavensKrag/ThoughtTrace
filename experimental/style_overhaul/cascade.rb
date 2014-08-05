@@ -6,7 +6,7 @@ class Cascade
 	def initialize
 		@styles = Array.new
 		
-		@styles << StyleObject.new
+		@styles << StyleObject.new("primary")
 		# every Cascade initializes with a "primary" style
 	end
 	
@@ -62,8 +62,13 @@ class Cascade
 		return style
 	end
 	
+	# retrieve the style object stored at the specified index
+	def read_socket(index)
+		return @styles[i]
+	end
+	
 	# iterate through all available style objects
-	def each_style(&block)
+	def each(&block)
 		# iterate and return self, or return an iterator
 		if block
 			@styles.each &block
@@ -72,6 +77,11 @@ class Cascade
 			return @styles.each
 		end
 	end
+	
+	alias :each_style :each
+	
+	include Enumerable
+	
 	
 	# move style from one index to another
 	# If you specify a destination that is out of range,

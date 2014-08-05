@@ -1,5 +1,8 @@
 class StyleObject
-	def initialize
+	attr_accessor :name
+	
+	def initialize(name="")
+		@name = name
 		@properties = Hash.new
 	end
 	
