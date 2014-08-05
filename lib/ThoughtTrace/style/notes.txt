@@ -65,3 +65,12 @@ experiments with style serialization formats.
 
 should look over that stuff again when it comes time
 to actually figure outhow to serialize this mess
+
+
+
+/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/style_overhaul/
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/style/
+/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/
+
+
+/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/components/style.rb
