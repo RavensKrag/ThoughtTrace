@@ -165,19 +165,12 @@ p2 << StyleObject.new("qux")
 # swap out all the styles in the cascade with names that are the same as those in the pallet
 # ex) if cascade defines a style called "foo", it will be replaced with the "foo" from the pallet
 def pallet_swap(cascade, new_pallet)
-	# collect up all styles from the new pallet
-	# which have the same name as the styles currently defined in the cascade
-	conversion_table = 
-		cascade.each_with_object(Hash.new) do |style, h|
-			h[style.name] = new_pallet.find{ |s|  s.name == style.name }
-		end
-	
-	# swap out the styles as appropriate
-	# but never touch the primary style
 	cascade.each_with_index do |style, i|
 		next if i == 0 # ignore the primary style
+		next if style.name == "" # ignore styles with the default name. many false positives
 		
-		swap_style = conversion_table[style.name]
+		
+		swap_style = new_pallet.find{ |s|  s.name == style.name }
 		cascade.socket(i, swap_style) if swap_style
 	end
 end
