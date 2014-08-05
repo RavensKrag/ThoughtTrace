@@ -35,6 +35,17 @@ class Style < Component
 	end
 	
 	
+	# change the mode temporarily to allow manipulation of values within the block
+	# and then change it back to what it was before
+	def edit(mode, &block)
+		stash = self.mode
+		
+		self.mode = mode
+			block.call self
+		self.mode = stash
+	end
+	
+	
 	
 	def primary_style
 		return @active_cascade.primary
