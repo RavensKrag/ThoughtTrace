@@ -1,3 +1,7 @@
+module ThoughtTrace
+	module Style
+
+
 # Holds a variety of styles
 class Pallet
 	def initialize
@@ -17,4 +21,9 @@ class Pallet
 	def []=(k,v)
 		@collection[k] = v
 	end
+end
+
+
+
+end
 end

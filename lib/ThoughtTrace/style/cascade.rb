@@ -1,3 +1,7 @@
+module ThoughtTrace
+	module Style
+
+
 # Establishes a hierarchy of Styles
 # 
 # style properties can be queried though this object
@@ -180,4 +184,8 @@ class Cascade
 		list[dst] = list[src]
 		list[src] = swap
 	end
+end
+
+
+end
 end

@@ -1,3 +1,7 @@
+module ThoughtTrace
+	module Style
+
+
 class StyleObject
 	attr_accessor :name
 	
@@ -22,4 +26,9 @@ class StyleObject
 	def has_property?(property)
 		@properties.has_key? property
 	end
+end
+
+
+
+end
 end

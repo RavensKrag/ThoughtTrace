@@ -1,11 +1,14 @@
 require 'forwardable'
 
+module ThoughtTrace
+	module Components
 
-module Components
 
 
-
-class Style
+class Style < Component
+	interface_name :style
+	
+	
 	def initialize
 		@active_mode = :default
 		
@@ -65,4 +68,5 @@ class Style
 end
 
 
+end
 end
