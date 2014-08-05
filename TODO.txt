@@ -71,12 +71,9 @@ is there any reason to keep Component?
 
 
 TODO: implement screen space to world space conversion in accordance with new systems
-
-old system had assumed that there was a global variable with a pointer to Window
-trying to remove that
-need to figure out how to perform coordinate space conversions in a sane manner now
-
-
+	old system had assumed that there was a global variable with a pointer to Window
+	trying to remove that
+	need to figure out how to perform coordinate space conversions in a sane manner now
 
 
 
@@ -84,12 +81,9 @@ need to figure out how to perform coordinate space conversions in a sane manner 
 
 
 TODO: custom subclass of Hash to deal with action bindings
+	need to make sure there's some sort of error when you try to declare inputs for phases that don't actually exist. otherwise, you can just go a bug hunt without knowing where the problem is.
 
-need to make sure there's some sort of error when you try to declare inputs for phases that don't actually exist. otherwise, you can just go a bug hunt without knowing where the problem is.
-
-need to find a balance between duck-typing-style dynamicism and strict protection
-
-
+	need to find a balance between duck-typing-style dynamicism and strict protection
 
 
 
@@ -100,11 +94,95 @@ need to find a balance between duck-typing-style dynamicism and strict protectio
 
 
 TODO: Ruby methods are objects. Apply structure to Action
+	methods in Ruby can be manipulated as objects, because everything is an object
+	how does this work?
+	how is it specifically implemented?
+	
+	
+	would this help implementation of the Action objects,
+	to help them function more like method calls?
 
-methods in Ruby can be manipulated as objects, because everything is an object
-how does this work?
-how is it specifically implemented?
 
 
-would this help implementation of the Action objects,
-to help them function more like method calls?
+
+
+
+
+TODO: consider different views of same space
+	view for constraints
+	view for queries
+	view for entities
+	view for just UI entities and the things they correspond to
+
+
+	custom filter types?
+	multiple filters active at one time?
+		why shouldn't you be able to layer multiple lenses together?
+
+
+
+	maybe use the bitvector from the chipmunk layer to control what things are visible?
+	maybe should use a different bitvector instead
+	collision is a bit of a different beast
+		it is possible there is overlap though
+		so should probably still look into this
+
+
+
+TODO: create duplication action
+	not sure what to bind it to yet
+
+	but the action itself is fairly simple
+
+	just clone the selected Entity
+	and add the new object to the space
+	(made rather easy because of the CloneFactory foundation stuff)
+
+
+
+
+	(well, there's the question of where the clone should be placed in Space)
+	(or how, for that matter)
+
+	I think it should be placed like Move (interactively, rather than specifying a strict relationship)
+	so either duplicate can have a Move action inside of it that it delegates to
+	or something like that (otherwise you would have to duplicate code to re-implement move)
+	want to try to avoid using some sort of ActionStash if possible
+
+
+TODO: change the way corner resize of rectangles works
+	currently only allows for resize along the diagonal
+
+	desired mental model:
+		moving the selected vertex
+
+	allows for more free-form editing
+
+	(note: this is how my window resizing works)
+
+
+
+
+	should probably have some sort of aspect ratio lock or something like that
+	for when you get the proportions right,
+	but the size is wrong
+
+	(that might be way better as a constraint though)
+
+
+	NOTE:
+	GIMP allows for aspect ratio lock,
+	as well as the ability to specify an aspect ratio
+	while editing selections
+
+
+TODO: fix short circuiting min by, and the entities/text.rb -> Text#nearest_character_boundary() optimization that it messes up
+
+
+
+TODO: create action to delete a whole Entity
+	delete key by itself deletes single characters though
+	so it might be best to have "delete Entity" bound to something different?
+	would be weird to have a special case for Text
+
+
