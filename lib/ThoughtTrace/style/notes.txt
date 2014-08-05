@@ -47,3 +47,21 @@ each Cascade links to a Pallet
 
 When these objects are serialized, care must be taken to ensure these links
 (this is the main reason why StyleSystem exists)
+
+
+
+
+
+
+
+
+
+
+merge commit: 0f1d5c6993b38054bb1408e4df63587ea24dcbf1
+date: 8/4/2014
+
+data that did not make it back into the main branch includes
+experiments with style serialization formats.
+
+should look over that stuff again when it comes time
+to actually figure outhow to serialize this mess
