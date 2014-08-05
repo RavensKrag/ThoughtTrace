@@ -80,6 +80,7 @@ task :load_dependencies do
 				
 				'./queries',
 				'./constraints',
+				'./groups',
 				
 				'./space',
 				

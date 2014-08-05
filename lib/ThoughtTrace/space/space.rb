@@ -4,13 +4,15 @@ module ThoughtTrace
 
 
 class Space < CP::Space
-	attr_reader :entities, :queries, :constraints
+	attr_reader :entities, :queries, :constraints, :groups
 	
 	def initialize
-		# TODO: consider implementing these lists as custom types. Would enable attaching #add / #delete to the collections themselves, instead of the Space as a whole.
 		@entities =	EntityList.new self
 		@queries = QueryList.new self
 		@constraints = ConstraintList.new self
+		@groups = GroupList.new self
+		
+		# TODO: may want to separate physics space stuff from other attributes not directly related to spatial data
 		
 		# set variables needed for physics space
 		# iteration constants, etc
@@ -20,17 +22,22 @@ class Space < CP::Space
 	end
 	
 	def update
-		@entities.each &:update
-		@queries.each &:update
-		@constraints.each &:update
+		[@entities, @queries, @constraints, @groups].each do |collection|
+			collection.each &:update
+		end
 		
 		step(@dt)
 	end
 	
 	def draw
-		@entities.each &:draw
-		@queries.each &:draw
-		@constraints.each &:draw
+		[
+			@entities,
+			@queries,
+			@constraints,
+			@groups
+		].each do |collection|
+			collection.each &:draw
+		end
 	end
 	
 	def empty?
@@ -51,9 +58,14 @@ class Space < CP::Space
 	# Clean up unnecessary objects
 	# ie, empty strings
 	def gc
-		@entities.delete_if &:gc?
-		@queries.delete_if &:gc?
-		@constraints.delete_if &:gc?
+		[
+			@entities,
+			@queries,
+			@constraints,
+			@groups
+		].each do |collection|
+			collection.delete_if &:gc?
+		end
 	end
 	
 	
@@ -109,6 +121,16 @@ class Space < CP::Space
 	end
 	
 	class ConstraintList < List
+		# def add(object)
+			
+		# end
+		
+		# def delete(object)
+			
+		# end
+	end
+	
+	class GroupList < List
 		# def add(object)
 			
 		# end

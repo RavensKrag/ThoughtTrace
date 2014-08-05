@@ -93,6 +93,12 @@ class Space < CP::Space
 		CONST_SPACE = ThoughtTrace::Constraints
 	end
 	
+	class GroupList < List
+		SERIALIZATION_FILENAME = "groups.csv"
+		CONST_SPACE = ThoughtTrace::Groups
+	end
+	
+	
 	
 	
 	# All objects in the space are saved to disk in a sort of project folder.
@@ -113,7 +119,8 @@ class Space < CP::Space
 		entity_to_id_table = @entities.each_with_index.map{|x,i| [x,i]}.to_h
 		
 		@queries.dump path_to_folder, entity_to_id_table
-		@components.dump path_to_folder, entity_to_id_table
+		@constraints.dump path_to_folder, entity_to_id_table
+		@groups.dump path_to_folder, entity_to_id_table
 	end
 	
 	class << self
@@ -133,18 +140,23 @@ class Space < CP::Space
 								path_to_folder, space,    # load arguments
 								id_to_entity_table, space # unpack arguments
 						)
-			components = ThoughtTrace::Space::ConstraintList.load(
+			constraints = ThoughtTrace::Space::ConstraintList.load(
 								path_to_folder, space,    # load arguments
 								id_to_entity_table, space # unpack arguments
 						)
 			
+			groups = ThoughtTrace::Space::GroupList.load(
+								path_to_folder, space,    # load arguments
+								id_to_entity_table, space # unpack arguments
+						)
 			
 			
 			# can't think of a better way to set these variables
 			# don't want them to normally be set through an outside API
 			space.instance_variable_set :@entities, entities
 			space.instance_variable_set :@queries, queries
-			space.instance_variable_set :@components, components
+			space.instance_variable_set :@constraints, constraints
+			space.instance_variable_set :@groups, groups
 			
 			
 			# Return the space with all the stuff in it
