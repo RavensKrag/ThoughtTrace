@@ -14,6 +14,11 @@ class Query
 		
 		
 		@space = space
+		
+		@style = ThoughtTrace::Style::StyleObject.new
+		@style.tap do |s|
+			s[:color] = Gosu::Color.argb(0xaa7A797A)
+		end
 	end
 	
 	
@@ -72,13 +77,8 @@ class Query
 			@bound_entity[:physics].shape.sensor = true
 		# -- style
 			# TODO: find a way to revert the style that doesn't clash with things like mouseover
-			# TODO: move query style definition somewhere else. don't want it in my flow code
 			@bound_entity[:style].mode = :query
-			@bound_entity[:style].edit(:query) do |s|
-				s[:color] = Gosu::Color.argb(0xaaFF0000)
-			end
-		
-		
+			@bound_entity[:style].socket(1, @style)
 		
 		
 		
