@@ -123,7 +123,12 @@ class InputManager
 				3    entities         keys:[Gosu::KbF3], modifiers:[]
 				4    groups           keys:[Gosu::KbF4], modifiers:[]
 				5    ui entities      keys:[Gosu::KbF5], modifiers:[]
-				
+			
+			
+			
+			
+			F-Key + RightClick => Apply Color from swatch to object
+			F-Key + RightClick => Grab Color from object, store in this swatch
 	end
 	
 	
