@@ -78,7 +78,7 @@ class InputManager
 		
 		# this could be useful in other parts of the input system
 		# regardless, it's good do declare all bindings to lower-level input symbols at this level
-		accelerator_collection = AcceleratorCollection.new(
+		@accelerator_collection = AcceleratorCollection.new(
 							[:shift,   Gosu::KbLeftShift,   Gosu::KbRightShift]
 							[:control, Gosu::KbLeftControl, Gosu::KbRightControl]
 							[:alt,     Gosu::KbLeftAlt,     Gosu::KbRightAlt]
@@ -93,8 +93,22 @@ class InputManager
 		@mouse_input = MouseInputSystem.new(
 							@space, @mouse,
 							@selection, @text_input, @clone_factory
-							accelerator_collection, mouse_button_mapping
+							@accelerator_collection, mouse_button_mapping
 						)
+	end
+	
+	def button_down(id)
+		@accelerator_collection.button_down(id)
+		@mouse_input.button_down(id)
+	end
+	
+	def update
+		@mouse_input.update
+	end
+	
+	def button_up(id)
+		@accelerator_collection.button_up(id)
+		@mouse_input.button_up(id)
 	end
 end
 
@@ -177,8 +191,6 @@ class MouseInputSystem
 	
 	
 	def button_down(id)
-		@key_parser.button_down(id)
-		
 		mouse_button_symbol = @mouse_button_converter[id]
 		return unless mouse_button_symbol
 		
@@ -235,9 +247,6 @@ class MouseInputSystem
 	
 	
 	def button_up(id)
-		@key_parser.button_up(id)
-		
-		
 		if action_has_been_released
 			@active_action.release(@mouse.position_in_space)
 			@entity = nil
