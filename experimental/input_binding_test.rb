@@ -188,8 +188,8 @@ class MouseInputSystem
 		@mouse_button = mouse_button_symbol
 		
 		
-		@initial_point = @mouse.position_in_space
-		@entity = @space.point_query_best @initial_point
+		point = @mouse.position_in_space
+		@entity = @space.point_query_best point
 		
 		@spatial_status = 
 			if @entity
@@ -220,12 +220,12 @@ class MouseInputSystem
 			@active_action.cancel
 			
 			@active_action = parse_inputs()
-			@active_action.press(@initial_point)
+			@active_action.press(@mouse.position_in_space)
 		end
 		
 		
 		# manage the currently active action, if any
-		@active_action.hold(@initial_point)
+		@active_action.hold(@mouse.position_in_space)
 	end
 	
 	
@@ -237,7 +237,7 @@ class MouseInputSystem
 		
 		
 		if action_has_been_released
-			@active_action.release(@initial_point)
+			@active_action.release(@mouse.position_in_space)
 			@entity = nil
 		end
 	end
