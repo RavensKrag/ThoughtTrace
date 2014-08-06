@@ -162,10 +162,7 @@ class Foo
 		
 		
 		
-		input_key = [@spatial_status, @mouse_button, @accelerators]
-		action = @bindings[input_key][@button_phase]
-		
-		@active_action = action
+		@active_action = parse_inputs()
 		@active_action.press
 	end
 	
@@ -177,39 +174,25 @@ class Foo
 		# while you're just checking for updates
 		if mouse_exceeded_drag_threshold()
 			@button_phase = DRAG
-		end
-		
-		
-		
-		
-		# now, given the current state of things, figure out what action you're firing
-		input_key = [@spatial_status, @mouse_button, @accelerators]
-		action = @bindings[input_key][@button_phase]
-		
-		unless action == @active_action
+			
 			@active_action.cancel if @active_action
-			# TODO: distinguish between action canceling, and standard release
-			# (standard release should probably be triggered when the mouse button releases)
+			# there is not always a click action associated with the button binding
 			
-			@active_action = nil
 			
+			@active_action = nil # discard the old action
+			
+			
+			action = parse_inputs()
 			if action
-				# only process the action if it actually exists
-				# this branch exists to protect against undefined actions
-				# actions may be undefined at various stages:
-				# maybe just the 'click' is missing? maybe just the 'drag'?
-				# maybe there are no events for this button combo whatsoever
+				# there is no guarantee that drag action will exist, either
 				
-				# TODO: restructure the control flow so the code reads cleaner
-				@active_action = action(point)
+				@active_action = action
 				@active_action.press(point)
-				
-				# TODO: remember to cancel whatever action is active (if any) on button release
 			end
 		end
 		
 		
-		# manage the currently active action
+		# manage the currently active action, if any
 		@active_action.hold(point) if @active_action
 	end
 	
@@ -219,5 +202,24 @@ class Foo
 	
 	def button_up(id)
 		@key_parser.button_up(id)
+		
+		
+		if action_has_been_released
+			@active_action.release(point)
+		end
+	end
+	
+	
+	
+	
+	private
+	
+	
+	# given the current state of things, figure out what action you're firing
+	def parse_inputs
+		input_key = [@spatial_status, @mouse_button, @accelerators]
+		action = @bindings[input_key][@button_phase]
+		
+		return action
 	end
 end
