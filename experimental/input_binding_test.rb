@@ -216,9 +216,51 @@ class Foo
 	
 	
 	# given the current state of things, figure out what action you're firing
+	# TODO: consider rename
+	# TODO: provide queried entity to this method somehow. it is necessary to figure out what action to fire (polymorphic action style)
+	# TODO: update rest of code to reflect that this method will never return nil, but instead will generate a null object (or change this method so it returns nil. need to figure out which)
 	def parse_inputs
 		input_key = [@spatial_status, @mouse_button, @accelerators]
-		action = @bindings[input_key][@button_phase]
+		action_name = @bindings[input_key][@button_phase]
+		
+		warn "no action bound to #{input_key}" unless action_name
+		
+		
+		
+		
+		place_to_look, target = 
+			case @spatial_status
+				when :on_object
+					# assuming we have found an existing Entity
+					# but that it has no special characteristics
+					
+					[entity.class, entity]
+					
+				when :empty_space
+					# space is empty at desired point
+					
+					# no target, because most actions in empty space create new things
+					# the target supposed to be a thing which already exists
+					# but that doesn't make sense for an action that creates something new
+					[ThoughtTrace::Actions::EmptySpace, nil]
+			end
+		
+		
+		
+		
+		
+		standard_args = [@space, @selection, @text_input, @clone_factory]
+		
+		action = place_to_look.action_get(action_name).new(*standard_args,  target)
+		
+		# TODO: make easy way to check if Action is a the null object for that type of action. Sorta like how you can call #nil? on an object to check if it is nil or not
+		if action_name and action.is_a? ThoughtTrace::Actions::NullAction
+			warn "#{place_to_look.inspect} does not define action '#{action_name}'"
+		end
+		
+		
+		
+		
 		
 		return action
 	end
