@@ -126,6 +126,7 @@ end
 
 
 class MouseInputSystem
+	# TODO: try to remove these array shortcuts. would be related to finding a better data structure for the input bindings, though
 	CLICK = 0
 	DRAG  = 1
 	
@@ -142,7 +143,8 @@ class MouseInputSystem
 		
 		
 		
-		
+		# TODO: figure out how to load this data from spatial ThoughtTrace file, instead of typing it out manually.
+		# TODO: consider finding a better data structure for this data (maybe a tree?)
 		@bindings = {
 			[:on_object,   :left_click,  []]                        => [:edit, :select_sub_text],
 			[:on_object,   :left_click,  [:shift]]                  => [nil, :resize],
