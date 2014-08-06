@@ -170,7 +170,7 @@ class MouseInputSystem
 		# @mouse_button = :left_click
 		# @accelerators = [:shift]
 		# @button_phase = CLICK
-		@active_action = nil
+		@active_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
 	end
 	
 	
@@ -215,25 +215,16 @@ class MouseInputSystem
 		if mouse_exceeded_drag_threshold()
 			@button_phase = DRAG
 			
-			@active_action.cancel if @active_action
-			# there is not always a click action associated with the button binding
 			
+			@active_action.cancel
 			
-			@active_action = nil # discard the old action
-			
-			
-			action = parse_inputs()
-			if action
-				# there is no guarantee that drag action will exist, either
-				
-				@active_action = action
-				@active_action.press(point)
-			end
+			@active_action = parse_inputs()
+			@active_action.press(point)
 		end
 		
 		
 		# manage the currently active action, if any
-		@active_action.hold(point) if @active_action
+		@active_action.hold(point)
 	end
 	
 	
@@ -258,7 +249,6 @@ class MouseInputSystem
 	# given the current state of things, figure out what action you're firing
 	# TODO: consider rename
 	# TODO: provide queried entity to this method somehow. it is necessary to figure out what action to fire (polymorphic action style)
-	# TODO: update rest of code to reflect that this method will never return nil, but instead will generate a null object (or change this method so it returns nil. need to figure out which)
 	def parse_inputs
 		input_key = [@spatial_status, @mouse_button, @accelerators]
 		action_name = @bindings[input_key][@button_phase]
