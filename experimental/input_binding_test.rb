@@ -97,6 +97,14 @@ class InputManager
 						)
 	end
 	
+	
+	def draw
+		@mouse_input.draw
+	end
+	
+	
+	
+	
 	def button_down(id)
 		@accelerator_collection.button_down(id)
 		@mouse_input.button_down(id)
@@ -187,6 +195,15 @@ class MouseInputSystem
 		@active_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
 		@entity = nil
 	end
+	
+	
+	
+	
+	def draw
+		@active_action.draw @mouse.position_in_space
+	end
+	
+	
 	
 	
 	
