@@ -191,6 +191,8 @@ class MouseInputSystem
 		point = @mouse.position_in_space
 		@entity = @space.point_query_best point
 		
+		@origin = point # store the initial point to be able to trigger mouse drag
+		
 		@spatial_status = 
 			if @entity
 				:on_object
@@ -213,7 +215,7 @@ class MouseInputSystem
 	
 	def update
 		# while you're just checking for updates
-		if mouse_exceeded_drag_threshold()
+		if mouse_exceeded_drag_threshold?()
 			@button_phase = DRAG
 			
 			
@@ -294,5 +296,16 @@ class MouseInputSystem
 		
 		
 		return action
+	end
+	
+	
+	def mouse_exceeded_drag_threshold?
+		point = @mouse.position_in_space
+		
+		displacement = point - @origin
+		delta = displacement.length
+		
+		
+		return delta > @delta_threshold
 	end
 end
