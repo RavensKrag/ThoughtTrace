@@ -66,13 +66,59 @@ class AcceleratorCollection
 end
 
 
-class Foo
+
+
+class InputManager
+	def initialize(window, space, camera, clone_factory)
+		@window = window
+		@space = space
+		@camera = camera
+		@clone_factory = clone_factory
+		
+		
+		# this could be useful in other parts of the input system
+		# regardless, it's good do declare all bindings to lower-level input symbols at this level
+		accelerator_collection = AcceleratorCollection.new(
+							[:shift,   Gosu::KbLeftShift,   Gosu::KbRightShift]
+							[:control, Gosu::KbLeftControl, Gosu::KbRightControl]
+							[:alt,     Gosu::KbLeftAlt,     Gosu::KbRightAlt]
+						)
+		
+		
+		mouse_button_mapping = {
+			Gosu::MsLeft  => :left_click,
+			Gosu::MSRight => :right_click
+		}
+		
+		@mouse_input = MouseInputSystem.new(
+							@space, @mouse,
+							@selection, @text_input, @clone_factory
+							accelerator_collection, mouse_button_mapping
+						)
+	end
+end
+
+
+
+# TODO: create class that bundles the pieces of data that need to be sent to every Action. It's weird to have to "delegate" all these arguments through the chain of command like this.
+
+
+class MouseInputSystem
 	CLICK = 0
 	DRAG  = 1
 	
-	def initialize(space, mouse)
-		@space = space
+	def initialize(space, mouse, selection, text_input, clone_factory, accelerator_collection, mouse_button_mapping)
+		# Necessary for this class only
 		@mouse = mouse
+		
+		# things to send through to Action
+		@space = space # @space is used at this level as well, to make the mouse queries
+		
+		@selection = selection
+		@text_input = text_input
+		@clone_factory = clone_factory
+		
+		
 		
 		
 		@bindings = {
@@ -111,17 +157,11 @@ class Foo
 		}
 		
 		
+		@mouse_button_converter = mouse_button_mapping
+		# button id => :right_click / :left_click
 		
-		@mouse_button_converter = {
-			Gosu::MsLeft  => :left_click,
-			Gosu::MSRight => :right_click
-		}
 		
-		@key_parser = AcceleratorCollection.new(
-							[:shift,   Gosu::KbLeftShift,   Gosu::KbRightShift]
-							[:control, Gosu::KbLeftControl, Gosu::KbRightControl]
-							[:alt,     Gosu::KbLeftAlt,     Gosu::KbRightAlt]
-						)
+		@key_parser = accelerator_collection
 		
 		
 		
