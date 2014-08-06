@@ -171,6 +171,7 @@ class MouseInputSystem
 		# @accelerators = [:shift]
 		# @button_phase = CLICK
 		@active_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
+		@entity = nil
 	end
 	
 	
@@ -187,11 +188,11 @@ class MouseInputSystem
 		@mouse_button = mouse_button_symbol
 		
 		
-		point = @mouse.point_in_space
-		query = @space.point_query_best point
+		point = @mouse.position_in_space
+		@entity = @space.point_query_best point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil
 		
 		@spatial_status = 
-			if query
+			if @entity
 				:on_object
 			else
 				:empty_space
@@ -237,6 +238,7 @@ class MouseInputSystem
 		
 		if action_has_been_released
 			@active_action.release(point)
+			@entity = nil
 		end
 	end
 	
@@ -248,7 +250,6 @@ class MouseInputSystem
 	
 	# given the current state of things, figure out what action you're firing
 	# TODO: consider rename
-	# TODO: provide queried entity to this method somehow. it is necessary to figure out what action to fire (polymorphic action style)
 	def parse_inputs
 		input_key = [@spatial_status, @mouse_button, @accelerators]
 		action_name = @bindings[input_key][@button_phase]
@@ -264,7 +265,7 @@ class MouseInputSystem
 					# assuming we have found an existing Entity
 					# but that it has no special characteristics
 					
-					[entity.class, entity]
+					[@entity.class, @entity]
 					
 				when :empty_space
 					# space is empty at desired point
