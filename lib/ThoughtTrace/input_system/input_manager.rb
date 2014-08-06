@@ -53,53 +53,56 @@ class InputManager
 				# because you want multiple bindings on one Action
 				# (thing mouse bindings vs keyboard, rather than multiple keyboard shortcuts)
 		
+		# action_flow = ThoughtTrace::ActionFlowController.new(
+		# 				@space, @selection, @text_input, @clone_factory
+		# 				)
+		# callbacks = InputSystem::MouseActionController.new @mouse, action_flow
 		
-		# action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)
-		# # TODO: register action names in action flow controller
-		# action_flow.bindings[categorization][phase] = action_name
-		# # NOTE: There's no warning if you try to assign an action name to a phase that does not exist. This is really dangerous, and had me hunting bugs in a bunch of the wrong places.
+		# 	event = InputSystem::ButtonEvent.new :click, callbacks
+		# 	event.bind_to keys:[Gosu::MsLeft], modifiers:[]
+			
+		# 	action_flow.bindings[:existing][:click] = :edit
+		# 	action_flow.bindings[:existing][:drag] = :move
+			
+		# 	action_flow.bindings[:empty][:click] = :spawn_text
+		# 	# action_flow.bindings[:empty][:drag] = 
 		
-		# 	event_name = :click
-		# 	callbacks = InputSystem::MouseActionController.new @mouse, action_flow
-		# event = InputSystem::ButtonEvent.new event_name, callbacks
-		# event.bind_to keys:[Gosu::MsLeft], modifiers:[]
-		
+		# @actions << action_flow
 		# @buttons.register event
 		
 		
 		
 		
-		action_flow = ThoughtTrace::ActionFlowController.new(
-						@space, @selection, @text_input, @clone_factory
+		
+		
+		
+		# this could be useful in other parts of the input system
+		# regardless, it's good do declare all bindings to lower-level input symbols at this level
+		@accelerator_collection = InputSystem::AcceleratorCollection.new(
+							[:shift,   Gosu::KbLeftShift,   Gosu::KbRightShift],
+							[:control, Gosu::KbLeftControl, Gosu::KbRightControl],
+							[:alt,     Gosu::KbLeftAlt,     Gosu::KbRightAlt]
 						)
-		callbacks = InputSystem::MouseActionController.new @mouse, action_flow
 		
-			event = InputSystem::ButtonEvent.new :click, callbacks
-			event.bind_to keys:[Gosu::MsLeft], modifiers:[]
-			
-			action_flow.bindings[:existing][:click] = :edit
-			action_flow.bindings[:existing][:drag] = :move
-			
-			action_flow.bindings[:empty][:click] = :spawn_text
-			# action_flow.bindings[:empty][:drag] = 
 		
-		@actions << action_flow
-		@buttons.register event
+
 		
 		
 		
-		action_flow = ThoughtTrace::ActionFlowController.new(
-						@space, @selection, @text_input, @clone_factory
+		
+		mouse_button_mapping = {
+			Gosu::MsLeft  => :left_click,
+			Gosu::MsRight => :right_click
+		}
+		
+		# Mouse object controls basic mouse abstraction
+		# MouseInputSystem controls complex triggering of actions based on mouse and button state
+		# can involve commands that use keyboard accelerators in addition to mouse inputs
+		@mouse_input = InputSystem::MouseInputSystem.new(
+							@space, @mouse, @selection, @text_input, @clone_factory,
+							@accelerator_collection, mouse_button_mapping
 						)
-		callbacks = InputSystem::MouseActionController.new @mouse, action_flow
 		
-			event = InputSystem::ButtonEvent.new :right_click, callbacks
-			event.bind_to keys:[Gosu::MsRight], modifiers:[]
-			
-			action_flow.bindings[:existing][:drag] = :resize
-		
-		@actions << action_flow
-		@buttons.register event
 		
 		
 		
@@ -115,12 +118,23 @@ class InputManager
 	end
 	
 	def button_down(id)
-		@buttons.button_down(id)
+		[
+			@buttons,
+			@accelerator_collection,
+			@mouse_input
+		].each do |x|
+			x.button_down(id)
+		end
 	end
 	
 	def update
-		@buttons.update
-		@text_input.update
+		[
+			@buttons,
+			@text_input,
+			@mouse_input
+		].each do |x|
+			x.update
+		end
 	end
 	
 	# draw things in world space
@@ -130,10 +144,17 @@ class InputManager
 		end
 		
 		@text_input.draw
+		@mouse_input.draw
 	end
 	
 	def button_up(id)
-		@buttons.button_up(id)
+		[
+			@buttons,
+			@accelerator_collection,
+			@mouse_input
+		].each do |x|
+			x.button_up(id)
+		end
 	end
 	
 	def shutdown
