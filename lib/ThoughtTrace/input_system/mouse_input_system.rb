@@ -86,11 +86,13 @@ class MouseInputSystem
 	
 	
 	
-	
-	
-	def button_down(id)
-		mouse_button_symbol = @mouse_button_converter[id]
-		return unless mouse_button_symbol
+	# TODO: figure out how to disambiguate between left click, and right click
+	def press
+		puts "start"
+		
+		
+		mouse_button_symbol = :left_click
+		# return unless mouse_button_symbol
 		
 		
 		# if there has been a mouse event
@@ -101,7 +103,9 @@ class MouseInputSystem
 		point = @mouse.position_in_space
 		@entity = @space.point_query_best point
 		
-		@origin = point # store the initial point to be able to trigger mouse drag
+		# store the initial point to be able to trigger mouse drag
+		# store the mouse button, so you can figure out when the action is supposed to end
+		cache_data(point, mouse_button_symbol)
 		
 		@spatial_status = 
 			if @entity
@@ -116,14 +120,13 @@ class MouseInputSystem
 		
 		
 		@active_action = parse_inputs()
-		@active_action.press
+		@active_action.press(@mouse.position_in_space)
+		
 	end
 	
-	
-	
-	
-	
-	def update
+	def hold
+		puts "hold"
+		
 		# while you're just checking for updates
 		if mouse_exceeded_drag_threshold?()
 			@button_phase = DRAG
@@ -132,7 +135,7 @@ class MouseInputSystem
 			@active_action.cancel
 			
 			@active_action = parse_inputs()
-			@active_action.press(@mouse.position_in_space)
+			@active_action.press(@origin)
 		end
 		
 		
@@ -140,15 +143,19 @@ class MouseInputSystem
 		@active_action.hold(@mouse.position_in_space)
 	end
 	
+	def release
+		mouse_button_symbol = :left_click
+		return unless mouse_button_symbol
+		
+		
+		@active_action.release(@mouse.position_in_space)
+		@entity = nil
+	end
 	
-	
-	
-	
-	def button_up(id)
-		if action_has_been_released
-			@active_action.release(@mouse.position_in_space)
-			@entity = nil
-		end
+	def cancel
+		puts "WOAH!"
+		
+		@active_action.cancel
 	end
 	
 	
@@ -200,20 +207,32 @@ class MouseInputSystem
 		
 		
 		
-		
+		# p action
 		
 		return action
 	end
 	
-	
+	DELTA_THRESHOLD = 20
 	def mouse_exceeded_drag_threshold?
+		return unless @origin
+		
+		
+		
 		point = @mouse.position_in_space
 		
 		displacement = point - @origin
 		delta = displacement.length
 		
 		
-		return delta > @delta_threshold
+		return delta > DELTA_THRESHOLD
+	end
+	
+	
+	
+	
+	def cache_data(point, mouse_button_symbol)
+		@origin = point
+		@last_mouse_button_pressed = mouse_button_symbol
 	end
 end
 

@@ -98,10 +98,45 @@ class InputManager
 		# Mouse object controls basic mouse abstraction
 		# MouseInputSystem controls complex triggering of actions based on mouse and button state
 		# can involve commands that use keyboard accelerators in addition to mouse inputs
-		@mouse_input = InputSystem::MouseInputSystem.new(
+		callbacks = InputSystem::MouseInputSystem.new(
 							@space, @mouse, @selection, @text_input, @clone_factory,
 							@accelerator_collection, mouse_button_mapping
 						)
+		
+		
+		# a = [:shift, :control, :alt]
+		# # all possible combinations of any number of elements from a
+		# x = a.size.times.collect{|i| a.combination(i+1).to_a }.flatten(1)
+		
+		# x.each_with_index do |modifier_list, i|
+		# 	event = InputSystem::ButtonEvent.new "left_click_#{i}".to_sym,  callbacks
+		# 	event.bind_to keys:[Gosu::MsLeft], modifiers:modifier_list
+		# 	@buttons.register event
+			
+			
+		# 	event = InputSystem::ButtonEvent.new "right_click_#{i}".to_sym,  callbacks
+		# 	event.bind_to keys:[Gosu::MsRight], modifiers:modifier_list
+		# 	@buttons.register event
+		# end
+		
+		
+		
+		
+		# events weren't DESIGNED this way,
+		# but turns out that you only need to press AT LEAST what's specified to fire an event
+		# thus, "click + control" will trigger events bound to "click + [NO MODIFIERS]"
+		event = InputSystem::ButtonEvent.new :left_click,  callbacks
+		event.bind_to keys:[Gosu::MsLeft], modifiers:[]
+		@buttons.register event
+		
+		
+		event = InputSystem::ButtonEvent.new :right_click,  callbacks
+		event.bind_to keys:[Gosu::MsRight], modifiers:[]
+		@buttons.register event
+		
+		
+		
+		
 		
 		
 		
@@ -121,7 +156,7 @@ class InputManager
 		[
 			@buttons,
 			@accelerator_collection,
-			@mouse_input
+			# @mouse_input
 		].each do |x|
 			x.button_down(id)
 		end
@@ -131,7 +166,7 @@ class InputManager
 		[
 			@buttons,
 			@text_input,
-			@mouse_input
+			# @mouse_input
 		].each do |x|
 			x.update
 		end
@@ -144,14 +179,14 @@ class InputManager
 		end
 		
 		@text_input.draw
-		@mouse_input.draw
+		# @mouse_input.draw
 	end
 	
 	def button_up(id)
 		[
 			@buttons,
 			@accelerator_collection,
-			@mouse_input
+			# @mouse_input
 		].each do |x|
 			x.button_up(id)
 		end

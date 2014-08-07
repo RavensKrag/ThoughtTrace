@@ -20,14 +20,14 @@ class AcceleratorCollection
 	
 	
 	def button_down(id)
-		key = @conversion[id]
+		key = @conversion_table[id]
 		if key
 			@hash[key] = true
 		end
 	end
 	
 	def button_up(id)
-		key = @conversion[id]
+		key = @conversion_table[id]
 		if key
 			@hash[key] = false
 		end
