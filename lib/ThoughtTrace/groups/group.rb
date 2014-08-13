@@ -11,6 +11,7 @@ class Group
 		@style = ThoughtTrace::Style::StyleObject.new
 		@style.tap do |s|
 			s[:color] = Gosu::Color.argb(0xaa69BDA7)
+			s[:hitbox_color] = Gosu::Color.argb(0xffFFFFFF)
 		end
 	end
 	
