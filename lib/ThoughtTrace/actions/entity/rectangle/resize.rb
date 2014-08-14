@@ -176,7 +176,8 @@ class Resize < Entity::Actions::Action
 	# display information to the user about the current transformation
 	# called each tick
 	def draw(point)
-		
+		# TODO: draw margins to get a better idea of how they should be altered as the shape changes.
+		# TODO: consider implementing margin rendering using entities and constraints. Then that data could easily be used to drive the modulation of the margins themselves.
 	end
 	
 	

@@ -248,6 +248,7 @@ class InputManager
 		
 		
 		
+		@mouse_actions = [left_callbacks, right_callbacks]
 		
 		
 		
@@ -290,6 +291,8 @@ class InputManager
 		@actions.each do |action|
 			action.draw @mouse.position_in_space
 		end
+		
+		@mouse_actions.each{ |x| x.draw  }
 		
 		@text_input.draw
 		# @mouse_input.draw
