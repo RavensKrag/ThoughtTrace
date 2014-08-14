@@ -182,7 +182,7 @@ class MouseInputSystem
 		return action
 	end
 	
-	DELTA_THRESHOLD = 20
+	DRAG_DELTA_THRESHOLD = 20
 	def mouse_exceeded_drag_threshold?
 		point = @mouse.position_in_space
 		
@@ -190,7 +190,7 @@ class MouseInputSystem
 		delta = displacement.length
 		
 		
-		return delta > DELTA_THRESHOLD
+		return delta > DRAG_DELTA_THRESHOLD
 	end
 	
 	
