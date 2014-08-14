@@ -217,14 +217,12 @@ class InputManager
 		
 		left_callbacks  = InputSystem::MouseInputSystem.new(
 							@space, @mouse, @selection, @text_input, @clone_factory,
-							@accelerator_collection,
-							:left_click, left_click_bindings
+							@accelerator_collection, :left_click, left_click_bindings
 						)
 		
 		right_callbacks = InputSystem::MouseInputSystem.new(
 							@space, @mouse, @selection, @text_input, @clone_factory,
-							@accelerator_collection, 
-							:right_click, right_click_bindings
+							@accelerator_collection, :right_click, right_click_bindings
 						)
 		
 		
@@ -240,6 +238,12 @@ class InputManager
 		@buttons.register event
  		
  		
+ 		# events weren't DESIGNED this way,
+		# but turns out that you only need to press AT LEAST what's specified to fire an event
+		# thus, "click + control" will trigger events bound to "click + [NO MODIFIERS]"
+		
+		# should consider splitting out modifiers into a separate system
+		# separate from the core press-hold-release and raw button abstraction logic
  		
 		
 		
