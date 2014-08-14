@@ -57,8 +57,6 @@ class MouseInputSystem
 	# TODO: what happens when you hit left and right buttons down at the same time? both are Event-bound to fire things that eventually calls this part of the code, but this part of the code base assumes that the 4-key-phases will each only be called one at a time. THIS COULD CAUSE MASSIVE ERRORS. PLEASE RECTIFY IMMEDIATELY
 	def press
 		# if there has been a mouse event
-		@button_phase = CLICK
-		
 		@accelerators = @key_parser.active_accelerators
 		
 		
@@ -85,7 +83,7 @@ class MouseInputSystem
 		
 		
 		
-		@active_action = parse_inputs()
+		@active_action = parse_inputs(CLICK)
 		@active_action.press(@mouse.position_in_space)
 		
 	end
@@ -96,12 +94,9 @@ class MouseInputSystem
 			# if a drag has been triggered,
 			# cancel the current action, (which should be a click action)
 			# and load up the drag action (load with the same origin as the click action)
-			@button_phase = DRAG
-			
-			
 			@active_action.cancel
 			
-			@active_action = parse_inputs()
+			@active_action = parse_inputs(DRAG)
 			@active_action.press(@origin)
 		end
 		
@@ -128,9 +123,9 @@ class MouseInputSystem
 	# given the current state of things, figure out what action you're firing
 	# TODO: consider rename
 	# TODO: consider trying to reduce the amount of stored state.
-	def parse_inputs
+	def parse_inputs(button_phase)
 		possible_actions = @bindings[@spatial_status][@accelerators]
-		action_name = possible_actions[@button_phase]
+		action_name = possible_actions[button_phase]
 		
 		
 		
