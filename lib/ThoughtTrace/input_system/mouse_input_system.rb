@@ -56,9 +56,6 @@ class MouseInputSystem
 	
 	# TODO: what happens when you hit left and right buttons down at the same time? both are Event-bound to fire things that eventually calls this part of the code, but this part of the code base assumes that the 4-key-phases will each only be called one at a time. THIS COULD CAUSE MASSIVE ERRORS. PLEASE RECTIFY IMMEDIATELY
 	def press
-		puts "start"
-		
-		
 		# if there has been a mouse event
 		@button_phase = CLICK
 		
@@ -94,8 +91,6 @@ class MouseInputSystem
 	end
 	
 	def hold
-		puts "hold"
-		
 		# while you're just checking for updates
 		if mouse_exceeded_drag_threshold?()
 			# if a drag has been triggered,
@@ -121,8 +116,6 @@ class MouseInputSystem
 	end
 	
 	def cancel
-		puts "WOAH!"
-		
 		@active_action.cancel
 	end
 	
