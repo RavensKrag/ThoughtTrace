@@ -9,7 +9,8 @@ class MouseInputSystem
 	
 	
 	# TODO: create class that bundles the pieces of data that need to be sent to every Action. It's weird to have to "delegate" all these arguments through the chain of command like this.
-	def initialize(space, mouse, selection, text_input, clone_factory, accelerator_collection, mouse_button_mapping)
+	def initialize(space, mouse, selection, text_input, clone_factory, accelerator_collection, 
+		mouse_button, bindings)
 		# Necessary for this class only
 		@mouse = mouse
 		
@@ -24,44 +25,11 @@ class MouseInputSystem
 		
 		# TODO: figure out how to load this data from spatial ThoughtTrace file, instead of typing it out manually.
 		# TODO: consider finding a better data structure for this data (maybe a tree?)
-		@bindings = {
-			[:on_object,   :left_click,  []]                        => [:edit, :select_sub_text],
-			[:on_object,   :left_click,  [:shift]]                  => [nil, :resize],
-			[:on_object,   :left_click,  [:control]]                => [:add_to_group, :constrain],
-			[:on_object,   :left_click,  [:alt]]                    => [:split, nil],
-			[:on_object,   :left_click,  [:shift, :control]]        => [nil, nil],
-			[:on_object,   :left_click,  [:shift, :alt]]            => [nil, nil],
-			[:on_object,   :left_click,  [:control, :alt]]          => [nil, nil],
-			[:on_object,   :left_click,  [:shift, :control, :alt]]  => [nil, nil],
-			[:on_object,   :right_click, []]                        => [nil, :move],
-			[:on_object,   :right_click, [:shift]]                  => [nil, :duplicate],
-			[:on_object,   :right_click, [:control]]                => [:mark_as_query, :link],
-			[:on_object,   :right_click, [:alt]]                    => [:join, nil],
-			[:on_object,   :right_click, [:shift, :control]]        => [nil, :clone],
-			[:on_object,   :right_click, [:shift, :alt]]            => [nil, nil],
-			[:on_object,   :right_click, [:control, :alt]]          => [nil, nil],
-			[:on_object,   :right_click, [:shift, :control, :alt]]  => [nil, nil],
-			[:empty_space, :left_click,  []]                        => [nil, nil],
-			[:empty_space, :left_click,  [:shift]]                  => [:spawn_text, nil],
-			[:empty_space, :left_click,  [:control]]                => [:spawn_rect, nil],
-			[:empty_space, :left_click,  [:alt]]                    => [:spawn_circle, nil],
-			[:empty_space, :left_click,  [:shift, :control]]        => [nil, nil],
-			[:empty_space, :left_click,  [:shift, :alt]]            => [nil, nil],
-			[:empty_space, :left_click,  [:control, :alt]]          => [nil, nil],
-			[:empty_space, :left_click,  [:shift, :control, :alt]]  => [nil, nil],
-			[:empty_space, :right_click, []]                        => [nil, nil],
-			[:empty_space, :right_click, [:shift]]                  => [nil, nil],
-			[:empty_space, :right_click, [:control]]                => [:spawn_image, nil],
-			[:empty_space, :right_click, [:alt]]                    => [nil, nil],
-			[:empty_space, :right_click, [:shift, :control]]        => [nil, nil],
-			[:empty_space, :right_click, [:shift, :alt]]            => [nil, nil],
-			[:empty_space, :right_click, [:control, :alt]]          => [nil, nil],
-			[:empty_space, :right_click, [:shift, :control, :alt]]  => [nil, nil]
-		}
+		# TODO: consider that having right and left click buttons in the same place is weird and it should get split up? (but then what about the accelerator combinations aughhhh) hard to even consider that when this is the only key binding interface I really have available to me right now. Would be tedious to traverse a bunch of different structures at this point. Later, there would be abstraction, so that would be ok, but right now would be bad.
 		
 		
-		@mouse_button_converter = mouse_button_mapping
-		# button id => :right_click / :left_click
+		@bindings = bindings
+		
 		
 		
 		@key_parser = accelerator_collection
@@ -69,8 +37,8 @@ class MouseInputSystem
 		
 		
 		
+		@mouse_button = mouse_button
 		# @spatial_status = :on_object
-		# @mouse_button = :left_click
 		# @accelerators = [:shift]
 		# @button_phase = CLICK
 		@active_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
@@ -86,18 +54,18 @@ class MouseInputSystem
 	
 	
 	
-	# TODO: figure out how to disambiguate between left click, and right click
+	# TODO: figure out how to disambiguate between left click and right click
+	# TODO: what happens when you hit left and right buttons down at the same time? both are Event-bound to fire things that eventually calls this part of the code, but this part of the code base assumes that the 4-key-phases will each only be called one at a time. THIS COULD CAUSE MASSIVE ERRORS. PLEASE RECTIFY IMMEDIATELY
 	def press
 		puts "start"
 		
 		
-		mouse_button_symbol = :left_click
-		# return unless mouse_button_symbol
-		
-		
 		# if there has been a mouse event
 		@button_phase = CLICK
-		@mouse_button = mouse_button_symbol
+		
+		@accelerators = @key_parser.active_accelerators
+		
+		
 		
 		
 		point = @mouse.position_in_space
@@ -105,7 +73,7 @@ class MouseInputSystem
 		
 		# store the initial point to be able to trigger mouse drag
 		# store the mouse button, so you can figure out when the action is supposed to end
-		cache_data(point, mouse_button_symbol)
+		cache_data(point)
 		
 		@spatial_status = 
 			if @entity
@@ -114,7 +82,6 @@ class MouseInputSystem
 				:empty_space
 			end
 		
-		@accelerators = @key_parser.active_accelerators
 		
 		
 		
@@ -144,10 +111,6 @@ class MouseInputSystem
 	end
 	
 	def release
-		mouse_button_symbol = :left_click
-		return unless mouse_button_symbol
-		
-		
 		@active_action.release(@mouse.position_in_space)
 		@entity = nil
 	end
@@ -167,10 +130,12 @@ class MouseInputSystem
 	# given the current state of things, figure out what action you're firing
 	# TODO: consider rename
 	def parse_inputs
-		input_key = [@spatial_status, @mouse_button, @accelerators]
-		action_name = @bindings[input_key][@button_phase]
+		possible_actions = @bindings[@spatial_status][@accelerators]
+		action_name = possible_actions[@button_phase]
 		
-		warn "no action bound to #{input_key}" unless action_name
+		
+		
+		warn "no action bound to #{@mouse_button} => [#{@spatial_status}, #{@accelerators}]" unless action_name
 		
 		
 		
@@ -230,9 +195,8 @@ class MouseInputSystem
 	
 	
 	
-	def cache_data(point, mouse_button_symbol)
+	def cache_data(point)
 		@origin = point
-		@last_mouse_button_pressed = mouse_button_symbol
 	end
 end
 

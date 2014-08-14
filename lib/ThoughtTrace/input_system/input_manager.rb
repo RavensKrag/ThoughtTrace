@@ -76,6 +76,66 @@ class InputManager
 		
 		
 		
+		
+		
+		
+		# 		name = :shift
+		# 		trigger = Trigger::Any.new Gosu::KbLeftShift, Gosu::KbRightShift
+		# button = Button.new name, trigger
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		# shift   =  (:shift, [Gosu::KbLeftShift, Gosu::KbRightShift])
+		# control =  (:control, [Gosu::KbLeftControl, Gosu::KbRightControl])
+		# alt     =  (:alt, [Gosu::KbLeftAlt, Gosu::KbRightAlt])
+
+		# accelerators = [shift, control, alt]
+		# accelerators.active_list 
+		# 	accelerators.collect{|k| k.active? }
+		
+		
+		
+		
+		# shift   = left_shift.active?    or  right_shift.active?
+		# control = left_control.active?  or  right_control.active?
+		# alt     = left_alt.active?      or  right_alt.active?
+		
+		# accelerators = {
+		# 	:shift => shift,
+		# 	:control => control,
+		# 	:alt => alt
+		# }
+		
+		
+		
+		# %w[left right].product(%w[shift control alt]).each do |side, symbol|
+		# 	callbacks = ()
+			
+		# 	event_name = "#{side}_#{symbol}".to_sym
+		# 	event = InputSystem::ButtonEvent.new event_name, callbacks
+		# 	key_constant = Gosu.const_get "Kb#{side.capitalize}#{symbol.capitalize}"
+		# 	event.bind_to keys:[key_constant], modifiers:[]
+		# 	@buttons.register event
+		# end
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		# this could be useful in other parts of the input system
 		# regardless, it's good do declare all bindings to lower-level input symbols at this level
 		@accelerator_collection = InputSystem::AcceleratorCollection.new(
@@ -83,56 +143,105 @@ class InputManager
 							[:control, Gosu::KbLeftControl, Gosu::KbRightControl],
 							[:alt,     Gosu::KbLeftAlt,     Gosu::KbRightAlt]
 						)
-		
-		
-
-		
-		
-		
-		
-		mouse_button_mapping = {
-			Gosu::MsLeft  => :left_click,
-			Gosu::MsRight => :right_click
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		left_click_bindings  = {
+			:on_object => {
+				[]                        => [:edit, :select_sub_text],
+				[:shift]                  => [nil, :resize],
+				[:control]                => [:add_to_group, :constrain],
+				[:alt]                    => [:split, nil],
+				[:shift, :control]        => [nil, nil],
+				[:shift, :alt]            => [nil, nil],
+				[:control, :alt]          => [nil, nil],
+				[:shift, :control, :alt]  => [nil, nil]
+			},
+			:empty_space => {
+				[]                        => [nil, nil],
+				[:shift]                  => [:spawn_text, nil],
+				[:control]                => [:spawn_rect, nil],
+				[:alt]                    => [:spawn_circle, nil],
+				[:shift, :control]        => [nil, nil],
+				[:shift, :alt]            => [nil, nil],
+				[:control, :alt]          => [nil, nil],
+				[:shift, :control, :alt]  => [nil, nil]
+			}
 		}
 		
-		# Mouse object controls basic mouse abstraction
-		# MouseInputSystem controls complex triggering of actions based on mouse and button state
-		# can involve commands that use keyboard accelerators in addition to mouse inputs
-		callbacks = InputSystem::MouseInputSystem.new(
+		
+		
+		right_click_bindings = {
+			:on_object => {
+				[]                        => [nil, :move],
+				[:shift]                  => [nil, :duplicate],
+				[:control]                => [:mark_as_query, :link],
+				[:alt]                    => [:join, nil],
+				[:shift, :control]        => [nil, :clone],
+				[:shift, :alt]            => [nil, nil],
+				[:control, :alt]          => [nil, nil],
+				[:shift, :control, :alt]  => [nil, nil]
+			},
+			:empty_space => {
+				[]                        => [nil, nil],
+				[:shift]                  => [nil, nil],
+				[:control]                => [:spawn_image, nil],
+				[:alt]                    => [nil, nil],
+				[:shift, :control]        => [nil, nil],
+				[:shift, :alt]            => [nil, nil],
+				[:control, :alt]          => [nil, nil],
+				[:shift, :control, :alt]  => [nil, nil]
+			}
+		}
+		
+		
+		
+		
+		# callbacks = InputSystem::MouseInputSystem.new(
+		# 					@space, @mouse, @selection, @text_input, @clone_factory,
+		# 					@accelerator_collection, mouse_button_mapping
+		# 				)
+		
+		
+		
+		left_callbacks  = InputSystem::MouseInputSystem.new(
 							@space, @mouse, @selection, @text_input, @clone_factory,
-							@accelerator_collection, mouse_button_mapping
+							@accelerator_collection,
+							:left_click, left_click_bindings
+						)
+		
+		right_callbacks = InputSystem::MouseInputSystem.new(
+							@space, @mouse, @selection, @text_input, @clone_factory,
+							@accelerator_collection, 
+							:right_click, right_click_bindings
 						)
 		
 		
-		# a = [:shift, :control, :alt]
-		# # all possible combinations of any number of elements from a
-		# x = a.size.times.collect{|i| a.combination(i+1).to_a }.flatten(1)
 		
-		# x.each_with_index do |modifier_list, i|
-		# 	event = InputSystem::ButtonEvent.new "left_click_#{i}".to_sym,  callbacks
-		# 	event.bind_to keys:[Gosu::MsLeft], modifiers:modifier_list
-		# 	@buttons.register event
-			
-			
-		# 	event = InputSystem::ButtonEvent.new "right_click_#{i}".to_sym,  callbacks
-		# 	event.bind_to keys:[Gosu::MsRight], modifiers:modifier_list
-		# 	@buttons.register event
-		# end
-		
-		
-		
-		
-		# events weren't DESIGNED this way,
-		# but turns out that you only need to press AT LEAST what's specified to fire an event
-		# thus, "click + control" will trigger events bound to "click + [NO MODIFIERS]"
-		event = InputSystem::ButtonEvent.new :left_click,  callbacks
+		event = InputSystem::ButtonEvent.new :left_click, left_callbacks
 		event.bind_to keys:[Gosu::MsLeft], modifiers:[]
 		@buttons.register event
 		
 		
-		event = InputSystem::ButtonEvent.new :right_click,  callbacks
+		
+		event = InputSystem::ButtonEvent.new :right_click, right_callbacks
 		event.bind_to keys:[Gosu::MsRight], modifiers:[]
 		@buttons.register event
+ 		
+ 		
+ 		
+		
 		
 		
 		
