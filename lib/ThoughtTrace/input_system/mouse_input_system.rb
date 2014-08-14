@@ -127,6 +127,7 @@ class MouseInputSystem
 	
 	# given the current state of things, figure out what action you're firing
 	# TODO: consider rename
+	# TODO: consider trying to reduce the amount of stored state.
 	def parse_inputs
 		possible_actions = @bindings[@spatial_status][@accelerators]
 		action_name = possible_actions[@button_phase]
@@ -184,13 +185,6 @@ class MouseInputSystem
 		
 		
 		return delta > DRAG_DELTA_THRESHOLD
-	end
-	
-	
-	
-	
-	def cache_data(point)
-		
 	end
 end
 
