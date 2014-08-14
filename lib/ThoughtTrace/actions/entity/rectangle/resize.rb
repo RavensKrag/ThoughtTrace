@@ -4,7 +4,7 @@ module ThoughtTrace
 
 
 class Resize < Entity::Actions::Action
-	MARGIN = 50
+	MARGIN = 20
 	MINIMUM_DIMENSION = 10
 	
 	# called on first tick
@@ -215,6 +215,7 @@ class Resize < Entity::Actions::Action
 		# NOTE: remember that the anchor specifies the amount of counter-steering
 		# TODO: allow for more analog anchor specification
 		# TODO: consider anchoring based on where the initial point of context was.
+		# TODO: consider more complex margin specification. Maybe it should be proportional to size? Not sure in what specify way though.
 		x = 
 			if @direction.x > 0
 				# pos
