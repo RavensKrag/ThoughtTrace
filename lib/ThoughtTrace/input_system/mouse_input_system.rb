@@ -57,6 +57,15 @@ class MouseInputSystem
 	# TODO: what happens when you hit left and right buttons down at the same time? both are Event-bound to fire things that eventually calls this part of the code, but this part of the code base assumes that the 4-key-phases will each only be called one at a time. THIS COULD CAUSE MASSIVE ERRORS. PLEASE RECTIFY IMMEDIATELY
 	def press
 		# if there has been a mouse event
+		
+		
+		# store accelerators from click, and always use those
+		
+		# this means that if you do
+		# 'control+click -> release control -> drag'
+		# you wind up with a control+drag
+		# which may be undesirable
+		# (I think I kinda like this "sloppy" evaluation though)
 		@accelerators = @key_parser.active_accelerators
 		
 		
@@ -71,14 +80,14 @@ class MouseInputSystem
 		@origin = point
 		
 		
-		
+		# only set this in #press
+		# don't want target to change in the middle of the input
 		@spatial_status = 
 			if @entity
 				:on_object
 			else
 				:empty_space
 			end
-		
 		
 		
 		
