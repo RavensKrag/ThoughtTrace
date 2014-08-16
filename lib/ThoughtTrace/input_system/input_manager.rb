@@ -74,68 +74,6 @@ class InputManager
 		
 		
 		
-		
-		
-		
-		
-		
-		# 		name = :shift
-		# 		trigger = Trigger::Any.new Gosu::KbLeftShift, Gosu::KbRightShift
-		# button = Button.new name, trigger
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		# shift   =  (:shift, [Gosu::KbLeftShift, Gosu::KbRightShift])
-		# control =  (:control, [Gosu::KbLeftControl, Gosu::KbRightControl])
-		# alt     =  (:alt, [Gosu::KbLeftAlt, Gosu::KbRightAlt])
-
-		# accelerators = [shift, control, alt]
-		# accelerators.active_list 
-		# 	accelerators.collect{|k| k.active? }
-		
-		
-		
-		
-		# shift   = left_shift.active?    or  right_shift.active?
-		# control = left_control.active?  or  right_control.active?
-		# alt     = left_alt.active?      or  right_alt.active?
-		
-		# accelerators = {
-		# 	:shift => shift,
-		# 	:control => control,
-		# 	:alt => alt
-		# }
-		
-		
-		
-		# %w[left right].product(%w[shift control alt]).each do |side, symbol|
-		# 	callbacks = ()
-			
-		# 	event_name = "#{side}_#{symbol}".to_sym
-		# 	event = InputSystem::ButtonEvent.new event_name, callbacks
-		# 	key_constant = Gosu.const_get "Kb#{side.capitalize}#{symbol.capitalize}"
-		# 	event.bind_to keys:[key_constant], modifiers:[]
-		# 	@buttons.register event
-		# end
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		# this could be useful in other parts of the input system
 		# regardless, it's good do declare all bindings to lower-level input symbols at this level
 		@accelerator_parser = InputSystem::AcceleratorParser.new(
