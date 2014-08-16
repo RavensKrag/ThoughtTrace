@@ -71,6 +71,22 @@ class InputManager
 		# @buttons.register event
 		
 		
+		# TODO: clean up mouse action flow classes. Many of them are no longer needed.
+		# TODO: clean up button input system to synergize with new accelerator system
+		
+		
+		
+		
+		action_factory = InputSystem::ActionFactory.new(
+							@space, @selection, @text_input, @clone_factory
+						)
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -148,12 +164,12 @@ class InputManager
 		
 		
 		left_callbacks  = InputSystem::MouseInputSystem.new(
-							@space, @mouse, @selection, @text_input, @clone_factory,
+							@space, @mouse, action_factory,
 							@accelerator_parser, :left_click, left_click_bindings
 						)
 		
 		right_callbacks = InputSystem::MouseInputSystem.new(
-							@space, @mouse, @selection, @text_input, @clone_factory,
+							@space, @mouse, action_factory,
 							@accelerator_parser, :right_click, right_click_bindings
 						)
 		
@@ -181,6 +197,22 @@ class InputManager
 		
 		
 		@mouse_actions = [left_callbacks, right_callbacks]
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		# camera control
+		callbacks = InputSystem::CameraController.new @mouse, @camera, action_factory
+		event = InputSystem::ButtonEvent.new :pan_camera, callbacks
+		event.bind_to keys:[Gosu::MsMiddle], modifiers:[]
+		@buttons.register event
+		
 		
 		
 		

@@ -9,24 +9,18 @@ class MouseInputSystem
 	
 	
 	# TODO: create class that bundles the pieces of data that need to be sent to every Action. It's weird to have to "delegate" all these arguments through the chain of command like this.
-	def initialize(space, mouse, selection, text_input, clone_factory,
+	def initialize(space, mouse, action_factory,
 		accelerator_collection, mouse_button, bindings)
-		# Necessary for this class only
-		@mouse = mouse
+		@mouse = mouse		
+		@space = space
 		
-		# things to send through to Action
-		@space = space # @space is used at this level as well, to make the mouse queries
+		@action_factory = action_factory
 		
-		@selection = selection
-		@text_input = text_input
-		@clone_factory = clone_factory
 		
 		
 		
 		# TODO: figure out how to load this data from spatial ThoughtTrace file, instead of typing it out manually.
 		# TODO: consider finding a better data structure for this data (maybe a tree?)
-		# TODO: consider that having right and left click buttons in the same place is weird and it should get split up? (but then what about the accelerator combinations aughhhh) hard to even consider that when this is the only key binding interface I really have available to me right now. Would be tedious to traverse a bunch of different structures at this point. Later, there would be abstraction, so that would be ok, but right now would be bad.
-		
 		
 		@bindings = bindings
 		
@@ -37,7 +31,7 @@ class MouseInputSystem
 		
 		
 		
-		@mouse_button = mouse_button
+		@mouse_button = mouse_button # currently only using this for debug info, not "real" stuff
 		# @spatial_status = :on_object
 		# @accelerators = [:shift]
 		# @button_phase = CLICK
@@ -141,41 +135,8 @@ class MouseInputSystem
 		warn "no action bound to #{@mouse_button} => [#{@spatial_status}, #{@accelerators}]" unless action_name
 		
 		
+		action = @action_factory.create(@spatial_status, action_name, @entity)
 		
-		
-		place_to_look, target = 
-			case @spatial_status
-				when :on_object
-					# assuming we have found an existing Entity
-					# but that it has no special characteristics
-					
-					[@entity.class, @entity]
-					
-				when :empty_space
-					# space is empty at desired point
-					
-					# no target, because most actions in empty space create new things
-					# the target supposed to be a thing which already exists
-					# but that doesn't make sense for an action that creates something new
-					[ThoughtTrace::Actions::EmptySpace, nil]
-			end
-		
-		
-		
-		
-		
-		standard_args = [@space, @selection, @text_input, @clone_factory]
-		
-		action = place_to_look.action_get(action_name).new(*standard_args,  target)
-		
-		# TODO: make easy way to check if Action is a the null object for that type of action. Sorta like how you can call #nil? on an object to check if it is nil or not
-		if action_name and action.is_a? ThoughtTrace::Actions::NullAction
-			warn "#{place_to_look.inspect} does not define action '#{action_name}'"
-		end
-		
-		
-		
-		# p action
 		
 		return action
 	end
