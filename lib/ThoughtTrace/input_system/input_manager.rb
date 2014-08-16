@@ -139,9 +139,10 @@ class InputManager
 		# this could be useful in other parts of the input system
 		# regardless, it's good do declare all bindings to lower-level input symbols at this level
 		@accelerator_collection = InputSystem::AcceleratorCollection.new(
-							[:shift,   Gosu::KbLeftShift,   Gosu::KbRightShift],
-							[:control, Gosu::KbLeftControl, Gosu::KbRightControl],
-							[:alt,     Gosu::KbLeftAlt,     Gosu::KbRightAlt]
+							window,
+							:shift   => [Gosu::KbLeftShift,   Gosu::KbRightShift],
+							:control => [Gosu::KbLeftControl, Gosu::KbRightControl],
+							:alt     => [Gosu::KbLeftAlt,     Gosu::KbRightAlt]
 						)
  		
  		
@@ -208,13 +209,6 @@ class InputManager
 		
 		
 		
-		# callbacks = InputSystem::MouseInputSystem.new(
-		# 					@space, @mouse, @selection, @text_input, @clone_factory,
-		# 					@accelerator_collection, mouse_button_mapping
-		# 				)
-		
-		
-		
 		left_callbacks  = InputSystem::MouseInputSystem.new(
 							@space, @mouse, @selection, @text_input, @clone_factory,
 							@accelerator_collection, :left_click, left_click_bindings
@@ -269,7 +263,6 @@ class InputManager
 	def button_down(id)
 		[
 			@buttons,
-			@accelerator_collection,
 			# @mouse_input
 		].each do |x|
 			x.button_down(id)
@@ -301,7 +294,6 @@ class InputManager
 	def button_up(id)
 		[
 			@buttons,
-			@accelerator_collection,
 			# @mouse_input
 		].each do |x|
 			x.button_up(id)
