@@ -138,7 +138,7 @@ class InputManager
 		
 		# this could be useful in other parts of the input system
 		# regardless, it's good do declare all bindings to lower-level input symbols at this level
-		@accelerator_collection = InputSystem::AcceleratorCollection.new(
+		@accelerator_parser = InputSystem::AcceleratorParser.new(
 							window,
 							:shift   => [Gosu::KbLeftShift,   Gosu::KbRightShift],
 							:control => [Gosu::KbLeftControl, Gosu::KbRightControl],

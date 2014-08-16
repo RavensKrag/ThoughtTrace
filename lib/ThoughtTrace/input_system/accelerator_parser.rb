@@ -1,7 +1,7 @@
 module InputSystem
 
 
-class AcceleratorCollection
+class AcceleratorParser
 	def initialize(window, bindings={})
 		@window = window
 		@bindings = bindings # key symbol => [list, of, key, IDs]
