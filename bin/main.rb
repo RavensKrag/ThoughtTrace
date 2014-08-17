@@ -65,8 +65,8 @@ class Window < Gosu::Window
 	
 	def draw
 		@camera.draw do
-			@input.draw
 			@space.draw
+			@input.draw
 		end
 	end
 	

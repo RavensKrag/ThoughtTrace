@@ -17,10 +17,6 @@ Dir.chdir path_to_file do
 		# './query',
 		# './constraint',
 		
-		
-		'./click_and_drag_controller',
-		'./action_flow_controller'
-		
 	].each do |path|
 		begin
 			# if it's a path, require_all

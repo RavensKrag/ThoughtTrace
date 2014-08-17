@@ -3,25 +3,23 @@ module ThoughtTrace
 		module EmptySpace
 
 
-class SpawnText < Actions::BaseAction
+class SpawnRect < Actions::BaseAction
 	# called on first tick
 	def setup(point)
-		# TODO: new Text should have the same size, font, etc as the last Text object accessed. ie, user should be able to create multiple similar Text objects in succession, without having to rely on the default font
-		text = @clone_factory.make ThoughtTrace::Text
-		text[:physics].body.p = point
+		rect = @clone_factory.make ThoughtTrace::Rectangle
+		rect[:physics].body.p = point
 		
 		
-		@space.entities.add text
-		@text_input.add text, 0
+		@space.entities.add rect
 		
 		
-		return text
+		return rect
 	end
 	
 	# called each tick
 	def update(point)
 		
-		return @space,@text_input
+		return @space
 	end
 	
 	# not often used, but you can define this callback if you need it
@@ -47,20 +45,15 @@ class SpawnText < Actions::BaseAction
 		# set future state
 		def forward
 			
-			# spawn new Text entity
-			# add to space
-			# attach new Text to input
-				# (will display caret, even though the new object is empty)
 		end
 		
 		# set past state
 		def reverse
-			text = @initial
-			space, text_input = @future
+			rect = @initial
+			space = @future
 			
 			
-			space.entities.delete text
-			text_input.clear
+			space.entities.delete rect
 		end
 	end
 end

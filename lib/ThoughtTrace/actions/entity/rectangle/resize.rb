@@ -4,7 +4,7 @@ module ThoughtTrace
 
 
 class Resize < Entity::Actions::Action
-	MARGIN = 50
+	MARGIN = 20
 	MINIMUM_DIMENSION = 10
 	
 	# called on first tick
@@ -176,7 +176,8 @@ class Resize < Entity::Actions::Action
 	# display information to the user about the current transformation
 	# called each tick
 	def draw(point)
-		
+		# TODO: draw margins to get a better idea of how they should be altered as the shape changes.
+		# TODO: consider implementing margin rendering using entities and constraints. Then that data could easily be used to drive the modulation of the margins themselves.
 	end
 	
 	
@@ -215,6 +216,7 @@ class Resize < Entity::Actions::Action
 		# NOTE: remember that the anchor specifies the amount of counter-steering
 		# TODO: allow for more analog anchor specification
 		# TODO: consider anchoring based on where the initial point of context was.
+		# TODO: consider more complex margin specification. Maybe it should be proportional to size? Not sure in what specify way though.
 		x = 
 			if @direction.x > 0
 				# pos
