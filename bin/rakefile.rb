@@ -103,10 +103,7 @@ task :load_dependencies do
 					'./input_system/mouse',
 					
 					'./input_system/action_factory',
-					
 					'./input_system/mouse_input_system',
-					'./input_system/mouse_action_controller',
-					
 					'./input_system/camera_controller',
 					
 					'./input_system/text_input',
