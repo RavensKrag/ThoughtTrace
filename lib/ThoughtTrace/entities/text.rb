@@ -26,11 +26,13 @@ class Text < Rectangle
 		
 		# TODO: cascade into default style
 		@components[:style].edit(:default) do |s|
-			s[:color] = Gosu::Color.argb(0xffFFFFFF)
+			s[:color] = Gosu::Color.argb(0xffE64240)
+			s[:hitbox_color] = Gosu::Color.argb(0xffFFFFFF)
 		end
 		
 		@components[:style].edit(:hover) do |s|
 			s[:color] = Gosu::Color.argb(0xff0000FF)
+			s[:hitbox_color] = Gosu::Color.argb(0xffFFFFFF)
 		end
 	end
 	
@@ -41,7 +43,7 @@ class Text < Rectangle
 	def draw(z_index=0)
 		x,y = @components[:physics].body.p.to_a
 		
-		@components[:physics].draw Gosu::Color.new(0xaaFF0000), z_index
+		@components[:physics].draw @components[:style][:hitbox_color], z_index
 		
 		@font.draw	@string, @components[:physics].shape.height,
 					x,y, z_index, # position relative to top left corner of text

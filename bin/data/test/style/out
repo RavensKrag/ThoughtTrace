@@ -1,9 +1,0 @@
----
-:foo:
-  :color: Gosu::Color<4289379276>
-:baz:
-  :prop1: 5
-  :prop2: 23
-:bar:
-  :prop1: 5
-  :prop2: 7

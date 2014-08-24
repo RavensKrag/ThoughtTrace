@@ -186,3 +186,19 @@ TODO: create action to delete a whole Entity
 	would be weird to have a special case for Text
 
 
+TODO: remove Object delegate metaprogramming monkeypatch
+	should be using def_degelators from Forwardable instead
+	that is much more robust
+
+
+TODO: make sure an empty project can be loaded
+	funky stuff is happening here
+	
+	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/queries.csv
+	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/entities.csv
+	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/constraints.csv
+	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/prototypes.csv
+	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/rakefile.rb
+	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/main.rb
+	/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/space/serialization.rb
+	/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/cloning/clone_factory.rb
