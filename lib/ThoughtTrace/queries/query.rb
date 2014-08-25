@@ -9,7 +9,7 @@ class Query
 	# also, this means that the initialization of Queries feels like Action / Component
 	
 	def initialize(space)
-		@@collision_handler ||= CollisionHandler.new
+		@@collision_handler ||= ThoughtTrace::Queries::CollisionHandler.new
 		@@collision_type ||= :query
 		
 		
@@ -177,73 +177,6 @@ class Query
 	# called once when the Query first loses track of an Entity
 	def on_remove(entity)
 		
-	end
-	
-	
-	
-	
-	
-	
-	
-	# add / remove things from the set of things to be queried
-	class CollisionHandler
-		def begin(arbiter)
-			query_object, entity = parse_arbiter(arbiter)
-			
-			if true # some condition for collision
-				query_object.on_add entity
-				
-				
-				return true
-			else 
-				return false
-			end
-		end
-
-		def pre_solve(arbiter)
-			query_object, entity = parse_arbiter(arbiter)
-			
-			query_object.on_tick entity
-		end
-
-		# def post_solve(arbiter)
-		# 	query_object, entity = parse_arbiter(arbiter)
-			
-			
-		# end
-
-		def separate(arbiter)
-			query_object, entity = parse_arbiter(arbiter)
-			
-			query_object.on_remove entity
-		end
-		
-		
-		private
-		
-		
-		def parse_arbiter(arbiter)
-			query_object = arbiter.a.obj
-			entity       = arbiter.b.obj
-			
-			
-			return query_object, entity
-		end
-	end
-	
-	
-	private
-	
-	# TODO: Move dependencies list to the top of the file somehow
-	def raise_errors_if_depencies_unmet(entity)
-		[
-			:physics,
-			:style
-		].each do |component_name|
-			unless entity[component_name]
-				raise "#{entity} does not have a #{component_name.to_s.capitalize} component"
-			end
-		end
 	end
 end
 
