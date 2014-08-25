@@ -23,9 +23,10 @@ class Query < Component
 	def on_bind(entity)
 		super(entity)
 		
+		
+		
 		# ===== start
 		raise "#{self} already has one Entity bound to it." if @bound_entity
-		raise_errors_if_depencies_unmet entity
 		
 		@bound_entity = entity
 		
@@ -36,23 +37,37 @@ class Query < Component
 			# The collision handler is written very generally
 			# Specifics are delegated to each Query object
 			
-			# clobbering of collision handlers is acceptable, as it's always the same handler object
-			# it is a bit inefficient though
 			
-			# NOTE: This style allows for Entities with diverse collision_type properties. If the collision type of each Entity is always going to be the same, this step can be performed once in #initialize, rather than being performed on each bind.
-			@space.add_collision_handler(
-				@@collision_type,
-				@bound_entity[:physics].shape.collision_type,
-				
-				@@collision_handler
-			)
+			@defaults = {
+				:sensor =>         @bound_entity[:physics].shape.sensor,
+				:collision_type => @bound_entity[:physics].shape.collision_type
+			}
 			
+			
+			@bound_entity[:physics].shape.collision_type = :query
 			@bound_entity[:physics].shape.sensor = true
+			
+			
+			
+			
 		# -- style
-			# TODO: find a way to revert the style that doesn't clash with things like mouseover
+			# rather than storing the current style mode for later, the unbind callback will simply make sure that the query style mode is not currently in use, and replace with the default mode if necessary
+			
 			@bound_entity[:style].mode = :query
 			@bound_entity[:style].socket(1, @style)
-		
+			@bound_entity[:style].socket(2, default_cascade)
+			
+			
+			# TODO: need a way to retrieve the default cascade
+			# TODO: need to make sure that you can nest a cascade inside of another cascade
+			
+			# with this structure, the query style will always cascade into the default style, even if the default style changes after the binding of the Query to the Entity
+			
+			# apply yet another style instead of just modifying the default style for the new mode
+			# two reasons:
+			# 1) allows easy modification of a bunch of objects through one style
+			# 2) can modify one Query object independently of the others if you need to (sketching etc)
+			# (these are both really two aspects of the same thing)
 		
 		
 		# ===== cleanup
@@ -75,14 +90,26 @@ class Query < Component
 		
 		# ===== body
 		# -- physics
-			# TODO: consider restoring the shape's previous sensor status instead of forcing false
-			@bound_entity[:physics].shape.sensor = false
+			# restore chipmunk properties
+			@bound_entity[:physics].shape.sensor = @defaults[:sensor]
+			@bound_entity[:physics].shape.collision_type = @defaults[:collision_type]
 		# -- style
-			@bound_entity[:style].mode = :default
+			# eliminate the Query formatting style mode from the cascade
+			# and make sure that it is not actively being used to render the Entity
+			current_style_mode = @bound_entity[:style].mode
+			
+			if current_style_mode == :query
+				@bound_entity[:style].mode = :default
+			end
+			
+			# do you really want the query style as a new mode? do you not want it to cascade into the other styles defined for the Entity?
+			
+			# TODO: need method to purge a particular style mode from the Style Component
+			
 		
 		
 		# ===== cleanup
-		@bound_entity = nil
+		# @bound_entity = nil
 		
 		return self
 	end
