@@ -13,7 +13,7 @@ class CollisionHandler
 		query_object, entity = parse_arbiter(arbiter)
 		
 		if true # some condition for collision
-			query_object.on_add space, entity
+			query_object.on_add @space, entity
 			
 			
 			return true
@@ -25,7 +25,7 @@ class CollisionHandler
 	def pre_solve(arbiter)
 		query_object, entity = parse_arbiter(arbiter)
 		
-		query_object.on_tick space, entity
+		query_object.on_tick @space, entity
 	end
 
 	# def post_solve(arbiter)
@@ -37,7 +37,7 @@ class CollisionHandler
 	def separate(arbiter)
 		query_object, entity = parse_arbiter(arbiter)
 		
-		query_object.on_remove space, entity
+		query_object.on_remove @space, entity
 	end
 	
 	
