@@ -1,3 +1,5 @@
+require 'set'
+
 module ThoughtTrace
 	module Queries
 
@@ -7,14 +9,16 @@ class CollisionManager
 		@space = space
 		
 		@collision_handler = ThoughtTrace::Queries::CollisionHandler.new space
+		
+		@known_types = find_collision_types
 	end
 	
 	
 	
 	def call
-		collision_types = find_collision_types()
-		collision_types.delete :query # want to process every type, other than :query
-		collision_types.each{|type|  bind(type) }
+		@known_types = find_collision_types
+		@known_types.delete :query # want to process every type, other than :query
+		@known_types.each{|type|  bind(type) }
 	end
 	
 	alias [] :call # lambda-style square-bracket function call
@@ -24,12 +28,33 @@ class CollisionManager
 	
 	
 	
+	
+	def add(collision_type)
+		unless @known_types.include? collision_type
+			bind(collision_type)
+			
+			@known_types.add collision_type
+		end
+	end
+	
+	def delete(collision_type)
+		@space.remove_collision_handler :query, collision_type
+		
+		
+		@known_types.delete collision_type
+	end
+	
+	
+	
+	
+	
+	
+	
 	def find_collision_types
-		# first draft
 		@space.entities
 			.select{ |e|  e[:physics] }
 			.collect{|e|  e[:physics].shape.collision_type }
-			.uniq!
+			.to_set
 	end
 	
 	
