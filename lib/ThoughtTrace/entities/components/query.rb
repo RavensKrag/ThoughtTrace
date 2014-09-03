@@ -7,12 +7,26 @@ class Query < Component
 	interface_name :query
 	components :physics, :style
 	
-	def initialize
+	attr_reader :callbacks
+	
+	def initialize(style, callbacks)
+		super()
 		
+		@style = style
+		@callbacks = callbacks
+		# depends on Space, but that reference will be passed to the callbacks as necessary
 	end
 	
 	
 	
+	
+	
+	
+	
+	
+	# use bind / unbind because hijacking the destructor in Ruby is really weird
+	# side effect: one query component can easily be passed around between different Entity objects
+			# no need to delete and re-create
 	
 	
 	
