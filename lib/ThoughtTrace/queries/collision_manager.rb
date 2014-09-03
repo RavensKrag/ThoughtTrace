@@ -6,7 +6,7 @@ class CollisionManager
 	def initialization(space)
 		@space = space
 		
-		@collision_handler = ThoughtTrace::Queries::CollisionHandler.new
+		@collision_handler = ThoughtTrace::Queries::CollisionHandler.new space
 	end
 	
 	
