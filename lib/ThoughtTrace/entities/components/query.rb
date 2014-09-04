@@ -12,9 +12,17 @@ class Query < Component
 	def initialize(style, callbacks)
 		super()
 		
-		@style = style
-		@callbacks = callbacks
+		@style = style         # one style object that defines the visual appearance of all queries
+		@callbacks = callbacks # object defining a set of callbacks
 		# depends on Space, but that reference will be passed to the callbacks as necessary
+		
+		
+		# style is used to visually mark queries
+		# callbacks are accessed through the query component
+		# ex) entity[:query].callbacks
+		# 
+		# (or for a specific example)
+			# entity[:query].callbacks.on_add
 	end
 	
 	

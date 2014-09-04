@@ -45,7 +45,7 @@ class CollisionHandler
 	
 	
 	def parse_arbiter(arbiter)
-		query_object = arbiter.a.obj[:query].query
+		query_object = arbiter.a.obj[:query].callbacks
 		entity       = arbiter.b.obj
 		
 		
