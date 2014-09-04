@@ -1,0 +1,38 @@
+documentation
+
+
+
+=== Component
+	#on_bind
+		-> resolve_dependencies -> fetch_component
+	#on_unbind
+	
+	
+	private
+		resolve_dependencies
+		fetch_component
+========
+
+
+
+=== Query
+	#on_bind
+		create snapshot for restoration of values later
+		
+		set physics properties
+		set style
+		
+		
+	#on_unbind
+		restore values based on snapshot
+
+========
+
+
+=== Entity
+	#add_component
+		-> Query#on_bind
+	
+	#delete_component
+		-> Query#on_unbind
+========
