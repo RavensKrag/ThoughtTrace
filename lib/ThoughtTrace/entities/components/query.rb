@@ -42,16 +42,11 @@ class Query < Component
 	# TODO: figure out if binding multiple Entities to one Query is permissible or not
 	# NOTE: currently, only one Entity can be bound at a time
 	
+	# NOTE: to bind multiple entities to the same callback item (to preserve state among many entities) please connect one query callback object -> many query components -> each with their own Entity objects.
+	# Separating the management of binding from the callbacks makes things much clearer.
+	
 	def on_bind(entity)
 		super(entity)
-		
-		
-		
-		# ===== start
-		raise "#{self} already has one Entity bound to it." if @bound_entity
-		
-		@bound_entity = entity
-		
 		
 		# ===== body
 		# -- physics
@@ -61,13 +56,13 @@ class Query < Component
 			
 			
 			@defaults = {
-				:sensor =>         @bound_entity[:physics].shape.sensor,
-				:collision_type => @bound_entity[:physics].shape.collision_type
+				:sensor =>         entity[:physics].shape.sensor,
+				:collision_type => entity[:physics].shape.collision_type
 			}
 			
 			
-			@bound_entity[:physics].shape.collision_type = :query
-			@bound_entity[:physics].shape.sensor = true
+			entity[:physics].shape.collision_type = :query
+			entity[:physics].shape.sensor = true
 			
 			
 			
@@ -75,9 +70,9 @@ class Query < Component
 		# -- style
 			# rather than storing the current style mode for later, the unbind callback will simply make sure that the query style mode is not currently in use, and replace with the default mode if necessary
 			
-			@bound_entity[:style].mode = :query
-			@bound_entity[:style].socket(1, @style)
-			@bound_entity[:style].socket(2, default_cascade)
+			entity[:style].mode = :query
+			entity[:style].socket(1, @style)
+			entity[:style].socket(2, default_cascade)
 			
 			
 			# TODO: need a way to retrieve the default cascade
@@ -106,22 +101,18 @@ class Query < Component
 	def on_unbind(entity)
 		super(entity)
 		
-		# ===== start
-		
-		
-		
 		# ===== body
 		# -- physics
 			# restore chipmunk properties
-			@bound_entity[:physics].shape.sensor = @defaults[:sensor]
-			@bound_entity[:physics].shape.collision_type = @defaults[:collision_type]
+			entity[:physics].shape.sensor         = @defaults[:sensor]
+			entity[:physics].shape.collision_type = @defaults[:collision_type]
 		# -- style
 			# eliminate the Query formatting style mode from the cascade
 			# and make sure that it is not actively being used to render the Entity
-			current_style_mode = @bound_entity[:style].mode
+			current_style_mode = entity[:style].mode
 			
 			if current_style_mode == :query
-				@bound_entity[:style].mode = :default
+				entity[:style].mode = :default
 			end
 			
 			# do you really want the query style as a new mode? do you not want it to cascade into the other styles defined for the Entity?
@@ -131,7 +122,7 @@ class Query < Component
 		
 		
 		# ===== cleanup
-		# @bound_entity = nil
+		# entity = nil
 		
 		return self
 	end
