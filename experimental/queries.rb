@@ -64,19 +64,6 @@ class Foo
 	
 	
 	def mark_query(entity)
-		@collision_manager.call
-		# not actually sure how often this should be called
-		# really, it needs to be called whenever a new collision type is added to the Space
-		# which is NOT a Query
-		# so this is probably the *worst* place to put it
-		
-		# should probably just maintain all collisions in one place
-		# and that place is not here
-		
-		
-		
-		
-		
 		# the type of query object to be used will very, depending on what you want to do
 		# you could ever re-bind the Query object inside the component at runtime if you like
 		query = ThoughtTrace::Queries::Query.new
