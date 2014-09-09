@@ -32,3 +32,65 @@ entity.add_component Query.new entity
 # it's not really an innate property
 # but something that an Entity might have
 # or might not have
+
+
+
+
+
+
+
+
+
+
+
+
+# query mark / unmark methods
+
+class Foo
+	def initialize(space)
+		@space = space
+		
+		@collision_manager = ThoughtTrace::Queries::CollisionManager.new @space
+		
+		
+		# The same style object should be used for all Queries
+		@style = ThoughtTrace::Style::StyleObject.new
+		@style.tap do |s|
+			s[:color] = Gosu::Color.argb(0xaa7A797A)
+		end
+	end
+	
+	
+	
+	
+	def mark_query(entity)
+		@collision_manager.call
+		# not actually sure how often this should be called
+		# really, it needs to be called whenever a new collision type is added to the Space
+		# which is NOT a Query
+		# so this is probably the *worst* place to put it
+		
+		# should probably just maintain all collisions in one place
+		# and that place is not here
+		
+		
+		
+		
+		
+		# the type of query object to be used will very, depending on what you want to do
+		# you could ever re-bind the Query object inside the component at runtime if you like
+		query = ThoughtTrace::Queries::Query.new
+			# queries require access to the space,
+			# but this will provided as an argument to the Query callbacks, rather than on init
+		
+		
+		# the component will always have the same structure
+		component = ThoughtTrace::Components::Query.new(@style, query)
+		entity.add_component component
+	end
+
+
+	def unmark_query(entity)
+		entity.delete_component :query
+	end
+end
