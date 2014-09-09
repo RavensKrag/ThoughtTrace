@@ -6,7 +6,11 @@ module ThoughtTrace
 class UnmarkQuery < ThoughtTrace::Actions::BaseAction
 	# called on first tick
 	def setup(point)
-		unmark_entity(@target)
+		entity = @target
+		
+		entity.delete_component :query
+		
+		
 		
 		return nil
 	end

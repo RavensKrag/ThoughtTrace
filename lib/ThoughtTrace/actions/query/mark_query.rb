@@ -6,7 +6,33 @@ module ThoughtTrace
 class MarkQuery < Entity::Actions::Action
 	# called on first tick
 	def setup(point)
-		mark_query(@entity)
+		unless @@style # create the style if it doesn't exist yet
+			# The same style object should be used for all Queries
+			@@style = ThoughtTrace::Style::StyleObject.new
+			@@style.tap do |s|
+				s[:color] = Gosu::Color.argb(0xaa7A797A)
+			end
+		end
+		
+		
+		
+		
+		
+		
+		entity = @target
+		
+		
+		# the type of query object to be used will very, depending on what you want to do
+		# you could ever re-bind the Query object inside the component at runtime if you like
+		query = ThoughtTrace::Queries::Query.new
+			# queries require access to the space,
+			# but this will provided as an argument to the Query callbacks, rather than on init
+		
+		
+		# the component will always have the same structure
+		component = ThoughtTrace::Components::Query.new(@@style, query)
+		entity.add_component component
+		
 		
 		
 		return nil
