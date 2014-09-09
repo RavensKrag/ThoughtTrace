@@ -2,6 +2,8 @@ module ThoughtTrace
 	module Queries
 
 
+COLLISION_TYPE = :query
+
 class Query
 	# ===== callbacks for particular query events =====
 	

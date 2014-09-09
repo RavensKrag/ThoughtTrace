@@ -17,7 +17,7 @@ class CollisionManager
 	
 	def call
 		@known_types = find_collision_types
-		@known_types.delete :query # want to process every type, other than :query
+		@known_types.delete ThoughtTrace::Queries::COLLISION_TYPE # want to process all other types
 		@known_types.each{|type|  bind(type) }
 	end
 	
@@ -38,7 +38,7 @@ class CollisionManager
 	end
 	
 	def delete(collision_type)
-		@space.remove_collision_handler :query, collision_type
+		@space.remove_collision_handler ThoughtTrace::Queries::COLLISION_TYPE, collision_type
 		
 		
 		@known_types.delete collision_type
@@ -61,7 +61,7 @@ class CollisionManager
 	def bind(other_collision_type)
 		# could potentially have to bind this thing between multiple pairs
 		@space.add_collision_handler(
-			:query, other_collision_type,
+			ThoughtTrace::Queries::COLLISION_TYPE, other_collision_type,
 			@collision_handler
 		)
 	end

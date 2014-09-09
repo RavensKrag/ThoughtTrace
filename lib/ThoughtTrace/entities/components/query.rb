@@ -6,7 +6,7 @@ module ThoughtTrace
 class Query < Component
 	interface_name :query
 	components :physics, :style
-	
+		
 	attr_reader :callbacks
 	
 	def initialize(style, callbacks)
@@ -61,7 +61,7 @@ class Query < Component
 			}
 			
 			
-			entity[:physics].shape.collision_type = :query
+			entity[:physics].shape.collision_type = ThoughtTrace::Queries::COLLISION_TYPE
 			entity[:physics].shape.sensor = true
 			
 			
