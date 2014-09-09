@@ -1,34 +1,10 @@
-=begin
 
-need to be able to easily plop down queries
-	just an human interface problem?
-
-
-are queries a type of entity?
-	they have physics component, but they don't have the actions of an Entity
-
-with no actions, should the Physics component should be used?
-something with the same interface?
-a rejuggling of the basic Chipmunk facilities?
+# need to be able to easily plop down queries
+# 	just an human interface problem?
 
 
-but queries need to be resized and moved the same way Entities are
-or at least the actions need to feel the same
-so maybe they're the same thing?
 
-	consider how the queries are resized
-	consider if the Entity actions can provide proper callbacks for resizing
-	if it is necessary for Queries to be notified of such a thing
-		
-		TEST THIS OUT
-		what happens to collisions if a shape is resized?
-		will the resulting overlap / removal of overlap be evaluated correctly?
-		it should be - just happens on the next physics space tick
-
-
-build on physics collisions with sensor objects more than Chipmunk queries
-
-=end
+# build on physics collisions with sensor objects more than Chipmunk queries
 
 
 		
