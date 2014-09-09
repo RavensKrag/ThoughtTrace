@@ -3,9 +3,11 @@ module ThoughtTrace
 		module Actions
 
 
-class UnmarkQuery < ThoughtTrace::Actions::BaseAction
+class ToggleQueryStatus < ThoughtTrace::Actions::BaseAction
 	# called on first tick
 	def setup(point)
+		# === unmark query ===
+		
 		entity = @target
 		
 		entity.delete_component :query

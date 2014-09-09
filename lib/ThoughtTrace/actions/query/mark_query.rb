@@ -3,9 +3,11 @@ module ThoughtTrace
 		module Actions
 
 
-class MarkQuery < Entity::Actions::Action
+class ToggleQueryStatus < Entity::Actions::Action
 	# called on first tick
 	def setup(point)
+		# === mark query ===
+		
 		unless @@style # create the style if it doesn't exist yet
 			# The same style object should be used for all Queries
 			@@style = ThoughtTrace::Style::StyleObject.new
