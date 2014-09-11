@@ -8,6 +8,7 @@ class ToggleQueryStatus < Entity::Actions::Action
 	def setup(point)
 		# === mark query ===
 		
+		@@style ||= nil # without this, "unless" check fails, because variable does not exist
 		unless @@style # create the style if it doesn't exist yet
 			# The same style object should be used for all Queries
 			@@style = ThoughtTrace::Style::StyleObject.new

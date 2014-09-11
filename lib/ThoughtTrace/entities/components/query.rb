@@ -56,7 +56,7 @@ class Query < Component
 			
 			
 			@defaults = {
-				:sensor =>         entity[:physics].shape.sensor,
+				:sensor =>         entity[:physics].shape.sensor?,
 				:collision_type => entity[:physics].shape.collision_type
 			}
 			

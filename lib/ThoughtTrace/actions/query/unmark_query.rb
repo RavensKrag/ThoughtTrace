@@ -1,6 +1,7 @@
 module ThoughtTrace
-	class Queries
-		module Actions
+	module Queries
+		class Query
+			module Actions
 
 
 class ToggleQueryStatus < ThoughtTrace::Actions::BaseAction
@@ -57,6 +58,7 @@ end
 
 
 
+end
 end
 end
 end
