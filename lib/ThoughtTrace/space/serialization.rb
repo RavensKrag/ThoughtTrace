@@ -118,7 +118,7 @@ class Space < CP::Space
 		
 		entity_to_id_table = @entities.each_with_index.map{|x,i| [x,i]}.to_h
 		
-		@queries.dump path_to_folder, entity_to_id_table
+		# @queries.dump path_to_folder, entity_to_id_table
 		@constraints.dump path_to_folder, entity_to_id_table
 		@groups.dump path_to_folder, entity_to_id_table
 	end
@@ -136,10 +136,10 @@ class Space < CP::Space
 			id_to_entity_table = entities
 			
 			# have to pass space twice so that it ends up in #load as well as #unpack
-			queries = ThoughtTrace::Space::QueryList.load(
-								path_to_folder, space,    # load arguments
-								id_to_entity_table, space # unpack arguments
-						)
+			# queries = ThoughtTrace::Space::QueryList.load(
+			# 					path_to_folder, space,    # load arguments
+			# 					id_to_entity_table, space # unpack arguments
+			# 			)
 			constraints = ThoughtTrace::Space::ConstraintList.load(
 								path_to_folder, space,    # load arguments
 								id_to_entity_table, space # unpack arguments
@@ -154,7 +154,7 @@ class Space < CP::Space
 			# can't think of a better way to set these variables
 			# don't want them to normally be set through an outside API
 			space.instance_variable_set :@entities, entities
-			space.instance_variable_set :@queries, queries
+			# space.instance_variable_set :@queries, queries
 			space.instance_variable_set :@constraints, constraints
 			space.instance_variable_set :@groups, groups
 			
