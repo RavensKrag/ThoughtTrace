@@ -15,11 +15,13 @@ class StyleObject
 	end
 	
 	
+	# read property
 	def [](property)
 		return @properties[property]
 	end
 	
-	def []=(property, value) 
+	# write property
+	def []=(property, value)
 		@properties[property] = value
 	end
 	
