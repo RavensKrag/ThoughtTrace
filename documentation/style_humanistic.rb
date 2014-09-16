@@ -5,6 +5,7 @@ component
 # stores multiple cascades in named modes
 	get_cascade_by_mode_name
 	get_active_cascade
+	include_cascade_by_mode_name?
 	set_mode
 	delete_mode
 	new_mode

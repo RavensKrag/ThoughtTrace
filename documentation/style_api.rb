@@ -5,6 +5,7 @@ component
 # stores multiple cascades in named modes
 	entity[:style].cascade(:default)
 	entity[:style].active_cascade
+	entity[:style].include_cascade?
 	entity[:style].mode = :default
 	entity[:style].delete :default
 	entity[:style].mode = :default

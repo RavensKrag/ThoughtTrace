@@ -51,8 +51,15 @@ class Style < Component
 		@active_mode
 	end
 	
+	def include_cascade?(cascade_name)
+		@cascades[cascade_name].include? cascade_name
+	end
+	
 	# retrieve cascade by name
 	def cascade(cascade_name)
+		# create new cascade if necessary
+		@cascades[cascade_name] ||= ThoughtTrace::Style::Cascade.new
+		
 		return @cascades[cascade_name]
 	end
 	
