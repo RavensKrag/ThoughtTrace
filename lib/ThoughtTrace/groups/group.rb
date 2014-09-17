@@ -36,8 +36,14 @@ class Group
 	
 	
 	def add(obj)
-		obj[:style].mode = :group
-		obj[:style].socket(1, @style)
+		obj[:style].tap do |component|
+			component.edit(:group) do |x|
+				x.socket(1, @style)
+			end
+			
+			component.mode = :group
+		end
+		
 		
 		@entities << obj
 	end

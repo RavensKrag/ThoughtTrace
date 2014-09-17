@@ -51,6 +51,7 @@ class Style < Component
 		@active_mode
 	end
 	
+	# find out if a particular cascade exists, based on the given name
 	def include_cascade?(cascade_name)
 		@cascades[cascade_name].include? cascade_name
 	end

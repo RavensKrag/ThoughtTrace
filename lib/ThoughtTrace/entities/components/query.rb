@@ -70,13 +70,19 @@ class Query < Component
 		# -- style
 			# rather than storing the current style mode for later, the unbind callback will simply make sure that the query style mode is not currently in use, and replace with the default mode if necessary
 			
-			entity[:style].mode = :query
-			entity[:style].socket(1, @style)
-			entity[:style].socket(2, default_cascade)
 			
+			entity[:style].tap do |component|
+				default_cascade = component.cascade(:default)
+				
+				
+				component.edit(:query) do |x|
+					x.socket(1, @style)
+					x.socket(2, default_cascade)
+				end
+				
+				component.mode = :query
+			end
 			
-			# TODO: need a way to retrieve the default cascade
-			# TODO: need to make sure that you can nest a cascade inside of another cascade
 			
 			# with this structure, the query style will always cascade into the default style, even if the default style changes after the binding of the Query to the Entity
 			
