@@ -21,8 +21,27 @@ class Cascade
 		)
 	end
 	
+	# read from entire cascade
+	def [](property)
+		# find the first style object in the cascade order which has the desired property
+		style = @styles.each.find{ |style| style.has_property? property }
+		
+		raise "Could not find any styles in this Cascade with that property" unless style
+		
+		return style[property]
+	end
 	
-	def primary
+	# write to primary style
+	def []=(property, value)
+		self.primary_style[property] = value
+		
+		return self
+	end
+	
+	
+	
+	
+	def primary_style
 		@styles.first
 	end
 	
@@ -34,22 +53,7 @@ class Cascade
 	
 	
 	
-	# read from entire cascade
-	def read(property)
-		# find the first style object in the cascade order which has the desired property
-		style = @styles.each.find{ |style| style.has_property? property }
-		
-		raise "Could not find any styles in this Cascade with that property" unless style
-		
-		return style[property]
-	end
 	
-	# write to primary style
-	def write(property, value)
-		self.primary[property] = value
-		
-		return self
-	end
 	
 	# place a given style in the specified index
 	def socket(index, style)
@@ -99,6 +103,7 @@ class Cascade
 	alias :each_style :each
 	
 	include Enumerable
+	# includes definition of #find
 	
 	
 	# move style from one index to another

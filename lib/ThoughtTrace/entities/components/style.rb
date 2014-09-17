@@ -18,9 +18,26 @@ class Style < Component
 		@active_cascade = @cascades[@active_mode]
 	end
 	
+	
+	# read from active cascade
+	def [](property)
+		return @active_cascade[property]
+	end
+	
+	# write to active cascade
+	def []=(property, value)
+		@active_cascade[property] = value
+		
+		return self
+	end
+	
+	
+	
+	
+	
 	# Different style modes can be used for things like mouseover, on_click, etc
-	def mode=(mode_name)
-		@active_mode = mode_name
+	def mode=(cascade_name)
+		@active_mode = cascade_name
 		
 		# Make sure there is always a Cascade available at the mode you're switching to,
 		# even if you need to create a new Cascade for the new mode.
@@ -34,33 +51,51 @@ class Style < Component
 		@active_mode
 	end
 	
+	# find out if a particular cascade exists, based on the given name
+	def include_cascade?(cascade_name)
+		@cascades[cascade_name].include? cascade_name
+	end
 	
-	# change the mode temporarily to allow manipulation of values within the block
-	# and then change it back to what it was before
-	def edit(mode, &block)
-		stash = self.mode
+	# retrieve cascade by name
+	def cascade(cascade_name)
+		# create new cascade if necessary
+		@cascades[cascade_name] ||= ThoughtTrace::Style::Cascade.new
 		
-		self.mode = mode
-			block.call self
-		self.mode = stash
+		return @cascades[cascade_name]
+	end
+	
+	# retrieve the active cascade
+	def active_cascade
+		return @active_cascade
+	end
+	
+	
+	# allow editing of one cascade by name
+	# will not change the active mode
+	def edit(cascade_name, &block)
+		# self.cascade(mode).tap do |c|
+		# 	block.call c
+		# end
+		
+		self.cascade(cascade_name).tap &block
+	end
+	
+	# delete one cascade by name
+	def delete(cascade_name)
+		@cascades.delete cascade_name
 	end
 	
 	
 	
-	def primary_style
-		return @active_cascade.primary
-	end
 	
 	
 	# TODO: make sure that you always use def_delegators, and not the Object monkeypatch I wrote. That is not nearly robust enough, especially with the introduction of kwargs to ruby 2.0
-	extend Forwardable
-	def_delegators :@active_cascade,
-		:read, :write, :socket, :unsocket, :each, :each_style, :move, :move_up, :move_down
-	
-	alias :[] :read
-	alias :[]= :write
-	
-	include Enumerable
+	# extend Forwardable
+	# def_delegators :@active_cascade,
+	# 	:read, :write, :socket, :unsocket, :each, :each_style, :move, :move_up, :move_down
+	# 
+	# 
+	# include Enumerable
 	
 	
 	
