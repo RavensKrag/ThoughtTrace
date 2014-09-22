@@ -124,6 +124,7 @@ class Query < Component
 			# do you really want the query style as a new mode? do you not want it to cascade into the other styles defined for the Entity?
 			
 			# TODO: need method to purge a particular style mode from the Style Component
+			entity[:style].delete :query
 			
 		
 		
