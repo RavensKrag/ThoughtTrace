@@ -4,6 +4,8 @@ module ThoughtTrace
 
 
 class Move < Action
+	initialize_with :entity
+	
 	# called on first tick
 	def setup(point)
 		# mark the initial point for reference

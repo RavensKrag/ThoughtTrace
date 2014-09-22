@@ -4,6 +4,8 @@ module ThoughtTrace
 
 
 class Foo < Entity::Actions::Action
+	initialize_with :foo, :baz, :bar
+	
 	# called on first tick
 	def setup(point)
 		@original = nil

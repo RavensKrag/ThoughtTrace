@@ -4,6 +4,8 @@ module ThoughtTrace
 
 
 class ToggleQueryStatus < Entity::Actions::Action
+	initialize_with :entity
+	
 	# called on first tick
 	def setup(point)
 		# === mark query ===
@@ -22,8 +24,6 @@ class ToggleQueryStatus < Entity::Actions::Action
 		
 		
 		
-		entity = @target
-		
 		
 		# the type of query object to be used will very, depending on what you want to do
 		# you could ever re-bind the Query object inside the component at runtime if you like
@@ -34,7 +34,7 @@ class ToggleQueryStatus < Entity::Actions::Action
 		
 		# the component will always have the same structure
 		component = ThoughtTrace::Components::Query.new(@@style, query)
-		entity.add_component component
+		@entity.add_component component
 		
 		
 		

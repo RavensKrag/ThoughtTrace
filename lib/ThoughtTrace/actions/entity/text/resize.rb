@@ -7,6 +7,8 @@ class Resize < Rectangle::Actions::Resize
 	MARGIN = 50
 	MINIMUM_FONT_HEIGHT = 10
 	
+	initialize_with :entity
+	
 	# called on first tick
 	def setup(point)
 		return super(point) # sets @origin and @direction

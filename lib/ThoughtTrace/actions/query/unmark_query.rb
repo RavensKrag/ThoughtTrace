@@ -5,13 +5,12 @@ module ThoughtTrace
 
 
 class ToggleQueryStatus < ThoughtTrace::Actions::BaseAction
+	initialize_with :entity
+	
 	# called on first tick
 	def setup(point)
 		# === unmark query ===
-		
-		entity = @target
-		
-		entity.delete_component :query
+		@entity.delete_component :query
 		
 		
 		

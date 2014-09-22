@@ -4,6 +4,8 @@ module ThoughtTrace
 
 
 class SpawnCircle < Actions::BaseAction
+	initialize_with :clone_factory, :space
+	
 	# called on first tick
 	def setup(point)
 		# TODO: new Text should have the same size, font, etc as the last Text object accessed. ie, user should be able to create multiple similar Text objects in succession, without having to rely on the default font

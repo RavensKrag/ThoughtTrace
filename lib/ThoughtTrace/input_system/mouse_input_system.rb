@@ -135,7 +135,7 @@ class MouseInputSystem
 		warn "no action bound to #{@mouse_button} => [#{@spatial_status}, #{@accelerators}]" unless action_name
 		
 		
-		action = @action_factory.create(@spatial_status, action_name, @entity)
+		action = @action_factory.create(@entity, action_name)
 		
 		
 		return action

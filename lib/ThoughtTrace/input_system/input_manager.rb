@@ -78,7 +78,10 @@ class InputManager
 		
 		
 		action_factory = InputSystem::ActionFactory.new(
-							@space, @selection, @text_input, @clone_factory
+							:space => @space,
+							:selection => @selection,
+							:text_input => @text_input,
+							:clone_factory => @clone_factory
 						)
 		
 		

@@ -4,6 +4,8 @@ module ThoughtTrace
 
 
 class Edit < Entity::Actions::Action
+	initialize_with :text_input, :clone_factory
+	
 	# called on first tick
 	def setup(point)
 		return @text_input, @clone_factory

@@ -6,25 +6,22 @@ module ThoughtTrace
 # doesn't actually descend from any sort of Action,
 # but you should be coding based on interface anyway
 class NullAction < BaseAction
-	def initialize(*args)
-		@target = args.last
-		@target ||= "empty space"
-	end
+	initialize_with :entity
 	
 	def setup(point)
-		puts "#{@target} -> setup null "
+		puts "#{@entity} -> setup null "
 	end
 	
 	def update(point)
-		puts "#{@target} -> update null"
+		puts "#{@entity} -> update null"
 	end
 	
 	def cleanup(point)
-		puts "#{@target} -> cleanup null"
+		puts "#{@entity} -> cleanup null"
 	end
 	
 	def cancel
-		puts "#{@target} -> cancel null"
+		puts "#{@entity} -> cancel null"
 	end
 end
 
