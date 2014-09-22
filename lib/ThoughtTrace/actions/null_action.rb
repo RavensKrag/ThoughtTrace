@@ -8,6 +8,17 @@ module ThoughtTrace
 class NullAction < BaseAction
 	initialize_with :entity
 	
+	alias :old_init :initialize
+	def initialize(*args)
+		old_init(*args)
+		
+		if @entity.nil?
+			@entity = '<NIL>'
+		end
+	end
+	
+	
+	
 	def setup(point)
 		puts "#{@entity} -> setup null "
 	end
