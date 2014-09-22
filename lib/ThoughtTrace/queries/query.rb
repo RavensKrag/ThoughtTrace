@@ -23,6 +23,42 @@ class Query
 	def on_remove(space, entity)
 		
 	end
+	
+	
+	
+	
+	
+	
+	
+	class << self
+		# Copied from Entity
+		
+		def action_get(action_symbol_name)
+			action_const_name = action_symbol_name.to_s.constantize
+			
+			
+			klass = self
+			
+			begin
+				return klass::Actions.const_get action_const_name
+			rescue NameError => e
+				if klass == Query
+					# base of the chain
+					# recursion base case
+					
+					# No acceptable action found.
+					# Return a null object so that method chaining doesn't just fail
+					
+					return ThoughtTrace::Actions::NullAction
+				else
+					# continue recursive traversal
+					
+					klass = klass.superclass
+					return klass.action_get(action_symbol_name)
+				end
+			end
+		end
+	end
 end
 
 

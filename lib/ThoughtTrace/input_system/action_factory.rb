@@ -44,7 +44,7 @@ class ActionFactory
 			# ThoughtTrace::Queries::Query
 			
 			# use specific Query type for action polymorphism
-			obj[:query].class
+			obj[:query].callbacks.class
 		else
 			# could be a Group or an Entity
 			# how do you handle prefabs? are those different in some way?
