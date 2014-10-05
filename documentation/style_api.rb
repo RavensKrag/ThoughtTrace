@@ -36,6 +36,8 @@ cascade
 	cascade[:property]
 	cascade[:property] = :value
 	
+	cascade.has_property?
+	
 style
 	style[:property]
 	style[:property] = :value

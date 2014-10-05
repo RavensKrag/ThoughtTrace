@@ -35,6 +35,8 @@ cascade
 
 	get_property # delegate
 	set_property # delegate
+	
+	has_property?
 
 style
 	get_property

@@ -39,6 +39,12 @@ class Cascade
 	end
 	
 	
+	def has_property?(property)
+		!self[property].nil?
+	end
+	
+	
+	
 	
 	
 	def primary_style
