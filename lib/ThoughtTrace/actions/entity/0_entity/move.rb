@@ -3,7 +3,7 @@ module ThoughtTrace
 		module Actions
 
 
-class Move < Action
+class Move < Entity::Actions::Action
 	initialize_with :entity
 	
 	# called on first tick
@@ -29,6 +29,12 @@ class Move < Action
 		return current
 	end
 	
+	# not often used, but you can define this callback if you need it
+	# really, just added for completeness
+	def cleanup(point)
+		
+	end
+	
 	
 	# display information to the user about the current transformation
 	# called each tick
@@ -41,7 +47,8 @@ class Move < Action
 	# perform the transformation here
 	# by encapsulating the transform in this object,
 	# it becomes easy to redo / undo actions as necessary
-	class Memento < Action::Memento
+	ParentMemento = self.superclass.const_get 'Memento'
+	class Memento < ParentMemento
 		# set future state
 		def forward
 			@entity[:physics].body.p = @future
