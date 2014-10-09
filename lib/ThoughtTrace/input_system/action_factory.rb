@@ -71,11 +71,12 @@ class ActionFactory
 		conversions = {
 			:entity => target     # entity conversion must be specified here, because it is dynamic
 		}.merge @conversion_table
-			
-			
+		
+		
 		action_class = klass.action_get(name)
 		
-		args = action_class.argument_type_list.collect{|type| conversions[type] }
+		# NOTE: remember that the action class holds both the argument list, and the obj allocator
+		args   = action_class.argument_type_list.collect{|type| conversions[type] }
 		action = action_class.new(*args)
 		
 		
