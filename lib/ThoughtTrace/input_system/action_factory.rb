@@ -39,8 +39,8 @@ class ActionFactory
 			# the target supposed to be a thing which already exists
 			# but that doesn't make sense for an action that creates something new
 			
-			ThoughtTrace::Actions::EmptySpace
-		elsif obj[:query]
+			ThoughtTrace::Actions::EmptySpace # EmptySpace#action_get() defined in actions/index.rb
+		elsif obj[:query] # if the Entity has a Query component
 			# ThoughtTrace::Queries::Query
 			
 			# use specific Query type for action polymorphism
