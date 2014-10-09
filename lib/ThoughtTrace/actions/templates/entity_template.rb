@@ -5,6 +5,10 @@ module ThoughtTrace
 
 class Foo < Entity::Actions::Action
 	initialize_with :foo, :baz, :bar
+	# metaprogrraming method
+		# defines #initialize to set specified values
+		# defines list of symbol names, so Action creation system knows what variables to pass in
+
 	
 	# called on first tick
 	def setup(point)
