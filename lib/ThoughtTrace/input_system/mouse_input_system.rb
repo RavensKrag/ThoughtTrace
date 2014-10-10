@@ -3,6 +3,11 @@ module InputSystem
 
 
 class MouseInputSystem
+	# NOTE: a separate instance for this class is created for each mouse button
+	# Turns press-hold-release event flow into the click-drag-release flow needed by mouse inputs
+	
+	
+	
 	# TODO: try to remove these array shortcuts. would be related to finding a better data structure for the input bindings, though
 	CLICK = 0
 	DRAG  = 1
@@ -11,7 +16,7 @@ class MouseInputSystem
 	# TODO: create class that bundles the pieces of data that need to be sent to every Action. It's weird to have to "delegate" all these arguments through the chain of command like this.
 	def initialize(space, mouse, action_factory,
 		accelerator_collection, mouse_button, bindings)
-		@mouse = mouse		
+		@mouse = mouse
 		@space = space
 		
 		@action_factory = action_factory
