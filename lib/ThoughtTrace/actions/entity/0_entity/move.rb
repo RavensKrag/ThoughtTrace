@@ -21,9 +21,7 @@ class Move < Entity::Actions::Action
 	# called each tick
 	def update(point)
 		# move relative to the initial point
-		displacement = point - @origin
-		
-		current = @entity[:physics].body.p = @start + displacement
+		current = @entity[:physics].body.p = @start + movement_delta(point)
 		
 		
 		return current
@@ -41,6 +39,17 @@ class Move < Entity::Actions::Action
 	def draw(point)
 		
 	end
+	
+	
+	
+	private
+	
+	def movement_delta(point)
+		return point - @origin
+	end
+	
+	public
+	
 	
 	
 	
