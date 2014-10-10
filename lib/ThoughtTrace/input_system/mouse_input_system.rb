@@ -93,16 +93,7 @@ class MouseInputSystem
 	
 	def hold
 		# while you're just checking for updates
-		if mouse_exceeded_drag_threshold?()
-			# if a drag has been triggered,
-			# cancel the current action, (which should be a click action)
-			# and load up the drag action (load with the same origin as the click action)
-			@active_action.cancel
-			
-			@active_action = parse_inputs(DRAG)
-			@active_action.press(@origin)
-		end
-		
+		transition_to_drag_action if mouse_exceeded_drag_threshold?
 		
 		# manage the currently active action, if any
 		@active_action.hold(@mouse.position_in_space)
@@ -150,6 +141,16 @@ class MouseInputSystem
 		
 		
 		return delta > DRAG_DELTA_THRESHOLD
+	end
+	
+	def transition_to_drag_action
+		# cancel the current action, (which should be a click action)
+		# and load up the drag action (load with the same origin as the click action)
+		
+		@active_action.cancel
+		
+		@active_action = parse_inputs(DRAG)
+		@active_action.press(@origin)
 	end
 end
 
