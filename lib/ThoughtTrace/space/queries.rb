@@ -203,11 +203,7 @@ module ThoughtTrace
 		
 		# TODO: consider monkey patching this into Array
 		def limit_selection(selection, limiting_set)
-			if limiting_set == nil
-				# no change
-				
-				return selection
-			elsif limiting_set.empty?
+			if limiting_set.nil? or limiting_set.empty?
 				# no change
 				
 				return selection
