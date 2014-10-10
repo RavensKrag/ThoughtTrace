@@ -6,7 +6,7 @@ module ThoughtTrace
 class Query < Component
 	interface_name :query
 	components :physics, :style
-		
+	
 	attr_reader :callbacks
 	
 	def initialize(style, callbacks)
@@ -86,7 +86,9 @@ class Query < Component
 			
 			# with this structure, the query style will always cascade into the default style, even if the default style changes after the binding of the Query to the Entity
 			
-			# apply yet another style instead of just modifying the default style for the new mode
+			# socket a shared style object into every Query cascade
+			# instead of just editing the primary style from the :query style mode on the Entity
+			# 
 			# two reasons:
 			# 1) allows easy modification of a bunch of objects through one style
 			# 2) can modify one Query object independently of the others if you need to (sketching etc)
