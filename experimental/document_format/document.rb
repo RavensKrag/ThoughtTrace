@@ -62,24 +62,6 @@ class Document
 		
 		
 		
-		
-		entities.collect do |e|
-			collection = 
-				e.each_component.collect do |component|
-					component.pack
-				end
-			
-			[e, collection]
-		end
-		
-		
-		
-		# ex) [entity, [{:default => [a,b,c], :hover => [x,y]}, {:width => 10, :height => 10}]]
-		
-		
-		
-		
-		
 		# =======================================
 		# =======================================
 		# collect style components
@@ -89,16 +71,19 @@ class Document
 		
 		# --- part 1
 		# collect all style objects
-		all_style_objects = 
-			style_components.collect do |style_component|
-				style_component.each_cascade.collect do |cascade_name, cascade|
+		all_style_objects = Array.new
+		
+			style_components.each do |style_component|
+				style_component.each_cascade do |cascade_name, cascade|
 					# TODO: implement #each_cascade for style component
-					cascade.collect do |style|
-						style # pseudo-return
+					cascade.each do |style|
+						all_style_objects << style # pseudo-return
 					end
 				end
 			end
-		all_style_objects.flatten!
+		
+		# dump style data
+		style_object_dump = all_style_objects.collect{ |component| component.dump  }
 		
 		
 		# generate mapping between styles and IDs
@@ -107,12 +92,13 @@ class Document
 		
 		# --- part 2
 		# dump cascades
-		style_component_dump = 
-			style_components.collect do |style_component|
-				style_component.dump
-			end
+		style_component_dump = style_components.collect{ |component| component.dump  }
+		# TODO: implement #dump for style component
+			
 		
 		# replace style objects with IDs as necessary
+		# (modification happens in-place)
+		# (this is doable because arrays are passed by reference)
 		style_component_dump.each do |component_data|
 			component_data.each do |mode_name, style_list|
 				style_list.collect! do |style_obj|
@@ -124,7 +110,7 @@ class Document
 		# --- part 3
 		# save data to disk
 		style_component_dump
-		all_style_objects
+		style_object_dump
 		# =======================================
 		# =======================================
 		
