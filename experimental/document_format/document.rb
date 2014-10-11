@@ -87,7 +87,7 @@ class Document
 		
 		
 		# generate mapping between styles and IDs
-		style_to_id_table = all_style_objects.each_with_index.to_a.to_h
+		style_to_id_table = all_style_objects.each_with_index.to_h
 		
 		
 		# --- part 2
@@ -122,7 +122,7 @@ class Document
 		
 		
 		
-		entity_to_id_table = entities.each_with_index.to_a.to_h
+		entity_to_id_table = entities.each_with_index.to_h
 		
 		
 		
