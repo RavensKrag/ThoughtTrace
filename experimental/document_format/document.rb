@@ -62,11 +62,74 @@ class Document
 		
 		
 		
-		# are cascades always linked to style components?
-		style_objects = 
-		query_objects = query_marked_entities.collect{ |obj| obj[:query].callback  }
 		
-		# NOTE: when storing queries, unbind all queries before dump, and then bind them all again on load. much easier than developing another flow for that
+		entities.collect do |e|
+			collection = 
+				e.each_component.collect do |component|
+					component.pack
+				end
+			
+			[e, collection]
+		end
+		
+		
+		
+		# ex) [entity, [{:default => [a,b,c], :hover => [x,y]}, {:width => 10, :height => 10}]]
+		
+		
+		
+		
+		
+		# =======================================
+		# =======================================
+		# collect style components
+		style_components = entities.collect{ |e| e[:style]  }.compact!
+		
+		
+		
+		# --- part 1
+		# collect all style objects
+		all_style_objects = 
+			style_components.collect do |style_component|
+				style_component.each_cascade.collect do |cascade_name, cascade|
+					# TODO: implement #each_cascade for style component
+					cascade.collect do |style|
+						style # pseudo-return
+					end
+				end
+			end
+		all_style_objects.flatten!
+		
+		
+		# generate mapping between styles and IDs
+		style_to_id_table = all_style_objects.each_with_index.map{|x,i| [x,i]}.to_h
+		
+		
+		# --- part 2
+		# dump cascades
+		style_component_dump = 
+			style_components.collect do |style_component|
+				style_component.dump
+			end
+		
+		# replace style objects with IDs as necessary
+		style_component_dump.each do |component_data|
+			component_data.each do |mode_name, style_list|
+				style_list.collect! do |style_obj|
+					style_to_id_table[style_obj]
+				end
+			end
+		end
+		
+		# --- part 3
+		# save data to disk
+		style_component_dump
+		all_style_objects
+		# =======================================
+		# =======================================
+		
+		
+		
 		
 		
 		
@@ -98,7 +161,7 @@ class Document
 		
 		
 		
-		[groups, constraints, style_components, query_marked_entities].each do |list|
+		[groups, constraints].each do |list|
 			# pack
 			packed_array = list.collect{ |obj| pack_with_class_name(obj)  }.compact!
 			
