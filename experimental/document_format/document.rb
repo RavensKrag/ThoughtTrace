@@ -73,6 +73,10 @@ class Document
 		
 		
 		
+		entity_dump = entities.collect{ |e| pack_with_class_name(e)  }
+		write_data(entity_dump, "entities.csv")
+		
+		
 		entity_to_id_table = entities.each_with_index.to_h
 		
 		
