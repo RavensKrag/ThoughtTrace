@@ -16,8 +16,7 @@ class Foo
 		
 		id_mapping = obj_to_id_table(core_object_list)
 		
-		component_dump = dump_components(relevant_components)
-		replace_object_with_ids!(component_dump)
+		component_dump = replace_object_with_ids!(dump_components(relevant_components))
 		
 		
 		
