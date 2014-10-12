@@ -33,6 +33,15 @@ class Foo
 		# to know how to link Entity objects
 		# with the core backend data
 		entity_data_join_table = generate_join_table(entity_partition, component_dump, obj_dump)
+		
+		# TODO: consider replacing component entries in the join table with IDs? or just figure out if you need to return both the join table, and the raw component data
+		
+		
+		return {
+			:join_table        => entity_data_join_table,
+			:component_data    => component_dump,
+			:core_object_data  => obj_dump
+		}
 	end
 	
 	
