@@ -2,7 +2,7 @@ module ThoughtTrace
 
 
 
-class Foo
+class Builder
 	def main(entity_list, component_name)
 		block = Proc.new{ |e| e[component_name]   }
 		
@@ -80,13 +80,19 @@ class Foo
 	end
 	
 	def generate_join_table(entity_list, component_dump_list, obj_dump_list)
-		return entity_list.zip(component_dump_list).to_h # general pattern, but not always exact
+		return entity_list.zip(component_dump_list) # general pattern, but not always exact
 	end
 end
 
 
 
-class StyleFoo < Foo
+class StyleBuilder < Builder
+	def main(entity_list)
+		super(entity_list, :style)
+	end
+	
+	
+	
 	def extract_core_objects(component_list)
 		all_style_objects = Array.new
 		
@@ -132,7 +138,13 @@ end
 
 
 
-class QueryFoo < Foo
+class QueryBuilder < Builder
+	def main(entity_list)
+		super(entity_list, :query)
+	end
+	
+	
+	
 	def extract_core_objects(component_list)
 		component_list.collect{ |component| component.callbacks  }
 	end
