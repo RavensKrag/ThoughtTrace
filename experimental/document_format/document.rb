@@ -65,7 +65,7 @@ class Document
 		# =======================================
 		# =======================================
 		# collect style components
-		style_components = entities.collect{ |e| e[:style]  }.compact!
+		style_components = styled_entities.collect{ |e| e[:style]  }
 		
 		
 		
@@ -83,11 +83,12 @@ class Document
 			end
 		
 		# dump style data
-		style_object_dump = all_style_objects.collect{ |component| component.dump  }
+		style_object_dump = all_style_objects.collect{ |obj| obj.dump  }
 		
 		
 		# generate mapping between styles and IDs
 		style_to_id_table = (@loose_styles + all_style_objects).each_with_index.to_h
+		# NOTE: even this will be insufficient if you can start linking styles from other documents
 		
 		
 		# --- part 2
