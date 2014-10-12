@@ -146,7 +146,7 @@ class Document
 		query_object_dump = query_objects.collect{ |obj| obj.dump  }
 		
 		
-		
+		query_to_id_table = query_objects.each_with_index.to_h
 		
 		
 		
