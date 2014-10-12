@@ -108,18 +108,63 @@ class Document
 			end
 		end
 		
+		
+		
 		# --- part 3
 		# save data to disk
 		style_component_dump
+		entity_style_join = styled_entities.zip(style_component_dump).to_h
 		style_object_dump
+		
+		# NOTE: probably need to do entity -> id replacement as well, or something
+		# the style_component_dump does not contain information about which entities the styles are attached to
 		# =======================================
 		# =======================================
 		
+		# TODO: need to write some code to attach a style component to an existing Entity
 		
 		
 		
 		
 		
+		# -------------------------------------------------------------------
+		
+		
+		
+		
+		
+		# =======================================
+		# =======================================
+		# for queries, you only need to serialize the query objects
+		# the components do not contain meaningful state
+		# (ie, all query components are the same)
+		
+		query_components = query_marked_entities.collect{ |e| e[:query]  }
+		query_objects = query_components.collect{ |component| component.callbacks  }
+		
+		
+		query_object_dump = query_objects.collect{ |obj| obj.dump  }
+		
+		
+		
+		
+		
+		
+		
+		# --- part 3
+		# save data to disk
+		
+		# link query objects with their associated Entities
+		# can skip the 'middle link' of the query components, as those hold no meaningful data
+		
+		# components? omitted
+		entity_query_join = query_marked_entities.zip(query_object_dump).to_h
+		query_object_dump
+		
+		
+		# NOTE: probably need to do entity -> id replacement as well, or something
+		# =======================================
+		# =======================================
 		
 		
 		
