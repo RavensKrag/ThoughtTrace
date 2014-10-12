@@ -70,17 +70,10 @@ class Document
 		
 		
 		
-		
-		
-		
-		
-		project_dir = 
-		
-		document    = 
-		entity_list = 
+		@project_dir = 
 		
 		[:style, :query].each do |type|
-			data_dump = ThoughtTrace.const_get("#{type}Builder").new(document).main(entity_list)
+			data_dump = ThoughtTrace.const_get("#{type}Builder").new(self).main(entities)
 			
 			data_dump[:join_table].collect! do |entity, component_dump|
 				[entity_to_id_table[entity], component_dump].flatten!
@@ -91,10 +84,6 @@ class Document
 			write_data(data_dump[:join_table],       "#{type}_component.csv")
 			write_data(data_dump[:core_object_data], "#{type}_object_data.csv")
 		end
-
-		# =======================================
-		# =======================================
-		
 		
 		
 		# NOTE: probably need to do entity -> id replacement as well, or something
@@ -194,7 +183,7 @@ class Document
 	
 	
 	def write_data(packed_array, filename)
-		full_path = File.join(project_dir, filename)
+		full_path = File.join(@project_dir, filename)
 		
 		CSV.open(full_path, "wb") do |csv|
 			packed_array.each do |data|
