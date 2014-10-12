@@ -62,110 +62,6 @@ class Document
 		
 		
 		
-		# =======================================
-		# =======================================
-		# collect style components
-		style_components = styled_entities.collect{ |e| e[:style]  }
-		
-		
-		
-		# --- part 1
-		# collect all style objects
-		all_style_objects = Array.new
-		
-			style_components.each do |style_component|
-				style_component.each_cascade do |cascade_name, cascade|
-					# TODO: implement #each_cascade for style component
-					cascade.each do |style|
-						all_style_objects << style # pseudo-return
-					end
-				end
-			end
-		
-		# dump style data
-		style_object_dump = all_style_objects.collect{ |obj| obj.dump  }
-		
-		
-		# generate mapping between styles and IDs
-		style_to_id_table = (@loose_styles + all_style_objects).each_with_index.to_h
-		# NOTE: even this will be insufficient if you can start linking styles from other documents
-		
-		
-		# --- part 2
-		# dump cascades
-		style_component_dump = style_components.collect{ |component| component.dump  }
-		# TODO: implement #dump for style component
-			
-		
-		# replace style objects with IDs as necessary
-		# (modification happens in-place)
-		# (this is doable because arrays are passed by reference)
-		style_component_dump.each do |component_data|
-			component_data.each do |mode_name, style_list|
-				style_list.collect! do |style_obj|
-					style_to_id_table[style_obj]
-				end
-			end
-		end
-		
-		
-		
-		# --- part 3
-		# save data to disk
-		style_component_dump
-		entity_style_join = styled_entities.zip(style_component_dump).to_h
-		style_object_dump
-		
-		# NOTE: probably need to do entity -> id replacement as well, or something
-		# the style_component_dump does not contain information about which entities the styles are attached to
-		# =======================================
-		# =======================================
-		
-		# TODO: need to write some code to attach a style component to an existing Entity
-		
-		
-		
-		
-		
-		# -------------------------------------------------------------------
-		
-		
-		
-		
-		
-		# =======================================
-		# =======================================
-		# for queries, you only need to serialize the query objects
-		# the components do not contain meaningful state
-		# (ie, all query components are the same)
-		
-		query_components = query_marked_entities.collect{ |e| e[:query]  }
-		query_objects = query_components.collect{ |component| component.callbacks  }
-		
-		
-		query_object_dump = query_objects.collect{ |obj| obj.dump  }
-		
-		
-		query_to_id_table = query_objects.each_with_index.to_h
-		
-		
-		
-		
-		# --- part 3
-		# save data to disk
-		
-		# link query objects with their associated Entities
-		# can skip the 'middle link' of the query components, as those hold no meaningful data
-		
-		# components? omitted
-		entity_query_join = query_marked_entities.zip(query_object_dump).to_h
-		query_object_dump
-		
-		
-		# NOTE: probably need to do entity -> id replacement as well, or something
-		# =======================================
-		# =======================================
-		
 		
 		
 		entity_to_id_table = entities.each_with_index.to_h
@@ -173,11 +69,46 @@ class Document
 		
 		
 		
-		# TODO: serialize style system
-		# TODO: serialize query system
 		
 		
 		
+		
+		
+		project_dir = 
+		
+		document    = 
+		entity_list = 
+		
+		[:style, :query].each do |type|
+			data_dump = ThoughtTrace.const_get("#{type}Builder").new(document).main(entity_list)
+			
+			data_dump[:join_table].collect! do |entity, component_dump|
+				[entity_to_id_table[entity], component_dump].flatten!
+			end
+			
+			
+			
+			write_data(data_dump[:join_table],       "#{type}_component.csv")
+			write_data(data_dump[:core_object_data], "#{type}_object_data.csv")
+		end
+
+		# =======================================
+		# =======================================
+		
+		
+		
+		# NOTE: probably need to do entity -> id replacement as well, or something
+		# TODO: need to write some code to attach a style component to an existing Entity
+		
+		# TODO: write style component dump
+		# TODO: write style object dump
+		# TODO: write query component dump
+		# TODO: write query object dump (entity serialization build system may work here)
+		
+		
+		
+		
+	
 		
 		
 		# pack entities
@@ -258,6 +189,17 @@ class Document
 			# [class_name, arg1, arg2, arg3, ..., argn]
 		else
 			return nil
+		end
+	end
+	
+	
+	def write_data(packed_array, filename)
+		full_path = File.join(project_dir, filename)
+		
+		CSV.open(full_path, "wb") do |csv|
+			packed_array.each do |data|
+				csv << data
+			end
 		end
 	end
 end
