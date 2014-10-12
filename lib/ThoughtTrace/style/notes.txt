@@ -1,3 +1,6 @@
+NOTE: these notes are old and pertain to the old system that used Pallets
+
+
 only one Style object in a space can have a given name
 if the Style is updated in one place, all other places will update as well
 (all references to one style via it's one common name point at the same data)
