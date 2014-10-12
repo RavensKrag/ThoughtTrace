@@ -20,18 +20,12 @@ class Builder
 		
 		id_mapping = obj_to_id_table(core_object_list)
 		
-		component_dump = replace_object_with_ids!(dump_components(relevant_components))
+		component_dump = replace_object_with_ids!(dump_components(relevant_components), id_mapping)
 		
 		
 		
 		
 		# --- save to disk
-		# backend data is super important
-		obj_dump
-		
-		# many not need to save components
-		component_dump # ignore you get an empty array
-		
 		
 		# need to save some sort of mapping,
 		# to know how to link Entity objects
@@ -42,9 +36,9 @@ class Builder
 		
 		
 		return {
-			:join_table        => entity_data_join_table,
-			:component_data    => component_dump,
-			:core_object_data  => obj_dump
+			:join_table        => entity_data_join_table, # component data AND associated Entity
+			:component_data    => component_dump,         # component data only
+			:core_object_data  => obj_dump                # backend data is super important
 		}
 	end
 	
