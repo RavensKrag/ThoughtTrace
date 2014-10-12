@@ -3,6 +3,10 @@ module ThoughtTrace
 
 
 class Builder
+	def initialize(document)
+		@document = document
+	end
+	
 	def main(entity_list, component_name)
 		block = Proc.new{ |e| e[component_name]   }
 		
@@ -46,16 +50,6 @@ class Builder
 	
 	
 	
-	
-	# find desired entities
-	def map
-		
-	end
-	
-	# extract components
-	def extract
-		
-	end
 	
 	def extract_core_objects
 		return []
@@ -108,17 +102,9 @@ class StyleBuilder < Builder
 		return all_style_objects
 	end
 	
-	# def dump_core_objects(core_object_list)
-		
-	# end
-	
 	def obj_to_id_table(core_object_list)
-		(@loose_styles + all_style_objects).each_with_index.to_h
+		(@document.loose_styles + all_style_objects).each_with_index.to_h
 	end
-	
-	# def dump_components(component_list)
-		
-	# end
 	
 	# perform in-place replacement
 	def replace_object_with_ids!(component_dump, id_mapping)
@@ -130,10 +116,6 @@ class StyleBuilder < Builder
 			end
 		end
 	end
-	
-	# def generate_join_table(entity_list, component_dump_list, obj_dump_list)
-	# 	return entity_list.zip(component_dump_list).to_h
-	# end
 end
 
 
@@ -149,17 +131,9 @@ class QueryBuilder < Builder
 		component_list.collect{ |component| component.callbacks  }
 	end
 	
-	# def dump_core_objects(core_object_list)
-		
-	# end
-	
 	def obj_to_id_table(core_object_list)
 		core_object_list.each_with_index.to_h
 	end
-	
-	# def dump_components(component_list)
-		
-	# end
 	
 	# perform in-place replacement
 	def replace_object_with_ids!(component_dump, id_mapping)
@@ -168,10 +142,6 @@ class QueryBuilder < Builder
 			id_mapping[component_data]
 		end
 	end
-	
-	# def generate_join_table(entity_list, component_dump_list, obj_dump_list)
-	# 	return entity_list.zip(component_dump_list).to_h # general pattern, but not always exact
-	# end
 end
 
 
