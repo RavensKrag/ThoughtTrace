@@ -76,6 +76,8 @@ class Document
 		# write all other data to disk
 		
 		
+		# TODO: consider renaming variables with 'dump' in the name
+		# NOTE: This segment of the code uses 'dump' in variable names to refer to 'lists of packed objects'. This can be confusing, as 'dump' generally means "write to file on disk" and 'pack' generally means "take the data from this object, and put it into an array"
 		
 		entity_dump = entities.collect{ |e| pack_with_class_name(e)  }
 		write_data(entity_dump, "entities.csv")
