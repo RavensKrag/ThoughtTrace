@@ -63,6 +63,15 @@ class Document
 		
 		
 		
+		# pack entities
+		
+		# pack all other data
+		# use conversion table to replace entity entries with IDs in all but main entity blob
+		
+		# write entities to disk
+		# write all other data to disk
+		
+		
 		
 		entity_to_id_table = entities.each_with_index.to_h
 		
@@ -93,22 +102,6 @@ class Document
 		# TODO: write style object dump
 		# TODO: write query component dump
 		# TODO: write query object dump (entity serialization build system may work here)
-		
-		
-		
-		
-	
-		
-		
-		# pack entities
-		
-		# pack all other data
-		# use conversion table to replace entity entries with IDs in all but main entity blob
-		
-		# write entities to disk
-		# write all other data to disk
-		
-		
 		
 		
 		
