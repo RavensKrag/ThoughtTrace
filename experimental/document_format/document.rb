@@ -81,8 +81,9 @@ class Document
 		
 		@project_dir = 
 		
-		[:style, :query].each do |type|
-			data_dump = ThoughtTrace.const_get("#{type}Builder").new(self).main(entities)
+		['style', 'query'].each do |type|
+			klass = ThoughtTrace.const_get("#{type.capitalize}Builder")
+			data_dump = klass.new(self).main(entities)
 			
 			data_dump[:join_table].collect! do |entity, component_dump|
 				[entity_to_id_table[entity], component_dump].flatten!
