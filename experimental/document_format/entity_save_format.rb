@@ -42,7 +42,8 @@ entity_id => {
 		}
 	},
 	
-	query => [:type, arg1, arg2, .., argN]
+	query => 0xfffffa
+	# NOTE: may have to save the primary style applied while the query mode is active
 }
 
 
@@ -101,3 +102,10 @@ entity_id => {
 	]
 }
 
+
+# query save format
+{
+	0xfffffa => ['class', arg1, arg2, .., argN],
+	0xfffffb => ['class', arg1, arg2, .., argN],
+	0xfffffc => ['class', arg1, arg2, .., argN]
+}
