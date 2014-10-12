@@ -63,6 +63,7 @@ class Document
 		
 		
 		
+		@project_dir = 
 		# pack entities
 		
 		# pack all other data
@@ -83,7 +84,6 @@ class Document
 		
 		
 		
-		@project_dir = 
 		
 		['style', 'query'].each do |type|
 			klass = ThoughtTrace.const_get("#{type.capitalize}Builder")
