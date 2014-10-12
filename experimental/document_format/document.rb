@@ -3,6 +3,9 @@ module ThoughtTrace
 
 
 class Document
+	attr_reader :space, :prototypes, :prefabs, :loose_styles
+	attr_accessor :project_directory
+	
 	def initialize
 		@space = ThoughtTrace::Space.new
 			# style component
@@ -63,7 +66,7 @@ class Document
 		
 		
 		
-		@project_dir = 
+		@project_directory = 
 		# pack entities
 		
 		# pack all other data
@@ -122,19 +125,7 @@ class Document
 				# TODO: find a better way to map, such that nil / falsey returns will result in the structure being unchanged
 				# (or just consider using an actual database backend, so that you can do this properly and don't have this problem)
 			end
-			
-			
-			
-			# TODO: need to replace in such a way that you know the IDs you are inserting are entity identification keys
-			# when you do the replacement at this level, it's harder to tell that you're inserting IDs. how will you know when you read the data back? is it based on schema? the coupling can get confusing here
-			packed_array = replace(entity_to_id_table, packed_array)
 		end
-		
-		
-		
-		# TODO: consider that groups (and / or other types) may be nested, and thus you have do this this normalization-join business on them as well. so you might have to move the replacement block outside of the current loop
-		# (but seriously, if you can get the entities collection to be fixed schema, maybe you should use a database)
-		# (well, really I mean "if you can get everything to be fixed schema", but the whole not knowing what's up is why I'm using CSV and not a "real" database)
 	end
 	
 	
@@ -181,7 +172,7 @@ class Document
 	
 	
 	def write_data(packed_array, filename)
-		full_path = File.join(@project_dir, filename)
+		full_path = File.join(@project_directory, filename)
 		
 		CSV.open(full_path, "wb") do |csv|
 			packed_array.each do |data|
