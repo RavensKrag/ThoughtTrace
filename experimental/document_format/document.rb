@@ -114,7 +114,10 @@ class Document
 		
 		
 		
-		[groups, constraints].each do |list|
+		[
+			['groups',      groups]
+			['constraints', constraints]
+		].each do |type, list|
 			# pack
 			packed_array = list.collect{ |obj| pack_with_class_name(obj)  }.compact!
 			
@@ -122,9 +125,13 @@ class Document
 			packed_array.map! do |arg|
 				id = entity_to_id_table[arg]
 				id ? id : arg
-				# TODO: find a better way to map, such that nil / falsey returns will result in the structure being unchanged
-				# (or just consider using an actual database backend, so that you can do this properly and don't have this problem)
 			end
+			# TODO: find a better way to map, such that nil / falsey returns will result in the structure being unchanged
+			# (or just consider using an actual database backend, so that you can do this properly and don't have this problem)
+			# (in that case, you would probably retain the IDs on the objects, so you wouldn't have THIS problem
+			# (but you may have a similar issue with converting from objects -> records)
+			
+			write_data(packed_array, "#{type}.csv")
 		end
 	end
 	
