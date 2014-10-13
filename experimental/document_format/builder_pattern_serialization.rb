@@ -15,12 +15,12 @@ class Builder
 		relevant_components = entity_partition.collect(&block) # extraction
 		
 		obj_list = extract_core_objects(relevant_components)
-		obj_dump = dump_core_objects(obj_list)
+		obj_dump = pack_core_objects(obj_list)
 		
 		
 		id_mapping = obj_to_id_table(core_object_list)
 		
-		component_dump = replace_object_with_ids!(dump_components(relevant_components), id_mapping)
+		component_dump = replace_object_with_ids!(pack_components(relevant_components), id_mapping)
 		
 		
 		
@@ -49,16 +49,16 @@ class Builder
 		return []
 	end
 	
-	def dump_core_objects(core_object_list)
-		core_object_list.collect{ |obj| obj.dump  }
+	def pack_core_objects(core_object_list)
+		core_object_list.collect{ |obj| obj.pack  }
 	end
 	
 	def obj_to_id_table(core_object_list)
 		return core_object_list.each_with_index.to_h # general pattern, but not always exact
 	end
 	
-	def dump_components(component_list)
-		component_list.collect{ |component| component.dump  }
+	def pack_components(component_list)
+		component_list.collect{ |component| component.pack  }
 	end
 	
 	# perform in-place replacement
