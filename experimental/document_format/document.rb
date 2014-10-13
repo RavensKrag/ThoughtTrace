@@ -95,7 +95,7 @@ class Document
 		
 		['style', 'query'].each do |type|
 			klass = ThoughtTrace.const_get("#{type.capitalize}Builder")
-			data_dump = klass.new(self).main(entities)
+			data_dump = klass.new(self).pack(entities)
 			
 			data_dump[:join_table].collect! do |entity, component_dump|
 				[entity_to_id_table[entity], component_dump].flatten!

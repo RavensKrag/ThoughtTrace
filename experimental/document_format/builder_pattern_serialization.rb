@@ -7,7 +7,7 @@ class Builder
 		@document = document
 	end
 	
-	def main(entity_list, component_name)
+	def pack(entity_list, component_name)
 		block = Proc.new{ |e| e[component_name]   }
 		
 		
