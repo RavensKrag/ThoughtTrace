@@ -63,6 +63,9 @@ class Document
 		@prefabs
 		@loose_styles
 		
+		# TODO: serialize the 'abstract types': prototypes, prefabs, and loose styles
+		# NOTE: entries in the Entity list may be of a basic entity type, or they may be of a prefab type. Not sure how that will effect the current systems.
+		
 		
 		
 		
@@ -135,6 +138,43 @@ class Document
 			
 			write_data(packed_array, "#{type}.csv")
 		end
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		prototype_dump = @prototypes.collect{ |entity| pack_with_class_name(entity)  }
+			write_data(prototype_dump, "prototypes.csv")
+		
+		
+		# not sure that I can even begin to figure out how to dump the prefabs
+		# when I don't even completely understand what they are yet
+		# other than to say they are Groups that have been abstracted,
+		# turned into full classes with methods and state,
+		# although kept as anonymous classes so they can be easily edited
+		prefab_dump = @prefabs
+			# write_data(prefab_dump, "prefabs.csv")
+		
+		# to finalize the dumping of loose styles,
+		# the way these styles are retrieved must be considered
+		# Styles attached to spatial entities can be retrieved spatially,
+		# but non-spatial data must be referenced by name, 
+		# or recovered by searching for some property of the data.
+		# These styles should probably have names
+		# (which is why this should probably be named the "named style" collection)
+		# 
+		# But wait, don't Style objects always have a name field?
+		# Then this really is just a list of styles, and nothing more.
+		loose_style_dump = @loose_styles.collect{ |obj| obj.dump  }
+			write_data(loose_style_dump, "styles.csv")
+		# NOTE: this collection should probably enforce the concept of not containing more than one Style with the same name. That could get really messy
 	end
 	
 	
