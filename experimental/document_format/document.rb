@@ -1,3 +1,7 @@
+require 'csv'
+require 'fileutils'
+
+
 module ThoughtTrace
 
 
@@ -52,8 +56,8 @@ class Document
 		groups                = @space.groups
 		constraints           = @space.constraints
 		
-		styled_entities       = @space.entites.select{ |e|  e[:style] }.compact!
-		query_marked_entities = @space.entites.select{ |e|  e[:query] }.compact!
+		styled_entities       = @space.entities.select{ |e|  e[:style] }.compact!
+		query_marked_entities = @space.entities.select{ |e|  e[:query] }.compact!
 		# NOTE: compact! removes nil entries
 		
 		
@@ -70,7 +74,7 @@ class Document
 		
 		
 		
-		@project_directory = 
+		@project_directory = path_to_folder
 		# pack entities
 		
 		# pack all other data
@@ -347,7 +351,7 @@ class Document
 	
 	def pack_with_class_name(obj)
 		if obj.respond_to? :pack
-			return obj.pack(*args).unshift(obj.class.name)
+			return obj.pack.unshift(obj.class.name)
 			# [class_name, arg1, arg2, arg3, ..., argn]
 		else
 			return nil
@@ -356,8 +360,14 @@ class Document
 	
 	
 	def write_data(packed_array, filename)
-		full_path = File.join(@project_directory, filename)
+		path = File.join(@project_directory, filename)
+		full_path = File.expand_path path
 		
+		# make output directory if it does not already exist
+		dirname = File.dirname(full_path)
+		FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
+		
+		# write data to CSV
 		CSV.open(full_path, "wb") do |csv|
 			packed_array.each do |data|
 				csv << data
@@ -366,7 +376,8 @@ class Document
 	end
 	
 	def read_data(filename)
-		full_path = File.join(@project_directory, filename)
+		path = File.join(@project_directory, filename)
+		full_path = File.expand_path path
 		
 		# it's not actually an array of arrays, but CSV::Table has a similar interface
 		arr_of_arrs = CSV.read(full_path,

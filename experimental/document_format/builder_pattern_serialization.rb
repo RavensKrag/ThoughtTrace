@@ -11,7 +11,7 @@ class Builder
 		block = Proc.new{ |e| e[component_name]   }
 		
 		
-		entity_partition = entity_list.select(&block).compact! # selection
+		entity_partition = entity_list.select(&block).compact # selection
 		relevant_components = entity_partition.collect(&block) # extraction
 		
 		obj_list = extract_core_objects(relevant_components)

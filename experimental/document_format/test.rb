@@ -60,3 +60,12 @@ document.space.entities.each do |entity|
 end
 
 puts "=== marked queries"
+
+
+
+
+
+path_to_file = File.expand_path(File.dirname(__FILE__))
+Dir.chdir path_to_file do
+	document.dump('./output')
+end
