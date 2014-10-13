@@ -75,7 +75,7 @@ end
 
 
 class StyleBuilder < Builder
-	def main(entity_list)
+	def pack(entity_list)
 		super(entity_list, :style)
 	end
 	
@@ -115,7 +115,7 @@ end
 
 
 class QueryBuilder < Builder
-	def main(entity_list)
+	def pack(entity_list)
 		super(entity_list, :query)
 	end
 	
