@@ -179,11 +179,18 @@ class Document
 	
 	
 	def self.load(path_to_folder)
-		# Create a new space
-		space = ThoughtTrace::Space.new
+		# === create new document
+		document = self.new
 		
 		
-		entities = ThoughtTrace::Space::EntityList.load path_to_folder, space
+		# === load data from disk
+		entity_dump = read_data("entities.csv")
+		entities =	entities.each.collect do |row|
+						klass_name, *args = row.to_a
+						
+						klass = ThoughtTrace.const_get(klass_name)
+						klass.unpack(*args)
+					end
 		
 		id_to_entity_table = entities
 		
@@ -194,12 +201,78 @@ class Document
 		
 		
 		
-		space.instance_eval do
-			@entities    = entities
-			@queries     = queries
-			# @constraints = constraints
-			@groups      = groups
+		# components
+		['style', 'query'].each do |type|
+			data = Hash.new
+			data[:join_table]       = read_data("#{type}_component.csv")
+			data[:core_object_data] = read_data("#{type}_object_data.csv")
+			
+			
+			
+			data[:join_table].each do |component_data|
+				entity_id = component_data.shift
+				entity = id_to_entity_table[entity_id]
+				
+				
+				component_class, *component_args = component_data
+				component = component_class.unpack(*component_args)
+				# NOTE: this means that components are expected to pack the class name. this is not currently how Entities work; their class name packing is handled separately. Need to figure out what approach is best, (or what approach should be used where). Would be best to have consistency.
+				
+				
+				
+				# TODO: attach backend objects up to the components before attaching to the entity
+				# NOTE: for queries, this attachment must currently be done on initialization
+				component.core_object = 'THIS IS NOT GOING TO WORK'
+				
+				
+				# NOTE: this will work ONLY for query components. many Entity types already have style components. not sure how to update those style components without weird breakage
+				entity.add_component component
+			end
 		end
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		# other stuff that uses entities
+		[
+			['groups',      groups]
+			['constraints', constraints]
+		]
+			write_data(packed_array, "#{type}.csv")
+		
+		
+		
+		
+		
+		
+		
+		# abstract types
+			write_data(prototype_dump, "prototypes.csv")
+			# write_data(prefab_dump, "prefabs.csv")
+			write_data(loose_style_dump, "styles.csv")
+		
+		# ----
+		
+		
+		
+		# === populate the space
+		{
+			:entities => entities,
+			:queries  => queries,
+			:groups   => groups
+		}.each do |name, collection|
+			collection.each{ |obj| document.space.send(name).add obj  } 
+		end
+		
+		
+		
+		
+		return document
 	end
 	
 	
@@ -228,6 +301,17 @@ class Document
 				csv << data
 			end
 		end
+	end
+	
+	def read_data(filename)
+		full_path = File.join(@project_directory, filename)
+		
+		# it's not actually an array of arrays, but CSV::Table has a similar interface
+		arr_of_arrs = CSV.read(full_path,
+						:headers => false, :header_converters => :symbol, :converters => :all
+						)
+		
+		return arr_of_arrs
 	end
 end
 
