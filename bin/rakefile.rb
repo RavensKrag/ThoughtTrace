@@ -147,3 +147,11 @@ end
 task :load_main do
 	require './main'
 end
+
+
+task :document_test => [:build_serialization_system, :load_dependencies] do
+	path = File.join(PATH_TO_ROOT, 'experimental', 'document_format')
+	Dir.chdir path do
+		require './test'
+	end
+end
