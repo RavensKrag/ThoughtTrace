@@ -2,6 +2,7 @@ module ThoughtTrace
 
 
 
+# TODO: figure out if there is a way the abstract types can be loaded without firing up the entire Space. This would be very useful for loading styles / prefabs from one Document in another Document
 class Document
 	attr_reader :space, :prototypes, :prefabs, :loose_styles
 	attr_accessor :project_directory
@@ -119,10 +120,10 @@ class Document
 		
 		
 		
-		[
-			['groups',      groups]
-			['constraints', constraints]
-		].each do |type, list|
+		{
+			'groups'      => groups,
+			'constraints' => constraints
+		}.each do |type, list|
 			# pack
 			packed_array = list.collect{ |obj| pack_with_class_name(obj)  }.compact!
 			
@@ -217,6 +218,7 @@ class Document
 				component_class, *component_args = component_data
 				component = component_class.unpack(*component_args)
 				# NOTE: this means that components are expected to pack the class name. this is not currently how Entities work; their class name packing is handled separately. Need to figure out what approach is best, (or what approach should be used where). Would be best to have consistency.
+				# (I think this same assumption is being made for the core object data as well)
 				
 				
 				
@@ -228,6 +230,66 @@ class Document
 				# NOTE: this will work ONLY for query components. many Entity types already have style components. not sure how to update those style components without weird breakage
 				entity.add_component component
 			end
+			
+			
+			
+			
+			
+			data[:join_table].each do |component_data|
+				# substitute entity IDs for actual Entity objects
+				entity_id = component_data[0]
+				entity = id_to_entity_table[entity_id]
+				component_data[0] = entity
+			end
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			[entity, [component_dump]]
+			component_dump = [component_class, component_data]
+			
+			[entity, [component_class, component_data]]
+			
+			
+			
+			
+			
+			
+			core_data_list = 
+				data[:core_object_data].collect do |data_dump|
+					class_name = data_dump.shift
+					
+					klass = Kernel.const_get class_name
+					klass.unpack 
+				end
+			
+			
+			
+			
+			
+			data[:join_table].each do |component_data|
+				entity_id, component_class, *component_args = component_data
+				# NOTE: this is not a correct unpacking of this data, because the data is actually nested by one level, rather than being all in one level like this code assumes.
+				
+				
+				
+				
+				entity = id_to_entity_table[entity_id]
+				core_data = 
+				
+				component = component_class.unpack(*component_args)
+				
+				entity.add_component component
+			end
+			
+			
 		end
 		
 		
@@ -239,10 +301,10 @@ class Document
 		
 		
 		# other stuff that uses entities
-		[
-			['groups',      groups]
-			['constraints', constraints]
-		]
+		{
+			'groups'      => groups,
+			'constraints' => constraints
+		}
 			write_data(packed_array, "#{type}.csv")
 		
 		
