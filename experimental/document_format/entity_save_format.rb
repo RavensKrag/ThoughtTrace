@@ -30,6 +30,8 @@ entity_id => {
 	
 	# component
 	style => {
+		:active_mode  => :default,
+		
 		# cascade
 		:default => [
 			# style objects

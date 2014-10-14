@@ -18,7 +18,7 @@ class Builder
 		obj_dump = pack_core_objects(obj_list)
 		
 		
-		id_mapping = obj_to_id_table(core_object_list)
+		id_mapping = obj_to_id_table(obj_list)
 		
 		component_dump = replace_object_with_ids!(pack_components(relevant_components), id_mapping)
 		
@@ -88,7 +88,7 @@ class StyleBuilder < Builder
 			style_component.each_cascade do |cascade_name, cascade|
 				# TODO: implement #each_cascade for style component
 				cascade.each do |style|
-					all_style_objects << style # pseudo-return
+					all_style_objects << style
 				end
 			end
 		end
