@@ -31,6 +31,7 @@ it has no problem with compressing the convoluted dependency structure of the st
 	largely because the cascades have the same access interface as the style objects
 	and thus can be used in the same context
 	(nested cascades are a thing, and are very useful and necessary)
+	(in particular, the query system uses this structure for style data)
 	--
 
 
