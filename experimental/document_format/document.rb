@@ -108,7 +108,7 @@ class Document
 		
 		Dir.chdir @project_directory do
 			entity_dump = entities.collect{ |e| pack_with_class_name(e)  }
-			write_data(entity_dump, "entities.csv")
+			write_data(entity_dump, "entities")
 			
 			
 			entity_to_id_table = entities.each_with_index.to_h
@@ -342,8 +342,14 @@ class Document
 	
 	
 	def write_data(packed_array, filename)
+		path = File.join(@project_directory, filename)
+		
+		extension = ".csv"
+		path += extension
+		
+		
 		# write data to CSV
-		CSV.open(filename, "wb") do |csv|
+		CSV.open(path, "wb") do |csv|
 			packed_array.each do |data|
 				csv << data
 			end
