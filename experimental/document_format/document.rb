@@ -181,14 +181,8 @@ class Document
 				packed_array = list.collect{ |obj| pack_with_class_name(obj)  }.compact
 				
 				# replace entities with IDs (non-Entity entries should remain unmodified)
-				packed_array.each do |data|
-					data.map! do |arg|
-						id = entity_to_id_table[arg]
-						id ? id : arg
-					end
-				end
-				# TODO: find a better way to map, such that nil / falsey returns will result in the structure being unchanged
-				# (or just consider using an actual database backend, so that you can do this properly and don't have this problem)
+				packed_array.each{ |data| data.map! &replace_according_to(entity_to_id_table)  }
+				# (consider if using an actual database backend will get rid of needing to do this sort of thing)
 				# (in that case, you would probably retain the IDs on the objects, so you wouldn't have THIS problem
 				# (but you may have a similar issue with converting from objects -> records)
 				
@@ -272,12 +266,7 @@ class Document
 			types.collect do |type|
 				data_dump = read_data(type)
 				
-				data_dump.each do |data|
-					data.map! do |arg|
-						id = id_to_entity_table[arg]
-						id ? id : arg
-					end
-				end
+				data_dump.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
 				
 				data_dump.collect{ |data| unpack_with_class_name(data)  }
 			end
@@ -338,6 +327,20 @@ class Document
 		
 		return klass.unpack *args
 	end
+	
+	
+	
+	
+	# returns a Proc which will be used as a block by #map! to perform replacement
+	def replace_according_to(conversion_table)
+		Proc.new do |input|
+			output = conversion_table[input]
+			output ? output : input
+		end
+	end
+	
+	
+	
 	
 	
 	def write_data(packed_array, filename)
