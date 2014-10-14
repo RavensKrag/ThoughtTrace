@@ -38,7 +38,7 @@ class Component
 	
 	# called by Entity when it adds this Component to itself
 	def on_bind(entity)
-		@components = resolve_dependencies(entity)
+		resolve_dependencies(entity)
 	end
 	
 	# called by Entity when this Component is removed from the Entity
@@ -59,26 +59,12 @@ class Component
 		# (exceptions are thrown when symbols attempt to resolve)
 		component_names = self.class.dependencies[:components]
 		
-		component_objects = component_names.collect{ |name|  fetch_component(parent_entity, name) }
+		missing_components = component_names.reject{ |name| parent_entity[name]  }
 		
-		
-		
-		x = component_names
-		y = component_objects
-		hash = x.zip(y).to_h
-	end
-	
-	
-	# perform error handling here and not in prime component retrial code, because there's no core way to provide errors when a component is missing.
-	def fetch_component(parent_entity, name)
-		component = parent_entity[name]
-		
-		if component.nil?
-			raise "Component #{name} required by #{parent_entity} in #{self}"
-			# raise "#{self} does not contain the component #{name}"
+		unless missing_components.empty?
+			missing_names = missing_components.join ", "
+			raise "Could not find the following components on #{parent_entity}: [#{missing_names}]"
 		end
-		
-		return component
 	end
 end
 
