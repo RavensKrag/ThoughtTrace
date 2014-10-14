@@ -149,16 +149,17 @@ class Document
 			
 			data = {
 				:named_styles => @named_styles,
-				:style_components => join
+				:components => join
 			}
 			write_yaml_file(data, 'style')
+			
 			
 			
 			
 			join = foo[:query]
 			
 			data = {
-				:query_components => join
+				:components => join
 			}
 			write_yaml_file(data, 'query')
 			
@@ -223,12 +224,38 @@ class Document
 		
 		
 		
-		# components
-		['style', 'query'].each do |type|
-			# load component data from disk
-			# separate hashes out into relevant parts as necessary
-			# copy component data back onto the corresponding entities (use the id -> entity table)
-			# (no need to store component data anywhere other than on the entities)
+		# --- components
+		# load component data from disk
+		# separate hashes out into relevant parts as necessary
+		# copy component data back onto the corresponding entities (use the id -> entity table)
+		# (no need to store component data anywhere other than on the entities)
+		
+		data = load_yaml_file('style')
+		
+		named_styles    = data[:named_styles]
+		style_components = data[:components]
+		
+		
+		
+		data = load_yaml_file('query')
+		
+		query_components = data[:components]
+		
+		
+		
+		
+		[style_components, query_components].each do |component_list|
+			component_list.each do |entity_id, component|
+				entity = id_to_entity_table[entity_id]
+				
+				interface = component.class.interface
+				# TODO: implement this method
+				entity[interface].mirror component
+				# a.mirror b
+				# would result in A copying the state of B
+				# (this is NOT meant to imply that the two objects will be kept in sync)
+				# (again, this is a one-time thing)
+			end
 		end
 		
 		
@@ -268,6 +295,11 @@ class Document
 			:groups   => groups
 		}.each do |name, collection|
 			collection.each{ |obj| document.space.send(name).add obj  } 
+		end
+		
+		# === set abstract data types
+		document.instance_eval do
+			@named_styles = named_styles
 		end
 		
 		
