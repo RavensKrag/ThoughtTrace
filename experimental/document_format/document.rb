@@ -155,7 +155,6 @@ class Document
 			
 			
 			
-			# NOTE: in this case, a bunch of data is leaking in because of the Component dependencies of the Query component.
 			component_name = :query
 			entity_list = entities
 			
