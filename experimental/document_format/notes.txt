@@ -12,10 +12,24 @@ this structure allows for maintaining the current serialization build system
 
 
 === Data formats
+Best to use different formats to suit different types of data 
+
+
+
+
+
 YAML may be the best bet for serialization of components
 
 + tree-ish structure
 + links to repeated data
 
 it has no problem with compressing the convoluted dependency structure of the style system
+
+
+
+However, CSV is much better for the entities themselves
+as CSV is just a list of lists,
+and each entity data blob is just a list,
+where most entries are either numbers or strings
+(the prevalence of lists of strings in particular is a good reason for using CSV)
 ======================================================
