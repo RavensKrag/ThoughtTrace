@@ -7,8 +7,6 @@ class Component
 	dependency_types :components
 	
 	
-	attr_accessor :components
-	
 	def initialize
 		
 	end
