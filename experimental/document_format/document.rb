@@ -165,10 +165,12 @@ class Document
 			entity_partition = entity_list.select(&block).compact # selection
 			relevant_components = entity_partition.collect(&block) # extraction
 			
+			entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
+			join = entity_ids.zip(relevant_components).to_h
 			
 			
 			data = {
-				:query_components => relevant_components
+				:query_components => join
 			}
 			write_yaml_file(data, './query.yaml')
 		end
