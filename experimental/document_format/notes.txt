@@ -25,6 +25,13 @@ YAML may be the best bet for serialization of components
 + links to repeated data
 
 it has no problem with compressing the convoluted dependency structure of the style system
+	--
+	any attempt to generate a custom format would have to solve the problem
+	It's not just a straight-line of components -> cascades -> style objects
+	largely because the cascades have the same access interface as the style objects
+	and thus can be used in the same context
+	(nested cascades are a thing, and are very useful and necessary)
+	--
 
 
 
