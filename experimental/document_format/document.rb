@@ -131,22 +131,8 @@ class Document
 			
 			
 			
-			
-			all_style_objects = Array.new
-				relevant_components.each do |style_component|
-					style_component.each_cascade do |cascade_name, cascade|
-						# TODO: implement #each_cascade for style component
-						cascade.each do |style|
-							if style.is_a? ThoughtTrace::Style::StyleObject
-								all_style_objects << style
-							end
-						end
-					end
-				end
-			# --
-			
 			entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
-			join = entity_ids.zip(relevant_components)
+			join = entity_ids.zip(relevant_components).to_h
 			
 			
 			
