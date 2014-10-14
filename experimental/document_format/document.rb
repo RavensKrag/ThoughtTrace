@@ -68,9 +68,9 @@ class Document
 		groups                = @space.groups
 		constraints           = @space.constraints
 		
-		styled_entities       = @space.entities.select{ |e|  e[:style] }.compact!
-		query_marked_entities = @space.entities.select{ |e|  e[:query] }.compact!
-		# NOTE: compact! removes nil entries
+		styled_entities       = @space.entities.select{ |e|  e[:style] }.compact
+		query_marked_entities = @space.entities.select{ |e|  e[:query] }.compact
+		# NOTE: compact removes nil entries
 		
 		
 		
@@ -161,6 +161,38 @@ class Document
 				:query_components => join
 			}
 			write_yaml_file(data, 'query')
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			{
+				'groups'      => groups,
+				'constraints' => constraints
+			}.each do |type, list|
+				# pack
+				packed_array = list.collect{ |obj| pack_with_class_name(obj)  }.compact
+				
+				# replace entities with IDs (non-Entity entries should remain unmodified)
+				packed_array.each do |data|
+					data.map! do |arg|
+						id = entity_to_id_table[arg]
+						id ? id : arg
+					end
+				end
+				# TODO: find a better way to map, such that nil / falsey returns will result in the structure being unchanged
+				# (or just consider using an actual database backend, so that you can do this properly and don't have this problem)
+				# (in that case, you would probably retain the IDs on the objects, so you wouldn't have THIS problem
+				# (but you may have a similar issue with converting from objects -> records)
+				
+				write_data(packed_array, type)
+			end
 		end
 	end
 	
