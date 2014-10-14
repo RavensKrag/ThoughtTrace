@@ -141,6 +141,36 @@ class Document
 				:style_components => join
 			}
 			write_yaml_file(data, './style.yaml')
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			# NOTE: in this case, a bunch of data is leaking in because of the Component dependencies of the Query component.
+			component_name = :query
+			entity_list = entities
+			
+			block = Proc.new{ |e| e[component_name]   }
+			
+			
+			entity_partition = entity_list.select(&block).compact # selection
+			relevant_components = entity_partition.collect(&block) # extraction
+			
+			
+			
+			data = {
+				:query_components => relevant_components
+			}
+			write_yaml_file(data, './query.yaml')
 		end
 	end
 	
