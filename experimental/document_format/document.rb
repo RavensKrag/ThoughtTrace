@@ -241,7 +241,7 @@ class Document
 			'groups'      => groups,
 			'constraints' => constraints
 		}
-			write_data(packed_array, "#{type}.csv")
+			write_data(packed_array, type)
 		
 		
 		
@@ -250,9 +250,9 @@ class Document
 		
 		
 		# abstract types
-			write_data(prototype_dump, "prototypes.csv")
-			# write_data(prefab_dump, "prefabs.csv")
-			write_data(loose_style_dump, "styles.csv")
+			write_data(prototype_dump, "prototypes")
+			# write_data(prefab_dump, "prefabs")
+			write_data(loose_style_dump, "styles")
 		
 		# ----
 		
