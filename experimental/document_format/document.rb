@@ -123,11 +123,11 @@ class Document
 			# TODO: rename function
 			# TODO: move to method, or consider using closure properties to obtain entity list
 			# (it is kind nice for readability to have it inline like this, but having full abstraction would also be good)
-			foo = ->(component_name, entity_list){
+			foo = ->(component_name){
 				block = Proc.new{ |e| e[component_name]   }
 				
 				
-				entity_partition = entity_list.select(&block).compact # selection
+				entity_partition = entities.select(&block).compact # selection
 				relevant_components = entity_partition.collect(&block) # extraction
 				
 				
@@ -146,7 +146,7 @@ class Document
 			# (note that CSV is being used for 'lists of lists' and YAML is pretty much just an object dump)
 			
 			
-			join = foo[:style, entities]
+			join = foo[:style]
 			
 			data = {
 				:named_styles => @named_styles,
@@ -156,7 +156,7 @@ class Document
 			
 			
 			
-			join = foo[:query, entities]
+			join = foo[:query]
 			
 			data = {
 				:query_components => join
