@@ -19,6 +19,7 @@ Best to use different formats to suit different types of data
 
 
 YAML may be the best bet for serialization of components
+(the physics component continues to be a weird special case, just like in Unity...)
 
 + tree-ish structure
 + links to repeated data
@@ -27,7 +28,7 @@ it has no problem with compressing the convoluted dependency structure of the st
 
 
 
-However, CSV is much better for the entities themselves
+However, CSV is much better for the entities themselves        (the physics data is included here)
 as CSV is just a list of lists,
 and each entity data blob is just a list,
 where most entries are either numbers or strings
