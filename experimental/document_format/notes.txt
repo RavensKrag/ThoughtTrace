@@ -1,0 +1,6 @@
+YAML may be the best bet for serialization of components
+
++ tree-ish structure
++ links to repeated data
+
+it has no problem with compressing the convoluted dependency structure of the style system
