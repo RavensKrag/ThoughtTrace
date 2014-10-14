@@ -222,92 +222,10 @@ class Document
 		
 		# components
 		['style', 'query'].each do |type|
-			data = Hash.new
-			data[:join_table]       = read_data("#{type}_component.csv")
-			data[:core_object_data] = read_data("#{type}_object_data.csv")
-			
-			
-			
-			data[:join_table].each do |component_data|
-				entity_id = component_data.shift
-				entity = id_to_entity_table[entity_id]
-				
-				
-				component_class, *component_args = component_data
-				component = component_class.unpack(*component_args)
-				# NOTE: this means that components are expected to pack the class name. this is not currently how Entities work; their class name packing is handled separately. Need to figure out what approach is best, (or what approach should be used where). Would be best to have consistency.
-				# (I think this same assumption is being made for the core object data as well)
-				
-				
-				
-				# TODO: attach backend objects up to the components before attaching to the entity
-				# NOTE: for queries, this attachment must currently be done on initialization
-				component.core_object = 'THIS IS NOT GOING TO WORK'
-				
-				
-				# NOTE: this will work ONLY for query components. many Entity types already have style components. not sure how to update those style components without weird breakage
-				entity.add_component component
-			end
-			
-			
-			
-			
-			
-			data[:join_table].each do |component_data|
-				# substitute entity IDs for actual Entity objects
-				entity_id = component_data[0]
-				entity = id_to_entity_table[entity_id]
-				component_data[0] = entity
-			end
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			[entity, [component_dump]]
-			component_dump = [component_class, component_data]
-			
-			[entity, [component_class, component_data]]
-			
-			
-			
-			
-			
-			
-			core_data_list = 
-				data[:core_object_data].collect do |data_dump|
-					class_name = data_dump.shift
-					
-					klass = Kernel.const_get class_name
-					klass.unpack 
-				end
-			
-			
-			
-			
-			
-			data[:join_table].each do |component_data|
-				entity_id, component_class, *component_args = component_data
-				# NOTE: this is not a correct unpacking of this data, because the data is actually nested by one level, rather than being all in one level like this code assumes.
-				
-				
-				
-				
-				entity = id_to_entity_table[entity_id]
-				core_data = 
-				
-				component = component_class.unpack(*component_args)
-				
-				entity.add_component component
-			end
-			
-			
+			# load component data from disk
+			# separate hashes out into relevant parts as necessary
+			# copy component data back onto the corresponding entities (use the id -> entity table)
+			# (no need to store component data anywhere other than on the entities)
 		end
 		
 		
