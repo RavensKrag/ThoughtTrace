@@ -3,6 +3,8 @@ module ThoughtTrace
 
 
 class Group
+	CASCADE_NAME = :group
+	
 	def initialize(space)
 		@space = space
 		
@@ -37,11 +39,11 @@ class Group
 	
 	def add(obj)
 		obj[:style].tap do |component|
-			component.edit(:group) do |x|
+			component.edit(CASCADE_NAME) do |x|
 				x.socket(1, @style)
 			end
 			
-			component.mode = :group
+			component.mode = CASCADE_NAME
 		end
 		
 		
@@ -49,6 +51,9 @@ class Group
 	end
 	
 	def remove(obj)
+		# TODO: remove style from obj
+		obj[:style].delete CASCADE_NAME
+		
 		@entities.delete obj
 	end
 	
@@ -58,31 +63,16 @@ class Group
 	
 	# ===== serialization =====
 	# convert ONE object to / from array on pack / unpack
-	def pack(entity_to_id_table)
-		entity_id_list = @entities.collect{ |e|  entity_to_id_table[e] }
-		
-		return entity_id_list
+	def pack
+		return @entities.clone
 	end
 	
 	
 	class << self
-		def unpack(
-			id_to_entity_table, space, # provided by system
-			*entity_id_list # loaded from file
-		)
-		# ---
-			# 'args' array contains only elements stored in the file on disk
+		def unpack(space, entities)
 			group = self.new(space)
 			
-			
-			entities = entity_id_list.collect{ |id|  id_to_entity_table[id] }
-			entities.each do |e|
-				
-				# DO ACTUAL STUFF HERE
-				group.add e
-				
-			end
-			
+			entities.each{ |e| group.add e  }
 			
 			return group
 		end
