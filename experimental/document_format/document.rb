@@ -204,7 +204,7 @@ class Document
 		
 		
 		# === load data from disk
-		entity_dump = read_data("entities.csv")
+		entity_dump = read_data("entities")
 		entities =	entity_dump.each.collect do |row|
 						data = row.to_a
 						
@@ -343,10 +343,13 @@ class Document
 	
 	def read_data(filename)
 		path = File.join(@project_directory, filename)
-		full_path = File.expand_path path
+		
+		extension = ".csv"
+		path += extension
+		
 		
 		# it's not actually an array of arrays, but CSV::Table has a similar interface
-		arr_of_arrs = CSV.read(full_path,
+		arr_of_arrs = CSV.read(path,
 						:headers => false, :header_converters => :symbol, :converters => :all
 						)
 		
