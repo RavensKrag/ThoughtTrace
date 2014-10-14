@@ -20,9 +20,9 @@ class StyleCollection
 	
 	# find a style by name
 	def [](name)
-		return @cache[name]
+		raise "No style found with that name" unless @cache.include? name
 		
-		return obj
+		return @cache[name]
 	end
 	
 	

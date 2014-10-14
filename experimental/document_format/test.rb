@@ -3,6 +3,8 @@ require './constraints'
 require './prefab_factory'
 require './style_collection'
 
+require './yaml/color'
+
 require './document'
 
 puts "=== load complete"
@@ -47,10 +49,7 @@ puts "=== group added to space"
 
 
 
-	style = ThoughtTrace::Style::StyleObject.new
-	style.tap do |s|
-		s[:color] = Gosu::Color.argb(0xaa7A797A)
-	end
+	style = document.named_styles["Shared Query Style"]
 
 document.space.entities.each do |entity|
 	query = ThoughtTrace::Queries::Query.new
@@ -67,5 +66,5 @@ puts "=== marked queries"
 
 path_to_file = File.expand_path(File.dirname(__FILE__))
 Dir.chdir path_to_file do
-	document.dump('./output')
+	document.dump('./output/')
 end
