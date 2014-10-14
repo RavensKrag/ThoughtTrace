@@ -154,14 +154,7 @@ class Document
 				:named_styles => @named_styles,
 				:style_components => join
 			}
-			
-			
-			
-			path = './style.yaml'
-			
-			File.open(path, 'w') do |f|
-				f.puts YAML::dump(data)
-			end
+			write_yaml_file(data, './style.yaml')
 		end
 	end
 	
@@ -361,6 +354,14 @@ class Document
 						)
 		
 		return arr_of_arrs
+	end
+	
+	
+	
+	def write_yaml_file(data, filepath)
+		File.open(filepath, 'w') do |f|
+			f.puts YAML::dump(data)
+		end
 	end
 end
 
