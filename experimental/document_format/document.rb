@@ -120,7 +120,9 @@ class Document
 			
 			
 			
-			
+			# TODO: rename function
+			# TODO: move to method, or consider using closure properties to obtain entity list
+			# (it is kind nice for readability to have it inline like this, but having full abstraction would also be good)
 			foo = ->(component_name, entity_list){
 				block = Proc.new{ |e| e[component_name]   }
 				
@@ -138,6 +140,10 @@ class Document
 			
 			
 			
+			
+			# TODO: do not specify file extension in write function call
+			# TODO: change name to abstract the name of format being used
+			# (note that CSV is being used for 'lists of lists' and YAML is pretty much just an object dump)
 			
 			
 			join = foo[:style, entities]
