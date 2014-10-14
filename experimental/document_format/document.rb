@@ -120,21 +120,27 @@ class Document
 			
 			
 			
-			component_name = :style
-			entity_list = entities
 			
-			block = Proc.new{ |e| e[component_name]   }
+			foo = ->(component_name, entity_list){
+				block = Proc.new{ |e| e[component_name]   }
+				
+				
+				entity_partition = entity_list.select(&block).compact # selection
+				relevant_components = entity_partition.collect(&block) # extraction
+				
+				
+				
+				entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
+				join = entity_ids.zip(relevant_components).to_h
+				
+				return join
+			}
 			
 			
-			entity_partition = entity_list.select(&block).compact # selection
-			relevant_components = entity_partition.collect(&block) # extraction
 			
 			
 			
-			entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
-			join = entity_ids.zip(relevant_components).to_h
-			
-			
+			join = foo[:style, entities]
 			
 			data = {
 				:named_styles => @named_styles,
@@ -144,29 +150,7 @@ class Document
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			component_name = :query
-			entity_list = entities
-			
-			block = Proc.new{ |e| e[component_name]   }
-			
-			
-			entity_partition = entity_list.select(&block).compact # selection
-			relevant_components = entity_partition.collect(&block) # extraction
-			
-			entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
-			join = entity_ids.zip(relevant_components).to_h
-			
+			join = foo[:query, entities]
 			
 			data = {
 				:query_components => join
