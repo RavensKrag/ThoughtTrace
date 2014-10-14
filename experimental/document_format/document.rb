@@ -204,8 +204,11 @@ class Document
 		
 		# === load data from disk
 		entity_dump = read_data("entities.csv")
-		entities =	entities.each.collect do |row|
-						klass_name, *args = row.to_a
+		entities =	entity_dump.each.collect do |row|
+						data = row.to_a
+						
+						klass_name = data.shift
+						args = data
 						
 						klass = ThoughtTrace.const_get(klass_name)
 						klass.unpack(*args)
