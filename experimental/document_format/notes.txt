@@ -1,6 +1,21 @@
+=== Serialzation of entities / components
++ serialize entities separately from their components
++ link them back up again on load
+
+this structure allows for maintaining the current serialization build system
+(which is actually really useful)
+(in terms of application, but also, the process of development helped build understanding of data)
+======================================================
+
+
+
+
+
+=== Data formats
 YAML may be the best bet for serialization of components
 
 + tree-ish structure
 + links to repeated data
 
 it has no problem with compressing the convoluted dependency structure of the style system
+======================================================
