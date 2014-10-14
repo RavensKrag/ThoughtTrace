@@ -86,7 +86,7 @@ class Document
 		
 		
 		
-		@project_directory = path_to_folder
+		@project_directory = File.expand_path path_to_folder
 		# pack entities
 		
 		# pack all other data
@@ -104,10 +104,9 @@ class Document
 		
 		# move into project directory
 		# (create directory if necessary)
-		full_path = File.expand_path @project_directory
-		Dir.mkdir full_path unless File.directory?(full_path)
+		Dir.mkdir @project_directory unless File.directory?(@project_directory)
 		
-		Dir.chdir full_path do
+		Dir.chdir @project_directory do
 			entity_dump = entities.collect{ |e| pack_with_class_name(e)  }
 			write_data(entity_dump, "entities.csv")
 			
@@ -152,7 +151,7 @@ class Document
 				:named_styles => @named_styles,
 				:style_components => join
 			}
-			write_yaml_file(data, './style.yaml')
+			write_yaml_file(data, 'style')
 			
 			
 			
@@ -161,7 +160,7 @@ class Document
 			data = {
 				:query_components => join
 			}
-			write_yaml_file(data, './query.yaml')
+			write_yaml_file(data, 'query')
 		end
 	end
 	
@@ -365,8 +364,14 @@ class Document
 	
 	
 	
-	def write_yaml_file(data, filepath)
-		File.open(filepath, 'w') do |f|
+	def write_yaml_file(data, filename)
+		path = File.join(@project_directory, filename)
+		
+		extension = ".yaml"
+		path += extension
+		
+		
+		File.open(path, 'w') do |f|
 			f.puts YAML::dump(data)
 		end
 	end
