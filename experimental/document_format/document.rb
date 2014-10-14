@@ -267,23 +267,27 @@ class Document
 		
 		
 		# other stuff that uses entities
-		{
-			'groups'      => groups,
-			'constraints' => constraints
-		}
-			write_data(packed_array, type)
-		
-		
-		
+		types = ['groups', 'constraints']
+		out = 
+			types.collect do |type|
+				data_dump = read_data(type)
+				
+				data_dump.each do |data|
+					data.map! do |arg|
+						id = id_to_entity_table[arg]
+						id ? id : arg
+					end
+				end
+				
+				data_dump.collect{ |data| unpack_with_class_name(data)  }
+			end
+		other_stuff = types.zip(out).to_h
 		
 		
 		
 		
 		# abstract types
-			write_data(prototype_dump, "prototypes")
-			# write_data(prefab_dump, "prefabs")
-			write_data(loose_style_dump, "styles")
-		
+			
 		# ----
 		
 		
@@ -291,8 +295,8 @@ class Document
 		# === populate the space
 		{
 			:entities => entities,
-			:queries  => queries,
-			:groups   => groups
+			:queries  => other_stuff['groups'],
+			:groups   => other_stuff['constraints']
 		}.each do |name, collection|
 			collection.each{ |obj| document.space.send(name).add obj  } 
 		end
@@ -323,6 +327,16 @@ class Document
 		else
 			return nil
 		end
+	end
+	
+	def unpack_with_class_name(array)
+		# array format: same as the output to #pack_with_class_name
+		klass_name = array.shift
+		args = array
+		
+		klass = Kernel.const_get klass_name
+		
+		return klass.unpack *args
 	end
 	
 	
