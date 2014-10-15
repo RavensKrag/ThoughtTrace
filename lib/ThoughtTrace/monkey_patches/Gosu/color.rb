@@ -13,7 +13,9 @@ class Color
 	
 	
 	def ==(other)
-		[:alpha, :red, :green, :blue].all?{ |x| self.send(x) == other.send(x) } 
+		return false unless other.is_a? self.class
+		
+		[:alpha, :red, :green, :blue].all?{ |x| self.send(x) == other.send(x) }
 	end
 end
 
