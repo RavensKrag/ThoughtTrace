@@ -65,5 +65,16 @@ puts "=== marked queries"
 
 path_to_file = File.expand_path(File.dirname(__FILE__))
 Dir.chdir path_to_file do
-	document.dump('./output')
+	d1 = document
+	d1.dump('./output')
+	
+	d2 = ThoughtTrace::Document.load('./output')
+	
+	
+	# TODO: need to write a lot of equality tests in various classes
+	if d1 == d2
+		puts "documents are equal"
+	else
+		puts "documents are NOT equal"
+	end
 end
