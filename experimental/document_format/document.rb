@@ -147,21 +147,25 @@ class Document
 			
 			join = foo[:style]
 			
-			data = {
+			style_data = {
 				:named_styles => @named_styles,
 				:components => join
 			}
-			write_yaml_file(data, 'style')
-			
-			
 			
 			
 			join = foo[:query]
 			
-			data = {
+			query_data = {
 				:components => join
 			}
-			write_yaml_file(data, 'query')
+			
+			
+			
+			component_data = {
+				:style => style_data,
+				:query => query_data
+			}
+			write_yaml_file(component_data, 'components')
 			
 			
 			
@@ -227,21 +231,14 @@ class Document
 		# (no need to store component data anywhere other than on the entities)
 		
 		# NOTE: this currently won't exactly work, because the 'Shared Query Style' is currently being saved in both the Style dump and the Query dump. So, that needs to be resolved, otherwise this will get really weird.
-		data = load_yaml_file(project_directory, 'style')
+		data = load_yaml_file(project_directory, 'components')
 		
-		named_styles    = data[:named_styles]
-		style_components = data[:components]
+		style_data = data[:style]
+		query_data = data[:query]
 		
+		named_styles    = style_data[:named_styles]
 		
-		
-		data = load_yaml_file(project_directory, 'query')
-		
-		query_components = data[:components]
-		
-		
-		
-		
-		[style_components, query_components].each do |component_list|
+		[style_data, query_data].collect{ |x| x[:components]  }.each do |component_list|
 			component_list.each do |entity_id, component|
 				entity = id_to_entity_table[entity_id]
 				
