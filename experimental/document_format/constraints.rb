@@ -36,6 +36,17 @@ class Constraints
 	
 	
 	
+	def add(name, *args)
+		raise "No constraint defined with the name '#{name}'" unless self.respond_to? name
+		
+		@active_list.push [name] + args
+	end
+	
+	
+	
+	
+	
+	# NOTE: placing separate constraint functions in separate files may make it easer to re-load changing constraint definitions at runtime (live coding, etc)
 	
 	def foo(a, b)
 		
