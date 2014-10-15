@@ -71,10 +71,26 @@ Dir.chdir path_to_file do
 	d2 = ThoughtTrace::Document.load('./output')
 	
 	
-	# TODO: need to write a lot of equality tests in various classes
-	if d1 == d2
-		puts "documents are equal"
+	# TODO: need to find a way to test if the load is decent, but I don't want to write an equality test.
+	
+	# probably should check the most suspect thing: the colors
+	color = d2.named_styles["Shared Query Style"][:color]
+	puts color
+	p color
+	p color.class
+	
+	
+	
+	
+	original_color = d1.named_styles["Shared Query Style"][:color]
+	
+	if original_color == color
+		puts "color restored successfully"
 	else
-		puts "documents are NOT equal"
+		puts "ERROR: color data not correct"
+		puts "original color:"
+		puts original_color.inspect
+		puts "loaded color:"
+		puts color.inspect
 	end
 end

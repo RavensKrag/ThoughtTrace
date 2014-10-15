@@ -18,6 +18,14 @@ class Style < Component
 		@active_cascade = @cascades[@active_mode]
 	end
 	
+	def mirror(other)
+		@active_mode = other.mode
+		@cascades = other.each_cascade.to_h
+		@active_cascade = @cascades[@active_mode]
+	end
+	
+	
+	
 	
 	# read from active cascade
 	def [](property)
@@ -91,8 +99,13 @@ class Style < Component
 	
 	
 	def each_cascade(&block)
-		@cascades.each &block
-		return self
+		# iterate and return self, or return an iterator
+		if block
+			@cascades.each &block
+			return self
+		else
+			return @cascades.each
+		end
 	end
 	
 	
@@ -111,12 +124,6 @@ class Style < Component
 		cascade_list = @cascades.collect{ |name, cascade|  name }
 		
 		"#<#{self.class}:#{object_space_id_string} @active_cascade=#{@active_cascade.inspect} @active_mode=#{@active_mode.inspect} @cascades=#{cascade_list.inspect}>"
-	end
-	
-	private
-	
-	def object_space_id_string
-		return ("0x%014x" % (self.object_id << 1))
 	end
 end
 

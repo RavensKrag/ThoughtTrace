@@ -69,7 +69,7 @@ class Group
 	
 	
 	class << self
-		def unpack(space, entities)
+		def unpack(space, *entities)
 			group = self.new(space)
 			
 			entities.each{ |e| group.add e  }

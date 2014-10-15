@@ -7,7 +7,7 @@ class Query < Component
 	interface_name :query
 	components :physics, :style
 	
-	attr_reader :callbacks
+	attr_reader :style, :callbacks
 	
 	def initialize(style, callbacks)
 		super()
@@ -25,7 +25,10 @@ class Query < Component
 			# entity[:query].callbacks.on_add
 	end
 	
-	
+	def mirror(other)
+		@style = other.style
+		@callbacks = other.callbacks
+	end
 	
 	
 	

@@ -211,7 +211,7 @@ class Document
 						klass.unpack(*args)
 					end
 		
-		id_to_entity_table = entities
+		id_to_entity_table = entities.each_with_index.to_h.invert
 		
 		
 		
@@ -246,12 +246,13 @@ class Document
 				entity = id_to_entity_table[entity_id]
 				
 				interface = component.class.interface
-				# TODO: implement this method
-				entity[interface].mirror component
-				# a.mirror b
-				# would result in A copying the state of B
-				# (this is NOT meant to imply that the two objects will be kept in sync)
-				# (again, this is a one-time thing)
+				
+				existing_component = entity[interface]
+				if existing_component
+					existing_component.mirror component
+				else
+					entity.add_component component
+				end
 			end
 		end
 		
@@ -321,27 +322,6 @@ class Document
 		end
 	end
 	
-	def unpack_with_class_name(array)
-		# array format: same as the output to #pack_with_class_name
-		klass_name = array.shift
-		args = array
-		
-		klass = Kernel.const_get klass_name
-		
-		return klass.unpack *args
-	end
-	
-	
-	
-	
-	# returns a Proc which will be used as a block by #map! to perform replacement
-	def replace_according_to(conversion_table)
-		Proc.new do |input|
-			output = conversion_table[input]
-			output ? output : input
-		end
-	end
-	
 	
 	
 	
@@ -378,6 +358,20 @@ class Document
 		# NOTE: all read function helpers have to be at class-level, because they need to be called in the load method
 		private
 		
+		def unpack_with_class_name(array)
+			# array format: same as the output to #pack_with_class_name
+			klass_name = array.shift
+			args = array
+			
+			klass = Kernel.const_get klass_name
+			
+			return klass.unpack *args
+		end
+		
+		
+		
+		
+		
 		def read_data(project_directory, filename)
 			path = File.join(project_directory, filename)
 			
@@ -406,4 +400,15 @@ class Document
 end
 
 
+end
+
+
+
+
+# returns a Proc which will be used as a block by #map! to perform replacement
+def replace_according_to(conversion_table)
+	Proc.new do |input|
+		output = conversion_table[input]
+		output ? output : input
+	end
 end

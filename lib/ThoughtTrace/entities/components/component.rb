@@ -14,6 +14,17 @@ class Component
 	
 	
 	
+	# Copy the data from the other component, into this one
+	# A deep copy is not necessary.
+	# (This performs one copy operation. No guarantee these two objects will remain in sync.)
+	def mirror(other)
+		raise "Component #{self.class.name} does not define #mirror (needed for serialization)"
+	end
+	
+	
+	
+	
+	
 	# TODO: either use meta_def for both of theses, or find some other way to solidify that they are within the same meta level
 	
 	def self.interface
