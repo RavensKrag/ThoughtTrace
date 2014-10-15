@@ -193,12 +193,14 @@ class Document
 	
 	
 	def self.load(path_to_folder)
+		project_directory = path_to_folder
+		
 		# === create new document
 		document = self.new
 		
 		
 		# === load data from disk
-		entity_dump = read_data("entities")
+		entity_dump = read_data(project_directory, "entities")
 		entities =	entity_dump.each.collect do |row|
 						data = row.to_a
 						
@@ -224,14 +226,15 @@ class Document
 		# copy component data back onto the corresponding entities (use the id -> entity table)
 		# (no need to store component data anywhere other than on the entities)
 		
-		data = load_yaml_file('style')
+		# NOTE: this currently won't exactly work, because the 'Shared Query Style' is currently being saved in both the Style dump and the Query dump. So, that needs to be resolved, otherwise this will get really weird.
+		data = load_yaml_file(project_directory, 'style')
 		
 		named_styles    = data[:named_styles]
 		style_components = data[:components]
 		
 		
 		
-		data = load_yaml_file('query')
+		data = load_yaml_file(project_directory, 'query')
 		
 		query_components = data[:components]
 		
@@ -264,7 +267,7 @@ class Document
 		types = ['groups', 'constraints']
 		out = 
 			types.collect do |type|
-				data_dump = read_data(type)
+				data_dump = read_data(project_directory, type)
 				
 				data_dump.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
 				
@@ -358,23 +361,6 @@ class Document
 		end
 	end
 	
-	def read_data(filename)
-		path = File.join(@project_directory, filename)
-		
-		extension = ".csv"
-		path += extension
-		
-		
-		# it's not actually an array of arrays, but CSV::Table has a similar interface
-		arr_of_arrs = CSV.read(path,
-						:headers => false, :header_converters => :symbol, :converters => :all
-						)
-		
-		return arr_of_arrs
-	end
-	
-	
-	
 	def write_yaml_file(data, filename)
 		path = File.join(@project_directory, filename)
 		
@@ -384,6 +370,37 @@ class Document
 		
 		File.open(path, 'w') do |f|
 			f.puts YAML::dump(data)
+		end
+	end
+	
+	
+	class << self
+		# NOTE: all read function helpers have to be at class-level, because they need to be called in the load method
+		private
+		
+		def read_data(project_directory, filename)
+			path = File.join(project_directory, filename)
+			
+			extension = ".csv"
+			path += extension
+			
+			
+			# it's not actually an array of arrays, but CSV::Table has a similar interface
+			arr_of_arrs = CSV.read(path,
+							:headers => false, :header_converters => :symbol, :converters => :all
+							)
+			
+			return arr_of_arrs
+		end
+		
+		
+		def load_yaml_file(project_directory, filename)
+			path = File.join(project_directory, filename)
+			
+			extension = ".yaml"
+			path += extension
+			
+			return YAML::load_file path
 		end
 	end
 end
