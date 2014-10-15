@@ -15,6 +15,8 @@ class StyleCollection
 	
 	# add a style object to the collection
 	def add(style)
+		raise "Error: style has no name" if style.name == ""
+		
 		@cache << style
 	end
 	
