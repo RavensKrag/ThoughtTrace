@@ -11,6 +11,8 @@ class StyleObject
 	end
 	
 	def ==(other)
+		return false unless other.is_a? self.class
+		
 		return @properties.all?{ |k,v|  v == other[k] }
 	end
 	

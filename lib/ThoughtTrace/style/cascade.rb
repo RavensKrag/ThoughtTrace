@@ -77,7 +77,17 @@ class Cascade
 		raise IndexError, "Not allowed to change the primary style"   if index == 0
 		raise IndexError, "Indices must be positive natural numbers." if index < 0
 		
-		warn "Overwriting existing style. Style data may be lost." unless @styles[index].nil?
+		# warn if there is an attempt to put a new style into an already occupied slot
+		# if you try to put an equivalent object into the slot, no big deal, no warning
+		stored_style = @styles[index]
+		if !stored_style.nil? and style != stored_style
+			name = style.name
+			name = "<NO NAME>" if name == ""
+			
+			id = self.object_space_id_string
+			
+			warn "Overwriting existing style '#{name}' in slot #{index} of cascade #{id}."
+		end
 		
 		@styles[index] = style
 		
