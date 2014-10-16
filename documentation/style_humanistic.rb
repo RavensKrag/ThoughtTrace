@@ -32,13 +32,17 @@ cascade
 	each_style
 	find_style
 	
-
+	
+	get_name     # generate from style data
+	
 	get_property # delegate
 	set_property # delegate
 	
 	has_property?
 
 style
+	get_name
+	
 	get_property
 	set_property
 	

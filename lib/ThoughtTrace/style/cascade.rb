@@ -21,6 +21,12 @@ class Cascade
 		)
 	end
 	
+	
+	def name
+		"cascade #{object_space_id_string}"
+	end
+	
+	
 	# read from entire cascade
 	def [](property)
 		# find the first style object in the cascade order which has the desired property

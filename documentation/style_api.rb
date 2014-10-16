@@ -33,12 +33,16 @@ cascade
 	cascade.find{ |style|  style.name == "foo" }
 	
 	
+	cascade.name
+	
 	cascade[:property]
 	cascade[:property] = :value
 	
 	cascade.has_property?
 	
 style
+	style.name
+	
 	style[:property]
 	style[:property] = :value
 	
