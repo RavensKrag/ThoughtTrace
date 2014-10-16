@@ -6,7 +6,7 @@ require './yaml/color'
 
 require './document'
 
-puts "=== load complete"
+puts "=== dependencies loaded"
 
 
 document = ThoughtTrace::Document.new
@@ -67,8 +67,10 @@ path_to_file = File.expand_path(File.dirname(__FILE__))
 Dir.chdir path_to_file do
 	d1 = document
 	d1.dump('./output')
+	puts "=== dump complete"
 	
 	d2 = ThoughtTrace::Document.load('./output')
+	puts "=== load complete"
 	
 	
 	# TODO: need to find a way to test if the load is decent, but I don't want to write an equality test.
