@@ -80,7 +80,7 @@ class Cascade
 		# warn if there is an attempt to put a new style into an already occupied slot
 		# if you try to put an equivalent object into the slot, no big deal, no warning
 		stored_style = @styles[index]
-		if !stored_style.nil? and style != stored_style
+		unless stored_style.nil? or style == stored_style
 			name = style.name
 			name = "<NO NAME>" if name.empty?
 			
