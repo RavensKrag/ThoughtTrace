@@ -82,7 +82,7 @@ class Cascade
 		stored_style = @styles[index]
 		if !stored_style.nil? and style != stored_style
 			name = style.name
-			name = "<NO NAME>" if name == ""
+			name = "<NO NAME>" if name.empty?
 			
 			id = self.object_space_id_string
 			
