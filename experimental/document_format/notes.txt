@@ -57,3 +57,25 @@ it really can't be handled like other components.
 Each Entity must figure out how to handle it's physics attributes,
 especially Entity types like Text, which actively modify those attributes.
 ======================================================
+
+
+
+
+
+
+=== "Clobbering" of Style on Load: Confusing Erronious Warnings
+
+loading of old style components introduces Group and Query style data
+but that data often gets clobbered as the Group and Query data is applied to the new Entity objects
+
+
+solution:
+restrict the conditions under which the warning fires.
+In particular - 
+you don't need to warn when you socket an object which is equivalent to the existing one
+
+but this means that there is now extra overhead,
+checking to make sure you're inserting a new object
+
+(but maybe there should be a priority on making equivalence tests as fast as possible anyway?)
+======================================================
