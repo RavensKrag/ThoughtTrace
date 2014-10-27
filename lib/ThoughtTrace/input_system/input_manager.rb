@@ -12,10 +12,13 @@ class InputManager
 	
 	attr_reader :mouse, :buttons
 	
-	def initialize(window, space, camera, clone_factory)
+	def initialize(window, space, camera, clone_factory, named_styles)
+		# TODO: should probably just pass the window and the document
+		# TODO: take note of what things would need to be updated if the bound document were to shift
 		@space = space
 		@camera = camera
 		@clone_factory = clone_factory
+		@named_styles = named_styles
 		
 		
 		# TODO: properly implement mouse.
@@ -76,12 +79,14 @@ class InputManager
 		
 		
 		
-		
+		# TODO: consider moving the action factory into the Document, if it would somehow make document switching easier to just bind the action factory present inside each document, instead of having to re-init the factories. But maybe that structure just doesn't work for some reason.
 		action_factory = InputSystem::ActionFactory.new(
-							:space => @space,
 							:selection => @selection,
 							:text_input => @text_input,
-							:clone_factory => @clone_factory
+							
+							:space => @space,
+							:clone_factory => @clone_factory,
+							:styles => @named_styles
 						)
 		
 		

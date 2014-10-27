@@ -9,7 +9,7 @@ module ThoughtTrace
 
 # TODO: figure out if there is a way the abstract types can be loaded without firing up the entire Space. This would be very useful for loading styles / prefabs from one Document in another Document
 class Document
-	attr_reader :space, :prototypes, :prefabs, :named_styles
+	attr_reader :camera, :space, :prototypes, :prefabs, :named_styles
 	attr_accessor :project_directory
 	
 	def initialize
@@ -43,6 +43,11 @@ class Document
 		
 		
 		
+		# TODO: consider expanding this to a whole list of cameras, for rendering different parts of the scene, or whatever
+		@camera = ThoughtTrace::Camera.new
+		
+		
+		
 		
 		style = ThoughtTrace::Style::StyleObject.new("Shared Query Style")
 		style.tap do |s|
@@ -50,6 +55,21 @@ class Document
 		end
 		
 		@named_styles.add style
+	end
+	
+	def update
+		@space.update
+	end
+	
+	def draw
+		@camera.draw do
+			@space.draw
+		end
+	end
+	
+	
+	def gc
+		@space.gc
 	end
 	
 	

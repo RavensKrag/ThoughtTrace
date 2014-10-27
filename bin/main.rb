@@ -39,42 +39,34 @@ class Window < Gosu::Window
 		
 		
 		
-		Metrics::Timer.new "setup physics space" do
-			@space = ThoughtTrace::Space.load @filepath
-		end
-		
-		Metrics::Timer.new "setup factory to create new objects based on established prototypes" do
-			filepath = File.join(@filepath, 'prototypes.csv')
-			@clone_factory = ThoughtTrace::CloneFactory.load filepath
-		end
-		
-		Metrics::Timer.new "create camera" do
-			@camera = ThoughtTrace::Camera.new
+		Metrics::Timer.new "load document" do
+			# setup physics space
+			# setup factory to create new objects based on established prototypes
+			# create camera
+			@document = ThoughtTrace::Document.load @filepath
 		end
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = ThoughtTrace::InputManager.new self, @space, @camera, @clone_factory
+			@input = ThoughtTrace::InputManager.new self, @document.space, @document.camera, @document.clone_factory, @document.named_styles
 		end
 	end
 	
 	def update
-		@space.update
+		@document.update
 		@input.update
 	end
 	
 	def draw
-		@camera.draw do
-			@space.draw
-			@input.draw
-		end
+		@document.draw
+		@input.draw
 	end
 	
 	def on_shutdown
 		@input.shutdown
 		
-		@space.gc
-		@space.dump @filepath
+		@document.gc
+		@document.dump @filepath
 	end
 	
 	
