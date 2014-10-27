@@ -23,11 +23,35 @@ class Document
 		@prefabs      = ThoughtTrace::PrefabFactory.new   # spawn complex entity types
 		@named_styles = ThoughtTrace::StyleCollection.new # styles not bound to physical entities
 		                                                  # (ex: base query style)
+		
+		# NOTE: prefabs and named styles might make sense to only when you're opening a saved file and have custom data, but the prototype data needs to be "seeded" with an initial configuration, otherwise you'll have initial files that aren't good for anything, because you can't ever spawn basic Entity types
+		# (if you load from a system default config, that should get rid of this weird need to always start projects by cloning an old one as the base)
+		# need to traverse to the root of the ThoughtTrace project, and then maybe you can use a relative path from there? can't use an absolute path, because you don't know where ThroughtTrace files will be installed
+		
+		# wait
+		# but this gets weird
+		# because the load code calls init
+		# so all loads will first try to load up the default clone factory config
+		# before loading the project-level config file
+		# (maybe this isn't actually a big deal? maybe it doesn't add that much extra time?)
+		# (this also effects the named styles collection, which has a default "Shared Query Style" definition defined in code in this file. maybe that should be moved to an external config file? sounds like it should be)
+		
+		
+		
+		
+		
+		
 		# @constraints  = ThoughtTrace::ConstraintFactory.new
 			# only need to define the constraint factory if constraints can be defined graphically
 			# then the constraint factory would be like the prefab factory.
 			# Not sure if you would need an equivalent of CloneFactory as well or not
 			# (probably not, because constraints should always be applied to some entities on init)
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -74,6 +98,22 @@ class Document
 	
 	
 	
+	# def draw(camera_name=nil)
+		
+	# 	camera =
+	# 		if camera_name
+	# 			@cameras[camera_name]
+	# 		else
+	# 			@default_camera
+	# 		end
+		
+	# 	camera.draw do
+	# 		@space.draw
+	# 	end
+	# end
+	
+	
+	
 	
 	
 	
@@ -101,6 +141,7 @@ class Document
 		@named_styles
 		
 		# TODO: serialize the 'abstract types': prototypes, prefabs, and loose styles
+		# NOTE: @named_styles collection has already been serialized as part of the component system, in order to make sure that Style data is always linked correctly
 		# NOTE: entries in the Entity list may be of a basic entity type, or they may be of a prefab type. Not sure how that will effect the current systems.
 		
 		
@@ -313,6 +354,7 @@ class Document
 		
 		# === set abstract data types
 		document.instance_eval do
+			# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
 			@named_styles = named_styles
 		end
 		
