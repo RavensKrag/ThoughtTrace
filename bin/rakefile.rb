@@ -109,10 +109,14 @@ task :load_dependencies do
 		'./entities/',
 		
 		'./queries',
-		'./constraints',
+		# './constraints',
 		'./groups',
 		
-		'./space',
+		# './space',
+			'./space/layers',
+			'./space/queries',
+			# './space/serialization',
+			'./space/space',
 		
 		
 		'./cameras/camera',
@@ -145,7 +149,8 @@ task :load_dependencies do
 		
 		
 		# serialization
-		'./serialization/compiled_files'
+		'./serialization/compiled_files',
+		'./serialization/manual_serialization'
 	]
 	load(library_root, dependency_list)
 end
