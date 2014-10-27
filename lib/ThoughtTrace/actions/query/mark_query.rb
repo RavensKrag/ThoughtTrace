@@ -4,26 +4,11 @@ module ThoughtTrace
 
 
 class ToggleQueryStatus < Entity::Actions::Action
-	initialize_with :entity
+	initialize_with :entity, :styles
 	
 	# called on first tick
 	def setup(point)
 		# === mark query ===
-		
-		@@style ||= nil # without this, "unless" check fails, because variable does not exist
-		unless @@style # create the style if it doesn't exist yet
-			# The same style object should be used for all Queries
-			@@style = ThoughtTrace::Style::StyleObject.new
-			@@style.tap do |s|
-				s[:color] = Gosu::Color.argb(0xaa7A797A)
-			end
-		end
-		
-		
-		
-		
-		
-		
 		
 		# the type of query object to be used will very, depending on what you want to do
 		# you could ever re-bind the Query object inside the component at runtime if you like
@@ -33,7 +18,7 @@ class ToggleQueryStatus < Entity::Actions::Action
 		
 		
 		# the component will always have the same structure
-		component = ThoughtTrace::Components::Query.new(@@style, query)
+		component = ThoughtTrace::Components::Query.new(@styles["Shared Query Style"], query)
 		@entity.add_component component
 		
 		
