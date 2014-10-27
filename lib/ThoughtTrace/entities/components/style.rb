@@ -91,6 +91,10 @@ class Style < Component
 	# delete one cascade by name
 	def delete(cascade_name)
 		@cascades.delete cascade_name
+		
+		if @active_mode == cascade_name
+			self.mode = :default
+		end
 	end
 	
 	
