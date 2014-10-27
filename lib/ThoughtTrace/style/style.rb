@@ -3,7 +3,8 @@ module ThoughtTrace
 
 
 class StyleObject
-	attr_accessor :name
+	# attr_accessor :name
+	# defining this manually so you can lock the name property
 	
 	def initialize(name="")
 		@name = name
@@ -29,6 +30,25 @@ class StyleObject
 	
 	def has_property?(property)
 		@properties.has_key? property
+	end
+	
+	
+	def lock_name!
+		@lock = true
+	end
+	
+	def name=(arg)
+		if @lock
+			raise "Style '#{@name}' has a locked name. This name can not be changed." 
+			@lock.freeze! unless @lock.frozen?
+			# need to put the freeze here, because of serialization
+			# not sure how to serialize the frozen status
+		end
+		@name = arg
+	end
+	
+	def name
+		@name
 	end
 end
 

@@ -6,10 +6,13 @@ module ThoughtTrace
 # Access particular Style objects by name.
 # These style objects do not have to exist anywhere within the Space.
 # They are not necessarily tied to any sort of spatial data.
-# NOTE: using a list instead of a hash because the names are tied to the Style objects themselves. This makes it easy to change the names from anywhere (very good) but results in ugly cache invalidation problems in this collection. Avoid that by just using an array.
+
+# Styles added to this collect can not have their names changed once added.
+# These names need to be unique identifiers within this collection,
+# which can persist even after serialization.
 class StyleCollection
 	def initialize
-		@cache = Array.new
+		@cache = Hash.new
 	end
 	
 	
@@ -17,13 +20,14 @@ class StyleCollection
 	def add(style)
 		raise "Error: style has no name" if style.name == ""
 		
-		@cache << style
+		
+		style.lock_name!
+		@cache[style.name] = style
 	end
 	
 	# find a style by name
-	# TODO: consider removing the hash-style interface. it may lead to assumptions that this is a constant-time access, like hash or even array
 	def [](name)
-		style = find{ |style| style.name == name  }
+		style = @cache[name]
 		if style
 			return style
 		else
@@ -31,22 +35,18 @@ class StyleCollection
 		end
 	end
 	
+	def style_names
+		@cache.keys
+	end
 	
 	
-	
-	extend Forwardable
-	# NOTE: this iteration code exists to make the packing of this collection easier from the perspective of the 'document.rb' file
-	def_delegators :@cache, :each
-	
-	include Enumerable
-	# defines find
 	
 	
 	
 	
 	
 	def pack
-		@cache.collect{ |style| style.pack  }
+		@cache.values.collect{ |style| style.pack  }
 	end
 	
 	
