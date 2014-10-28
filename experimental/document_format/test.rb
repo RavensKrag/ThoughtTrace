@@ -28,7 +28,7 @@ puts "=== entities added to space"
 
 
 
-group = ThoughtTrace::Groups::Group.new document.space
+group = ThoughtTrace::Groups::Group.new
 document.space.entities.each do |entity|
 	group.add entity
 end
