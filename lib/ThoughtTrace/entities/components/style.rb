@@ -15,13 +15,11 @@ class Style < Component
 		@cascades = {
 			:default => ThoughtTrace::Style::Cascade.new
 		}
-		@active_cascade = @cascades[@active_mode]
 	end
 	
 	def mirror(other)
 		@active_mode = other.mode
 		@cascades = other.each_cascade.to_h
-		@active_cascade = @cascades[@active_mode]
 	end
 	
 	
@@ -29,12 +27,12 @@ class Style < Component
 	
 	# read from active cascade
 	def [](property)
-		return @active_cascade[property]
+		return active_cascade[property]
 	end
 	
 	# write to active cascade
 	def []=(property, value)
-		@active_cascade[property] = value
+		active_cascade[property] = value
 		
 		return self
 	end
@@ -50,9 +48,6 @@ class Style < Component
 		# Make sure there is always a Cascade available at the mode you're switching to,
 		# even if you need to create a new Cascade for the new mode.
 		@cascades[@active_mode] ||= ThoughtTrace::Style::Cascade.new
-		
-		
-		@active_cascade = @cascades[@active_mode]
 	end
 	
 	def mode
@@ -74,7 +69,7 @@ class Style < Component
 	
 	# retrieve the active cascade
 	def active_cascade
-		return @active_cascade
+		return @cascades[@active_mode]
 	end
 	
 	
@@ -113,21 +108,12 @@ class Style < Component
 	end
 	
 	
-	# TODO: make sure that you always use def_delegators, and not the Object monkeypatch I wrote. That is not nearly robust enough, especially with the introduction of kwargs to ruby 2.0
-	# extend Forwardable
-	# def_delegators :@active_cascade,
-	# 	:read, :write, :socket, :unsocket, :each, :each_style, :move, :move_up, :move_down
-	# 
-	# 
-	# include Enumerable
-	
-	
 	
 	
 	def inspect
 		cascade_list = @cascades.collect{ |name, cascade|  name }
 		
-		"#<#{self.class}:#{object_space_id_string} @active_cascade=#{@active_cascade.inspect} @active_mode=#{@active_mode.inspect} @cascades=#{cascade_list.inspect}>"
+		"#<#{self.class}:#{object_space_id_string} @active_mode=#{@active_mode.inspect} @cascades=#{cascade_list.inspect}>"
 	end
 end
 
