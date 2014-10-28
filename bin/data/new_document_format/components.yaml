@@ -31,7 +31,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - !ruby/object:ThoughtTrace::Style::StyleObject
+          - &4 !ruby/object:ThoughtTrace::Style::StyleObject
             name: ''
             properties:
               :color: !ruby/object:Gosu::Color
@@ -49,7 +49,7 @@
     1: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :query
       cascades:
-        :default: &4 !ruby/object:ThoughtTrace::Style::Cascade
+        :default: &5 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
@@ -68,21 +68,15 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - &6 !ruby/object:ThoughtTrace::Style::StyleObject
-            name: ''
-            properties:
-              :color: !ruby/object:Gosu::Color
-                value: aa69bda7
-              :hitbox_color: !ruby/object:Gosu::Color
-                value: ffffffff
-        :query: &5 !ruby/object:ThoughtTrace::Style::Cascade
+          - *4
+        :query: &6 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
           - *1
-          - *4
-      active_cascade: *5
+          - *5
+      active_cascade: *6
     2: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :query
       cascades:
@@ -105,7 +99,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &8 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -136,7 +130,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &10 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -167,7 +161,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &12 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -198,7 +192,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &14 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -229,7 +223,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &16 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -260,7 +254,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &18 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -291,7 +285,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &20 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -322,7 +316,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &22 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -353,7 +347,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &24 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -384,7 +378,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &26 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -415,7 +409,7 @@
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties: {}
-          - *6
+          - *4
         :query: &28 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -424,60 +418,6 @@
           - *1
           - *27
       active_cascade: *28
-    13: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: &29 !ruby/object:ThoughtTrace::Style::Cascade
-          styles:
-          - !ruby/object:ThoughtTrace::Style::StyleObject
-            name: primary
-            properties:
-              :color: !ruby/object:Gosu::Color
-                value: aa2a3082
-        :hover: !ruby/object:ThoughtTrace::Style::Cascade
-          styles:
-          - !ruby/object:ThoughtTrace::Style::StyleObject
-            name: primary
-            properties:
-              :color: !ruby/object:Gosu::Color
-                value: aa0000ff
-      active_cascade: *29
-    14: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: &30 !ruby/object:ThoughtTrace::Style::Cascade
-          styles:
-          - !ruby/object:ThoughtTrace::Style::StyleObject
-            name: primary
-            properties:
-              :color: !ruby/object:Gosu::Color
-                value: aa2a3082
-        :hover: !ruby/object:ThoughtTrace::Style::Cascade
-          styles:
-          - !ruby/object:ThoughtTrace::Style::StyleObject
-            name: primary
-            properties:
-              :color: !ruby/object:Gosu::Color
-                value: aa0000ff
-      active_cascade: *30
-    15: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: &31 !ruby/object:ThoughtTrace::Style::Cascade
-          styles:
-          - !ruby/object:ThoughtTrace::Style::StyleObject
-            name: primary
-            properties:
-              :color: !ruby/object:Gosu::Color
-                value: aa2a3082
-        :hover: !ruby/object:ThoughtTrace::Style::Cascade
-          styles:
-          - !ruby/object:ThoughtTrace::Style::StyleObject
-            name: primary
-            properties:
-              :color: !ruby/object:Gosu::Color
-                value: aa0000ff
-      active_cascade: *31
 :query:
   :components:
     0: !ruby/object:ThoughtTrace::Components::Query
