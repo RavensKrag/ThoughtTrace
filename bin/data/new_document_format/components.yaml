@@ -334,6 +334,60 @@
           - *1
           - *26
       active_cascade: *27
+    13: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: &28 !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa2a3082
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa0000ff
+      active_cascade: *28
+    14: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: &29 !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa2a3082
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa0000ff
+      active_cascade: *29
+    15: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: &30 !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa2a3082
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa0000ff
+      active_cascade: *30
 :query:
   :components:
     0: !ruby/object:ThoughtTrace::Components::Query
