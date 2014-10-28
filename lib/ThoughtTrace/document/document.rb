@@ -361,9 +361,9 @@ class Document
 		
 		# === populate the space
 		{
-			:entities => entities,
-			:queries  => other_stuff['groups'],
-			:groups   => other_stuff['constraints']
+			:entities    => entities,
+			:groups      => other_stuff['groups'],
+			:constraints => other_stuff['constraints']
 		}.each do |name, collection|
 			collection.each{ |obj| document.space.send(name).add obj  } 
 		end
