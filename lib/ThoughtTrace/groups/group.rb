@@ -5,9 +5,7 @@ module ThoughtTrace
 class Group
 	CASCADE_NAME = :group
 	
-	def initialize(space)
-		@space = space
-		
+	def initialize
 		@entities = Array.new
 		
 		@style = ThoughtTrace::Style::StyleObject.new
@@ -69,8 +67,8 @@ class Group
 	
 	
 	class << self
-		def unpack(space, *entities)
-			group = self.new(space)
+		def unpack(*entities)
+			group = self.new
 			
 			entities.each{ |e| group.add e  }
 			
