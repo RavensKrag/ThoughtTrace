@@ -148,9 +148,13 @@ task :load_dependencies do
 			'./input_system/custom_events',
 		
 		
+		# document format
+		'./document',
+		
 		# serialization
 		'./serialization/compiled_files',
-		'./serialization/manual_serialization'
+		'./serialization/manual_serialization',
+		'./serialization/yaml'
 	]
 	load(library_root, dependency_list)
 end
