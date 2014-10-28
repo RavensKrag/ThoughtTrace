@@ -34,11 +34,7 @@ class Camera < Rectangle
 	def bind_to_window(window)
 		# TODO: update this bind method to accommodate drawing to subsection of the window (ie. viewports) rather than whole windows, if updating is necessary. This code may just work for that purpose as well without modification.
 		
-			centroid = @components[:physics].shape.center
-			body = @components[:physics].body
-		point = body.local2world centroid
-		
-		
+		point = self.center
 		
 		@window = window
 		
@@ -48,6 +44,15 @@ class Camera < Rectangle
 		
 		
 		self.look_at(point)
+	end
+	
+	
+	# retrieve the center point of the camera in world-space
+	def center
+		centroid = @components[:physics].shape.center
+		body = @components[:physics].body
+		
+		return body.local2world centroid
 	end
 	
 	
