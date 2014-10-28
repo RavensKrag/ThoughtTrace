@@ -1,13 +1,8 @@
 module ThoughtTrace
 
 
-class Camera < Entity
+class Camera < Rectangle
 	def initialize
-		super()
-		
-		
-		# TODO: should probably set camera dimensions more intelligently
-		
 		# Always set the origin of the shape to the upper right corner.
 		# The current systems rely on counter-steering, rather than moving the shape's origin.
 		# The origin can be moved during resize, but that complicates things.
@@ -16,13 +11,9 @@ class Camera < Entity
 		# (initial dimensions are arbitrary. camera will be resized on bind)
 		width = 100
 		height = 100
-				
-		offset = CP::Vec2.new(0,0)
 		
-							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-							shape = CP::Shape::Rect.new body, width, height, offset
-		add_component	ThoughtTrace::Components::Physics.new self, body, shape
 		
+		super(width, height)
 		
 		
 		# Set initial point for the camera to look at
@@ -40,11 +31,16 @@ class Camera < Entity
 	
 	def bind_to_window(window)
 		# TODO: update this bind method to accommodate drawing to subsection of the window (ie. viewports) rather than whole windows, if updating is necessary. This code may just work for that purpose as well without modification.
+		point = @components[:physics].shape.center
+		
 		@window = window
 		
 		width  = @window.width
 		height = @window.height
-		@components[:physics].resize!(width, height, CP::Vec2.new(0.5, 0.5))
+		self.resize!(width, height, CP::Vec2.new(0.5, 0.5))
+		
+		
+		self.look_at(point)
 	end
 	
 	
