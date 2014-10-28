@@ -68,6 +68,17 @@ class Document
 		
 		
 		# TODO: consider expanding this to a whole list of cameras, for rendering different parts of the scene, or whatever
+		
+		
+		
+		# idea:
+			# save camera centroid (ie, the point the camera is looking at )
+			# when the document is bound to a window,
+			# bind the active camera
+			# on bind, the camera viewport size should match the size of the actual viewport
+		# (like all other serialization, the camera centroid can be serialized in this class. that's actually better than doing it in the Camera class, because it requires transformation from local shape space, to global world space. Can't do that without the physics Space anyway.)
+		# Only need to save the centroid. All other data is unnecessary
+		# NOTE: if there are multiple camera types, the class of the camera will need to be saved
 		@camera = ThoughtTrace::Camera.new
 		
 		
@@ -89,6 +100,11 @@ class Document
 		@camera.draw do
 			@space.draw
 		end
+	end
+	
+	
+	def bind_to_window(window)
+		@camera.bind_to_window window
 	end
 	
 	

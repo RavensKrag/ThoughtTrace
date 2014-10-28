@@ -6,14 +6,18 @@ class Camera < Entity
 		super()
 		
 		
-	
-		# Position of upper left corner, relative to @position
-		offset = CP::Vec2.new(-$window.width/2, -$window.height/2)
-		
-		
 		# TODO: should probably set camera dimensions more intelligently
-		width = $window.width
-		height = $window.height
+		
+		# Always set the origin of the shape to the upper right corner.
+		# The current systems rely on counter-steering, rather than moving the shape's origin.
+		# The origin can be moved during resize, but that complicates things.
+		# If you need to know the center point of any shape, you should ask for the center.
+		
+		# (initial dimensions are arbitrary. camera will be resized on bind)
+		width = 100
+		height = 100
+				
+		offset = CP::Vec2.new(0,0)
 		
 							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
 							shape = CP::Shape::Rect.new body, width, height, offset
@@ -21,9 +25,31 @@ class Camera < Entity
 		
 		
 		
-		# Center position
-		@components[:physics].body.p = CP::Vec2.new($window.width/2, $window.height/2)
+		# Set initial point for the camera to look at
+		self.look_at CP::Vec2.new(0,0)
 	end
+	
+	
+	
+	
+	def look_at(point)
+		center = @components[:physics].shape.center # center point in local-space 
+		
+		@components[:physics].body.p = point - center
+	end
+	
+	def bind_to_window(window)
+		# TODO: update this bind method to accommodate drawing to subsection of the window (ie. viewports) rather than whole windows, if updating is necessary. This code may just work for that purpose as well without modification.
+		@window = window
+		
+		width  = @window.width
+		height = @window.height
+		@components[:physics].resize!(width, height, CP::Vec2.new(0.5, 0.5))
+	end
+	
+	
+	
+	
 	
 	def update
 		
@@ -32,7 +58,7 @@ class Camera < Entity
 	def draw
 		vec = self.offset
 		
-		$window.translate -vec.x, -vec.y do
+		@window.translate -vec.x, -vec.y do
 			yield
 		end
 	end
