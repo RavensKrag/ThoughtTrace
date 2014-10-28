@@ -45,11 +45,15 @@ class Window < Gosu::Window
 			# create camera
 			@document = ThoughtTrace::Document.load @filepath
 			@document.bind_to_window self
+			
+			
+			# This needs to be set because vectors do coordinate space conversions by getting the camera though the global window variable. Need to figure out a way to do that better.
+			@camera = @document.camera
 		end
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = ThoughtTrace::InputManager.new self, @document.space, @document.camera, @document.clone_factory, @document.named_styles
+			@input = ThoughtTrace::InputManager.new self, @document.space, @document.camera, @document.prototypes, @document.named_styles
 		end
 	end
 	
