@@ -1,11 +1,3 @@
-require './constraints'
-require './prefab_factory'
-require './style_collection'
-
-require './yaml/color'
-
-require './document'
-
 puts "=== dependencies loaded"
 
 
