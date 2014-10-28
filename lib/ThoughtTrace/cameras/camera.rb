@@ -23,15 +23,22 @@ class Camera < Rectangle
 	
 	
 	
+	# center the camera on the designated spot
 	def look_at(point)
 		center = @components[:physics].shape.center # center point in local-space 
 		
 		@components[:physics].body.p = point - center
 	end
 	
+	# camera should remain centered on the same spot, but should be resized to match the window
 	def bind_to_window(window)
 		# TODO: update this bind method to accommodate drawing to subsection of the window (ie. viewports) rather than whole windows, if updating is necessary. This code may just work for that purpose as well without modification.
-		point = @components[:physics].shape.center
+		
+			centroid = @components[:physics].shape.center
+			body = @components[:physics].body
+		point = body.local2world centroid
+		
+		
 		
 		@window = window
 		
