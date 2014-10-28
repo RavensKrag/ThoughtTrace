@@ -354,7 +354,8 @@ class Document
 		
 		
 		# abstract types
-			
+			path = File.join path_to_folder, 'prototypes.csv'
+		prototypes = ThoughtTrace::CloneFactory.load path
 		# ----
 		
 		
@@ -372,6 +373,7 @@ class Document
 		document.instance_eval do
 			# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
 			@named_styles = named_styles
+			@prototypes   = prototypes
 		end
 		
 		
