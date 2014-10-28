@@ -7,12 +7,6 @@ class Group
 	
 	def initialize
 		@entities = Array.new
-		
-		@style = ThoughtTrace::Style::StyleObject.new
-		@style.tap do |s|
-			s[:color] = Gosu::Color.argb(0xaa69BDA7)
-			s[:hitbox_color] = Gosu::Color.argb(0xffFFFFFF)
-		end
 	end
 	
 	
@@ -24,7 +18,13 @@ class Group
 	end
 	
 	def draw
+		# TODO: consider just drawing a visual overlay to show what elements are in the group, rather than creating a group style for each group
+		# could still use style objects to control the properties of this overlay, however
 		
+		
+		# some groups could assign styles to their members, but I don't think it's necessary to visualize "being in a group" with the assignment of a style
+		# groups probably shouldn't be visible all the time anyway
+		# (allows for better use of groups as an abstraction tool)
 	end
 	
 	def gc?
@@ -36,22 +36,10 @@ class Group
 	
 	
 	def add(obj)
-		obj[:style].tap do |component|
-			component.edit(CASCADE_NAME) do |x|
-				x.socket(1, @style)
-			end
-			
-			component.mode = CASCADE_NAME
-		end
-		
-		
 		@entities << obj
 	end
 	
 	def remove(obj)
-		# TODO: remove style from obj
-		obj[:style].delete CASCADE_NAME
-		
 		@entities.delete obj
 	end
 	
