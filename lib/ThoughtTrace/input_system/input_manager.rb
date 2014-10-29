@@ -56,22 +56,6 @@ class InputManager
 				# because you want multiple bindings on one Action
 				# (thing mouse bindings vs keyboard, rather than multiple keyboard shortcuts)
 		
-		# action_flow = ThoughtTrace::ActionFlowController.new(
-		# 				@space, @selection, @text_input, @clone_factory
-		# 				)
-		# callbacks = InputSystem::MouseActionController.new @mouse, action_flow
-		
-		# 	event = InputSystem::ButtonEvent.new :click, callbacks
-		# 	event.bind_to keys:[Gosu::MsLeft], modifiers:[]
-			
-		# 	action_flow.bindings[:existing][:click] = :edit
-		# 	action_flow.bindings[:existing][:drag] = :move
-			
-		# 	action_flow.bindings[:empty][:click] = :spawn_text
-		# 	# action_flow.bindings[:empty][:drag] = 
-		
-		# @actions << action_flow
-		# @buttons.register event
 		
 		
 		# TODO: clean up mouse action flow classes. Many of them are no longer needed.
