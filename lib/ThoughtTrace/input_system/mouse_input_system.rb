@@ -3,6 +3,11 @@ module InputSystem
 
 
 class MouseInputSystem
+	# NOTE: a separate instance for this class is created for each mouse button
+	# Turns press-hold-release event flow into the click-drag-release flow needed by mouse inputs
+	
+	
+	
 	# TODO: try to remove these array shortcuts. would be related to finding a better data structure for the input bindings, though
 	CLICK = 0
 	DRAG  = 1
@@ -11,7 +16,7 @@ class MouseInputSystem
 	# TODO: create class that bundles the pieces of data that need to be sent to every Action. It's weird to have to "delegate" all these arguments through the chain of command like this.
 	def initialize(space, mouse, action_factory,
 		accelerator_collection, mouse_button, bindings)
-		@mouse = mouse		
+		@mouse = mouse
 		@space = space
 		
 		@action_factory = action_factory
@@ -93,16 +98,15 @@ class MouseInputSystem
 	
 	def hold
 		# while you're just checking for updates
-		if mouse_exceeded_drag_threshold?()
-			# if a drag has been triggered,
+		if mouse_exceeded_drag_threshold?
 			# cancel the current action, (which should be a click action)
 			# and load up the drag action (load with the same origin as the click action)
+			
 			@active_action.cancel
 			
 			@active_action = parse_inputs(DRAG)
 			@active_action.press(@origin)
 		end
-		
 		
 		# manage the currently active action, if any
 		@active_action.hold(@mouse.position_in_space)
@@ -135,7 +139,8 @@ class MouseInputSystem
 		warn "no action bound to #{@mouse_button} => [#{@spatial_status}, #{@accelerators}]" unless action_name
 		
 		
-		action = @action_factory.create(@spatial_status, action_name, @entity)
+		# NOTE: new action factory does not require the @spatial_status. may want to remove that concept from this part of the code as well.
+		action = @action_factory.create(@entity, action_name)
 		
 		
 		return action

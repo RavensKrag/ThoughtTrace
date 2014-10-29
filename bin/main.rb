@@ -13,15 +13,20 @@ class Window < Gosu::Window
 		
 		Metrics::Timer.new "setup window" do
 			# Necessary to allow access to text input buffers, etc
-			# Also allows for easy transformation of vectors through camera
-				# (see monkey_patches/Chipmunk/Vec2)
 			# Also used for global access of mouse (should probably reconsider this)
+				# * I think this is no longer true...?
 			# Allows for loading serialized fonts (can't really pass window there?)
 			
 			
 			# store window in global variable
 				# but do not make any new properties visible
 				# (necessary both for text input as well as the initialization of things like Font objects)
+				# basically, the only things that use this global variable are
+				# + font things
+				# + things which draw custom OpenGL
+				# 
+				# opengl code can be rectified by passing the window to each #draw() command
+				# but the font system probably needs to go through it's overhaul before it can get rid of the window global
 			$window = self
 			
 			# Setup window
@@ -39,42 +44,43 @@ class Window < Gosu::Window
 		
 		
 		
-		Metrics::Timer.new "setup physics space" do
-			@space = ThoughtTrace::Space.load @filepath
-		end
-		
-		Metrics::Timer.new "setup factory to create new objects based on established prototypes" do
-			filepath = File.join(@filepath, 'prototypes.csv')
-			@clone_factory = ThoughtTrace::CloneFactory.load filepath
-		end
-		
-		Metrics::Timer.new "create camera" do
-			@camera = ThoughtTrace::Camera.new
+		Metrics::Timer.new "load document" do
+			# setup physics space
+			# setup factory to create new objects based on established prototypes
+			# create camera
+			@document = ThoughtTrace::Document.load @filepath
+			@document.bind_to_window self
+			
+			
+			# This needs to be set because vectors do coordinate space conversions by getting the camera though the global window variable. Need to figure out a way to do that better.
+			@camera = @document.camera
 		end
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = ThoughtTrace::InputManager.new self, @space, @camera, @clone_factory
+			@input = ThoughtTrace::InputManager.new self, @document
 		end
 	end
 	
 	def update
-		@space.update
+		@document.update
 		@input.update
 	end
 	
 	def draw
-		@camera.draw do
-			@space.draw
+		@document.draw do
+			# input system is drawing things in world-space, not screen space
+			# need to fix that, or the caret will often not appear on screen
 			@input.draw
 		end
+		
 	end
 	
 	def on_shutdown
 		@input.shutdown
 		
-		@space.gc
-		@space.dump @filepath
+		@document.gc
+		@document.dump @filepath
 	end
 	
 	

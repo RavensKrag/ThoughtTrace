@@ -3,16 +3,47 @@ module ThoughtTrace
 
 
 class BaseAction
-	# NOTE: You might think that setting @entity in #press would remove the need to allocate a new ClickAndDragController object all the time. But that just means that the controller would have to be more aware of how Action works, which is not desirable.
+	# TODO: default initializer defined in BaseAction should accept one argument, "target"
+		# is this actually necessary?
+		# would it be better for all actions to specify every possible argument in their type list?
 	
-	def initialize(space, selection, text_input, clone_factory, target)
-		@space = space           # for queries and modifications to the space (ex, new objects)
-		@selection = selection   # for altering the selection, or just querying it
-		@text_input = text_input # for manipulating the text input buffer
-		@clone_factory = clone_factory
+	class << self
+		def argument_type_list
+			@type_list
+		end
 		
-		@target = target         # That which the Action is perform on
+		
+		private
+		
+		def initialize_with(*arg_names)
+			# create the initializer to accept the variables as named,
+			# and place them in instance variables with similar names
+			# ex) @space = space
+			define_method :initialize do |*args|
+				assoc_list = arg_names.zip args
+				assoc_list.each do |name, value|
+					instance_variable_set "@#{name}", value
+				end
+			end
+			
+			# store list of argument names on the BaseAction class
+			# as a class instance variable
+			@type_list = arg_names
+		end
 	end
+	
+	
+	
+	
+	
+	# similar to Object#nil?
+	# not very useful for this class, but very useful for descendant classes
+	def null_action?
+		return self.is_a? ThoughtTrace::Actions::NullAction
+	end
+	
+	
+	
 	
 	# outer API
 	# used to give external code something to call
@@ -28,7 +59,9 @@ class BaseAction
 			
 			# MEMO creation (pseudo return)
 			memo_class = self.class.const_get 'Memento'
-			@memo = memo_class.new(@target, @initial_state, modified_state)
+			@memo = memo_class.new(@entity, @initial_state, modified_state)
+				# NOTE: @entity will be nil if entity was not specified in #initialize_with
+			
 			@memo.forward
 		end
 		
@@ -106,6 +139,7 @@ class BaseAction
 			
 		end
 	end
+	
 end
 
 

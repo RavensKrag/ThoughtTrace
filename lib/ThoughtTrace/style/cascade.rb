@@ -22,7 +22,38 @@ class Cascade
 	end
 	
 	
-	def primary
+	def name
+		"cascade #{object_space_id_string}"
+	end
+	
+	
+	# read from entire cascade
+	def [](property)
+		# find the first style object in the cascade order which has the desired property
+		style = @styles.each.find{ |style| style.has_property? property }
+		
+		raise "Could not find any styles in this Cascade with that property" unless style
+		
+		return style[property]
+	end
+	
+	# write to primary style
+	def []=(property, value)
+		self.primary_style[property] = value
+		
+		return self
+	end
+	
+	
+	def has_property?(property)
+		!self[property].nil?
+	end
+	
+	
+	
+	
+	
+	def primary_style
 		@styles.first
 	end
 	
@@ -34,22 +65,7 @@ class Cascade
 	
 	
 	
-	# read from entire cascade
-	def read(property)
-		# find the first style object in the cascade order which has the desired property
-		style = @styles.each.find{ |style| style.has_property? property }
-		
-		raise "Could not find any styles in this Cascade with that property" unless style
-		
-		return style[property]
-	end
 	
-	# write to primary style
-	def write(property, value)
-		self.primary[property] = value
-		
-		return self
-	end
 	
 	# place a given style in the specified index
 	def socket(index, style)
@@ -61,7 +77,17 @@ class Cascade
 		raise IndexError, "Not allowed to change the primary style"   if index == 0
 		raise IndexError, "Indices must be positive natural numbers." if index < 0
 		
-		warn "Overwriting existing style. Style data may be lost." unless @styles[index].nil?
+		# warn if there is an attempt to put a new style into an already occupied slot
+		# if you try to put an equivalent object into the slot, no big deal, no warning
+		stored_style = @styles[index]
+		unless stored_style.nil? or style == stored_style
+			name = style.name
+			name = "<NO NAME>" if name.empty?
+			
+			id = self.object_space_id_string
+			
+			warn "Overwriting existing style '#{name}' in slot #{index} of cascade #{id}."
+		end
 		
 		@styles[index] = style
 		
@@ -99,6 +125,7 @@ class Cascade
 	alias :each_style :each
 	
 	include Enumerable
+	# includes definition of #find
 	
 	
 	# move style from one index to another

@@ -3,7 +3,9 @@ module ThoughtTrace
 		module Actions
 
 
-class Move < Action
+class Move < Entity::Actions::Action
+	initialize_with :entity
+	
 	# called on first tick
 	def setup(point)
 		# mark the initial point for reference
@@ -19,12 +21,16 @@ class Move < Action
 	# called each tick
 	def update(point)
 		# move relative to the initial point
-		displacement = point - @origin
-		
-		current = @entity[:physics].body.p = @start + displacement
+		current = @entity[:physics].body.p = @start + movement_delta(point)
 		
 		
 		return current
+	end
+	
+	# not often used, but you can define this callback if you need it
+	# really, just added for completeness
+	def cleanup(point)
+		
 	end
 	
 	
@@ -36,10 +42,22 @@ class Move < Action
 	
 	
 	
+	private
+	
+	def movement_delta(point)
+		return point - @origin
+	end
+	
+	public
+	
+	
+	
+	
 	# perform the transformation here
 	# by encapsulating the transform in this object,
 	# it becomes easy to redo / undo actions as necessary
-	class Memento < Action::Memento
+	ParentMemento = self.superclass.const_get 'Memento'
+	class Memento < ParentMemento
 		# set future state
 		def forward
 			@entity[:physics].body.p = @future

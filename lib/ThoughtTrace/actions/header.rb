@@ -14,7 +14,7 @@ Dir.chdir path_to_file do
 		'./entity',
 		'./empty_space',
 		# './group',
-		# './query',
+		'./query',
 		# './constraint',
 		
 	].each do |path|

@@ -1,3 +1,5 @@
+# NOTE: this pack is different because it returns a single integer, rather than a list. (Though I suppose the list return is just a explicit multiple return statement. It's not like the unpack ever takes in an actual array. It always takes a fixed number of arguments)
+
 module Gosu
 
 

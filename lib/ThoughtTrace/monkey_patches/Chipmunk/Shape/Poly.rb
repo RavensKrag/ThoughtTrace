@@ -53,6 +53,8 @@ module CP
 				end
 			end
 			
+			# TODO: consider adding a way to iterate over verts in world-space as well
+			
 			alias :each_vert :each
 			alias :each_vert_with_index :each_with_index
 			alias :each_vert_with_object :each_with_object

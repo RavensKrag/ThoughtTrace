@@ -4,6 +4,8 @@ module ThoughtTrace
 
 
 class SpawnRect < Actions::BaseAction
+	initialize_with :clone_factory, :space
+	
 	# called on first tick
 	def setup(point)
 		rect = @clone_factory.make ThoughtTrace::Rectangle

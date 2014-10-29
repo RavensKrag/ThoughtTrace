@@ -1,0 +1,26 @@
+change serialize flow
+
+separate flow
+	style
+	physics
+	queries
+	
+I mean, should all have the same form
+but they should be done "separately"
+(the query component is dependent on the style and physics ones, so that needs to be taken into account)
+
+
+
+assuming current flow to serialize entities basically just saves physics data
+but each component should be separated out into it's own serialization flow
+
+
+
+
+
+
+Ideally, the instructions to save each component on the Entity could be inlined,
+and that blob could be optimized
+pruning out automatically what data does not need to be serialized
+because it can be generated based on existing data
+(or it just is plain never loaded for whatever reason)

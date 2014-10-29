@@ -16,7 +16,7 @@ class CameraController
 	def press
 		# extract move action from @camera at this step,
 		# in case the camera has been changed since initialization
-		@move_action = @action_factory.create(:on_object, :move, @camera)
+		@move_action = @action_factory.create(@camera, :move)
 		
 		
 		@move_action.press(@mouse.position_on_screen)

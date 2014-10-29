@@ -96,16 +96,13 @@ class Entity
 	
 	
 	
+	# TODO: consider creating custom Component container, so the syntax is more like entity.components.add() rather than entity.add_component()
+	
+	
 	
 	# Components provide namespacing for common subsystems. (ex, physics)
 	def add_component(component)
-		# require dependencies to be added first
-		# If an component is added before any of the components it depends on, throw exception.
-		# (exceptions are thrown when symbols attempt to resolve)
-		components = resolve_components(component, component.class.dependencies[:components])
-		
-		
-		component.components = components
+		component.on_bind(self) # execute binding callback. handles dependency resolution, etc
 		
 		@components[component.class.interface] = component
 		
@@ -113,46 +110,17 @@ class Entity
 		# consider returning this Entity instead?
 	end
 	
+	def delete_component(component_name)
+		component = @components.delete component_name
+		
+		component.on_unbind(self) if component
+	end
+	
 	
 	# Access Components from outside the Entity
 	def [](component_name)
 		@components[component_name]
 	end
-	
-	
-	private
-	
-	
-	# TODO: figure out if this code is still necessary
-	# ----- Resolve lists of symbols into actual variables -----
-	
-	
-	# Having the exception here implies that this is the only way to create Actions/Components
-	# This is the intent of this system, but does it limit expansion?
-	
-	
-	# Gather a hash in the form {:component_name => component_instance}
-	def resolve_components(commander, list_of_requirements)
-		list_of_requirements.inject(Hash.new) do |group, component_name|
-			component = @components[component_name]
-			
-			if component.nil?
-				raise "Component #{component_name} required by #{commander} in #{self}"
-				# raise "#{self} does not contain the component #{component_name}"
-			end
-			
-			group[component_name] = component
-			group
-		end
-	end
-	
-	
-	# # select all components that could not be resolved into real variables
-	# unresolved_dependencies = {}.select{ |k,v| v == nil }
-	# unless unresolved_dependencies.empty?
-	# 	raise "Components #{unresolved_dependencies.join(', ')} are required by #{action_class} in #{self}"
-	# 	raise "#{action_class} in #{self} needs missing components: #{unresolved_dependencies.join(', ')}"
-	# end
 end
 
 

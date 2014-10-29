@@ -7,6 +7,8 @@ class Resize < Entity::Actions::Action
 	MARGIN = 20
 	MINIMUM_DIMENSION = 10
 	
+	initialize_with :entity
+	
 	# called on first tick
 	def setup(point)
 		# mark the initial point for reference
