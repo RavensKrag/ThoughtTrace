@@ -53,7 +53,7 @@ class Window < Gosu::Window
 		
 		
 		Metrics::Timer.new "setup input system" do
-			@input = ThoughtTrace::InputManager.new self, @document.space, @document.camera, @document.prototypes, @document.named_styles
+			@input = ThoughtTrace::InputManager.new self, @document
 		end
 	end
 	

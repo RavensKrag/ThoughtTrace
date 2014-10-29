@@ -12,13 +12,11 @@ class InputManager
 	
 	attr_reader :mouse, :buttons
 	
-	def initialize(window, space, camera, clone_factory, named_styles)
+	def initialize(window, document)
 		# TODO: should probably just pass the window and the document
 		# TODO: take note of what things would need to be updated if the bound document were to shift
-		@space = space
-		@camera = camera
-		@clone_factory = clone_factory
-		@named_styles = named_styles
+		@document = document
+		
 		
 		
 		# TODO: properly implement mouse.
@@ -68,9 +66,9 @@ class InputManager
 							:selection => @selection,
 							:text_input => @text_input,
 							
-							:space => @space,
-							:clone_factory => @clone_factory,
-							:styles => @named_styles
+							:space => @document.space,
+							:clone_factory => @document.prototypes,
+							:styles => @document.named_styles
 						)
 		
 		
@@ -156,12 +154,12 @@ class InputManager
 		
 		
 		left_callbacks  = InputSystem::MouseInputSystem.new(
-							@space, @mouse, action_factory,
+							@document.space, @mouse, action_factory,
 							@accelerator_parser, :left_click, left_click_bindings
 						)
 		
 		right_callbacks = InputSystem::MouseInputSystem.new(
-							@space, @mouse, action_factory,
+							@document.space, @mouse, action_factory,
 							@accelerator_parser, :right_click, right_click_bindings
 						)
 		
@@ -200,7 +198,7 @@ class InputManager
 		
 		
 		# camera control
-		callbacks = InputSystem::CameraController.new @mouse, @camera, action_factory
+		callbacks = InputSystem::CameraController.new @mouse, @document.camera, action_factory
 		event = InputSystem::ButtonEvent.new :pan_camera, callbacks
 		event.bind_to keys:[Gosu::MsMiddle], modifiers:[]
 		@buttons.register event
@@ -213,7 +211,7 @@ class InputManager
 		
 		
 		
-		callbacks = ThoughtTrace::Events::PressEnter.new @space, @text_input, @clone_factory
+		callbacks = ThoughtTrace::Events::PressEnter.new @document.space, @text_input, @document.prototypes
 		event = InputSystem::ButtonEvent.new :enter, callbacks
 		
 		event.bind_to keys:[Gosu::KbReturn], modifiers:[]
