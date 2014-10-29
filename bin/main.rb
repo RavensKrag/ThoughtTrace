@@ -13,9 +13,8 @@ class Window < Gosu::Window
 		
 		Metrics::Timer.new "setup window" do
 			# Necessary to allow access to text input buffers, etc
-			# Also allows for easy transformation of vectors through camera
-				# (see monkey_patches/Chipmunk/Vec2)
 			# Also used for global access of mouse (should probably reconsider this)
+				# * I think this is no longer true...?
 			# Allows for loading serialized fonts (can't really pass window there?)
 			
 			
