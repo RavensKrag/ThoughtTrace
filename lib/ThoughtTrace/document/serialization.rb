@@ -143,6 +143,14 @@ class Document
 				
 				write_data(packed_array, type)
 			end
+			
+			
+			
+			
+			# abstract types
+				path = File.join @project_directory, 'prototypes.csv'
+			@prototypes.dump path
+			# ----
 		end
 	end
 	
