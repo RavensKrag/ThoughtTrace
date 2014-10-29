@@ -11,11 +11,6 @@ require 'rake/clean'
 # Must expand '..' shortcut into a proper path. But that results in a shorter string.
 PATH_TO_ROOT = File.expand_path '../..', __FILE__
 
-Dir.chdir PATH_TO_ROOT do
-	require './lib/ThoughtTrace'
-	# require File.expand_path File.join '.', 'lib', 'ThoughtTrace', 'serialization', 'rakefile.rb'
-end
-
 
 
 
@@ -40,7 +35,9 @@ task :build_serialization_system do
 end
 
 task :load_dependencies do
-	
+	Dir.chdir PATH_TO_ROOT do
+		require './lib/ThoughtTrace'
+	end
 end
 
 task :load_main do
