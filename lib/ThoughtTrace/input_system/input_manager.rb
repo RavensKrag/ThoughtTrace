@@ -12,14 +12,15 @@ class InputManager
 	
 	attr_reader :mouse, :buttons
 	
-	def initialize(window, space, camera, clone_factory)
-		@space = space
-		@camera = camera
-		@clone_factory = clone_factory
+	def initialize(window, document)
+		# TODO: should probably just pass the window and the document
+		# TODO: take note of what things would need to be updated if the bound document were to shift
+		@document = document
+		
 		
 		
 		# TODO: properly implement mouse.
-		@mouse = InputSystem::Mouse.new window
+		@mouse = InputSystem::Mouse.new window, @document.camera
 		
 		@selection = [] # TODO: create actual selection collection. Array is placeholder. May work, may not. Haven't actually thought about it at all.
 		
@@ -53,22 +54,6 @@ class InputManager
 				# because you want multiple bindings on one Action
 				# (thing mouse bindings vs keyboard, rather than multiple keyboard shortcuts)
 		
-		# action_flow = ThoughtTrace::ActionFlowController.new(
-		# 				@space, @selection, @text_input, @clone_factory
-		# 				)
-		# callbacks = InputSystem::MouseActionController.new @mouse, action_flow
-		
-		# 	event = InputSystem::ButtonEvent.new :click, callbacks
-		# 	event.bind_to keys:[Gosu::MsLeft], modifiers:[]
-			
-		# 	action_flow.bindings[:existing][:click] = :edit
-		# 	action_flow.bindings[:existing][:drag] = :move
-			
-		# 	action_flow.bindings[:empty][:click] = :spawn_text
-		# 	# action_flow.bindings[:empty][:drag] = 
-		
-		# @actions << action_flow
-		# @buttons.register event
 		
 		
 		# TODO: clean up mouse action flow classes. Many of them are no longer needed.
@@ -76,12 +61,14 @@ class InputManager
 		
 		
 		
-		
+		# TODO: consider moving the action factory into the Document, if it would somehow make document switching easier to just bind the action factory present inside each document, instead of having to re-init the factories. But maybe that structure just doesn't work for some reason.
 		action_factory = InputSystem::ActionFactory.new(
-							:space => @space,
 							:selection => @selection,
 							:text_input => @text_input,
-							:clone_factory => @clone_factory
+							
+							:space => @document.space,
+							:clone_factory => @document.prototypes,
+							:styles => @document.named_styles
 						)
 		
 		
@@ -167,12 +154,12 @@ class InputManager
 		
 		
 		left_callbacks  = InputSystem::MouseInputSystem.new(
-							@space, @mouse, action_factory,
+							@document.space, @mouse, action_factory,
 							@accelerator_parser, :left_click, left_click_bindings
 						)
 		
 		right_callbacks = InputSystem::MouseInputSystem.new(
-							@space, @mouse, action_factory,
+							@document.space, @mouse, action_factory,
 							@accelerator_parser, :right_click, right_click_bindings
 						)
 		
@@ -211,7 +198,7 @@ class InputManager
 		
 		
 		# camera control
-		callbacks = InputSystem::CameraController.new @mouse, @camera, action_factory
+		callbacks = InputSystem::CameraController.new @mouse, @document.camera, action_factory
 		event = InputSystem::ButtonEvent.new :pan_camera, callbacks
 		event.bind_to keys:[Gosu::MsMiddle], modifiers:[]
 		@buttons.register event
@@ -224,7 +211,7 @@ class InputManager
 		
 		
 		
-		callbacks = ThoughtTrace::Events::PressEnter.new @space, @text_input, @clone_factory
+		callbacks = ThoughtTrace::Events::PressEnter.new @document.space, @text_input, @document.prototypes
 		event = InputSystem::ButtonEvent.new :enter, callbacks
 		
 		event.bind_to keys:[Gosu::KbReturn], modifiers:[]

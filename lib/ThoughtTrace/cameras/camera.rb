@@ -1,29 +1,63 @@
 module ThoughtTrace
 
 
-class Camera < Entity
+class Camera < Rectangle
 	def initialize
-		super()
+		# Always set the origin of the shape to the upper right corner.
+		# The current systems rely on counter-steering, rather than moving the shape's origin.
+		# The origin can be moved during resize, but that complicates things.
+		# If you need to know the center point of any shape, you should ask for the center.
+		
+		# (initial dimensions are arbitrary. camera will be resized on bind)
+		width = 100
+		height = 100
 		
 		
-	
-		# Position of upper left corner, relative to @position
-		offset = CP::Vec2.new(-$window.width/2, -$window.height/2)
+		super(width, height)
 		
 		
-		# TODO: should probably set camera dimensions more intelligently
-		width = $window.width
-		height = $window.height
-		
-							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-							shape = CP::Shape::Rect.new body, width, height, offset
-		add_component	ThoughtTrace::Components::Physics.new self, body, shape
-		
-		
-		
-		# Center position
-		@components[:physics].body.p = CP::Vec2.new($window.width/2, $window.height/2)
+		# Set initial point for the camera to look at
+		self.look_at CP::Vec2.new(0,0)
 	end
+	
+	
+	
+	
+	# center the camera on the designated spot
+	def look_at(point)
+		center = @components[:physics].shape.center # center point in local-space 
+		
+		@components[:physics].body.p = point - center
+	end
+	
+	# camera should remain centered on the same spot, but should be resized to match the window
+	def bind_to_window(window)
+		# TODO: update this bind method to accommodate drawing to subsection of the window (ie. viewports) rather than whole windows, if updating is necessary. This code may just work for that purpose as well without modification.
+		
+		point = self.center
+		
+		@window = window
+		
+		width  = @window.width
+		height = @window.height
+		self.resize!(width, height, CP::Vec2.new(0.5, 0.5))
+		
+		
+		self.look_at(point)
+	end
+	
+	
+	# retrieve the center point of the camera in world-space
+	def center
+		centroid = @components[:physics].shape.center
+		body = @components[:physics].body
+		
+		return body.local2world centroid
+	end
+	
+	
+	
+	
 	
 	def update
 		
@@ -32,7 +66,7 @@ class Camera < Entity
 	def draw
 		vec = self.offset
 		
-		$window.translate -vec.x, -vec.y do
+		@window.translate -vec.x, -vec.y do
 			yield
 		end
 	end
@@ -55,6 +89,18 @@ class Camera < Entity
 		vec = body.local2world shape.bottom_left_vert
 		
 		return vec
+	end
+	
+	
+	
+	
+	# Convert from screen coordinates to world space coordinates.
+	# Similar to the raycasting used for mouse picking.
+	# (world to screen transform performed in #draw. better to transform on GPU.)
+	def screen2world(vec)
+		# TODO: make sure this still works when viewports are implemented. It might only work with render contexts that span the entire window. Or rather, it might only work with points relative to the window's origin, and not the camera origin? not totally sure
+		
+		return vec + offset
 	end
 end
 

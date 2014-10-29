@@ -3,16 +3,10 @@ module ThoughtTrace
 
 
 class Group
-	def initialize(space)
-		@space = space
-		
+	CASCADE_NAME = :group
+	
+	def initialize
 		@entities = Array.new
-		
-		@style = ThoughtTrace::Style::StyleObject.new
-		@style.tap do |s|
-			s[:color] = Gosu::Color.argb(0xaa69BDA7)
-			s[:hitbox_color] = Gosu::Color.argb(0xffFFFFFF)
-		end
 	end
 	
 	
@@ -24,7 +18,13 @@ class Group
 	end
 	
 	def draw
+		# TODO: consider just drawing a visual overlay to show what elements are in the group, rather than creating a group style for each group
+		# could still use style objects to control the properties of this overlay, however
 		
+		
+		# some groups could assign styles to their members, but I don't think it's necessary to visualize "being in a group" with the assignment of a style
+		# groups probably shouldn't be visible all the time anyway
+		# (allows for better use of groups as an abstraction tool)
 	end
 	
 	def gc?
@@ -36,15 +36,6 @@ class Group
 	
 	
 	def add(obj)
-		obj[:style].tap do |component|
-			component.edit(:group) do |x|
-				x.socket(1, @style)
-			end
-			
-			component.mode = :group
-		end
-		
-		
 		@entities << obj
 	end
 	
@@ -58,31 +49,16 @@ class Group
 	
 	# ===== serialization =====
 	# convert ONE object to / from array on pack / unpack
-	def pack(entity_to_id_table)
-		entity_id_list = @entities.collect{ |e|  entity_to_id_table[e] }
-		
-		return entity_id_list
+	def pack
+		return @entities.clone
 	end
 	
 	
 	class << self
-		def unpack(
-			id_to_entity_table, space, # provided by system
-			*entity_id_list # loaded from file
-		)
-		# ---
-			# 'args' array contains only elements stored in the file on disk
-			group = self.new(space)
+		def unpack(*entities)
+			group = self.new
 			
-			
-			entities = entity_id_list.collect{ |id|  id_to_entity_table[id] }
-			entities.each do |e|
-				
-				# DO ACTUAL STUFF HERE
-				group.add e
-				
-			end
-			
+			entities.each{ |e| group.add e  }
 			
 			return group
 		end

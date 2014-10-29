@@ -16,6 +16,14 @@ class Physics < Component
 		@shape.obj = parent
 	end
 	
+	def mirror(other)
+		@body = other.body
+		@shape = other.shape
+	end
+	
+	
+	
+	
 	def update
 		
 	end

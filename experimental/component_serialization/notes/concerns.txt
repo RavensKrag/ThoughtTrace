@@ -1,0 +1,88 @@
+need to be careful if the components are to be isolated
+because they have dependencies
+and some Entity types have weird coupling with their components
+
+ex) Text objects
+text objects adjust the size of their hitboxes as the text size changes
+the management of Font objects in the domain of the Text object,
+and it would be kinda odd to put that into a component
+(it's not intended to be reused elsewhere)
+but it has a sort of implicit dependency (data coupling) with the physics data
+
+
+this means the physics data can't quite be serialized the same way
+
+or can it?
+
+would it be a bit inefficient,
+or would it actually be not-doable?
+maybe there's a way to just optimize the code as it's being built
+instead of more explicit special case stuff?
+
+
+
+I think it should be ok if you apply the Entity-level transforms to the components in the last phase of loading?
+
+
+	so,
+	save all components
+	save Entity-level transforms
+	-> this is the dump data process
+	
+	reverse to calculate load data process
+	-> this is load data process
+	
+	optimize the load data process, removing any redundant transforms
+	you can remove the corresponding parts from the dump data process,
+	as if the data does not need to be loaded from the disk, then it does not need to be saved
+	
+	
+	----------
+	in the case of Text, note that it currently tries to compute the dimensions, and pass to super
+	what should be happening under the new paradigm,
+	is the rectangle physics should be allocated at a default size,
+	and then the shape should be resized to match the text Font properties
+	
+	this transform of resizing the hitbox in the #initialize phase in the Entity-level transform
+	
+	should pull out this transform and put it into a separate method, for easier reflection
+	           (or "these transforms", more generally)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+each component needs its own serialization instructions
+
+like, each type of component
+but that information ends up getting in-lined into the load / dump logic
+so that there can be optimization
+
+that is how the new proposed build system works
+
+
+
+
+
+(maybe it's enough for now to just make the process inefficient)
+
+oh wait, but that serializes more data,
+which takes more time to process,
+which takes longer to load
+and long load times -> long iterations
+which is really bad
