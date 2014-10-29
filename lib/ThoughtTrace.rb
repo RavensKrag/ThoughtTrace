@@ -140,17 +140,3 @@ dependency_list = [
 	'./serialization/yaml'
 ]
 ThoughtTrace.load_dependencies(library_root, dependency_list)
-
-
-
-
-
-
-
-
-
-
-
-puts "root: #{ThoughtTrace::PATH_TO_ROOT}"
-
-# ThoughtTrace.load_dependencies()
