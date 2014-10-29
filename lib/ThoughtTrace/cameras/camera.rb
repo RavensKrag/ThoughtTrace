@@ -90,6 +90,18 @@ class Camera < Rectangle
 		
 		return vec
 	end
+	
+	
+	
+	
+	# Convert from screen coordinates to world space coordinates.
+	# Similar to the raycasting used for mouse picking.
+	# (world to screen transform performed in #draw. better to transform on GPU.)
+	def screen2world(vec)
+		# TODO: make sure this still works when viewports are implemented. It might only work with render contexts that span the entire window. Or rather, it might only work with points relative to the window's origin, and not the camera origin? not totally sure
+		
+		return vec + offset
+	end
 end
 
 

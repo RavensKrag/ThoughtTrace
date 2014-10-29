@@ -2,8 +2,9 @@ module InputSystem
 
 
 class Mouse
-	def initialize(window)
+	def initialize(window, camera)
 		@window = window
+		@camera = camera
 	end
 	
 	# hook into input manager's update loop
@@ -16,7 +17,7 @@ class Mouse
 	
 	
 	def world_position
-		return CP::Vec2.new(@window.mouse_x, @window.mouse_y).to_world_space
+		return @camera.screen2world screen_position
 	end
 	
 	def screen_position

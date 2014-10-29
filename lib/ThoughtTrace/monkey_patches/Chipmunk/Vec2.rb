@@ -23,14 +23,6 @@ module CP
 			return self.x == 0 && self.y == 0
 		end
 		
-		def to_screen_space
-			return self - $window.camera.offset
-		end
-		
-		def to_world_space
-			return self + $window.camera.offset
-		end
-		
 		def clone
 			return CP::Vec2.new(self.x, self.y)
 		end

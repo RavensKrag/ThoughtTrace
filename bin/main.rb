@@ -22,6 +22,12 @@ class Window < Gosu::Window
 			# store window in global variable
 				# but do not make any new properties visible
 				# (necessary both for text input as well as the initialization of things like Font objects)
+				# basically, the only things that use this global variable are
+				# + font things
+				# + things which draw custom OpenGL
+				# 
+				# opengl code can be rectified by passing the window to each #draw() command
+				# but the font system probably needs to go through it's overhaul before it can get rid of the window global
 			$window = self
 			
 			# Setup window
