@@ -94,6 +94,7 @@ class Document
 	def draw
 		@camera.draw do
 			@space.draw
+			yield
 		end
 	end
 	

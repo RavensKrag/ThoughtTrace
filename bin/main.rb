@@ -63,8 +63,12 @@ class Window < Gosu::Window
 	end
 	
 	def draw
-		@document.draw
-		@input.draw
+		@document.draw do
+			# input system is drawing things in world-space, not screen space
+			# need to fix that, or the caret will often not appear on screen
+			@input.draw
+		end
+		
 	end
 	
 	def on_shutdown
