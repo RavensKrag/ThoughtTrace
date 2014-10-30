@@ -1,55 +1,31 @@
-NOTE: these notes are old and pertain to the old system that used Pallets
+NOTE: The raketask method_probing_test can be used to examine the methods available through all of the various parts of the Style system, in one convenient place.
 
 
-only one Style object in a space can have a given name
-if the Style is updated in one place, all other places will update as well
-(all references to one style via it's one common name point at the same data)
+-----------------------------------------
+
+document.named_styles   this collection holds abstract Style objects, referenced by name
 
 
-generally, you want to try and refer to things by the names there are assigned in their containers
-rather than creating new names through extra variables all over the place
-(would be a lot cleaner that way, at least in theory)
+component               components can hold multiple cascades,
+cascade                 and each cascade can hold multiple style objects,
+style                   and each style object holds values associated with multiple properties
 
-
-
-
-
-'namespacing' of elements can be achieved through using a different
-StyleSpace / Pallet / StyleObject hierarchy to hold a particular style value
+-----------------------------------------
 
 
 
+--- basic structure
 
+property data is always stored in style objects
+all other objects in the chain delegate storage to underlying style objects
 
+cascade and style provide the same access interface
+as cascades can be nested
 
-
-serialization file organization
-	pallet file stores a bunch of style data, and the names for those styles
-	cascade file stores a bunch of style NAMES, and a link to a pallet
-	
-	multiple pallets can exist in one project     (possible, not always going to happen)
-	multiple cascades can exist in one project    (almost definitely there will be multiple)
-	
-	
-	IMPORTANT pallet is a nested hash, not a bunch of arrays inside a hash.
-	
-	
-	
-	Pallets and Cascades are controlled though the StyleSystem
-	their names are thus stored there, rather than in the pallet / cascade objects
-	this makes the names easier to change
-	
-	but it also make it more like how variables get their names from their contexts,
-	rather than from the objects they describe
-
-
-
-
-each Cascade links to a Pallet
-(eventually, you should be able to link to Pallets from other projects, even)
-
-When these objects are serialized, care must be taken to ensure these links
-(this is the main reason why StyleSystem exists)
+The basic read / write interface is also copied by the Component,
+but the Component switches between many separate Cascades,
+associated with separate mode names,
+rather than utilizing all of them simultaneously.
 
 
 
@@ -59,21 +35,134 @@ When these objects are serialized, care must be taken to ensure these links
 
 
 
+--- style objects
 
-merge commit: 0f1d5c6993b38054bb1408e4df63587ea24dcbf1
-date: 8/4/2014
+Similar to Hash objects,
+they store pairs of properties and their associated values.
 
-data that did not make it back into the main branch includes
-experiments with style serialization formats.
-
-should look over that stuff again when it comes time
-to actually figure outhow to serialize this mess
+Nothing fancy.
 
 
 
-/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/style_overhaul/
-/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/style/
-/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/
 
 
-/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/components/style.rb
+
+
+
+
+--- cascades
+
+cascades always define a primary style
+this style can be altered like any other style
+but it can not be deleted from it's original Cascade.
+The primary style can be used to store values specific to a particular Entity,
+which have not been abstracted into a Style shared between Entity objects.
+
+This is good for ideation,         (when you don't know where the property should go yet)
+but is also useful for debugging.  (you explicitly want to target only one Entity, pointing it out)
+
+
+
+
+While reading from a Cascade will examine the entire Cascade stack,
+the standard writing interface for a Cascade will always alter the primary style.
+If you seek to alter a non-primary style,
+you must do so explicitly.
+
+
+
+
+
+Normally, style data is simply read from cascades
+by requesting the value associated with a particular property.
+
+The Cascade will handle cascading through the contained cascades / styles to find a value.
+
+The contained Style objects can be moved up and down in priority,
+in order to control the cascade order.
+
+
+However, it is also possible peel back all this abstraction,
+and search for particular style objects.
+
+
+
+
+
+
+
+
+
+--- style component
+
+The component manages multiple Cascade objects in separate named modes,
+and allows switching between them.
+
+Style data can be accessed directly through the Component,
+or the abstraction can be peeled back to allow for manipulation of Cascade objects,
+and through them, the underlying Style objects.
+
+
+
+Style components can copy existing components using Components::Style#mirror
+(but be warned, this a a shallow copy, similar to #clone)
+
+
+
+
+
+
+
+
+
+--- named styles
+
+The 'named styles' collection within the Document holds special styles.
+These styles do not necessarily have an owner in the spatial context.
+As these styles are referenced by name,
+their names can not be changed once they have been placed into the collection,
+unlike other styles, which can alter their names at will.
+
+
+This referencing of data by names is necessary
+because styles need to be referenced across multiple sessions,
+by both other pieces of data,
+as well as by code.
+
+
+
+
+
+These named styles can easily be accessed from another Document.
+(linking to external data not yet implemented)
+There is no namespacing functionality built in to the design of the named styles.
+Using separate Documents should provide sufficient namespacing.
+
+
+
+
+
+Actions can request usage of the named styles collection,
+and those that request will be fed the collection upon action initialization.
+This allows for things like the Shared Query Style.
+
+Query objects always share one style object that defines a shared appearance,
+that way it is fairly clear which objects are marked for Query detection.
+
+
+
+
+
+
+
+
+
+
+
+--- serialization
+
+All style data is serialized with the rest of the Component data
+as part of the Document serialization process.
+
+This allows for Style data which is referenced from
+multiple Entity objects to be handled appropriately.
