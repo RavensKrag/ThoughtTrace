@@ -166,3 +166,24 @@ as part of the Document serialization process.
 
 This allows for Style data which is referenced from
 multiple Entity objects to be handled appropriately.
+
+
+
+
+
+--- on the concept of pallet swapping
+
+pallet swapping should be performed using constraints
+
+
+
+there is no longer a need for a dedicated "pallet" class
+it's much better in the current paradigm to link styles of various objects together
+and eventually have the chain relate to a sort of "root" element
+a collection of these root elements would serve as a pallet
+
+changing the root would modify all linked elements
+
+but with proper constraints,
+you could also change any style directly,
+and it would still propagate to all of the other entities
