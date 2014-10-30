@@ -3,15 +3,24 @@
 
 component
 # stores multiple cascades in named modes
+	entity[:style].on_bind
+	entity[:style].on_unbind
+	
+	
+	entity[:style].mirror(other_component)
+	
 	entity[:style].cascade(:default)
 	entity[:style].active_cascade
 	entity[:style].include_cascade?
+	entity[:style].mode
 	entity[:style].mode = :default
 	entity[:style].delete :default
 	entity[:style].mode = :default
 	entity[:style].edit :other do |cascade|
 		
 	end
+	
+	entity[:style].each_cascade # iter or block
 	
 	entity[:style][:property]
 	entity[:style][:property] = :value
@@ -30,8 +39,10 @@ cascade
 	cascade.primary_style
 	
 	cascade.each{ |style|  p style }
+	       .each_style
 	cascade.find{ |style|  style.name == "foo" }
-	
+	# cascade includes enumerable, 
+	# providing find and a bunch of others
 	
 	cascade.name
 	
@@ -42,6 +53,7 @@ cascade
 	
 style
 	style.name
+	style.lock_name!
 	
 	style[:property]
 	style[:property] = :value
