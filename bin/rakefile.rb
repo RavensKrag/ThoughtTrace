@@ -51,3 +51,58 @@ task :document_test => [:build_serialization_system, :load_dependencies] do
 		require './test'
 	end
 end
+
+task :method_probing_test => [:build_serialization_system, :load_dependencies] do
+	style_component   = ThoughtTrace::Components::Style.new
+	cascade           = ThoughtTrace::Style::Cascade.new
+	style_object      = ThoughtTrace::Style::StyleObject.new "test name"
+	
+	
+	
+	
+	
+	standard_methods = 1.methods
+	
+	
+	puts "=== instance methods"
+	puts "component"
+	p style_component.methods - standard_methods
+	puts "\n"
+	
+	puts "cascade"
+	p cascade.methods - standard_methods
+	puts "\n"
+	
+	puts "style"
+	p style_object.methods - standard_methods
+	puts "\n"
+	
+	puts "standard shared methods"
+	p standard_methods
+	puts "\n"
+	
+	
+	
+	
+	
+	
+	standard_methods = 1.class.methods
+	
+	
+	puts "=== class methods"
+	puts "component"
+	p style_component.class.methods - standard_methods
+	puts "\n"
+	
+	puts "cascade"
+	p cascade.class.methods - standard_methods
+	puts "\n"
+	
+	puts "style"
+	p style_object.class.methods - standard_methods
+	puts "\n"
+	
+	puts "standard shared methods"
+	p standard_methods
+	puts "\n"
+end
