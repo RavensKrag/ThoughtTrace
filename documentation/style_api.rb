@@ -11,7 +11,7 @@ component
 	
 	entity[:style].cascade(:default)
 	entity[:style].active_cascade
-	entity[:style].include_cascade?
+	entity[:style].include_cascade?(:default)
 	entity[:style].mode
 	entity[:style].mode = :default
 	entity[:style].delete :default
