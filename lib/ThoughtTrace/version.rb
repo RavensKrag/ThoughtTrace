@@ -1,3 +1,3 @@
 module ThoughtTrace
-	VERSION = "0.01.3"
+	VERSION = "0.02.2"
 end
