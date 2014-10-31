@@ -89,6 +89,16 @@ and search for particular style objects.
 
 
 
+The abstraction is supposed to be peeled back for interaction with cascades
+rather than delegating cascade interface commands to the active cascade.
+
+This is deliberate, and forces the coder to be aware of the state being handled,
+instead of simply having it happen by "magic"
+
+
+
+
+
 
 
 
