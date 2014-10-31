@@ -1,25 +1,11 @@
-entity[:style].tap do |component|
-	default_cascade = component.cascade(:default)
-	
-	component.mode = :query
-	component.active_cascade.tap do |x|
-		x.socket(1, @style)
-		x.socket(2, default_cascade)
-	end
-end
+one   = StyleObject.new
+two   = StyleObject.new
+three = StyleObject.new
 
 
 
-
-
-entity[:style].tap do |component|
-	default_cascade = component.cascade(:default)
-	
-	
-	component.edit(:query) do |x|
-		x.socket(1, @style)
-		x.socket(2, default_cascade)
-	end
-	
-	component.mode = :query
+entity[:style].cascade(:other).tap do |cascade|
+	cascade.socket(1, one)
+	cascade.socket(2, two)
+	cascade.socket(2, three)
 end
