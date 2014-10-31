@@ -7,3 +7,19 @@ entity[:style].tap do |component|
 		x.socket(2, default_cascade)
 	end
 end
+
+
+
+
+
+entity[:style].tap do |component|
+	default_cascade = component.cascade(:default)
+	
+	
+	component.edit(:query) do |x|
+		x.socket(1, @style)
+		x.socket(2, default_cascade)
+	end
+	
+	component.mode = :query
+end
