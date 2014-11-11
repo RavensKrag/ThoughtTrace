@@ -185,7 +185,7 @@ class Text < Rectangle
 		
 		
 		
-		target = (estimated_i..@string.size).short_circuiting_min_by do |i|
+		target = (estimated_i..@string.size).local_min_by do |i|
 			offset = width_of_first(i)
 			
 			
