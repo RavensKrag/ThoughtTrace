@@ -170,7 +170,7 @@ class Text < Rectangle
 		# optimizing by finding a nice upper and lower bound
 		# rather than making smart jumps between points
 		
-		# offset based on estimated  math, using average characters per em
+		# initial estimation based on average characters per em
 			
 			px_per_em = @font.width('m', self.height)
 			estimated_character_count = measured_offset / (EMS_PER_CHAR * px_per_em)
@@ -180,8 +180,6 @@ class Text < Rectangle
 			
 			estimated_i = estimated_character_count.to_i - 1
 			estimated_i = 0 if estimated_i < 0
-			
-			estimated_offset = width_of_first(estimated_i)
 		
 		
 		
