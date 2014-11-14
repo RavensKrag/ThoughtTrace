@@ -36,6 +36,13 @@ module CP
 			def area
 				CP.area_for_circle 0, self.radius # inner, outer (order doesn't seem to matter)
 			end
+			
+			
+			# return center of this shape in local space
+			def center
+				# NOTE: I'm not totally sure that this will work in general, because of the shape offset. However, it should work fine within the system defined by ThoughtTrace
+				CP::Vec2.new(0,0)
+			end
 		end
 	end
 end
