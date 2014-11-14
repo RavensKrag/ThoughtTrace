@@ -2,11 +2,10 @@ module ThoughtTrace
 
 
 class Space < CP::Space
-	attr_reader :entities, :queries, :constraints, :groups
+	attr_reader :entities, :constraints, :groups
 	
 	def initialize
 		@entities =	EntityList.new self
-		@queries = QueryList.new self
 		@constraints = ConstraintList.new self
 		@groups = GroupList.new self
 		
@@ -20,7 +19,7 @@ class Space < CP::Space
 	end
 	
 	def update
-		[@entities, @queries, @constraints, @groups].each do |collection|
+		[@entities, @constraints, @groups].each do |collection|
 			collection.each &:update
 		end
 		
@@ -30,7 +29,6 @@ class Space < CP::Space
 	def draw
 		[
 			@entities,
-			@queries,
 			@constraints,
 			@groups
 		].each do |collection|
@@ -58,7 +56,6 @@ class Space < CP::Space
 	def gc
 		[
 			@entities,
-			@queries,
 			@constraints,
 			@groups
 		].each do |collection|
