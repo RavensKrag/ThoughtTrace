@@ -38,11 +38,11 @@ class Constraint
 	
 	class << self
 		def unpack(*entities)
-			group = self.new
+			constraint = self.new
 			
-			entities.each{ |e| group.add e  }
+			entities.each{ |e| constraint.add e  }
 			
-			return group
+			return constraint
 		end
 	end
 	# =========================
