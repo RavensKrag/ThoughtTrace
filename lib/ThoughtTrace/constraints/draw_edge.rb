@@ -32,7 +32,7 @@ class DrawEdge < Constraint
 	
 	# visualize the current state of the constraint
 	def draw
-		ThoughtTrace::Drawing.draw_line($window, @a,@b, @cascade['color'], 20)
+		ThoughtTrace::Drawing.draw_line($window, @a,@b, color:@cascade['color'], thickness:20)
 	end
 end
 
