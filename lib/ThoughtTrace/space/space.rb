@@ -120,16 +120,6 @@ class Space
 		end
 	end
 	
-	class QueryList < List
-		# def add(object)
-			
-		# end
-		
-		# def delete(object)
-			
-		# end
-	end
-	
 	class ConstraintList < List
 		# def add(object)
 			
