@@ -8,7 +8,7 @@ class << self
 
 # draw a line that connects points a and b
 # (line will always be drawn from left to right)
-def draw_line(render_context, a,b, color:DEFAULT_COLOR, thickness:6, line_offset:0.5)
+def draw_line(render_context, a,b, color:DEFAULT_COLOR, thickness:6, line_offset:0.5, z_index:0)
 	# may want to sort the points by x value, in order to help maintain vertex winding
 	a,b = [a, b].sort_by{ |v| v.x  }
 	
@@ -28,7 +28,7 @@ def draw_line(render_context, a,b, color:DEFAULT_COLOR, thickness:6, line_offset
 	].reverse!
 	
 	
-	render_context.gl z do
+	render_context.gl z_index do
 		# opengl code copied from code used to draw Poly shapes
 		GL.Begin(GL::GL_TRIANGLE_FAN)
 			GL.Color4ub(color.red, color.green, color.blue, color.alpha)
