@@ -27,6 +27,16 @@ class Constraint
 	
 	
 	
+	# bind
+	# unbind
+	# unbind_when # defines a condition. if the condition is true, then do the unbinding procedure
+	# 	# (allows for "break the tether"-style triggers)
+	# update
+	# draw
+	
+	
+	
+	
 	
 	
 	# ===== serialization =====
@@ -38,9 +48,7 @@ class Constraint
 	
 	class << self
 		def unpack(*entities)
-			constraint = self.new
-			
-			entities.each{ |e| constraint.add e  }
+			constraint = self.new(*entities)
 			
 			return constraint
 		end
