@@ -79,6 +79,8 @@ dependency_list = [
 	
 	'./monkey_patches',
 	
+	'./drawing',
+	
 	'./utilities/font',
 	'./style',
 	
@@ -92,7 +94,7 @@ dependency_list = [
 	'./entities/',
 	
 	'./queries',
-	# './constraints',
+	'./constraints',
 	'./groups',
 	
 	# './space',
