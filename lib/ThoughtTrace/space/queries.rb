@@ -12,7 +12,7 @@
 
 
 module ThoughtTrace
-	class Space < CP::Space
+	class Space
 	
 		def empty_at?(position)
 			selection = point_query(position, CP::ALL_LAYERS, CP::NO_GROUP)
@@ -38,7 +38,7 @@ module ThoughtTrace
 			# block params: |object_in_space|
 			
 			selection = []
-			super(point, layers, group) do |shape|
+			@space.point_query(point, layers, group) do |shape|
 				selection << shape.obj
 			end
 			
@@ -130,10 +130,9 @@ module ThoughtTrace
 		# 	block called for the shape that is found
 		# 	(implication that all matches are returned)
 		# NOTE: includes sensor shapes
-		# 
-			# preserve old version, for use with #segment_query_first (rationale @ that method)
-			alias :old_segment_query :segment_query
-		# 
+		
+		
+		
 		# This iterates over all shapes, not all objects, as opposed to the point query.
 		# This is to preserve the distances an normals of the collisions.
 		# The objects can still be accessed through the shapes, so it's not a big deal.
@@ -141,7 +140,7 @@ module ThoughtTrace
 			# so having to go through the shape may introduce unwanted noise to the code.
 		def segment_query(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil, &block)
 			# block params: |shape, t, n|
-			super(start, stop, layers, group) do |shape, t, n|
+			@space.segment_query(start, stop, layers, group) do |shape, t, n|
 				block.call(shape, t, n) if within_limiting_set?(set, shape)
 			end
 		end
@@ -154,7 +153,7 @@ module ThoughtTrace
 		# in order to make sure that the first collision which is allowable by the set
 		# is cleared, and not some unusable point.
 		def segment_query_first(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
-			old_segment_query do |shape, t, n|
+			@space.segment_query do |shape, t, n|
 				# (same test as above)
 				if within_limiting_set?(set, shape)
 					return CP::SegmentQueryInfo.new(shape, t, n)
@@ -167,7 +166,7 @@ module ThoughtTrace
 		const_set "SegmentQueryInfo", segment_query_struct
 		
 		def segment_query_first(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
-			old_segment_query do |shape, t, n|
+			@space.segment_query do |shape, t, n|
 				# only care about set inclusion if set defined
 				# (same test as above)
 				if within_limiting_set?(set, shape)
@@ -181,7 +180,7 @@ module ThoughtTrace
 		
 		def bb_query(bb, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil, &block)
 			# block params: |object_in_space|
-			super(bb, layers, group) do |shape|
+			@space.bb_query(bb, layers, group) do |shape|
 				block.call(shape.obj) if within_limiting_set?(set, shape)
 			end
 		end
@@ -189,7 +188,7 @@ module ThoughtTrace
 		def shape_query(query_shape, set=nil, &block)
 			# block params: |shape, contact_point_set|
 			# actually, current Chipmunk 6 bindings do not seem to return the contact points
-			super(query_shape) do |colliding_shape|
+			@space.shape_query(query_shape) do |colliding_shape|
 				block.call(colliding_shape) if within_limiting_set?(set, shape)
 			end
 		end
