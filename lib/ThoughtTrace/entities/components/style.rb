@@ -1,5 +1,3 @@
-require 'forwardable'
-
 module ThoughtTrace
 	module Components
 
