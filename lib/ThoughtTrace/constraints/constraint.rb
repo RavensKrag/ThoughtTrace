@@ -25,6 +25,10 @@ class Constraint
 	
 	
 	
+	def gc?
+		false
+	end
+	
 	
 	
 	# bind
