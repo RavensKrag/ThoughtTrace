@@ -211,16 +211,16 @@ end
 # (not sure how useful that would be in the context of this system though)
 
 
+base = @entities[0]
+
+@collection.add LimitHeight.curry(base), Individual, Underline,      [e1]
+@collection.add LimitHeight,             Each,       Underline,      [e1, e2, e3, e4, e5]
+@collection.add LimitHeight,             Dependent,  SingleArrow,    [e1, e2]
 
 
-@collection.add LimitHeight, Individual, Underline,      [e1]
-@collection.add LimitHeight, Each,       Underline,      [e1]
-@collection.add LimitHeight, Dependent,  SingleArrow,    [e1, e2]
-
-
-@collection.add SyncHeight,  Directed,   SingleArrow,    [e1, e2]
-@collection.add SyncHeight,  Mutual,     DoubleHeaded,   [e1, e2]
-@collection.add SyncHeight,  All,        Underline,      [e1, e2, e3, e4, e5]
+@collection.add SyncHeight,              Directed,   SingleArrow,    [e1, e2]
+@collection.add SyncHeight,              Mutual,     DoubleHeaded,   [e1, e2]
+@collection.add SyncHeight,              All,        Underline,      [e1, e2, e3, e4, e5]
 
 
 
