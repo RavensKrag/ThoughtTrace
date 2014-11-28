@@ -213,14 +213,14 @@ end
 
 
 
-@collection.add LimitHeght, Individual, Underline,      [e1]
-@collection.add LimitHeght, Each,       Underline,      [e1]
-@collection.add LimitHeght, Dependent,  SingleArrow,    [e1, e2]
+@collection.add LimitHeight, Individual, Underline,      [e1]
+@collection.add LimitHeight, Each,       Underline,      [e1]
+@collection.add LimitHeight, Dependent,  SingleArrow,    [e1, e2]
 
 
-@collection.add SyncHeight, Directed,   SingleArrow,    [e1, e2]
-@collection.add SyncHeight, Mutual,     DoubleHeaded,   [e1, e2]
-@collection.add SyncHeight, All,        Underline,      [e1, e2, e3, e4, e5]
+@collection.add SyncHeight,  Directed,   SingleArrow,    [e1, e2]
+@collection.add SyncHeight,  Mutual,     DoubleHeaded,   [e1, e2]
+@collection.add SyncHeight,  All,        Underline,      [e1, e2, e3, e4, e5]
 
 
 
@@ -230,6 +230,23 @@ end
 # Directed       o   1-way relationship between two objects
 # Mutual         o   2-way relationship between two objects
 # All            o   n-way relationship between n objects  (n! connections)
+
+
+# Dependent is essentially a wrapper type, that bridges the logic of Individual and Directed
+# it uses the actual constraint tick application from an Individual constraint,
+# but applies it between two entities, like a Directed constraint
+
+
+# Perhaps this should be inverted:
+# unary constraints are just binary constraints,
+# but with some parameters replaced with hard values, instead of being derived from another object
+
+# this is true for the LimitHeight constraint I have envisioned here,
+# but that sorta implies that it is not a "true" unary constraint
+# as it has a binary form as well
+
+# consider Ruby's splat operator, which is inherently unary
+# as opposed to negation, which could (at least mathematically) be rephrased as a binary operation
 
 class Visualization
 	def initialize(constraint)
