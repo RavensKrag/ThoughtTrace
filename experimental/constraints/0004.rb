@@ -222,6 +222,8 @@ base = @entities[0]
 @collection.add SyncHeight,              Mutual,     DoubleHeaded,   [e1, e2]
 @collection.add SyncHeight,              All,        Underline,      [e1, e2, e3, e4, e5]
 
+# NOTE: the Constraint.curry needs to return an object, which when initialized using .new, creates an instance of the curryed constraint type. it's a similar structure to how metaclasses are wrappers on classes. you need to return a wrapper object which will finish up the initialization.
+
 
 
 # Individual     1   single item. applies constraint based on a parameter, rather than another obj
