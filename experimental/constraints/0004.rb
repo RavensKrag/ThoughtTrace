@@ -248,6 +248,65 @@ end
 # consider Ruby's splat operator, which is inherently unary
 # as opposed to negation, which could (at least mathematically) be rephrased as a binary operation
 
+
+
+
+
+
+# unary
+# binary
+# pseudo-unary  (binary with default arguments)
+# n-ary         (can be defined as binary)
+
+
+
+# defined as binary
+# defined as unary
+
+# used as unary
+# used as binary
+
+# anything defined as binary can be used as binary, or n-ary
+# some things defined as binary can have sensible defaults for unary usage
+# some things defined as binary can be "curried" to supply one the arguments -> unary
+# inherently unary operations can only ever be unary
+
+
+
+
+unary[@entities[0]]
+
+
+binary[@entities[0], @entities[1]]
+
+
+pseudo_unary = binary.curry[value]
+pseudo_unary[@entities[0]]
+# but you can't do a straight curry,
+# because the binary fx expects an Entity for both arguments,
+# rather than a value, and an entity
+# (simplest way would be to pass a dummy object. you could wrap that up in some syntactic sugar, and call it a "curry" operation)
+pseudo_unary = binary.curry(v1, v2, v3) # pass whatever values that would be extracted from Entity
+pseudo_unary[@entities[0]] # pass in another Entity to complete the operation
+# this has problems with argument order
+# you could use named arguments, but what would you even name them,
+# and how would you perform the substitution?
+# 
+# in the context of the full completed system,
+# in which you can easily make and manipulate Entities and Constraints,
+# it may just be better to shove a full Entity in, and curry that
+
+
+
+
+n_ary = join(binary, [@entities[0], @entities[1], @entities[2], @entities[3]])
+n_ary[]
+# or, maybe like this?
+n_ary = foo(binary)
+n_ary[@entities[0], @entities[1], @entities[2], @entities[3]]
+
+
+
 class Visualization
 	def initialize(constraint)
 		@constraint = constraint
