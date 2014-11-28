@@ -1,32 +1,52 @@
 
 # constraints are always defined pairwise
+# always define data flow from a to b (unidirectional edge)
 module SyncHeight < Constraint
 class << self
+	
+	# TODO: need a better name for this "things I plan to edit in the tick phase" block
+	message = ->(x){ |x|
+		x[:physics].height
+	}
 	
 	def tick(a,b)
 		b[:physics].height = a[:physics].height
 	end
 	
+	
+	
+	
+	
 	def draw(a,b)
-		line(a[:physics].center, b[:physics].center)
+		draw_line(a[:physics].center, b[:physics].center)
 	end
 	
-	
-	
-	message = ->(x){ |x|
-		x[:physics].height
-	}
 end
 end
 
 
 
 
+
+
+# should have different types of wrappers
+# + group    (define edges for all n! relationships)
+# + one way  (define one edge)
+# + two-way  (define two edges, one in each direction)
+
+
+# (could possibly create a factory class to create the proper wrapper based on arity?)
+# (but that can't distinguish between 1-way and 2-way edges anyway... sooo....)
 
 
 
 
 class Wrapper
+	attr_reader :constraint, :entity_list
+	# WARNING: exposing entity_list in this way could allow it to be edited
+	
+	# NOTE: The "previous state" thing is only necessary to know what values are being changed. That information does not need to be saved. Relevant entity data will be saved when entities and components are serialized.
+	
 	def initialize(constraint, *entity_list)
 		@constraint = constraint
 		@entity_list = entity_list
@@ -36,10 +56,10 @@ class Wrapper
 	
 	def update
 		# figure out what parts of the entity may be subject to change
-		# only apply a tick of the constraint if the constraint needs to be re-evaluated
+		# only apply a tick of the constraint if the constraint needs to be
 		data_list =
 			@entity_list.collect do |entity|
-				data = @constraint.message.call(entity)
+				@constraint.message.call(entity)
 			end
 		
 		
@@ -85,11 +105,31 @@ class Wrapper
 		@prev_list = data_list
 	end
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	def update
+		@entity_list.permutation(2) do |a,b|
+			@constraint.tick(a,b)
+		end
+	end
+	
 	def draw
-		@entity_list.each_cons(2) do |a,b|
+		@entity_list.permutation(2) do |a,b|
 			@constraint.draw(a,b)
 		end
 	end
+	
+	# Need to draw any pair for which at least one Entity is visible on screen
+	# Probably need to update all Entity objects that are currently being tracked
+		# wait
+		# but you need to not update ALL pairs,
+		# because that would 
 end
 
 
@@ -97,4 +137,41 @@ end
 
 Wrapper.new(constraint, a,b)
 
-# Wrapper.new(a,b, tick:->(a,b){|a,b|  }, draw:->(){})
+# Wrapper.new(a,b, tick:->(a,b){  }, draw:->(a,b){   })
+
+
+
+
+
+
+
+
+
+	
+	
+	# select the element that has changed, and propagate changes
+	
+	
+	
+	
+	# group trigger
+	x = group.find{ |x|  x[:physics].height == CHANGED   }
+	unless x.nil?
+		group.each do |entity|
+			entity <-- x
+		end
+	end
+	
+	
+	# pairwise trigger
+	if a[:physics].height == CHANGED
+		b <-- a
+	elsif b[:physics].height == CHANGED
+		a <-- b
+	end
+	
+	
+	# so...
+	# some sequence of message sends to find a value
+	# the wrapper must save the last known value of the message evaluation
+	# and compare it to the current tick?
