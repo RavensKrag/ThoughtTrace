@@ -25,14 +25,16 @@ class DrawEdge < Constraint
 	
 	# apply one tick of the constraint
 	def update
-		# TODO: properly define Components::Physics#center
-		@a = @entities[0][:physics].center
-		@b = @entities[1][:physics].center
+		
 	end
 	
 	# visualize the current state of the constraint
 	def draw
-		ThoughtTrace::Drawing.draw_line($window, @a,@b, color:@cascade['color'], thickness:20)
+		# TODO: properly define Components::Physics#center
+		a = @entities[0][:physics].center
+		b = @entities[1][:physics].center
+		
+		ThoughtTrace::Drawing.draw_line($window, a,b, color:@cascade['color'], thickness:5)
 	end
 end
 
