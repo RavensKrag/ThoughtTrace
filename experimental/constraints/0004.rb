@@ -224,12 +224,12 @@ end
 
 
 
-# Individual     o   single item. applies constraint based on a parameter, rather than another obj
-# Each           o   each and every item in the list
-# Dependent      o   similar to Individual, but derives parameter from the properties of some obj
-# Directed       o   1-way relationship between two objects
-# Mutual         o   2-way relationship between two objects
-# All            o   n-way relationship between n objects  (n! connections)
+# Individual     1   single item. applies constraint based on a parameter, rather than another obj
+# Each           1   each and every item in the list
+# Dependent     1-2  similar to Individual, but derives parameter from the properties of some obj
+# Directed       2   1-way relationship between two objects
+# Mutual         2   2-way relationship between two objects
+# All            2   n-way relationship between n objects  (n! connections)
 
 
 # Dependent is essentially a wrapper type, that bridges the logic of Individual and Directed
