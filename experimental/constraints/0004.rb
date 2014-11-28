@@ -214,7 +214,7 @@ end
 base = @entities[0]
 
 @collection.add LimitHeight.curry(base), Individual, Underline,      [e1]
-@collection.add LimitHeight,             Each,       Underline,      [e1, e2, e3, e4, e5]
+@collection.add LimitHeight.curry(base), Each,       Underline,      [e1, e2, e3, e4, e5]
 @collection.add LimitHeight,             Dependent,  SingleArrow,    [e1, e2]
 
 
@@ -223,6 +223,22 @@ base = @entities[0]
 @collection.add SyncHeight,              All,        Underline,      [e1, e2, e3, e4, e5]
 
 # NOTE: the Constraint.curry needs to return an object, which when initialized using .new, creates an instance of the curryed constraint type. it's a similar structure to how metaclasses are wrappers on classes. you need to return a wrapper object which will finish up the initialization.
+
+# wait wait....
+# this makes it so the the unary constraints are all pretty much just binary constraints
+# why have the repetition?
+# why have value been un-editable once the relationship is established?
+# using binary constraints and manipulating data spatially would be way better
+# 
+# it may be the case that this system does not have unary operations
+# but more importantly,
+# it seems like it is not necessary to have a transformation of binary -> unary in this system
+# and also, that considering unary constraints is something beyond the current scope of thinking
+# the binary constraint system should be implemented first
+# even if the system needs to be overhauled later.
+# having that system will allow for clearer thinking.
+
+
 
 
 
