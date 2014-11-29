@@ -266,6 +266,29 @@ end
 
 
 collection = Constraints::Collection.new
-collection.add :foo, All, SingleArrow,     e1, e2, e3, e4, e5
+collection.add 'Propogating', :foo, All, SingleArrow,     e1, e2, e3, e4, e5
 
 # NOTE: if you create a method object, and then the method is changed, the object remain bound to the old definition of the method. Thus, going to use message passing instead.
+
+
+collection.add 'Limiting', :HeightWithin10Percent, All, Underline,     e1, e2, e3, e4, e5
+# no height of any one object can deviate from any other in the group more than 10%
+
+# ok this 'parameters in function names' thing is bad
+# need to either make some classes,
+# or use curryed functions (Procs)
+
+
+
+
+
+
+# would rather use objects, so that way you can't curry the Entity parameters on accident
+# that would get really weird.
+# those last two spots need to be guaranteed to be open, 
+# so that the function call inside the system will work as intended
+
+collection.add LimitHeight.new(->(h){ 0.20*h }), All, Underline,     e1, e2, e3, e4, e5
+# insures that height never exceeds 20% of the reference object's height
+# because the constraint is applied to an 'All' relationship,
+# it will keep all objects in the group within 20% of each other
