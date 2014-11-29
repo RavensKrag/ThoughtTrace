@@ -116,8 +116,8 @@ class SingleArrow < Visualization
 		
 	end
 	
-	def draw
-		@entities.permutation(2)
+	def draw(a,b)
+		
 	end
 end
 
