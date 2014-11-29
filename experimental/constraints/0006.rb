@@ -6,11 +6,31 @@ module Constraints
 # all functions take two arguments
 # each argument is an entity
 # the data shall flow from entity A to entity B
+module Propogating # updates when A has changed
 class << self
 	def foo(a,b)
 		
 	end
 end
+end
+
+module Limiting # updates when B has changed
+class << self
+	def foo(a,b)
+		
+	end
+end
+end
+
+# NOTE: there is the possiblity of 4 groupings:
+	# flow A -> B dependent on A
+	# flow A -> B dependent on B
+	# flow B -> A dependent on A
+	# flow B -> A dependent on B
+# but I'm pretty sure that you always want the data to flow from A to B
+# because I'm fairly convinced that if you wanted things the other way,
+# you would just specify the constraint the other way around.
+# Thus, it reduces to 2 relationships
 
 
 
@@ -24,8 +44,20 @@ end
 # the specific logic will have to change for each monad type
 # (not even sure if these are actually monads or not)
 class Monad
-	def initialize(entity_list)
+	def initialize(constraint_type, entity_list)
 		@entities = entity_list
+		
+		
+		@foo = 
+			if 'Propogating'
+				# update when A has changed
+				->(a,b){ a_has_changed? }
+		    elsif 'Limiting'
+		    	# update when B has changed
+		    	->(a,b){ b_has_changed? }
+		    else
+		    	raise "There is no constraint type '#{constraint_type}'"
+		    end
 	end
 	
 	# use this name instead of "each_pair" because it's not 'each and every pair'
@@ -39,7 +71,9 @@ class Monad
 	def necessary_pairs(&block)
 		# this implementation does work, assuming that #all_pairs is implemented correctly
 		all_pairs do |a,b|
-			block.call(a,b) if update_condition(a)
+			next unless @foo[a,b] or update_condition(a)
+			
+			block.call(a,b)
 		end
 	end
 	
@@ -180,16 +214,19 @@ class Collection
 	# currently assuming constraints are method objects
 	# yes. method. objects.
 	# take the containing object and call #method(name) to retrieve the method object
-	def add(constraint_name, monad_type, visualization_type, *entity_list)
+	def add(constraint_type, constraint_name, monad_type, visualization_type, *entity_list)
+		mod = Constraints.const_get constraint_type
+		
 		# just use constraint objects to check arity, but then store by message name
-		constraint = Constraints.method(constraint_name)
+		constraint = mod.method(constraint_name)
 		
 		unless constraint.arity == entity_list.size
 			raise ArgumentError, "Constraint '#{constraint.name}' recieved the wrong number of arguments (#{entity_list.size} for #{constraint.arity})"
 		end
+		# ^ don't need this. this implementation fails to do what I wanted. but also, constraints are always defined pairwise, so this isn't actually an issue any more
 		
 		
-		monad         = monad_type.new(entity_list)
+		monad         = monad_type.new(constraint_type, entity_list)
 		visualization = visualization_type.new(entity_list)
 		
 		@list << [constraint_name, monad, visualization]
