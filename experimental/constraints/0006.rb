@@ -39,9 +39,7 @@ class Monad
 	def necessary_pairs(&block)
 		# this implementation does work, assuming that #all_pairs is implemented correctly
 		all_pairs do |a,b|
-			if update_condition
-				block.call(a,b)
-			end
+			block.call(a,b) if update_condition(a)
 		end
 	end
 end
@@ -56,7 +54,7 @@ class Directed < Monad
 		block.call(@entities[0], @entities[1])
 	end
 	
-	def update_condition
+	def update_condition(entity)
 		
 	end
 end
@@ -72,7 +70,7 @@ class Mutual < Monad
 		end
 	end
 	
-	def update_condition
+	def update_condition(entity)
 		
 	end
 end
@@ -86,7 +84,7 @@ class All < Monad
 	end
 	
 	
-	def update_condition
+	def update_condition(entity)
 		
 	end
 end
