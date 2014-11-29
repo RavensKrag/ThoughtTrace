@@ -42,6 +42,10 @@ class Monad
 			block.call(a,b) if update_condition(a)
 		end
 	end
+	
+	def each(&block)
+		@entities.each &block
+	end
 end
 
 
@@ -96,6 +100,30 @@ end
 
 
 class Visualization
+	# allow visualizations to specify the iterator, without tight binding to Monad
+	class << self
+		private
+		
+		def relationship(type)
+			@type = type
+		end
+		
+		public
+		
+		def relationship
+			@type
+		end
+	end
+	
+	# a bit of syntactic sugar
+	def relationship
+		self.class.relationship
+	end
+	
+	
+	
+	
+	
 	def update
 		# update animation state, etc
 		# do not make any changes to Entity data
@@ -104,7 +132,7 @@ class Visualization
 		# (maybe this should be removed?)
 	end
 	
-	def draw(a,b)
+	def draw
 		# apply visualization data to the Entity objects as necessary
 		# visualize the given pair of entities
 	end
@@ -112,11 +140,25 @@ end
 
 
 class SingleArrow < Visualization
+	relationship :all_pairs
+	
 	def update
 		
 	end
 	
 	def draw(a,b)
+		
+	end
+end
+
+class Underline < Visualization
+	relationship :each
+	
+	def update
+		
+	end
+	
+	def draw(entity)
 		
 	end
 end
@@ -159,8 +201,10 @@ class Collection
 	
 	def draw
 		@list.each do |constraint, monad, visualization|
-			monad.all_pairs do |a,b|
-				visualization.draw(a,b)
+			# monad.all_pairs { |a,b| visualization.draw(a,b)  }
+			
+			monad.send(visualization.relationship) do |*args|
+				visualization.draw(*args)
 			end
 		end
 	end
@@ -175,12 +219,6 @@ end
 
 end
 
-
-# Under this current system, if you want a group constraint to underline things,
-# then add the Entity objects to a group,
-# and have the group style things such that each member has an underline
-# the constraint visualization will try to stay as true to the graph edge visualization paradigm as possible, to show the "true data" without any interface improvements
-# ie) no unary visualization possible under this setup
 
 
 
