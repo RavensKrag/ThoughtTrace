@@ -133,6 +133,22 @@ class All < Monad
 	end
 end
 
+# the first Entity in the list has the other Entities as children
+class ParentAndChildren < Monad
+	def all_pairs(&block)
+		parent = @entities.first
+		# discard the first element, without mutating the original list
+		@entities.drop(1).each do |child|
+			block.call(parent, child)
+		end
+	end
+	
+	
+	def update_condition(entity)
+		
+	end
+end
+
 
 
 
