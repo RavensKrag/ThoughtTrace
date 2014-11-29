@@ -56,6 +56,8 @@ end
 
 # NOTE: these monads need to be further refined, so that they only expose pairs that need to be updated, rather than exposing all pairs every time
 
+# NOTE: consider using yield instead of block.call()
+
 # 1-way
 class Directed < Monad
 	def all_pairs(&block)
