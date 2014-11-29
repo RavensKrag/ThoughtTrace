@@ -132,7 +132,10 @@ class Collection
 	# currently assuming constraints are method objects
 	# yes. method. objects.
 	# take the containing object and call #method(name) to retrieve the method object
-	def add(constraint, monad_type, visualization_type, *entity_list)
+	def add(constraint_name, monad_type, visualization_type, *entity_list)
+		# just use constraint objects to check arity, but then store by message name
+		constraint = Constraints.method(constraint_name)
+		
 		unless constraint.arity == entity_list.size
 			raise ArgumentError, "Constraint '#{constraint.name}' recieved the wrong number of arguments (#{entity_list.size} for #{constraint.arity})"
 		end
@@ -141,13 +144,13 @@ class Collection
 		monad         = monad_type.new(entity_list)
 		visualization = visualization_type.new(entity_list)
 		
-		@list << [constraint, monad, visualization]
+		@list << [constraint_name, monad, visualization]
 	end
 	
 	def update
 		@list.each do |constraint, monad, visualization|
 			monad.necessary_pairs do |a,b|
-				constraint.call(a,b)
+				Constraints.send(constraint, a,b)
 			end
 			
 			visualization.update
@@ -182,6 +185,6 @@ end
 
 
 collection = Constraints::Collection.new
-collection.add Constraints.method(:foo), All, SingleArrow,     e1, e2, e3, e4, e5
+collection.add :foo, All, SingleArrow,     e1, e2, e3, e4, e5
 
-# NOTE: if you create a method object, and then the method is changed, the object remain bound to the old definition of the method
+# NOTE: if you create a method object, and then the method is changed, the object remain bound to the old definition of the method. Thus, going to use message passing instead.
