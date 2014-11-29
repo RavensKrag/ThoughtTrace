@@ -183,3 +183,5 @@ end
 
 collection = Constraints::Collection.new
 collection.add Constraints.method(:foo), All, SingleArrow,     e1, e2, e3, e4, e5
+
+# NOTE: if you create a method object, and then the method is changed, the object remain bound to the old definition of the method
