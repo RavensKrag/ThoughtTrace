@@ -46,6 +46,10 @@ class Monad
 	def each(&block)
 		@entities.each &block
 	end
+	
+	def update_condition(entity)
+		return true
+	end
 end
 
 
