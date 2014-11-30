@@ -6,23 +6,52 @@ module Constraints
 # all functions take two arguments
 # each argument is an entity
 # the data shall flow from entity A to entity B
-module Propogating # updates when A has changed
-class << self
-	def foo(a,b)
+
+
+# constraints are classes, rather than just functions,
+# so that they can be parameterized
+class Constraint
+	def initialize
+		
+	end
+	
+	
+	# method that actually does the work
+	def call(a,b)
 		
 	end
 end
-end
 
-module Limiting # updates when B has changed
-class << self
-	def foo(a,b)
+
+# updates when A has changed
+class PropagatingConstraint < Constraint
+	def initialize
+		
+	end
+	
+	
+	def call(a,b)
 		
 	end
 end
+
+
+# updates when B has changed
+class LimitingConstraint < Constraint
+	def initialize
+		
+	end
+	
+	
+	def call(a,b)
+		
+	end
 end
 
-# NOTE: there is the possiblity of 4 groupings:
+
+
+
+# NOTE: there is the possibility of 4 groupings:
 	# flow A -> B dependent on A
 	# flow A -> B dependent on B
 	# flow B -> A dependent on A
@@ -39,6 +68,60 @@ end
 
 
 
+class Foo < PropagatingConstraint
+	def initialize
+		
+	end
+	
+	
+	def call(a,b)
+		
+	end
+end
+
+
+class LimitHeight < LimitingConstraint
+	def initialize(fx)
+		@fx = fx
+	end
+	
+	
+	def call(a,b)
+		# calculate what the height should be limited to
+		ah = a[:physics].height
+		bh = b[:physics].height
+		
+		h =
+			case @fx.arity
+				when 1
+					fx[ah]
+				when 2
+					fx[ah,bh]
+			end
+		
+		# enforce height limit
+		b[:physics].height = h if b[:physics].height > h
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # pass pairs of objects to the block
 # only pass the pairs if the objects require a tick of the constraint applied to them
 # the specific logic will have to change for each monad type
@@ -46,18 +129,6 @@ end
 class Monad
 	def initialize(constraint_type, entity_list)
 		@entities = entity_list
-		
-		
-		@foo = 
-			if 'Propogating'
-				# update when A has changed
-				->(a,b){ a_has_changed? }
-		    elsif 'Limiting'
-		    	# update when B has changed
-		    	->(a,b){ b_has_changed? }
-		    else
-		    	raise "There is no constraint type '#{constraint_type}'"
-		    end
 	end
 	
 	# use this name instead of "each_pair" because it's not 'each and every pair'
@@ -71,9 +142,26 @@ class Monad
 	def necessary_pairs(&block)
 		# this implementation does work, assuming that #all_pairs is implemented correctly
 		all_pairs do |a,b|
-			next unless @foo[a,b] or update_condition(a)
+			next unless update_condition(a)
 			
-			block.call(a,b)
+			
+			
+					a_changed = entity_changed?(a)
+					b_changed = entity_changed?(b)
+			changes =
+				if a_changed and b_changed
+					:both_changed
+				elsif a_changed
+					:a_changed
+				elsif b_changed
+					:b_changed
+				else
+					:no_change
+				end
+			
+			
+			
+			block.call(a,b) unless changes == :no_change
 		end
 	end
 	
@@ -83,6 +171,17 @@ class Monad
 	
 	def update_condition(entity)
 		return true
+	end
+	
+	
+	
+	private
+	
+	
+	# return true if the Entity has been modified since the last time the Entity was examined
+	# NOTE: you need to know about the Constraint to understand what a meaningful change is
+	def entity_changed?(entity)
+		
 	end
 end
 
@@ -230,29 +329,31 @@ class Collection
 	# currently assuming constraints are method objects
 	# yes. method. objects.
 	# take the containing object and call #method(name) to retrieve the method object
-	def add(constraint_type, constraint_name, monad_type, visualization_type, *entity_list)
-		mod = Constraints.const_get constraint_type
-		
-		# just use constraint objects to check arity, but then store by message name
-		constraint = mod.method(constraint_name)
-		
-		unless constraint.arity == entity_list.size
-			raise ArgumentError, "Constraint '#{constraint.name}' recieved the wrong number of arguments (#{entity_list.size} for #{constraint.arity})"
-		end
-		# ^ don't need this. this implementation fails to do what I wanted. but also, constraints are always defined pairwise, so this isn't actually an issue any more
-		
-		
+	def add(constraint, monad_type, visualization_type, *entity_list)
 		monad         = monad_type.new(constraint_type, entity_list)
 		visualization = visualization_type.new(entity_list)
 		
-		@list << [constraint_name, monad, visualization]
+		@list << [constraint, monad, visualization]
 	end
 	
 	def update
 		@list.each do |constraint, monad, visualization|
 			monad.necessary_pairs do |a,b|
-				Constraints.send(constraint, a,b)
+				constraint.call(a,b)
 			end
+			
+			
+			monad.apply_to_necessary_pairs constraint
+			
+			
+			
+			pairs = monad.all_pairs.select &constraint.filter
+			pairs.each{ |a,b| constraint.call(a,b)  }
+			
+			
+			
+			
+			
 			
 			visualization.update
 		end
@@ -282,29 +383,32 @@ end
 
 
 collection = Constraints::Collection.new
-collection.add 'Propogating', :foo, All, SingleArrow,     e1, e2, e3, e4, e5
-
-# NOTE: if you create a method object, and then the method is changed, the object remain bound to the old definition of the method. Thus, going to use message passing instead.
-
-
-collection.add 'Limiting', :HeightWithin10Percent, All, Underline,     e1, e2, e3, e4, e5
-# no height of any one object can deviate from any other in the group more than 10%
-
-# ok this 'parameters in function names' thing is bad
-# need to either make some classes,
-# or use curryed functions (Procs)
+collection.add Constraints::Foo.new, Directed, SingleArrow, e1, e2
+collection.add Constraints::Foo.new, All,      SingleArrow, e1, e2, e3, e4, e5
 
 
 
 
-
-
-# would rather use objects, so that way you can't curry the Entity parameters on accident
+# Constraints need to be able to take parameters, or you will get a lot of code duplication for no good reason
+# should probably use classes over curryed procs, so you can't curry the Entity parameters
 # that would get really weird.
 # those last two spots need to be guaranteed to be open, 
 # so that the function call inside the system will work as intended
 
-collection.add LimitHeight.new(->(h){ 0.20*h }), All, Underline,     e1, e2, e3, e4, e5
+collection.add Constraints::LimitHeight.new(->(h){ 0.20*h }), All, Underline,  e1, e2, e3, e4, e5
 # insures that height never exceeds 20% of the reference object's height
 # because the constraint is applied to an 'All' relationship,
 # it will keep all objects in the group within 20% of each other
+
+
+
+
+
+
+
+
+# NOTE: if you create a method object, and then the method is changed, the object remain bound to the old definition of the method. Thus, going to use message passing instead.
+
+
+# Wanted to use message passing to allow for easy updating, but may have to think about the dynamic system later.
+
