@@ -56,6 +56,8 @@ class Constraint
 	# dependency, prerequisite?
 	# (is it a concurrent dependency? - interrelated, correlated)
 	def foo(a,b)
+		# NOTE: I didn't want to have to list out things like this, but as you can see from the previous sketches, things get WAY uglier if you try to do without this simple list. Just write the list. Maybe get a tool to write the lists later? but the system needs these simple lists.
+		# NOTE: never include stateful objects in this list. This list should be completely 'state-free'....? idk what to call that
 		[
 			a[:physics].height
 		]
