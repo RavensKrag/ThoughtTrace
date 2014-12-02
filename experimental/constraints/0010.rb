@@ -64,22 +64,16 @@ class Collection
 		@list.each do |cache, constraint, monad, visualization|
 			monad.all_pairs do |a,b|
 				data = constraint.foo(a,b)
-				key = [a,b]
+				pair = [a,b]
 				
 				
-				if cache[key]
-					# call the constraint if the value has changed
-					if cache[key] != data
-						constraint.call(a,b) 
-						cache[key] = data
-						
-						
-						visualization.activate
-					end
-				else
-					# no data stored yet
-					cache[key] = data
-					next
+				
+				if baz?(cache, pair, data)
+					constraint.call(a,b)
+					cache[pair] = data
+					
+					
+					visualization.activate
 				end
 			end
 
@@ -99,6 +93,16 @@ class Collection
 			# 	visualization.draw(*args)
 			# end
 		end
+	end
+	
+	
+	private
+	
+	# check the cache
+	# return true if the constraint needs to be run again
+	def baz?(cache, pair, data)
+		# there is stored data but it's old, or no data has yet been stored
+		cache[pair] && cache[pair] != data or cache[pair].nil?
 	end
 end
 
