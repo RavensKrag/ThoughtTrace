@@ -1,0 +1,73 @@
+module ThoughtTrace
+	module Constraints
+
+
+
+class Collection
+	# currently assuming constraints are method objects
+	# yes. method. objects.
+	# take the containing object and call #method(name) to retrieve the method object
+	def add(constraint, monad_type, visualization_type, *entity_list)
+		monad         = monad_type.new(entity_list)
+		visualization = visualization_type.new(entity_list)
+		
+		cache = Hash.new
+		
+		
+		@list << [cache, constraint, monad, visualization]
+	end
+	
+	def update
+		@list.each do |cache, constraint, monad, visualization|
+			monad.all_pairs do |a,b|
+				data = constraint.foo(a,b)
+				pair = [a,b]
+				
+				
+				
+				if baz?(cache, pair, data)
+					constraint.call(a,b)
+					cache[pair] = data
+					
+					
+					visualization.activate
+				end
+			end
+			
+			# NOTE: the 'All' monad should be optimized
+			# so that it can execute in 2n, rather than n(n-1) time.
+			# but this kinda means that the cache needs to be part of the monad?
+			# because for the All monad, only piece of data needs to be cached,
+			# because the all Entities in the relation should have the same value
+			
+			
+			
+			
+			visualization.update
+		end
+	end
+	
+	def draw
+		@list.each do |cache, constraint, monad, visualization|
+			monad.all_pairs { |a,b| visualization.draw(a,b)  }
+			
+			# monad.send(visualization.relationship) do |*args|
+			# 	visualization.draw(*args)
+			# end
+		end
+	end
+	
+	
+	private
+	
+	# check the cache
+	# return true if the constraint needs to be run again
+	def baz?(cache, pair, data)
+		# there is stored data but it's old, or no data has yet been stored
+		cache[pair] && cache[pair] != data or cache[pair].nil?
+	end
+end
+
+
+end
+end
