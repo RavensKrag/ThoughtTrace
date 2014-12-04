@@ -20,9 +20,9 @@ class Visualization
 		
 		
 		if @state == :active
-			update_active(a,b)
+			update_active
 		elsif @state == :inactive
-			update_inactive(a,b)
+			update_inactive
 		else
 			raise 'wat'
 		end
@@ -119,11 +119,11 @@ class Visualization
 	
 	# TODO: consider having two separate objects for active and inactive states, so that the two states can keep their data completely separate
 	# TODO: consider that only one visualization object needs to be made - this wrapper - and that the inside classes could be something else? or maybe that those objects should be the visualization classes, and this wrapper should be called something else
-	def update_active(a,b)
+	def update_active
 		
 	end
 	
-	def update_inactive(a,b)
+	def update_inactive
 		
 	end
 	
