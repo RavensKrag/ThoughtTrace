@@ -14,9 +14,9 @@ class Constraint
 
 	# dependency, prerequisite?
 	# (is it a concurrent dependency? - interrelated, correlated)
-	def foo(entity)
+	def foo(a,b)
 		[
-			entity[:physics].height
+			a[:physics].height
 		]
 	end
 
