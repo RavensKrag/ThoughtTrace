@@ -6,12 +6,8 @@ module ThoughtTrace
 
 # 1-way
 class Directed < Enumerator
-	def all_pairs(&block)
+	def each(&block)
 		block.call(@entities[0], @entities[1])
-	end
-	
-	def update_condition(entity)
-		
 	end
 end
 

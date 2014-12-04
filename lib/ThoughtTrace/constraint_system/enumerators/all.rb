@@ -6,15 +6,10 @@ module ThoughtTrace
 
 # n-way
 class All < Enumerator
-	def all_pairs(&block)
+	def each(&block)
 		@entities.permutation(2) do |a,b|
 			block.call(a,b)
 		end
-	end
-	
-	
-	def update_condition(entity)
-		
 	end
 end
 
