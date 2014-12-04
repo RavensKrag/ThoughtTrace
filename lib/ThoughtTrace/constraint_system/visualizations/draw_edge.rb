@@ -27,10 +27,12 @@ class DrawEdge < Visualization
 	
 	def draw_active(a,b)
 		# TODO: properly define Components::Physics#center
-		ac = a[:physics].center
-		bc = b[:physics].center
 		
-		ThoughtTrace::Drawing.draw_line($window, ac,bc, color:@cascade['color'], thickness:5)
+		ThoughtTrace::Drawing.draw_line(
+			$window,
+			a[:physics].center, b[:physics].center, 
+			color:@cascade['color'], thickness:5
+		)
 	end
 	
 	def draw_inactive(a,b)
