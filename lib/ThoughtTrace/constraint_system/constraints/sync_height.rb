@@ -17,7 +17,7 @@ class SyncHeight < Constraint
 
 	# execute one tick
 	def call(a,b)
-		
+		b[:physics].height = a[:physics].height
 	end
 end
 

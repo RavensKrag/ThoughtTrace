@@ -18,7 +18,13 @@ class LimitHeight < Constraint
 
 	# execute one tick
 	def call(a,b)
+		ah = a[:physics].height
+		bh = b[:physics].height
 		
+		# the height of B should not exceed the height of A
+		if bh > ah
+			b[:physics].height = a[:physics].height
+		end
 	end
 end
 
