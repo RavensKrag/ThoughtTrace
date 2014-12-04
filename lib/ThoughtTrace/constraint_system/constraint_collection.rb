@@ -75,6 +75,10 @@ class Collection
 	# check the cache
 	# return true if the constraint needs to be run again
 	def baz?(cache, pair, data)
+		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
+		return data if !!data == data
+		
+		
 		# there is stored data but it's old, or no data has yet been stored
 		cache[pair] && cache[pair] != data or cache[pair].nil?
 	end
