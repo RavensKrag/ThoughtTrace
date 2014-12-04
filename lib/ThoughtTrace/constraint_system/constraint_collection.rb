@@ -7,19 +7,19 @@ class Collection
 	# currently assuming constraints are method objects
 	# yes. method. objects.
 	# take the containing object and call #method(name) to retrieve the method object
-	def add(constraint, monad_type, visualization_type, *entity_list)
-		monad         = monad_type.new(entity_list)
+	def add(constraint, enumerator_type, visualization_type, *entity_list)
+		all_pairs     = enumerator_type.new(entity_list)
 		visualization = visualization_type.new(entity_list)
 		
 		cache = Hash.new
 		
 		
-		@list << [cache, constraint, monad, visualization]
+		@list << [cache, constraint, all_pairs, visualization]
 	end
 	
 	def update
-		@list.each do |cache, constraint, monad, visualization|
-			monad.all_pairs do |a,b|
+		@list.each do |cache, constraint, all_pairs, visualization|
+			all_pairs.each do |a,b|
 				data = constraint.foo(a,b)
 				pair = [a,b]
 				
@@ -48,8 +48,8 @@ class Collection
 	end
 	
 	def draw
-		@list.each do |cache, constraint, monad, visualization|
-			monad.all_pairs { |a,b| visualization.draw(a,b)  }
+		@list.each do |cache, constraint, all_pairs, visualization|
+			all_pairs.each { |a,b| visualization.draw(a,b)  }
 			
 			# monad.send(visualization.relationship) do |*args|
 			# 	visualization.draw(*args)
