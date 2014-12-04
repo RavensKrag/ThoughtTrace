@@ -13,6 +13,8 @@ class Enumerator
 	def each(&block)
 		
 	end
+	
+	include Enumerable
 end
 
 
