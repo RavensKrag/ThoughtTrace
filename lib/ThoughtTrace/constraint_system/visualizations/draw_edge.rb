@@ -7,6 +7,12 @@ module ThoughtTrace
 class DrawEdge < Visualization
 	def initialize
 		super()
+		
+		# TODO: consider putting the cascade at the class-level in a class-instance variable
+		@cascade = ThoughtTrace::Style::Cascade.new
+		@cascade.tap do |c|
+			c['color'] = Gosu::Color.argb(0xaaFF0000)
+		end
 	end
 	
 	# TODO: consider having two separate objects for active and inactive states, so that the two states can keep their data completely separate
@@ -20,7 +26,11 @@ class DrawEdge < Visualization
 	end
 	
 	def draw_active(a,b)
+		# TODO: properly define Components::Physics#center
+		ac = a[:physics].center
+		bc = b[:physics].center
 		
+		ThoughtTrace::Drawing.draw_line($window, ac,bc, color:@cascade['color'], thickness:5)
 	end
 	
 	def draw_inactive(a,b)
