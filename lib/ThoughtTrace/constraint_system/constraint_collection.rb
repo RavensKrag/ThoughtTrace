@@ -41,6 +41,18 @@ class Collection
 			# because the all Entities in the relation should have the same value
 			
 			
+			# This attempted restructuring
+			# so that the All monad can be optimized to 2n doesn't actually work
+			# because it assumes that constraints are always propagating constraints
+			# if it's a limiting constraint, you must test pairwise, you can't optimize to testing only one
+			
+			
+			# ie
+			# it will only work when you have a constraint that
+			# depends only on change in A (the source) rather than also depending on changes in B (the sink)
+
+			
+			
 			
 			
 			visualization.update
