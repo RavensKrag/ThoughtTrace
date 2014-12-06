@@ -104,6 +104,9 @@ dependency_list = [
 		'./space/space',
 	
 	
+	'./constraint_system/',
+	
+	
 	'./cameras/camera',
 	
 	
