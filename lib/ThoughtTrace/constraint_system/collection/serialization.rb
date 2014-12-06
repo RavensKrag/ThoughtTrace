@@ -8,7 +8,7 @@ class Collection
 	# this serialization process does not actually interface with the disk at all
 	
 	
-	def pack(data_dump)
+	def pack
 		
 	end
 	
