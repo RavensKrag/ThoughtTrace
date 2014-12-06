@@ -16,7 +16,7 @@ class Document
 		entities              = @space.entities
 		
 		groups                = @space.groups
-		constraints           = @space.constraints
+		constraints           = @constraints
 		
 		styled_entities       = @space.entities.select{ |e|  e[:style] }.compact
 		query_marked_entities = @space.entities.select{ |e|  e[:query] }.compact
@@ -127,10 +127,9 @@ class Document
 			
 			
 			
-			
+			# TODO: move the packing code into the Group or Constraint collection class. Both for cleaner code, but also so that those classes can handle this situation differently. This code works great for the general case of a list / the group scenario in particular, but the Constraints system now needs a more specialized solution
 			{
 				'groups'      => groups,
-				'constraints' => constraints
 			}.each do |type, list|
 				# pack
 				packed_array = list.collect{ |obj| pack_with_class_name(obj)  }.compact
@@ -221,17 +220,16 @@ class Document
 		
 		
 		# other stuff that uses entities
-		types = ['groups', 'constraints']
-		out = 
-			types.collect do |type|
+		other_stuff = # {type => data_dump}
+			[
+				'groups', 'constraints'
+			].collect{ |type|
 				data_dump = read_data(project_directory, type)
-				
 				data_dump.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
 				
-				data_dump.collect{ |data| unpack_with_class_name(data)  }
-			end
-		other_stuff = types.zip(out).to_h
-		
+				
+				[type, data_dump]
+			}.to_h
 		
 		
 		
@@ -243,20 +241,24 @@ class Document
 		
 		
 		# === populate the space
-		{
-			:entities    => entities,
-			:groups      => other_stuff['groups'],
-			:constraints => other_stuff['constraints']
-		}.each do |name, collection|
-			collection.each{ |obj| document.space.send(name).add obj  } 
-		end
+		entities.each{ |obj| document.space.entities.add obj  }
+		
+		# === set up groups
+		document.space.groups.unpack_into_self(other_stuff['groups'])
+				
+		# === set up constraints
+		constraints = ThoughtTrace::Constraints::Collection.unpack(other_stuff['constraints'])
 		
 		# === set abstract data types
 		document.instance_eval do
 			# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
 			@named_styles = named_styles
 			@prototypes   = prototypes
+			
+			
+			@constraints = constraints
 		end
+		
 		
 		
 		

@@ -16,14 +16,12 @@ class Space
 		
 		
 		@entities =	EntityList.new @space
-		@constraints = ConstraintList.new @space
 		@groups = GroupList.new @space
 	end
 	
 	def update
 		[
 			@entities,
-			@constraints,
 			@groups
 		].each do |collection|
 			collection.each &:update
@@ -35,7 +33,6 @@ class Space
 	def draw
 		[
 			@entities,
-			@constraints,
 			@groups
 		].each do |collection|
 			collection.each &:draw
@@ -62,7 +59,6 @@ class Space
 	def gc
 		[
 			@entities,
-			@constraints,
 			@groups
 		].each do |collection|
 			collection.delete_if &:gc?
@@ -120,16 +116,6 @@ class Space
 		end
 	end
 	
-	class ConstraintList < List
-		# def add(object)
-			
-		# end
-		
-		# def delete(object)
-			
-		# end
-	end
-	
 	class GroupList < List
 		# def add(object)
 			
@@ -138,6 +124,69 @@ class Space
 		# def delete(object)
 			
 		# end
+		
+		
+		
+		
+		def pack
+			
+		end
+		
+		def unpack_into_self(data_dump)
+			unless self.empty?
+				identifier = "#<#{self.class}:#{object_space_id_string}"
+				
+				warn "#{identifier}#unpack_into_self may not function as intended because this object is not empty." 
+			end
+			
+			
+			
+			
+			data_dump.collect{ |data| unpack_with_class_name(data)  }
+			.each do |group|
+				self.add group
+			end
+			
+			
+			
+			return self
+		end
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		private
+		
+		def unpack_with_class_name(array)
+			# array format: same as the output to #pack_with_class_name
+			klass_name = array.shift
+			args = array
+			
+			klass = Kernel.const_get klass_name
+			
+			return klass.unpack *args
+		end
+		
+		
+		
+		class << self
+			# NOTE: all read function helpers have to be at class-level, because they need to be called in the load method
+			private
+			
+			def pack_with_class_name(obj)
+				if obj.respond_to? :pack
+					return obj.pack.unshift(obj.class.name)
+					# [class_name, arg1, arg2, arg3, ..., argn]
+				else
+					return nil
+				end
+			end
+		end
 	end
 end
 

@@ -12,7 +12,8 @@ class Document
 			# style component
 			# entity
 			# group
-			# constraint
+		@constraints = ThoughtTrace::Constraints::Collection.new
+		
 		
 		@prototypes   = ThoughtTrace::CloneFactory.new    # create copies of simple entities
 		@prefabs      = ThoughtTrace::PrefabFactory.new   # spawn complex entity types
@@ -35,6 +36,8 @@ class Document
 		
 		
 		
+		
+		# NOTE: the constraints factory may still have to be made, but it will need a different name, now that the @constraints variable is used to house active constraints
 		
 		# @constraints  = ThoughtTrace::ConstraintFactory.new
 			# only need to define the constraint factory if constraints can be defined graphically
@@ -88,12 +91,14 @@ class Document
 	end
 	
 	def update
+		@constraints.update
 		@space.update
 	end
 	
 	def draw
 		@camera.draw do
 			@space.draw
+			@constraints.draw
 			yield
 		end
 	end
