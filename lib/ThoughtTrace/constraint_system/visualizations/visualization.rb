@@ -6,6 +6,7 @@ module ThoughtTrace
 class Visualization
 	def initialize
 		@timer = Timer.new
+		@state = :inactive
 	end
 	
 	
