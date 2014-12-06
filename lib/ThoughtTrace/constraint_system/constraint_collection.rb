@@ -12,7 +12,7 @@ class Collection
 	# currently assuming constraints are method objects
 	# yes. method. objects.
 	# take the containing object and call #method(name) to retrieve the method object
-	def add(constraint, enumerator_type, visualization_type, *entity_list)
+	def add(constraint, enumerator_type, visualization_type, entity_list)
 		all_pairs     = enumerator_type.new(entity_list)
 		visualization = visualization_type.new(entity_list)
 		
