@@ -44,7 +44,7 @@ class Collection
 		end
 		
 		return collection
-	end	
+	end
 end
 
 
