@@ -5,7 +5,7 @@ module ThoughtTrace
 
 
 # 1-way
-class Directed < Enumerator
+class Directed < Enumerators::Enumerator
 	def each(&block)
 		block.call(@entities[0], @entities[1])
 	end

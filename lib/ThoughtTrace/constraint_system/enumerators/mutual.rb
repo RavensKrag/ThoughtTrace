@@ -5,7 +5,7 @@ module ThoughtTrace
 
 
 # 2-way
-class Mutual < Enumerator
+class Mutual < Enumerators::Enumerator
 	def each(&block)
 		[
 			[@entities[0], @entities[1]],

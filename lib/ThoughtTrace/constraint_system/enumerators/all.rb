@@ -5,7 +5,7 @@ module ThoughtTrace
 
 
 # n-way
-class All < Enumerator
+class All < Enumerators::Enumerator
 	def each(&block)
 		@entities.permutation(2) do |a,b|
 			block.call(a,b)
