@@ -4,6 +4,11 @@ module ThoughtTrace
 
 
 class Collection
+	def initialize
+		@list = Array.new
+	end
+	
+	
 	# currently assuming constraints are method objects
 	# yes. method. objects.
 	# take the containing object and call #method(name) to retrieve the method object
