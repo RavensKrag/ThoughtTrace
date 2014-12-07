@@ -80,6 +80,7 @@ class Visualization
 				if @block
 					@block.call
 					@block = nil
+					@start_time = nil
 				end
 			end
 		end
@@ -101,6 +102,19 @@ class Visualization
 		# compute the time elapsed between two millisecond timestamps
 		# takes into account possibility of the timer wrapping back around
 		def elapsed_time(start, stop)
+			# NOTE: because of how this is implemented, the 'elapsed time' check in the code above will pass often if @target_time == 0. But the block will still only be called once, because after being called once, it will be freed.
+			
+			
+			# need a way to separate 'never called' from 'timer overflow'
+			# currently doing that by setting 'blank' state values to nil.
+			# 
+			# Would be nice to only init the timer if it was being used, but then you get a lot of "has the timer been initialized" logic floating around...
+			return 0 if start == nil
+			
+			
+			
+			# ok, now that we know the timer was actually set up,
+			# let's check to see what's up
 			if start < stop
 				# standard
 				return stop - start
