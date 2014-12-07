@@ -18,17 +18,20 @@ class Collection
 		
 		
 		data_dump.each do |constraint_data|
-		# constraint_data
-				# [constraint, enumerator, visualization, entity_list]
+			# constraint_data
+					# [constraint, enumerator, visualization, *entity_list]
+			constraint, enumerator, visualization, *entity_list = constraint_data
+			
+			
 			
 			a = [
 				ThoughtTrace::Constraints,
 				ThoughtTrace::Constraints::Enumerators,
 				ThoughtTrace::Constraints::Visualizations
 			]
-
-			b = constraint_data.first(3)
-
+			
+			b = [constraint, enumerator, visualization]
+			
 			c = 
 				a.zip(b).collect do |container, const_name|
 					klass = container.const_get const_name
@@ -36,7 +39,6 @@ class Collection
 			
 			
 			
-			entity_list = constraint_data.last
 			
 			
 			
