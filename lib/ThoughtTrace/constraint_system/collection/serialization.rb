@@ -42,7 +42,15 @@ class Collection
 			
 			
 			
-			collection.add *c, entity_list
+			
+			d = [:constraint, :enumerator, :visualization].zip(c).to_h
+			
+			constraint    = d[:constraint].new # DON'T ACTUALLY DO THIS IN PRODUCTION CODE
+			enumerator    = d[:enumerator].new(entity_list)
+			visualization = d[:visualization].new
+			
+			
+			collection.add constraint, enumerator, visualization
 		end
 		
 		return collection
