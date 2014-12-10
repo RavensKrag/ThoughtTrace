@@ -220,16 +220,13 @@ class Document
 		
 		
 		# other stuff that uses entities
-		other_stuff = # {type => data_dump}
-			[
-				'groups', 'constraints'
-			].collect{ |type|
+		types = %w[groups constraints]
+		blob = 
+			types.collect do |type|
 				data_dump = read_data(project_directory, type)
 				data_dump.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
-				
-				
-				[type, data_dump]
-			}.to_h
+			end
+		other_stuff = types.zip(blob).to_h
 		
 		
 		
