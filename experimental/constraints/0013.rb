@@ -83,6 +83,9 @@ constraints.add LimitHeight.new(->(h){ h*0.80 }), Directed.new([e1,e2]), DrawEdg
 # maybe this is better?
 constraints.add LimitHeight.new(->(h){ h*0.80 }), DrawEdge.new, Directed.new([e1,e2])
 
+# could just return a proper enumerator? idk if the enumerator would hold onto the collection though.. would need to make sure the enumerator extends the life of the collection.
+constraints.add LimitHeight.new(->(h){ h*0.80 }), DrawEdge.new, directed([e1,e2])
+
 
 # constraint these two elements
 # limit the height, such that b.height <= 0.8 * a.height
