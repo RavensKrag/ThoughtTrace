@@ -172,21 +172,24 @@ i = 0
 
 
 
-parameterized[i] = Foo.new
+parameterized[i] = ConstraintClosure.new
 
 
+pointer   = PointerWrapper.new(parameterized, i)
 
-active[i]        = [[LimitHeight, PointerWrapper.new(parameterized, i)], DrawEdge, Directed]
+active[i] = [[LimitHeight, pointer], DrawEdge, Directed]
 
 i += 1
 
+# NOTE: it's the active constraints that need to be 'updated' and maintained in a particular order. One active constraint triple may link to the same Constraint object that is used by various different relations
+# (when I say 'relation' I mean one group with an iterator, such as one pair of constrained Entity objects)
+
+# again: one constraint object may be used in multiple places
 
 
 
-
-
-
-parameterized[pointer.i]
+i = 0
+parameterized[i]
 	.let :a => 0.8 do |vars, h|
 		# 0.8*h
 		vars[:a]*h
@@ -196,19 +199,42 @@ parameterized[pointer.i]
 
 
 # this thing goes inside of a constraint, modifying particular values
-class Foo
+class ConstraintClosure
+	attr_reader :vars
+	
 	def initialize
 		
 	end
 	
-	def let(&block)
-		
+	def let(vars={}, &block)
+		@vars = vars
+		@block = block
 	end
 	
-	
-	
-	def call()
-		
+	def call(*args)
+		@block.call @vars, *args
 	end
 	alias :[] :call
 end
+
+
+# if you were to copy a constraint link exactly,
+	# you would want to point to the same constraint object
+# if you were to copy just the type of the constraint link,
+	# you want to create a new constraint object, parameterizing it with a new closure that is an exact copy of the first closure
+	# basically, you want a deep copy
+# if you create a new constraint link from a base type,
+	# you would need to return to the basic step of declaring a parameterization, if the constraint can be parameterized
+
+
+
+# so, three options:
+	# copy pointer to Constraint object,
+	# deep copy
+	# create new parameter and load it into the constraint
+
+# notice that shallow copy seems to be missing
+# ie) this system will not allow you to link only the parameter, but not the Constraint object
+# which I think is proper
+# because two Constraint objects with the same parameterization should do exactly the same thing
+# because Constraint objects store no state, other than their parameterization
