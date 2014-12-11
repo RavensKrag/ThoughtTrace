@@ -335,3 +335,101 @@ end
 # 
 # Remember again, that you never link to another constraint object's parameter data.
 # Thus, it's not really that important to be able to pass in a parameter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# all constraints should have ConstraintClosures attached, even if they end up being vestigial.
+# Each constraint type will decide on it's own whether to pass data through the closure,
+# so constraint types that don't use it will only waste space, not time.
+# This is still inefficient, but that sort of thing can be optimized out later,
+# during the graph system build phase
+# (that's still a long ways away from being written... but still)parameterized = Array.new
+parameterized = Array.new # NOTE: this is only so closure definitions can get Constraint objects.
+active        = Array.new
+
+
+
+
+i = parameterized.size
+
+
+
+constraint = LimitHeight.new
+
+
+
+parameterized << constraint 
+# TODO: maybe count the number of active slots are using this constraint object? would be useful for seeing which constraints are in demand, and which ones are currently not being used at all... etc
+
+active        << [constraint, DrawEdge, Directed]
+
+
+
+parameterized[i].closure
+	.let :a => 0.8 do |vars, h|
+		# 0.8*h
+		vars[:a]*h
+	end
+
+
+
+
+# this thing goes inside of a constraint, modifying particular values
+class ConstraintClosure
+	attr_reader :vars
+	
+	def initialize
+		
+	end
+	
+	def let(vars={}, &block)
+		@vars = vars
+		@block = block
+	end
+	
+	def call(*args)
+		@block.call @vars, *args
+	end
+	alias :[] :call
+	
+	
+	# return a deep copy of this object
+	def clone
+		obj = self.class.new
+		
+		
+		v = @vars.clone
+		b = @block.clone
+		
+		obj.instance_eval do
+			@vars  = v
+			@block = b
+		end
+		
+		
+		return obj
+	end
+end
