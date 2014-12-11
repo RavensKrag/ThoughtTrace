@@ -238,3 +238,100 @@ end
 # which I think is proper
 # because two Constraint objects with the same parameterization should do exactly the same thing
 # because Constraint objects store no state, other than their parameterization
+
+
+
+
+
+
+
+
+
+
+
+# This means two Constraint links are either going to be exactly the same data,
+# or the same Constraint object type with different (but equivalent) parameter objects
+# (describing only equivalent pairs here, not any two pairwise constraints. hope that's clear)
+# 
+# This means that the Constraint object pointers in the 'parameterized' list will always be unique
+
+
+parameterized = Array.new
+active        = Array.new
+
+
+
+
+
+i = parameterized.size
+
+
+
+p = ConstraintClosure.new
+constraint = LimitHeight.new(p)
+
+parameterized << constraint
+
+active        << [constraint, DrawEdge, Directed]
+
+
+
+
+parameterized[i].closure
+	.let :a => 0.8 do |vars, h|
+		# 0.8*h
+		vars[:a]*h
+	end
+
+
+
+
+# this thing goes inside of a constraint, modifying particular values
+class ConstraintClosure
+	# NOTE: assuming that all variable parameters are pieces of data unique to this object. If pass in a string, that string better never get modified anywhere else.
+	# (I should probably make a copy of those sorts of things, but I'm not quite sure how to do that right now)
+	# (that would be a much less brittle interface, and I think there are libraries that do that)
+	attr_reader :vars
+	
+	def initialize
+		
+	end
+	
+	def let(vars={}, &block)
+		@vars = vars
+		@block = block
+	end
+	
+	def call(*args)
+		@block.call @vars, *args
+	end
+	alias :[] :call
+	
+	
+	# return a deep copy of this object
+	# TODO: need to make sure that this is sound. Pretty sure it's not, right now.
+	def clone
+		obj = self.class.new
+		
+		
+		v = @vars.clone
+		b = @block.clone
+		
+		obj.instance_eval do
+			@vars  = v
+			@block = b
+		end
+		
+		
+		return obj
+	end
+end
+
+
+# consider that maybe all constraints should have a ConstraintObject inside them
+# so that they can have parameters that are exposed to the graph editor?
+# Would make the external calling interface even cleaner,
+# because you wouldn't have to pass in a parameter object.
+# 
+# Remember again, that you never link to another constraint object's parameter data.
+# Thus, it's not really that important to be able to pass in a parameter.
