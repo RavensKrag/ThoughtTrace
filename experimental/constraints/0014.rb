@@ -410,8 +410,15 @@ class ConstraintClosure
 		@block = block
 	end
 	
+	# should be able to deal with the case of having no block
 	def call(*args)
-		@block.call @vars, *args
+		if @block
+			# run sub-transform as defined by this closure
+			return @block.call @vars, *args
+		else
+			# return unmodified data
+			return *args
+		end
 	end
 	alias :[] :call
 	
@@ -432,4 +439,30 @@ class ConstraintClosure
 		
 		return obj
 	end
+	
+	
+	# remove binding block
+	def clear
+		@block = nil
+	end
 end
+
+# NOTE: need to be able to let values pass through the constraint closure without being modified if you want every Constraint to have one, right? But maybe not, because not every constraint has to actually use the closure it's been given...
+
+# Maybe you just want to reset to 'default'?
+# but clear would empty it, not set to default:
+# some constraints should probably have a default....
+
+# probably gonna hold off on this change until later
+
+
+
+
+# TODO: need a way to create a new entry in the code file when you create a new parameterization
+# parameterizations are always defined as code
+
+
+# TODO: compress this document into only the most recent sketch, and all relevant notes
+# TODO: turn ConstraintClosure into Constraint > Closure
+# TODO: implement changes to Constraint to allow for parameterization to function
+# TODO: test loading parameterized constraints
