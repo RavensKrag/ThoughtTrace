@@ -1,0 +1,111 @@
+evolution of constraints, edges, and 'monads'
+
+
+monads were really just enumerators, with a bunch of baggage
+all that baggage got pulled out into their own classes,
+and now we have the [constraint, enumerator, visualization] triple
+
+
+
+
+
+the idea of 3 separate cases:
+	single one-way
+	two one-way (unrelated)
+	true two-way flow
+
+	
+	only care about cycles that manipulate the same data
+	if that's not the case,
+	it's not a "real cycle"
+
+
+
+led to an understanding that there are different types of constraints.
+* propagating constraints       fired when A changes
+* limiting constraints          fired when A or B changes
+
+
+also, while there may be cases where limiting constraints are only thought to affect one object,
+implementing the system that way would mean much code duplication - 
+separate constraint types for moving data from A to B,
+and for just imposing a certain data upon B.
+
+In order to use the same code, it's easier to add a dummy object to the 'just impose data' thing,
+which means that you're better off just looking at the relationship as a constraint between two entities.
+
+
+This means that all constraints operate on two Entity objects.
+
+
+
+
+
+
+Again, (to put things another way)...
+
+	(and explain how things got to be this way)
+
+
+there are three kinds of operations:
+	unary
+	binary
+	n-ary
+
+but unary _constraints_ can not exist,
+because there must always be a hidden parameter,
+and that parameter should always just be an Entity
+
+note that in mathematics, n-ary operations are always defined as 2-ary (binary) operations,
+which should guarantee that all constraints should be defined as binary relationships
+
+
+
+
+
+
+
+it was through this exploration of unary, binary, and n-ary that I originally discovered how the constraint should be encapsulated, and that elements should be pulled out of what was then called a 'monad' (it was never actually a monad).
+
+it also allowed for clarity about what sorts of enumerators were necessary
+
+I also ended up implementing a all-way enumerator (simply called All)
+because hooking up an (n choose 2) set of edges would be time consuming, error prone, and a big ugly unreadable mess. Better to let the machine handle that sort of thing.
+
+
+
+
+Thus, the constraint became a function with two arguments,
+and the 'monad' became an enumerator.
+
+
+
+
+But the constraint needed to know about what fields of A and B to watch
+before the constraint should be fired,
+	(that used to be in the 'monad', but that got taken out)
+so the constraint became an class.
+
+
+
+Because of the work with the constraints, and the idea of a 'hidden parameter'
+and the idea that maybe creating classes all over the place dynamically from the graph system would be messy and bad
+	(mostly fueled by other people's ideas about 'too many classes is a bad thing')
+the constraint was further edited with a parameter of it's own.
+
+
+The constraint parameterization allows values to be altered at runtime in the graph system
+without having to probe too deep into the code.
+This should provide a nice ladder of abstraction,
+allowing for code to be written to do what code does best,
+and then tweaking of values to be handled graphically.
+
+
+
+ex) limit_height(0.8h)
+
+related to spreadsheet problem - don't want to write complex code as an ugly 'one liner'
+so you want to always write these sort of things as 'real code'
+so that your solutions / format is always the same
+and thus things scale better
+(you don't have to learn some new format at some point, it's always the same stuff)
