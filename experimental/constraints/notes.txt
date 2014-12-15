@@ -179,6 +179,54 @@ that these seem to be the two main ways
 that constraints are used and written
 
 
+old notes on constraint types
+	limit height
+		constraint needs to be updated whenever B changes
+		to make sure that B's height has not exceeded the limit prescribed by A
+
+
+	sync height
+		update when A changes
+		to make sure that the changes from A propagate to B
+
+
+
+
+	it may be accurate to say that constraints are always defined as binary operations,
+	but some allow for propagation of new data,              (propagating constraint)
+	while some constrain the expansion of existing data      (limiting constraint)
+
+
+	perhaps more properly, 
+	these two things are both categories of "relationships"
+	with the latter being a constraint,
+	and the former requiring some other name
+	(maybe a 'driver'?)
+	driver, mover, inducer, conductor
+
+
+
+
+	propagating constraints do still constraint the output value though
+	so maybe 'constraint' is still a good name?
+	(IKs limit where the extremities can be placed, by indirectly controlling their placement)
+	(copying a value from A to B certainly does limit what values B can have)
+
+
+
+
+
+
+
+
+
+	some double relations are even
+	the same relationship in both directions      (truly can be condensed into a double-headed arrow)
+	but some pairs have uneven relationships
+	like a parent and child, or student and teacher
+	data goes back and forth, but not the same sort of data
+
+
 
 
 
@@ -193,21 +241,36 @@ optimizations?
 
 flattening method chains?
 
+	flatten the method chains?
+	then you can get callbacks for when data is updated
+	and propagate changes based on that
+
+
+	but that doesn't work if the physics space needs to update things
+	basically, you would need to be able to control all changes to the data to guarantee this update system
 
 
 
 
-
-
-
-
-help / problems?
 
 
 
 cycles / circular dependencies
 race conditions
 
+	these things are important to prevent
+	but the system will not actively prevent you from making graphs that have these properties
+	
+	the exact time when some data gets to it's final destination
+	is a property of the graph topology.
+	In some cases, the data may never reach it's intended final destination,
+		because there has been some sort of clobbering due to graph topology.
+	In others, you may have things flip between a couple different states, but never settle down.
+	
+	It's basically too hard at this point to completely prevent these problems.
+	It's hard to see these problems in standard text-editor code,
+	which is part of why I wanted to make this system.
+	I hope that in the future, some graph-level systems can be ported down to text-code for efficient prevention of common mistakes.
 
 
 
