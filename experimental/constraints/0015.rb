@@ -251,6 +251,9 @@ end
 
 
 
+
+# === generate a new constraint
+
 parameterized = ParameterizedList.new
 active        = Array.new
 
@@ -283,6 +286,85 @@ package.constraint.closure
 package.bind_source_entity e1
 package.bind_sink_entity   e2
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# === use existing constraint
+
+
+parameterized # ParameterizedList.new
+active        # Array.new
+
+
+
+
+
+constraint = parameterized.use(i)
+
+
+
+
+package = ConstraintPackage.new(constraint, DrawEdge)
+active << package
+
+
+
+package.constraint.closure
+	.let :a => 0.8 do |vars, h|
+		# 0.8*h
+		vars[:a]*h
+	end
+
+# NOTE: in production code, the entities will be bound in the graphical interface, not directly in this part of the code
+package.bind_source_entity e1
+package.bind_sink_entity   e2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# === delete a constraint
+
+parameterized # ParameterizedList.new
+active        # Array.new
+
+
+
+
+package = active[i]
+constraint = package.constraint
+
+parameterized.stop(constraint)
 
 
 
