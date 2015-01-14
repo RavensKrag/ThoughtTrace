@@ -249,17 +249,14 @@ end
 # during the graph system build phase
 # (that's still a long ways away from being written... but still)
 
-
-
-
-# === generate a new constraint
-
+# === setup
 parameterized = ResourceList.new
 active        = Array.new
 
 
 
 
+# === generate a new constraint
 
 constraint = LimitHeight.new
 
@@ -291,29 +288,7 @@ package.bind_sink_entity   e2
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # === use existing constraint
-
-
-parameterized # ResourceList.new
-active        # Array.new
-
-
-
-
 
 constraint = parameterized.use(i)
 
@@ -342,24 +317,7 @@ package.bind_sink_entity   e2
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 # === delete a constraint
-
-parameterized # ResourceList.new
-active        # Array.new
-
-
-
 
 package = active[i]
 constraint = package.constraint
