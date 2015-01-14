@@ -131,30 +131,30 @@ end
 # GUI will display a list of parameterized constraints,
 # similar to how the Blender GUI shows a list of the currently active materials.
 # This class forms the backend for that list.
-class ParameterizedList
-	# constraint object, resource count, gc when count is zero? (on close, etc)
-	Data = Struct.new(:constraint, :count, :removal_flag)
+class ResourceList
+	# tracked object, resource count, gc when count is zero? (on close, etc)
+	Data = Struct.new(:resource, :count, :removal_flag)
 	
 	
 	def initialize
 		@storage = Array.new
 	end
 	
-	def push(constraint)
-		@storage << Data.new(constraint, 1, true)
+	def push(resource)
+		@storage << Data.new(resource, 1, true)
 	end
 	
 	def each(&block)
 		@storage.each &block
 	end
 	
-	def find(constraint)
-		@storage.find{ |x| x.constraint.equal? constraint  }
+	def find(resource)
+		@storage.find{ |x| x.resource.equal? resource  }
 	end
 	
 	# (might not need this)
-	def count_for(constraint)
-		self.find(constraint).count
+	def count_for(resource)
+		self.find(resource).count
 	end
 	
 	
@@ -175,14 +175,14 @@ class ParameterizedList
 		@storage[i].removal_flag = true
 	end
 	
-	# generate a parameterized constraint that is the same as an existing constraint
+	# duplicate one item, and store it as a new resource
 	# 
 	# (Blender: + button)
 	def duplicate(i)
-		self.push @storage[i].constraint.clone
+		self.push @storage[i].resource.clone
 	end
 	
-	# remove a particular parameterized constraint from the list
+	# remove a particular resource from the list
 	# NOTE: this should probably also purge it from the system. (remove from all objects that use this resource) Not sure how to implement that
 	# not sure if this command is necessary
 	# 
@@ -198,13 +198,13 @@ class ParameterizedList
 		data = @storage[i]
 		data.count += 1
 		
-		return data.constraint
+		return data.resource
 	end
 	
 	# given a pointer to a resource, decrement the count because we're done with it now
 	# TODO: needs better name
-	def stop(constraint)
-		data = self.find(constraint)
+	def stop(resource)
+		data = self.find(resource)
 		data.count -= 1
 		
 		if data.count < 0
@@ -254,7 +254,7 @@ end
 
 # === generate a new constraint
 
-parameterized = ParameterizedList.new
+parameterized = ResourceList.new
 active        = Array.new
 
 
@@ -308,7 +308,7 @@ package.bind_sink_entity   e2
 # === use existing constraint
 
 
-parameterized # ParameterizedList.new
+parameterized # ResourceList.new
 active        # Array.new
 
 
@@ -355,7 +355,7 @@ package.bind_sink_entity   e2
 
 # === delete a constraint
 
-parameterized # ParameterizedList.new
+parameterized # ResourceList.new
 active        # Array.new
 
 
