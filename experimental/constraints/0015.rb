@@ -1,0 +1,305 @@
+
+
+# bind up a reusable constraint 'function' thing, a visualization, and two entity handles,
+# along with some cache space.
+# Always describes a constraint between two entity objects.
+class ConstraintPackage
+	def initialize(constraint_obj, visualization)
+		@constraint      = constraint_obj
+		@visualization   = visualization
+		
+		@entity_marker_1 = EntityMarker.new
+		@entity_marker_2 = EntityMarker.new
+		
+		@cache = nil
+		# NOTE: in optimized implementation, should figure out what type this is going to be at compile-time, and allocate enough space for it here. That way, the cache lookup is made faster due to data locality.
+		# NOTE: if a bunch of these constraint wrappers are allocated in a pool, you could allocate space for the unknown @cache field to be equal to the largest possible cache. possible use of 'unions' (related to structs) if implementing in C.
+			# ie) constraint, vis, e1, e2,  32 bytes
+			#     constraint, vis, e1, e2,  12 bytes
+			#     constraint, vis, e1, e2, 100 bytes
+	end
+	
+	
+	def update
+		a = @entity_marker_1.entity
+		b = @entity_marker_2.entity
+		
+		return if a.nil? or b.nil?
+		
+		
+		data = @constraint.foo(a,b)
+		
+		if baz?(@cache, data)
+			@constraint.call(a,b)
+			@cache = data
+			
+			
+			@visualization.activate
+		end
+	end
+	
+	def draw
+		a = @entity_marker_1.entity
+		b = @entity_marker_2.entity
+		
+		return if a.nil? or b.nil?
+		
+		# TODO: figure out how to visualize the constraint when entities are not bound. Need to draw it somehow, or you will not be able to see it when nothing is bound, and then how will you bind things graphically?!? (That's a big mess, is what that is)
+		
+		@visualization.draw_inactive(a,b)
+	end
+	
+	
+	
+	
+	private
+	
+	# check the cache
+	# return true if the constraint needs to be run again
+	def baz?(cache, data)
+		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
+		return data if !!data == data
+		
+		
+		# there is stored data but it's old, or no data has yet been stored
+		cache && cache != data or cache.nil?
+	end
+end
+
+
+
+class Constraint
+	def initialize
+		
+	end
+	
+	
+	
+	# this thing goes inside of a constraint, modifying particular values
+	class Closure
+		attr_reader :vars
+		
+		def initialize
+			
+		end
+		
+		def let(vars={}, &block)
+			@vars = vars
+			@block = block
+		end
+		
+		# should be able to deal with the case of having no block
+		def call(*args)
+			if @block
+				# run sub-transform as defined by this closure
+				return @block.call @vars, *args
+			else
+				# return unmodified data
+				return *args
+			end
+		end
+		alias :[] :call
+		
+		
+		# return a deep copy of this object
+		def clone
+			obj = self.class.new
+			
+			
+			v = @vars.clone
+			b = @block.clone
+			
+			obj.instance_eval do
+				@vars  = v
+				@block = b
+			end
+			
+			
+			return obj
+		end
+		
+		
+		# remove binding block
+		def clear
+			@block = nil
+		end
+	end
+end
+
+
+
+# GUI will display a list of parameterized constraints,
+# similar to how the Blender GUI shows a list of the currently active materials.
+# This class forms the backend for that list.
+class ParameterizedList
+	# constraint object, resource count, gc when count is zero? (on close, etc)
+	Data = Struct.new(:constraint, :count, :removal_flag)
+	
+	
+	def initialize
+		@storage = Array.new
+	end
+	
+	def push(constraint)
+		@storage << Data.new(constraint, 1, true)
+	end
+	
+	def each(&block)
+		@storage.each &block
+	end
+	
+	def find(constraint)
+		@storage.find{ |x| x.constraint.equal? constraint  }
+	end
+	
+	# (might not need this)
+	def count_for(constraint)
+		self.find(constraint).count
+	end
+	
+	
+	
+	
+	
+	
+	
+	# make it so that constraints will not be removed, even when they have 0 users
+	# 
+	# (Blender: F button)
+	def lock(i)
+		@storage[i].removal_flag = false
+	end
+	
+	# opposite of #lock
+	def unlock(i)
+		@storage[i].removal_flag = true
+	end
+	
+	# generate a parameterized constraint that is the same as an existing constraint
+	# 
+	# (Blender: + button)
+	def duplicate(i)
+		self.push @storage[i].constraint.clone
+	end
+	
+	# remove a particular parameterized constraint from the list
+	# NOTE: this should probably also purge it from the system. (remove from all objects that use this resource) Not sure how to implement that
+	# not sure if this command is necessary
+	# 
+	# (Blender: - button)
+	def delete_at(i)
+		@storage.delete_at i
+	end
+	
+	
+	# provide a pointer to the resource, and increment the count
+	# TODO: needs better name
+	def use(i)
+		data = @storage[i]
+		data.count += 1
+		
+		return data.constraint
+	end
+	
+	# given a pointer to a resource, decrement the count because we're done with it now
+	# TODO: needs better name
+	def stop(constraint)
+		data = self.find(constraint)
+		data.count -= 1
+		
+		if data.count < 0
+			raise "Freed data where you shouldn't have. Can't have negative resource count." 
+		end
+	end
+	
+	
+	
+	
+	
+	
+	
+	
+	def gc
+		@storage.reject! do |data|
+			data.removal_flag and data.count == 0
+		end
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# all constraints should have ConstraintClosures attached, even if they end up being vestigial.
+# Each constraint type will decide on it's own whether to pass data through the closure,
+# so constraint types that don't use it will only waste space, not time.
+# This is still inefficient, but that sort of thing can be optimized out later,
+# during the graph system build phase
+# (that's still a long ways away from being written... but still)
+
+
+
+parameterized = ParameterizedList.new
+active        = Array.new
+
+
+
+
+
+constraint = LimitHeight.new
+
+
+
+parameterized.push constraint
+# TODO: maybe count the number of active slots are using this constraint object? would be useful for seeing which constraints are in demand, and which ones are currently not being used at all... etc
+
+
+
+# active        << [constraint, Directed, DrawEdge]
+package = ConstraintPackage.new(constraint, DrawEdge)
+active << package
+
+
+
+package.constraint.closure
+	.let :a => 0.8 do |vars, h|
+		# 0.8*h
+		vars[:a]*h
+	end
+
+# NOTE: in production code, the entities will be bound in the graphical interface, not directly in this part of the code
+package.bind_source_entity e1
+package.bind_sink_entity   e2
+
+
+
+
+
+
+
+
+
+
+
+
+
+# refresh this cached selection on occasion
+# (idk if this way is any "better")
+
+# it's important to know if you want to keep parameterized constraints
+# even when they don't have any active users.
+# Blender does this with materials.
+# It's often useful during the process of creation, even if it's not critical to the end product.
+parameterized = active.collect{|x|  x.constraint }.uniq
