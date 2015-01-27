@@ -109,3 +109,48 @@ so you want to always write these sort of things as 'real code'
 so that your solutions / format is always the same
 and thus things scale better
 (you don't have to learn some new format at some point, it's always the same stuff)
+
+
+
+
+
+
+
+
+
+
+
+
+
+note that in the beginning, there was this idea of 3 separate cases of constraints:
+
+
+* that was basically a premature optimization. *
+
+
+now that all constraints are defined pairwise,
+we can just declare pairwise objects,
+and the object doesn't even need to know about what entities it is linked to when it is initialized
+
+it's much dimplier to think about this way
+
+the old way may have been more efficient,
+but I can't reason about relationships that way
+
+
+it may be necessary to optimize down to that sort of methodology eventually,
+but that should be part of some sort of compile / build phase,
+and not something that should effect a human's thinking about the constraint system
+
+
+
+
+you can examine the following file to see the old style,
+where you were required to know all the entities bound to one relation at time of declaration,
+in addition to having to think about specifics of topology
+
+( in hindsight, it quite a mess )
+
+although, it does allow for cleaner visualization, so there still a fair bit of merit in this style
+
+	ThoughtTrace/experimental/constraints/0004.rb
