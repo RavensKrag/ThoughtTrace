@@ -58,12 +58,15 @@ class ConstraintPackage
 		
 		
 		# use helper constraints to update the entity markers
-		@move_with.call(@entity_marker_1, a)
-		@move_with.call(@entity_marker_2, b)
-		
+		if @visible # don't update position of markers, unless markers are going to be drawn
+			@move_with.call(@entity_marker_1, a)
+			@move_with.call(@entity_marker_2, b)
+		end
 	end
 	
 	def draw
+		return if not @visible # allow hiding the visualization (useful for optimization)
+		
 		a = @entity_marker_1.entity
 		b = @entity_marker_2.entity
 		
