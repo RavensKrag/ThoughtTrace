@@ -1,6 +1,42 @@
 evolution of constraints, edges, and 'monads'
 
 
+
+
+
+what types of 'monads' are there?
+
+	All monad
+		one private
+		one public
+
+		private variable is the value propagated to all members of the All relation
+		public variable can be edited, which allows for propagation both from the constraint itself,
+		as well as from any member of the relation
+
+	Directed
+		one private
+		
+		caches one value
+		if you need to cache multiple things, just cache an array
+		should store all dependent data (ie, data that if changed, would trigger constraint refresh)
+
+	Mutual
+		two private
+		
+		compact form of using two Directed constraints?
+
+
+is this really a monad?
+
+
+well.. no.
+
+
+
+
+
+
 monads were really just enumerators, with a bunch of baggage
 all that baggage got pulled out into their own classes,
 and now we have the [constraint, enumerator, visualization] triple
