@@ -17,16 +17,35 @@ class ConstraintPackage
 			# ie) constraint, vis, e1, e2,  32 bytes
 			#     constraint, vis, e1, e2,  12 bytes
 			#     constraint, vis, e1, e2, 100 bytes
+		
+		
+		
+		
+		
+		
+		# TODO: get the Entity markers to snap as they are moved
+		
+		
+		
+		
+		# Want to keep the tracking markers positioned relative to the centers of the related entities
+		# also, all the tracking objects on one entity should repel each other, so that you can more easily select them with the mouse (may have to do that logic inside of the collider callback?)
+		# NOTE: update to use actual constraints. the constraint declaration here is just a demo
+		
+		@move_with = Constraints::MoveWith.new
+		# TODO: in the future, consider implementing constraints as closures with closure bound variables, rather than objects (would need a language that isn't Ruby to do that sort of implementation though)
 	end
 	
 	
 	def update
+		# extract entities from tracker objects
 		a = @entity_marker_1.entity
 		b = @entity_marker_2.entity
 		
 		return if a.nil? or b.nil?
 		
 		
+		# apply constraint tick if necessary
 		data = @constraint.foo(a,b)
 		
 		if baz?(@cache, data)
@@ -36,6 +55,12 @@ class ConstraintPackage
 			
 			@visualization.activate
 		end
+		
+		
+		# use helper constraints to update the entity markers
+		@move_with.call(@entity_marker_1, a)
+		@move_with.call(@entity_marker_2, b)
+		
 	end
 	
 	def draw
