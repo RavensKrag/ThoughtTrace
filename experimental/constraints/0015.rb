@@ -177,6 +177,57 @@ end
 
 
 
+
+# copies the interface of Constraint (for the most part)
+# but includes the two entities the constraint is linked to,
+# and the data cache to see if the constraint needs to be fired for that pair
+class BoundConstraint
+	def initialize
+		
+	end
+	
+	def call
+		data = @constraint.foo(a,b)
+		
+		if baz?(@cache, data)
+			@constraint.call(a,b)
+			@cache = data
+			
+			
+			@visualization.activate
+		end
+		
+		
+		
+		
+		
+		x = baz?(@cache, data)
+		
+		if x
+			
+		end
+		
+		
+		return x
+	end
+	
+	
+	
+	private
+	
+	# check the cache
+	# return true if the constraint needs to be run again
+	def baz?(cache, data)
+		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
+		return data if !!data == data
+		
+		
+		# there is stored data but it's old, or no data has yet been stored
+		cache && cache != data or cache.nil?
+	end
+end
+
+
 # GUI will display a list of parameterized constraints,
 # similar to how the Blender GUI shows a list of the currently active materials.
 # This class forms the backend for that list.
