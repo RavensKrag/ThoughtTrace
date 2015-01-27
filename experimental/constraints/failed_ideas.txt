@@ -20,6 +20,13 @@ flattening method chains?
 		could 'flatten' into one method call, instead of a method chain
 		
 		(this isn't going to work, as it will not interface with any library that has state)
+		
+		
+		(
+			this kinda seems to go against the notion of using an iterative solver,
+			but it's more about the difference between immutable functional programming,
+			and state-based programming
+		)
 
 
 

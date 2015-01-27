@@ -307,21 +307,6 @@ Duplication of Constraints
 
 optimizations?
 
-flattening method chains?
-
-	flatten the method chains?
-	then you can get callbacks for when data is updated
-	and propagate changes based on that
-
-
-	but that doesn't work if the physics space needs to update things
-	basically, you would need to be able to control all changes to the data to guarantee this update system
-
-
-
-
-
-
 
 cycles / circular dependencies
 race conditions
