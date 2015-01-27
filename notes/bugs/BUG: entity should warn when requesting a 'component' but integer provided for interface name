@@ -1,0 +1,45 @@
+TODO: entity should warn when you request a 'component' with just an integer as an interface name
+
+
+
+entity has array like interface, but should probably never be accepting an integer through that interface.
+however, if there was supposed to be an array of entities being sent, and only one gets sent
+then you'll get some weird errors
+
+Entity should at least raise a warning when you attempt to access the Component access interface using an integer
+
+
+(
+	I think this was because this file
+	
+	/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/enumerators/directed.rb
+	
+	has a variable called @entities
+	and is expecting that to be a list of entity objects (ie, a integer-indexed array)
+	but also has @entity    (note singular, vs plural)
+	which is a reference to a single entity,
+	which provides the [] method as a hash-style interface for accessing Components
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+( below is an old note, that describes this same bug )
+
+
+bug: passed an entity where I meant to pass a list of entities
+
+
+need to be careful about how you load the packed data back in
+the pack is always a linear stream of data
+(one flat array)
+which creates problems when one of your arguments is inherently a list

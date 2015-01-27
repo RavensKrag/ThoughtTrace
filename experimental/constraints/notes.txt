@@ -1,3 +1,27 @@
+What are constraints?
+
+	Constraints are relationships between two Entities.
+	
+	They are essentially defined as pairwise functions,
+	( but the reality is a bit more complicated than that ).
+	
+	Hopefully this document will fully explain.
+
+
+
+
+
+
+when are constraints triggered?
+	
+	Constraints will only fire when data in the dependent Entity objects have been _changed_
+	( sometimes you have to check one entity, sometimes you have to check both )
+
+
+
+
+
+
 how to check for changes?
 
 	constraint needs to know what values to be looking for
@@ -30,6 +54,10 @@ how fast do changes propagate through the graph?
 	so changes can propagate across the entire graph in one tick:
 		that would just make it harder for the system to function in real time
 		for large graphs
+	
+	
+	
+	(NOTE: this is not totally accurate. you just have to make sure you don't traverse too many long paths. ("long" being relative to N, where N is the number of active constraint pairs). However, the current implementation tries to keep things simple by only updating each constraint pair once per tick. This ensures no loops or combinatorial explosion, but may cause other errors.)
 
 
 
@@ -213,6 +241,47 @@ defining constraints
 	(for elaboration of this train of thought, see 'evolution_of_the_system.txt')
 
 
+
+
+
+
+
+Parameterization of Constraints
+	
+	Each Constraint object has a parameterizing closure inside of it.
+	This parameterizing closure allows for certain variables within the constraint to be exposed to the graph editor, allowing editing of variables without needing to dig into code.
+	
+	This prevents the need to create additional classes all over the place that are really the exact same code, with the only difference being minor changes in some variable.
+	
+	
+	
+	ex) limit_height(0.8h) vs limit_height(0.3h)
+	    ( this is not the actual parameterization syntax, but should help explain the concept )
+	
+	
+	Every Constraint object (and thus all objects of child classes)
+	will have a closure assigned to it,
+	but some Constraints may elect to not pass data through the closure.
+	
+	Potentially, the constraint could be optimized out of elements that do not use it.
+	( but maybe not? maybe memory alignment is more of a priority )
+	
+	
+	
+	currently, the "parameterizing closure" class is called Constraint::Closure
+
+
+
+Duplication of Constraints
+	
+	pointer to constraint, or deep copy, never shallow
+	
+	
+	never going to use the same parameterization object
+	for two separate constraint objects
+
+	would always just use the same constraint object
+	in two places instead
 	
 	
 
