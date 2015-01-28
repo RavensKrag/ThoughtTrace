@@ -94,7 +94,6 @@ dependency_list = [
 	'./entities/',
 	
 	'./queries',
-	'./constraints',
 	'./groups',
 	
 	# './space',
