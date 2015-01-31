@@ -124,4 +124,11 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 			# 0.8*h
 			vars[:a]*h
 		end
+	
+	
+	resource_list = ResourceList.new
+	p resource_list
+	
+	
+	
 end
