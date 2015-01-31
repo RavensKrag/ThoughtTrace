@@ -119,6 +119,26 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	p constraint
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	# === Setup
+	# resources = ResourceList.new
+	resources = ResourceCollection.new
+	p resources
+	
+	
+	# === GUI initialization
+	id = resources.add constraint
+	
+	
+	
+	# === Code to declare closure, with default parameter values
+	constraint = resources[id]
 	constraint.closure
 		.let :a => 0.8 do |vars, h|
 			# 0.8*h
@@ -126,9 +146,9 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 		end
 	
 	
-	resource_list = ResourceList.new
-	p resource_list
 	
 	
+	
+	# === Serialization
 	
 end
