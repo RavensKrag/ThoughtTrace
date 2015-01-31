@@ -73,14 +73,14 @@ class ResourceCollection
 		
 		return data_dump
 	end
-
-
-
+	
+	
+	
 	class << self
 	
 	ENUM_CLASS = 0
 	ENUM_PARAMETER_MAP = 1
-
+	
 	def load(data_dump)
 		obj = self.new
 		
