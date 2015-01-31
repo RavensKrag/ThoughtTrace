@@ -45,6 +45,10 @@ task :load_main do
 end
 
 
+
+
+
+
 task :document_test => [:build_serialization_system, :load_dependencies] do
 	path = File.join(PATH_TO_ROOT, 'experimental', 'document_format')
 	Dir.chdir path do
@@ -105,4 +109,19 @@ task :method_probing_test => [:build_serialization_system, :load_dependencies] d
 	puts "standard shared methods"
 	p standard_methods
 	puts "\n"
+end
+
+
+
+task :constraint_test => [:build_serialization_system, :load_dependencies] do
+	# constraint = ThoughtTrace::Constraints::LimitHeight.new
+	constraint = Constraint.new
+	p constraint
+	
+	
+	constraint.closure
+		.let :a => 0.8 do |vars, h|
+			# 0.8*h
+			vars[:a]*h
+		end
 end

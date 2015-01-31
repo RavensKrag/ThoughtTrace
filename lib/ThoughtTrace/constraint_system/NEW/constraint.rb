@@ -1,9 +1,11 @@
 class Constraint
+	attr_reader :closure
+	
 	# accept parameters that can be used to alter the #call step
 	def initialize
-		
+		@closure = Closure.new
 	end
-
+	
 	# list the things that will be changed
 	# needed to figure out when the entities are changing
 
@@ -11,6 +13,7 @@ class Constraint
 	# (is it a concurrent dependency? - interrelated, correlated)
 	def foo(a,b)
 		[
+			# this is only an example. really, for master class, this should be blank
 			a[:physics].height
 		]
 	end
@@ -21,7 +24,7 @@ class Constraint
 	end
 	
 	# allow for Proc-style square-bracket calling shorthand
-	alias :[], :call
+	alias :[] :call
 	
 	
 	
@@ -35,7 +38,12 @@ class Constraint
 		end
 		
 		def let(vars={}, &block)
-			@vars = vars
+			# merge data if data already exists
+			# old data has precedence
+			# (only use values from 'vars' if no other data has been set)
+			vars = vars.merge @vars if @vars
+			
+			@vars = HashWrapper.new(vars)
 			@block = block
 		end
 		
@@ -73,6 +81,27 @@ class Constraint
 		# remove binding block
 		def clear
 			@block = nil
+		end
+		
+		
+		# load variable data from previous session
+		def load_data(vars)
+			@vars = HashWrapper.new(vars)
+		end
+		
+		
+		
+		
+		# custom hash class, for sensible error messages when trying to read undefined variables
+		class HashWrapper < Hash
+			def new(hash)
+				self[hash]
+			end
+			
+			def [](k)
+				x = self[k]
+				raise NameError, "no value defined for variable #{k.inspect}" if x.nil?
+			end
 		end
 	end
 end

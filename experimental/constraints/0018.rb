@@ -48,11 +48,14 @@ id = resource_list.add LimitHeight.new
 
 
 # code to declare closure, with default parameter values
-resource_list[id].closure
+constraint = resource_list[id]
+constraint.closure
 	.let :a => 0.8 do |vars, h|
 		# 0.8*h
 		vars[:a]*h
 	end
+
+
 
 
 
@@ -86,10 +89,7 @@ class ResourceCollection
 			# don't want to confuse people about what interface to use.
 			# you always want to add new objects with #add, but the hash-style interface is needed for serialization
 			constraint = data[ENUM_CLASS].new
-			
-			constraint.instance_eval do
-				@vars = data[ENUM_PARAMETER_MAP]
-			end
+			constraint.load_data data[ENUM_PARAMETER_MAP]
 			
 			obj[id] = constraint
 		end
