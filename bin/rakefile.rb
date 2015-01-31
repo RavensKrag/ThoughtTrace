@@ -132,7 +132,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	p resources
 	
 	
-	# === GUI initialization
+	# === Initialize constraint (to be done via GUI)
 	id = resources.add constraint
 	
 	
@@ -150,16 +150,22 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	
+	# === Run the closure
+	constraint.closure.call 32
+		 # just need to send some random number to populate the 'h' seen in the closure
+	
+	
+	
+	
+	
+	
+	
 	
 	# === Serialization
 	# dump
 	data_dump = resources.dump
 	p data_dump
 	
-	
-	
-	
-	# === Run the closure
-	constraint.closure.call 32
+	# load
 	
 end
