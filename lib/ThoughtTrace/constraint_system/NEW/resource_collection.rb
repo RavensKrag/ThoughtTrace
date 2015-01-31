@@ -24,9 +24,9 @@ class ResourceCollection
 	
 	def dump
 		data_dump = Hash.new
-			resource_list.each do |id, constraint|
+			@storage.each do |id, constraint|
 				# id => [constraint class, {parameter map}]
-				data_dump[id] = [constraint.class, constraint.vars]
+				data_dump[id] = [constraint.class, constraint.closure.vars]
 			end
 		
 		return data_dump

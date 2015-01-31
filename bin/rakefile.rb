@@ -150,5 +150,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	# === Serialization
-	
+	# dump
+	data_dump = resources.dump
+	p data_dump
 end
