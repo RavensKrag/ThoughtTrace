@@ -141,7 +141,9 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	constraint = resources[id]
 	constraint.closure
 		.let :a => 0.8 do |vars, h|
+			puts "--> closure"
 			# 0.8*h
+			puts vars.class
 			vars[:a]*h
 		end
 	
@@ -153,4 +155,11 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	# dump
 	data_dump = resources.dump
 	p data_dump
+	
+	
+	
+	
+	# === Run the closure
+	constraint.closure.call 32
+	
 end

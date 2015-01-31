@@ -42,8 +42,8 @@ class Constraint
 			# old data has precedence
 			# (only use values from 'vars' if no other data has been set)
 			vars = vars.merge @vars if @vars
-			
 			@vars = HashWrapper.new(vars)
+			
 			@block = block
 		end
 		
@@ -94,13 +94,15 @@ class Constraint
 		
 		# custom hash class, for sensible error messages when trying to read undefined variables
 		class HashWrapper < Hash
-			def new(hash)
-				self[hash]
+			def initialize(hash)
+				hash.each{ |k,v| self[k] = v  }
 			end
 			
 			def [](k)
-				x = self[k]
+				x = super(k)
 				raise NameError, "no value defined for variable #{k.inspect}" if x.nil?
+				
+				return x
 			end
 		end
 	end
