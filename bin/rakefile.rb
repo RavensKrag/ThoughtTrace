@@ -159,13 +159,18 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	
-	
-	
+	puts "--------------------------"
 	# === Serialization
 	# dump
 	data_dump = resources.dump
+	puts "=> data dump"
 	p data_dump
 	
-	# load
+	puts
 	
+	# load
+	resources = ResourceCollection.load(data_dump)
+	puts "=> loaded resource list"
+	p resources
+	# NOTE: this loaded version has variables bound, but the Procs have not been set
 end

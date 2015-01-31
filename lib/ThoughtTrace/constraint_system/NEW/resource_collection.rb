@@ -17,6 +17,11 @@ class ResourceCollection
 		return @storage[id]
 	end
 	
+	def []=(id, constraint)
+		@storage[id] = constraint
+		return constraint
+	end
+	
 	
 	
 	
@@ -47,7 +52,7 @@ class ResourceCollection
 			# don't want to confuse people about what interface to use.
 			# you always want to add new objects with #add, but the hash-style interface is needed for serialization
 			constraint = data[ENUM_CLASS].new
-			constraint.load_data data[ENUM_PARAMETER_MAP]
+			constraint.closure.load_data data[ENUM_PARAMETER_MAP]
 			
 			obj[id] = constraint
 		end
