@@ -138,6 +138,8 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	# === Code to declare closure, with default parameter values
+	foo = ->(resources){
+	
 	constraint = resources[id]
 	constraint.closure
 		.let :a => 0.8 do |vars, h|
@@ -147,7 +149,8 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 			vars[:a]*h
 		end
 	
-	
+	}
+	foo[resources]
 	
 	
 	# === Run the closure
@@ -166,11 +169,25 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	puts "=> data dump"
 	p data_dump
 	
+	
 	puts
+	
+	
+	# sample data modification
+	puts "=> altering data..."
+	# (this simulates changing the data through the GUI)
+	data_dump[id][1][:a] = 0.3 # change parameter :a to 0.3
+	
+	
+	puts
+	
 	
 	# load
 	resources = ResourceCollection.load(data_dump)
+	foo[resources]
 	puts "=> loaded resource list"
 	p resources
-	# NOTE: this loaded version has variables bound, but the Procs have not been set
+	# NOTE: this loads procs, but no guarantee that variables aren't being clobbered (yet). need to get that in before the next commit
+		# NOTE: I think it should be working now.
+		# NOTE: be aware that serialized variable values override the coded defaults
 end
