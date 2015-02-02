@@ -226,9 +226,7 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	constraint = resources[id]
 	constraint.closure
 		.let :a => 0.8 do |vars, h|
-			puts "--> closure"
 			# 0.8*h
-			puts vars.class
 			vars[:a]*h
 		end
 	
@@ -236,11 +234,14 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	foo[resources]
 	
 	
-	# === Run the closure
+	# === Run the constraint (will run the closure as well)
 	puts "execute constraint with closure"
-	p constraint.call(e2, e1) # A limits B
-	puts e2[:physics].shape.height * 0.8
-	
+		a = e2[:physics].shape.height * 0.8
+		b = constraint.call(e2, e1) # A limits B
+		c = e1[:physics].shape.height
+	x = [a,b,c]
+	p x
+	puts "YES" if x.all?{|i| i == x[0] } # all values are the same
 	
 	
 	
