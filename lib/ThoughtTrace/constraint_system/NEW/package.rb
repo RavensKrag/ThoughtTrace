@@ -91,3 +91,54 @@ class ConstraintPackage
 		cache && cache != data or cache.nil?
 	end
 end
+
+
+
+
+
+
+# part with the caching
+# doesn't handle any visualization at all, just the raw constraint data.
+# Don't want to ever use this normally, but maybe you can substitute it in the build phase as an optimization?
+class HeadlessStaticConstraintWrapper
+	def initialize(constraint, a,b)
+		@constraint = constraint
+		@a = a
+		@b = b
+		
+		@cache = nil
+	end
+	
+	def update
+		# apply constraint tick if necessary
+		data = @constraint.foo(@a,@b)
+		
+		if baz?(@cache, data)
+			@constraint.call(@a,@b)
+			@cache = data
+			
+			return true
+		end
+		
+		return false
+	end
+	
+	
+	
+		
+	
+	
+	
+	private
+	
+	# check the cache
+	# return true if the constraint needs to be run again
+	def baz?(cache, data)
+		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
+		return data if !!data == data
+		
+		
+		# there is stored data but it's old, or no data has yet been stored
+		cache && cache != data or cache.nil?
+	end
+end
