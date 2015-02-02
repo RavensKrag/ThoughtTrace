@@ -191,3 +191,83 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 		# NOTE: I think it should be working now.
 		# NOTE: be aware that serialized variable values override the coded defaults
 end
+
+
+task :constraint_package_test => [:build_serialization_system, :load_dependencies] do
+	# sample entities
+	e1 = ThoughtTrace::Rectangle.new(100, 200)
+	e2 = ThoughtTrace::Rectangle.new(20,  50)
+	
+	
+	# example constraint
+	constraint = LimitHeight.new
+	p constraint
+	
+	
+	
+	
+	
+	
+	
+	# === Setup
+	# resources = ResourceList.new
+	resources = ResourceCollection.new
+	p resources
+	
+	
+	# === Initialize constraint (to be done via GUI)
+	id = resources.add constraint
+	
+	
+	
+	# === Code to declare closure, with default parameter values
+	foo = ->(resources){
+	
+	constraint = resources[id]
+	constraint.closure
+		.let :a => 0.8 do |vars, h|
+			puts "--> closure"
+			# 0.8*h
+			puts vars.class
+			vars[:a]*h
+		end
+	
+	}
+	foo[resources]
+	
+	
+	# === Run the closure
+	puts "execute constraint with closure"
+	p constraint.call(e2, e1) # A limits B
+	puts e2[:physics].shape.height * 0.8
+	
+	
+	
+	
+	
+	puts "--------------------------"
+	# === Serialization
+	# dump
+	data_dump = resources.dump
+	puts "=> data dump"
+	p data_dump
+	
+	
+	puts
+	
+	
+	# sample data modification
+	puts "=> altering data..."
+	# (this simulates changing the data through the GUI)
+	data_dump[id][1][:a] = 0.3 # change parameter :a to 0.3
+	
+	
+	puts
+	
+	
+	# load
+	resources = ResourceCollection.load(data_dump)
+	foo[resources]
+	puts "=> loaded resource list"
+	p resources
+end
