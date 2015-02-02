@@ -199,9 +199,6 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	e2 = ThoughtTrace::Rectangle.new(20,  50)
 	
 	
-	# example constraint
-	constraint = LimitHeight.new
-	p constraint
 	
 	
 	
@@ -216,7 +213,7 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	# === Initialize constraint (to be done via GUI)
-	id = resources.add constraint
+	id = resources.add LimitHeight.new
 	
 	
 	
