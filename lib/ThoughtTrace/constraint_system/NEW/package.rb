@@ -46,7 +46,7 @@ class ConstraintPackage
 		# apply constraint tick if necessary
 		data = @constraint.foo(a,b)
 		
-		if baz?(@cache, data)
+		if fire_constraint?(@cache, data)
 			@constraint.call(a,b)
 			@cache = data
 			
@@ -82,7 +82,7 @@ class ConstraintPackage
 	
 	# check the cache
 	# return true if the constraint needs to be run again
-	def baz?(cache, data)
+	def fire_constraint?(cache, data)
 		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
 		return data if !!data == data
 		
