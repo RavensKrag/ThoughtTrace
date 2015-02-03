@@ -8,7 +8,7 @@ class Constraint
 	
 	# list the things that will be changed
 	# needed to figure out when the entities are changing
-
+	
 	# dependency, prerequisite?
 	# (is it a concurrent dependency? - interrelated, correlated)
 	def foo(a,b)
@@ -17,7 +17,7 @@ class Constraint
 			a[:physics].height
 		]
 	end
-
+	
 	# execute one tick
 	def call(a,b)
 		
