@@ -6,8 +6,8 @@ class ConstraintPackage
 		@constraint      = constraint_obj
 		@visualization   = visualization
 		
-		@entity_marker_1 = EntityMarker.new
-		@entity_marker_2 = EntityMarker.new
+		@marker_a = EntityMarker.new
+		@marker_b = EntityMarker.new
 		
 		@cache = nil
 		# NOTE: in optimized implementation, should figure out what type this is going to be at compile-time, and allocate enough space for it here. That way, the cache lookup is made faster due to data locality.
@@ -39,8 +39,8 @@ class ConstraintPackage
 	
 	def update
 		# extract entities from tracker objects
-		a = @entity_marker_1.constraint_target
-		b = @entity_marker_2.constraint_target
+		a = @marker_a.constraint_target
+		b = @marker_b.constraint_target
 		
 		return if a.nil? or b.nil?
 		
@@ -59,16 +59,16 @@ class ConstraintPackage
 		
 		# # use helper constraints to update the entity markers
 		# if @visible # don't update position of markers, unless markers are going to be drawn
-		# 	@move_with.call(@entity_marker_1, a)
-		# 	@move_with.call(@entity_marker_2, b)
+		# 	@move_with.call(@marker_a, a)
+		# 	@move_with.call(@marker_b, b)
 		# end
 	end
 	
 	def draw
 		return if not @visible # allow hiding the visualization (useful for optimization)
 		
-		a = @entity_marker_1.render_target
-		b = @entity_marker_2.render_target
+		a = @marker_a.render_target
+		b = @marker_b.render_target
 		
 		raise "Packaged constraints should always be drawn" if a.nil? or b.nil?
 		
