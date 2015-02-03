@@ -232,6 +232,8 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	# === Run the constraint (will run the closure as well)
+	constraint = resources[id]
+	
 	puts "execute constraint with closure"
 		a = e2[:physics].shape.height * 0.8
 		b = constraint.call(e2, e1) # A limits B
