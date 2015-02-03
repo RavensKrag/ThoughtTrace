@@ -30,15 +30,15 @@ class ConstraintPackage
 		# also, all the tracking objects on one entity should repel each other, so that you can more easily select them with the mouse (may have to do that logic inside of the collider callback?)
 		# NOTE: update to use actual constraints. the constraint declaration here is just a demo
 		
-		@move_with = Constraints::MoveWith.new
+		@move_with = ThoughtTrace::Constraints::MoveWith.new
 		# TODO: in the future, consider implementing constraints as closures with closure bound variables, rather than objects (would need a language that isn't Ruby to do that sort of implementation though)
 	end
 	
 	
 	def update
 		# extract entities from tracker objects
-		a = @entity_marker_1.entity
-		b = @entity_marker_2.entity
+		a = @entity_marker_1.constraint_target
+		b = @entity_marker_2.constraint_target
 		
 		return if a.nil? or b.nil?
 		
@@ -65,14 +65,19 @@ class ConstraintPackage
 	def draw
 		return if not @visible # allow hiding the visualization (useful for optimization)
 		
-		a = @entity_marker_1.entity
-		b = @entity_marker_2.entity
+		a = @entity_marker_1.render_target
+		b = @entity_marker_2.render_target
 		
-		return if a.nil? or b.nil?
+		raise "Packaged constraints should always be drawn" if a.nil? or b.nil?
 		
 		# TODO: figure out how to visualize the constraint when entities are not bound. Need to draw it somehow, or you will not be able to see it when nothing is bound, and then how will you bind things graphically?!? (That's a big mess, is what that is)
 		
 		@visualization.draw_inactive(a,b)
+		
+		# maybe have separate render target and constraint target?
+		# then you can fire the constraint if the constraint target is bound,
+		# but you can always draw, because there will always be a render target.
+		# (render target could be the constraint target entity, or the marker itself)
 	end
 	
 	
