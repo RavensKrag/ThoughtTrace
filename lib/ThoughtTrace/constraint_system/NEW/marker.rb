@@ -1,17 +1,22 @@
-class EntityMarker
+class EntityMarker < ThoughtTrace::Circle
 	attr_reader :constraint_target, :render_target
 	
+	RADIUS = 20
+	
 	def initialize
-		@constraint_target = nil
-		@render_target     = nil
+		super(RADIUS)
+		
+		@constraint_target = nil  # entity to feed into the constraint
+		@render_target     = self # entity to feed into visualization
 	end
 	
 	def update
-		# move position to match the position of the tracked Entity, if any
-		# (by which I mean the constraint target)
+		super()
 	end
 	
-	def draw
+	def draw(z_index=0)
+		super(z_index)
+		
 		
 	end
 	
