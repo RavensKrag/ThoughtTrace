@@ -26,11 +26,13 @@ class ConstraintPackage
 		
 		
 		
-		# Want to keep the tracking markers positioned relative to the centers of the related entities
-		# also, all the tracking objects on one entity should repel each other, so that you can more easily select them with the mouse (may have to do that logic inside of the collider callback?)
-		# NOTE: update to use actual constraints. the constraint declaration here is just a demo
+		# # Want to keep the tracking markers positioned relative to the centers of the related entities
+		# # also, all the tracking objects on one entity should repel each other, so that you can more easily select them with the mouse (may have to do that logic inside of the collider callback?)
+		# # NOTE: update to use actual constraints. the constraint declaration here is just a demo
 		
-		@move_with = ThoughtTrace::Constraints::MoveWith.new
+		# @move_with = ThoughtTrace::Constraints::MoveWith.new
+		
+		
 		# TODO: in the future, consider implementing constraints as closures with closure bound variables, rather than objects (would need a language that isn't Ruby to do that sort of implementation though)
 	end
 	
@@ -55,11 +57,11 @@ class ConstraintPackage
 		end
 		
 		
-		# use helper constraints to update the entity markers
-		if @visible # don't update position of markers, unless markers are going to be drawn
-			@move_with.call(@entity_marker_1, a)
-			@move_with.call(@entity_marker_2, b)
-		end
+		# # use helper constraints to update the entity markers
+		# if @visible # don't update position of markers, unless markers are going to be drawn
+		# 	@move_with.call(@entity_marker_1, a)
+		# 	@move_with.call(@entity_marker_2, b)
+		# end
 	end
 	
 	def draw

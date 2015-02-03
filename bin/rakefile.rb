@@ -245,6 +245,32 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	# Package the constraint, to allow GUI graph system to feed entities into it
+	visualization = ThoughtTrace::Constraints::Visualizations::DrawEdge.new # old vis path
+	package = ConstraintPackage.new(constraint, visualization)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	puts "--------------------------"
 	# === Serialization
 	# dump
