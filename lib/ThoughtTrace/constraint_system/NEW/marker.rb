@@ -8,6 +8,14 @@ class EntityMarker < ThoughtTrace::Circle
 		
 		@constraint_target = nil  # entity to feed into the constraint
 		@render_target     = self # entity to feed into visualization
+		
+		# TODO: need to set collision type to something distinct from the default Entity collision type
+		# TODO: should probably develop a nice visual style to make it clear that this is the marker object
+		# TODO: consider always rendering markers on top of entities or something like that
+			# maybe like this...?
+				# constraint visualization
+				# marker
+				# entity
 	end
 	
 	def update

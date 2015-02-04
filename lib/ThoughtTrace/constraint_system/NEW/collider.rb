@@ -3,12 +3,6 @@
 
 
 class EntityMarkerCollider
-	def initialize(space)
-		@space = space
-	end
-	
-	
-	
 	def begin(arbiter)
 		
 	end
