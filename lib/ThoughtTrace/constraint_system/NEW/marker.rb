@@ -6,6 +6,9 @@ class EntityMarker < ThoughtTrace::Circle
 	def initialize
 		super(RADIUS)
 		
+		@possible_targets = Set.new
+		@size = @possible_targets.size
+		
 		@constraint_target = nil  # entity to feed into the constraint
 		@render_target     = self # entity to feed into visualization
 		
@@ -20,6 +23,19 @@ class EntityMarker < ThoughtTrace::Circle
 	
 	def update
 		super()
+		
+		# the number of possible targets has changed since the last target disambiguation
+		# (use this check to prevent the check from running unnecessarily)
+		if @size != @possible_targets.size
+			target = disambiguate_target()
+			if target
+				bind_to target
+			else
+				unbind
+			end
+			
+			@size = @possible_targets.size # set the current count
+		end
 	end
 	
 	def draw(z_index=0)
@@ -31,6 +47,21 @@ class EntityMarker < ThoughtTrace::Circle
 	
 	
 	
+	
+	
+	def consider(entity)
+		@possible_targets.add entity
+	end
+	
+	def unconsider(entity)
+		@possible_targets.delete entity
+	end
+	
+	
+	
+	
+	
+		
 	def bind_to(entity)
 		@constraint_target = entity
 		@render_target     = entity
@@ -39,5 +70,22 @@ class EntityMarker < ThoughtTrace::Circle
 	def unbind
 		@constraint_target = nil
 		@render_target     = self
+	end
+	
+	
+	
+	
+	private
+	
+	def disambiguate_target
+		target = nil
+		
+		@possible_targets.each do |entity|
+			target ||= entity # if the list of possible targets is not empty, set it to something
+			
+			
+		end
+		
+		return target
 	end
 end

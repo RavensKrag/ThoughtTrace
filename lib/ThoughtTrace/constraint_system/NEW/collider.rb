@@ -13,7 +13,7 @@ class EntityMarkerCollider
 		
 		# TODO: make sure this only ticks once. maybe this goes in the #begin block? idk
 		marker, target = parse_arbiter(arbiter)
-		marker.bind_to target
+		marker.consider target   # add to list of potential targets (disambiguation is required)
 	end
 
 	def post_solve(arbiter)
@@ -24,7 +24,8 @@ class EntityMarkerCollider
 		# bind target to marker
 		# (restore to default)
 		marker, target = parse_arbiter(arbiter)
-		marker.unbind
+		marker.unconsider target # remove from the list of potential targets
+		# TODO: (need a better name of this)
 	end
 	
 	
