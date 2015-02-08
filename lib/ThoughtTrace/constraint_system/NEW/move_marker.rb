@@ -6,6 +6,7 @@ class Move < ThoughtTrace::Entity::Actions::Move
 	@type_list = Entity::Actions::Move.argument_type_list
 	# by creating a child class of an action, you inherit the initializer, but not the type list
 	
+	initialize_with :entity, :space
 	
 	
 	# called on first tick
@@ -19,6 +20,11 @@ class Move < ThoughtTrace::Entity::Actions::Move
 		current = super(point)
 		
 		
+		target = @space.point_query_best(point)
+		marker = @entity
+		marker.bind_to target
+		
+		# NOTE: currently using the point where the mouse is to bind the marker, so that the object that would be selected by mouseover, or selection, or other such methods is the same object that would be bound. HOWEVER, consider using the center of the marker instead, as that may make more sense. Or maybe, the marker should be moved such that it's center is always on the cursor? Some combination of those ideas? Certainly something to think about.
 		
 		
 		
@@ -60,86 +66,5 @@ end
 
 
 
-end
-end
-
-
-
-
-module ThoughtTrace
-	class Entity
-		module Actions
-
-
-class Move < Entity::Actions::Action
-	initialize_with :entity
-	
-	# called on first tick
-	def setup(point)
-		# mark the initial point for reference
-		@origin = point
-		
-		# mark the initial point for reference
-		@origin = point
-		@start = @entity[:physics].body.p.clone
-		
-		return @start
-	end
-	
-	# called each tick
-	def update(point)
-		# move relative to the initial point
-		current = @entity[:physics].body.p = @start + movement_delta(point)
-		
-		
-		return current
-	end
-	
-	# not often used, but you can define this callback if you need it
-	# really, just added for completeness
-	def cleanup(point)
-		
-	end
-	
-	
-	# display information to the user about the current transformation
-	# called each tick
-	def draw(point)
-		
-	end
-	
-	
-	
-	private
-	
-	def movement_delta(point)
-		return point - @origin
-	end
-	
-	public
-	
-	
-	
-	
-	# perform the transformation here
-	# by encapsulating the transform in this object,
-	# it becomes easy to redo / undo actions as necessary
-	ParentMemento = self.superclass.const_get 'Memento'
-	class Memento < ParentMemento
-		# set future state
-		def forward
-			@entity[:physics].body.p = @future
-		end
-		
-		# set past state
-		def reverse
-			@entity[:physics].body.p = @initial
-		end
-	end
-end
-
-
-
-end
 end
 end
