@@ -164,7 +164,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	# === Run the constraint closure closure
 	# (want to test just the closure, without considering the Entity system)
 	constraint = resources[id]
-	test = constraint.closure.call 32
+	test = constraint.closure.call 50
 		 # just need to send some random number to populate the 'h' seen in the closure
 	
 	
@@ -177,7 +177,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 		a = e2[:physics].shape.height * 0.8
 		b = constraint.call(e2, e1) # A limits B
 		c = e1[:physics].shape.height
-	x = [a,b,c]
+	x = [test, a,b,c]
 	p x
 	puts "YES" if x.all?{|i| i == x[0] } # all values are the same
 	
