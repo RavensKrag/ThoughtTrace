@@ -7,7 +7,7 @@ class EntityMarker < ThoughtTrace::Circle
 		super(RADIUS)
 		
 		@possible_targets = Set.new
-		@size = @possible_targets.size
+		@dirty = true # if this flag is true, then you need to update
 		
 		@constraint_target = nil  # entity to feed into the constraint
 		@render_target     = self # entity to feed into visualization
@@ -26,7 +26,11 @@ class EntityMarker < ThoughtTrace::Circle
 		
 		# the number of possible targets has changed since the last target disambiguation
 		# (use this check to prevent the check from running unnecessarily)
-		if @size != @possible_targets.size
+		# NOTE: this may not be sufficient. the number could go up, and then down, returning to the same position, but with different targets in the set, all in one cycle. maybe? not totally sure
+		# if @size != @possible_targets.size
+		
+		
+		if @dirty
 			target = disambiguate_target()
 			if target
 				bind_to target
@@ -34,7 +38,7 @@ class EntityMarker < ThoughtTrace::Circle
 				unbind
 			end
 			
-			@size = @possible_targets.size # set the current count
+			@dirty = false # flip the flag
 		end
 	end
 	
@@ -50,10 +54,12 @@ class EntityMarker < ThoughtTrace::Circle
 	
 	
 	def consider(entity)
+		@dirty = true
 		@possible_targets.add entity
 	end
 	
 	def unconsider(entity)
+		@dirty = true
 		@possible_targets.delete entity
 	end
 	
@@ -61,7 +67,7 @@ class EntityMarker < ThoughtTrace::Circle
 	
 	
 	
-		
+	# TODO: should change visualization state on bind / unbind, so that the UI can show this state change to the user
 	def bind_to(entity)
 		@constraint_target = entity
 		@render_target     = entity
