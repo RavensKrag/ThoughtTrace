@@ -275,19 +275,6 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	foo[resources]
 	
 	
-	# === Run the constraint (will run the closure as well)
-	constraint = resources[id]
-	
-	puts "execute constraint with closure"
-		a = e2[:physics].shape.height * 0.8
-		b = constraint.call(e2, e1) # A limits B
-		c = e1[:physics].shape.height
-	x = [a,b,c]
-	p x
-	puts "YES" if x.all?{|i| i == x[0] } # all values are the same
-	
-	
-	
 	
 	
 	
@@ -297,6 +284,8 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	# Package the constraint, to allow GUI graph system to feed entities into it
+	constraint = resources[id]
+	
 	visualization = ThoughtTrace::Constraints::Visualizations::DrawEdge.new # old vis path
 	package = ConstraintPackage.new(constraint, visualization)
 	
@@ -324,12 +313,6 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	puts
-	
-	
-	# sample data modification
-	puts "=> altering data..."
-	# (this simulates changing the data through the GUI)
-	data_dump[id][1][:a] = 0.3 # change parameter :a to 0.3
 	
 	
 	puts
