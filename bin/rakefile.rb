@@ -113,10 +113,12 @@ end
 
 
 
+# test constraint objects
+# (just saving constraints, no Entity bindings are saved in this test)
 task :constraint_test => [:build_serialization_system, :load_dependencies] do
-	# constraint = ThoughtTrace::Constraints::LimitHeight.new
-	constraint = Constraint.new
-	p constraint
+	# sample entities
+	e1 = ThoughtTrace::Rectangle.new(100, 200)
+	e2 = ThoughtTrace::Rectangle.new(20,  50)
 	
 	
 	
@@ -133,7 +135,8 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	# === Initialize constraint (to be done via GUI)
-	id = resources.add constraint
+	# id = resources.add ThoughtTrace::Constraints::LimitHeight.new
+	id = resources.add LimitHeight.new
 	
 	
 	
@@ -153,9 +156,52 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	foo[resources]
 	
 	
-	# === Run the closure
-	constraint.closure.call 32
+	
+	
+	
+	# === Run the constraint closure closure
+	# (want to test just the closure, without considering the Entity system)
+	constraint = resources[id]
+	test = constraint.closure.call 32
 		 # just need to send some random number to populate the 'h' seen in the closure
+	
+	
+	
+	
+	# === Run the constraint (will run the closure as well)
+	constraint = resources[id]
+	
+	puts "execute constraint with closure"
+		a = e2[:physics].shape.height * 0.8
+		b = constraint.call(e2, e1) # A limits B
+		c = e1[:physics].shape.height
+	x = [a,b,c]
+	p x
+	puts "YES" if x.all?{|i| i == x[0] } # all values are the same
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	# Package the constraint, to allow GUI graph system to feed entities into it
+	visualization = ThoughtTrace::Constraints::Visualizations::DrawEdge.new # old vis path
+	package = ConstraintPackage.new(constraint, visualization)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -187,12 +233,10 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	foo[resources]
 	puts "=> loaded resource list"
 	p resources
-	# NOTE: this loads procs, but no guarantee that variables aren't being clobbered (yet). need to get that in before the next commit
-		# NOTE: I think it should be working now.
-		# NOTE: be aware that serialized variable values override the coded defaults
 end
 
 
+# test serialization of parameterized constraint objects (just saving constraints, no bindings)
 task :constraint_package_test => [:build_serialization_system, :load_dependencies] do
 	# sample entities
 	e1 = ThoughtTrace::Rectangle.new(100, 200)
