@@ -218,18 +218,6 @@ end
 
 # test serialization of parameterized constraint objects (just saving constraints, no bindings)
 task :constraint_package_test => [:build_serialization_system, :load_dependencies] do
-	# sample entities
-	e1 = ThoughtTrace::Rectangle.new(100, 200)
-	e2 = ThoughtTrace::Rectangle.new(20,  50)
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	# === Setup
 	# resources = ResourceList.new
 	resources = ResourceCollection.new
@@ -270,7 +258,7 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	package = ConstraintPackage.new(constraint, visualization)
 	
 	
-	
+	collection = ThoughtTrace::Constraints::Collection.new
 	
 	
 	
@@ -295,12 +283,44 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	puts
 	
 	
-	puts
-	
-	
 	# load
 	resources = ResourceCollection.load(data_dump)
 	foo[resources]
 	puts "=> loaded resource list"
 	p resources
+	
+	
+	
+	
+	
+	
+	
+	
+	# === Equality test
+	original = nil
+	serialized_copy = nil
+	
+	x = 
+		[original, serialized_copy].collect do |collection|
+			e1 = ThoughtTrace::Rectangle.new(100, 200)
+			e2 = ThoughtTrace::Rectangle.new(20,  50)
+			
+			
+			
+			
+			a = nil
+			
+			
+			
+			b = nil
+			
+			
+			
+			c = nil
+			
+			
+			[a,b,c]
+		end
+	
+	puts "YES" if x.all?{|i| i == x[0] } # all values are the same
 end
