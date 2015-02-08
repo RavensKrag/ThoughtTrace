@@ -143,6 +143,8 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	# === Code to declare closure, with default parameter values
 	foo = ->(resources){
 	
+	# NOTE: in production code, ID needs to be hardcoded, because the closure definition happens in a separate file, and at a separate time, relative to the declaration of the constraint.
+	
 	constraint = resources[id]
 	constraint.closure
 		.let :a => 0.8 do |vars, h|
