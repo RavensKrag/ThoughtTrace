@@ -12,79 +12,91 @@ class Collection
 	# currently assuming constraints are method objects
 	# yes. method. objects.
 	# take the containing object and call #method(name) to retrieve the method object
-	def add(constraint, enumerator, visualization)
-		all_pairs = enumerator
-		
-		cache = Hash.new
-		
-		
-		@list << [cache, constraint, all_pairs, visualization]
+	def add(constraint, visualization)
+		@list << ConstraintPackage.new(constraint, visualization)
 	end
 	
 	def update
-		@list.each do |cache, constraint, all_pairs, visualization|
-			all_pairs.each do |a,b|
-				data = constraint.foo(a,b)
-				pair = [a,b]
-				
-				
-				
-				if baz?(cache, pair, data)
-					constraint.call(a,b)
-					cache[pair] = data
-					
-					
-					visualization.activate
-				end
-			end
-			
-			# NOTE: the 'All' monad should be optimized
-			# so that it can execute in 2n, rather than n(n-1) time.
-			# but this kinda means that the cache needs to be part of the monad?
-			# because for the All monad, only piece of data needs to be cached,
-			# because the all Entities in the relation should have the same value
-			
-			
-			# This attempted restructuring
-			# so that the All monad can be optimized to 2n doesn't actually work
-			# because it assumes that constraints are always propagating constraints
-			# if it's a limiting constraint, you must test pairwise, you can't optimize to testing only one
-			
-			
-			# ie
-			# it will only work when you have a constraint that
-			# depends only on change in A (the source) rather than also depending on changes in B (the sink)
-
-			
-			
-			
-			
-			visualization.update
+		@list.each do |package|
+			package.update
 		end
 	end
 	
 	def draw
-		@list.each do |cache, constraint, all_pairs, visualization|
-			all_pairs.each { |a,b| visualization.draw(a,b)  }
-			
-			# monad.send(visualization.relationship) do |*args|
-			# 	visualization.draw(*args)
-			# end
+		@list.each do |package|
+			package.draw
 		end
 	end
 	
 	
-	private
 	
-	# check the cache
-	# return true if the constraint needs to be run again
-	def baz?(cache, pair, data)
-		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
-		return data if !!data == data
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	# convert this collection to and from a nested array structure
+	# this serialization process does not actually interface with the disk at all
+	
+	
+	def pack
+		
+	end
+	
+	
+	def self.unpack(data_dump)
+		collection = self.new
 		
 		
-		# there is stored data but it's old, or no data has yet been stored
-		cache[pair] && cache[pair] != data or cache[pair].nil?
+		data_dump.each do |constraint_data|
+			# constraint_data
+			constraint, visualization, a,b = constraint_data
+			
+			
+			
+			a = [
+				ThoughtTrace::Constraints,
+				ThoughtTrace::Constraints::Visualizations
+			]
+			
+			b = [constraint, visualization]
+			
+			c = 
+				a.zip(b).collect do |container, const_name|
+					klass = container.const_get const_name
+				end
+			
+			
+			# THIS IS WEIRD
+			# DON'T ACTUALLY DO THIS
+			# don't do this in deployment code
+			
+			# I didn't want the initialization to happen here,
+			# I wanted instances of classes to be loaded into the Collection
+			# so like... the data that is serialized I guess should be instances?
+			# c[0] = c[0].new
+			
+			
+			
+			
+			d = [:constraint, :enumerator, :visualization].zip(c).to_h
+			
+			constraint    = d[:constraint].new # DON'T ACTUALLY DO THIS IN PRODUCTION CODE
+			enumerator    = d[:enumerator].new(entity_list)
+			visualization = d[:visualization].new
+			
+			
+			collection.add constraint, enumerator, visualization
+		end
+		
+		return collection
 	end
 end
 
