@@ -10,9 +10,6 @@ class Move < Entity::Actions::Action
 	def setup(point)
 		# mark the initial point for reference
 		@origin = point
-		
-		# mark the initial point for reference
-		@origin = point
 		@start = @entity[:physics].body.p.clone
 		
 		return @start
