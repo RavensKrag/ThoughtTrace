@@ -319,11 +319,35 @@ Duplication of Constraints
 
 
 
-=> Constraint markers for binding Entities in the Graph view UI
-	bind constraint target to a null-object on the marker itself by default
-		(this is a good way of thinking about it, but it can't be implemented this way, because the Entity relies heavily on method chaining. there's not just a single message that can be passed / stubbed)
+
+
+Constraint Markers
+	Parameterized constraint objects will be bound to Entities using Markers.
+	A Package will hold two markers, and the constraint associated with that pair.
+	(this will be further explained later)
 	
 	
+	Constraints will always be visualized between two Markers,
+	but a Constraint will only actually attempt to fire when each Marker is bound to as Entity.
+	(recall that actually firing depends on passing cache test, etc)
+	
+	because Entity makes heavy use of method chaining,
+	you can't have a null Entity absorb the constraint commands of an unbound Marker. (? awk)
+	
+	Instead, each Marker specifies two targets:
+	+ constraint target
+	+ render target
+	
+	The Package will only fire the Constraint if both constraint targets are bound,
+	but will always render the visualization based on the render target pair.
+	Sometimes the render target will point to the target entity,
+	sometimes it will point to the Marker itself.
+	This way, the constraint can be made visible in the graph as long as it is allocated,
+	even if it is not currently running.
+
+
+
+Binding Markers to Target Entities (bind to constraint target)
 	when marker collides with entity
 		bind target to entity
 	when marker stops colliding
@@ -371,6 +395,8 @@ Duplication of Constraints
 
 
 
+
+Constraint Package
 
 
 
