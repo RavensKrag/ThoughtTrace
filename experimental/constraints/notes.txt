@@ -269,6 +269,25 @@ Parameterization of Constraints
 	
 	
 	currently, the "parameterizing closure" class is called Constraint::Closure
+	
+	
+	
+	=> parameters
+	
+	save on quit
+	load previous parameters on load
+	use default parameters if no other value has been set yet
+	
+	
+	changing defaults overrides current values?
+		this would be hard and weird, so let's skip it
+	
+	
+	
+	
+	
+	
+	
 
 
 
@@ -284,6 +303,104 @@ Duplication of Constraints
 	in two places instead
 	
 	
+
+
+
+
+=> Constraint markers for binding Entities in the Graph view UI
+	bind constraint target to a null-object on the marker itself by default
+		(this is a good way of thinking about it, but it can't be implemented this way, because the Entity relies heavily on method chaining. there's not just a single message that can be passed / stubbed)
+	
+	
+	when marker collides with entity
+		bind target to entity
+	when marker stops colliding
+		bind target to marker
+	
+	
+	
+	
+	
+	
+	
+	
+	need to disambiguate possible targets of the marker
+	
+	
+	can't just bind on collide
+	can collide with many things at once
+	need to all colliding entities to a collection
+	then, once the collision phase is over,
+	figure out which one of the entities should be selected
+	
+	
+	if there are no viable entities, then the marker should be unbound
+	
+	
+	
+	
+	need to also consider how this system intersects with snapping the markers into certain positions
+	
+	
+	
+	
+	
+	
+	
+	bind marker on move, not on collision
+	
+	otherwise, when things start to be moved around systemically, things could rebind
+	which would be a cool systemic behavior...
+	but also totally not what you want or expect
+	
+	if you really wanted that, you should be using query-bound constraints instead
+
+
+
+
+
+
+
+
+
+=> Serialization of Bound Constraints
+	similar to entity serialization:
+	
+	
+	bound constraints are
+	(entity, entity, constraint object)
+	
+	replace entity with serialization entity ID
+	replace constraint object with the UUID assigned to that object by the ResourceCollection
+	
+	
+	
+	(also need to serialize any state particular to a binding, which may or may not include the cache. haven't figured that one out yet)
+	NOT saving the cache would force ALL constraints to re-run on load
+	you might want this, so that you can just "turn it off and on again" in case of error
+	but it would be better just to make better constraints, and have rollback to previous state in case of "emergency" exceptional flow
+	
+	
+	
+	
+	note that the ResourceCollection that maps UUIDs => constraint objects
+	is actually a one-to-one relation
+	so it could be a two-way hash or something like that
+	and still work
+	
+	for serialization you need to invert the stored hash,
+	but it may be worth considering if there should always be a method of going both ways
+
+
+
+
+
+
+
+
+
+
+
 
 
 - old notes on constraints
