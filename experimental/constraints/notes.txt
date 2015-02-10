@@ -321,7 +321,7 @@ Duplication of Constraints
 
 
 
-Constraint Markers
+=> Constraint Markers
 	Parameterized constraint objects will be bound to Entities using Markers.
 	A Package will hold two markers, and the constraint associated with that pair.
 	(this will be further explained later)
@@ -329,10 +329,11 @@ Constraint Markers
 	
 	Constraints will always be visualized between two Markers,
 	but a Constraint will only actually attempt to fire when each Marker is bound to as Entity.
-	(recall that actually firing depends on passing cache test, etc)
+	(recall that actually firing depends on other things as well, like passing cache test)
 	
 	because Entity makes heavy use of method chaining,
 	you can't have a null Entity absorb the constraint commands of an unbound Marker. (? awk)
+	(it's not one simple message that can be intercepted / stubbed)
 	
 	Instead, each Marker specifies two targets:
 	+ constraint target
@@ -341,40 +342,15 @@ Constraint Markers
 	The Package will only fire the Constraint if both constraint targets are bound,
 	but will always render the visualization based on the render target pair.
 	Sometimes the render target will point to the target entity,
-	sometimes it will point to the Marker itself.
+	sometimes it will point to the Marker itself,
+	but a Marker will always have a render target.
+	
 	This way, the constraint can be made visible in the graph as long as it is allocated,
 	even if it is not currently running.
 
 
 
-Binding Markers to Target Entities (bind to constraint target)
-	when marker collides with entity
-		bind target to entity
-	when marker stops colliding
-		bind target to marker
-	
-	
-	
-	
-	
-	
-	
-	
-	need to disambiguate possible targets of the marker
-	
-	
-	can't just bind on collide
-	can collide with many things at once
-	need to all colliding entities to a collection
-	then, once the collision phase is over,
-	figure out which one of the entities should be selected
-	
-	
-	if there are no viable entities, then the marker should be unbound
-	
-	
-	
-	
+=> Binding Markers to Target Entities (bind to constraint target)
 	need to also consider how this system intersects with snapping the markers into certain positions
 	
 	
@@ -382,22 +358,37 @@ Binding Markers to Target Entities (bind to constraint target)
 	
 	
 	
-	
-	bind marker on move, not on collision
+	bind marker on move action, not on collision
 	
 	otherwise, when things start to be moved around systemically, things could rebind
 	which would be a cool systemic behavior...
 	but also totally not what you want or expect
 	
 	if you really wanted that, you should be using query-bound constraints instead
+	
+	
+	but you need to disambiguate which Entity is the desired target
+	
+	this is similar to figuring out which Entity to select when clicking to select. (? awk)
+	
+	currently using point_query_best, which is literally the same code for click selection,
+	so the system will select the same object that would be selected by clicking,
+	which should be rather intuitive.
+	
+	
+	If there are no viable targets,
+	the constraint target will be unbound,
+	preventing the constraint from firing.
 
 
 
 
 
 
-Constraint Package
-
+=> Constraint Package
+	Need to figure out how this matches up with the old Edge Group system
+	this is basically the same thing, with a name that is arguably way worse.
+	("Package" is a horribly generic name)
 
 
 
