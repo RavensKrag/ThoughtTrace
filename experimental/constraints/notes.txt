@@ -279,8 +279,20 @@ Parameterization of Constraints
 	use default parameters if no other value has been set yet
 	
 	
-	changing defaults overrides current values?
-		this would be hard and weird, so let's skip it
+	Parameters will retain their values from previous sessions.
+	They could be changed in the GUI and will keep those values after exit.
+	
+	If new variables have been added to a Constraint,
+	(ie the constraint definition has been updated)
+	the default values for those variables will be assigned
+	the next time that constraint is loaded.
+	
+	However, changing the default values in code will not effect values that have already been set.
+		(this would be a nice feature to have, because it allows for a live-coding-style environment, but it would be hard and weird to implement, so it will be skipped. at least for now. Priority is on making it able to abstract code, and allow for the graph to control aspects of the code. Making code edit the graph in a "live" manner is not a priority.)
+	
+	
+	Serialization of parameterized constraint objects is handled by ResourceCollection,
+	the class which maintains those objects
 	
 	
 	
