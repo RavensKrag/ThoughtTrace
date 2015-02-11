@@ -328,27 +328,35 @@ Constraint Markers
 	simply by dragging a Marker over to a new Entity.
 	
 	
-	Constraints will always be visualized between two Markers,
-	but a Constraint will only actually attempt to fire when each Marker is bound to as Entity.
+	
+	Each Marker specifies two targets:
+	+ render target
+	+ constraint target
+	
+	Sometimes the render target will point to the target entity,
+	sometimes it will point to the Marker itself,
+	but a Marker will always have a render target.
+		This way, the constraint can be made visible in the graph as long as it is allocated,
+		even if it is not currently running.
+	
+	However, the constraint will only attempt to fire
+	when both constraint targets have been bound.
 	(recall that actually firing depends on other things as well, like passing cache test)
 	
+	
+	
+	
+	NOTE:
 	because Entity makes heavy use of method chaining,
 	you can't use a null Entity to temporarily absorb the commands of an Constraint
 	when the Constraint does not have a proper target. 
 	(it's not one simple message that can be intercepted / stubbed)
 	
-	Instead, each Marker specifies two targets:
-	+ constraint target
-	+ render target
-	
-	The Package will only fire the Constraint if both constraint targets are bound,
-	but will always render the visualization based on the render target pair.
-	Sometimes the render target will point to the target entity,
-	sometimes it will point to the Marker itself,
-	but a Marker will always have a render target.
-	
-	This way, the constraint can be made visible in the graph as long as it is allocated,
-	even if it is not currently running.
+	Thus, this two-target structure is used instead.
+
+
+
+
 
 
 
