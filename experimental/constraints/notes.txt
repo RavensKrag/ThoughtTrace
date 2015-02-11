@@ -482,7 +482,103 @@ race conditions
 	I hope that in the future, some graph-level systems can be ported down to text-code for efficient prevention of common mistakes.
 
 
+need to be careful of cycles
+need to be careful of livelock as well as deadlock
+(basically, be aware and concerned about distributed programming types of problems)
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+should probably traverse part of the graph, and only fire constraints in the subgraph that need to be fired, rather the looping over all constraints and attempting to fire each one once
+
+that would be more complicated,
+but perhaps more efficient
+
+but you have to make sure that you don't attempt to fire too many constraints per tick
+otherwise the system would not run in real-time
+
+(though potentially you could fire the same constraint multiple times is one tick?)
+
+
+really just want to make sure that this case works correctly:
+	a bunch of objects are instance of a prefab.
+	the prefab is called A
+	the instances are called X, Y, and Z
+	
+	when A is altered, X, Y, and Z should be changed
+	and vice versa: when X, Y, or Z is altered, A should be changed
+	(this second case causes a loop, where the new changes are systemically propagated to siblings)
+	
+	need to make sure this
+		1) doesn't loop indefinitely     (would freeze the program)
+		2) allows for seamless interactive updates that are not off-by-one frame
+
+
+
+
+
+
+
+potentially, you need to have a limit to the number of constraints to evaluate per frame,
+and then pass the job onto the the next frame if you exceed that limit
+(similar to the dynamic-number-of-fixed-steps approach to physics simulation)
+(would likewise have similar degradation characteristics as that physics approach)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+can perform static analysis of graph to figure out how many edges you would have to traverse for changes to a particular property to propagate throughout the entire graph
+
+
+should really implement this before system is developed too much further
+would make it easy to see if it's worth it to only traverse changed paths,
+instead of only updating each constraint pair once out of fear of going on forever
+( also just makes for a generally nice debug tool )
+
+
+
+
+those two strategies most likely have different degradation characteristics.
+it's important to consider how systems will break,
+not just how they will work under ideal / or best known circumstances
+
+
+
+
+
+
+check all entities for...
+	check all properties of the entity for...
+		what happens if this property is changed?
+		what constraints will need to be fired?
+		
+		how many edges will this data have to traverse before it finishes propagation?
+
+
+( when you display this data, you probably want to hide the properties that do not need to be propagated )
