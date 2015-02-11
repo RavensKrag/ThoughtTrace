@@ -269,18 +269,16 @@ Parameterization of Constraints
 	
 	
 	currently, the "parameterizing closure" class is called Constraint::Closure
+
+
+
+
+Serialization of Parameterized Constraint Objects
+		
+	Parameters will retain their values from previous sessions,
+	regardless of if they are changed in the GUI, by a constraint in the graph,
+	or by some other code.
 	
-	
-	
-	=> parameters
-	
-	save on quit
-	load previous parameters on load
-	use default parameters if no other value has been set yet
-	
-	
-	Parameters will retain their values from previous sessions.
-	They could be changed in the GUI and will keep those values after exit.
 	
 	If new variables have been added to a Constraint,
 	(ie the constraint definition has been updated)
@@ -288,18 +286,18 @@ Parameterization of Constraints
 	the next time that constraint is loaded.
 	
 	However, changing the default values in code will not effect values that have already been set.
-		(this would be a nice feature to have, because it allows for a live-coding-style environment, but it would be hard and weird to implement, so it will be skipped. at least for now. Priority is on making it able to abstract code, and allow for the graph to control aspects of the code. Making code edit the graph in a "live" manner is not a priority.)
+		
+		(  this would be a nice feature to have, because it allows for a live-coding-style environment, but it would be hard and weird to implement, so it will be skipped. at least for now. Priority is on making it able to abstract code, and allow for the graph to control aspects of the code. Making code edit the graph in a "live" manner is not a priority.  )
 	
 	
 	Serialization of parameterized constraint objects is handled by ResourceCollection,
 	the class which maintains those objects
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 
 
 
