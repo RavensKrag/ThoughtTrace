@@ -75,3 +75,17 @@ universal dirty flag ( similar to how build systems generally work (make, rake, 
 	
 	this potentially raises problems with false positives
 	or false negatives, for that matter
+
+
+
+
+
+where do you put the cache? ( for constraints, to figure out when to fire when data has changed )
+the values cache should be on the monad
+	because only the monad can figure out if you need to cache one value, or several
+
+	NO this actually doesn't work
+	or rather,
+	it only works for propagating constraints, and not limiting constraints
+	as it will only work when you have a constraint that
+	depends only on change in A (the source) rather than also depending on changes in B (the sink)

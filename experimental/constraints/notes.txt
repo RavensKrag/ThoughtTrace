@@ -399,6 +399,8 @@ Binding Markers to Target Entities (bind to constraint target)
 	("Package" is a horribly generic name)
 	
 	like the Edge Group, probably need to store the visualization here as well.
+	
+	Holds the cache data for a constraint pair, which is critical to knowing when a constraint should run
 
 
 
