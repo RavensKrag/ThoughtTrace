@@ -321,10 +321,13 @@ Duplication of Constraints
 
 
 
-=> Constraint Markers
+Constraint Markers
 	Parameterized constraint objects will be bound to Entities using Markers.
 	A Package will hold two markers, and the constraint associated with that pair.
-	(this will be further explained later)
+	(Packages are fully explained in a later section)
+	
+	The use of Markers allows for the Constraint to be rebound to a new pair of Entities in the GUI
+	simply by dragging a Marker over to a new Entity.
 	
 	
 	Constraints will always be visualized between two Markers,
@@ -332,7 +335,8 @@ Duplication of Constraints
 	(recall that actually firing depends on other things as well, like passing cache test)
 	
 	because Entity makes heavy use of method chaining,
-	you can't have a null Entity absorb the constraint commands of an unbound Marker. (? awk)
+	you can't use a null Entity to temporarily absorb the commands of an Constraint
+	when the Constraint does not have a proper target. 
 	(it's not one simple message that can be intercepted / stubbed)
 	
 	Instead, each Marker specifies two targets:
@@ -350,8 +354,8 @@ Duplication of Constraints
 
 
 
-=> Binding Markers to Target Entities (bind to constraint target)
-	need to also consider how this system intersects with snapping the markers into certain positions
+Binding Markers to Target Entities (bind to constraint target)
+	NOTE: need to also consider how this system intersects with snapping the markers into certain positions
 	
 	
 	
@@ -369,16 +373,14 @@ Duplication of Constraints
 	
 	but you need to disambiguate which Entity is the desired target
 	
-	this is similar to figuring out which Entity to select when clicking to select. (? awk)
-	
-	currently using point_query_best, which is literally the same code for click selection,
+	Currently using point_query_best, which is literally the same code for click selection,
 	so the system will select the same object that would be selected by clicking,
 	which should be rather intuitive.
 	
 	
 	If there are no viable targets,
-	the constraint target will be unbound,
-	preventing the constraint from firing.
+	the constraint target on the Marker will be unbound,
+	and the Package will prevent the constraint from firing.
 
 
 
@@ -389,6 +391,8 @@ Duplication of Constraints
 	Need to figure out how this matches up with the old Edge Group system
 	this is basically the same thing, with a name that is arguably way worse.
 	("Package" is a horribly generic name)
+	
+	like the Edge Group, probably need to store the visualization here as well.
 
 
 
