@@ -62,6 +62,7 @@ class ConstraintPackage
 		# 	@move_with.call(@marker_a, a)
 		# 	@move_with.call(@marker_b, b)
 		# end
+		# NOTE: the markers need to move when the parents move, but the markers also need to snap to their "parents". this implies moving the markers too far away from the "parents" will break the linkage. (this is partially implemented in the collider already, but it's not totally there yet. no notion of snapping yet.)
 	end
 	
 	def draw
