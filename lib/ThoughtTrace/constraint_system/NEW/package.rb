@@ -2,9 +2,11 @@
 # (kinda like a Decorator: adds extra stuff on top of the standard Constraint functionality)
 # (can use the Constraint objects directly if you don't need visualization. ex: optimization)
 class ConstraintPackage
-	def initialize
-		@constraint = Constraint.new
-		@visualization = Visualization.new
+	attr_reader :marker_a, :marker_b
+	
+	def initialize(constraint, visualization)
+		@constraint = constraint
+		@visualization = visualization
 		
 		@marker_a = EntityMarker.new
 		@marker_b = EntityMarker.new
