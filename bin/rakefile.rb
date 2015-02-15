@@ -308,8 +308,7 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	
-	# TOOD: cache is off-by-one: allows on more extra tick of the constraint than should be allowed
-	
+	# test caching
 	test_package[]
 	check_values[]
 	puts
