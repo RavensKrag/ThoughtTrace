@@ -1,26 +1,16 @@
-# bind up a reusable constraint 'function' thing, a visualization, and two entity handles,
-# along with some cache space.
-# Always describes a constraint between two entity objects.
+# The graphical interface elements of a Constraint
+# (kinda like a Decorator: adds extra stuff on top of the standard Constraint functionality)
+# (can use the Constraint objects directly if you don't need visualization. ex: optimization)
 class ConstraintPackage
-	def initialize(constraint_obj, visualization)
-		@constraint      = constraint_obj
-		@visualization   = visualization
+	def initialize
+		@constraint = Constraint.new
+		@visualization = Visualization.new
 		
 		@marker_a = EntityMarker.new
 		@marker_b = EntityMarker.new
 		
-		@cache = nil
-		# NOTE: in optimized implementation, should figure out what type this is going to be at compile-time, and allocate enough space for it here. That way, the cache lookup is made faster due to data locality.
-		# NOTE: if a bunch of these constraint wrappers are allocated in a pool, you could allocate space for the unknown @cache field to be equal to the largest possible cache. possible use of 'unions' (related to structs) if implementing in C.
-			# ie) constraint, vis, e1, e2,  32 bytes
-			#     constraint, vis, e1, e2,  12 bytes
-			#     constraint, vis, e1, e2, 100 bytes
 		
-		
-		
-		
-		
-		
+		@visible = true
 		# TODO: get the Entity markers to snap as they are moved
 		
 		
@@ -34,27 +24,21 @@ class ConstraintPackage
 		
 		
 		# TODO: in the future, consider implementing constraints as closures with closure bound variables, rather than objects (would need a language that isn't Ruby to do that sort of implementation though)
+
 	end
 	
-	
 	def update
-		# extract entities from tracker objects
-		a = @marker_a.constraint_target
-		b = @marker_b.constraint_target
+		# NOTE: this feels really weird, because you're attempting to rebind every tick. you only really NEED to update the bindings much less frequently than this. I guess it's only when the markers move? is there a good way to set up a callback for that which would take less work than comparing the pointers on the pair that is attempting to be bound?
+		update_bindings()
 		
-		return if a.nil? or b.nil?
-		
-		
-		# apply constraint tick if necessary
-		data = @constraint.foo(a,b)
-		
-		if fire_constraint?(@cache, data)
-			@constraint.call(a,b)
-			@cache = data
-			
-			
+		@constraint.update do
+			# this block only fires if the constraint is fired
+			# TODO: maybe you want a blocks that fire at other times? like, edge trigger? or just on "no fire"?
 			@visualization.activate
 		end
+		
+		
+		
 		
 		
 		# # use helper constraints to update the entity markers
@@ -63,90 +47,35 @@ class ConstraintPackage
 		# 	@move_with.call(@marker_b, b)
 		# end
 		# NOTE: the markers need to move when the parents move, but the markers also need to snap to their "parents". this implies moving the markers too far away from the "parents" will break the linkage. (this is partially implemented in the collider already, but it's not totally there yet. no notion of snapping yet.)
+
 	end
 	
 	def draw
 		return if not @visible # allow hiding the visualization (useful for optimization)
+		# (by which I mean that abstracted hidden packages can be turned into raw constraints)
 		
 		a = @marker_a.render_target
 		b = @marker_b.render_target
 		
 		raise "Packaged constraints should always be drawn" if a.nil? or b.nil?
 		
-		# TODO: figure out how to visualize the constraint when entities are not bound. Need to draw it somehow, or you will not be able to see it when nothing is bound, and then how will you bind things graphically?!? (That's a big mess, is what that is)
 		
-		@visualization.draw_inactive(a,b)
-		
-		# maybe have separate render target and constraint target?
-		# then you can fire the constraint if the constraint target is bound,
-		# but you can always draw, because there will always be a render target.
-		# (render target could be the constraint target entity, or the marker itself)
+		@visualization.draw(a,b)
 	end
-	
 	
 	
 	
 	private
 	
-	# check the cache
-	# return true if the constraint needs to be run again
-	def fire_constraint?(cache, data)
-		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
-		return data if !!data == data
+	def update_bindings
+		# extract entities from tracker objects
+		a = @marker_a.constraint_target
+		b = @marker_b.constraint_target
 		
-		
-		# there is stored data but it's old, or no data has yet been stored
-		cache && cache != data or cache.nil?
-	end
-end
-
-
-
-
-
-
-# part with the caching
-# doesn't handle any visualization at all, just the raw constraint data.
-# Don't want to ever use this normally, but maybe you can substitute it in the build phase as an optimization?
-class HeadlessStaticConstraintWrapper
-	def initialize(constraint, a,b)
-		@constraint = constraint
-		@a = a
-		@b = b
-		
-		@cache = nil
-	end
-	
-	def update
-		# apply constraint tick if necessary
-		data = @constraint.foo(@a,@b)
-		
-		if baz?(@cache, data)
-			@constraint.call(@a,@b)
-			@cache = data
-			
-			return true
+		if a.nil? or b.nil?
+			@constraint.unbind
+		else
+			@constraint.bind(a,b)
 		end
-		
-		return false
-	end
-	
-	
-	
-		
-	
-	
-	
-	private
-	
-	# check the cache
-	# return true if the constraint needs to be run again
-	def baz?(cache, data)
-		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
-		return data if !!data == data
-		
-		
-		# there is stored data but it's old, or no data has yet been stored
-		cache && cache != data or cache.nil?
 	end
 end
