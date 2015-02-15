@@ -332,7 +332,7 @@ end
 
 
 # test serialization of parameterized constraint objects (just saving constraints, no bindings)
-task :constraint_package_test => [:build_serialization_system, :load_dependencies] do
+task :constraint_collection_test => [:build_serialization_system, :load_dependencies] do
 	# === Setup
 	# constraint_objects = ResourceList.new
 	constraint_objects = ResourceCollection.new
@@ -394,55 +394,6 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	package.marker_a[:physics].body.p = a[:physics].shape.center.clone
 	package.marker_b[:physics].body.p = b[:physics].shape.center.clone
-	
-	
-	
-	# NOTE: due to the implementation of the constraint, just because the constraint RUNS doesn't necessarily means that it has to change any data. That being said, data should only be mutated if the constraint actually fires.
-		# ex) LimitHight will not update values if the height to be constrained is already UNDER the threshold
-	
-	
-	
-	test_package = ->(){
-		# execute the constraint package
-		puts "running package..."
-		status = package.update
-		puts status
-	}
-	
-	test_constraint = ->(){
-		# run just the constraint
-		puts "running constraint..."
-		constraint.call(a,b)
-	}
-	
-	check_values = ->(){
-		x = a[:physics].shape.height
-		y = b[:physics].shape.height
-		p [x,y]
-	}
-	
-	
-	
-	# test caching
-	test_package[]
-	check_values[]
-	puts
-	
-	test_package[]
-	check_values[]
-	puts
-	
-	test_package[]
-	check_values[]
-	puts
-	
-	# test_constraint[]
-	# check_values[]
-	# puts
-	
-	
-	
-	
 	
 	
 	
