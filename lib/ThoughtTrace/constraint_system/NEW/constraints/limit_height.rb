@@ -4,7 +4,7 @@ class LimitHeight < Constraint
 		super()
 	end
 	
-	def foo(a,b)
+	def self.foo(a,b)
 		[
 			a[:physics].shape.height,
 			b[:physics].shape.height
