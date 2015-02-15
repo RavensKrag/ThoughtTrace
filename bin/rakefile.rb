@@ -235,8 +235,6 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	constraint = collection[id]
 	constraint.closure
 		.let :a => 0.8 do |vars, h|
-			puts "CLOSURE"
-			
 			# 0.8*h
 			vars[:a]*h
 		end
@@ -310,18 +308,23 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	
-	test_package[]
-	check_values[]
+	# TOOD: cache is off-by-one: allows on more extra tick of the constraint than should be allowed
 	
 	test_package[]
 	check_values[]
+	puts
 	
 	test_package[]
 	check_values[]
+	puts
 	
-	test_constraint[]
+	test_package[]
 	check_values[]
+	puts
 	
+	# test_constraint[]
+	# check_values[]
+	# puts
 	
 	
 	
