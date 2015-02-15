@@ -70,10 +70,24 @@ class Constraint
 		# NOTE: @a and @b are currently both set at once. it's either going to be that both are bound, or both are unbound. As such, testing both of them seems a little odd.
 		
 		data = self.class.foo(@a,@b)
+		# save the data from this tick so
+		# 'call' has the proper data to work with
+		# (also allows #bar? to use ':prev' to access old data from the previous frame, and the ':this', to access the data from this frame, which is exactly as expected.)
+		save(data)
 		
-		if bar?(data)
+		if bar?
 			call(@a,@b)
-			save(data)
+			
+			
+			# save the data from right now,
+			# because we JUST CHANGED IT
+			# 
+			# of course the system thinks the data has been changed:
+			# it has been, but it has been changed internally.
+			# you only want the constraint to change if dependencies have been EXTERNALLY altered
+			save(self.class.foo(@a,@b))
+			
+			
 			
 			block.call
 		end
@@ -85,6 +99,7 @@ class Constraint
 	# check cache things
 	# (this is the format of the data stored in @cache)
 	def self.foo(a,b)
+		# NOTE: for a low-level implementation, this should write to the memory location allocated by the cache, rather than allocating to some random place in the heap, and then returning a pointer. (note that 'direct return' would not be an option, because the data would be too large to fit in one register)
 		[
 			b[:physics].body.p
 		]
@@ -134,13 +149,14 @@ class Constraint
 	
 	
 	# check if the cache is outdated
-	def bar?(data)
+	def bar?
 		# data has not yet been saved, so this "this tick" is actually the data from the last tick
 		# also note that it's the data from
 		# the last time the constraint fired, not the last time it TRIED TO FIRE
 		# (pretty significant difference)
 		# but if it didn't fire, then the cached data was the same so... that should be fine
-		cache = @cache[:this]
+		cache = @cache[:prev]
+		data = @cache[:this]
 		
 		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
 		return data if !!data == data
@@ -155,6 +171,8 @@ class Constraint
 	
 	def clear_cache
 		# NOTE: in a low-level implementation you just want to show that these memory regions are garbage. you don't want to free it, as you will soon need the space again, and you want to maintain data locality.
+		# It might be best to have a one-byte flag to show if the region in in-use or garbage
+		# (only need one BIT, but then there's data alignment to think about)
 		@cache[:prev] = nil
 		@cache[:this] = nil
 	end
