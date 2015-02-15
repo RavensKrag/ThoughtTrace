@@ -219,28 +219,30 @@ end
 # test serialization of parameterized constraint objects (just saving constraints, no bindings)
 task :constraint_package_test => [:build_serialization_system, :load_dependencies] do
 	# === Setup
-	# resources = ResourceList.new
-	resources = ResourceCollection.new
-	p resources
+	# constraint_objects = ResourceList.new
+	constraint_objects = ResourceCollection.new
+	p constraint_objects
 	
 	
 	# === Initialize constraint (to be done via GUI)
-	id = resources.add LimitHeight.new
+	id = constraint_objects.add LimitHeight.new
 	
 	
 	
 	# === Code to declare closure, with default parameter values
-	foo = ->(resources){
+	foo = ->(collection){
 	
-	constraint = resources[id]
+	constraint = collection[id]
 	constraint.closure
 		.let :a => 0.8 do |vars, h|
+			puts "CLOSURE"
+			
 			# 0.8*h
 			vars[:a]*h
 		end
 	
 	}
-	foo[resources]
+	foo[constraint_objects]
 	
 	
 	
@@ -249,10 +251,17 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	
+	# sample entity data
+	e1 = ThoughtTrace::Rectangle.new(100, 200)
+	e2 = ThoughtTrace::Rectangle.new(20,  50)
+	
+	
+	a = e2
+	b = e1
 	
 	
 	# Package the constraint, to allow GUI graph system to feed entities into it
-	constraint = resources[id]
+	constraint = constraint_objects[id]
 	
 	visualization = ThoughtTrace::Constraints::Visualizations::DrawEdge.new # old vis path
 	package = ConstraintPackage.new(constraint, visualization)
@@ -262,6 +271,65 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	
+	collection.add package
+	
+	
+	# bind the constraint
+	
+	package.marker_a.bind_to a
+	package.marker_b.bind_to b
+	
+	package.marker_a[:physics].body.p = a[:physics].shape.center.clone
+	package.marker_b[:physics].body.p = b[:physics].shape.center.clone
+	
+	
+	
+	# NOTE: due to the implementation of the constraint, just because the constraint RUNS doesn't necessarily means that it has to change any data. That being said, data should only be mutated if the constraint actually fires.
+		# ex) LimitHight will not update values if the height to be constrained is already UNDER the threshold
+	
+	
+	
+	test_package = ->(){
+		# execute the constraint package
+		puts "running package..."
+		status = package.update
+		puts status
+	}
+	
+	test_constraint = ->(){
+		# run just the constraint
+		puts "running constraint..."
+		constraint.call(a,b)
+	}
+	
+	check_values = ->(){
+		x = a[:physics].shape.height
+		y = b[:physics].shape.height
+		p [x,y]
+	}
+	
+	
+	
+	test_package[]
+	check_values[]
+	
+	test_package[]
+	check_values[]
+	
+	test_package[]
+	check_values[]
+	
+	test_constraint[]
+	check_values[]
+	
+	
+	
+	
+	
+	
+	
+	
+	# try to save the entire collection
 	
 	
 	
@@ -271,11 +339,14 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	
+	
+	
+
 	
 	puts "--------------------------"
 	# === Serialization
 	# dump
-	data_dump = resources.dump
+	data_dump = constraint_objects.dump
 	puts "=> data dump"
 	p data_dump
 	
@@ -284,10 +355,10 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 	
 	
 	# load
-	resources = ResourceCollection.load(data_dump)
-	foo[resources]
+	constraint_objects = ResourceCollection.load(data_dump)
+	foo[constraint_objects]
 	puts "=> loaded resource list"
-	p resources
+	p constraint_objects
 	
 	
 	
@@ -322,5 +393,9 @@ task :constraint_package_test => [:build_serialization_system, :load_dependencie
 			[a,b,c]
 		end
 	
-	puts "YES" if x.all?{|i| i == x[0] } # all values are the same
+	if x.all?{|i| i == x[0] } # all values are the same
+		puts "PASS"
+	else
+		puts "FAIL"
+	end
 end
