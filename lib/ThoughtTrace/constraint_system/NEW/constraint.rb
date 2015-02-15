@@ -150,20 +150,18 @@ class Constraint
 	
 	# check if the cache is outdated
 	def bar?
-		# data has not yet been saved, so this "this tick" is actually the data from the last tick
-		# also note that it's the data from
-		# the last time the constraint fired, not the last time it TRIED TO FIRE
-		# (pretty significant difference)
-		# but if it didn't fire, then the cached data was the same so... that should be fine
-		cache = @cache[:prev]
-		data = @cache[:this]
+		# with new cache structure, data is written to cache every frame, so after a couple of frames of not firing, the two values in the cache will be the same.
+		# Nothing wrong with that though. It's not like you're allocating any more data than before or anything.
 		
-		# return the truth value specified by 'data' if 'data' is a boolean, ignoring the cache
-		return data if !!data == data
+		prev = @cache[:prev]
+		this = @cache[:this]
+		
+		# if boolean, return that value instead, ignoring the cache
+		return this if !!this == this
 		
 		
 		# there is stored data but it's old, or no data has yet been stored
-		cache && cache != data or cache.nil?
+		prev && prev != this or prev.nil?
 	end
 	
 	
