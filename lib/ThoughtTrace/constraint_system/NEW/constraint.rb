@@ -69,10 +69,10 @@ class Constraint
 		return if @a.nil? or @b.nil? # short circuit if one or both targets are unbound
 		# NOTE: @a and @b are currently both set at once. it's either going to be that both are bound, or both are unbound. As such, testing both of them seems a little odd.
 		
-		data = self.class.foo(a,b)
+		data = self.class.foo(@a,@b)
 		
 		if bar?(data)
-			call(a,b)
+			call(@a,@b)
 			save(data)
 			
 			block.call
@@ -92,13 +92,7 @@ class Constraint
 	
 	# execute one tick
 	def call(a,b)
-		# prev = @cache[:prev][0]
-		# delta = b[:physics].body.p - prev
 		
-		delta = @cache[:this][0] - @cache[:prev][0]
-		
-		
-		a[:physics].body.p += delta
 	end
 	
 	
