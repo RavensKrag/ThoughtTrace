@@ -29,6 +29,7 @@ class ConstraintPackage
 
 	end
 	
+	# returns true if and only if the Constraint fired
 	def update
 		# NOTE: this feels really weird, because you're attempting to rebind every tick. you only really NEED to update the bindings much less frequently than this. I guess it's only when the markers move? is there a good way to set up a callback for that which would take less work than comparing the pointers on the pair that is attempting to be bound?
 		update_bindings()
@@ -37,8 +38,12 @@ class ConstraintPackage
 			# this block only fires if the constraint is fired
 			# TODO: maybe you want a blocks that fire at other times? like, edge trigger? or just on "no fire"?
 			@visualization.activate
+			
+			return true
 		end
 		
+		
+		return false
 		
 		
 		
