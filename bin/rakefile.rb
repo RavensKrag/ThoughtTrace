@@ -191,7 +191,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	puts "--------------------------"
 	# === Serialization
 	# dump
-	data_dump = resources.dump
+	data_dump = resources.pack
 	puts "=> data dump"
 	p data_dump
 	
@@ -209,7 +209,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	# load
-	resources = ResourceCollection.load(data_dump)
+	resources = ResourceCollection.unpack(data_dump)
 	foo[resources]
 	puts "=> loaded resource list"
 	p resources
@@ -369,6 +369,21 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	e2 = ThoughtTrace::Rectangle.new(20,  50)
 	
 	
+	entity_to_id_table = {
+		e1 => 1,
+		e2 => 2
+	}
+	
+	constraint_to_uuid_table = constraint_objects.map_data_to_uuids()
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	a = e2
 	b = e1
 	
@@ -387,6 +402,14 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	collection.add package
 	
 	
+	# add markers to space
+	# (dummy test)
+	entity_to_id_table[package.marker_a] = 3
+	entity_to_id_table[package.marker_b] = 4
+	
+	
+	
+	
 	# bind the constraint
 	
 	package.marker_a.bind_to a
@@ -399,14 +422,30 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	
 	# try to save the entire collection
 	
+	# format:
+		# marker_a              entity id   0
+		# marker_b              entity id   1
+		# a                     entity id   2
+		# b                     entity id   3
+		# constraint_object     UUID        4
+		# visualization         ???         5
+		# visible?              boolean     6
 	
 	
+	data = collection.pack
+	
+	visualizations, constraint_data = data
 	
 	
+	constraint_data.each do |record|
+		record.map! &replace_according_to(entity_to_id_table)
+		record.map! &replace_according_to(constraint_to_uuid_table)
+	end
 	
 	
-	
-	
+	p visualizations
+	puts "--"
+	p constraint_data
 	
 	
 
@@ -414,7 +453,7 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	puts "--------------------------"
 	# === Serialization
 	# dump
-	data_dump = constraint_objects.dump
+	data_dump = constraint_objects.pack
 	puts "=> data dump"
 	p data_dump
 	
@@ -423,7 +462,7 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	
 	
 	# load
-	constraint_objects = ResourceCollection.load(data_dump)
+	constraint_objects = ResourceCollection.unpack(data_dump)
 	foo[constraint_objects]
 	puts "=> loaded resource list"
 	p constraint_objects

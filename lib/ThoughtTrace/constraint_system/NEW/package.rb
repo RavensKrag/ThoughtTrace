@@ -3,6 +3,7 @@
 # (can use the Constraint objects directly if you don't need visualization. ex: optimization)
 class ConstraintPackage
 	attr_reader :marker_a, :marker_b
+	attr_accessor :visualization # NOTE: this is mostly needed for serialization
 	
 	def initialize(constraint, visualization)
 		@constraint = constraint

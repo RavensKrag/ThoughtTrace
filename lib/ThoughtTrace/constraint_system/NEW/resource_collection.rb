@@ -1,5 +1,6 @@
 require 'securerandom'
 
+# NOTE: This was originally intended to be a rather abstracted collection, but currently only works with Constraint objects.
 class ResourceCollection
 	def initialize
 		@storage = Hash.new
@@ -7,6 +8,7 @@ class ResourceCollection
 	
 	def add(constraint)
 		id = SecureRandom.uuid
+		# TOOD: maybe check collision just in case?
 		
 		@storage[id] = constraint
 		
@@ -23,11 +25,18 @@ class ResourceCollection
 	end
 	
 	
+	# NOTE: this could be a problem, because it exposes all of the stored elements to the outside world at will. That's not the intent, obviously, but it could still be a problem.
+	def map_data_to_uuids
+		@storage.invert
+	end
 	
 	
 	
 	
-	def dump
+	
+	
+	
+	def pack
 		data_dump = Hash.new
 			@storage.each do |id, constraint|
 				# id => [constraint class, {parameter map}]
@@ -44,7 +53,7 @@ class ResourceCollection
 	ENUM_CLASS = 0
 	ENUM_PARAMETER_MAP = 1
 	
-	def load(data_dump)
+	def unpack(data_dump)
 		obj = self.new
 		
 		data_dump.each do |id, data|
