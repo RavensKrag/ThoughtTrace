@@ -70,7 +70,7 @@ class Collection
 		# NOTE: if you store raw constraints in this system, this serialization will not work. Need to figure out how to fix that.
 		constraint_packages = 
 			@list.collect do |package|
-				data = package.dump
+				data = package.pack
 				
 				# NOTE: this introduces weird confusion. up to this point, the only 'numbers' in the serialization format were all entity IDs. If you use indicies in an array to also refer to visualization object data, then there needs to be some sort of disambiguation.
 				
