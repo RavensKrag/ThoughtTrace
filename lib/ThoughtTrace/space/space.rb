@@ -151,12 +151,7 @@ class Space
 		# end
 		
 		
-		
-		
-		def pack
-			
-		end
-		
+		# NOTE: this method basically assumes that the current collection is empty. if it's not, weird things can happen
 		def unpack_into_self(data_dump)
 			unless self.empty?
 				identifier = "#<#{self.class}:#{object_space_id_string}"
