@@ -46,7 +46,7 @@ class Document
 			packed_array = groups.pack
 			replace_entities_with_ids(packed_array, entity_to_id_table)
 			write_data(packed_array, 'groups')
-						
+			
 			
 			
 			# --- abstract types ---
