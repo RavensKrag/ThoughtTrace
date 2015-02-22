@@ -154,8 +154,8 @@ class Document
 	
 	
 	
-	
-	def self.load(path_to_folder)
+	class << self
+	def load(path_to_folder)
 		project_directory = path_to_folder
 		
 		# === create new document
@@ -178,33 +178,11 @@ class Document
 		
 		
 		# --- components
-		# load component data from disk
-		# separate hashes out into relevant parts as necessary
-		# copy component data back onto the corresponding entities (use the id -> entity table)
-		# (no need to store component data anywhere other than on the entities)
+		component_dump = load_yaml_file(project_directory, 'components')
+		unpack_component_data(component_dump, id_to_entity_table)
 		
-		# NOTE: this currently won't exactly work, because the 'Shared Query Style' is currently being saved in both the Style dump and the Query dump. So, that needs to be resolved, otherwise this will get really weird.
-		data = load_yaml_file(project_directory, 'components')
-		
-		style_data = data[:style]
-		query_data = data[:query]
-		
-		named_styles    = style_data[:named_styles]
-		
-		[style_data, query_data].collect{ |x| x[:components]  }.each do |component_list|
-			component_list.each do |entity_id, component|
-				entity = id_to_entity_table[entity_id]
-				
-				interface = component.class.interface
-				
-				existing_component = entity[interface]
-				if existing_component
-					existing_component.mirror component
-				else
-					entity.add_component component
-				end
-			end
-		end
+		# TODO: need to get the named styles out of here some how
+		named_styles    = component_dump[:style][:named_styles]
 		
 		
 		
@@ -267,6 +245,47 @@ class Document
 		
 		
 		return document
+	end
+	
+	private
+	
+	def unpack_component_data(data, id_to_entity_table)
+		# load component data from disk
+		# separate hashes out into relevant parts as necessary
+		# copy component data back onto the corresponding entities (use the id -> entity table)
+		# (no need to store component data anywhere other than on the entities)
+		
+		# NOTE: this currently won't exactly work, because the 'Shared Query Style' is currently being saved in both the Style dump and the Query dump. So, that needs to be resolved, otherwise this will get really weird.
+		
+		
+		style_data = data[:style]
+		query_data = data[:query]
+		
+		
+		
+		[style_data, query_data].collect{ |x| x[:components]  }.each do |component_list|
+			component_list.each do |entity_id, component|
+				entity = id_to_entity_table[entity_id]
+				
+				attach_component(entity, component)
+			end
+		end
+	end
+	
+	# Either add the component to the Entity, or simply copy the relevant data over
+	def attach_component(entity, component)
+		interface = component.class.interface
+		
+		existing_component = entity[interface]
+		if existing_component
+			existing_component.mirror component
+		else
+			entity.add_component component
+		end
+	end
+	
+	public
+	
 	end
 	
 	

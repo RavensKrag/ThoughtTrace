@@ -102,7 +102,10 @@ class Space
 		
 		# take a data blob, and load that data into this object
 		def unpack(data)
-			
+			data.each do |row|
+				obj = unpack_with_class_name(row)
+				self.add(obj)
+			end
 		end
 		
 		private
@@ -114,6 +117,16 @@ class Space
 			else
 				return nil
 			end
+		end
+		
+		def unpack_with_class_name(array)
+			# array format: same as the output to #pack_with_class_name
+			klass_name = array.shift
+			args = array
+			
+			klass = Kernel.const_get klass_name
+			
+			return klass.unpack *args
 		end
 	end
 	
