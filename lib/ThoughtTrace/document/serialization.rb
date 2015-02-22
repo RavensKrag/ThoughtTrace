@@ -283,19 +283,6 @@ class Document
 	
 	private
 	
-	def pack_with_class_name(obj)
-		if obj.respond_to? :pack
-			return obj.pack.unshift(obj.class.name)
-			# [class_name, arg1, arg2, arg3, ..., argn]
-		else
-			return nil
-		end
-	end
-	
-	
-	
-	
-	
 	def write_data(packed_array, filename)
 		path = File.join(@project_directory, filename)
 		
@@ -327,19 +314,6 @@ class Document
 	class << self
 		# NOTE: all read function helpers have to be at class-level, because they need to be called in the load method
 		private
-		
-		def unpack_with_class_name(array)
-			# array format: same as the output to #pack_with_class_name
-			klass_name = array.shift
-			args = array
-			
-			klass = Kernel.const_get klass_name
-			
-			return klass.unpack *args
-		end
-		
-		
-		
 		
 		
 		def read_data(project_directory, filename)
