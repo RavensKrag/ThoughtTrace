@@ -50,7 +50,13 @@ class Document
 		Dir.mkdir @project_directory unless File.directory?(@project_directory)
 		
 		Dir.chdir @project_directory do
-			# entities
+			# TODO: do not specify file extension in write function call
+			# TODO: change name to abstract the name of format being used
+			# (note that CSV is being used for 'lists of lists' and YAML is pretty much just an object dump)
+			
+			
+			
+			# entities (includes physics component data)
 			entity_dump = entities.pack
 			write_data(entity_dump, "entities")
 			
@@ -58,7 +64,7 @@ class Document
 				entity_to_id_table = entities.each_with_index.to_h
 			
 			
-			# components
+			# components (style and query)
 			component_data = component_pack(entities, entity_to_id_table)
 			write_yaml_file(component_data, 'components')
 			
@@ -70,9 +76,10 @@ class Document
 						
 			
 			
-			# abstract types
-				path = File.join @project_directory, 'prototypes.csv'
-			@prototypes.dump path
+			# --- abstract types ---
+			# 
+			prototype_data = @prototypes.pack
+			write_data(prototype_data, 'prototypes')
 			# ----
 		end
 	end
@@ -80,35 +87,7 @@ class Document
 	private
 	
 	def component_pack(entities, entity_to_id_table)
-		
-		
-		# TODO: rename function
-		# TODO: move to method, or consider using closure properties to obtain entity list
-		# (it is kind nice for readability to have it inline like this, but having full abstraction would also be good)
-		foo = ->(component_name){
-			block = Proc.new{ |e| e[component_name]   }
-			
-			
-			entity_partition = entities.select(&block).compact # selection
-			relevant_components = entity_partition.collect(&block) # extraction
-			
-			
-			
-			entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
-			join = entity_ids.zip(relevant_components).to_h
-			
-			return join # entity id => component of specified type
-		}
-		
-		
-		
-		
-		# TODO: do not specify file extension in write function call
-		# TODO: change name to abstract the name of format being used
-		# (note that CSV is being used for 'lists of lists' and YAML is pretty much just an object dump)
-		
-		
-		join = foo[:style]
+		join = foo(entities, :style, entity_to_id_table)
 		
 		style_data = {
 			:named_styles => @named_styles,
@@ -117,7 +96,7 @@ class Document
 		
 		
 		
-		join = foo[:query]
+		join = foo(entities, :query, entity_to_id_table)
 		
 		query_data = {
 			:components => join
@@ -138,33 +117,6 @@ class Document
 		collection.each{ |data| data.map! &replace_according_to(entity_to_id_table)  }
 	end
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	# TODO: rename function
-	# TODO: move to method, or consider using closure properties to obtain entity list
-	# (it is kind nice for readability to have it inline like this, but having full abstraction would also be good)
-	foo = ->(component_name){
-		block = Proc.new{ |e| e[component_name]   }
-		
-		
-		entity_partition = entities.select(&block).compact # selection
-		relevant_components = entity_partition.collect(&block) # extraction
-		
-		
-		
-		entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
-		join = entity_ids.zip(relevant_components).to_h
-		
-		return join
-	}
 	
 	# return a map: { entity_id => component }
 	# select all components with a certain interface name from the list of entities given
