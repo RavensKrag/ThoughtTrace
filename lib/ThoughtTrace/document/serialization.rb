@@ -13,42 +13,15 @@ class Document
 	# (builder pattern)
 	
 	def dump(path_to_folder)
-		entities              = @space.entities
-		
-		groups                = @space.groups
-		constraints           = @constraints
-		
-		styled_entities       = @space.entities.select{ |e|  e[:style] }.compact
-		query_marked_entities = @space.entities.select{ |e|  e[:query] }.compact
-		# NOTE: compact removes nil entries
-		
-		
-		
-		# these objects can just be saved
-		# need to get IDs for them so I can reference these records from the other documents
-		@prototypes
-		@prefabs
-		@named_styles
-		
-		# TODO: serialize the 'abstract types': prototypes, prefabs, and loose styles
-		# NOTE: @named_styles collection has already been serialized as part of the component system, in order to make sure that Style data is always linked correctly
-		# NOTE: entries in the Entity list may be of a basic entity type, or they may be of a prefab type. Not sure how that will effect the current systems.
-		
-		
-		
-		
 		@project_directory = File.expand_path path_to_folder
 		
 		# TODO: consider renaming variables with 'dump' in the name
 		# NOTE: This segment of the code uses 'dump' in variable names to refer to 'lists of packed objects'. This can be confusing, as 'dump' generally means "write to file on disk" and 'pack' generally means "take the data from this object, and put it into an array"
 		
 		
-		
-		
 		# move into project directory
 		# (create directory if necessary)
 		Dir.mkdir @project_directory unless File.directory?(@project_directory)
-		
 		Dir.chdir @project_directory do
 			# TODO: do not specify file extension in write function call
 			# TODO: change name to abstract the name of format being used
@@ -59,7 +32,7 @@ class Document
 			# entities (includes physics component data)
 			entity_dump = entities.pack
 			write_data(entity_dump, "entities")
-			
+				# NOTE: entries in the Entity list may be of a basic entity type, or they may be of a prefab type. Not sure how that will effect the current systems.
 			
 				entity_to_id_table = entities.each_with_index.to_h
 			
@@ -78,8 +51,17 @@ class Document
 			
 			# --- abstract types ---
 			# 
+			# TODO: serialize the 'abstract types': prototypes, prefabs, and loose styles
+			# prototypes
 			prototype_data = @prototypes.pack
 			write_data(prototype_data, 'prototypes')
+			
+			# prefabs
+			# PREFAB SYSTEM HAS NOT YET BEEN IMPLEMENTED
+			
+			
+			# loose styles
+				# NOTE: @named_styles collection has already been serialized as part of the component system, in order to make sure that Style data is always linked correctly
 			# ----
 		end
 	end
