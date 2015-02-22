@@ -164,15 +164,9 @@ class Document
 		
 		# === load data from disk
 		entity_dump = read_data(project_directory, "entities")
-		entities =	entity_dump.each.collect do |row|
-						data = row.to_a
-						
-						klass_name = data.shift
-						args = data
-						
-						klass = ThoughtTrace.const_get(klass_name)
-						klass.unpack(*args)
-					end
+		
+		entities = document.space.entities
+		entities.unpack(entity_dump)
 		
 		id_to_entity_table = entities.each_with_index.to_h.invert
 		
@@ -247,7 +241,7 @@ class Document
 		
 		
 		# === populate the space
-		entities.each{ |obj| document.space.entities.add obj  }
+		# entities.each{ |obj| document.space.entities.add obj  }
 		
 		# === set up groups
 		document.space.groups.unpack_into_self(other_stuff['groups'])
