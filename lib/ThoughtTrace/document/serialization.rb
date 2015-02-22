@@ -30,6 +30,7 @@ class Document
 			
 			
 			# entities (includes physics component data)
+			entities = @space.entities
 			entity_dump = entities.pack
 			write_data(entity_dump, "entities")
 				# NOTE: entries in the Entity list may be of a basic entity type, or they may be of a prefab type. Not sure how that will effect the current systems.
@@ -43,6 +44,7 @@ class Document
 			
 			
 			# groups
+			groups = @space.groups
 			packed_array = groups.pack
 			replace_entities_with_ids(packed_array, entity_to_id_table)
 			write_data(packed_array, 'groups')
@@ -110,18 +112,31 @@ class Document
 	# return a map: { entity_id => component }
 	# select all components with a certain interface name from the list of entities given
 	def foo(entities, component_name, entity_to_id_table)
-		block = Proc.new{ |e| e[component_name]   }
+		# block = Proc.new{ |e| e[component_name]   }
 		
 		
-		entity_partition = entities.select(&block).compact # selection
-		relevant_components = entity_partition.collect(&block) # extraction
+		# entity_partition = entities.select(&block).compact # selection
+		# relevant_components = entity_partition.collect(&block) # extraction
 		
 		
+		# entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
+		# join = entity_ids.zip(relevant_components).to_h
 		
-		entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
-		join = entity_ids.zip(relevant_components).to_h
+		# return join
 		
-		return join
+		
+		hash = Hash.new
+			entities.each do |e|
+				component = e[component_name]
+				if component
+					k = entity_to_id_table[e]
+					v = component
+					
+					hash[k] = v
+				end
+			end
+		
+		return hash
 	end
 	
 	public
