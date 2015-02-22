@@ -90,6 +90,31 @@ class Space
 		def delete(object)
 			super(object)
 		end
+		
+		
+		
+		
+		
+		# return a data blob
+		def pack
+			return self.collect{ |e| pack_with_class_name(e)  }
+		end
+		
+		# take a data blob, and load that data into this object
+		def unpack(data)
+			
+		end
+		
+		private
+		
+		def pack_with_class_name(obj)
+			if obj.respond_to? :pack
+				return obj.pack.unshift(obj.class.name)
+				# [class_name, arg1, arg2, arg3, ..., argn]
+			else
+				return nil
+			end
+		end
 	end
 	
 	class EntityList < List

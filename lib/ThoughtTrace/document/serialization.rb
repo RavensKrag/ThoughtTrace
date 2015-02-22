@@ -38,14 +38,6 @@ class Document
 		
 		
 		@project_directory = File.expand_path path_to_folder
-		# pack entities
-		
-		# pack all other data
-		# use conversion table to replace entity entries with IDs in all but main entity blob
-		
-		# write entities to disk
-		# write all other data to disk
-		
 		
 		# TODO: consider renaming variables with 'dump' in the name
 		# NOTE: This segment of the code uses 'dump' in variable names to refer to 'lists of packed objects'. This can be confusing, as 'dump' generally means "write to file on disk" and 'pack' generally means "take the data from this object, and put it into an array"
@@ -58,92 +50,24 @@ class Document
 		Dir.mkdir @project_directory unless File.directory?(@project_directory)
 		
 		Dir.chdir @project_directory do
-			entity_dump = entities.collect{ |e| pack_with_class_name(e)  }
+			# entities
+			entity_dump = entities.pack
 			write_data(entity_dump, "entities")
 			
 			
-			entity_to_id_table = entities.each_with_index.to_h
+				entity_to_id_table = entities.each_with_index.to_h
 			
 			
-			
-			
-			
-			
-			
-			# TODO: rename function
-			# TODO: move to method, or consider using closure properties to obtain entity list
-			# (it is kind nice for readability to have it inline like this, but having full abstraction would also be good)
-			foo = ->(component_name){
-				block = Proc.new{ |e| e[component_name]   }
-				
-				
-				entity_partition = entities.select(&block).compact # selection
-				relevant_components = entity_partition.collect(&block) # extraction
-				
-				
-				
-				entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
-				join = entity_ids.zip(relevant_components).to_h
-				
-				return join
-			}
-			
-			
-			
-			
-			# TODO: do not specify file extension in write function call
-			# TODO: change name to abstract the name of format being used
-			# (note that CSV is being used for 'lists of lists' and YAML is pretty much just an object dump)
-			
-			
-			join = foo[:style]
-			
-			style_data = {
-				:named_styles => @named_styles,
-				:components => join
-			}
-			
-			
-			join = foo[:query]
-			
-			query_data = {
-				:components => join
-			}
-			
-			
-			
-			component_data = {
-				:style => style_data,
-				:query => query_data
-			}
+			# components
+			component_data = component_pack(entities, entity_to_id_table)
 			write_yaml_file(component_data, 'components')
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			# TODO: move the packing code into the Group or Constraint collection class. Both for cleaner code, but also so that those classes can handle this situation differently. This code works great for the general case of a list / the group scenario in particular, but the Constraints system now needs a more specialized solution
-			{
-				'groups'      => groups,
-			}.each do |type, list|
-				# pack
-				packed_array = list.collect{ |obj| pack_with_class_name(obj)  }.compact
-				
-				# replace entities with IDs (non-Entity entries should remain unmodified)
-				packed_array.each{ |data| data.map! &replace_according_to(entity_to_id_table)  }
-				# (consider if using an actual database backend will get rid of needing to do this sort of thing)
-				# (in that case, you would probably retain the IDs on the objects, so you wouldn't have THIS problem
-				# (but you may have a similar issue with converting from objects -> records)
-				
-				write_data(packed_array, type)
-			end
-			
-			
+			# groups
+			packed_array = groups.pack
+			replace_entities_with_ids(packed_array, entity_to_id_table)
+			write_data(packed_array, 'groups')
+						
 			
 			
 			# abstract types
@@ -152,6 +76,114 @@ class Document
 			# ----
 		end
 	end
+	
+	private
+	
+	def component_pack(entities, entity_to_id_table)
+		
+		
+		# TODO: rename function
+		# TODO: move to method, or consider using closure properties to obtain entity list
+		# (it is kind nice for readability to have it inline like this, but having full abstraction would also be good)
+		foo = ->(component_name){
+			block = Proc.new{ |e| e[component_name]   }
+			
+			
+			entity_partition = entities.select(&block).compact # selection
+			relevant_components = entity_partition.collect(&block) # extraction
+			
+			
+			
+			entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
+			join = entity_ids.zip(relevant_components).to_h
+			
+			return join # entity id => component of specified type
+		}
+		
+		
+		
+		
+		# TODO: do not specify file extension in write function call
+		# TODO: change name to abstract the name of format being used
+		# (note that CSV is being used for 'lists of lists' and YAML is pretty much just an object dump)
+		
+		
+		join = foo[:style]
+		
+		style_data = {
+			:named_styles => @named_styles,
+			:components => join
+		}
+		
+		
+		
+		join = foo[:query]
+		
+		query_data = {
+			:components => join
+		}
+		
+		
+		
+		component_data = {
+			:style => style_data,
+			:query => query_data
+		}
+		
+		return component_data
+	end
+	
+	# given a list of lists, replace all Entity references in the inner list with ID numbers
+	def replace_entities_with_ids(collection, entity_to_id_table)
+		collection.each{ |data| data.map! &replace_according_to(entity_to_id_table)  }
+	end
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	# TODO: rename function
+	# TODO: move to method, or consider using closure properties to obtain entity list
+	# (it is kind nice for readability to have it inline like this, but having full abstraction would also be good)
+	foo = ->(component_name){
+		block = Proc.new{ |e| e[component_name]   }
+		
+		
+		entity_partition = entities.select(&block).compact # selection
+		relevant_components = entity_partition.collect(&block) # extraction
+		
+		
+		
+		entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
+		join = entity_ids.zip(relevant_components).to_h
+		
+		return join
+	}
+	
+	# return a map: { entity_id => component }
+	# select all components with a certain interface name from the list of entities given
+	def foo(entities, component_name, entity_to_id_table)
+		block = Proc.new{ |e| e[component_name]   }
+		
+		
+		entity_partition = entities.select(&block).compact # selection
+		relevant_components = entity_partition.collect(&block) # extraction
+		
+		
+		
+		entity_ids = entity_partition.collect{ |e| entity_to_id_table[e]  }
+		join = entity_ids.zip(relevant_components).to_h
+		
+		return join
+	end
+	
+	public
 	
 	
 	
