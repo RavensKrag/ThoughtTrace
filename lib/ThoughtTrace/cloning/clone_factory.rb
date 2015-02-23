@@ -59,19 +59,11 @@ class CloneFactory
 	end
 	
 	class << self
-		def load(filepath)
+		def unpack(data)
 			factory = self.new
 			
-			
-			full_path = File.expand_path filepath
-			
-			# it's not actually an array of arrays, but CSV::Table has a similar interface
-			arr_of_arrs = CSV.read(full_path,
-							:headers => false, :header_converters => :symbol, :converters => :all
-							)
-			
 			list = 
-				arr_of_arrs.collect do |row|
+				data.collect do |row|
 					# split row into the first element, and then everything else
 					klass_name, *args = row.to_a
 					

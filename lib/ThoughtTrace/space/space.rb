@@ -101,7 +101,14 @@ class Space
 		end
 		
 		# take a data blob, and load that data into this object
+		# NOTE: this method basically assumes that the current collection is empty. if it's not, weird things can happen
 		def unpack(data)
+			unless self.empty?
+				identifier = "#<#{self.class}:#{object_space_id_string}"
+				
+				warn "#{identifier}#unpack_into_self may not function as intended because this object is not empty." 
+			end
+			
 			data.each do |row|
 				obj = unpack_with_class_name(row)
 				self.add(obj)
@@ -162,64 +169,6 @@ class Space
 		# def delete(object)
 			
 		# end
-		
-		
-		# NOTE: this method basically assumes that the current collection is empty. if it's not, weird things can happen
-		def unpack_into_self(data_dump)
-			unless self.empty?
-				identifier = "#<#{self.class}:#{object_space_id_string}"
-				
-				warn "#{identifier}#unpack_into_self may not function as intended because this object is not empty." 
-			end
-			
-			
-			
-			
-			data_dump.collect{ |data| unpack_with_class_name(data)  }
-			.each do |group|
-				self.add group
-			end
-			
-			
-			
-			return self
-		end
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		private
-		
-		def unpack_with_class_name(array)
-			# array format: same as the output to #pack_with_class_name
-			klass_name = array.shift
-			args = array
-			
-			klass = Kernel.const_get klass_name
-			
-			return klass.unpack *args
-		end
-		
-		
-		
-		class << self
-			# NOTE: all read function helpers have to be at class-level, because they need to be called in the load method
-			private
-			
-			def pack_with_class_name(obj)
-				if obj.respond_to? :pack
-					return obj.pack.unshift(obj.class.name)
-					# [class_name, arg1, arg2, arg3, ..., argn]
-				else
-					return nil
-				end
-			end
-		end
 	end
 end
 

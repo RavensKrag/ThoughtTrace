@@ -163,6 +163,14 @@ class Document
 		
 		
 		# === load data from disk
+		# read data from CSV
+		# replace entity IDs as appropriate,
+		# > throw data over to individual class to handle
+		# > store the newly instantiated class data in the proper variable
+		
+		
+		
+		# entities
 		entity_dump = read_data(project_directory, "entities")
 		
 		entities = document.space.entities
@@ -171,49 +179,55 @@ class Document
 		id_to_entity_table = entities.each_with_index.to_h.invert
 		
 		
-		
-		
-		
-		
-		
-		
-		# --- components
+		# components
 		component_dump = load_yaml_file(project_directory, 'components')
 		unpack_component_data(component_dump, id_to_entity_table)
 		
-		# TODO: need to get the named styles out of here some how
 		named_styles    = component_dump[:style][:named_styles]
 		
 		
 		
 		
+		# groups
+		group_data = read_data(project_directory, 'groups')
+		group_data.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
+		
+		groups = document.space.groups
+		groups.unpack(group_data)
+		
+		
+		# visualizations
 		
 		
 		
+		# constraints
 		
 		
-		# read data from CSV
-		# replace entity IDs as appropriate,
-		# > throw data over to individual class to handle
-		# > store the newly instantiated class data in the proper variable
 		
 		
 		
 		
 		# other stuff that uses entities
-		types = %w[groups constraints]
-		blob = 
-			types.collect do |type|
-				data_dump = read_data(project_directory, type)
-				data_dump.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
-			end
-		other_stuff = types.zip(blob).to_h
+		# types = %w[groups constraints]
+		# blob = 
+		# 	types.collect do |type|
+		# 		data_dump = read_data(project_directory, type)
+		# 		data_dump.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
+		# 	end
+		# other_stuff = types.zip(blob).to_h
 		
 		
 		
-		# abstract types
-			path = File.join path_to_folder, 'prototypes.csv'
-		prototypes = ThoughtTrace::CloneFactory.load path
+		# --- abstract types
+		# prototypes
+		prototype_data = read_data(project_directory, 'prototypes')
+		prototypes = ThoughtTrace::CloneFactory.unpack prototype_data
+		
+		# prefabs
+			# PREFAB SYSTEM HAS NOT YET BEEN IMPLEMENTED
+			
+			
+		# loose styles
 		# ----
 		
 		
@@ -222,10 +236,10 @@ class Document
 		# entities.each{ |obj| document.space.entities.add obj  }
 		
 		# === set up groups
-		document.space.groups.unpack_into_self(other_stuff['groups'])
+		# document.space.groups.unpack_into_self(other_stuff['groups'])
 				
 		# === set up constraints
-		constraints = ThoughtTrace::Constraints::Collection.unpack(other_stuff['constraints'])
+		# constraints = ThoughtTrace::Constraints::Collection.unpack(other_stuff['constraints'])
 		
 		# === set abstract data types
 		document.instance_eval do
@@ -237,7 +251,7 @@ class Document
 			# not actually an abstract type.
 			# gotta straighten out all these comments later
 			# TODO: straighten out comments
-			@constraints = constraints
+			# @constraints = constraints
 		end
 		
 		
