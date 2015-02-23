@@ -163,10 +163,16 @@ class Document
 		
 		
 		# === load data from disk
-		# read data from CSV
-		# replace entity IDs as appropriate,
-		# > throw data over to individual class to handle
-		# > store the newly instantiated class data in the proper variable
+		# read data off the disk, using appropriate format => store in dump
+		# unpack the dump, loading the data into the appropriate collection
+			# this is a polymorphic process,
+			# meaning each collection can handle things a little differently if it needs to
+		# data is loaded into an collection that has already been allocated,
+			# so there is no need to bind the collection to a variable: it's already done
+		
+		
+		
+		# NOTE: Contrary to what you might think, the order of loading is the same as the order of dumping. Had originally thought they would be the inverse of each other, but that does not seem to be the case.
 		
 		
 		
@@ -207,15 +213,6 @@ class Document
 		
 		
 		
-		# other stuff that uses entities
-		# types = %w[groups constraints]
-		# blob = 
-		# 	types.collect do |type|
-		# 		data_dump = read_data(project_directory, type)
-		# 		data_dump.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
-		# 	end
-		# other_stuff = types.zip(blob).to_h
-		
 		
 		
 		# --- abstract types
@@ -233,24 +230,12 @@ class Document
 		
 		
 		
-		# === populate the space
-		# entities.each{ |obj| document.space.entities.add obj  }
-		
-		# === set up groups
-		# document.space.groups.unpack_into_self(other_stuff['groups'])
-				
-		# === set up constraints
-		# constraints = ThoughtTrace::Constraints::Collection.unpack(other_stuff['constraints'])
 		
 		# === set abstract data types
 		document.instance_eval do
 			# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
 			@named_styles = named_styles
 			
-			
-			# not actually an abstract type.
-			# gotta straighten out all these comments later
-			# TODO: straighten out comments
 			# @constraints = constraints
 		end
 		
