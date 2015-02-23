@@ -52,6 +52,12 @@ class Visualization
 			@state = :inactive
 		end
 		
+		
+		# ALTERNATE:
+		# start up
+		# wait for some condition
+		# return to inactive state
+		# (can specify whatever condition you want)
 	end
 	
 	
