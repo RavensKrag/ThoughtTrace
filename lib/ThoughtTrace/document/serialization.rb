@@ -221,7 +221,8 @@ class Document
 		# --- abstract types
 		# prototypes
 		prototype_data = read_data(project_directory, 'prototypes')
-		prototypes = ThoughtTrace::CloneFactory.unpack prototype_data
+		prototypes = document.prototypes
+		prototypes.unpack prototype_data
 		
 		# prefabs
 			# PREFAB SYSTEM HAS NOT YET BEEN IMPLEMENTED
@@ -245,7 +246,6 @@ class Document
 		document.instance_eval do
 			# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
 			@named_styles = named_styles
-			@prototypes   = prototypes
 			
 			
 			# not actually an abstract type.
