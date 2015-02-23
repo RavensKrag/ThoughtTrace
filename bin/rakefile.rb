@@ -390,8 +390,8 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	
 	# Package the constraint, to allow GUI graph system to feed entities into it
 	constraint = constraint_objects[id]
-	
 	visualization = ThoughtTrace::Constraints::Visualizations::DrawEdge.new # old vis path
+	
 	package = ConstraintPackage.new(constraint, visualization)
 	
 	
@@ -421,17 +421,6 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	
 	
 	# try to save the entire collection
-	
-	# format:
-		# marker_a              entity id   0
-		# marker_b              entity id   1
-		# a                     entity id   2
-		# b                     entity id   3
-		# constraint_object     UUID        4
-		# visualization         ???         5
-		# visible?              boolean     6
-	
-	
 	data = collection.pack
 	
 	visualizations, constraint_data = data
