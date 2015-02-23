@@ -75,6 +75,7 @@ end
 
 
 dependency_list = [
+	'./utilities/find_and_replace',
 	'./utilities/meta',
 	
 	'./monkey_patches',
