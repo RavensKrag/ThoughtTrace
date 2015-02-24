@@ -1,4 +1,7 @@
 # NOTE: keep graphical representations out of this class. That's a job for the Package, not the raw Constraint
+module ThoughtTrace
+	module Constraints
+
 
 class Constraint
 	attr_reader :closure
@@ -289,4 +292,9 @@ class Constraint
 			end
 		end
 	end
+end
+
+
+
+end
 end

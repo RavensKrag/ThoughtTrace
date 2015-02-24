@@ -136,7 +136,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	# === Initialize constraint (to be done via GUI)
 	# id = resources.add ThoughtTrace::Constraints::LimitHeight.new
-	id = resources.add LimitHeight.new
+	id = resources.add ThoughtTrace::Constraints::LimitHeight.new
 	
 	
 	
@@ -226,7 +226,7 @@ task :constraint_cache_test => [:build_serialization_system, :load_dependencies]
 	
 	
 	# === Initialize constraint (to be done via GUI)
-	id = constraint_objects.add LimitHeight.new
+	id = constraint_objects.add ThoughtTrace::Constraints::LimitHeight.new
 	
 	
 	
@@ -340,7 +340,7 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	
 	
 	# === Initialize constraint (to be done via GUI)
-	id = constraint_objects.add LimitHeight.new
+	id = constraint_objects.add ThoughtTrace::Constraints::LimitHeight.new
 	
 	
 	

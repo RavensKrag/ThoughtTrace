@@ -1,3 +1,7 @@
+module ThoughtTrace
+	module Constraints
+
+
 class LimitHeight < Constraint
 	# accept parameters that can be used to alter the #call step
 	def initialize
@@ -23,4 +27,9 @@ class LimitHeight < Constraint
 		end
 	end
 	# TODO: need to figure out if the method aliasing from the default constraint will still work, and allow this definition of #call to be triggered via #[] interface
+end
+
+
+
+end
 end

@@ -62,7 +62,9 @@ class ResourceCollection
 			# may want to make this private or something?
 			# don't want to confuse people about what interface to use.
 			# you always want to add new objects with #add, but the hash-style interface is needed for serialization
-			constraint = data[ENUM_CLASS].new
+			class_name = data[ENUM_CLASS]
+			klass = Kernel.const_get class_name
+			constraint = klass.new
 			constraint.closure.load_data data[ENUM_PARAMETER_MAP]
 			
 			self[id] = constraint
