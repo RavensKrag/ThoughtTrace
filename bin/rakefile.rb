@@ -263,7 +263,7 @@ task :constraint_cache_test => [:build_serialization_system, :load_dependencies]
 	constraint = constraint_objects[id]
 	
 	visualization = ThoughtTrace::Constraints::Visualizations::DrawEdge.new # old vis path
-	package = ConstraintPackage.new(constraint, visualization)
+	package = ThoughtTrace::Constraints::Package.new(constraint, visualization)
 	
 	
 	collection = ThoughtTrace::Constraints::Collection.new
@@ -392,7 +392,7 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	constraint = constraint_objects[id]
 	visualization = ThoughtTrace::Constraints::Visualizations::DrawEdge.new # old vis path
 	
-	package = ConstraintPackage.new(constraint, visualization)
+	package = ThoughtTrace::Constraints::Package.new(constraint, visualization)
 	
 	
 	collection = ThoughtTrace::Constraints::Collection.new

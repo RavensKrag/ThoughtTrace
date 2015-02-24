@@ -5,7 +5,7 @@ module ThoughtTrace
 class EntityMarker < ThoughtTrace::Circle
 	attr_reader :constraint_target, :render_target
 	
-	RADIUS = 20
+	RADIUS = 10
 	
 	def initialize
 		super(RADIUS)
@@ -34,16 +34,16 @@ class EntityMarker < ThoughtTrace::Circle
 		# if @size != @possible_targets.size
 		
 		
-		if @dirty
-			target = disambiguate_target()
-			if target
-				bind_to target
-			else
-				unbind
-			end
+		# if @dirty
+		# 	target = disambiguate_target()
+		# 	if target
+		# 		bind_to target
+		# 	else
+		# 		unbind
+		# 	end
 			
-			@dirty = false # flip the flag
-		end
+		# 	@dirty = false # flip the flag
+		# end
 	end
 	
 	def draw(z_index=0)
@@ -88,15 +88,15 @@ class EntityMarker < ThoughtTrace::Circle
 	private
 	
 	def disambiguate_target
-		target = nil
+		# target = nil
 		
-		@possible_targets.each do |entity|
-			target ||= entity # if the list of possible targets is not empty, set it to something
+		# @possible_targets.each do |entity|
+		# 	target ||= entity # if the list of possible targets is not empty, set it to something
 			
 			
-		end
+		# end
 		
-		return target
+		# return target
 	end
 end
 

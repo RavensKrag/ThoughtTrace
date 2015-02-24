@@ -16,3 +16,5 @@ ThoughtTrace::Rectangle,100.0,0.0,20.0,20.0
 ThoughtTrace::Rectangle,0.0,100.0,20.0,20.0
 ThoughtTrace::Text,Lucida Sans Unicode,300.0000000000001,93.75000000000011,78.60442091651178,testing
 ThoughtTrace::Text,Lucida Sans Unicode,22.916666666666856,99.99999999999997,20,oeuaoeuaoeu
+ThoughtTrace::Constraints::EntityMarker,317.7083333333334,857.2916666666667
+ThoughtTrace::Constraints::EntityMarker,240.62499999999994,861.4583333333335

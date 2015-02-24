@@ -202,10 +202,15 @@ class Document
 		
 		
 		# visualizations
+		# NOTE: hold visualizations in a temporary collection, and then patch them into the constraint package data dump before passing THAT to the package collection #unpack.
+		# visualization_data = 
+		# visualizations = unpack_constraint_visualizations(visualization_data)
+		visualizations = [
+			ThoughtTrace::Constraints::Visualizations::DrawEdge.new
+		]
 		
 		
-		
-		# constraints
+		# constraint objects
 		constraint_data = load_yaml_file(project_directory, 'constraints')
 		
 		foo = ->(collection){
@@ -222,6 +227,28 @@ class Document
 		@constraint_objects.unpack(constraint_data)
 		
 		foo[@constraint_objects]
+		
+		
+		
+		# constraint packages
+		id_to_visualization_table = visualizations.each_with_index
+										.collect{|x,i| [x,"V#{i}"]}.to_h
+										.invert
+		
+		uuid_to_constraint_table = @constraint_objects
+		
+		
+		data_dump = read_data(project_directory, 'constraints')
+		
+		replace_!(
+			data_dump, 
+			id_to_entity_table, uuid_to_constraint_table, id_to_visualization_table
+		)
+		
+		
+		p data_dump.collect{|row| row.collect{|x|  x.class }}
+		
+		@constraint_packages.unpack(data_dump)
 		
 		
 		
@@ -283,6 +310,43 @@ class Document
 			existing_component.mirror component
 		else
 			entity.add_component component
+		end
+	end
+	
+	
+	def replace_!(data_dump, id_to_entity, uuid_to_constraint, id_to_visualization)
+		truth_replacement = {
+			'true' => true,
+			'false' => false
+		}
+		
+		# data_dump.each{ |data| data.map! &replace_according_to(id_to_entity)  }
+		# data_dump.each{ |data| data.map! &replace_according_to(uuid_to_constraint)  }
+		# data_dump.each{ |data| data.map! &replace_according_to(id_to_visualization)  }
+		# data_dump.each{ |data| data.map! &replace_according_to(truth_replacement)  }
+		
+		
+		data_dump.collect! do |row|
+			out = Array.new(row.size)
+			
+			row.each_with_index do |x, i|
+				# m1, m2, e1, e2, constraint_uuid, visualizations_id, visibility
+				
+				conversion_table = case i
+					when 0..3
+						id_to_entity
+					when 4
+						uuid_to_constraint
+					when 5
+						id_to_visualization
+					when 6
+						truth_replacement
+				end
+				
+				out[i] = conversion_table[x]
+			end
+			
+			out
 		end
 	end
 	

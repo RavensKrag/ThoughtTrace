@@ -1,7 +1,12 @@
 # The graphical interface elements of a Constraint
 # (kinda like a Decorator: adds extra stuff on top of the standard Constraint functionality)
 # (can use the Constraint objects directly if you don't need visualization. ex: optimization)
-class ConstraintPackage
+
+module ThoughtTrace
+	module Constraints
+
+
+class Package
 	attr_reader :marker_a, :marker_b
 	attr_accessor :visualization # NOTE: this is mostly needed for serialization
 	
@@ -86,4 +91,9 @@ class ConstraintPackage
 			@constraint.bind(a,b)
 		end
 	end
+end
+
+
+
+end
 end
