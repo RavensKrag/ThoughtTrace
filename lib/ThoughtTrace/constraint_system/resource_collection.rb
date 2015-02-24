@@ -1,5 +1,11 @@
 require 'securerandom'
 
+
+
+module ThoughtTrace
+	module Constraints
+
+
 # NOTE: This was originally intended to be a rather abstracted collection, but currently only works with Constraint objects.
 class ResourceCollection
 	def initialize
@@ -72,4 +78,9 @@ class ResourceCollection
 	end
 
 
+end
+
+
+
+end
 end

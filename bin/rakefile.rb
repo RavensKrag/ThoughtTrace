@@ -130,7 +130,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	# === Setup
 	# resources = ResourceList.new
-	resources = ResourceCollection.new
+	resources = ThoughtTrace::Constraints::ResourceCollection.new
 	p resources
 	
 	
@@ -209,7 +209,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	# load
-	resources = ResourceCollection.unpack(data_dump)
+	resources = ThoughtTrace::Constraints::ResourceCollection.unpack(data_dump)
 	foo[resources]
 	puts "=> loaded resource list"
 	p resources
@@ -221,7 +221,7 @@ end
 task :constraint_cache_test => [:build_serialization_system, :load_dependencies] do
 		# === Setup
 	# constraint_objects = ResourceList.new
-	constraint_objects = ResourceCollection.new
+	constraint_objects = ThoughtTrace::Constraints::ResourceCollection.new
 	p constraint_objects
 	
 	
@@ -335,7 +335,7 @@ end
 task :constraint_collection_test => [:build_serialization_system, :load_dependencies] do
 	# === Setup
 	# constraint_objects = ResourceList.new
-	constraint_objects = ResourceCollection.new
+	constraint_objects = ThoughtTrace::Constraints::ResourceCollection.new
 	p constraint_objects
 	
 	
@@ -451,7 +451,7 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	
 	
 	# load
-	constraint_objects = ResourceCollection.unpack(data_dump)
+	constraint_objects = ThoughtTrace::Constraints::ResourceCollection.unpack(data_dump)
 	foo[constraint_objects]
 	puts "=> loaded resource list"
 	p constraint_objects
