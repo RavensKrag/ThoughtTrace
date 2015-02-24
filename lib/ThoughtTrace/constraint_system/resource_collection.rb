@@ -54,14 +54,10 @@ class ResourceCollection
 	
 	
 	
-	class << self
-	
 	ENUM_CLASS = 0
 	ENUM_PARAMETER_MAP = 1
 	
 	def unpack(data_dump)
-		obj = self.new
-		
 		data_dump.each do |id, data|
 			# may want to make this private or something?
 			# don't want to confuse people about what interface to use.
@@ -69,12 +65,10 @@ class ResourceCollection
 			constraint = data[ENUM_CLASS].new
 			constraint.closure.load_data data[ENUM_PARAMETER_MAP]
 			
-			obj[id] = constraint
+			self[id] = constraint
 		end
 		
-		return obj
-	end
-	
+		return self
 	end
 
 

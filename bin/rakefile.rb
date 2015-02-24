@@ -451,7 +451,8 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	
 	
 	# load
-	constraint_objects = ThoughtTrace::Constraints::ResourceCollection.unpack(data_dump)
+	constraint_objects = ThoughtTrace::Constraints::ResourceCollection.new
+	constraint_objects.unpack(data_dump)
 	foo[constraint_objects]
 	puts "=> loaded resource list"
 	p constraint_objects
