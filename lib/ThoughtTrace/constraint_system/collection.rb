@@ -102,13 +102,15 @@ class Collection
 	end
 	
 	
-	def self.unpack(data_dump)
+	class << self
+	def unpack(data_dump)
 		collection = self.new
 		
 		
 		
 		
 		return collection
+	end
 	end
 end
 
