@@ -187,7 +187,8 @@ class Document
 		component_dump = load_yaml_file(project_directory, 'components')
 		unpack_component_data(component_dump, id_to_entity_table)
 		
-		named_styles    = component_dump[:style][:named_styles]
+		# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
+		@named_styles  = component_dump[:style][:named_styles]
 		
 		
 		
@@ -242,17 +243,6 @@ class Document
 			
 		# loose styles
 		# ----
-		
-		
-		
-		
-		# === set abstract data types
-		# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
-		@named_styles = named_styles
-		
-		# @constraints = constraints
-		
-		
 		
 		
 		
