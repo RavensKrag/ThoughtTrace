@@ -12,7 +12,13 @@ class Document
 			# style component
 			# entity
 			# group
-		@constraints = ThoughtTrace::Constraints::Collection.new
+		
+		
+		# Raw parameterized constraints
+		@constraint_objects  = ThoughtTrace::Constraints::ResourceCollection.new
+		
+		# Constraints to be actively executed
+		@constraint_packages = ThoughtTrace::Constraints::Collection.new 
 		
 		
 		@prototypes   = ThoughtTrace::CloneFactory.new    # create copies of simple entities
@@ -91,14 +97,14 @@ class Document
 	end
 	
 	def update
-		@constraints.update
+		@constraint_packages.update
 		@space.update
 	end
 	
 	def draw
 		@camera.draw do
 			@space.draw
-			@constraints.draw
+			@constraint_packages.draw
 			yield
 		end
 	end

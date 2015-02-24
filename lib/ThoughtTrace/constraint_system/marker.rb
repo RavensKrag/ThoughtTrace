@@ -1,3 +1,7 @@
+module ThoughtTrace
+	module Constraints
+
+
 class EntityMarker < ThoughtTrace::Circle
 	attr_reader :constraint_target, :render_target
 	
@@ -94,4 +98,9 @@ class EntityMarker < ThoughtTrace::Circle
 		
 		return target
 	end
+end
+
+
+
+end
 end

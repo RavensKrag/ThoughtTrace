@@ -9,8 +9,8 @@ class ConstraintPackage
 		@constraint = constraint
 		@visualization = visualization
 		
-		@marker_a = EntityMarker.new
-		@marker_b = EntityMarker.new
+		@marker_a = ThoughtTrace::Constraints::EntityMarker.new
+		@marker_b = ThoughtTrace::Constraints::EntityMarker.new
 		
 		
 		@visible = true
