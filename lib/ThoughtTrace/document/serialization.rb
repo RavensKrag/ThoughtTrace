@@ -209,6 +209,10 @@ class Document
 			ThoughtTrace::Constraints::Visualizations::DrawEdge.new
 		]
 		
+		id_to_visualization_table = visualizations.each_with_index
+										.collect{|x,i| [x,"V#{i}"]}.to_h
+										.invert
+		
 		
 		# constraint objects
 		constraint_data = load_yaml_file(project_directory, 'constraints')
@@ -231,10 +235,6 @@ class Document
 		
 		
 		# constraint packages
-		id_to_visualization_table = visualizations.each_with_index
-										.collect{|x,i| [x,"V#{i}"]}.to_h
-										.invert
-		
 		uuid_to_constraint_table = @constraint_objects
 		
 		
@@ -244,9 +244,8 @@ class Document
 			data_dump, 
 			id_to_entity_table, uuid_to_constraint_table, id_to_visualization_table
 		)
+		# p data_dump.collect{|row| row.collect{|x|  x.class }}
 		
-		
-		p data_dump.collect{|row| row.collect{|x|  x.class }}
 		
 		@constraint_packages.unpack(data_dump)
 		
