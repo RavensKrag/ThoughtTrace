@@ -60,7 +60,19 @@ class Collection
 			# visible?              boolean     6
 		
 		
-		
+		# TODO: serialize visualizations separately
+			# visualizations are not initialized by the Collection, nor the Package:
+			# they are passed to the Package upon initialization.
+			# Thus, their lifetimes and serialization should be controlled by some other structure.
+		# should probably just think of the root Visualization class as a Factory,
+		# and have it also serve as a collection
+			# this is not like the Entity collection, Space
+			# which is needed as a collection separate from the Entities for many reasons.
+			# This is a case where all Visualizations should be present in the collection,
+			# and failure to add them would be a mistake.
+			
+			# that being said, you may want to tie specific visualizations to specific Documents
+			# so I'm not really sure how that works out
 		
 		visualizations = @list.collect{|x| x.visualization}
 		visualization_to_id_table = visualizations.each_with_index.to_h
