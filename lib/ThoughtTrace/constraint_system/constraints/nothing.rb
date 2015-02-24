@@ -12,12 +12,13 @@ class Nothing < Constraint
 	end
 
 	def foo(a,b)
-		false
+		false # never run the tick
 	end
 
 	# execute one tick
 	def call(a,b)
-		
+		# do nothing
+		# but it will never be run anyway
 	end
 end
 
