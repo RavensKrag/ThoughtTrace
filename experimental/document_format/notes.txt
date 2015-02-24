@@ -1,0 +1,81 @@
+=== Serialzation of entities / components
++ serialize entities separately from their components
++ link them back up again on load
+
+this structure allows for maintaining the current serialization build system
+(which is actually really useful)
+(in terms of application, but also, the process of development helped build understanding of data)
+======================================================
+
+
+
+
+
+=== Data formats
+Best to use different formats to suit different types of data 
+
+
+
+
+
+YAML may be the best bet for serialization of components
+(the physics component continues to be a weird special case, just like in Unity...)
+
++ tree-ish structure
++ links to repeated data
+
+it has no problem with compressing the convoluted dependency structure of the style system
+	--
+	any attempt to generate a custom format would have to solve the problem
+	It's not just a straight-line of components -> cascades -> style objects
+	largely because the cascades have the same access interface as the style objects
+	and thus can be used in the same context
+	(nested cascades are a thing, and are very useful and necessary)
+	(in particular, the query system uses this structure for style data)
+	--
+
+(similarly, all components are in one document, because there are dependencies between components)
+
+
+
+
+However, CSV is much better for the entities themselves        (the physics data is included here)
+as CSV is just a list of lists,
+and each entity data blob is just a list,
+where most entries are either numbers or strings
+(the prevalence of lists of strings in particular is a good reason for using CSV)
+
+
+
+
+
+
+
+Physics data is intricately linked with the spatial nature of the Entity,
+so even though it's organized into a component,
+it really can't be handled like other components.
+Each Entity must figure out how to handle it's physics attributes,
+especially Entity types like Text, which actively modify those attributes.
+======================================================
+
+
+
+
+
+
+=== "Clobbering" of Style on Load: Confusing Erronious Warnings
+
+loading of old style components introduces Group and Query style data
+but that data often gets clobbered as the Group and Query data is applied to the new Entity objects
+
+
+solution:
+restrict the conditions under which the warning fires.
+In particular - 
+you don't need to warn when you socket an object which is equivalent to the existing one
+
+but this means that there is now extra overhead,
+checking to make sure you're inserting a new object
+
+(but maybe there should be a priority on making equivalence tests as fast as possible anyway?)
+======================================================
