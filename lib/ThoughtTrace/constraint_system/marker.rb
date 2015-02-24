@@ -27,23 +27,6 @@ class EntityMarker < ThoughtTrace::Circle
 	
 	def update
 		super()
-		
-		# the number of possible targets has changed since the last target disambiguation
-		# (use this check to prevent the check from running unnecessarily)
-		# NOTE: this may not be sufficient. the number could go up, and then down, returning to the same position, but with different targets in the set, all in one cycle. maybe? not totally sure
-		# if @size != @possible_targets.size
-		
-		
-		# if @dirty
-		# 	target = disambiguate_target()
-		# 	if target
-		# 		bind_to target
-		# 	else
-		# 		unbind
-		# 	end
-			
-		# 	@dirty = false # flip the flag
-		# end
 	end
 	
 	def draw(z_index=0)
@@ -80,23 +63,6 @@ class EntityMarker < ThoughtTrace::Circle
 	def unbind
 		@constraint_target = nil
 		@render_target     = self
-	end
-	
-	
-	
-	
-	private
-	
-	def disambiguate_target
-		# target = nil
-		
-		# @possible_targets.each do |entity|
-		# 	target ||= entity # if the list of possible targets is not empty, set it to something
-			
-			
-		# end
-		
-		# return target
 	end
 end
 
