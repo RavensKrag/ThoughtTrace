@@ -154,14 +154,10 @@ class Document
 	
 	
 	
-	class << self
 	def load(path_to_folder)
 		# TODO: consider making this #load in the new collection #unpack style: should load into an already initialized object, rather than returning a new one.
 		
 		project_directory = path_to_folder
-		
-		# === create new document
-		document = self.new
 		
 		
 		# === load data from disk
@@ -181,7 +177,7 @@ class Document
 		# entities
 		entity_dump = read_data(project_directory, "entities")
 		
-		entities = document.space.entities
+		entities = @space.entities
 		entities.unpack(entity_dump)
 		
 		id_to_entity_table = entities.each_with_index.to_h.invert
@@ -200,7 +196,7 @@ class Document
 		group_data = read_data(project_directory, 'groups')
 		group_data.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
 		
-		groups = document.space.groups
+		groups = @space.groups
 		groups.unpack(group_data)
 		
 		
@@ -222,11 +218,9 @@ class Document
 		
 		}
 		
-		document.instance_eval do
-			@constraint_objects.unpack(constraint_data)
-			
-			foo[@constraint_objects]
-		end
+		@constraint_objects.unpack(constraint_data)
+		
+		foo[@constraint_objects]
 		
 		
 		
@@ -239,7 +233,7 @@ class Document
 		# --- abstract types
 		# prototypes
 		prototype_data = read_data(project_directory, 'prototypes')
-		prototypes = document.prototypes
+		prototypes = @prototypes
 		prototypes.unpack prototype_data
 		
 		# prefabs
@@ -253,18 +247,16 @@ class Document
 		
 		
 		# === set abstract data types
-		document.instance_eval do
-			# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
-			@named_styles = named_styles
-			
-			# @constraints = constraints
-		end
+		# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
+		@named_styles = named_styles
+		
+		# @constraints = constraints
 		
 		
 		
 		
 		
-		return document
+		return self
 	end
 	
 	private
@@ -306,8 +298,6 @@ class Document
 	
 	public
 	
-	end
-	
 	
 	
 	
@@ -344,35 +334,30 @@ class Document
 	end
 	
 	
-	class << self
-		# NOTE: all read function helpers have to be at class-level, because they need to be called in the load method
-		private
+	
+	def read_data(project_directory, filename)
+		path = File.join(project_directory, filename)
+		
+		extension = ".csv"
+		path += extension
 		
 		
-		def read_data(project_directory, filename)
-			path = File.join(project_directory, filename)
-			
-			extension = ".csv"
-			path += extension
-			
-			
-			# it's not actually an array of arrays, but CSV::Table has a similar interface
-			arr_of_arrs = CSV.read(path,
-							:headers => false, :header_converters => :symbol, :converters => :all
-							)
-			
-			return arr_of_arrs
-		end
+		# it's not actually an array of arrays, but CSV::Table has a similar interface
+		arr_of_arrs = CSV.read(path,
+						:headers => false, :header_converters => :symbol, :converters => :all
+						)
 		
+		return arr_of_arrs
+	end
+	
+	
+	def load_yaml_file(project_directory, filename)
+		path = File.join(project_directory, filename)
 		
-		def load_yaml_file(project_directory, filename)
-			path = File.join(project_directory, filename)
-			
-			extension = ".yaml"
-			path += extension
-			
-			return YAML::load_file path
-		end
+		extension = ".yaml"
+		path += extension
+		
+		return YAML::load_file path
 	end
 end
 
