@@ -12,13 +12,17 @@ What are constraints?
 
 
 General reminders: ( come back and read this later )
-	constraint logic for how to apply the constraint tick is separate from
-	when to apply the tick
-	the latter is really dependent on specifics
-	and includes whether or not you need a "dirty flag" or cache or whatever
-	and the cache isn't reusable between pairs
-	but the rest of the parameterized constraint is
-	so that's yet another reason to keep things separate
+	constraint logic for HOW to apply the constraint tick is separate from WHEN to apply the tick
+	
+	WHEN is dependent on factors outside of the raw constraint definition,
+	like whether the dependencies have changed,
+	which is checked by looking at a cache.
+	
+	The cache isn't reusable between pairs             (WHEN data)
+	but the rest of the parameterized constraint is.   (HOW data)
+	
+	By keeping the HOW and WHEN separate,
+	you can reuse the name HOW code, even as each instance needs it's own WHEN cache.
 
 
 
