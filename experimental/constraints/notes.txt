@@ -11,6 +11,19 @@ What are constraints?
 
 
 
+General reminders: ( come back and read this later )
+	constraint logic for how to apply the constraint tick is separate from
+	when to apply the tick
+	the latter is really dependent on specifics
+	and includes whether or not you need a "dirty flag" or cache or whatever
+	and the cache isn't reusable between pairs
+	but the rest of the parameterized constraint is
+	so that's yet another reason to keep things separate
+
+
+
+
+
 
 when are constraints triggered?
 	
@@ -28,6 +41,7 @@ how to check for changes?
 	
 	it will be given Entity objects A and B
 	and then it will note what properties are important from those elements
+	( this code is declared in Constraint#foo()     [which really needs a better name btw] )
 	
 	the important values will be saved in a cache.
 	When the cached values are different from the values for the current frame,
@@ -387,6 +401,20 @@ Binding Markers to Target Entities (bind to constraint target)
 	If there are no viable targets,
 	the constraint target on the Marker will be unbound,
 	and the Package will prevent the constraint from firing.
+	
+	
+	
+	
+	
+	the actual bind command will be declared on the Marker,
+	so that the abstraction of the Action can be bypassed when binding in code.
+	
+	BUT WAIT
+	you still need to move the markers into place so that further edits can happen in the graph
+	so idk quite how to resolve this
+	
+	TODO: figure out how to allow for easy binding of new targets using code
+	(may have to wait until I can get the Markers to snap and position themselves semi-automatically?)
 
 
 
@@ -401,6 +429,11 @@ Binding Markers to Target Entities (bind to constraint target)
 	like the Edge Group, probably need to store the visualization here as well.
 	
 	Holds the cache data for a constraint pair, which is critical to knowing when a constraint should run
+	
+	
+	Constraint packages are stored in a linear collection.
+	At least for now.
+	This may change, once I get a better grasp on how the graph topologies in this system function.
 
 
 
@@ -436,7 +469,11 @@ Binding Markers to Target Entities (bind to constraint target)
 
 
 
-
+Where is constraint data stored?
+	
+	Constraints are stored at the Document level,
+	because Chipmunk already defines a type called 'constraint' with an associated collection
+	and associated #add_constraint and #remove_constraint functions
 
 
 
@@ -459,11 +496,7 @@ Binding Markers to Target Entities (bind to constraint target)
 
 
 
-Where is constraint data stored?
-	
-	Constraints are stored at the Document level,
-	because Chipmunk already defines a type called 'constraint' with an associated collection
-	and associated #add_constraint and #remove_constraint functions
+
 
 
 
