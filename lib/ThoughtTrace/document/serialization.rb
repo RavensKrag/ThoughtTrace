@@ -240,7 +240,7 @@ class Document
 		
 		data_dump = read_data(project_directory, 'constraints')
 		
-		replace_!(
+		replace_ids_with_data!(
 			data_dump, 
 			id_to_entity_table, uuid_to_constraint_table, id_to_visualization_table
 		)
@@ -314,7 +314,7 @@ class Document
 	end
 	
 	
-	def replace_!(data_dump, id_to_entity, uuid_to_constraint, id_to_visualization)
+	def replace_ids_with_data!(data_dump, id_to_entity, uuid_to_constraint, id_to_visualization)
 		truth_replacement = {
 			'true' => true,
 			'false' => false
