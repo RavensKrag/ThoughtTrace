@@ -459,7 +459,11 @@ Binding Markers to Target Entities (bind to constraint target)
 
 
 
-
+Where is constraint data stored?
+	
+	Constraints are stored at the Document level,
+	because Chipmunk already defines a type called 'constraint' with an associated collection
+	and associated #add_constraint and #remove_constraint functions
 
 
 
