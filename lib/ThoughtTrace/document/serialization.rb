@@ -51,6 +51,9 @@ class Document
 			
 			
 			# visualizations
+			visualizations = @constraint_packages.collect{|x| x.visualization }.uniq
+			visualization_to_id_table = visualizations.each_with_index
+										.collect{|x,i| [x,"V#{i}"]}.to_h
 			
 			
 			# constraint objects
@@ -58,9 +61,16 @@ class Document
 			write_yaml_file(constraint_data, 'constraints')
 			
 			
-			
 			# constraint packages
+			constraint_to_uuid_table = @constraint_objects.map_data_to_uuids
 			
+			
+			constraint_dump = @constraint_packages.pack
+			replace_data_with_ids!(
+				constraint_dump,
+				entity_to_id_table, constraint_to_uuid_table, visualization_to_id_table
+			)
+			write_data(constraint_dump, 'constraints')
 			
 			
 			
@@ -143,6 +153,44 @@ class Document
 			end
 		
 		return hash
+	end
+	
+	
+	
+	def replace_data_with_ids!(data_dump, entity_to_id, constraint_to_uuid, visualization_to_id)
+		truth_replacement = {
+			'true' => true,
+			'false' => false
+		}.invert
+		
+		# data_dump.each{ |data| data.map! &replace_according_to(entity_to_id)  }
+		# data_dump.each{ |data| data.map! &replace_according_to(constraint_to_uuid)  }
+		# data_dump.each{ |data| data.map! &replace_according_to(visualization_to_id)  }
+		# data_dump.each{ |data| data.map! &replace_according_to(truth_replacement)  }
+		
+		
+		data_dump.collect! do |row|
+			out = Array.new(row.size)
+			
+			row.each_with_index do |x, i|
+				# m1, m2, e1, e2, constraint_uuid, visualizations_id, visibility
+				
+				conversion_table = case i
+					when 0..3
+						entity_to_id
+					when 4
+						constraint_to_uuid
+					when 5
+						visualization_to_id
+					when 6
+						truth_replacement
+				end
+				
+				out[i] = conversion_table[x]
+			end
+			
+			out
+		end
 	end
 	
 	public

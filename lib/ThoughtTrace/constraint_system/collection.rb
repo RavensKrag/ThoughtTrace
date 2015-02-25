@@ -34,6 +34,15 @@ class Collection
 	
 	
 	
+	def each(&block)
+		@list.each(&block)
+	end
+	
+	include Enumerable
+	
+	
+	
+	
 	
 	
 	
@@ -60,23 +69,6 @@ class Collection
 			# visible?              boolean     6
 		
 		
-		# TODO: serialize visualizations separately
-			# visualizations are not initialized by the Collection, nor the Package:
-			# they are passed to the Package upon initialization.
-			# Thus, their lifetimes and serialization should be controlled by some other structure.
-		# should probably just think of the root Visualization class as a Factory,
-		# and have it also serve as a collection
-			# this is not like the Entity collection, Space
-			# which is needed as a collection separate from the Entities for many reasons.
-			# This is a case where all Visualizations should be present in the collection,
-			# and failure to add them would be a mistake.
-			
-			# that being said, you may want to tie specific visualizations to specific Documents
-			# so I'm not really sure how that works out
-		
-		
-		
-		
 		# NOTE: this introduces weird confusion. up to this point, the only 'numbers' in the serialization format were all entity IDs. If you use indicies in an array to also refer to visualization object data, then there needs to be some sort of disambiguation.
 			# you could use UUIDs here as well, and I think that would work just fine.
 				# UUIDs were created to allow for ID assignment in distributed applications, where different hosts could not talk to one another.
@@ -87,18 +79,9 @@ class Collection
 		# in order to distinguish these indicies from the ones that reference Entities
 		
 		
-		
-		
-		# NOTE: if you store raw constraints in this system, this serialization will not work. Need to figure out how to fix that.
-		constraint_packages = 
-			@list.collect do |package|
-				data = package.pack
-				
-				
-				data
-			end
-		
-		return visualizations, constraint_packages
+		@list.collect do |package|
+			package.pack
+		end
 	end
 	
 	
