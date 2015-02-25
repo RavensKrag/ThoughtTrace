@@ -247,8 +247,7 @@ class Document
 		# --- abstract types
 		# prototypes
 		prototype_data = read_data(project_directory, 'prototypes')
-		prototypes = @prototypes
-		prototypes.unpack prototype_data
+		@prototypes.unpack prototype_data
 		
 		# prefabs
 			# PREFAB SYSTEM HAS NOT YET BEEN IMPLEMENTED
