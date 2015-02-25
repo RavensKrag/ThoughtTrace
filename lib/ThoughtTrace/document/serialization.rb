@@ -53,7 +53,13 @@ class Document
 			# visualizations
 			
 			
-			# constraints
+			# constraint objects
+			constraint_data = @constraint_objects.pack
+			write_yaml_file(constraint_data, 'constraints')
+			
+			
+			
+			# constraint packages
 			
 			
 			
