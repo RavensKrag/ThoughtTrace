@@ -216,21 +216,8 @@ class Document
 		
 		# constraint objects
 		constraint_data = load_yaml_file(project_directory, 'constraints')
-		
-		foo = ->(collection){
-		
-		constraint = collection["ad0d6e9e-5a2e-4cfb-9be6-76a764e0cbe4"]
-		constraint.closure
-			.let :a => 0.8 do |vars, h|
-				# 0.8*h
-				vars[:a]*h
-			end
-		
-		}
-		
 		@constraint_objects.unpack(constraint_data)
-		
-		foo[@constraint_objects]
+		define_constraint_closures() # defined in core document file
 		
 		
 		
