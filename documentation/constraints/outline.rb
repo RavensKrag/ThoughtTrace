@@ -7,6 +7,9 @@ Package
 		Constraint
 			Closure
 	Visualization
+	Marker (x2)
+
+
 
 
 
@@ -54,6 +57,10 @@ Pair
 			block.call
 		end
 	end
+
+Marker
+	@constraint_target  (Entity) # ptr
+	@render_target      (Entity) # ptr
 
 # NOTE: not sure if all Package types should have the same data format, to try for fixed schema?
 # (I don't think that works because of Cache being basically a Java generic collection)
