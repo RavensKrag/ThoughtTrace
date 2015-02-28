@@ -1,3 +1,16 @@
+# data linkage tree
+# (not necessarily the same as class nesting or class hierarchy)
+Package
+	Pair
+		[@a, @b]
+		Cache
+		Constraint
+			Closure
+	Visualization
+
+
+
+# class descriptions
 Closure
 	@proc
 	@vars
@@ -11,7 +24,7 @@ Constraint
 	def foo(a,b)
 	def call(closure, a,b, cache)
 
-Cache
+Cache # for a low-level implementation, this needs to be a generic ie: Cache<T>
 	@prev
 	@this
 	def bar?(cache)
@@ -22,9 +35,10 @@ Visualization
 	def update
 
 Pair
-	@a
-	@b
-	@cache
+	@a          # ptr
+	@b          # ptr
+	@cache      # direct data
+	@constraint # ptr
 	def bind(a,b)
 	def unbind
 	
@@ -41,7 +55,13 @@ Pair
 		end
 	end
 
-Standard
+# NOTE: not sure if all Package types should have the same data format, to try for fixed schema?
+# (I don't think that works because of Cache being basically a Java generic collection)
+Package # interface
+	def bind(a,b)
+	def update
+	def draw
+Standard   < Package
 	# all data
 	@pair
 	@visualization    (optional)
@@ -51,11 +71,11 @@ Standard
 	def update
 	def draw      => @visualization
 	# markers are Entities and will be rendered with other entities
-Headless   < Standard
+Headless   < Package
 	no visualization
-Abstracted < Standard
+Abstracted < Package
 	no markers
-Optimized  < Standard
+Optimized  < Package
 	no visualization
 	no markers
 	# this is essentially just a pair, but it has stubs for the Standard interface stuff
