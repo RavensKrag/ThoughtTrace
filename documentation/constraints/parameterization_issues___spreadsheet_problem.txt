@@ -1,0 +1,22 @@
+issues around the process of parameterizing constraints:
+
+
+width             o     pushes out other params too far right if you want alignment
+                                                      V---^----- spreadsheet problems
+multi-liners      o     can only do single line commands
+                        why are you sending an explicit lambda instead of a block?
+                        you could use a lambda only when you need to send the block into two places
+
+re-use            o     which objs can be used multiple times?
+                        ...but to continue that train of thought,
+                        is it possible to just reuse the entire object?
+
+serialization     o     how do you serialize a parametrized constraint?
+                        do you need to serialize a Proc?
+	                        that seems a bit silly,
+	                        because the Proc would have to be written somewhere
+
+
+
+constraints can be reused once initialized
+but their initializers are not always known ahead of time, like some of the other things
