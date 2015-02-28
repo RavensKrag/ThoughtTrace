@@ -32,6 +32,7 @@ Cache # for a low-level implementation, this needs to be a generic ie: Cache<T>
 	@this
 	def bar?(cache)
 	def save(cache, data)
+	def clear
 
 Visualization
 	def draw(a,b)
