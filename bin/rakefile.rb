@@ -129,23 +129,23 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	# === Setup
-	# resources = ResourceList.new
-	resources = ThoughtTrace::Constraints::ResourceCollection.new
-	p resources
+	# constraint_objects = ResourceList.new
+	constraint_objects = ThoughtTrace::Constraints::BackendCollection.new
+	p constraint_objects
 	
 	
 	# === Initialize constraint (to be done via GUI)
-	# id = resources.add ThoughtTrace::Constraints::LimitHeight.new
-	id = resources.add ThoughtTrace::Constraints::LimitHeight.new
+	# id = constraint_objects.add ThoughtTrace::Constraints::LimitHeight.new
+	id = constraint_objects.add ThoughtTrace::Constraints::LimitHeight.new
 	
 	
 	
 	# === Code to declare closure, with default parameter values
-	foo = ->(resources){
+	foo = ->(constraint_objects){
 	
 	# NOTE: in production code, ID needs to be hardcoded, because the closure definition happens in a separate file, and at a separate time, relative to the declaration of the constraint.
 	
-	constraint = resources[id]
+	constraint = constraint_objects[id]
 	constraint.closure
 		.let :a => 0.8 do |vars, h|
 			puts "--> closure"
@@ -155,7 +155,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 		end
 	
 	}
-	foo[resources]
+	foo[constraint_objects]
 	
 	
 	
@@ -163,7 +163,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	# === Run the constraint closure closure
 	# (want to test just the closure, without considering the Entity system)
-	constraint = resources[id]
+	constraint = constraint_objects[id]
 	test = constraint.closure.call 50
 		 # just need to send some random number to populate the 'h' seen in the closure
 	
@@ -171,11 +171,11 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	# === Run the constraint (will run the closure as well)
-	constraint = resources[id]
+	constraint = constraint_objects[id]
 	
 	puts "execute constraint with closure"
 		a = e2[:physics].shape.height * 0.8
-		b = constraint.call(e2, e1) # A limits B
+		b = constraint.call(e2, e1, ThoughtTrace::Constraints::Cache.new) # A limits B
 		c = e1[:physics].shape.height
 	x = [test, a,b,c]
 	p x
@@ -191,7 +191,7 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	puts "--------------------------"
 	# === Serialization
 	# dump
-	data_dump = resources.pack
+	data_dump = constraint_objects.pack
 	puts "=> data dump"
 	p data_dump
 	
@@ -209,10 +209,11 @@ task :constraint_test => [:build_serialization_system, :load_dependencies] do
 	
 	
 	# load
-	resources = ThoughtTrace::Constraints::ResourceCollection.unpack(data_dump)
-	foo[resources]
+	constraint_objects = ThoughtTrace::Constraints::BackendCollection.new
+	constraint_objects.unpack(data_dump)
+	foo[constraint_objects]
 	puts "=> loaded resource list"
-	p resources
+	p constraint_objects
 end
 
 
@@ -221,7 +222,7 @@ end
 task :constraint_cache_test => [:build_serialization_system, :load_dependencies] do
 		# === Setup
 	# constraint_objects = ResourceList.new
-	constraint_objects = ThoughtTrace::Constraints::ResourceCollection.new
+	constraint_objects = ThoughtTrace::Constraints::BackendCollection.new
 	p constraint_objects
 	
 	
@@ -237,6 +238,7 @@ task :constraint_cache_test => [:build_serialization_system, :load_dependencies]
 	constraint.closure
 		.let :a => 0.8 do |vars, h|
 			# 0.8*h
+			puts "fire"
 			vars[:a]*h
 		end
 	
@@ -266,20 +268,24 @@ task :constraint_cache_test => [:build_serialization_system, :load_dependencies]
 	package = ThoughtTrace::Constraints::Package.new(constraint, visualization)
 	
 	
-	collection = ThoughtTrace::Constraints::Collection.new
+	package_collection = ThoughtTrace::Constraints::PackageCollection.new
 	
 	
 	
-	collection.add package
+	package_collection.add package
 	
 	
 	# bind the constraint
-	
-	package.marker_a.bind_to a
-	package.marker_b.bind_to b
-	
-	package.marker_a[:physics].body.p = a[:physics].shape.center.clone
-	package.marker_b[:physics].body.p = b[:physics].shape.center.clone
+	# (the real interface sets the targets of the Markers, which are moved to the correct variables in the Pair by the Package on #update)
+	package.instance_eval do
+		@marker_a[:physics].body.p = a[:physics].shape.center.clone
+		@marker_b[:physics].body.p = b[:physics].shape.center.clone
+		
+		@marker_a.bind_to a
+		@marker_b.bind_to b
+		
+		update_bindings()
+	end
 	
 	
 	
@@ -298,7 +304,7 @@ task :constraint_cache_test => [:build_serialization_system, :load_dependencies]
 	test_constraint = ->(){
 		# run just the constraint
 		puts "running constraint..."
-		constraint.call(a,b)
+		constraint.call(a,b, ThoughtTrace::Constraints::Cache.new)
 	}
 	
 	check_values = ->(){
@@ -310,14 +316,21 @@ task :constraint_cache_test => [:build_serialization_system, :load_dependencies]
 	
 	
 	# test caching
+	puts " original"
+	check_values[]
+	puts
+	
+	puts " 1   ---  (should change)"
 	test_package[]
 	check_values[]
 	puts
 	
+	puts " 2  ---   (should NOT change)"
 	test_package[]
 	check_values[]
 	puts
 	
+	puts " 3   ---  (should NOT change)"
 	test_package[]
 	check_values[]
 	puts
@@ -335,7 +348,7 @@ end
 task :constraint_collection_test => [:build_serialization_system, :load_dependencies] do
 	# === Setup
 	# constraint_objects = ResourceList.new
-	constraint_objects = ThoughtTrace::Constraints::ResourceCollection.new
+	constraint_objects = ThoughtTrace::Constraints::BackendCollection.new
 	p constraint_objects
 	
 	
@@ -395,36 +408,39 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	package = ThoughtTrace::Constraints::Package.new(constraint, visualization)
 	
 	
-	collection = ThoughtTrace::Constraints::Collection.new
+	package_collection = ThoughtTrace::Constraints::PackageCollection.new
 	
 	
 	
-	collection.add package
+	package_collection.add package
 	
 	
 	# add markers to space
 	# (dummy test)
-	entity_to_id_table[package.marker_a] = 3
-	entity_to_id_table[package.marker_b] = 4
+	package.instance_eval do
+		entity_to_id_table[@marker_a] = 3
+		entity_to_id_table[@marker_b] = 4
+	end
 	
 	
 	
 	
 	# bind the constraint
-	
-	package.marker_a.bind_to a
-	package.marker_b.bind_to b
-	
-	package.marker_a[:physics].body.p = a[:physics].shape.center.clone
-	package.marker_b[:physics].body.p = b[:physics].shape.center.clone
+	# (same code from before)
+	package.instance_eval do
+		@marker_a[:physics].body.p = a[:physics].shape.center.clone
+		@marker_b[:physics].body.p = b[:physics].shape.center.clone
+		
+		@marker_a.bind_to a
+		@marker_b.bind_to b
+		
+		update_bindings()
+	end
 	
 	
 	
 	# try to save the entire collection
-	data = collection.pack
-	
-	visualizations, constraint_data = data
-	
+	constraint_data = package_collection.pack
 	
 	constraint_data.each do |record|
 		record.map! &replace_according_to(entity_to_id_table)
@@ -432,7 +448,8 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	end
 	
 	
-	p visualizations
+	# p visualizations
+	# NOTE: this test does not test the serialization of Visualization objects, nor does it replace Visualization references with proper IDs for serialization
 	puts "--"
 	p constraint_data
 	
@@ -451,7 +468,7 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 	
 	
 	# load
-	constraint_objects = ThoughtTrace::Constraints::ResourceCollection.new
+	constraint_objects = ThoughtTrace::Constraints::BackendCollection.new
 	constraint_objects.unpack(data_dump)
 	foo[constraint_objects]
 	puts "=> loaded resource list"
