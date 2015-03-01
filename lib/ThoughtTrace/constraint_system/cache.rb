@@ -9,27 +9,10 @@ class Cache
 		
 		# NOTE: in optimized implementation, should figure out what data type is going to be stored in the cache at compile-time, and allocate enough space for it here. That way, the cache lookup is made faster due to data locality.
 			# ie. allocate data on stack as value, rather than on heap + pointer
-		# NOTE: if a bunch of these constraint wrappers are allocated in a pool, you could allocate space for the unknown @cache field to be equal to the largest possible cache. possible use of 'unions' (related to structs) if implementing in C.
-			# ie) constraint, vis, e1, e2,  32 bytes
-			#     constraint, vis, e1, e2,  12 bytes
-			#     constraint, vis, e1, e2, 100 bytes
-
-		
-		
-		
-		
-		
-		# ---
-		# what data needs to be reallocated if a Constraint is deleted and a new one made?
-		# (it's really just "what needs to be reinitialized" (well, kinda))
-			# I think it's just the cache?
-			# everything else is just pointers
-		#   ptr, ptr,     ptr, ptr, prev_data, this_data
-		# retain this  |     reset this stuff
-		
-		# if you reinitialize one object, then any pointers to that thing will still work
-		# if you delete and initialize a new one, then you could break pointers
-
+		# NOTE: if a bunch of Pairs are allocated in a pool, you could allocate space for the unknown @cache field to be equal to the largest possible cache. possible use of 'unions' (related to structs) if implementing in C.
+			# ie) constraint, e1, e2,  32 bytes
+			#     constraint, e1, e2,  12 bytes
+			#     constraint, e1, e2, 100 bytes
 	end
 	
 	
