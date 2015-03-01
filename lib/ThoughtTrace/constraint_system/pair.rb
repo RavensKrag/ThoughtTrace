@@ -3,7 +3,7 @@ module ThoughtTrace
 
 
 class Pair
-	attr_reader :a, :b
+	attr_reader :a, :b, :constraint
 	
 	def initialize(constraint)
 		@a = nil

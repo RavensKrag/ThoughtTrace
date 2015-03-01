@@ -4,16 +4,14 @@ module ThoughtTrace
 
 class Package
 	def pack
-		# NOTE: could also access A and B through the @pair
-		a = @marker_a.constraint_target
-		b = @marker_b.constraint_target
+		# NOTE: getting A and B accessable through Pair and Marker. Using Pair because that's the active binding.
 		
 		[
 			@marker_a,
 			@marker_b,
-			a,
-			b,
-			@constraint,
+			@pair.a,
+			@pair.b,
+			@pair.constraint,
 			@visualization,
 			@visible
 		]
