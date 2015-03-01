@@ -2,16 +2,13 @@ module ThoughtTrace
 	module Constraints
 
 
-class EntityMarker < ThoughtTrace::Circle
+class Marker < ThoughtTrace::Circle
 	attr_reader :constraint_target, :render_target
 	
 	RADIUS = 10
 	
 	def initialize
 		super(RADIUS)
-		
-		@possible_targets = Set.new
-		@dirty = true # if this flag is true, then you need to update
 		
 		@constraint_target = nil  # entity to feed into the constraint
 		@render_target     = self # entity to feed into visualization
@@ -31,27 +28,7 @@ class EntityMarker < ThoughtTrace::Circle
 	
 	def draw(z_index=0)
 		super(z_index)
-		
-		
 	end
-	
-	
-	
-	
-	
-	
-	def consider(entity)
-		@dirty = true
-		@possible_targets.add entity
-	end
-	
-	def unconsider(entity)
-		@dirty = true
-		@possible_targets.delete entity
-	end
-	
-	
-	
 	
 	
 	# TODO: should change visualization state on bind / unbind, so that the UI can show this state change to the user

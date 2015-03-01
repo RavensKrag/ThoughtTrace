@@ -1,12 +1,10 @@
-# The graphical interface elements of a Constraint
-# (kinda like a Decorator: adds extra stuff on top of the standard Constraint functionality)
-# (can use the Constraint objects directly if you don't need visualization. ex: optimization)
 module ThoughtTrace
 	module Constraints
 
 
 class Package
 	def pack
+		# NOTE: could also access A and B through the @pair
 		a = @marker_a.constraint_target
 		b = @marker_b.constraint_target
 		
@@ -22,18 +20,18 @@ class Package
 	end
 	
 	
-	def unpack(data)
+	def self.unpack(data)
 		m1, m2, e1, e2, constraint, visualization, visibility = data
 		
-		@marker_a = m1
-		@marker_b = m2
-		
-		@marker_a.bind_to e1
-		@marker_b.bind_to e2
-		
-		@constraint    = constraint
-		@visualization = visualization
-		@visible       = visibility
+		self.new(constraint, visualization).tap do |obj|
+			obj.instance_eval do
+				@marker_a = m1
+				@marker_b = m2
+				
+				@visible  = visibility
+			end
+			obj.bind(e1, e2)
+		end
 	end
 end
 
