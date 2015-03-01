@@ -9,11 +9,18 @@ Package
 	Visualization
 	Marker (x2)
 
+BackendCollection
+	Constraint
+PackageCollection
+	Package
 
 
 
 
 # class descriptions
+BackendCollection  # stores raw constraint objects, mapped by UUIDs
+PackageCollection # stores full constraint packages, in a linear collection
+
 Closure
 	@proc
 	@vars
@@ -62,6 +69,8 @@ Pair
 Marker
 	@constraint_target  (Entity) # ptr
 	@render_target      (Entity) # ptr
+	def bind_to(entity)
+	def unbind
 
 # NOTE: not sure if all Package types should have the same data format, to try for fixed schema?
 # (I don't think that works because of Cache being basically a Java generic collection)
