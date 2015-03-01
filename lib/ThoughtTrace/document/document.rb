@@ -15,10 +15,10 @@ class Document
 		
 		
 		# Raw parameterized constraints
-		@constraint_objects  = ThoughtTrace::Constraints::ResourceCollection.new
+		@constraint_objects  = ThoughtTrace::Constraints::BackendCollection.new
 		
 		# Constraints to be actively executed
-		@constraint_packages = ThoughtTrace::Constraints::Collection.new 
+		@constraint_packages = ThoughtTrace::Constraints::PackageCollection.new 
 		
 		
 		@prototypes   = ThoughtTrace::CloneFactory.new    # create copies of simple entities

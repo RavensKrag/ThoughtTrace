@@ -5,12 +5,12 @@ module ThoughtTrace
 class Package
 	attr_accessor :visualization
 	
-	def initialize(constraint)
+	def initialize(constraint, visualization)
 		@pair = Pair.new(constraint)
 		@marker_a = Marker.new
 		@marker_b = Marker.new
 		
-		@visualization = nil # TODO: figure out if this should be set on init or not
+		@visualization = visualization
 		
 		@visible = true
 	end

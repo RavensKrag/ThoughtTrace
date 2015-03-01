@@ -28,9 +28,13 @@ class Package
 				@marker_a = m1
 				@marker_b = m2
 				
+				@marker_a.bind_to(e1)
+				@marker_b.bind_to(e2)
+				
 				@visible  = visibility
+				
+				update_bindings()
 			end
-			obj.bind(e1, e2)
 		end
 	end
 end

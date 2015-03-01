@@ -22,6 +22,10 @@ class Constraint
 	# check cache things
 	# (this is the format of the data stored in @cache)
 	def foo(a,b)
+		# TODO: this needs a better name 
+		# dependency, prerequisite?
+		# (is it a concurrent dependency? - interrelated, correlated)
+		
 		# example only.
 		# in production code, the base class implementation should return a blank array
 		# (idk what to do for a lower-level implementation stub. hopefully that's unnecessary?)
@@ -34,8 +38,8 @@ class Constraint
 	# execute one tick on the provided A and B pair
 	# should not mutate cache, should not store any state in the Constraint object
 	# (the Constraint object is shared between many Pairs)
-	def call(a,b, cache)
-		# @closure
+	def call(a,b, cache) # @closure
+		
 	end
 	
 	
