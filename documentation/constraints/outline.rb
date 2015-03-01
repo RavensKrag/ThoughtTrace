@@ -25,6 +25,9 @@ Closure
 	@proc
 	@vars
 	def call(*args) => @proc.call(@vars, *args)
+	def let(vars={}, &block)
+	def clear
+	def clone
 
 Constraint
 	# closure is bound to one type of constraint
@@ -33,6 +36,7 @@ Constraint
 	@closure
 	def foo(a,b)
 	def call(closure, a,b, cache)
+	def clone
 
 Cache # for a low-level implementation, this needs to be a generic ie: Cache<T>
 	@prev
@@ -75,8 +79,7 @@ Marker
 # NOTE: not sure if all Package types should have the same data format, to try for fixed schema?
 # (I don't think that works because of Cache being basically a Java generic collection)
 Package # interface
-	def bind(a,b)
-	def update
+	def update    => @pair.bind(a,b)
 	def draw
 Standard   < Package
 	# all data
@@ -84,8 +87,7 @@ Standard   < Package
 	@visualization    (optional)
 	@marker_a         (optional)
 	@marker_b         (optional)
-	def bind(a,b) => @pair
-	def update
+	def update    => @pair.bind(a,b) # uses markers to automatically acquire bindings
 	def draw      => @visualization
 	# markers are Entities and will be rendered with other entities
 Headless   < Package
