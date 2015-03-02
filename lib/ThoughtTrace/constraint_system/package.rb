@@ -20,7 +20,7 @@ class Package
 		@helper_constraints = Array.new(1)
 		@helper_constraints[0] = ThoughtTrace::Constraints::MoveRelative.new
 		@helper_constraints[0].closure
-			.let do |vars, delta|
+			.let do |delta|
 				puts "run"
 				
 				delta

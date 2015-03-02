@@ -23,7 +23,15 @@ class Closure
 	def call(*args)
 		if @block
 			# run sub-transform as defined by this closure
-			return @block.call @vars, *args
+			# TODO: don't pass @vars if no custom variables have been declared. ie, if empty hash
+			
+			out = 
+				if @vars.empty?
+					@block.call *args
+				else
+					@block.call @vars, *args
+				end
+			return out
 		else
 			# return unmodified data
 			return *args
