@@ -13,7 +13,11 @@ class MoveRelative < Constraint
 	# (this is the format of the data stored in @cache)
 	def foo(a,b)
 		[
-			b[:physics].body.p
+			# if you don't clone, it will store a reference,
+			# and that pointer will always point to the same data,
+			# so the cache will never say the data is outdated.
+			# TODO: consider saving x and y positions of the vector instead.
+			b[:physics].body.p.clone
 		]
 	end
 	
@@ -32,10 +36,13 @@ class MoveRelative < Constraint
 		# if you only need cache data, this is pretty simple
 		# if you need arbitrary state permanence, then this is gonna get complicated
 		# (I think you only need the cache data, but need to make sure)
-				
 		
-		prev = 
+		return if cache.prev.nil?
+		
+		
+		prev = cache.prev[0]
 		delta = b[:physics].body.p - prev
+		delta = @closure.call(delta)
 		
 		# NOTE: this may bug out, as idk how well += works with Chipmunk vectors
 		a[:physics].body.p += delta

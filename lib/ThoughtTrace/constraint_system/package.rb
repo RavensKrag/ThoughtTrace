@@ -13,6 +13,25 @@ class Package
 		@visualization = visualization
 		
 		@visible = true
+		
+		
+		
+		
+		@helper_constraints = Array.new(1)
+		@helper_constraints[0] = ThoughtTrace::Constraints::MoveRelative.new
+		@helper_constraints[0].closure
+			.let do |vars, delta|
+				puts "run"
+				
+				delta
+			end
+		
+		@helpers = Array.new(2)
+			@helpers[0] = Pair.new(@helper_constraints[0])
+			@helpers[1] = Pair.new(@helper_constraints[0])
+			# Helper constraint pairs are bound in #update_bindings,
+			# when marker bindings are copied over.
+			bind_helper_constraints()
 	end
 	
 	def update
@@ -24,6 +43,8 @@ class Package
 		end
 		
 		@visualization.update
+		
+		@helpers.each{ |h| h.update  }
 	end
 	
 	def draw
@@ -81,6 +102,14 @@ class Package
 		else
 			@pair.bind(a,b)
 		end
+		
+		# Update the helper constraints whenever the bindings are changed.
+		bind_helper_constraints()
+	end
+	
+	def bind_helper_constraints
+		@helpers[0].bind(@marker_a, @marker_a.render_target)
+		@helpers[1].bind(@marker_b, @marker_b.render_target)
 	end
 end
 

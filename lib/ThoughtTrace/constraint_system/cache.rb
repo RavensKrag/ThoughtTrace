@@ -3,6 +3,8 @@ module ThoughtTrace
 
 
 class Cache
+	attr_reader :prev, :this
+	
 	def initialize
 		@prev = nil # value from one tick ago
 		@this = nil # value from this tick

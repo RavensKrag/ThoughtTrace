@@ -51,7 +51,7 @@ class Pair
 			# you only want the constraint to change if dependencies have been EXTERNALLY altered
 			@cache.save(@constraint.foo(@a,@b))
 			
-			block.call
+			block.call if block
 		end
 	end
 end
