@@ -27,6 +27,7 @@ class MoveRelative < Constraint
 	def call(a,b, cache) # @closure
 		return if cache.prev.nil? # cache doesn't always have a 'prev' value set
 		# NOTE: this may be while this constraint is one frame behind
+		# (may just fix this by running multiple constraint system ticks per render tick)
 		
 		
 		prev = cache.prev[0]
