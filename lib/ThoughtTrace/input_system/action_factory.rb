@@ -115,7 +115,27 @@ class ActionFactory
 	end
 	
 	
+	
+	# Recursively looks for an Action of a particular name.
+	# Should not dig deeper than Entity, as Entity is what holds the Action structure.
+	# 
+	# name styled after things like "const_get" and "instance_variable_get"
+	# 
+	# ideally, the exception flow will percolate back "down" the inheritance chain
+	# to the child class (the class that originally launched the call)
+	# so that the error message on the backtrace can accurately report
+	# what class was trying to access what action
 	def get_action(klass, name)
+		# expects names as standard symbols, rather than in constant-symbol format
+		# ex) expected    -  :move_over_there
+		#     rather than -  :MoveOverThere
+		
+		# NOTE: I think this is a cleaner interface, but it requires a bunch of string manipulation. As this is something that needs to be called very often, it may become a major source of latency.
+		# The weird part is really that you're using symbols in a not-very-symbol-like way
+		# so the solution may actually be just to use Strings instead
+		# as constant lookup can also be done using strings
+		
+		
 		# p [klass.to_s, name]
 		name_const = name.to_s.constantize
 		
@@ -144,14 +164,6 @@ class ActionFactory
 				return get_action(parent, name)
 			end
 		end
-	end
-	
-	# get the 'parent' object in the Action search tree
-	# not sure if this is the same hierarchy as the class hierarchy or not.
-	# NOTE: should return nil if the object has no parent.
-	def get_parent(x)
-		parent = @hierarchy[x]
-		return parent
 	end
 	
 	
