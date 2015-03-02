@@ -220,7 +220,7 @@ end
 # test caching facilities, to make sure constraint only fires one tick,
 # even if update is called many times
 task :constraint_cache_test => [:build_serialization_system, :load_dependencies] do
-		# === Setup
+	# === Setup
 	# constraint_objects = ResourceList.new
 	constraint_objects = ThoughtTrace::Constraints::BackendCollection.new
 	p constraint_objects
