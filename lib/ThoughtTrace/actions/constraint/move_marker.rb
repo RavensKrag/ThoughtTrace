@@ -1,4 +1,8 @@
-class EntityMarker
+module ThoughtTrace
+	module Constraints
+
+
+class Marker
 	module Actions
 
 
@@ -62,6 +66,11 @@ class Move < ThoughtTrace::Entity::Actions::Move
 			super()
 		end
 	end
+end
+
+
+
+end
 end
 
 

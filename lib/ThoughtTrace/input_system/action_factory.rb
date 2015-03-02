@@ -6,15 +6,49 @@ module InputSystem
 class ActionFactory
 	def initialize(mapping={})
 		@conversion_table = mapping # property name => value
+		
+		data = "
+			+ThoughtTrace::Entity
+			+	ThoughtTrace::Queries::Query
+		"
+		data.lstrip!
+		
+		@hierarchy = parse_text_tree(data)
+		# p @hierarchy
 	end
 	
 	
 	
 	def create(obj, action_name)
-		# obj = extract(point)
-		type = categorize(obj)
+		# convert argument symbols into real variables
+		conversions = {
+			# entity conversion must be specified here, because it is dynamic
+			# (as opposed to in the initializer, which would be static)
+			:entity => obj
+		}.merge @conversion_table
 		
-		action = get_action(type, action_name, obj)
+		
+		
+		
+		
+		
+		type = get_type(obj)
+		action_class = get_action(type, action_name)
+		
+		
+		
+		# NOTE: remember that the action class holds both the argument list, and the obj allocator
+		args   = action_class.argument_type_list.collect{|type| conversions[type] }
+		action = action_class.new(*args)
+		
+		
+		# warn about undefined actions
+		# not something you want to throw an exception for
+		# (some buttons just don't have things bound to them, and that's ok)
+		warn "#{type.inspect} does not define action '#{action_name}'" if action.null_action?
+		
+		
+		return action
 	end
 	
 	
@@ -22,16 +56,110 @@ class ActionFactory
 	
 	private
 	
-	# # extract
-	# def extract(point)
-	# 	# point = @mouse.position_in_space
-	# 	list = @space.point_query(point)
+	# parse a text-based format for a tree,
+	# and return a hash {child => parent}
+	def parse_text_tree(data)
+		# parse text
+		pairs = 
+			data.each_line.collect do |line|
+				line.chomp!                      # strip trailing newline
+				line.rstrip!                     # strip trailing whitespace (redundant?)
+				line.lstrip!                     # strip leading whitespace (redundant?)
+				line[0] = ''                     # remove the first character of each line
+				next if line == ''               # skip blank lines
+				
+				x = line.split(/\t/)
+				# p line
+				# p x
+				# count indentation level
+				indents = 0
+					x.each do |i|
+						break if i != ''
+						indents += 1
+					end
+				
+				# extract the actually relevant string (ie, not the whitespace stuff)
+				name = x.last
+				
+				# convert the name into an actual constant
+				name = Kernel.const_get name
+				
+				[indents, name]
+			end
+		pairs.compact!
+		# p pairs
 		
-	# 	obj = list.some.set.of.operations
-	# end
-
-	# categorize
-	def categorize(obj)
+		# use extracted data to form proper data structure
+		hierarchy = Hash.new
+		
+		pairs.each_with_index do |pair, index|
+			next if index == 0
+			child_indent, child = pair
+			
+			# set the parent to nil.
+			# this is the default, and will generally be overridden
+			hierarchy[child] = nil
+			
+			# attempt to find a proper parent
+			pairs[0..index].reverse_each do |parent_indent, parent|
+				if parent_indent < child_indent
+					# the parent has been found
+					hierarchy[child] = parent  # set the parent, 
+					break                      # and short-circuit
+				end
+			end
+		end
+		
+		
+		return hierarchy
+	end
+	
+	
+	def get_action(klass, name)
+		# p [klass.to_s, name]
+		name_const = name.to_s.constantize
+		
+		begin
+			return klass::Actions.const_get name_const
+		rescue NameError => e
+			# Traverse the hierarchy to find a class that can yield the desired Action.
+			# Mostly, you will traverse the class inheritance hierarchy,
+			# but there are some exceptions.
+			
+			
+			if klass == ThoughtTrace::Entity
+				# you have reached the bottom of the chain,
+				# the root of the the tree.
+				# The recursion stops here
+				
+				# end of the road:
+				# this is the base of the entire Action search system.
+				# If no action has been found by this point, the action is not defined.
+				return ThoughtTrace::Actions::NullAction
+			else
+				# trigger recursion to find the Action in question 
+				parent = @hierarchy[klass]   # try taking specially defined exceptions
+				parent ||= klass.superclass  # but if there aren't any, just go the standard way
+				
+				return get_action(parent, name)
+			end
+		end
+	end
+	
+	# get the 'parent' object in the Action search tree
+	# not sure if this is the same hierarchy as the class hierarchy or not.
+	# NOTE: should return nil if the object has no parent.
+	def get_parent(x)
+		parent = @hierarchy[x]
+		return parent
+	end
+	
+	
+	
+	
+	
+	
+	def get_type(obj)
 		if obj.nil?
 			# space is empty at desired point
 			
@@ -52,46 +180,6 @@ class ActionFactory
 			obj.class
 		end
 	end
-	
-		
-	
-	# maybe these steps overlap?
-	# like, maybe there's something that you need to do in extract that depends on type?
-	# then you could create one method that returns the obj and it's "type"
-	# but idk, that seems like it would be odd
-	
-	
-	
-	
-	
-	
-	
-	def get_action(klass, name, target)
-		# convert argument symbols into real variables
-		conversions = {
-			:entity => target     # entity conversion must be specified here, because it is dynamic
-		}.merge @conversion_table
-		
-		
-		action_class = klass.action_get(name)
-		
-		# NOTE: remember that the action class holds both the argument list, and the obj allocator
-		args   = action_class.argument_type_list.collect{|type| conversions[type] }
-		action = action_class.new(*args)
-		
-		
-		# warn about undefined actions
-		# not something you want to throw an exception for
-		# (some buttons just don't have things bound to them, and that's ok)
-		warn "#{klass.inspect} does not define action '#{name}'" if action.null_action?
-		
-		
-		
-		return action
-	end
-	
-	
-	
 end
 
 

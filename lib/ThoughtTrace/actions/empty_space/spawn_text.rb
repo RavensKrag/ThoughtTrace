@@ -1,9 +1,10 @@
 module ThoughtTrace
 	module Actions
 		module EmptySpace
+			module Actions
 
 
-class SpawnText < Actions::BaseAction
+class SpawnText < ThoughtTrace::Actions::BaseAction
 	initialize_with :clone_factory, :space, :text_input
 	
 	# called on first tick
@@ -69,6 +70,7 @@ end
 
 
 	
+end
 end
 end
 end

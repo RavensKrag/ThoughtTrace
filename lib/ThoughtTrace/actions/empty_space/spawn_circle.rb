@@ -1,9 +1,10 @@
 module ThoughtTrace
 	module Actions
 		module EmptySpace
+			module Actions
 
 
-class SpawnCircle < Actions::BaseAction
+class SpawnCircle < ThoughtTrace::Actions::BaseAction
 	initialize_with :clone_factory, :space
 	
 	# called on first tick
@@ -63,6 +64,7 @@ end
 
 
 	
+end
 end
 end
 end
