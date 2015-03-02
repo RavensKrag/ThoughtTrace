@@ -283,8 +283,6 @@ task :constraint_cache_test => [:build_serialization_system, :load_dependencies]
 		
 		@marker_a.bind_to a
 		@marker_b.bind_to b
-		
-		update_bindings()
 	end
 	
 	
@@ -433,8 +431,6 @@ task :constraint_collection_test => [:build_serialization_system, :load_dependen
 		
 		@marker_a.bind_to a
 		@marker_b.bind_to b
-		
-		update_bindings()
 	end
 	
 	
