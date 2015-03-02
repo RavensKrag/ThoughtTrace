@@ -31,7 +31,6 @@ class Package
 			@helpers[1] = Pair.new(@helper_constraints[0])
 			# Helper constraint pairs are bound in #update_bindings,
 			# when marker bindings are copied over.
-			bind_helper_constraints()
 	end
 	
 	def update
