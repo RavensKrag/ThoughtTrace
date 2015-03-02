@@ -184,6 +184,8 @@ class ActionFactory
 				parent = @hierarchy[klass]   # try taking specially defined exceptions
 				parent ||= klass.superclass  # but if there aren't any, just go the standard way
 				
+				# NOTE: Modules do not have a 'superclass', so if you end up calling this on a module, it will break. Currently do not have a need to do that, but it may come up in the future.
+				
 				return get_action(parent, name)
 			end
 		end
