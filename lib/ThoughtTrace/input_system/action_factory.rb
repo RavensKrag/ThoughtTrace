@@ -116,6 +116,29 @@ class ActionFactory
 	
 	
 	
+	def get_type(obj)
+		if obj.nil?
+			# space is empty at desired point
+			
+			# no target, because most actions in empty space create new things
+			# the target supposed to be a thing which already exists
+			# but that doesn't make sense for an action that creates something new
+			
+			ThoughtTrace::Actions::EmptySpace # EmptySpace#action_get() defined in actions/index.rb
+		elsif obj[:query] # if the Entity has a Query component
+			# ThoughtTrace::Queries::Query
+			
+			# use specific Query type for action polymorphism
+			obj[:query].callbacks.class
+		else
+			# could be a Group or an Entity
+			# how do you handle prefabs? are those different in some way?
+			# I think they're just groups?
+			obj.class
+		end
+	end
+
+	
 	# Recursively looks for an Action of a particular name.
 	# Should not dig deeper than Entity, as Entity is what holds the Action structure.
 	# 
@@ -163,33 +186,6 @@ class ActionFactory
 				
 				return get_action(parent, name)
 			end
-		end
-	end
-	
-	
-	
-	
-	
-	
-	def get_type(obj)
-		if obj.nil?
-			# space is empty at desired point
-			
-			# no target, because most actions in empty space create new things
-			# the target supposed to be a thing which already exists
-			# but that doesn't make sense for an action that creates something new
-			
-			ThoughtTrace::Actions::EmptySpace # EmptySpace#action_get() defined in actions/index.rb
-		elsif obj[:query] # if the Entity has a Query component
-			# ThoughtTrace::Queries::Query
-			
-			# use specific Query type for action polymorphism
-			obj[:query].callbacks.class
-		else
-			# could be a Group or an Entity
-			# how do you handle prefabs? are those different in some way?
-			# I think they're just groups?
-			obj.class
 		end
 	end
 end
