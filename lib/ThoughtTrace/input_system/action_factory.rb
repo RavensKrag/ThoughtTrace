@@ -170,7 +170,7 @@ class ActionFactory
 			# but there are some exceptions.
 			
 			
-			if klass == ThoughtTrace::Entity
+			if klass == ThoughtTrace::Entity or klass == ThoughtTrace::Actions::EmptySpace
 				# you have reached the bottom of the chain,
 				# the root of the the tree.
 				# The recursion stops here
