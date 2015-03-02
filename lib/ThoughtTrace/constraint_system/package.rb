@@ -6,6 +6,7 @@ class Package
 	attr_accessor :visualization
 	
 	def initialize(constraint, visualization)
+		# main initialization
 		@pair = Pair.new(constraint)
 		@marker_a = Marker.new
 		@marker_b = Marker.new
@@ -16,7 +17,8 @@ class Package
 		
 		
 		
-		
+		# define helper constraints:
+		# makes it so that Markers will move when their target Entities are moved
 		@helper_constraints = Array.new(1)
 		@helper_constraints[0] = ThoughtTrace::Constraints::MoveRelative.new
 		@helper_constraints[0].closure
