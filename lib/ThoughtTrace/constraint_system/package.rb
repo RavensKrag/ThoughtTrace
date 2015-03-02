@@ -21,9 +21,7 @@ class Package
 		@helper_constraints[0] = ThoughtTrace::Constraints::MoveRelative.new
 		@helper_constraints[0].closure
 			.let do |delta|
-				puts "run"
-				
-				delta
+				delta # no additional offset.
 			end
 		
 		@helpers = Array.new(2)
