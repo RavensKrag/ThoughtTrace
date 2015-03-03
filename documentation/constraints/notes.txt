@@ -331,6 +331,20 @@ Duplication of Constraints
 	in two places instead
 	
 	
+	NOTE: Could potentially use the same closure for two disparate Constraint types
+	
+	
+
+
+
+
+
+Constraint Pair
+	
+	A Pair holds wraps a Constraint with a Cache, and two Entities.
+	It determines when to actually fire a Constraint based data from the Cache.
+
+
 
 
 
@@ -338,8 +352,9 @@ Duplication of Constraints
 
 
 Constraint Markers
+	
 	Parameterized constraint objects will be bound to Entities using Markers.
-	A Package will hold two markers, and the constraint associated with that pair.
+	A Package holds two markers, and a Pair object to control the actual binding and Constraint.
 	(Packages are fully explained in a later section)
 	
 	The use of Markers allows for the Constraint to be rebound to a new pair of Entities in the GUI
@@ -383,28 +398,28 @@ Binding Markers to Target Entities (bind to constraint target)
 	
 	
 	
-	
-	
-	
 	bind marker on move action, not on collision
 	
-	otherwise, when things start to be moved around systemically, things could rebind
+	when the marker is moved, it will be attached to whichever Entity it was dropped on.
+	This uses the same code as mouse selection.
+	
+	So the Entity that the Marker will select
+	is the same Entity that you would have gotten by clicking in that spot.
+	
+		NOTE: currently using mouse position for this call, rather than the center of the marker. 
+	
+	While dragging the Marker, the constraint target will be temporarily unbound,
+	so that the visualization always appears to link the two markers.
+	
+	
+	
+	If markers are bound on collision,
+	then, when things start to be moved around systemically, things could rebind
 	which would be a cool systemic behavior...
 	but also totally not what you want or expect
 	
 	if you really wanted that, you should be using query-bound constraints instead
 	
-	
-	but you need to disambiguate which Entity is the desired target
-	
-	Currently using point_query_best, which is literally the same code for click selection,
-	so the system will select the same object that would be selected by clicking,
-	which should be rather intuitive.
-	
-	
-	If there are no viable targets,
-	the constraint target on the Marker will be unbound,
-	and the Package will prevent the constraint from firing.
 	
 	
 	
@@ -425,14 +440,16 @@ Binding Markers to Target Entities (bind to constraint target)
 
 
 
-=> Constraint Package
-	Need to figure out how this matches up with the old Edge Group system
-	this is basically the same thing, with a name that is arguably way worse.
-	("Package" is a horribly generic name)
+Constraint Package
+	Wraps up a Pair along with a bunch of UI stuff.
+	Controls the propagation of targets from the Markers into the actual Pair,
+	and ensures that Markers move when their bound Entities do.
 	
-	like the Edge Group, probably need to store the visualization here as well.
+	Also controls lifetimes for dedicated variables,
+	(such as helper constraints)
+	rather than placing them in the general collections.
 	
-	Holds the cache data for a constraint pair, which is critical to knowing when a constraint should run
+	
 	
 	
 	Constraint packages are stored in a linear collection.
@@ -441,33 +458,23 @@ Binding Markers to Target Entities (bind to constraint target)
 
 
 
-=> Serialization of Bound Constraints
-	similar to entity serialization:
+Serialization of Bound Constraints (AKA Constraint Packages )
+	
+	The Package just needs to link Marker, Entity, Visualization, and Constraint data.
+	
+		+ The Markers are Entity types, and will be saved along with all other Entities.
+		
+		+ Constraint objects are already serialized by the BackendCollection,
+		 and simply need to be referenced by UUID.
+		
+		+ Visualizations don't exist in any other collection,
+		  so they are gathered into a temporary collection,
+		  and then that collection is saved to a dedicated file.
+	
+	Basically, the Package serialization data is just a bunch of pointers.
 	
 	
-	bound constraints are
-	(entity, entity, constraint object)
-	
-	replace entity with serialization entity ID
-	replace constraint object with the UUID assigned to that object by the ResourceCollection
-	
-	
-	
-	(also need to serialize any state particular to a binding, which may or may not include the cache. haven't figured that one out yet)
-	NOT saving the cache would force ALL constraints to re-run on load
-	you might want this, so that you can just "turn it off and on again" in case of error
-	but it would be better just to make better constraints, and have rollback to previous state in case of "emergency" exceptional flow
-	
-	
-	
-	
-	note that the ResourceCollection that maps UUIDs => constraint objects
-	is actually a one-to-one relation
-	so it could be a two-way hash or something like that
-	and still work
-	
-	for serialization you need to invert the stored hash,
-	but it may be worth considering if there should always be a method of going both ways
+	NOTE: No need to save helper constraints, as they are not meaningfully changed during runtime. They're always the same data.
 
 
 
