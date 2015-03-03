@@ -190,3 +190,30 @@ in addition to having to think about specifics of topology
 although, it does allow for cleaner visualization, so there still a fair bit of merit in this style
 
 	ThoughtTrace/experimental/constraints/0004.rb
+
+
+
+
+
+
+
+
+
+
+once all the elements were identified,
+it became necessary to reorganize them.
+To that end, it was necessary to peel back abstractions,
+whether Entity / Constraint,
+OOP, or other programming patterns,
+and think about functions and data.
+
+sketching in a C-like style allowed for identifying what was data,
+what were functions,
+and the relationships between those things.
+
+That sketch is in function_scope_list.txt
+in case I need it later for the C port of this library.
+
+The new direction I decided to go in as a result of that sketch is outline.rb
+and that gave birth to the new Constraint system,
+the system that is currently in place.
