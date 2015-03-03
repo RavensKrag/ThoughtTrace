@@ -343,6 +343,17 @@ Constraint Pair
 	
 	A Pair holds wraps a Constraint with a Cache, and two Entities.
 	It determines when to actually fire a Constraint based data from the Cache.
+	
+	If you want to declare a new Constraint between an existing pair,
+	you have to create new Pair
+	
+	can't just swap out the constraint on an existing Pair
+	too much data to change / delete
+	(((	 fully invalidates the Cache data,
+		 low-level implementation would have totally different Cache type  )))
+	
+	
+	NOTE: currently cache is not being saved on quit
 
 
 
