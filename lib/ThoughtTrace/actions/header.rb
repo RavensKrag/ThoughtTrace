@@ -13,7 +13,7 @@ Dir.chdir path_to_file do
 		'./empty_space',
 		# './group',
 		'./query',
-		# './constraint',
+		'./constraint'
 		
 	].each do |path|
 		begin

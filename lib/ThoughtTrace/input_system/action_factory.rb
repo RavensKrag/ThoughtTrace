@@ -159,8 +159,8 @@ class ActionFactory
 		# as constant lookup can also be done using strings
 		
 		
-		# p [klass.to_s, name]
 		name_const = name.to_s.constantize
+		# p [klass, name, name_const]
 		
 		begin
 			return klass::Actions.const_get name_const

@@ -34,7 +34,7 @@ module ThoughtTrace
 		# Each object will only appear once within the list.
 		# Query does not make any guarantees about the order in which objects are returned.
 		# TODO: adjust API so accepting block is not necessary (method chaining is more flexible)?
-		def point_query(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil, &block)
+		def point_query(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil, &block)
 			# block params: |object_in_space|
 			
 			selection = []
@@ -45,7 +45,8 @@ module ThoughtTrace
 			selection.uniq!
 			
 			
-			selection = limit_selection(selection, set)
+			selection.select!{ |x| limit_to.include? x  }  if limit_to
+			selection.reject!{ |x| exclude.include?  x  }  if exclude
 			
 			
 			selection.each &block if block
@@ -53,7 +54,7 @@ module ThoughtTrace
 			return selection
 		end
 		
-		def point_query_first(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
+		def point_query_first(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil)
 			# this method can not be modulated by the selection set if it uses a super() call
 			# may just avoid implementing a new version of this, and fall back on parent version,
 			# as #point_query_best is better when you just want one object
@@ -68,7 +69,8 @@ module ThoughtTrace
 		# new!
 		# builds on the definition of #point_query above,
 		# so you do not need to explicitly limit the selection again in this method
-		def point_query_best(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
+		# (former body has been moved into #point_query_best_list)
+		def point_query_best(point, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil)
 			# TODO: Should short circuit when selection becomes empty
 			# TODO: Short circuit on selection size of 1? (Only after initial bb query)
 			
@@ -90,7 +92,7 @@ module ThoughtTrace
 			
 			
 			# Initial query
-			selection = self.point_query(point, layers, group, set)
+			selection = self.point_query(point, layers, group, limit_to:limit_to, exclude:exclude)
 			
 			return nil if selection.empty?
 			
@@ -101,6 +103,7 @@ module ThoughtTrace
 			# Get the smallest area values, within a certain threshold
 			# Results in a certain margin of what size is acceptable,
 			# relative to the smallest object
+				# NOTE: This is where the number of Entities being considered can drop.
 			selection = selection.select do |o|
 				# TODO: Tweak margin
 				size_margin = 1.8 # percentage
@@ -111,6 +114,7 @@ module ThoughtTrace
 			
 			selection.sort! do |a, b|
 				# Assuming that the shapes all have their center on their local origin
+				# TODO: need to update this to use proper #center calculations
 				distance_to_a = a[:physics].body.pos.dist point
 				distance_to_b = b[:physics].body.pos.dist point
 				
@@ -138,7 +142,7 @@ module ThoughtTrace
 		# The objects can still be accessed through the shapes, so it's not a big deal.
 			# Though, it may be what you want most often when you do this sort of thing,
 			# so having to go through the shape may introduce unwanted noise to the code.
-		def segment_query(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil, &block)
+		def segment_query(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil, &block)
 			# block params: |shape, t, n|
 			@space.segment_query(start, stop, layers, group) do |shape, t, n|
 				block.call(shape, t, n) if within_limiting_set?(set, shape)
@@ -152,7 +156,7 @@ module ThoughtTrace
 		# Must step over the segment query and short circuit it at the ruby-level
 		# in order to make sure that the first collision which is allowable by the set
 		# is cleared, and not some unusable point.
-		def segment_query_first(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
+		def segment_query_first(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil)
 			@space.segment_query do |shape, t, n|
 				# (same test as above)
 				if within_limiting_set?(set, shape)
@@ -165,7 +169,7 @@ module ThoughtTrace
 		segment_query_struct = Struct.new(:object, :collision_info)
 		const_set "SegmentQueryInfo", segment_query_struct
 		
-		def segment_query_first(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil)
+		def segment_query_first(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil)
 			@space.segment_query do |shape, t, n|
 				# only care about set inclusion if set defined
 				# (same test as above)
@@ -178,14 +182,14 @@ module ThoughtTrace
 		
 		
 		
-		def bb_query(bb, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, set=nil, &block)
+		def bb_query(bb, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil, &block)
 			# block params: |object_in_space|
 			@space.bb_query(bb, layers, group) do |shape|
 				block.call(shape.obj) if within_limiting_set?(set, shape)
 			end
 		end
 		
-		def shape_query(query_shape, set=nil, &block)
+		def shape_query(query_shape, limit_to:nil, exclude:nil, &block)
 			# block params: |shape, contact_point_set|
 			# actually, current Chipmunk 6 bindings do not seem to return the contact points
 			@space.shape_query(query_shape) do |colliding_shape|
@@ -197,24 +201,6 @@ module ThoughtTrace
 		
 		
 		
-		
-		
-		
-		# TODO: consider monkey patching this into Array
-		def limit_selection(selection, limiting_set)
-			if limiting_set.nil? or limiting_set.empty?
-				# no change
-				
-				return selection
-			else
-				# limit selection to just the items in the set
-				# filter by the objects tied to the shapes,
-				# not the actual shapes themselves
-				
-				return selection.select{ |obj| set.include? obj }
-			end
-		end
-		private :limit_selection
 		
 		
 		# See if the object bound to the given shape is in the limiting set.

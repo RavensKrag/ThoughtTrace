@@ -23,10 +23,18 @@ class Move < ThoughtTrace::Entity::Actions::Move
 		# move relative to the initial point
 		current = super(point)
 		
-		
-		target = @space.point_query_best(point)
 		marker = @entity
-		marker.bind_to target
+		
+		target = @space.point_query_best(point, exclude:[marker])
+		
+		# need to make sure that the mouse and the Marker are in the same position,
+		# and that there is another potential target other than the Marker
+		if target
+			marker.bind_to target
+		else
+			# unbind not yet implemented. uncommenting this will cause an exception to be thrown
+			# marker.unbind
+		end
 		
 		# NOTE: currently using the point where the mouse is to bind the marker, so that the object that would be selected by mouseover, or selection, or other such methods is the same object that would be bound. HOWEVER, consider using the center of the marker instead, as that may make more sense. Or maybe, the marker should be moved such that it's center is always on the cursor? Some combination of those ideas? Certainly something to think about.
 		
