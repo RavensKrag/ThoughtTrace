@@ -176,31 +176,7 @@ really only want to update each edge once per tick
 	
 	(note also that 'edge group' is used, rather than edge, because of the All enumerator)
 
-
-
-
-
-
-
-Edge groups
-
-	one edge group has one of each of these:
-	* constraint object
-	* enumerator
-	* visualization object
-
-	the visualization has state,
-		as it must flip between two draw modes, and render some things
-	the enumerator has state
-		as it must keep track of the entities to iterate through
-	the constraint has NO STATE so it can be used across various edge groups
-
-	HOWEVER
-
-	The constraint can be parameterized
-	which is actually sort of a form of state.
-	So it's more proper to say that a Constraint object hold no state pertaining to any one Entity,
-	or pair of Entity objects.
+	
 
 
 
@@ -257,6 +233,41 @@ defining constraints
 	QED: constraints are always defined pairwise
 	
 	(for elaboration of this train of thought, see 'evolution_of_the_system.txt')
+
+
+
+
+
+
+
+constraint state
+	
+	Constraints hold no state in themselves,
+	and instead store state inside one or both Entity objects that are passed to them.
+	( This is because a single Constraint object may be shared between many pairs )
+	
+	
+	However, as Constraints exist between Entities,                    ( between things )
+	sometimes you need to know about data has changed between ticks.   ( between times  )
+	
+	For this reason, Constraint#call is provided access to a Cache,
+	which stores data from this tick,         ( Cache#this )
+	as well as the previous one               ( Cache#prev )
+	as provided by Constraint#foo
+	
+	
+	Cache data is saved on a per-pair basis, and is managed by the type Pair.
+	
+	
+	
+	There is a special sort of data that is perfectly OK to store on a Constraint itself.
+	
+	The constraint can be parameterized
+	which is actually sort of a form of state.
+	So it's more proper to say that a Constraint object holds
+	no state pertaining to any one Entity,
+	or no particular pair of Entity objects.
+
 
 
 
@@ -466,6 +477,20 @@ Constraint Package
 	Constraint packages are stored in a linear collection.
 	At least for now.
 	This may change, once I get a better grasp on how the graph topologies in this system function.
+
+
+
+Visualizations
+	
+	draws some sort of connection between two targets,
+	to show that they are related.
+	
+	
+	the visualization has state,
+		as it must flip between two draw modes, and render some things
+	
+	
+
 
 
 
