@@ -11,6 +11,8 @@ class SpawnRect < ThoughtTrace::Actions::BaseAction
 	def press(point)
 		@rect = @clone_factory.make ThoughtTrace::Rectangle
 		@rect[:physics].body.p = point
+		
+		@already_added = false
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -24,7 +26,10 @@ class SpawnRect < ThoughtTrace::Actions::BaseAction
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		@space.entities.add @rect
+		unless @already_added
+			@space.entities.add @rect
+			@already_added = true
+		end
 	end
 	
 	# restore original state

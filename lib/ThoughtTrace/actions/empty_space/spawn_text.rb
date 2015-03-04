@@ -12,6 +12,8 @@ class SpawnText < ThoughtTrace::Actions::BaseAction
 		# TODO: new Text should have the same size, font, etc as the last Text object accessed. ie, user should be able to create multiple similar Text objects in succession, without having to rely on the default font
 		@text = @clone_factory.make ThoughtTrace::Text
 		@text[:physics].body.p = point
+		
+		@already_added = false
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -25,8 +27,11 @@ class SpawnText < ThoughtTrace::Actions::BaseAction
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		@space.entities.add @text
-		@text_input.add @text, 0
+		unless @already_added
+			@space.entities.add @text
+			@text_input.add @text, 0
+			@already_added = true
+		end
 	end
 	
 	# restore original state
