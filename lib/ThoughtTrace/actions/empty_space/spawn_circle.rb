@@ -12,9 +12,6 @@ class SpawnCircle < ThoughtTrace::Actions::BaseAction
 		# TODO: new Text should have the same size, font, etc as the last Text object accessed. ie, user should be able to create multiple similar Text objects in succession, without having to rely on the default font
 		@circle = @clone_factory.make ThoughtTrace::Circle
 		@circle[:physics].body.p = point
-		
-		
-		@space.entities.add @circle
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -28,7 +25,7 @@ class SpawnCircle < ThoughtTrace::Actions::BaseAction
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		
+		@space.entities.add @circle
 	end
 	
 	# restore original state
