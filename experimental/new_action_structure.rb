@@ -15,6 +15,27 @@ class Move < Action
 	
 	
 	
+	def hold(point)
+		update(point)
+		apply()
+		update_visualization(point)
+	end
+	
+	def cancel
+		self.undo()
+		# NOTE: when an action is canceled, it should probably be removed from the undo stack. But that's not something that should happen inside the Action class.
+	end
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	# called on first tick
 	def press(point)
 		# mark the initial point for reference
@@ -60,20 +81,19 @@ class Move < Action
 	
 	
 	
-	def cancel
+	
+	
+	
+	
+	# NOTE: Action visualizations are not the same as Constraint visualizations
+	def update_visualization(point)
 		
 	end
 	
 	
-	
-	
-	
-	
-	
-	
 	# display information to the user about the current transformation
 	# called each tick
-	def draw(point)
+	def draw_visualization
 		
 	end
 end
