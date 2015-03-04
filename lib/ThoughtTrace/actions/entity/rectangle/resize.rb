@@ -72,9 +72,6 @@ class Resize < Entity::Actions::Action
 		shape = @entity[:physics].shape
 		@original_width = shape.width
 		@original_height = shape.height
-		
-		
-		@initial = [@original_width, @original_height]
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -173,31 +170,27 @@ class Resize < Entity::Actions::Action
 		
 		
 		
-		@future = [width, height, anchor_point()]
+		@width = width
+		@height = height
+		@anchor = anchor_point()
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		width, height, anchor = @future
-		@entity.resize!(width, height, anchor)
+		@entity.resize!(@width, @height, @anchor)
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		width, height = @initial
-		anchor = @future[2]
-		
-		
-		# use anchor from the future instead
-		# anchor on @past is always going to be nil
-		# because the notion of an anchor in that context makes no sense,
-		# and thus can not be set
-		
-		@entity.resize!(width, height, anchor)
+		@entity.resize!(@original_width, @original_height, @anchor)
+		# use the same anchor from the apply step.
+		# this should be enough to reverse the operation.
+		# There's no real way to calculate an "inverse anchor",
+		# but I don't think that's necessary anyway.
 	end
 	
 	# final tick of the Action

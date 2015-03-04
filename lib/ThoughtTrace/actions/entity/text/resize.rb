@@ -11,7 +11,7 @@ class Resize < Rectangle::Actions::Resize
 	
 	# called on first tick
 	def press(point)
-		@inital = super(point) # sets @origin and @direction
+		super(point) # sets @origin and @direction
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -99,25 +99,22 @@ class Resize < Rectangle::Actions::Resize
 		
 		
 		
-		@future = [height, anchor_point()]
+		@height = height
+		@anchor = anchor_point()
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		height, anchor = @future
-		@entity.resize!(height, anchor)
+		@entity.resize!(@height, @anchor)
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		width = @initial[0]
-		height = @initial[1]
-		anchor = @future[1]
-		@entity.resize!(height, anchor)
+		@entity.resize!(@original_height, @anchor)
 	end
 	
 	# final tick of the Action
