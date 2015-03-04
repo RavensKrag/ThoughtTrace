@@ -1,3 +1,7 @@
+
+# pretty much don't need this any more,
+# considering how little boilerplate is required for new Action format
+
 module ThoughtTrace
 	class Entity
 		module Actions

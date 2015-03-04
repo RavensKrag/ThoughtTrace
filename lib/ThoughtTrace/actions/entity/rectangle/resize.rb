@@ -10,7 +10,7 @@ class Resize < Entity::Actions::Action
 	initialize_with :entity
 	
 	# called on first tick
-	def setup(point)
+	def press(point)
 		# mark the initial point for reference
 		@origin = point
 		
@@ -74,10 +74,12 @@ class Resize < Entity::Actions::Action
 		@original_height = shape.height
 		
 		
-		return @original_width, @original_height
+		@initial = [@original_width, @original_height]
 	end
 	
-	# called each tick
+	# called each tick after the first tick (first tick is setup only)
+	# perform calculations to generate the new data, but don't change the data yet.
+	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
 		local_origin = @entity[:physics].body.world2local @origin
 		local_point = @entity[:physics].body.world2local point
@@ -171,44 +173,61 @@ class Resize < Entity::Actions::Action
 		
 		
 		
-		return width, height, anchor_point()
+		@future = [width, height, anchor_point()]
+	end
+	
+	# Actually apply changes to data.
+	# Called after #update on each tick, and also on redo.
+	# Many ticks of #apply can be fired before the action completes.
+	def apply
+		width, height, anchor = @future
+		@entity.resize!(width, height, anchor)
+	end
+	
+	# restore original state
+	# revert the changes made by all ticks of #apply
+	# (some actions need to store state to make this work, other actions can fire an inverse fx)
+	def undo
+		width, height = @initial
+		anchor = @future[2]
+		
+		
+		# use anchor from the future instead
+		# anchor on @past is always going to be nil
+		# because the notion of an anchor in that context makes no sense,
+		# and thus can not be set
+		
+		@entity.resize!(width, height, anchor)
+	end
+	
+	# final tick of the Action
+	# (used to be called #cleanup)
+	def release(point)
+		
+	end
+	
+	
+	
+	
+	
+	
+	
+	# NOTE: Action visualizations are not the same as Constraint visualizations
+	def update_visualization(point)
+		
 	end
 	
 	
 	# display information to the user about the current transformation
 	# called each tick
-	def draw(point)
+	def draw
 		# TODO: draw margins to get a better idea of how they should be altered as the shape changes.
 		# TODO: consider implementing margin rendering using entities and constraints. Then that data could easily be used to drive the modulation of the margins themselves.
 	end
 	
 	
 	
-	# perform the transformation here
-	# by encapsulating the transform in this object,
-	# it becomes easy to redo / undo actions as necessary
-	ParentMemento = self.superclass.const_get 'Memento'
-	class Memento < ParentMemento
-		# set future state
-		def forward
-			width, height, anchor = @future
-			@entity.resize!(width, height, anchor)
-		end
-		
-		# set past state
-		def reverse
-			width, height = @initial
-			anchor = @future[2]
-			
-			
-			# use anchor from the future instead
-			# anchor on @past is always going to be nil
-			# because the notion of an anchor in that context makes no sense,
-			# and thus can not be set
-			
-			@entity.resize!(width, height, anchor)
-		end
-	end
+	
 	
 	
 	private

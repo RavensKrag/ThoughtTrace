@@ -7,58 +7,67 @@ class Edit < Entity::Actions::Action
 	initialize_with :text_input, :clone_factory, :entity
 	
 	# called on first tick
-	def setup(point)
-		return @text_input, @clone_factory
+	def press(point)
+		@inital = [@text_input, @clone_factory]
 	end
 	
-	# called each tick
+	# called each tick after the first tick (first tick is setup only)
+	# perform calculations to generate the new data, but don't change the data yet.
+	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
-		return point
+		@future = point
 	end
 	
-	# not often used, but you can define this callback if you need it
-	# really, just added for completeness
-	def cleanup(point)
+	# Actually apply changes to data.
+	# Called after #update on each tick, and also on redo.
+	# Many ticks of #apply can be fired before the action completes.
+	def apply
+		text_input, clone_factory = @initial
+		point = @future
+		
+		
+		text_input.add @entity, @entity.nearest_character_boundary(point)
+		
+		
+		# NOTE: Can't move prototype registration into TextInput because you would have no way to step back from that transformation in this Action.
+		# TODO: Figure out how to move prototype registration into TextInput, rather than this one action.
+		@old_prototype = clone_factory.make ThoughtTrace::Text
+		clone_factory.register_prototype @entity
+	end
+	
+	# restore original state
+	# revert the changes made by all ticks of #apply
+	# (some actions need to store state to make this work, other actions can fire an inverse fx)
+	def undo
+		text_input, clone_factory = @initial
+		point = @future
+		
+		text_input.clear
+		clone_factory.register_prototype @old_prototype
+	end
+	
+	# final tick of the Action
+	# (used to be called #cleanup)
+	def release(point)
+		
+	end
+	
+	
+	
+	
+	
+	
+	
+	# NOTE: Action visualizations are not the same as Constraint visualizations
+	def update_visualization(point)
 		
 	end
 	
 	
 	# display information to the user about the current transformation
 	# called each tick
-	def draw(point)
+	def draw
 		
-	end
-	
-	
-	
-	# perform the transformation here
-	# by encapsulating the transform in this object,
-	# it becomes easy to redo / undo actions as necessary
-	ParentMemento = self.superclass.const_get 'Memento'
-	class Memento < ParentMemento
-		# set future state
-		def forward
-			text_input, clone_factory = @initial
-			point = @future
-			
-			
-			text_input.add @entity, @entity.nearest_character_boundary(point)
-			
-			
-			# NOTE: Can't move prototype registration into TextInput because you would have no way to step back from that transformation in this Action.
-			# TODO: Figure out how to move prototype registration into TextInput, rather than this one action.
-			@old_prototype = clone_factory.make ThoughtTrace::Text
-			clone_factory.register_prototype @entity
-		end
-		
-		# set past state
-		def reverse
-			text_input, clone_factory = @initial
-			point = @future
-			
-			text_input.clear
-			clone_factory.register_prototype @old_prototype
-		end
 	end
 end
 

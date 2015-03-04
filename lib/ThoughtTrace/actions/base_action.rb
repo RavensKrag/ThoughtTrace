@@ -45,99 +45,97 @@ class BaseAction
 	
 	
 	
-	# outer API
-	# used to give external code something to call
-		# called on first tick
-		def press(point)
-			@initial_state = setup(point)
-		end
+	
+	
+	
+	
+	
+	
+	# NOTE: none of these methods should have returns. all data should be juggled between parts by taking advantage of the internal state tracking mechanisms of the object.
+	
+	
+	
+	# ===
+	# These methods should not be overridden by child classes.
+	# They exist only as conveniences to external systems,
+	# not for defining core internal behavior.
+	# ---
+	def hold(point)
+		update(point)
+		apply()
+		update_visualization(point)
+	end
+	
+	def cancel
+		self.undo()
+		# NOTE: when an action is canceled, it should probably be removed from the undo stack. But that's not something that should happen inside the Action class.
+	end
+	
+	# changed my mind about undo-ing
+	# apply the originally intended transformation to the data
+	def redo
+		self.apply()
+	end
+	
+	# ===
+	
+	
+	
+	
+	
+	# ========================
+	# The following methods should be defined in every Action class,
+	# even if they have to be stubbed
+	
+	
+	# called on first tick
+	def press(point)
 		
-		# called each tick
-		def hold(point)
-			# IMPLEMENTATION core
-			modified_state = update(point)
-			
-			# MEMO creation (pseudo return)
-			memo_class = self.class.const_get 'Memento'
-			@memo = memo_class.new(@entity, @initial_state, modified_state)
-				# NOTE: @entity will be nil if entity was not specified in #initialize_with
-			
-			@memo.forward
-		end
+	end
+	
+	# called each tick after the first tick (first tick is setup only)
+	# perform calculations to generate the new data, but don't change the data yet.
+	# Many ticks of #update can be generated before the final application is decided.
+	def update(point)
 		
-		# called on final tick
-		def release(point)
-			cleanup(point)
-			
-			#NOTE: If #press runs, and then #release (no #hold) @memo will be nil. May want to do something about that, because having to check for returns that are nil might get annoying.
-			return @memo
-		end
+	end
+	
+	# Actually apply changes to data.
+	# Called after #update on each tick, and also on redo.
+	# Many ticks of #apply can be fired before the action completes.
+	def apply
 		
-		def cancel
-			# the memo is always created during the #hold phase
-			# so, if there is no @memo, no #hold has been executed yet
-			# this means that no change has yet been made to the @entity
-			# thus, nothing needs to be reversed
-			# (more importantly, nothing can be reverted without the @memo)
-			@memo.reverse if @memo
-		end
+	end
 	
-	
-	
-	
-	# inner API
-	# separate from outer API so that you don't have to think about
-	# creating or managing memos in child class implementation
-		# called on first tick
-		# returns value(s) passed to Memento as @initial
-		def setup(point)
-			
-		end
+	# restore original state
+	# revert the changes made by all ticks of #apply
+	# (some actions need to store state to make this work, other actions can fire an inverse fx)
+	def undo
 		
-		# called each tick
-		# returns value(s) passed to Memento as @future
-		def update(point)
-			
-		end
-		
-		# not often used, but you can define this callback if you need it
-		# really, just added for completeness
-		def cleanup(point)
-			
-		end
+	end	
 	
-	
-	# display information to the user about the current transformation
-	# called each tick
-	def draw(point)
+	# final tick of the Action
+	# (used to be called #cleanup)
+	def release(point)
 		
 	end
 	
 	
 	
-	# perform the transformation here
-	# by encapsulating the transform in this object,
-	# it becomes easy to redo / undo actions as necessary
-	# (Consider better name. Current class name derives from a design pattern.)
-	# (this class also has ideas from the command pattern, though)
-	class Memento
-		# TODO: insure that #forward and #reverse maintain the redo / undo paradigm. Currently, you could run #forward twice in a row, to apply the operation twice. That's not desirable.
-		def initialize(entity, initial_state, future_state)
-			@entity = entity
-			
-			@initial = initial_state # encapsulates the condition before execution
-			@future = future_state   # encapsulates condition after execution
-		end
+	
+	
+	
+	
+	# NOTE: Action visualizations are not the same as Constraint visualizations
+	def update_visualization(point)
 		
-		# set future state
-		def forward
-			
-		end
+	end
+	
+	
+	# display information to the user about the current transformation
+	# called each tick
+	def draw_visualization
 		
-		# set past state
-		def reverse
-			
-		end
 	end
 	
 end

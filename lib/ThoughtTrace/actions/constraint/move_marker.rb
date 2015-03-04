@@ -14,38 +14,50 @@ class Move < ThoughtTrace::Entity::Actions::Move
 	
 	
 	# called on first tick
-	def setup(point)
+	def press(point)
 		super(point)
 	end
 	
-	# called each tick
+	# called each tick after the first tick (first tick is setup only)
+	# perform calculations to generate the new data, but don't change the data yet.
+	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
-		# move relative to the initial point
-		current = super(point)
-		
+		super(point)
 		marker = @entity
 		
-		target = @space.point_query_best(point, exclude:[marker])
-		
-		# need to make sure that the mouse and the Marker are in the same position,
-		# and that there is another potential target other than the Marker
-		if target
-			marker.bind_to target
-		else
-			# unbind not yet implemented. uncommenting this will cause an exception to be thrown
-			# marker.unbind
-		end
-		
-		# NOTE: currently using the point where the mouse is to bind the marker, so that the object that would be selected by mouseover, or selection, or other such methods is the same object that would be bound. HOWEVER, consider using the center of the marker instead, as that may make more sense. Or maybe, the marker should be moved such that it's center is always on the cursor? Some combination of those ideas? Certainly something to think about.
-		
-		
-		
-		return current
+		marker.unbind
 	end
 	
-	# not often used, but you can define this callback if you need it
-	# really, just added for completeness
-	def cleanup(point)
+	# Actually apply changes to data.
+	# Called after #update on each tick, and also on redo.
+	# Many ticks of #apply can be fired before the action completes.
+	def apply
+		super()
+	end
+	
+	# final tick of the Action
+	# (used to be called #cleanup)
+	def release(point)
+		marker = @entity
+		target = @space.point_query_best(point, exclude:[marker])
+		if target
+			marker.bind_to target
+		end
+	end
+	
+	# restore original state
+	# revert the changes made by all ticks of #apply
+	# (some actions need to store state to make this work, other actions can fire an inverse fx)
+	def undo
+		super()
+	end
+	
+	
+	
+	
+	
+	# NOTE: Action visualizations are not the same as Constraint visualizations
+	def update_visualization(point)
 		
 	end
 	
@@ -54,25 +66,6 @@ class Move < ThoughtTrace::Entity::Actions::Move
 	# called each tick
 	def draw(point)
 		
-	end
-	
-	
-	
-	
-	# perform the transformation here
-	# by encapsulating the transform in this object,
-	# it becomes easy to redo / undo actions as necessary
-	ParentMemento = self.superclass.const_get 'Memento'
-	class Memento < ParentMemento
-		# set future state
-		def forward
-			super()
-		end
-		
-		# set past state
-		def reverse
-			super()
-		end
 	end
 end
 
