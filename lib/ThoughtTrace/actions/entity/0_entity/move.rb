@@ -10,7 +10,7 @@ class Move < Entity::Actions::Action
 	def press(point)
 		# mark the initial point for reference
 		@origin = point
-		@start = @target[:physics].body.p.clone
+		@start = @entity[:physics].body.p.clone
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -25,14 +25,14 @@ class Move < Entity::Actions::Action
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		@target[:physics].body.p = @destination
+		@entity[:physics].body.p = @destination
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		@target[:physics].body.p = @start
+		@entity[:physics].body.p = @start
 	end
 	
 	# final tick of the Action
