@@ -48,6 +48,8 @@ entity                         -  an object in the space
 
 
 
+# Actions are always stored like this:
+# inside of an 'Actions' module under the class they control
 
 module ThoughtTrace
 	class Entity
