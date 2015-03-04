@@ -15,6 +15,11 @@ class Move < Action
 	
 	
 	
+	# ===
+	# These methods should not be overridden by child classes.
+	# They exist only as conveniences to external systems,
+	# not for defining core internal behavior.
+	# ---
 	def hold(point)
 		update(point)
 		apply()
@@ -26,14 +31,15 @@ class Move < Action
 		# NOTE: when an action is canceled, it should probably be removed from the undo stack. But that's not something that should happen inside the Action class.
 	end
 	
+	# ===
 	
 	
 	
 	
 	
-	
-	
-	
+	# ========================
+	# The following methods should be defined in every Action class,
+	# even if they have to be stubbed
 	
 	
 	# called on first tick
