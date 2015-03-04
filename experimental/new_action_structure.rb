@@ -8,7 +8,8 @@ class Move < Action
 	
 	
 	
-	# NOTE: removal of Memento collapses the Action, removing the need for separate "inner" and "outer" APIs
+	# NOTE: Removal of Memento collapses the Action, greatly simplifying things by removing the need to juggle between these two halves.
+	
 	
 	
 	# NOTE: none of these methods should have returns. all data should be juggled between parts by taking advantage of the internal state tracking mechanisms of the object.
