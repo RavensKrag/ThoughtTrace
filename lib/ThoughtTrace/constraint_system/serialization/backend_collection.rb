@@ -25,8 +25,7 @@ class BackendCollection
 		data_dump.each do |id, data|
 			class_name = data[ENUM_CLASS]
 			klass = Kernel.const_get class_name
-			constraint = klass.new
-			constraint.unpack data[ENUM_PARAMETER_MAP]
+			constraint = klass.unpack data[ENUM_PARAMETER_MAP]
 			
 			self[id] = constraint
 			# may want to make this private or something?

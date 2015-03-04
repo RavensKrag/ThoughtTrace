@@ -8,8 +8,14 @@ class Closure
 	end
 	
 	
-	def unpack(data)
-		@vars = HashWrapper.new(data)
+	def self.unpack(data)
+		obj = self.new
+		
+		obj.instance_eval do
+			@vars = HashWrapper.new(data)
+		end
+		
+		return obj
 	end
 end
 

@@ -8,8 +8,9 @@ class Constraint
 	end
 	
 	
-	def unpack(data)
-		@closure.unpack data
+	def self.unpack(data)
+		closure = Closure.unpack data
+		return self.new(closure)
 	end
 end
 
