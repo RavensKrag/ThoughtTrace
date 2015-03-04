@@ -64,7 +64,7 @@ class Move < ThoughtTrace::Entity::Actions::Move
 	
 	# display information to the user about the current transformation
 	# called each tick
-	def draw(point)
+	def draw
 		
 	end
 end

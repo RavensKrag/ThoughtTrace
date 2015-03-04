@@ -48,7 +48,7 @@ class MouseInputSystem
 	
 	
 	def draw
-		@active_action.draw @mouse.position_in_space
+		@active_action.draw
 	end
 	
 	
