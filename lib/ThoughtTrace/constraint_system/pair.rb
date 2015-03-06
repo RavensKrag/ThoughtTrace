@@ -26,7 +26,13 @@ class Pair
 	
 	def unbind
 		# TODO: implement this ASAP
-		raise "NEED TO IMPLEMENT THIS"
+		# raise "NEED TO IMPLEMENT THIS"
+		@a = nil
+		@b = nil
+		
+		@cache.clear
+		#NOTE: don't really need to clear now, technically
+		# already clearing on bind, don't really need to do both.
 	end
 	
 	def update(&block)

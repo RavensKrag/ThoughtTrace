@@ -35,6 +35,8 @@ class Marker < ThoughtTrace::Circle
 	def bind_to(entity)
 		@constraint_target = entity
 		@render_target     = entity
+		
+		self[:physics].body.p = entity[:physics].center
 	end
 	
 	def unbind
