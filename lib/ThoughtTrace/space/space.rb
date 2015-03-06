@@ -158,6 +158,9 @@ class Space
 		
 		def delete(object)
 			super(object)
+			
+			@space.remove_shape(object[:physics].shape)
+			@space.remove_body(object[:physics].body)
 		end
 	end
 	
