@@ -441,6 +441,536 @@
             properties:
               :color: !ruby/object:Gosu::Color
                 value: aa0000ff
+    20: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    21: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    22: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    23: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    24: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    25: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    26: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    27: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    28: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    29: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    30: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    31: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    32: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    33: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    34: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    35: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    36: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    37: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    38: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    39: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    40: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+    41: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa2a3082
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa0000ff
+    42: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa2a3082
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa0000ff
+    43: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa2a3082
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa0000ff
+    44: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa2a3082
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa0000ff
+    45: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
 :query:
   :components:
     1: !ruby/object:ThoughtTrace::Components::Query
