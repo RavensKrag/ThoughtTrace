@@ -15,6 +15,19 @@ class BaseAction
 		
 		private
 		
+		
+		
+		# metaprogrraming method
+			# defines #initialize to set specified values
+			# defines list of variable types, so Action creation system knows what to feed class on #init
+		# 
+		# needs to be meta level
+		# + so it kinda feels like something in between #initialize and #attr_accessors
+		# + so that the argument type list will be stored on the class
+		# 
+		# 
+		# example method call
+		# initialize_with :space, :selection, :text_input, :clone_factory, :target
 		def initialize_with(*arg_names)
 			# create the initializer to accept the variables as named,
 			# and place them in instance variables with similar names
