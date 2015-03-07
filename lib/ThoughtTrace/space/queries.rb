@@ -145,7 +145,7 @@ module ThoughtTrace
 		def segment_query(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil, &block)
 			# block params: |shape, t, n|
 			@space.segment_query(start, stop, layers, group) do |shape, t, n|
-				block.call(shape, t, n) if within_limiting_set?(set, shape)
+				block.call(shape, t, n) if within_limiting_set?(shape, limit_to, exclude)
 			end
 		end
 		
@@ -159,7 +159,7 @@ module ThoughtTrace
 		def segment_query_first(start, stop, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil)
 			@space.segment_query do |shape, t, n|
 				# (same test as above)
-				if within_limiting_set?(set, shape)
+				if within_limiting_set?(shape, limit_to, exclude)
 					return CP::SegmentQueryInfo.new(shape, t, n)
 				end
 			end
@@ -173,7 +173,7 @@ module ThoughtTrace
 			@space.segment_query do |shape, t, n|
 				# only care about set inclusion if set defined
 				# (same test as above)
-				if within_limiting_set?(set, shape)
+				if within_limiting_set?(shape, limit_to, exclude)
 					return SegmentQueryInfo.new(shape.obj, CP::SegmentQueryInfo.new(shape, t, n))
 				end
 			end
@@ -185,7 +185,7 @@ module ThoughtTrace
 		def bb_query(bb, layers=CP::ALL_LAYERS, group=CP::NO_GROUP, limit_to:nil, exclude:nil, &block)
 			# block params: |object_in_space|
 			@space.bb_query(bb, layers, group) do |shape|
-				block.call(shape.obj) if within_limiting_set?(set, shape)
+				block.call(shape.obj) if within_limiting_set?(shape, limit_to, exclude)
 			end
 		end
 		
@@ -193,7 +193,7 @@ module ThoughtTrace
 			# block params: |shape, contact_point_set|
 			# actually, current Chipmunk 6 bindings do not seem to return the contact points
 			@space.shape_query(query_shape) do |colliding_shape|
-				block.call(colliding_shape) if within_limiting_set?(set, shape)
+				block.call(colliding_shape) if within_limiting_set?(shape, limit_to, exclude)
 			end
 		end
 		
@@ -207,9 +207,21 @@ module ThoughtTrace
 		# Will return the proper truth value even when the Set is nil.
 		# NOTE: Can not be patched into Set
 		# FIXME: Known to cause problems with bb_query, may cause issues with other queries as well
-		def within_limiting_set?(set, shape)
+			# NOTE: that bug notice applied to the old version of this method. I'm not sure about these things now.
+			# TODO: check over query methods to make sure they all work as expected.
+		def within_limiting_set?(shape, limit_to, exclude)
 			# only care about set inclusion if set defined
-			set != nil and set.include? shape.obj
+			
+			# inside the set of things that must be present,
+			# and not any of the things that are explicitly banned
+			# if limit_to.include? shape and !exclude.include? shape
+			return false   unless limit_to.include? shape    if limit_to
+			return false   unless !exclude.include? shape    if exclude
+			
+			
+			
+			# if you get this far... 
+			return true
 		end
 		private :within_limiting_set?
 		
