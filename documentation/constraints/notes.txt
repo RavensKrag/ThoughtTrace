@@ -48,7 +48,7 @@ how to check for changes?
 	( this code is declared in Constraint#foo()     [which really needs a better name btw] )
 	
 	the important values will be saved in a cache.
-	When the cached values are different from the values for the current frame,
+	When the old values are different from the ones for the current frame,
 	then the constraint must be run.
 	
 	This cached state is kept separate from the constraint itself,
@@ -138,7 +138,7 @@ because it will only evaluate each edge once per tick
 
 
 really only want to update each edge once per tick
-
+	
 	this means that some changes will take many ticks
 	to propagate all the way to their destination,
 	but it ensures that you will never get stuck
@@ -146,35 +146,33 @@ really only want to update each edge once per tick
 	entire loop of the graph
 		(or multiple iterations of this loop, even)
 	in one tick
-
+	
 	games have circular flow.
 	if you want a 'loop'
 	you often want one tick of the loop executed per game tick
 	you very rarely want to use a straight 'while' loop in a game
-
+	
 	this system is a similar sort of thing
-
-
+	
+	
 	note that 'one edge' in this case means
 	one pair-wise relationship between two Entity objects
 	related by one constraint.
 	Thus, the same pair of Entities can be connected by multiple edges,
 	even in the same direction,
 	and having all of those update in the same frame is totally fine.
-
+	
 	But you don't want the same constraint firing
 	between two Entity objects multiple times in one frame
-
-
-
+	
+	
+	
 	because that has the possibility of creating cycles,
 	and that's really bad
 	
 	
 	but note that this is different that firing a Constraint object once per tick,
-	because one Constraint object can be used in the definition of multiple edge groups
-	
-	(note also that 'edge group' is used, rather than edge, because of the All enumerator)
+	because one Constraint object can be used in multiple Pairs
 
 	
 
@@ -297,7 +295,20 @@ Parameterization of Constraints
 	
 	
 	
-	currently, the "parameterizing closure" class is called Constraint::Closure
+	currently, the "parameterizing closure" class is simply called Closure
+	
+	
+	
+	when default values are assigned to the constraint closure,
+	they are duplicated, even if they are reference types like Strings.
+	
+	This is a built-in feature that comes with using Hash as the underling data store,
+	but would have had to been implemented manually otherwise.
+	It's very useful, because it helps Constraint values stay separate from external data.
+
+
+
+
 
 
 
@@ -452,10 +463,9 @@ Binding Markers to Target Entities (bind to constraint target)
 	
 	BUT WAIT
 	you still need to move the markers into place so that further edits can happen in the graph
-	so idk quite how to resolve this
 	
-	TODO: figure out how to allow for easy binding of new targets using code
-	(may have to wait until I can get the Markers to snap and position themselves semi-automatically?)
+	Thus, snapping the marker to match the position of the tracked Entity
+	will happen in Marker, rather than in the Move code.
 
 
 
@@ -516,11 +526,85 @@ Serialization of Bound Constraints (AKA Constraint Packages )
 
 
 
-Where is constraint data stored?
+Where is constraint data stored in memory?
 	
 	Constraints are stored at the Document level,
 	because Chipmunk already defines a type called 'constraint' with an associated collection
 	and associated #add_constraint and #remove_constraint functions
+
+
+
+
+
+
+
+
+What is the maximum number of active constraint pairs?
+(maximum number of constraint Pairs)
+	
+	
+	possible number of constraints
+	------------------------------
+	
+	don't want to have an explosion of objects when you want to say
+	keep one property synced across N different objects
+	(with one constraint per pair, you would get N! space complexity for constraints)
+	
+	well, actually no, turns out that's not how this works, and I'm just bad at math.
+	
+	-----------------------------------------------------------------------------------
+	
+	Here's the real deal:
+	
+	given N, as the number of Entities in the space (nodes in the graph)
+	how many constraints can there be ( or, how many edges can the graph have )
+	
+	
+	
+	for a undirected tree, you will have EXACTLY n-1 edges
+		http://math.stackexchange.com/questions/454639/how-many-edges-does-an-undirected-tree-with-n-nodes-have
+	for a undirected graph, the maximum number of edges is (n(n-1))/2, assuming no self-loops
+		( self loop would mean a relation like constraint(a,a) rather than a constraint(a,b) )
+		http://en.wikipedia.org/wiki/Graph_(mathematics)
+	
+	
+	
+	wait no, it's not that simple
+	the number of constraints is not only bounded by the number of Entities:
+	it also depends on the number of editable properties on each entity.
+	Constraints are defined in terms of the linkage between Entities,
+	but they really link some subset of the properties of one Entity, 
+	with some subset of the properties of another Entity
+	
+	
+	
+	
+	
+	
+	worst case analysis:
+		2 * max number of undirected edges * number of different types of constraints
+		2 *         (n(n-1))/2             *                m
+		
+		(n(n-1)) * m
+		
+		
+		M is almost constant
+		M is pretty much guaranteed to be small relative to N ( at least asymptotically )
+		
+		
+		
+		
+		worst case in on the order of N^2
+		
+
+
+
+
+
+
+
+
+
 
 
 
@@ -668,3 +752,26 @@ check all entities for...
 
 
 ( when you display this data, you probably want to hide the properties that do not need to be propagated )
+
+
+
+
+
+
+
+
+measuring number of constraints to execute per frame
+	
+	time per frame 16.6666 ms ( 1 / 60 of a second) - framerate is a fixed thing
+	how many things can you execute in that timeframe?
+	( easy version of the knapsack problem )
+
+
+
+	measure the time it takes to execute the various different constraints
+	use experimental data to get a good sense of the worst possible time to completion
+	( may want to allow configuration of this value on a per-machine basis )
+
+	build-time static-analysis of paths:
+	walk the graph and figure out how long it will take for certain paths to execute
+	based on the worst times for the relevant constraints
