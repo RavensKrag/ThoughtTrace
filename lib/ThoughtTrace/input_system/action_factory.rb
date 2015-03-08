@@ -142,6 +142,32 @@ class ActionFactory
 		
 		return parent
 	end
+	
+	
+	public
+	
+	# list what Actions are available to a particular object
+	def actions(obj, klass=nil)
+		klass ||= obj.class
+		
+		raise TypeError, "#{klass} does not define an Action module. Can not find Actions." unless klass.constants.include? 'Actions'
+		
+		# TODO: combine overlapping code in this method with the code from #get_action
+		
+		
+		list = klass::Actions.constants
+		
+		if klass == ThoughtTrace::Entity or klass == ThoughtTrace::Actions::EmptySpace
+			# base case
+			return list
+		else
+			# recursion
+			# trigger recursion to find the Action in question 
+			parent = get_parent(obj, klass)
+			
+			return list + actions(obj, parent)
+		end
+	end
 end
 
 
