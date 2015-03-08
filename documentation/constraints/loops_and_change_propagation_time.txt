@@ -82,17 +82,13 @@ but then the sub-graph is also a graph
 and it may have some cycles in it
 you need to prevent execution of a multiple looping paths through the graph in one tick
 
+^ note that this means any sort of 'linear-ization' of the graph will have to check for cycles
+
 
 
 maybe that's wrong, and it should be like an "everyone pass one to your right" per tick thing
 meaning, that sometimes the simulation will take more ticks to propagate changes than others
 
-^ note that this means any sort of 'linear-ization' of the graph will have to check for cycles
-
-
-but the standard technique being applied going forward,
-does not need to check for cycles
-because it will only evaluate each edge once per tick
 
 
 
