@@ -1,3 +1,27 @@
+current known things:
+	
+	constraint packages stored in linear collection
+	pairs are updated though Packages
+	each Package is updated once per frame
+	
+	each Constraint object can be used in multiple Pairs (thus multiple Packages)
+	but that doesn't matter because they don't retain multi-pair state
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 how fast do changes propagate through the graph?
 
 	should move at least across one edge per frame,
@@ -114,6 +138,15 @@ really only want to update each edge once per tick
 	because one Constraint object can be used in multiple Pairs
 
 	
+
+
+
+
+
+
+
+
+
 
 
 
