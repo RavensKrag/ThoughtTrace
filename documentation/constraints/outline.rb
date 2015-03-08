@@ -1,6 +1,6 @@
 # data linkage tree
 # (not necessarily the same as class nesting or class hierarchy)
-Package
+Package                        # basic types
 	Pair
 		[@a, @b]
 		Cache
@@ -9,11 +9,12 @@ Package
 	Visualization
 	Marker (x2)
 
-BackendCollection
+BackendCollection              # collections
 	Constraint
 PackageCollection
 	Package
 
+# NOTE: collections 'unpack' into existing collections, while basics type return a new object
 
 
 
