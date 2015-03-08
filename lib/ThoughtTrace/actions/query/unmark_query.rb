@@ -5,12 +5,12 @@ module ThoughtTrace
 
 
 class ToggleQueryStatus < ThoughtTrace::Actions::BaseAction
+	# === unmark query ===
 	initialize_with :entity
 	
 	# called on first tick
 	def press(point)
-		# === unmark query ===
-		@entity.delete_component :query
+		@done = false
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -24,14 +24,19 @@ class ToggleQueryStatus < ThoughtTrace::Actions::BaseAction
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		
+		unless @done
+			@component = @entity[:query]
+			@entity.delete_component :query
+			
+			@done = true
+		end
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		
+		@entity.add_component @component
 	end
 	
 	# final tick of the Action

@@ -4,12 +4,11 @@ module ThoughtTrace
 
 
 class ToggleQueryStatus < Entity::Actions::Action
+	# === mark query ===
 	initialize_with :entity, :styles
 	
 	# called on first tick
 	def press(point)
-		# === mark query ===
-		
 		# the type of query object to be used will very, depending on what you want to do
 		# you could ever re-bind the Query object inside the component at runtime if you like
 		query = ThoughtTrace::Queries::Query.new
@@ -18,8 +17,9 @@ class ToggleQueryStatus < Entity::Actions::Action
 		
 		
 		# the component will always have the same structure
-		component = ThoughtTrace::Components::Query.new(@styles["Shared Query Style"], query)
-		@entity.add_component component
+		@component = ThoughtTrace::Components::Query.new(@styles["Shared Query Style"], query)
+		
+		@done = false
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -33,14 +33,18 @@ class ToggleQueryStatus < Entity::Actions::Action
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		
+		unless @done
+			@entity.add_component @component			
+			
+			@done = true
+		end
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		
+		@entity.delete_component :query
 	end
 	
 	# final tick of the Action
