@@ -114,7 +114,7 @@ class ActionFactory
 				# end of the road:
 				# this is the base of the entire Action search system.
 				# If no action has been found by this point, the action is not defined.
-				warn "#{obj.class} does not define #{name}, nor does it's ancestors"
+				warn "#{obj.class} does not define #{name || '<NIL>'}, nor does it's ancestors"
 				return ThoughtTrace::Actions::NullAction
 			else
 				# trigger recursion to find the Action in question 
