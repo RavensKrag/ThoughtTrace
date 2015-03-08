@@ -33,20 +33,4 @@ but when you update, you want to use a dependency graph, not just a list
 
 
 
-how do you create that and traverse it?
-the core graph is user-generated
-but then the sub-graph is also a graph
-and it may have some cycles in it
-you need to prevent execution of a multiple looping paths through the graph in one tick
-
-
-^ note that this means any sort of 'linear-ization' of the graph will have to check for cycles
-
-
-but the standard technique being applied going forward,
-does not need to check for cycles
-because it will only evaluate each edge once per tick
-
-
-
 
