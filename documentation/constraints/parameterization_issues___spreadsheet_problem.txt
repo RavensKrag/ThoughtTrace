@@ -16,7 +16,3 @@ serialization     o     how do you serialize a parametrized constraint?
 	                        that seems a bit silly,
 	                        because the Proc would have to be written somewhere
 
-
-
-constraints can be reused once initialized
-but their initializers are not always known ahead of time, like some of the other things
