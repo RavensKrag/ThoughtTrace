@@ -9,8 +9,15 @@ current known things:
 	
 	
 
-
-
+questions:
+	
+	graph or list?
+	allow one constraint pair to update multiple times per tick?
+	dependency management /  resolution or refrain from doing that?
+	looping, deadlock, livelock prevention?
+	
+	what things can be prevented in text-based coding right now?
+	what things require graphs before they can be fully explored and understood?
 
 
 
