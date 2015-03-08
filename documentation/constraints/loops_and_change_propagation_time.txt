@@ -1,0 +1,52 @@
+will the system systemically stop looping? or does it need a check?
+
+(((  inspired by Massive Chalice's exploding alchemist armor,
+     which chains, but does not loop  )))
+------------------------------------------------------------------------------
+
+wait no, it should systemically stop looping
+like, it already does without having to do this
+
+it will take a couple of iterations sometimes,
+but the system should be able to realize that no values are changing,
+and thus will "sleep" the constraints
+and not update them
+because they do not need to run
+because values are not changing
+and thus there are no values to propagate
+
+
+
+
+
+
+I think the constraint system assumes that you only change one value in the graph per tick
+then one entire tick can be dedicated to propagating that one change
+
+
+
+
+
+but when you update, you want to use a dependency graph, not just a list
+	update constraints based on dependency graph, or just a list?
+
+
+
+
+how do you create that and traverse it?
+the core graph is user-generated
+but then the sub-graph is also a graph
+and it may have some cycles in it
+you need to prevent execution of a multiple looping paths through the graph in one tick
+
+
+^ note that this means any sort of 'linear-ization' of the graph will have to check for cycles
+
+
+but the standard technique being applied going forward,
+does not need to check for cycles
+because it will only evaluate each edge once per tick
+
+
+
+
