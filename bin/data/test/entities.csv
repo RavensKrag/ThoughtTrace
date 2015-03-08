@@ -85,6 +85,6 @@ ThoughtTrace::Text,Lucida Sans Unicode,-1343.7499999999998,504.1666666666666,33.
 ThoughtTrace::Text,Lucida Sans Unicode,-1343.7499999999998,537.514167071392,33.34750040472536,Rect resize:
 ThoughtTrace::Text,Lucida Sans Unicode,-1147.9166666666665,504.1808337380586,33.34750040472536,move verts - resize by moving points (or edges?) anywhere
 ThoughtTrace::Text,Lucida Sans Unicode,-1147.9166666666665,537.5283341427839,33.34750040472536,move verts - resize with aspect ratio maintained (current resize behavior)
-ThoughtTrace::Rectangle,-1068.3726510867139,841.6745761523117,60.782629790365384,59.80834570776332
-ThoughtTrace::Text,Lucida Sans Unicode,-1045.833333333333,876.0416666666667,21.594433429429,F5
-ThoughtTrace::Text,Lucida Sans Unicode,-1082.2916666666665,845.8333333333334,21.594433429429,reload code
+ThoughtTrace::Rectangle,-1067.3309844200471,845.8412428189783,60.782629790365384,59.80834570776332
+ThoughtTrace::Text,Lucida Sans Unicode,-1044.7916666666665,878.1250000000001,21.594433429429,F5
+ThoughtTrace::Text,Lucida Sans Unicode,-1080.208333333333,850.0000000000001,21.594433429429,reload code
