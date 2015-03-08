@@ -20,6 +20,10 @@ class Marker < ThoughtTrace::Circle
 				# constraint visualization
 				# marker
 				# entity
+		
+		self[:style].edit(:default)  do |s|
+			s[:color] = Gosu::Color.argb(0xaa0BF0F1)
+		end
 	end
 	
 	def update

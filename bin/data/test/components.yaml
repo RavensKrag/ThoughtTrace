@@ -416,7 +416,7 @@
             name: primary
             properties:
               :color: !ruby/object:Gosu::Color
-                value: aa2a3082
+                value: aa0bf0f1
         :hover: !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -433,7 +433,7 @@
             name: primary
             properties:
               :color: !ruby/object:Gosu::Color
-                value: aa2a3082
+                value: aa0bf0f1
         :hover: !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
