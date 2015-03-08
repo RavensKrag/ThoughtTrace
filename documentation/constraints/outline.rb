@@ -20,7 +20,7 @@ PackageCollection
 
 # class descriptions
 BackendCollection  # stores raw constraint objects, mapped by UUIDs
-PackageCollection # stores full constraint packages, in a linear collection
+PackageCollection  # stores full constraint packages, in a linear collection
 
 Closure
 	@proc
