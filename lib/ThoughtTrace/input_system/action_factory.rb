@@ -6,15 +6,6 @@ module InputSystem
 class ActionFactory
 	def initialize(mapping={})
 		@conversion_table = mapping # property name => value
-		
-		data = "
-			+ThoughtTrace::Entity
-			+	ThoughtTrace::Queries::Query
-		"
-		data.lstrip!
-		
-		@hierarchy = parse_text_tree(data)
-		# p @hierarchy
 	end
 	
 	
@@ -33,7 +24,7 @@ class ActionFactory
 		
 		
 		type = get_type(obj)
-		action_class = get_action(type, action_name)
+		action_class = get_action(obj, type, action_name)
 		
 		
 		
@@ -55,65 +46,6 @@ class ActionFactory
 	
 	
 	private
-	
-	# parse a text-based format for a tree,
-	# and return a hash {child => parent}
-	def parse_text_tree(data)
-		# parse text
-		pairs = 
-			data.each_line.collect do |line|
-				line.chomp!                      # strip trailing newline
-				line.rstrip!                     # strip trailing whitespace (redundant?)
-				line.lstrip!                     # strip leading whitespace (redundant?)
-				line[0] = ''                     # remove the first character of each line
-				next if line == ''               # skip blank lines
-				
-				x = line.split(/\t/)
-				# p line
-				# p x
-				# count indentation level
-				indents = 0
-					x.each do |i|
-						break if i != ''
-						indents += 1
-					end
-				
-				# extract the actually relevant string (ie, not the whitespace stuff)
-				name = x.last
-				
-				# convert the name into an actual constant
-				name = Kernel.const_get name
-				
-				[indents, name]
-			end
-		pairs.compact!
-		# p pairs
-		
-		# use extracted data to form proper data structure
-		hierarchy = Hash.new
-		
-		pairs.each_with_index do |pair, index|
-			next if index == 0
-			child_indent, child = pair
-			
-			# set the parent to nil.
-			# this is the default, and will generally be overridden
-			hierarchy[child] = nil
-			
-			# attempt to find a proper parent
-			pairs[0..index].reverse_each do |parent_indent, parent|
-				if parent_indent < child_indent
-					# the parent has been found
-					hierarchy[child] = parent  # set the parent, 
-					break                      # and short-circuit
-				end
-			end
-		end
-		
-		
-		return hierarchy
-	end
-	
 	
 	
 	def get_type(obj)
@@ -148,7 +80,11 @@ class ActionFactory
 	# to the child class (the class that originally launched the call)
 	# so that the error message on the backtrace can accurately report
 	# what class was trying to access what action
-	def get_action(klass, name)
+	# 
+	# obj    -- object trying to fire an Action
+	# klass  -- current class under which we're looking for Action objects (changes with recursion)
+	# name   -- name of the Action desired
+	def get_action(obj, klass, name)
 		# expects names as standard symbols, rather than in constant-symbol format
 		# ex) expected    -  :move_over_there
 		#     rather than -  :MoveOverThere
@@ -178,17 +114,33 @@ class ActionFactory
 				# end of the road:
 				# this is the base of the entire Action search system.
 				# If no action has been found by this point, the action is not defined.
+				warn "#{obj.class} does not define #{name}, nor does it's ancestors"
 				return ThoughtTrace::Actions::NullAction
 			else
 				# trigger recursion to find the Action in question 
-				parent = @hierarchy[klass]   # try taking specially defined exceptions
-				parent ||= klass.superclass  # but if there aren't any, just go the standard way
+				parent = get_parent(obj, klass)
 				
-				# NOTE: Modules do not have a 'superclass', so if you end up calling this on a module, it will break. Currently do not have a need to do that, but it may come up in the future.
-				
-				return get_action(parent, name)
+				return get_action(obj, parent, name)
 			end
 		end
+	end
+	
+	# helper method for get_action
+	# ( obj and klass are the same as defined by get_action )
+	def get_parent(obj, klass)
+		# --- try taking specially defined exceptions
+		parent =
+			if obj[:query] and klass == ThoughtTrace::Queries::Query
+				# if the base object has a Query component
+				# you need to check the base object's class, as well as the core Query class
+				obj.class
+			end
+		
+		# --- but if there aren't any, just go the standard way 
+		parent ||= klass.superclass
+		# NOTE: Modules do not have a 'superclass', so if you end up calling this on a module, it will break. Currently do not have a need to do that, but it may come up in the future.
+		
+		return parent
 	end
 end
 
