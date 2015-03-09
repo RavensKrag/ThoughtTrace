@@ -280,22 +280,3 @@ because they do not need to run
 because values are not changing
 and thus there are no values to propagate
 
-
-
-
-
-
-I think the constraint system assumes that you only change one value in the graph per tick
-then one entire tick can be dedicated to propagating that one change
-
-
-
-
-
-but when you update, you want to use a dependency graph, not just a list
-	update constraints based on dependency graph, or just a list?
-
-
-
-
-
