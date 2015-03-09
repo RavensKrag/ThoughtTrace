@@ -4,6 +4,7 @@ module ThoughtTrace
 
 class Package
 	attr_accessor :visualization
+	attr_reader :marker_a, :marker_b
 	
 	def initialize(constraint, visualization)
 		# main initialization
