@@ -25,6 +25,153 @@ questions:
 
 
 
+=====
+NOTE:
+-----
+	The system in it's current form can NOT protect against deadlock / livelock
+	those are hard problems this system has inherited
+	from distributed programming / parallel programming,
+	and maybe an attempt to solve those will be made in future versions.
+	Having some sort of graph editing system would certainly help solve those problems.
+	However, trying to solve topology problems using purely text-based programming is futile.
+=====
+
+
+Packages stored in linear collection
+Pairs are updated though Packages
+each Package is updated once per frame
+
+each Constraint object can be used in multiple Pairs (thus multiple Packages)
+but that doesn't matter because they don't retain multi-pair state
+
+
+
+This structure means that changes may take more than one tick
+to propagate to their final destination,
+but a full loop in the graph will NEVER be executed within one tick.
+This is rudimentary prevention of livelock.
+	
+	( I don't think it will prevent against ALL livelock situations, but it's something )
+
+
+
+
+This does not prevent the creation of loops in the graph,
+nor does it prevent topologies that make it so data never reaches it's destination.
+
+Exercise caution when designing graph topologies.
+
+
+
+
+Topologies could still be constructed that cause clobbering of data,
+such that changes to a parent node make it to a child node,
+only to later be overwritten by data
+that arrived at the destination later, but was older and worse.
+
+The system currently has no way of preventing against such topologies.
+It is up to the creator of the graph to make sure that such a condition does not happen.
+
+	(   This is a hard problem from distributed programming
+	     that I would like to investigate further,
+	     but it requires some rudimentary form of the graph to be established first.   )
+
+
+== It's not super clear when things will get to their destination, if ever. ==
+
+However, preventing the execution of full loops per frame
+will prevent the system from ever fully locking up,
+so at least a human operator will be able to visually examine how changes propagate.
+
+
+
+
+
+In order to try and get changes to propagate to their destination in one frame:
+
+	+ you could execute multiple ticks per frame,
+	  as is often done in physics simulations,
+	  giving time for the simulation to 'quiet down' before rendering.
+	  
+	  This would appear as if you rendered 5 frames, but discarded 4 out of 5.
+	  The result should have less jitter,
+	  but will require more processing power.
+
+	+ you could try to examine the graph's topology,
+	  and only update constraint pairs along certain paths,
+	  rather than always updating all constraints all the time.
+	  
+	  This would potentially allow the execution of fewer pairs than in the first suggestion,
+	  but would require additional overhead in processing time.
+	  If that processing time is too expensive, it would be better to just run extra ticks.
+	  
+	  
+	  details:
+		  examine the entire path through the graph, 
+		  from the changed node to the 'leaves',
+		  and propagating that change all at once.
+		  
+		  you don't have to examine all constraints,
+		  just the ones that continue the propagation of data.
+		  
+		  the propagation chain can be examined statically,
+		  using the dependency code from Constraint.foo()
+		  ( NOTE: you would also need to figure out what data is SET by the constraint )
+		  
+		  ex) given:
+			      X Y and Z are constraints
+			      a b and c are pieces of data
+			      
+			      X = ([a] => [b])
+			      means "x is a constraint that depends on a and sets b"
+			  
+		      then:
+			      X = ([a] => [b,c])
+			      Y = ([b] => [c])
+			      Z = ([c] => [c])
+			      
+			      a chain of XYZ would have to be fully executed,
+			      but a chain of XYY would only need to execute XY
+				      ( the final Y's dependency was not altered )
+			      
+			      Thus, any pattern in the form
+				      XY???????
+			      would terminate after the inital XY and ignore the full subgraph thereafter
+		  -----
+		  
+		  any sort of 'linear-ization' of the graph will have to check for cycles
+		  
+		  Although significantly more complicated,
+		  maybe this approach would help solve clobbering / livelock / deadlock issues.
+		  
+			  (((   but you would probably have to teach the system to identify those cases.
+			  	 	It wouldn't be some free systemic side effect,
+			  	 	it would be a requirement for implementation.      )))
+	  ----------------
+
+
+Any attempt to make the data cross the graph faster
+could potentially slow execution of large graphs.
+
+But as long as you don't execute more constraint pairs than would into one frame,
+the end user will not notice any input lag.
+
+
+
+
+The system should always be aware of how long each frame lasts,
+and how many ticks can be fit into that frame.
+
+Experimental data is needed to truly tune these values.
+
+
+
+
+
+
+
+
+
 
 
 
