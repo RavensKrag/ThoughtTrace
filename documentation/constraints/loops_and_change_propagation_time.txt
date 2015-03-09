@@ -140,6 +140,8 @@ In order to try and get changes to propagate to their destination in one frame:
 		  -----
 		  
 		  any sort of 'linear-ization' of the graph will have to check for cycles
+		  and at least make sure that any unrolled loops are not too long.
+		  ( ie, they can still be executed in a single frame's worth of time )
 		  
 		  Although significantly more complicated,
 		  maybe this approach would help solve clobbering / livelock / deadlock issues.
@@ -161,8 +163,29 @@ the end user will not notice any input lag.
 
 The system should always be aware of how long each frame lasts,
 and how many ticks can be fit into that frame.
+( remember that the computer must complete a full update AND render cycle without delay )
 
 Experimental data is needed to truly tune these values.
+Need to know how long it takes for certain Constraint types to fire,
+and also how long it takes for things to render.
+
+
+
+
+
+note that changes won't always propagate the same way
+- dependent on both graph topology and update order
+
+Because of this, the designer of the graph must be given control over the order of Packages in the collection,
+as that will allow the designer to alter the update order.
+
+This is done in lieu of creating a more sophisticated dependency system.
+It is probably not a good replacement for actual dependency management,
+and most likely will not scale.
+A better system should be built once basic graphs can be constructed to explore dependency systems.
+
+
+
 
 
 
