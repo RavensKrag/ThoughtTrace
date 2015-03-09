@@ -28,6 +28,12 @@ class Marker < ThoughtTrace::Circle
 	
 	def update
 		super()
+		
+		# TODO: consider doing this by constraint or something, because you don't really want to recalculate the center all the time.
+		if @constraint_target
+			p = @constraint_target[:physics].center
+			self[:physics].body.p = p
+		end
 	end
 	
 	def draw(z_index=0)
