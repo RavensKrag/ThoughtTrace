@@ -131,12 +131,15 @@ In order to try and get changes to propagate to their destination in one frame:
 	  but will require more processing power.
 
 	+ you could try to examine the graph's topology,
-	  and only update constraint pairs along certain paths,
+	  and only update constraint Pairs along certain paths,
 	  rather than always updating all constraints all the time.
 	  
-	  This would potentially allow the execution of fewer pairs than in the first suggestion,
+	  This would potentially allow the execution of fewer Pairs than in the first suggestion,
 	  but would require additional overhead in processing time.
 	  If that processing time is too expensive, it would be better to just run extra ticks.
+	  
+	  Be warned that this style can run the same Pair multiple times in the same frame,
+	  and needs to be aware of cycles.
 	  
 	  
 	  details:
@@ -171,17 +174,18 @@ In order to try and get changes to propagate to their destination in one frame:
 				      XY???????
 			      would terminate after the inital XY and ignore the full subgraph thereafter
 		  -----
-		  
-		  any sort of 'linear-ization' of the graph will have to check for cycles
-		  and at least make sure that any unrolled loops are not too long.
-		  ( ie, they can still be executed in a single frame's worth of time )
-		  
-		  Although significantly more complicated,
-		  maybe this approach would help solve clobbering / livelock / deadlock issues.
-		  
-			  (((   but you would probably have to teach the system to identify those cases.
-			  	 	It wouldn't be some free systemic side effect,
-			  	 	it would be a requirement for implementation.      )))
+	  ---------
+	  
+	  any sort of 'linear-ization' of the graph will have to check for cycles
+	  and at least make sure that any unrolled loops are not too long.
+	  ( ie, they can still be executed in a single frame's worth of time )
+	  
+	  Although significantly more complicated,
+	  maybe this approach would help solve clobbering / livelock / deadlock issues.
+	  
+		  (((   but you would probably have to teach the system to identify those cases.
+		  	 	It wouldn't be some free systemic side effect,
+		  	 	it would be a requirement for implementation.      )))
 	  ----------------
 
 
