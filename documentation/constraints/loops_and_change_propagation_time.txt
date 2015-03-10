@@ -52,8 +52,8 @@ to put it simply:
 This may cause the same Constraint object to be used multiple times per tick,
 but that doesn't matter because they don't retain multi-pair state
 
-The same constraint firing on different Pairs is OK,
-as is the same two Entities being used with various Constraints though different Pairs.
+The same Constraint firing on different Pairs is OK,
+as is the same two Entities being joined by various Constraints though different Pairs.
 
 	Thus, the same two Entities can be connected by multiple edges,
 	even in the same direction,
