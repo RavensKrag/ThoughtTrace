@@ -43,19 +43,15 @@ class Split < Entity::Actions::Action
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		space = @past
-		
 		@ui_entity = ActionUI.new @entity
-		space.entities.add @ui_entity
+		@space.entities.add @ui_entity
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		space = @past
-		
-		space.entities.delete @ui_entity
+		@space.entities.delete @ui_entity
 	end
 	
 	# final tick of the Action
