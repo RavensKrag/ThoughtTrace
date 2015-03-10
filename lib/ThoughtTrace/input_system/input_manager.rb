@@ -116,7 +116,7 @@ class InputManager
 				[:control]                => [nil, :constrain],
 				[:alt]                    => [:add_to_group, :lasso_select],
 				[:shift, :control]        => [nil, nil],
-				[:shift, :alt]            => [nil, nil],
+				[:shift, :alt]            => [nil, :box_select],
 				[:control, :alt]          => [nil, nil],
 				[:shift, :control, :alt]  => [nil, nil]
 			},
