@@ -139,8 +139,14 @@ class MouseInputSystem
 		warn "no action bound to #{@mouse_button} => [#{@spatial_status}, #{@accelerators}]" unless action_name
 		
 		
+		# special exception to let 'spawn text' happen anywhere,
+		# even though it's defined as an 'empty space' action
+		# because it can't have a defined target.
+		target = @entity
+		target = nil if action_name == :spawn_text
+		
 		# NOTE: new action factory does not require the @spatial_status. may want to remove that concept from this part of the code as well.
-		action = @action_factory.create(@entity, action_name)
+		action = @action_factory.create(target, action_name)
 		
 		
 		return action
