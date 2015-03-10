@@ -4,34 +4,23 @@ module ThoughtTrace
 			module Actions
 
 
-class SpawnText < ThoughtTrace::Actions::BaseAction
+class SpawnText < ThoughtTrace::Actions::OneShotAction
 	initialize_with :clone_factory, :space, :text_input
 	
 	# called on first tick
-	def press(point)
+	def setup(point)
 		# TODO: new Text should have the same size, font, etc as the last Text object accessed. ie, user should be able to create multiple similar Text objects in succession, without having to rely on the default font
 		@text = @clone_factory.make ThoughtTrace::Text
 		@text[:physics].body.p = point
-		
-		@already_added = false
-	end
-	
-	# called each tick after the first tick (first tick is setup only)
-	# perform calculations to generate the new data, but don't change the data yet.
-	# Many ticks of #update can be generated before the final application is decided.
-	def update(point)
-		
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		unless @already_added
-			@space.entities.add @text
-			@text_input.add @text, 0
-			@already_added = true
-		end
+		@space.entities.add @text
+		@text_input.add @text, 0
+		@already_added = true
 	end
 	
 	# restore original state
@@ -40,14 +29,6 @@ class SpawnText < ThoughtTrace::Actions::BaseAction
 	def undo
 		@space.entities.delete @text
 		@text_input.clear
-		
-		@already_added = false
-	end
-	
-	# final tick of the Action
-	# (used to be called #cleanup)
-	def release(point)
-		
 	end
 	
 	

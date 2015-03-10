@@ -3,36 +3,25 @@ module ThoughtTrace
 		module Actions
 
 
-class PlaceTextCaret < ThoughtTrace::Actions::BaseAction
+class PlaceTextCaret < ThoughtTrace::Actions::OneShotAction
 	initialize_with :text_input, :clone_factory, :entity
 	
 	# called on first tick
-	def press(point)
+	def setup(point)
 		@point = point
-		
-		@done = false
-	end
-	
-	# called each tick after the first tick (first tick is setup only)
-	# perform calculations to generate the new data, but don't change the data yet.
-	# Many ticks of #update can be generated before the final application is decided.
-	def update(point)
-		
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		unless @done
-			@text_input.add @entity, @entity.nearest_character_boundary(@point)
-			
-			
-			# NOTE: Can't move prototype registration into TextInput because you would have no way to step back from that transformation in this Action.
-			# TODO: Figure out how to move prototype registration into TextInput, rather than this one action.
-			@old_prototype = @clone_factory.make ThoughtTrace::Text
-			@clone_factory.register_prototype @entity
-		end
+		@text_input.add @entity, @entity.nearest_character_boundary(@point)
+		
+		
+		# NOTE: Can't move prototype registration into TextInput because you would have no way to step back from that transformation in this Action.
+		# TODO: Figure out how to move prototype registration into TextInput, rather than this one action.
+		@old_prototype = @clone_factory.make ThoughtTrace::Text
+		@clone_factory.register_prototype @entity
 	end
 	
 	# restore original state
@@ -41,14 +30,6 @@ class PlaceTextCaret < ThoughtTrace::Actions::BaseAction
 	def undo
 		@text_input.clear
 		@clone_factory.register_prototype @old_prototype
-		
-		@done = false
-	end
-	
-	# final tick of the Action
-	# (used to be called #cleanup)
-	def release(point)
-		
 	end
 	
 	
