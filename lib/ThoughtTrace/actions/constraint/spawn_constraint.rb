@@ -68,18 +68,9 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 		else
 			# commit the creation
 			
-			
-			# bind entities as appropriate
-			# package.pair.bind(entity_a, entity_b)
-				# no need to do this:
-				# when the markers are released, they will bind to Entities
-				# when the Package is updated, it will propagate those entities into the Pair
-			# add the package to the collection		
-			
-			
-			
-			
-			# NOTE: the 'release' method of the Marker Move action will bind B, and A was bound in 'press' from this action. Thus, you only need to delegate to the move Action, and this is completed. Don't have to directly interface with the package.
+			# The 'release' method of the Marker Move action will bind B,
+			# and A was bound in 'press' from this action.
+			# Thus, you only need to delegate to the move Action, and this is completed.
 			@move_action.release(point)
 			
 			@end = point # needed for in case of redo
