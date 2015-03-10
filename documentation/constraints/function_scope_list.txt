@@ -1,0 +1,50 @@
+constraint system rehash
+
+
+
+
+
+[scope]    name              ( description )
+-------------------------------------------------------------
+[pair]     cache             ( store data from foo )
+[all]      save              ( save some data in the cache )
+[all]      bar?              ( look at the cache. return true if the constraint should be fired )
+
+[type]     foo               ( return data to go into the cache )
+
+
+
+# not totally sure if #call needs access to some sort of across-ticks per-pair state or not
+# like, other than the cache ( data from this frame, and the frame before as returned by foo )
+# but that would mean you're storing data in a constraint that doesn't exist in either Entity
+# and then you have constraints storing data? and Entities are supposed to store the data...
+[type]     constraint call   ( execute tick )
+
+
+
+
+# note: closures generally are attached to a single type
+[many]     closure           ( executable code to transform base constraint call data further )
+[many]     variable hash     ( vars used by closure, can be edited in graph. abstraction of code. )
+
+
+
+# note: visualizations may be shared between disparate types?
+# ( isn't that bad? like... you should be able to tell types apart in the graph visually, right? )
+# but basically I meant that like, you would often draw very similar lines all over the place etc
+[many]     draw              ( render visualization )
+[many]     update            ( update visualization )
+
+
+
+[pair]     target a          ( pass into slot A of call )
+[pair]     target b          ( pass into slot B of call )
+
+
+[pair]     marker a          ( UI to generate target A )
+[pair]     marker b          ( UI to generate target B )
+
+
+[pair]     visible?          ( only draw the visualization if this is true )
+
+

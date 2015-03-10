@@ -1,0 +1,91 @@
+failed ideas that may be useful in other ways
+
+
+
+when to fire constraints?
+	functional style - unique frame data
+
+	"stateless" form that preserves the data
+	from the previous frame, totally unchanged
+		(((  want to link to unchanged data when possible though,
+		     just to save on memory  )))
+	potentially really useful down the road,
+	because this format protects against screen tearing
+
+
+flattening method chains?
+	flatten out calls, so that it would be easier to define a 'dirty' trigger / callback
+	ie)
+		entity[:physics].body.p.x = 2
+		could 'flatten' into one method call, instead of a method chain
+		
+		(this isn't going to work, as it will not interface with any library that has state)
+		
+		
+		(
+			this kinda seems to go against the notion of using an iterative solver,
+			but it's more about the difference between immutable functional programming,
+			and state-based programming
+		)
+
+
+
+
+when to fire constraints? / how to detect changes?
+	considered both a 'dirty flagging system' and a more 'functional style (immutable data)'
+	the immutable style will not work,
+	because the underlying physics library, Chipmunk
+	is implemented to assume that state does, in fact exist.
+	Thus, you can't have a stateless system, because there is a dependency of a stateful library.
+	
+	
+	
+	
+	
+	( old notes on different paths )
+	
+	dirty - possible implementation path
+
+		list all properties that could be changed,
+		and how they could get modified
+		then, try to simplify that down into an algorithm
+	
+	
+	
+	functional style - unique frame data
+
+		"stateless" form that preserves the data
+		from the previous frame, totally unchanged
+			(((  want to link to unchanged data when possible though,
+			     just to save on memory  )))
+		potentially really useful down the road,
+		because this format protects against screen tearing
+
+
+
+universal dirty flag ( similar to how build systems generally work (make, rake, etc) )
+	can't have a universal dirty flag,
+	because you only want certain constraints to update
+	under certain conditions
+	
+	universal dirty flag would cause constraints to fire
+	if there was even a chance that their values could change
+	you only want to update when you KNOW that there needs to be an update
+	
+	
+	this potentially raises problems with false positives
+	or false negatives, for that matter
+
+
+
+
+
+where do you put the cache? ( for constraints, to figure out when to fire when data has changed )
+the values cache should be on the monad
+	because only the monad can figure out if you need to cache one value, or several
+
+	NO this actually doesn't work
+	or rather,
+	it only works for propagating constraints, and not limiting constraints
+	as it will only work when you have a constraint that
+	depends only on change in A (the source) rather than also depending on changes in B (the sink)

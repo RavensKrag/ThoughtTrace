@@ -43,6 +43,12 @@ module CP
 				CP.area_for_poly self.verts
 			end
 			
+			# return center of this shape in local space
+			def center
+				verts = each_vert.to_a
+				verts.reduce(&:+) / verts.size
+			end
+			
 			
 			
 			include Enumerable

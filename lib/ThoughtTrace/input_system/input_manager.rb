@@ -105,7 +105,7 @@ class InputManager
  		left_click_bindings  = {
 			:on_object => {
 				[]                        => [:edit, :select_sub_text],
-				[:shift]                  => [nil, :resize],
+				[:shift]                  => [:spawn_text, :resize],
 				[:control]                => [:add_to_group, :constrain],
 				[:alt]                    => [:split, nil],
 				[:shift, :control]        => [nil, nil],

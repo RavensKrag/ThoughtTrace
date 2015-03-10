@@ -10,11 +10,13 @@ class Resize < Rectangle::Actions::Resize
 	initialize_with :entity
 	
 	# called on first tick
-	def setup(point)
-		return super(point) # sets @origin and @direction
+	def press(point)
+		super(point) # sets @origin and @direction
 	end
 	
-	# called each tick
+	# called each tick after the first tick (first tick is setup only)
+	# perform calculations to generate the new data, but don't change the data yet.
+	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
 		local_origin = @entity[:physics].body.world2local @origin
 		local_point = @entity[:physics].body.world2local point
@@ -97,36 +99,46 @@ class Resize < Rectangle::Actions::Resize
 		
 		
 		
-		return height, anchor_point()
+		@height = height
+		@anchor = anchor_point()
+	end
+	
+	# Actually apply changes to data.
+	# Called after #update on each tick, and also on redo.
+	# Many ticks of #apply can be fired before the action completes.
+	def apply
+		@entity.resize!(@height, @anchor)
+	end
+	
+	# restore original state
+	# revert the changes made by all ticks of #apply
+	# (some actions need to store state to make this work, other actions can fire an inverse fx)
+	def undo
+		@entity.resize!(@original_height, @anchor)
+	end
+	
+	# final tick of the Action
+	# (used to be called #cleanup)
+	def release(point)
+		
+	end
+	
+	
+	
+	
+	
+	
+	
+	# NOTE: Action visualizations are not the same as Constraint visualizations
+	def update_visualization(point)
+		
 	end
 	
 	
 	# display information to the user about the current transformation
 	# called each tick
-	def draw(point)
+	def draw
 		
-	end
-	
-	
-	
-	# perform the transformation here
-	# by encapsulating the transform in this object,
-	# it becomes easy to redo / undo actions as necessary
-	ParentMemento = self.superclass.const_get 'Memento'
-	class Memento < ParentMemento
-		# set future state
-		def forward
-			height, anchor = @future
-			@entity.resize!(height, anchor)
-		end
-		
-		# set past state
-		def reverse
-			width = @initial[0]
-			height = @initial[1]
-			anchor = @future[1]
-			@entity.resize!(height, anchor)
-		end
 	end
 end
 

@@ -1,0 +1,7 @@
+visualizations have two states
+
+* standard
+* just updated
+
+'just updated' will auto-transition back to 'standard' after a set period of time
+'just updated' state is set by the system when the constraint is fired

@@ -75,9 +75,12 @@ end
 
 
 dependency_list = [
+	'./utilities/find_and_replace',
 	'./utilities/meta',
 	
 	'./monkey_patches',
+	
+	'./drawing',
 	
 	'./utilities/font',
 	'./style',
@@ -92,7 +95,6 @@ dependency_list = [
 	'./entities/',
 	
 	'./queries',
-	# './constraints',
 	'./groups',
 	
 	# './space',
@@ -100,6 +102,9 @@ dependency_list = [
 		'./space/queries',
 		# './space/serialization',
 		'./space/space',
+	
+	
+	'./constraint_system/',
 	
 	
 	'./cameras/camera',

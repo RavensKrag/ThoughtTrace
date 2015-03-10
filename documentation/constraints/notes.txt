@@ -1,0 +1,509 @@
+What are constraints?
+
+	Constraints are relationships between two Entities.
+	
+	They are essentially defined as pairwise functions,
+	( but the reality is a bit more complicated than that ).
+	
+	Hopefully this document will fully explain.
+
+
+
+
+
+General reminders: ( come back and read this later )
+	constraint logic for HOW to apply the constraint tick is separate from WHEN to apply the tick
+	
+	WHEN is dependent on factors outside of the raw constraint definition,
+	like whether the dependencies have changed,
+	which is checked by looking at a cache.
+	
+	The cache isn't reusable between pairs             (WHEN data)
+	but the rest of the parameterized constraint is.   (HOW data)
+	
+	By keeping the HOW and WHEN separate,
+	you can reuse the name HOW code, even as each instance needs it's own WHEN cache.
+
+
+
+
+
+
+when are constraints triggered?
+	
+	Constraints will only fire when data in the dependent Entity objects have been _changed_
+	( sometimes you have to check one entity, sometimes you have to check both )
+
+
+
+
+
+
+how to check for changes?
+
+	constraint needs to know what values to be looking for
+	
+	it will be given Entity objects A and B
+	and then it will note what properties are important from those elements
+	( this code is declared in Constraint#foo()     [which really needs a better name btw] )
+	
+	the important values will be saved in a cache.
+	When the old values are different from the ones for the current frame,
+	then the constraint must be run.
+	
+	This cached state is kept separate from the constraint itself,
+	so that one constraint object can be used in multiple places
+	
+	(((  think of the constraint object like a lambda, 
+	     a pointer to an executable program-part that gets passed around  )))
+
+
+
+
+
+how fast do changes propagate through the graph?                           ( rate of propagation )
+how many ticks of a Constraint on a particular Pair are executed per tick? ( ticks per frame )
+
+	read change_propagation.txt
+
+
+
+major different types of constraints
+
+	* propagating constraints   ...   move data from A to B
+	* limiting constraints      ...   limit the expansion of values in B, according to values in A
+	
+	but these types are not formally declared through classes or anything
+	it's just important to know
+	that these seem to be the two main ways
+	that constraints are used and written
+	
+
+
+
+examples of different types of constraints
+
+	sync height                  (propagating constraint)
+		update when A changes
+		to make sure that the changes from A propagate to B
+	
+	
+	limit height                 (limiting constraint)
+		constraint needs to be updated whenever B changes
+		to make sure that B's height has not exceeded the limit prescribed by A
+
+
+defining constraints
+	
+	constraints are always defined as pairwise operations
+	
+	in mathematics, there are three types of operations:
+		* unary
+		* binary
+		* n-ary
+
+	but unary _constraints_ can not exist,
+	because there must always be a hidden parameter,
+	and that parameter should always just be an Entity
+	
+	Binary operations are easy to define in code,
+	as you always know that the function will take two arguments.
+	That's not very many arguments, and keeps things simple.
+
+	In mathematics, n-ary operations are always defined as 2-ary (binary) operations,
+	which should guarantee that all n-way constraints can be defined as binary relationships.
+	
+	
+	QED: constraints are always defined pairwise
+	
+	(for elaboration of this train of thought, see 'evolution_of_the_system.txt')
+
+
+
+
+
+
+
+constraint state
+	
+	Constraints hold no state in themselves,
+	and instead store state inside one or both Entity objects that are passed to them.
+	( This is because a single Constraint object may be shared between many pairs )
+	
+	
+	However, as Constraints exist between Entities,                    ( between things )
+	sometimes you need to know about data has changed between ticks.   ( between times  )
+	
+	For this reason, Constraint#call is provided access to a Cache,
+	which stores data from this tick,         ( Cache#this )
+	as well as the previous one               ( Cache#prev )
+	as provided by Constraint#foo
+	
+	
+	Cache data is saved on a per-pair basis, and is managed by the type Pair.
+	
+	
+	
+	There is a special sort of data that is perfectly OK to store on a Constraint itself.
+	
+	The constraint can be parameterized
+	which is actually sort of a form of state.
+	So it's more proper to say that a Constraint object holds
+	no state pertaining to any one Entity,
+	or no particular pair of Entity objects.
+
+
+
+
+
+
+
+
+Parameterization of Constraints
+	
+	Each Constraint object has a parameterizing closure inside of it.
+	This parameterizing closure allows for certain variables within the constraint to be exposed to the graph editor, allowing editing of variables without needing to dig into code.
+	
+	This prevents the need to create additional classes all over the place that are really the exact same code, with the only difference being minor changes in some variable.
+	
+	
+	
+	ex) limit_height(0.8h) vs limit_height(0.3h)
+	    ( this is not the actual parameterization syntax, but should help explain the concept )
+	
+	
+	Every Constraint object (and thus all objects of child classes)
+	will have a closure assigned to it,
+	but some Constraints may elect to not pass data through the closure.
+	
+	Potentially, the constraint could be optimized out of elements that do not use it.
+	( but maybe not? maybe memory alignment is more of a priority )
+	
+	
+	
+	currently, the "parameterizing closure" class is simply called Closure
+	
+	
+	
+	when default values are assigned to the constraint closure,
+	they are duplicated, even if they are reference types like Strings.
+	
+	This is a built-in feature that comes with using Hash as the underling data store,
+	but would have had to been implemented manually otherwise.
+	It's very useful, because it helps Constraint values stay separate from external data.
+
+
+
+
+
+
+
+
+Serialization of Parameterized Constraint Objects
+		
+	Parameters will retain their values from previous sessions,
+	regardless of if they are changed in the GUI, by a constraint in the graph,
+	or by some other code.
+	
+	
+	If new variables have been added to a Constraint,
+	(ie the constraint definition has been updated)
+	the default values for those variables will be assigned
+	the next time that constraint is loaded.
+	
+	However, changing the default values in code will not effect values that have already been set.
+		
+		(  this would be a nice feature to have, because it allows for a live-coding-style environment, but it would be hard and weird to implement, so it will be skipped. at least for now. Priority is on making it able to abstract code, and allow for the graph to control aspects of the code. Making code edit the graph in a "live" manner is not a priority.  )
+	
+	
+	Serialization of parameterized constraint objects is handled by ResourceCollection,
+	the class which maintains those objects
+
+
+
+
+
+
+
+
+
+Duplication of Constraints
+	
+	pointer to constraint, or deep copy, never shallow
+	
+	
+	never going to use the same parameterization object
+	for two separate constraint objects
+
+	would always just use the same constraint object
+	in two places instead
+	
+	
+	NOTE: Could potentially use the same closure for two disparate Constraint types
+	
+	
+
+
+
+
+
+Constraint Pair
+	
+	A Pair holds wraps a Constraint with a Cache, and two Entities.
+	It determines when to actually fire a Constraint based data from the Cache.
+	
+	If you want to declare a new Constraint between an existing pair,
+	you have to create new Pair
+	
+	can't just swap out the constraint on an existing Pair
+	too much data to change / delete
+	(((	 fully invalidates the Cache data,
+		 low-level implementation would have totally different Cache type  )))
+	
+	
+	NOTE: currently cache is not being saved on quit
+
+
+
+
+
+
+
+
+Constraint Markers
+	
+	Parameterized constraint objects will be bound to Entities using Markers.
+	A Package holds two markers, and a Pair object to control the actual binding and Constraint.
+	(Packages are fully explained in a later section)
+	
+	The use of Markers allows for the Constraint to be rebound to a new pair of Entities in the GUI
+	simply by dragging a Marker over to a new Entity.
+	
+	
+	
+	Each Marker specifies two targets:
+	+ render target
+	+ constraint target
+	
+	Sometimes the render target will point to the target entity,
+	sometimes it will point to the Marker itself,
+	but a Marker will always have a render target.
+		This way, the constraint can be made visible in the graph as long as it is allocated,
+		even if it is not currently running.
+	
+	However, the constraint will only attempt to fire
+	when both constraint targets have been bound.
+	(recall that actually firing depends on other things as well, like passing cache test)
+	
+	
+	
+	
+	NOTE:
+	because Entity makes heavy use of method chaining,
+	you can't use a null Entity to temporarily absorb the commands of an Constraint
+	when the Constraint does not have a proper target. 
+	(it's not one simple message that can be intercepted / stubbed)
+	
+	Thus, this two-target structure is used instead.
+
+
+
+
+
+
+
+Binding Markers to Target Entities (bind to constraint target)
+	NOTE: need to also consider how this system intersects with snapping the markers into certain positions
+	
+	
+	
+	bind marker on move action, not on collision
+	
+	when the marker is moved, it will be attached to whichever Entity it was dropped on.
+	This uses the same code as mouse selection.
+	
+	So the Entity that the Marker will select
+	is the same Entity that you would have gotten by clicking in that spot.
+	
+		NOTE: currently using mouse position for this call, rather than the center of the marker. 
+	
+	While dragging the Marker, the constraint target will be temporarily unbound,
+	so that the visualization always appears to link the two markers.
+	
+	
+	
+	If markers are bound on collision,
+	then, when things start to be moved around systemically, things could rebind
+	which would be a cool systemic behavior...
+	but also totally not what you want or expect
+	
+	if you really wanted that, you should be using query-bound constraints instead
+	
+	
+	
+	
+	
+	
+	the actual bind command will be declared on the Marker,
+	so that the abstraction of the Action can be bypassed when binding in code.
+	
+	BUT WAIT
+	you still need to move the markers into place so that further edits can happen in the graph
+	
+	Thus, snapping the marker to match the position of the tracked Entity
+	will happen in Marker, rather than in the Move code.
+
+
+
+
+
+
+Constraint Package
+	Wraps up a Pair along with a bunch of UI stuff.
+	Controls the propagation of targets from the Markers into the actual Pair,
+	and ensures that Markers move when their bound Entities do.
+	
+	Also controls lifetimes for dedicated variables,
+	(such as helper constraints)
+	rather than placing them in the general collections.
+	
+	
+	
+	
+	Constraint packages are stored in a linear collection.
+	At least for now.
+	This may change, once I get a better grasp on how the graph topologies in this system function.
+
+
+
+Visualizations
+	
+	draws some sort of connection between two targets,
+	to show that they are related.
+	
+	
+	the visualization has state,
+		as it must flip between two draw modes, and render some things
+	
+	
+
+
+
+
+Serialization of Bound Constraints (AKA Constraint Packages )
+	
+	The Package just needs to link Marker, Entity, Visualization, and Constraint data.
+	
+		+ The Markers are Entity types, and will be saved along with all other Entities.
+		
+		+ Constraint objects are already serialized by the BackendCollection,
+		 and simply need to be referenced by UUID.
+		
+		+ Visualizations don't exist in any other collection,
+		  so they are gathered into a temporary collection,
+		  and then that collection is saved to a dedicated file.
+	
+	Basically, the Package serialization data is just a bunch of pointers.
+	
+	
+	NOTE: No need to save helper constraints, as they are not meaningfully changed during runtime. They're always the same data.
+
+
+
+
+
+Where is constraint data stored in memory?
+	
+	Constraints are stored at the Document level,
+	because Chipmunk already defines a type called 'constraint' with an associated collection
+	and associated #add_constraint and #remove_constraint functions
+
+
+
+
+
+
+
+
+What is the maximum number of active constraint pairs?
+(maximum number of constraint Pairs)
+	
+	
+	possible number of constraints
+	------------------------------
+	
+	don't want to have an explosion of objects when you want to say
+	keep one property synced across N different objects
+	(with one constraint per pair, you would get N! space complexity for constraints)
+	
+	well, actually no, turns out that's not how this works, and I'm just bad at math.
+	
+	-----------------------------------------------------------------------------------
+	
+	Here's the real deal:
+	
+	given N, as the number of Entities in the space (nodes in the graph)
+	how many constraints can there be ( or, how many edges can the graph have )
+	
+	
+	
+	for a undirected tree, you will have EXACTLY n-1 edges
+		http://math.stackexchange.com/questions/454639/how-many-edges-does-an-undirected-tree-with-n-nodes-have
+	for a undirected graph, the maximum number of edges is (n(n-1))/2, assuming no self-loops
+		( self loop would mean a relation like constraint(a,a) rather than a constraint(a,b) )
+		http://en.wikipedia.org/wiki/Graph_(mathematics)
+	
+	
+	
+	wait no, it's not that simple
+	the number of constraints is not only bounded by the number of Entities:
+	it also depends on the number of editable properties on each entity.
+	Constraints are defined in terms of the linkage between Entities,
+	but they really link some subset of the properties of one Entity, 
+	with some subset of the properties of another Entity
+	
+	
+	
+	
+	
+	
+	worst case analysis:
+		2 * max number of undirected edges * number of different types of constraints
+		2 *         (n(n-1))/2             *                m
+		
+		(n(n-1)) * m
+		
+		
+		M is almost constant
+		M is pretty much guaranteed to be small relative to N ( at least asymptotically )
+		
+		
+		
+		
+		worst case in on the order of N^2
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- old notes on constraints
+
+	some double relations are even
+	the same relationship in both directions    (truly can be condensed into a double-headed arrow)
+	but some pairs have uneven relationships
+	like a parent and child, or student and teacher
+	data goes back and forth, but not the same sort of data
+---
+

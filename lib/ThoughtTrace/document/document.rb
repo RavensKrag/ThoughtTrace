@@ -12,7 +12,14 @@ class Document
 			# style component
 			# entity
 			# group
-			# constraint
+		
+		
+		# Raw parameterized constraints
+		@constraint_objects  = ThoughtTrace::Constraints::BackendCollection.new
+		
+		# Constraints to be actively executed
+		@constraint_packages = ThoughtTrace::Constraints::PackageCollection.new 
+		
 		
 		@prototypes   = ThoughtTrace::CloneFactory.new    # create copies of simple entities
 		@prefabs      = ThoughtTrace::PrefabFactory.new   # spawn complex entity types
@@ -35,6 +42,8 @@ class Document
 		
 		
 		
+		
+		# NOTE: the constraints factory may still have to be made, but it will need a different name, now that the @constraints variable is used to house active constraints
 		
 		# @constraints  = ThoughtTrace::ConstraintFactory.new
 			# only need to define the constraint factory if constraints can be defined graphically
@@ -87,13 +96,30 @@ class Document
 		@named_styles.add style
 	end
 	
+	# called automatically on #load,
+	# but can also be called at any time to refresh closure definition
+	# TODO: figure out if this method should be private or not
+	def define_constraint_closures
+		constraint = @constraint_objects["ad0d6e9e-5a2e-4cfb-9be6-76a764e0cbe4"]
+		constraint.closure              # ThoughtTrace::Constraints::LimitHeight
+			.let :a => 0.8 do |vars, h|
+				# 0.8*h
+				vars[:a]*h
+			end
+	end
+	
+	
+	
+	
 	def update
+		@constraint_packages.update
 		@space.update
 	end
 	
 	def draw
 		@camera.draw do
 			@space.draw
+			@constraint_packages.draw
 			yield
 		end
 	end

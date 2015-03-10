@@ -1,5 +1,5 @@
 module ThoughtTrace
-	class Space < CP::Space
+	class Space
 		module Layers
 
 

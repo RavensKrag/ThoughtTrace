@@ -22,6 +22,13 @@ class Physics < Component
 	end
 	
 	
+	# return the center of the shape in world space
+	def center
+		# NOTE: not all shapes define "center" as of yet. currently, it is just Rect
+		@body.local2world @shape.center
+	end
+	
+	
 	
 	
 	def update

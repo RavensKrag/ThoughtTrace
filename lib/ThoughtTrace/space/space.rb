@@ -1,37 +1,38 @@
+require 'forwardable'
+
 module ThoughtTrace
 
 
-class Space < CP::Space
-	attr_reader :entities, :queries, :constraints, :groups
+class Space
+	attr_reader :entities, :constraints, :groups
 	
 	def initialize
-		@entities =	EntityList.new self
-		@queries = QueryList.new self
-		@constraints = ConstraintList.new self
-		@groups = GroupList.new self
-		
-		# TODO: may want to separate physics space stuff from other attributes not directly related to spatial data
-		
 		# set variables needed for physics space
 		# iteration constants, etc
 		@dt = 1.0/60
 		
-		super()
+		@space = CP::Space.new
+		
+		
+		
+		@entities =	EntityList.new @space
+		@groups = GroupList.new @space
 	end
 	
 	def update
-		[@entities, @queries, @constraints, @groups].each do |collection|
+		[
+			@entities,
+			@groups
+		].each do |collection|
 			collection.each &:update
 		end
 		
-		step(@dt)
+		@space.step(@dt)
 	end
 	
 	def draw
 		[
 			@entities,
-			@queries,
-			@constraints,
 			@groups
 		].each do |collection|
 			collection.each &:draw
@@ -58,13 +59,20 @@ class Space < CP::Space
 	def gc
 		[
 			@entities,
-			@queries,
-			@constraints,
 			@groups
 		].each do |collection|
 			collection.delete_if &:gc?
 		end
 	end
+	
+	
+	
+	
+	
+	extend Forwardable
+	def_delegators :@space,
+		:add_collision_handler, :remove_collision_handler,
+	# TODO: consider just binding this new Space class to the collision manager class? not really sure that the collision handler binding methods should be exposed like this
 	
 	
 	
@@ -81,6 +89,51 @@ class Space < CP::Space
 		
 		def delete(object)
 			super(object)
+		end
+		
+		
+		
+		
+		
+		# return a data blob
+		def pack
+			return self.collect{ |e| pack_with_class_name(e)  }
+		end
+		
+		# take a data blob, and load that data into this object
+		# NOTE: this method basically assumes that the current collection is empty. if it's not, weird things can happen
+		def unpack(data)
+			unless self.empty?
+				identifier = "#<#{self.class}:#{object_space_id_string}"
+				
+				warn "#{identifier}#unpack_into_self may not function as intended because this object is not empty." 
+			end
+			
+			data.each do |row|
+				obj = unpack_with_class_name(row)
+				self.add(obj)
+			end
+		end
+		
+		private
+		
+		def pack_with_class_name(obj)
+			if obj.respond_to? :pack
+				return obj.pack.unshift(obj.class.name)
+				# [class_name, arg1, arg2, arg3, ..., argn]
+			else
+				return nil
+			end
+		end
+		
+		def unpack_with_class_name(array)
+			# array format: same as the output to #pack_with_class_name
+			klass_name = array.shift
+			args = array
+			
+			klass = Kernel.const_get klass_name
+			
+			return klass.unpack *args
 		end
 	end
 	
@@ -105,27 +158,10 @@ class Space < CP::Space
 		
 		def delete(object)
 			super(object)
+			
+			@space.remove_shape(object[:physics].shape)
+			@space.remove_body(object[:physics].body)
 		end
-	end
-	
-	class QueryList < List
-		# def add(object)
-			
-		# end
-		
-		# def delete(object)
-			
-		# end
-	end
-	
-	class ConstraintList < List
-		# def add(object)
-			
-		# end
-		
-		# def delete(object)
-			
-		# end
 	end
 	
 	class GroupList < List

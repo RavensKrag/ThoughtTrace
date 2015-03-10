@@ -13,12 +13,10 @@ Entity#methods
 
 
 Actions cause change by firing entity#methods
-precise method sequence is held in the nested Memento class for each Entity subclass
-this compartmentalization allows for easy undo / redo
-as well as the potential for extracting method sequences for macros etc
-	ruby methods can be treated as objects,
-	which can be handled much like procs.
-	src: http://viget.com/extend/convert-ruby-method-to-lambda
+Actions house the overarching flow of commands, as well as any interface-specific code,
+but all the heavy-lifting should be done with methods from Entity types.
+This way, task automation can use Entity methods instead of Actions.
+( potential for macroing as well as optimization )
 
 
 
@@ -30,14 +28,13 @@ input manager                  -  oversees general flow for all forms of input
 mouse                          -  provide access to mouse position (as vector)
 button parser                  -  parse raw button up/down sequence to launch button events
 button event                   -  abstracted digital input control with push-hold-release structure
-mouse action controller        -  links mouse to action flow controller
-action flow controller         -  given a point, figure out which actions to fire on what
-click and drag controller      -  controls the click and drag twin-linked phase of action flow
-
+MouseInputSystem               -  Extracts an Entity from the Space, and performs an Action on it.
+                                  Delegates press-hold-release structure to active Action.
+                                  Controls transition between click events, and drag events.
 
 
 action                         -  uses buttons and mouse inputs to fire methods.
-                                  returns memento for undo/redo
+                                  holds any state necessary to apply or undo one command
 
 entity                         -  an object in the space
                                   contains Components
@@ -48,27 +45,30 @@ entity                         -  an object in the space
 
 
 
-
-module ThoughtTrace
-	class Entity
-		module Actions
+# Actions are always stored like this:
+# inside of an 'Actions' module under the class they control
 
 
-class Action
-	#setup(point) => nil
-	#update(point) => @original, current
-	#cleanup(point) => nil
+# NOTE: see ThoughtTrace::Actions::BaseAction for exact structure of Action
+
+Action
+	def hold(point)
+	def cancel
+	def redo
 	
 	
-	class Memento
-	end
-end
+	def press(point)
+	def update(point)
+	def apply
+	def undo
+	def release(point)
+
+	def update_visualization(point)
+	def draw
 
 
 
-end
-end
-end
+
 
 
 
@@ -79,9 +79,7 @@ end
 
 + mouse is used by action flow controller to figure out where to poll the space for an Entity
 
-+ actions are selected by the action flow controller based on the type of Entity extracted
++ actions are selected based on the type of Entity extracted
 
-+ click and drag controller stores one action for the click phase, and one for the drag phase
-
-+ click actions are canceled automatically by the flow controller if the mouse moves after button press, so a single input event can have both a click and a drag input mapped to it
++ click actions are canceled automatically by the mouse input system if the mouse moves after button press, so a single input event can have both a click and a drag input mapped to it
 

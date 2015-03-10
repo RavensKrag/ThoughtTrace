@@ -48,7 +48,8 @@ class Window < Gosu::Window
 			# setup physics space
 			# setup factory to create new objects based on established prototypes
 			# create camera
-			@document = ThoughtTrace::Document.load @filepath
+			@document = ThoughtTrace::Document.new
+			@document.load @filepath
 			@document.bind_to_window self
 			
 			

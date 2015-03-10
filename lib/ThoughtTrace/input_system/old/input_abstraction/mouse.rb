@@ -47,8 +47,7 @@ class Mouse
 							point = self.position_in_world
 							layers = CP::ALL_LAYERS
 							group = CP::NO_GROUP
-							set = nil
-		return @space.point_query_best point, layers, group, set
+		return @space.point_query_best point, layers, group
 	end
 	
 	def world_position
