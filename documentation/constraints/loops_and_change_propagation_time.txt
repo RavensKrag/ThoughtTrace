@@ -1,30 +1,3 @@
-current known things:
-	
-	constraint packages stored in linear collection
-	pairs are updated though Packages
-	each Package is updated once per frame
-	
-	each Constraint object can be used in multiple Pairs (thus multiple Packages)
-	but that doesn't matter because they don't retain multi-pair state
-	
-	
-
-questions:
-	
-	graph or list?
-	allow one constraint pair to update multiple times per tick?
-	dependency management /  resolution or refrain from doing that?
-	looping, deadlock, livelock prevention?
-	
-	what things can be prevented in text-based coding right now?
-	what things require graphs before they can be fully explored and understood?
-
-
-
-
-
-
-
 =====
 NOTE:
 -----
@@ -35,6 +8,9 @@ NOTE:
 	Having some sort of graph editing system would certainly help solve those problems.
 	However, trying to solve topology problems using purely text-based programming is futile.
 =====
+
+
+
 
 The system stores Packages in a linear collection,
 and updates each Package once per tick
@@ -47,6 +23,9 @@ this means each Pair is updated once per tick
 
 to put it simply:
 === each edge is updated once per tick ===
+
+
+
 
 
 This may cause the same Constraint object to be used multiple times per tick,
