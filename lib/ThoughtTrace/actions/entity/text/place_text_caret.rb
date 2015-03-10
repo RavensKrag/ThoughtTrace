@@ -9,6 +9,8 @@ class PlaceTextCaret < Entity::Actions::Action
 	# called on first tick
 	def press(point)
 		@point = point
+		
+		@done = false
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -22,13 +24,15 @@ class PlaceTextCaret < Entity::Actions::Action
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		@text_input.add @entity, @entity.nearest_character_boundary(@point)
-		
-		
-		# NOTE: Can't move prototype registration into TextInput because you would have no way to step back from that transformation in this Action.
-		# TODO: Figure out how to move prototype registration into TextInput, rather than this one action.
-		@old_prototype = @clone_factory.make ThoughtTrace::Text
-		@clone_factory.register_prototype @entity
+		unless @done
+			@text_input.add @entity, @entity.nearest_character_boundary(@point)
+			
+			
+			# NOTE: Can't move prototype registration into TextInput because you would have no way to step back from that transformation in this Action.
+			# TODO: Figure out how to move prototype registration into TextInput, rather than this one action.
+			@old_prototype = @clone_factory.make ThoughtTrace::Text
+			@clone_factory.register_prototype @entity
+		end
 	end
 	
 	# restore original state
@@ -37,6 +41,8 @@ class PlaceTextCaret < Entity::Actions::Action
 	def undo
 		@text_input.clear
 		@clone_factory.register_prototype @old_prototype
+		
+		@done = false
 	end
 	
 	# final tick of the Action
