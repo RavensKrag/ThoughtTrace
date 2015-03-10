@@ -180,6 +180,9 @@ In order to try and get changes to propagate to their destination in one frame:
 	  and at least make sure that any unrolled loops are not too long.
 	  ( ie, they can still be executed in a single frame's worth of time )
 	  
+	  Notice that infinite loops will never fit within one frame,
+	  no matter how quickly one Constraint executes.
+	  
 	  Although significantly more complicated,
 	  maybe this approach would help solve clobbering / livelock / deadlock issues.
 	  
@@ -220,57 +223,3 @@ This is done in lieu of creating a more sophisticated dependency system.
 It is probably not a good replacement for actual dependency management,
 and most likely will not scale.
 A better system should be built once basic graphs can be constructed to explore dependency systems.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-NOTE: this question and answer makes some fundamental misunderstandings about this system, compared to the one in Massive Chalice. It also conflates a discussion of the current linear collection style, with the future potential complex graph traversal update scheme.
-
-
-
-will the system systemically stop looping? or does it need a check?
-
-(((  inspired by Massive Chalice's exploding alchemist armor,
-     which chains, but does not loop  )))
-------------------------------------------------------------------------------
-
-wait no, it should systemically stop looping
-like, it already does without having to do this
-
-it will take a couple of iterations sometimes,
-but the system should be able to realize that no values are changing,
-and thus will "sleep" the constraints
-and not update them
-because they do not need to run
-because values are not changing
-and thus there are no values to propagate
-
