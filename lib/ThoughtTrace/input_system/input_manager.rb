@@ -100,14 +100,21 @@ class InputManager
  		
  		
  		
+ 		# control: constraint mode
+ 		# alt:     selection mode ( selection and groups are pretty much the same thing )
+ 		# shift:   extra modifier - mode dependent
  		
+ 		
+ 		# NOTE: need Entity type 'image'
+ 		# NOTE: spawning new Entities has been removed from input bindings. Should use duplication of existing things, or drag in items from the prototype list.
+ 		# TODO: implement prototype list UI system.
  		
  		left_click_bindings  = {
 			:on_object => {
 				[]                        => [:place_text_caret, :edit],
 				[:shift]                  => [:spawn_text, :resize],
-				[:control]                => [:add_to_group, :constrain],
-				[:alt]                    => [:split, nil],
+				[:control]                => [nil, :constrain],
+				[:alt]                    => [:add_to_group, :lasso_select],
 				[:shift, :control]        => [nil, nil],
 				[:shift, :alt]            => [nil, nil],
 				[:control, :alt]          => [nil, nil],
@@ -115,11 +122,11 @@ class InputManager
 			},
 			:empty_space => {
 				[]                        => [nil, nil],
-				[:shift]                  => [:spawn_text, nil],
-				[:control]                => [:spawn_rect, nil],
-				[:alt]                    => [:spawn_circle, nil],
+				[:shift]                  => [nil, nil],
+				[:control]                => [nil, nil],
+				[:alt]                    => [nil, :lasso_select],
 				[:shift, :control]        => [nil, nil],
-				[:shift, :alt]            => [nil, nil],
+				[:shift, :alt]            => [nil, :box_select],
 				[:control, :alt]          => [nil, nil],
 				[:shift, :control, :alt]  => [nil, nil]
 			}
@@ -141,7 +148,7 @@ class InputManager
 			:empty_space => {
 				[]                        => [nil, nil],
 				[:shift]                  => [nil, nil],
-				[:control]                => [:spawn_image, nil],
+				[:control]                => [nil, nil],
 				[:alt]                    => [nil, nil],
 				[:shift, :control]        => [nil, nil],
 				[:shift, :alt]            => [nil, nil],
