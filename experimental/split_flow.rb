@@ -13,6 +13,14 @@
 
 
 
+# requires proper Rect scaling, similar to Text Caret
+# need to be able to position a Rectangle, with the left edge locked down,
+# to use as a 'highlight region' for the text.
+# Setting the width of this highlight would stretch it only to the right,
+# but it should be able to scale left and right.
+# When scaling, it should snap the character boundaries on the corresponding Text object.
+
+
 
 
 
@@ -29,7 +37,7 @@ class Split < Entity::Actions::Action
 	
 	# called on first tick
 	def press(point)
-		
+		@origin = point
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -44,6 +52,13 @@ class Split < Entity::Actions::Action
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
 		@ui_entity = ActionUI.new @entity
+		
+		p = @origin
+		# TODO: convert origin point into character boundary, and then into world-space position
+		# (basically the same as saying "where would the text caret go")
+		
+		@ui_entity[:physics].body.p = p
+		
 		@space.entities.add @ui_entity
 	end
 	
