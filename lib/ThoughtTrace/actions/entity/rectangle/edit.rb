@@ -3,7 +3,7 @@ module ThoughtTrace
 		module Actions
 
 
-class Edit < Entity::Actions::Action
+class Edit < ThoughtTrace::Actions::BaseAction
 	MARGIN = 20
 	MINIMUM_DIMENSION = 10
 	

@@ -3,7 +3,7 @@ module ThoughtTrace
 		module Actions
 
 
-class PlaceTextCaret < Entity::Actions::Action
+class PlaceTextCaret < ThoughtTrace::Actions::BaseAction
 	initialize_with :text_input, :clone_factory, :entity
 	
 	# called on first tick

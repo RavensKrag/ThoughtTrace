@@ -3,7 +3,7 @@ module ThoughtTrace
 		module Actions
 
 
-class Edit < Entity::Actions::Action
+class Edit < ThoughtTrace::Actions::BaseAction
 	initialize_with :text_input, :clone_factory, :entity
 	
 	# called on first tick

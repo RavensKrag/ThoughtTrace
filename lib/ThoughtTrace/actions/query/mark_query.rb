@@ -3,7 +3,7 @@ module ThoughtTrace
 		module Actions
 
 
-class ToggleQueryStatus < Entity::Actions::Action
+class ToggleQueryStatus < ThoughtTrace::Actions::BaseAction
 	# === mark query ===
 	initialize_with :entity, :styles
 	

@@ -7,7 +7,7 @@ module ThoughtTrace
 		module Actions
 
 
-class Duplicate < Entity::Actions::Action
+class Duplicate < ThoughtTrace::Actions::BaseAction
 	initialize_with :entity, :space
 	# BUG: once duplicate is used, neither the original entity nor the clone can be moved until restart.
 		# once I properly defined @space.entities.delete to remove shapes / bodies when items are removed from the list, then this bug seems to have cleared up. That's very bizarre.

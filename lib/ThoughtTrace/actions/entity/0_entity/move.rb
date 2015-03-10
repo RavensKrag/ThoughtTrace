@@ -3,7 +3,7 @@ module ThoughtTrace
 		module Actions
 
 
-class Move < Entity::Actions::Action
+class Move < ThoughtTrace::Actions::BaseAction
 	initialize_with :entity
 	
 	# called on first tick

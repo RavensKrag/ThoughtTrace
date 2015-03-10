@@ -3,7 +3,7 @@ module ThoughtTrace
 		module Actions
 
 
-class Resize < Entity::Actions::Action
+class Resize < ThoughtTrace::Actions::BaseAction
 	MARGIN = 20
 	MINIMUM_DIMENSION = 10
 	

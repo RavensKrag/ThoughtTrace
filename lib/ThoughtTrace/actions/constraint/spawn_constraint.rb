@@ -5,7 +5,7 @@ module ThoughtTrace
 		module Actions
 
 
-class SpawnConstraint < Entity::Actions::Action
+class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 	initialize_with :entity, :space
 	
 	
