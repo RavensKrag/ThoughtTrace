@@ -39,6 +39,7 @@ NOTE:
 
 Packages stored in linear collection
 Pairs are updated though Packages
+( along with drawing based on the corresponding Visualization )
 each Package is updated once per frame
 
 each Constraint object can be used in multiple Pairs (thus multiple Packages)
