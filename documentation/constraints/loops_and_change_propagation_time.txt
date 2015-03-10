@@ -62,6 +62,8 @@ as is the same two Entities being used with various Constraints though different
 
 
 
+
+
 This structure means that changes may take more than one tick
 to propagate to their final destination,
 but a full loop in the graph will NEVER be executed within one tick.
@@ -78,6 +80,7 @@ This does not prevent the creation of loops in the graph,
 nor does it prevent topologies that make it so data never reaches it's destination.
 
 Exercise caution when designing graph topologies.
+
 
 
 ---
