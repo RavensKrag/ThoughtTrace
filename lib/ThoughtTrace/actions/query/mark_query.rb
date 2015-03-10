@@ -45,6 +45,8 @@ class ToggleQueryStatus < Entity::Actions::Action
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
 		@entity.delete_component :query
+		
+		@done = false
 	end
 	
 	# final tick of the Action

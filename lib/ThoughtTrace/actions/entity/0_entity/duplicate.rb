@@ -49,6 +49,8 @@ class Duplicate < Entity::Actions::Action
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
 		@space.entities.delete @clone
+		
+		@already_added = false
 	end
 	
 	# final tick of the Action

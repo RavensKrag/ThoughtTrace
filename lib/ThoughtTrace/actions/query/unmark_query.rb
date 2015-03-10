@@ -37,6 +37,8 @@ class ToggleQueryStatus < ThoughtTrace::Actions::BaseAction
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
 		@entity.add_component @component
+		
+		@done = false
 	end
 	
 	# final tick of the Action
