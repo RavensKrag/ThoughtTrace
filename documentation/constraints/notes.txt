@@ -64,7 +64,7 @@ how to check for changes?
 how fast do changes propagate through the graph?                           ( rate of propagation )
 how many ticks of a Constraint on a particular Pair are executed per tick? ( ticks per frame )
 
-	read loops_and_change_propagation_time.txt
+	read change_propagation.txt
 
 
 
