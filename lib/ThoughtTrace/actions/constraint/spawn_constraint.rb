@@ -21,7 +21,7 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 		
 		# TODO: use the 'easy package create / remove API' to generate this new package
 		package = ThoughtTrace::Constraints::Package.new(constraint, visualization)
-		marker_a = package.marker_a
+		marker = package.marker_b
 		
 		# put marker A down at this point, so that it will bind to this Entity
 		# (actually, need to bind it here, as binding is part of the Move action, but you're bypassing that right now)
@@ -29,7 +29,7 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 		
 		# TODO: chain into move marker
 		# TODO: figure out if actions should be able to request the ActionFactory. Would be much easier to create helper actions that way.
-		@move_action = ThoughtTrace::Constraints::Marker::Actions::Move.new(marker_a, @space)
+		@move_action = ThoughtTrace::Constraints::Marker::Actions::Move.new(marker, @space)
 		@move_action.press(point)
 		
 		# NOTE: binding only one marker may cause the Package to constantly call @pair.unbind
