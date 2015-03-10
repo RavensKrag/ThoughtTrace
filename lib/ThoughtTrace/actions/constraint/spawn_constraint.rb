@@ -20,8 +20,8 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 		
 		
 		# TODO: use the 'easy package create / remove API' to generate this new package
-		package = ThoughtTrace::Constraints::Package.new(constraint, visualization)
-		marker = package.marker_b
+		@package = ThoughtTrace::Constraints::Package.new(constraint, visualization)
+		marker = @package.marker_b
 		
 		# put marker A down at this point, so that it will bind to this Entity
 		# (actually, need to bind it here, as binding is part of the Move action, but you're bypassing that right now)
