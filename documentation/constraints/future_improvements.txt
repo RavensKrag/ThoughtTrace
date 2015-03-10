@@ -1,38 +1,6 @@
 optimizations?
 
 
-cycles / circular dependencies
-race conditions
-
-	these things are important to prevent
-	but the system will not actively prevent you from making graphs that have these properties
-	
-	the exact time when some data gets to it's final destination
-	is a property of the graph topology.
-	In some cases, the data may never reach it's intended final destination,
-		because there has been some sort of clobbering due to graph topology.
-	In others, you may have things flip between a couple different states, but never settle down.
-	
-	It's basically too hard at this point to completely prevent these problems.
-	It's hard to see these problems in standard text-editor code,
-	which is part of why I wanted to make this system.
-	I hope that in the future, some graph-level systems can be ported down to text-code for efficient prevention of common mistakes.
-
-
-need to be careful of cycles
-need to be careful of livelock as well as deadlock
-(basically, be aware and concerned about distributed programming types of problems)
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -47,7 +15,7 @@ otherwise the system would not run in real-time
 
 (though potentially you could fire the same constraint multiple times is one tick?)
 
-^  don't do that
+^  don't do that. it's too complicated, as is discussed in loops_and_change_propagation_time.txt
 v  but this is still important
 
 really just want to make sure that this case works correctly:
@@ -62,18 +30,6 @@ really just want to make sure that this case works correctly:
 	need to make sure this
 		1) doesn't loop indefinitely     (would freeze the program)
 		2) allows for seamless interactive updates that are not off-by-one frame
-
-
-
-
-
-
-
-potentially, you need to have a limit to the number of constraints to evaluate per frame,
-and then pass the job onto the the next frame if you exceed that limit
-(similar to the dynamic-number-of-fixed-steps approach to physics simulation)
-(would likewise have similar degradation characteristics as that physics approach)
-
 
 
 
@@ -97,14 +53,9 @@ instead of only updating each constraint pair once out of fear of going on forev
 ( also just makes for a generally nice debug tool )
 
 
-
-
 those two strategies most likely have different degradation characteristics.
 it's important to consider how systems will break,
 not just how they will work under ideal / or best known circumstances
-
-
-
 
 
 
@@ -117,6 +68,8 @@ check all entities for...
 
 
 ( when you display this data, you probably want to hide the properties that do not need to be propagated )
+
+
 
 
 

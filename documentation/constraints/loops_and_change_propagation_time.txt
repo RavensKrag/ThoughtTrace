@@ -57,6 +57,8 @@ This is rudimentary prevention of livelock.
 
 This does not prevent the creation of loops in the graph,
 nor does it prevent topologies that make it so data never reaches it's destination.
+It's also possible to get things to flip between a couple different states, but never settle down.
+The system can't protect you against race conditions.
 
 Exercise caution when designing graph topologies.
 
@@ -153,14 +155,20 @@ In order to try and get changes to propagate to their destination in one frame:
 				      XY???????
 			      would terminate after the inital XY and ignore the full subgraph thereafter
 		  -----
+	  
+		  any sort of 'linear-ization' of the graph will have to check for cycles
+		  and at least make sure that any unrolled loops are not too long.
+		  ( ie, they can still be executed in a single frame's worth of time )
+		  
+		  Notice that infinite loops will never fit within one frame,
+		  no matter how quickly one Constraint executes.
+		  
+		  potentially, you need to have a limit to the number of constraints to evaluate per frame,
+		  and then pass the job onto the the next frame if you exceed that limit
+		  ( similar to the dynamic-number-of-fixed-steps approach to physics simulation )
+		  ( would likewise have similar degradation characteristics as that physics approach )
 	  ---------
-	  
-	  any sort of 'linear-ization' of the graph will have to check for cycles
-	  and at least make sure that any unrolled loops are not too long.
-	  ( ie, they can still be executed in a single frame's worth of time )
-	  
-	  Notice that infinite loops will never fit within one frame,
-	  no matter how quickly one Constraint executes.
+
 	  
 	  Although significantly more complicated,
 	  maybe this approach would help solve clobbering / livelock / deadlock issues.
@@ -168,6 +176,11 @@ In order to try and get changes to propagate to their destination in one frame:
 		  (((   but you would probably have to teach the system to identify those cases.
 		  	 	It wouldn't be some free systemic side effect,
 		  	 	it would be a requirement for implementation.      )))
+	  
+	  However, it's too complicated to attempt this solution with standard text-editor code.
+	  which is part of why I wanted to make this system.
+	  I hope that in the future, some graph-level systems can be
+	  ported down to text-code for efficient prevention of common mistakes.
 	  ----------------
 
 
