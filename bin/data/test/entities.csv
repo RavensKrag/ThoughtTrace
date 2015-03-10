@@ -49,8 +49,6 @@ ThoughtTrace::Rectangle,-1487.4779764002278,49.67709174998987,1243.5920973211125
 ThoughtTrace::Text,Lucida Sans Unicode,-1598.9583333333335,29.16666666666663,31.781502414697158,prototypes
 ThoughtTrace::Rectangle,-1708.2201829190074,75.85737460381324,200.87255671033728,533.9000224705653
 ThoughtTrace::Text,Lucida Sans Unicode,-973.0021999431829,791.6666666666665,31.450198689768843,properties
-ThoughtTrace::Text,Lucida Sans Unicode,-855.2083333333328,700.0,21.594433429429,take me to the parent
-ThoughtTrace::Text,Lucida Sans Unicode,-857.2916666666664,722.6361000960957,21.594433429429,let me see what other things have been created with this type
 ThoughtTrace::Text,Lucida Sans Unicode,-1192.708333333333,282.2916666666666,33.34750040472536,maybe UI receeds beyond the edges when switching to 'use' mode?
 ThoughtTrace::Text,Lucida Sans Unicode,-1192.708333333333,315.6391670713919,22.74581668072404,trying to figure out how you would be able to experince the UI you're desining in a full window
 ThoughtTrace::Text,Lucida Sans Unicode,-1192.708333333333,338.38498375211594,22.74581668072404,rather than having it partially obscured by the tool's UI
@@ -98,3 +96,13 @@ ThoughtTrace::Text,Lucida Sans Unicode,-791.7521999431829,841.6666666666665,31.4
 ThoughtTrace::Text,Lucida Sans Unicode,-811.5438666098496,867.7083333333331,31.450198689768843,v
 ThoughtTrace::Text,Lucida Sans Unicode,-644.7916666666663,845.6575057671683,24.803004109702574,Lucida Sans Unicode
 ThoughtTrace::Text,Lucida Sans Unicode,-919.7916666666662,866.6666666666667,21.594433429429,wheel here
+ThoughtTrace::Text,Lucida Sans Unicode,-1260.4166666666665,68.76416707139185,33.34750040472536,"need to know active constraints, but also need to be able to order constraint Packages"
+ThoughtTrace::Text,Lucida Sans Unicode,-1451.0416666666667,165.63916707139185,33.34750040472536,"need a graph view just for Style data,"
+ThoughtTrace::Text,Lucida Sans Unicode,-1451.0416666666667,198.98666747611722,33.34750040472536,separate from 'real' spatial data
+ThoughtTrace::Text,Lucida Sans Unicode,-868.4192799329469,160.2884361333337,27.239898009450133,Query-marked objects can't use color as their distinction
+ThoughtTrace::Text,Lucida Sans Unicode,-868.4192799329469,187.52833414278385,27.239898009450133,at least not in the standard view
+ThoughtTrace::Text,Lucida Sans Unicode,-514.5833333333329,751.8027667627624,21.594433429429,let me see what other things have been created with this type
+ThoughtTrace::Text,Lucida Sans Unicode,-428.12499999999955,726.0416666666667,21.594433429429,take me to the parent
+ThoughtTrace::Text,Lucida Sans Unicode,-621.8750000000001,104.16666666666673,23.66115449825621,also need to change draw order
+ThoughtTrace::Text,Lucida Sans Unicode,-1459.6857336891908,646.8602220952465,22.97394578559605,don't want to create new text via duplication
+ThoughtTrace::Text,Lucida Sans Unicode,-1459.6857336891908,669.8341678808425,22.97394578559605,but shouldn't have to click on a blank zone either
