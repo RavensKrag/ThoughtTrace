@@ -36,22 +36,39 @@ NOTE:
 	However, trying to solve topology problems using purely text-based programming is futile.
 =====
 
+The system stores Packages in a linear collection,
+and updates each Package once per tick
+in the order they are stored in that list.
 
-Packages stored in linear collection
-Pairs are updated though Packages
-( along with drawing based on the corresponding Visualization )
-each Package is updated once per frame
+As each Package stores a Pair,
+( along with a Visualization object as two Markers )
+this means each Pair is updated once per tick
 
-each Constraint object can be used in multiple Pairs (thus multiple Packages)
+
+to put it simply:
+=== each edge is updated once per tick ===
+
+
+This may cause the same Constraint object to be used multiple times per tick,
 but that doesn't matter because they don't retain multi-pair state
+
+The same constraint firing on different Pairs is OK,
+as is the same two Entities being used with various Constraints though different Pairs.
+
+	Thus, the same two Entities can be connected by multiple edges,
+	even in the same direction,
+	and having all of those update in the same frame is totally fine.
+
 
 
 
 This structure means that changes may take more than one tick
 to propagate to their final destination,
 but a full loop in the graph will NEVER be executed within one tick.
+This will help prevent the system from ever locking up and becoming unresponsive.
+( still have to make sure that you don't overload the system with too many Pairs though )
+
 This is rudimentary prevention of livelock.
-	
 	( I don't think it will prevent against ALL livelock situations, but it's something )
 
 
@@ -62,6 +79,18 @@ nor does it prevent topologies that make it so data never reaches it's destinati
 
 Exercise caution when designing graph topologies.
 
+
+---
+	About loops and control flow:
+	
+	
+	games have circular flow.
+	if you want a 'loop'
+	you often want one tick of the loop executed per game tick
+	you very rarely want to use a straight 'while' loop in a game
+	
+	this system is a similar sort of thing
+---
 
 
 
@@ -200,49 +229,6 @@ A better system should be built once basic graphs can be constructed to explore 
 
 
 
-
-
-
-
-
-really only want to update each edge once per tick
-	
-	this means that some changes will take many ticks
-	to propagate all the way to their destination,
-	but it ensures that you will never get stuck
-	in a situation where you have to traverse an
-	entire loop of the graph
-		(or multiple iterations of this loop, even)
-	in one tick
-	
-	games have circular flow.
-	if you want a 'loop'
-	you often want one tick of the loop executed per game tick
-	you very rarely want to use a straight 'while' loop in a game
-	
-	this system is a similar sort of thing
-	
-	
-	note that 'one edge' in this case means
-	one pair-wise relationship between two Entity objects
-	related by one constraint.
-	Thus, the same pair of Entities can be connected by multiple edges,
-	even in the same direction,
-	and having all of those update in the same frame is totally fine.
-	
-	But you don't want the same constraint firing
-	between two Entity objects multiple times in one frame
-	
-	
-	
-	because that has the possibility of creating cycles,
-	and that's really bad
-	
-	
-	but note that this is different that firing a Constraint object once per tick,
-	because one Constraint object can be used in multiple Pairs
-
-	
 
 
 
