@@ -8,6 +8,7 @@ Dir.chdir path_to_file do
 	[
 		'./base_action',
 		'./null_action',
+		'./one_shot_action',
 		
 		'./entity',
 		'./empty_space',
