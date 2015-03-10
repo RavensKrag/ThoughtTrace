@@ -47,6 +47,8 @@ otherwise the system would not run in real-time
 
 (though potentially you could fire the same constraint multiple times is one tick?)
 
+^  don't do that
+v  but this is still important
 
 really just want to make sure that this case works correctly:
 	a bunch of objects are instance of a prefab.
