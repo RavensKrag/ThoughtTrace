@@ -259,7 +259,7 @@ really only want to update each edge once per tick
 
 
 
-
+NOTE: this question and answer makes some fundamental misunderstandings about this system, compared to the one in Massive Chalice. It also conflates a discussion of the current linear collection style, with the future potential complex graph traversal update scheme.
 
 
 
