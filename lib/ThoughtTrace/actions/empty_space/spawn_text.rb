@@ -40,6 +40,8 @@ class SpawnText < ThoughtTrace::Actions::BaseAction
 	def undo
 		@space.entities.delete @text
 		@text_input.clear
+		
+		@already_added = false
 	end
 	
 	# final tick of the Action
