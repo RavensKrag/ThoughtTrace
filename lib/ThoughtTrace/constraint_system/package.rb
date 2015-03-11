@@ -39,7 +39,7 @@ class Package
 		
 		@pair.update do
 			# this block only fires when the pair successfully updates
-			# @visualization.activate
+			@visualization.activate
 		end
 		
 		@visualization.update
@@ -99,8 +99,10 @@ class Package
 		
 		if a.nil? or b.nil?
 			@pair.unbind
+			@visualization.unbind
 		else
 			@pair.bind(a,b)
+			@visualization.bind
 		end
 		
 		# Update the helper constraints whenever the bindings are changed.

@@ -1,63 +1,84 @@
+require 'state_machine'
+
 module ThoughtTrace
 	module Constraints
 
 
 class Visualization
 	def initialize
+		super()
+		
 		@timer = Timer.new
-		@state = :inactive
 	end
 	
-	
-	def update
-		# update animation state, etc
-		# do not make any changes to Entity data
-		# 
-		# this phase has now become completely independent of entity data
-		# (maybe this should be removed?)
-		
-		@timer.update # check to see if the desired time has elapsed or not
-		
-		
-		if @state == :active
-			update_active
-		elsif @state == :inactive
-			update_inactive
-		else
-			raise 'wat'
+	state_machine :state, :initial => :unbound do
+		# no constraint targets
+		state :unbound do
+			def update
+				
+			end
+			
+			def draw(a,b)
+				
+			end
 		end
-	end
-	
-	def draw(a,b)
-		# apply visualization data to the Entity objects as necessary
-		# visualize the given pair of entities
 		
-		
-		# draw different things depending on state
-		if @state == :active
-			draw_active(a,b)
-		elsif @state == :inactive
-			draw_inactive(a,b)
-		else
-			raise 'wat'
+		# have constraint targets
+		state :bound do
+			def update
+				
+			end
+			
+			def draw(a,b)
+				
+			end
 		end
+		
+		# just applied constraint tick
+		state :active do
+			def update
+				@timer.update
+				
+				
+			end
+			
+			def draw(a,b)
+				
+			end
+		end
+		
+		
+		event :bind do
+			transition :unbound => :bound
+		end
+		
+		event :unbind do
+			transition any => :unbound
+		end
+		
+		event :activate do
+			transition :bound => :active
+		end
+		
+		event :rest do
+			transition :active => :bound
+		end
+		
+		
+		before_transition  :bound => :active, :do => :activation_callback
 	end
 	
-	def activate
-		@state = :active
-		
-				# time to wait, in ms
+	
+	def activation_callback
+		puts "start"
+		# time to wait, in ms
 		@timer.wait(3000) do
-			@state = :inactive
+			self.rest
 		end
-		
-		
-		# ALTERNATE:
-		# start up
-		# wait for some condition
-		# return to inactive state
-		# (can specify whatever condition you want)
 	end
+	
+	
+	
 	
 	
 	# needs separate states
@@ -130,29 +151,6 @@ class Visualization
 				return (MAX_FIXNUM - start) + (stop)
 			end
 		end
-	end
-	
-	
-	
-	
-	
-	
-	# TODO: consider having two separate objects for active and inactive states, so that the two states can keep their data completely separate
-	# TODO: consider that only one visualization object needs to be made - this wrapper - and that the inside classes could be something else? or maybe that those objects should be the visualization classes, and this wrapper should be called something else
-	def update_active
-		
-	end
-	
-	def update_inactive
-		
-	end
-	
-	def draw_active(a,b)
-		
-	end
-	
-	def draw_inactive(a,b)
-		
 	end
 end
 
