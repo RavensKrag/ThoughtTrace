@@ -72,7 +72,7 @@ class Visualization
 	def activation_callback
 		puts "start"
 		# time to wait, in ms
-		@timer.wait(3000) do
+		@timer.wait(800) do
 			self.rest
 		end
 	end
