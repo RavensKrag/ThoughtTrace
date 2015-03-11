@@ -75,6 +75,7 @@ end
 
 
 dependency_list = [
+	'./utilities/timer',
 	'./utilities/find_and_replace',
 	'./utilities/meta',
 	
