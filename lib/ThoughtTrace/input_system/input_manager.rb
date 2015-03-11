@@ -109,6 +109,8 @@ class InputManager
  		# NOTE: spawning new Entities has been removed from input bindings. Should use duplication of existing things, or drag in items from the prototype list.
  		# TODO: implement prototype list UI system.
  		
+ 		# NOTE: it's not really 'empty space' binding as much as it is 'no entity target' binding. Should probably update the system to reflect that. Shouldn't have to declare things that require no target twice.
+ 		
  		left_click_bindings  = {
 			:on_object => {
 				[]                        => [:place_text_caret, :edit],
@@ -122,7 +124,7 @@ class InputManager
 			},
 			:empty_space => {
 				[]                        => [nil, nil],
-				[:shift]                  => [nil, nil],
+				[:shift]                  => [:spawn_text, nil],
 				[:control]                => [nil, nil],
 				[:alt]                    => [nil, :lasso_select],
 				[:shift, :control]        => [nil, nil],
