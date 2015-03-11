@@ -102,7 +102,10 @@ class Visualization
 		end
 		
 		def update
-			if elapsed_time(@start_time, @target_time) >= @target_time
+			time = elapsed_time(@start_time, now())
+			puts time
+			
+			if time >= @target_time
 				if @block
 					@block.call
 					@block = nil
@@ -138,10 +141,13 @@ class Visualization
 			return 0 if start == nil
 			
 			
+			# puts "start: #{start}"
+			# puts "stop:  #{stop}"
+			
 			
 			# ok, now that we know the timer was actually set up,
 			# let's check to see what's up
-			if start < stop
+			if start <= stop
 				# standard
 				return stop - start
 			else
