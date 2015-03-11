@@ -2,7 +2,7 @@ module InputSystem
 
 
 class ButtonEvent
-	attr_reader :name, :callbacks, :keys, :modifiers
+	attr_reader :name, :keys, :modifiers
 	
 	def initialize(name, callbacks)
 		@name = name
@@ -18,6 +18,26 @@ class ButtonEvent
 		
 		@keys = keys.to_set
 		@modifiers = modifiers.to_set
+	end
+	
+	
+	# extend Forwardable
+	# def_delegators :@callbacks, :press, :hold, :release, :cancel
+	
+	def press
+		@callbacks.press
+	end
+	
+	def hold
+		@callbacks.hold
+	end
+	
+	def release
+		@callbacks.release
+	end
+	
+	def cancel
+		@callbacks.cancel
 	end
 end
 

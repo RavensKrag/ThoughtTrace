@@ -31,14 +31,14 @@ class ButtonParser
 		
 		# pressed_events = self.press(id) + self.foo
 		pressed_events = press(id)
-		pressed_events.each{ |e| e.callbacks.press }
+		pressed_events.each{ |e| e.press }
 		
 		@active_events.concat pressed_events
 	end
 	
 	def update
 		@active_events.each do |event|
-			event.callbacks.hold
+			event.hold
 		end
 	end
 	
@@ -47,7 +47,7 @@ class ButtonParser
 		
 		
 		released_events = release(id)
-		released_events.each{ |e| e.callbacks.release }
+		released_events.each{ |e| e.release }
 		
 		@idle_events.concat released_events
 	end
@@ -147,7 +147,7 @@ class ButtonParser
 		@idle_events.delete_if{ |event| event.name == event_name }
 		@active_events.delete_if do |event|
 			if event.name == event_name
-				event.callbacks.cancel # also, stop the event
+				event.cancel # also, stop the event
 				
 				true # pseudo return
 			end
@@ -170,7 +170,7 @@ class ButtonParser
 		i = @active_events.find_index{ |e| e.name == event_name }
 		if i
 			event = @active_events[i]
-			event.callbacks.cancel
+			event.cancel
 			
 			return event
 		end
