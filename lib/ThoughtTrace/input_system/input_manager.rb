@@ -140,9 +140,9 @@ class InputManager
 			:on_object => {
 				[]                        => [nil, :move],
 				[:shift]                  => [nil, :duplicate],
-				[:control]                => [:toggle_query_status, :link],
+				[:control]                => [:toggle_query_status, :clone],
 				[:alt]                    => [:join, nil],
-				[:shift, :control]        => [nil, :clone],
+				[:shift, :control]        => [nil, :mirror],
 				[:shift, :alt]            => [nil, nil],
 				[:control, :alt]          => [nil, nil],
 				[:shift, :control, :alt]  => [nil, nil]
