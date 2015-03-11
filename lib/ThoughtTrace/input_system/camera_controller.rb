@@ -13,7 +13,7 @@ class CameraController
 	end
 	
 	
-	def press
+	def press(event_name)
 		# extract move action from @camera at this step,
 		# in case the camera has been changed since initialization
 		@move_action = @action_factory.create(@camera, :move)
@@ -22,15 +22,15 @@ class CameraController
 		@move_action.press(@mouse.position_on_screen)
 	end
 	
-	def hold
+	def hold(event_name)
 		@move_action.hold(@mouse.position_on_screen)
 	end
 	
-	def release
+	def release(event_name)
 		@move_action.release(@mouse.position_on_screen)
 	end
 	
-	def cancel
+	def cancel(event_name)
 		@move_action.cancel
 	end
 end

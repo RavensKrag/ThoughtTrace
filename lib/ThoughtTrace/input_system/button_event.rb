@@ -25,19 +25,19 @@ class ButtonEvent
 	# def_delegators :@callbacks, :press, :hold, :release, :cancel
 	
 	def press
-		@callbacks.press
+		@callbacks.press(@name)
 	end
 	
 	def hold
-		@callbacks.hold
+		@callbacks.hold(@name)
 	end
 	
 	def release
-		@callbacks.release
+		@callbacks.release(@name)
 	end
 	
 	def cancel
-		@callbacks.cancel
+		@callbacks.cancel(@name)
 	end
 end
 

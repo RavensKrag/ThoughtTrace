@@ -164,12 +164,12 @@ class InputManager
 		
 		left_callbacks  = InputSystem::MouseInputSystem.new(
 							@document.space, @mouse, action_factory,
-							@accelerator_parser, :left_click, left_click_bindings
+							@accelerator_parser, left_click_bindings
 						)
 		
 		right_callbacks = InputSystem::MouseInputSystem.new(
 							@document.space, @mouse, action_factory,
-							@accelerator_parser, :right_click, right_click_bindings
+							@accelerator_parser, right_click_bindings
 						)
 		
 		

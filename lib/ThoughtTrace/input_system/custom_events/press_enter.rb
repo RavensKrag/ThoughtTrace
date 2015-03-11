@@ -10,7 +10,7 @@ class PressEnter
 		@clone_factory = clone_factory
 	end
 	
-	def press
+	def press(event_name)
 		if @text_input.active?
 			# Effect similar to inserting a newline in a text editor
 			# create new text objects as necessary
@@ -68,15 +68,15 @@ class PressEnter
 		end
 	end
 	
-	def hold
+	def hold(event_name)
 		
 	end
 	
-	def release
+	def release(event_name)
 		
 	end
 	
-	def cancel
+	def cancel(event_name)
 		
 	end
 end

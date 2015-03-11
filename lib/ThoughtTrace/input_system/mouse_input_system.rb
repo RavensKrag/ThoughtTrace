@@ -15,7 +15,7 @@ class MouseInputSystem
 	
 	# TODO: create class that bundles the pieces of data that need to be sent to every Action. It's weird to have to "delegate" all these arguments through the chain of command like this.
 	def initialize(space, mouse, action_factory,
-		accelerator_collection, mouse_button, bindings)
+		accelerator_collection, bindings)
 		@mouse = mouse
 		@space = space
 		
@@ -36,7 +36,6 @@ class MouseInputSystem
 		
 		
 		
-		@mouse_button = mouse_button # currently only using this for debug info, not "real" stuff
 		# @spatial_status = :on_object
 		# @accelerators = [:shift]
 		# @button_phase = CLICK
@@ -54,7 +53,7 @@ class MouseInputSystem
 	
 	
 	# TODO: what happens when you hit left and right buttons down at the same time? both are Event-bound to fire things that eventually calls this part of the code, but this part of the code base assumes that the 4-key-phases will each only be called one at a time. THIS COULD CAUSE MASSIVE ERRORS. PLEASE RECTIFY IMMEDIATELY
-	def press
+	def press(event_name)
 		# if there has been a mouse event
 		
 		
@@ -91,12 +90,12 @@ class MouseInputSystem
 		
 		
 		
-		@active_action = parse_inputs(CLICK)
+		@active_action = parse_inputs(event_name, CLICK)
 		@active_action.press(@mouse.position_in_space)
 		
 	end
 	
-	def hold
+	def hold(event_name)
 		# while you're just checking for updates
 		if mouse_exceeded_drag_threshold?
 			# cancel the current action, (which should be a click action)
@@ -104,7 +103,7 @@ class MouseInputSystem
 			
 			@active_action.cancel
 			
-			@active_action = parse_inputs(DRAG)
+			@active_action = parse_inputs(event_name, DRAG)
 			@active_action.press(@origin)
 		end
 		
@@ -112,12 +111,12 @@ class MouseInputSystem
 		@active_action.hold(@mouse.position_in_space)
 	end
 	
-	def release
+	def release(event_name)
 		@active_action.release(@mouse.position_in_space)
 		@entity = nil
 	end
 	
-	def cancel
+	def cancel(event_name)
 		@active_action.cancel
 	end
 	
@@ -130,13 +129,13 @@ class MouseInputSystem
 	# given the current state of things, figure out what action you're firing
 	# TODO: consider rename
 	# TODO: consider trying to reduce the amount of stored state.
-	def parse_inputs(button_phase)
+	def parse_inputs(event_name, button_phase)
 		possible_actions = @bindings[@spatial_status][@accelerators]
 		action_name = possible_actions[button_phase]
 		
 		
 		
-		warn "no action bound to #{@mouse_button} => [#{@spatial_status}, #{@accelerators}]" unless action_name
+		warn "no action bound to #{event_name} => [#{@spatial_status}, #{@accelerators}]" unless action_name
 		
 		
 		# special exception to let 'spawn text' happen anywhere,
