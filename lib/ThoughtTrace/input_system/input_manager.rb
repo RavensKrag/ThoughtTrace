@@ -159,6 +159,32 @@ class InputManager
 			}
 		}
 		
+		# mouse wheel
+			# zoom                ( zoom the entire document. images GPU scale, text smart scale )
+			# abstraction layer   ( ladder of abstraction: explicit detail vs high-level )
+			# render layer        ( relative z-index depth sort. swap z-index with other items. )
+		
+		
+		# edit action only edits exposed properties,
+		# if you peel the abstraction back, you can edit individual properties
+		# ie) move a vert with the move action
+		
+		# abstraction stepping works on a particular tree-like segment of the graph.
+		# on any one element in the tree you can...
+		# + step up:    limits the whole tree to view the parent layer ( for that subgraph )
+		# + step down:  expands the view to include the children of that node
+		
+		mouse_wheel_actions = {
+				[]                        => [:zoom],
+				[:shift]                  => [:render_layer],
+				[:control]                => [:abstraction_layer],
+				[:alt]                    => [nil],
+				[:shift, :control]        => [nil],
+				[:shift, :alt]            => [nil],
+				[:control, :alt]          => [nil],
+				[:shift, :control, :alt]  => [nil]
+		}
+		
 		
 		
 		
