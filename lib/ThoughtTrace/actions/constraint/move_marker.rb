@@ -16,6 +16,8 @@ class Move < ThoughtTrace::Entity::Actions::Move
 	# called on first tick
 	def press(point)
 		super(point)
+		marker = @entity
+		marker.unbind
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -23,9 +25,6 @@ class Move < ThoughtTrace::Entity::Actions::Move
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
 		super(point)
-		marker = @entity
-		
-		marker.unbind
 	end
 	
 	# Actually apply changes to data.
