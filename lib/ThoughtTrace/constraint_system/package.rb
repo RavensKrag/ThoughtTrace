@@ -100,18 +100,22 @@ class Package
 		if a.nil? or b.nil?
 			@pair.unbind
 			@visualization.unbind
+			unbind_helper_constraints()
 		else
 			@pair.bind(a,b)
 			@visualization.bind
+			bind_helper_constraints()
 		end
-		
-		# Update the helper constraints whenever the bindings are changed.
-		bind_helper_constraints()
 	end
 	
 	def bind_helper_constraints
-		@helpers[0].bind(@marker_a, @marker_a.render_target)
-		@helpers[1].bind(@marker_b, @marker_b.render_target)
+		@helpers[0].bind(@marker_a, @marker_a.constraint_target)
+		@helpers[1].bind(@marker_b, @marker_b.constraint_target)
+	end
+	
+	def unbind_helper_constraints
+		@helpers[0].unbind
+		@helpers[1].unbind
 	end
 end
 
