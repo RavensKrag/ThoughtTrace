@@ -64,8 +64,8 @@ class Window < Gosu::Window
 	end
 	
 	def update
-		@document.update
 		@input.update
+		@document.update
 	end
 	
 	def draw
