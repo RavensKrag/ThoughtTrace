@@ -90,22 +90,30 @@ class MouseInputSystem
 		
 		
 		
+		@current_phase = CLICK
 		@active_action = parse_inputs(event_name, CLICK)
 		@active_action.press(@mouse.position_in_space)
 		
 	end
 	
 	def hold(event_name)
-		# while you're just checking for updates
-		if mouse_exceeded_drag_threshold?
-			# cancel the current action, (which should be a click action)
-			# and load up the drag action (load with the same origin as the click action)
+		if @current_phase == CLICK
+			# attempt to transition to the drag phase
+			if mouse_exceeded_drag_threshold?
+				# cancel the current action, (which should be a click action)
+				# and load up the drag action (load with the same origin as the click action)
+				
+				@active_action.cancel
+				
+				@current_phase = DRAG
+				@active_action = parse_inputs(event_name, DRAG)
+				@active_action.press(@origin)
+			end
+		else
+			# currently in the drag action
 			
-			@active_action.cancel
-			
-			@active_action = parse_inputs(event_name, DRAG)
-			@active_action.press(@origin)
 		end
+		
 		
 		# manage the currently active action, if any
 		@active_action.hold(@mouse.position_in_space)
