@@ -12,8 +12,12 @@ class Document
 	# specific implementations for actions can be answered by particular collections
 	# (builder pattern)
 	
-	def dump(path_to_folder)
-		@project_directory = File.expand_path path_to_folder
+	def dump(path_to_folder=nil)
+		@project_directory = File.expand_path path_to_folder if path_to_folder
+		# output to the currently stored directory, unless an argument is specified.
+		# In which case, use that directory instead.
+		# (think of the latter case as 'save as')
+		
 		
 		# TODO: consider renaming variables with 'dump' in the name
 		# NOTE: This segment of the code uses 'dump' in variable names to refer to 'lists of packed objects'. This can be confusing, as 'dump' generally means "write to file on disk" and 'pack' generally means "take the data from this object, and put it into an array"
@@ -211,7 +215,7 @@ class Document
 	def load(path_to_folder)
 		# TODO: consider making this #load in the new collection #unpack style: should load into an already initialized object, rather than returning a new one.
 		
-		project_directory = path_to_folder
+		@project_directory = path_to_folder
 		
 		
 		# === load data from disk
@@ -229,7 +233,7 @@ class Document
 		
 		
 		# entities
-		entity_dump = read_data(project_directory, "entities")
+		entity_dump = read_data("entities")
 		
 		entities = @space.entities
 		entities.unpack(entity_dump)
@@ -238,7 +242,7 @@ class Document
 		
 		
 		# components
-		component_dump = load_yaml_file(project_directory, 'components')
+		component_dump = load_yaml_file('components')
 		unpack_component_data(component_dump, id_to_entity_table)
 		
 		# TODO: make sure that this value does not get set to nil when no data is loaded. or crashes. or anything bad like that
@@ -248,7 +252,7 @@ class Document
 		
 		
 		# groups
-		group_data = read_data(project_directory, 'groups')
+		group_data = read_data('groups')
 		group_data.each{ |data| data.map! &replace_according_to(id_to_entity_table)  }
 		
 		groups = @space.groups
@@ -269,7 +273,7 @@ class Document
 		
 		
 		# constraint objects
-		constraint_data = load_yaml_file(project_directory, 'constraints')
+		constraint_data = load_yaml_file('constraints')
 		@constraint_objects.unpack(constraint_data)
 		define_constraint_closures() # defined in core document file
 		
@@ -279,7 +283,7 @@ class Document
 		uuid_to_constraint_table = @constraint_objects
 		
 		
-		data_dump = read_data(project_directory, 'constraints')
+		data_dump = read_data('constraints')
 		
 		replace_ids_with_data!(
 			data_dump, 
@@ -300,7 +304,7 @@ class Document
 		
 		# --- abstract types
 		# prototypes
-		prototype_data = read_data(project_directory, 'prototypes')
+		prototype_data = read_data('prototypes')
 		@prototypes.unpack prototype_data
 		
 		# prefabs
@@ -428,8 +432,8 @@ class Document
 	
 	
 	
-	def read_data(project_directory, filename)
-		path = File.join(project_directory, filename)
+	def read_data(filename)
+		path = File.join(@project_directory, filename)
 		
 		extension = ".csv"
 		path += extension
@@ -444,8 +448,8 @@ class Document
 	end
 	
 	
-	def load_yaml_file(project_directory, filename)
-		path = File.join(project_directory, filename)
+	def load_yaml_file(filename)
+		path = File.join(@project_directory, filename)
 		
 		extension = ".yaml"
 		path += extension

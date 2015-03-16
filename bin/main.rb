@@ -9,8 +9,6 @@ class Window < Gosu::Window
 	attr_reader :camera
 	
 	def initialize(filepath)
-		@filepath = filepath
-		
 		Metrics::Timer.new "setup window" do
 			# Necessary to allow access to text input buffers, etc
 			# Also used for global access of mouse (should probably reconsider this)
@@ -49,7 +47,7 @@ class Window < Gosu::Window
 			# setup factory to create new objects based on established prototypes
 			# create camera
 			@document = ThoughtTrace::Document.new
-			@document.load @filepath
+			@document.load filepath
 			@document.bind_to_window self
 			
 			
@@ -83,7 +81,7 @@ class Window < Gosu::Window
 		@input.shutdown
 		
 		@document.gc
-		@document.dump @filepath
+		@document.dump # save to the same place you loaded from
 	end
 	
 	
