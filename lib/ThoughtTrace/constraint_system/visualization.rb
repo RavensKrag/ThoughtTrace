@@ -11,6 +11,14 @@ class Visualization
 		@timer = ThoughtTrace::Timer.new
 		
 		@style = ThoughtTrace::Components::Style.new
+		
+		# create style modes to match state machine states
+		@style.mode = :unbound
+		@style.mode = :bound
+		@style.mode = :active
+		
+		# set initial style mode
+		@style.mode = :unbound
 	end
 	
 	state_machine :state, :initial => :unbound do
