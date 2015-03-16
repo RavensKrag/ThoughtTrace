@@ -8,3 +8,12 @@ active        # * I-just-activated-and-passed-some data
 
 'active' will auto-transition back to 'bound' after a set period of time
 'active' state is set by the system when the constraint is fired
+
+
+
+Visualizations switch to 'active' as the Constraint is fired on the associated Pair,
+and then revert to 'bound' after the Constraint is done executing.
+Note that because all constraints must fire within one tick,
+( systemic pressure to get full system updated for the next render frame )
+it's not really necessary to actually measure how long they execute for.
+( at least not for purposes of visualization. optimization is another story )
