@@ -75,6 +75,8 @@ class Window < Gosu::Window
 			@input.draw
 		end
 		
+		
+		debug_show_mouse_position
 	end
 	
 	def on_shutdown
@@ -98,5 +100,24 @@ class Window < Gosu::Window
 	def needs_cursor?
 		# @input.needs_cursor?
 		true
+	end
+	
+	
+	private
+	
+	def debug_show_mouse_position
+		# debug code: show current position of the mouse
+		p = CP::Vec2.new(self.mouse_x, self.mouse_y)
+		
+		z = 10000
+		color = Gosu::Color.argb(0x88ffff00)
+		offset = 10
+		self.draw_quad(
+			p.x-offset, p.y-offset, color,
+			p.x+offset, p.y-offset, color,
+			p.x+offset, p.y+offset, color,
+			p.x-offset, p.y+offset, color,
+			z
+		)
 	end
 end
