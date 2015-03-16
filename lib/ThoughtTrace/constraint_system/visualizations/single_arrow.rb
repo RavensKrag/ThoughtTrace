@@ -26,8 +26,8 @@ class SingleArrow < Visualization
 		@style.edit(:active) do |c|
 			c['color'] = Gosu::Color.argb(0xaaFFAAAA)
 			c['body_weight'] = 10
-			c['fin_weight']  = (c['body_weight'] * 0.8).to_i
-			c['fin_offset']  = CP::Vec2.new(-30, 20)
+			c['fin_weight']  = (c['body_weight'] * 1).to_i
+			c['fin_offset']  = CP::Vec2.new(-30, 12)
 		end
 	end
 	
