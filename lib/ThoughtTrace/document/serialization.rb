@@ -260,7 +260,7 @@ class Document
 		# visualization_data = 
 		# visualizations = unpack_constraint_visualizations(visualization_data)
 		visualizations = [
-			ThoughtTrace::Constraints::Visualizations::DrawEdge.new
+			ThoughtTrace::Constraints::Visualizations::SingleArrow.new
 		]
 		
 		id_to_visualization_table = visualizations.each_with_index
