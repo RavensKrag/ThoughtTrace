@@ -11,23 +11,23 @@ class SingleArrow < Visualization
 		# TODO: consider putting the style at the class-level in a class-instance variable
 		@style.edit(:unbound) do |c|
 			c['color'] = Gosu::Color.argb(0xaa220000)
-			c['body_weight'] = 10
+			c['body_weight'] = 6 # default: 10 (base offset based on the default)
 			c['fin_weight']  = (c['body_weight'] * 0.8).to_i
-			c['fin_offset']  = CP::Vec2.new(-30, 20)
+			c['fin_offset']  = CP::Vec2.new(-30, 20)*0.8
 		end
 		
 		@style.edit(:bound) do |c|
 			c['color'] = Gosu::Color.argb(0xaaBB0000)
-			c['body_weight'] = 10
+			c['body_weight'] = 6
 			c['fin_weight']  = (c['body_weight'] * 0.8).to_i
-			c['fin_offset']  = CP::Vec2.new(-30, 20)
+			c['fin_offset']  = CP::Vec2.new(-30, 20)*0.8
 		end
 		
 		@style.edit(:active) do |c|
 			c['color'] = Gosu::Color.argb(0xaaFFAAAA)
-			c['body_weight'] = 10
+			c['body_weight'] = 6
 			c['fin_weight']  = (c['body_weight'] * 1).to_i
-			c['fin_offset']  = CP::Vec2.new(-30, 12)
+			c['fin_offset']  = CP::Vec2.new(-30, 12)*0.8
 		end
 	end
 	
