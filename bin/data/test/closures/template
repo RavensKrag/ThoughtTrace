@@ -4,9 +4,8 @@ return [
 
 	->(constraint){
 		constraint.closure # CONSTRAINT_CLASS
-		.let :a => 0.8 do |vars, h|
-			# 0.8*h
-			vars[:a]*h
+		.let :a => 1.0 do |vars, *args|
+			vars[:a]*args[0]
 		end
 	}
 ]
