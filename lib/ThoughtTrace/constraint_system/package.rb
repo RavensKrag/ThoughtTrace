@@ -44,6 +44,7 @@ class Package
 		
 		@visualization.update
 		
+		# NOTE: technically don't need to call #update when nothing is bound, (ie, the Pair in this Package is not bound) but not sure if that 'optimization' actually helps
 		@helpers.each{ |h| h.update  }
 	end
 	
