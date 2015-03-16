@@ -215,7 +215,7 @@ class Document
 	def load(path_to_folder)
 		# TODO: consider making this #load in the new collection #unpack style: should load into an already initialized object, rather than returning a new one.
 		
-		@project_directory = path_to_folder
+		@project_directory = File.expand_path path_to_folder
 		
 		
 		# === load data from disk
