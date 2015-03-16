@@ -11,23 +11,32 @@ class SingleArrow < Visualization
 		# TODO: consider putting the style at the class-level in a class-instance variable
 		@style.edit(:unbound) do |c|
 			c['color'] = Gosu::Color.argb(0xaa220000)
+			c['body_weight'] = 10
+			c['fin_weight']  = (c['body_weight'] * 0.8).to_i
+			c['fin_offset']  = CP::Vec2.new(-30, 20)
 		end
 		
 		@style.edit(:bound) do |c|
 			c['color'] = Gosu::Color.argb(0xaaBB0000)
+			c['body_weight'] = 10
+			c['fin_weight']  = (c['body_weight'] * 0.8).to_i
+			c['fin_offset']  = CP::Vec2.new(-30, 20)
 		end
 		
 		@style.edit(:active) do |c|
 			c['color'] = Gosu::Color.argb(0xaaFFAAAA)
+			c['body_weight'] = 10
+			c['fin_weight']  = (c['body_weight'] * 0.8).to_i
+			c['fin_offset']  = CP::Vec2.new(-30, 20)
 		end
 	end
 	
 	def draw(a,b)
-		color = @style['color']
-		body_weight = 10
-		fin_weight = (body_weight * 0.8).to_i
+		color       = @style['color']
+		body_weight = @style['body_weight']
+		fin_weight  = @style['fin_weight']
 		
-		offset = CP::Vec2.new(-30, 20)
+		offset      = @style['fin_offset']
 		# offset of the 'up' fin in coordinates local to the line from A to B
 		
 		
