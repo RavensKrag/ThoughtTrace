@@ -21,8 +21,9 @@ class LimitHeight < Constraint
 		
 		# the height of B should not exceed the height of A
 		# (passing A through the constraint allows the value to be further constrained)
-		if bh > ah
-			b[:physics].shape.height = @closure.call(a[:physics].shape.height)
+		desired_height = @closure.call(a[:physics].shape.height)
+		if bh > desired_height
+			b[:physics].shape.height = desired_height
 		end
 	end
 	
