@@ -44,13 +44,7 @@ class SingleArrow < Visualization
 		)
 		
 		# fins
-		ap = a[:physics].center
-		bp = b[:physics].center
-		
-		x = bp - ap
-		
-		x_hat = x.normalize
-		y_hat = x_hat.perp
+		x_hat, y_hat = local_vector_basis(a,b)
 		
 		
 		v1 = bc + (x_hat*offset.x) + (y_hat*offset.y)      # up   fin endpoint
@@ -68,6 +62,20 @@ class SingleArrow < Visualization
 			bc, v2, 
 			color:color, thickness:fin_weight
 		)
+	end
+	
+	private
+	
+	def local_vector_basis(a,b)
+		ap = a[:physics].center
+		bp = b[:physics].center
+		
+		x = bp - ap
+		
+		x_hat = x.normalize
+		y_hat = x_hat.perp
+		
+		return x_hat, y_hat
 	end
 end
 
