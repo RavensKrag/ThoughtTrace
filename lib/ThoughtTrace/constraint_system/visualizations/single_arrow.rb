@@ -24,10 +24,11 @@ class SingleArrow < Visualization
 	
 	def draw(a,b)
 		color = @style['color']
-		weight = 10
-		fin_weight = (weight * 0.8).to_i
+		body_weight = 10
+		fin_weight = (body_weight * 0.8).to_i
 		
 		offset = CP::Vec2.new(-30, 20)
+		# offset of the 'up' fin in coordinates local to the line from A to B
 		
 		
 		
@@ -38,7 +39,7 @@ class SingleArrow < Visualization
 		ThoughtTrace::Drawing.draw_line(
 			$window,
 			ac, bc, 
-			color:color, thickness:weight
+			color:color, thickness:body_weight
 		)
 		
 		# fins
