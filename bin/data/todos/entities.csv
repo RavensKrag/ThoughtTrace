@@ -1,0 +1,12 @@
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-310.41666666666663,22.97394578559605,group system
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-287.44272088107056,22.97394578559605,implement groups and selections
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-264.4687750954745,22.97394578559605,document format - multiple documents
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-241.49482930987844,22.97394578559605,nested document
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-218.5208835242824,22.97394578559605,layers of interaction (for UI etc)
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-195.54693773868635,22.97394578559605,TODO: limit camera drawing
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-172.5729919530903,22.97394578559605,TODO: camera layers
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-149.59904616749427,22.97394578559605,TODO: camera should be spatial data
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-126.62510038189822,22.97394578559605,implement loading of visualizations
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-103.65115459630218,22.97394578559605,constraint / constraint package maker
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-80.67720881070613,22.97394578559605,API to create / delete whole Constraint Packages
+ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-57.70326302511008,22.97394578559605,add / remove whole Entities (including Components)
