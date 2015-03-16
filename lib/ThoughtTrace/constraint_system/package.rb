@@ -110,8 +110,8 @@ class Package
 	end
 	
 	def bind_helper_constraints
-		@helpers[0].bind(@marker_a, @marker_a.constraint_target)
-		@helpers[1].bind(@marker_b, @marker_b.constraint_target)
+		@helpers[0].bind(@marker_a, @marker_a.constraint_target) if @marker_a.constraint_target
+		@helpers[1].bind(@marker_b, @marker_b.constraint_target) if @marker_b.constraint_target
 	end
 	
 	def unbind_helper_constraints
