@@ -4,13 +4,13 @@ module ThoughtTrace
 
 class Package
 	def pack
-		# NOTE: getting A and B accessable through Pair and Marker. Using Pair because that's the active binding.
+		# NOTE: must retrieve A and B through Marker, because sometimes only one or the other is bound. Getting A and B through Pair only works when BOTH are bound.
 		
 		[
 			@marker_a,
 			@marker_b,
-			@pair.a,
-			@pair.b,
+			@marker_a.constraint_target,
+			@marker_b.constraint_target,
 			@pair.constraint,
 			@visualization,
 			@visible
