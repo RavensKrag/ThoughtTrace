@@ -18,11 +18,13 @@ task :default => :run
 
 # run the program
 task :run => [:build_serialization_system, :load_dependencies, :load_main] do
-	# filepath = ARGV[0]
-	# filename ||= "default.yml"
-	# raise "No file path specified" unless filepath
-	
 	x = Window.new './data/test'
+	x.show
+	x.on_shutdown
+end
+
+task :show_todos => [:build_serialization_system, :load_dependencies, :load_main] do
+	x = Window.new './data/todos'
 	x.show
 	x.on_shutdown
 end
