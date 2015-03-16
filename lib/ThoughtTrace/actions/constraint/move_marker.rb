@@ -16,7 +16,9 @@ class Move < ThoughtTrace::Entity::Actions::Move
 	# called on first tick
 	def press(point)
 		super(point)
+		
 		marker = @entity
+			@old_target = marker.constraint_target # save old target
 		marker.unbind
 	end
 	
@@ -48,7 +50,14 @@ class Move < ThoughtTrace::Entity::Actions::Move
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		super()
+		# undo the binding
+		marker = @entity
+		marker.bind_to @old_target
+		
+		super() # undo the movement
+		# This phase may be unnecessary.
+		# Currently, the #bind_to phase specifies position.
+		# However, that may change.
 	end
 	
 	
