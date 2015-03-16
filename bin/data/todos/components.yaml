@@ -1,0 +1,13 @@
+---
+:style:
+  :named_styles: !ruby/object:ThoughtTrace::StyleCollection
+    cache:
+      Shared Query Style: !ruby/object:ThoughtTrace::Style::StyleObject
+        name: Shared Query Style
+        properties:
+          :color: !ruby/object:Gosu::Color
+            value: aa7a797a
+        lock: true
+  :components: {}
+:query:
+  :components: {}
