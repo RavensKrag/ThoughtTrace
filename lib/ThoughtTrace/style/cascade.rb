@@ -32,7 +32,7 @@ class Cascade
 		# find the first style object in the cascade order which has the desired property
 		style = @styles.each.find{ |style| style.has_property? property }
 		
-		raise "Could not find any styles in this Cascade with that property" unless style
+		raise "Could not find any styles in this Cascade with the property '#{property}'" unless style
 		
 		return style[property]
 	end
