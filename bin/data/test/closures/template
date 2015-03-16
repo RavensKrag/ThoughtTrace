@@ -1,0 +1,13 @@
+->(){
+return [
+	UUID,
+
+	->(constraint){
+		constraint.closure # CONSTRAINT_CLASS
+		.let :a => 0.8 do |vars, h|
+			# 0.8*h
+			vars[:a]*h
+		end
+	}
+]
+}[]
