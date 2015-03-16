@@ -27,14 +27,19 @@ class SingleArrow < Visualization
 	def draw(a,b)
 		color = @style['color']
 		weight = 10
+		fin_weight = (weight * 0.8).to_i
 		
 		offset = CP::Vec2.new(-30, 20)
 		
 		
+		
+		ac = a[:physics].center
+		bc = b[:physics].center
+		
 		# body line
 		ThoughtTrace::Drawing.draw_line(
 			$window,
-			a[:physics].center, b[:physics].center, 
+			ac, bc, 
 			color:color, thickness:weight
 		)
 		
@@ -48,20 +53,20 @@ class SingleArrow < Visualization
 		y_hat = x_hat.perp
 		
 		
-		v1 = b[:physics].center + (x_hat*offset.x) + (y_hat*offset.y)      # up   fin endpoint
-		v2 = b[:physics].center + (x_hat*offset.x) + (y_hat*offset.y * -1) # down fin endpoint
+		v1 = bc + (x_hat*offset.x) + (y_hat*offset.y)      # up   fin endpoint
+		v2 = bc + (x_hat*offset.x) + (y_hat*offset.y * -1) # down fin endpoint
 		
 		
 		ThoughtTrace::Drawing.draw_line(
 			$window,
-			b[:physics].center, v1, 
-			color:color, thickness:weight
+			bc, v1, 
+			color:color, thickness:fin_weight
 		)
 		
 		ThoughtTrace::Drawing.draw_line(
 			$window,
-			b[:physics].center, v2, 
-			color:color, thickness:weight
+			bc, v2, 
+			color:color, thickness:fin_weight
 		)
 	end
 end
