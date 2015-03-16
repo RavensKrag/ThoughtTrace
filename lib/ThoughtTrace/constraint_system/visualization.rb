@@ -9,6 +9,8 @@ class Visualization
 		super()
 		
 		@timer = ThoughtTrace::Timer.new
+		
+		@style = ThoughtTrace::Components::Style.new
 	end
 	
 	state_machine :state, :initial => :unbound do
@@ -66,6 +68,11 @@ class Visualization
 		
 		
 		before_transition  :bound => :active, :do => :activation_callback
+		
+		
+		after_transition  any => :unbound, :do => :activate_unbound_style
+		after_transition  any => :bound,   :do => :activate_bound_style
+		after_transition  any => :active,  :do => :activate_active_style
 	end
 	
 	
@@ -75,6 +82,18 @@ class Visualization
 		@timer.wait(800) do
 			self.rest
 		end
+	end
+	
+	def activate_unbound_style
+		@style.mode = :unbound
+	end
+	
+	def activate_bound_style
+		@style.mode = :bound
+	end
+	
+	def activate_active_style
+		@style.mode = :active
 	end
 end
 

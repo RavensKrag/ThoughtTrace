@@ -8,14 +8,17 @@ class DrawEdge < Visualization
 	def initialize
 		super()
 		
-		# TODO: consider putting the cascade at the class-level in a class-instance variable
-		@cascade = ThoughtTrace::Style::Cascade.new
-		@cascade.tap do |c|
-			c['color'] = Gosu::Color.argb(0xaaFF0000)
-			
-			c['color_unbound'] = Gosu::Color.argb(0xaa220000)
-			c['color_bound']   = Gosu::Color.argb(0xaaBB0000)
-			c['color_active']  = Gosu::Color.argb(0xaaFFAAAA)
+		# TODO: consider putting the style at the class-level in a class-instance variable
+		@style.edit(:unbound) do |c|
+			c['color'] = Gosu::Color.argb(0xaa220000)
+		end
+		
+		@style.edit(:bound) do |c|
+			c['color'] = Gosu::Color.argb(0xaaBB0000)
+		end
+		
+		@style.edit(:active) do |c|
+			c['color'] = Gosu::Color.argb(0xaaFFAAAA)
 		end
 	end
 	
@@ -31,7 +34,7 @@ class DrawEdge < Visualization
 			end
 			
 			def draw(a,b)
-				color = @cascade['color_unbound']
+				color = @style['color']
 				
 				ThoughtTrace::Drawing.draw_line(
 					$window,
@@ -48,7 +51,7 @@ class DrawEdge < Visualization
 			end
 			
 			def draw(a,b)
-				color = @cascade['color_bound']
+				color = @style['color']
 				
 				ThoughtTrace::Drawing.draw_line(
 					$window,
@@ -66,7 +69,7 @@ class DrawEdge < Visualization
 			
 			def draw(a,b)
 				# TODO: properly define Components::Physics#center
-				color = @cascade['color_active']
+				color = @style['color']
 				
 				ThoughtTrace::Drawing.draw_line(
 					$window,
