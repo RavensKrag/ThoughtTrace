@@ -7,23 +7,22 @@ module ThoughtTrace
 class Underline < Visualization
 	def initialize
 		super()
-	end
-	
-	# TODO: consider having two separate objects for active and inactive states, so that the two states can keep their data completely separate
-	# TODO: consider that only one visualization object needs to be made - this wrapper - and that the inside classes could be something else? or maybe that those objects should be the visualization classes, and this wrapper should be called something else
-	def update_active
 		
-	end
-	
-	def update_inactive
+		# TODO: consider putting the style at the class-level in a class-instance variable
+		@style.edit(:unbound) do |c|
+			c['color'] = Gosu::Color.argb(0xaa220000)
+		end
 		
-	end
-	
-	def draw_active(a,b)
+		@style.edit(:bound) do |c|
+			c['color'] = Gosu::Color.argb(0xaaBB0000)
+		end
 		
+		@style.edit(:active) do |c|
+			c['color'] = Gosu::Color.argb(0xaaFFAAAA)
+		end
 	end
 	
-	def draw_inactive(a,b)
+	def draw(a,b)
 		
 	end
 end
