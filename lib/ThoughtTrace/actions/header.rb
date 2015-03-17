@@ -12,6 +12,7 @@ Dir.chdir path_to_file do
 		
 		'./entity',
 		'./empty_space',
+		'./selection',
 		# './group',
 		'./query',
 		'./constraint'
