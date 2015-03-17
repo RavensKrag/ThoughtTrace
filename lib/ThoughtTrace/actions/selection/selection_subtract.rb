@@ -5,7 +5,7 @@ module ThoughtTrace
 
 
 class SelectionSubtract < ThoughtTrace::Actions::BaseAction
-	initialize_with :action_factory
+	initialize_with :action_factory, :selection
 	
 	
 	# called on first tick
