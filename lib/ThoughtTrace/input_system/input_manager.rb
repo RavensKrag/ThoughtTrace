@@ -22,7 +22,7 @@ class InputManager
 		# TODO: properly implement mouse.
 		@mouse = InputSystem::Mouse.new window, @document.camera
 		
-		@selection = [] # TODO: create actual selection collection. Array is placeholder. May work, may not. Haven't actually thought about it at all.
+		@selection = ThoughtTrace::Groups::Group.new
 		
 		@text_input = ThoughtTrace::TextInput.new
 		

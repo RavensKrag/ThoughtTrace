@@ -3,8 +3,6 @@ module ThoughtTrace
 
 
 class Group
-	CASCADE_NAME = :group
-	
 	def initialize
 		@entities = Array.new
 	end
@@ -44,6 +42,16 @@ class Group
 	end
 	
 	
+	
+	def clear
+		@entities.clear
+	end
+	
+	def each(&block)
+		@entities.each &block
+	end
+	
+	include Enumerable
 	
 	
 	

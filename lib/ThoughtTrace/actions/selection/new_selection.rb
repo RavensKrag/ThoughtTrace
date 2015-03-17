@@ -28,18 +28,40 @@ class NewSelection < ThoughtTrace::Actions::BaseAction
 		
 	end
 	
+	# final tick of the Action
+	# (used to be called #cleanup)
+	def release(point)
+		@set = @select.release(point)
+		@old_selection = @selection.collect{|x|  x }
+		
+		# selection should really be a Group, not just a Set
+		# also, you can't just set the value by setting the variable: you need to move the data
+		@set.each do |entity|
+			@selection.clear
+			@selection.add entity
+		end
+	end
+	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		
+		@old_selection.each do |entity|
+			@selection.clear
+			@selection.add entity
+		end
 	end
 	
-	# final tick of the Action
-	# (used to be called #cleanup)
-	def release(point)
-		set = @select.release(point)
+	# changed my mind about undo-ing
+	# apply the originally intended transformation to the data
+	def redo
+		@set.each do |entity|
+			@selection.clear
+			@selection.add entity
+		end
 	end
+	
+	
 	
 	
 	
