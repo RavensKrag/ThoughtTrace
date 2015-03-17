@@ -113,24 +113,24 @@ class InputManager
  		
  		left_click_bindings  = {
 			:on_object => {
-				[]                        => [:place_text_caret, :edit],
-				[:shift]                  => [:spawn_text, :resize],
-				[:control]                => [nil, :constrain],
-				[:alt]                    => [:add_to_group, :lasso_select],
-				[:shift, :control]        => [nil, nil],
-				[:shift, :alt]            => [nil, :box_select],
-				[:control, :alt]          => [nil, nil],
-				[:shift, :control, :alt]  => [nil, nil]
+				[]                        => [:place_text_caret,       :edit              ],
+				[:shift]                  => [:spawn_text,             :resize            ],
+				[:control]                => [nil,                     :constrain         ],
+				[:alt]                    => [:select_single,          :new_selection     ],
+				[:shift, :control]        => [nil,                     nil],
+				[:shift, :alt]            => [:single_select_add,      :selection_add     ],
+				[:control, :alt]          => [:single_select_subtract, :selection_subtract],
+				[:shift, :control, :alt]  => [nil,                     nil]
 			},
 			:empty_space => {
-				[]                        => [nil, nil],
-				[:shift]                  => [:spawn_text, nil],
-				[:control]                => [nil, nil],
-				[:alt]                    => [nil, :lasso_select],
-				[:shift, :control]        => [nil, nil],
-				[:shift, :alt]            => [nil, :box_select],
-				[:control, :alt]          => [nil, nil],
-				[:shift, :control, :alt]  => [nil, nil]
+				[]                        => [nil,                     nil                 ],
+				[:shift]                  => [:spawn_text,             nil                 ],
+				[:control]                => [nil,                     nil                 ],
+				[:alt]                    => [nil,                     :new_selection      ],
+				[:shift, :control]        => [nil,                     nil                 ],
+				[:shift, :alt]            => [nil,                     :selection_add      ],
+				[:control, :alt]          => [nil,                     :selection_subtract ],
+				[:shift, :control, :alt]  => [nil,                     nil                 ]
 			}
 		}
 		
