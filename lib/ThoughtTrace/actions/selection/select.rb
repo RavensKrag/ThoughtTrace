@@ -194,7 +194,8 @@ class Select < ThoughtTrace::Actions::BaseAction
 					crossing_count += 1 # crossing found
 				elsif a.x > 0 && b.x < 0 or a.x < 0 && b.x > 0
 					# x components differ in sign
-					if point.x.between?(a.x, b.x)
+					low, high = [a.x, b.x].sort
+					if point.x.between?(low, high)
 						# the x component intersects the edge
 						crossing_count += 1 # crossing found
 					end
