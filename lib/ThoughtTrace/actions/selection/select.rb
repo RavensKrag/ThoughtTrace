@@ -20,7 +20,8 @@ class Select < ThoughtTrace::Actions::BaseAction
 	# perform calculations to generate the new data, but don't change the data yet.
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
-		@verts << point
+		dist = 10
+		@verts << point if @verts.last.distsq(point) > dist**2
 	end
 	
 	# Actually apply changes to data.
@@ -77,36 +78,59 @@ class Select < ThoughtTrace::Actions::BaseAction
 	def draw
 		z = 1000
 		color = Gosu::Color.argb(0x88FFFFFF)
+		weight = 4
 		
-		$window.gl z do
-			GL.PushMatrix()
-			# GL.Translatef(self.body.p.x, self.body.p.y, 0)
-				GL.Begin(GL::GL_TRIANGLE_FAN)
-					GL.Color4ub(color.red, color.green, color.blue, color.alpha)
-					
-					
-					# iterations = 60 # seems like high iterations cause crashes?
-					# # iterations = 12
-					
-					
-					# rotation_angle = 2*Math::PI / iterations # radians
-					# rotation_vector = CP::Vec2.for_angle rotation_angle
-					
-					
-					# vec = CP::Vec2.new(self.radius, 0)
-					
-					# # center
-					# GL.Vertex2f(0, 0)
-					
-					# # verts on the edge of the circle
-					# (iterations+1).times do # extra iteration to loop back to start
-					# 	GL.Vertex2f(vec.x, vec.y)
-						
-					# 	vec = vec.rotate rotation_vector
-					# end
-				GL.End()
-			GL.PopMatrix()
+		@verts.each_cons(2) do |a,b|
+			ThoughtTrace::Drawing.draw_line(
+				$window,
+				a,b,
+				color:color, thickness:weight, line_offset:0.5, z_index:z
+			)
 		end
+		
+		a = @verts.last
+		b = @verts.first
+		ThoughtTrace::Drawing.draw_line(
+			$window,
+			a,b,
+			color:color, thickness:weight, line_offset:0.5, z_index:z
+		)
+		
+		
+		
+		# $window.gl z do
+		# 	GL.PushMatrix()
+		# 	# GL.Translatef(self.body.p.x, self.body.p.y, 0)
+		# 		GL.Begin(GL::GL_TRIANGLE_FAN)
+		# 			GL.Color4ub(color.red, color.green, color.blue, color.alpha)
+					
+					
+		# 			# iterations = 60 # seems like high iterations cause crashes?
+		# 			# # iterations = 12
+					
+					
+		# 			# rotation_angle = 2*Math::PI / iterations # radians
+		# 			# rotation_vector = CP::Vec2.for_angle rotation_angle
+					
+					
+		# 			# vec = CP::Vec2.new(self.radius, 0)
+					
+		# 			# # center
+		# 			# GL.Vertex2f(0, 0)
+					
+		# 			# # verts on the edge of the circle
+		# 			# (iterations+1).times do # extra iteration to loop back to start
+		# 			# 	GL.Vertex2f(vec.x, vec.y)
+						
+		# 			# end
+					
+					
+		# 			@verts.each do |vec|
+		# 				GL.Vertex2f(vec.x, vec.y)
+		# 			end
+		# 		GL.End()
+		# 	GL.PopMatrix()
+		# end
 	end
 end
 
