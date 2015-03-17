@@ -178,7 +178,7 @@ class Select < ThoughtTrace::Actions::BaseAction
 		
 		# cast a ray going in the +x direction from the point, and count edge crossings
 		
-		edges = (verts.each_cons(2).to_a + [[verts.last, verts.first]])
+		edges = (verts.each_cons(2).to_a << [verts.last, verts.first])
 		edges.each do |a,b|
 			# The edge of the polygon is formed by the line AB
 			ap = a - point
