@@ -273,6 +273,10 @@ class Document
 		
 		
 		# constraint objects
+		# TODO: make sure that linked constraint closures can be saved correctly
+			# current structure means that two Constraints CAN share a closure, but it's not exactly standard. It would only make sense if you want to share between disparate types of Constraints, because otherwise you would just share the whole Constraint object.
+		# TODO: really need to think about how new constraints will be formed in the graph.
+		
 		constraint_data = load_yaml_file('constraints')
 		@constraint_objects.unpack(constraint_data)
 		define_constraint_closures() # defined in core document file
