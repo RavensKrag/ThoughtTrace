@@ -177,7 +177,14 @@ class Document
 			out = Array.new(row.size)
 			
 			row.each_with_index do |x, i|
-				# m1, m2, e1, e2, constraint_uuid, visualizations_id, visibility
+				# constraint package format:
+					# marker_a              entity id   0
+					# marker_b              entity id   1
+					# a                     entity id   2
+					# b                     entity id   3
+					# constraint_object     UUID        4
+					# visualization         'V' + id    5
+					# visible?              boolean     6
 				
 				conversion_table = case i
 					when 0..3
