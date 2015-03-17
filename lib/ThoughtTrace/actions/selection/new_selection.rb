@@ -36,8 +36,8 @@ class NewSelection < ThoughtTrace::Actions::BaseAction
 		
 		# selection should really be a Group, not just a Set
 		# also, you can't just set the value by setting the variable: you need to move the data
+		@selection.clear
 		@set.each do |entity|
-			@selection.clear
 			@selection.add entity
 		end
 	end
@@ -46,8 +46,8 @@ class NewSelection < ThoughtTrace::Actions::BaseAction
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
+		@selection.clear
 		@old_selection.each do |entity|
-			@selection.clear
 			@selection.add entity
 		end
 	end
@@ -55,8 +55,8 @@ class NewSelection < ThoughtTrace::Actions::BaseAction
 	# changed my mind about undo-ing
 	# apply the originally intended transformation to the data
 	def redo
+		@selection.clear
 		@set.each do |entity|
-			@selection.clear
 			@selection.add entity
 		end
 	end
