@@ -5,7 +5,7 @@ module CP
 			
 			attr_reader :offset
 			
-			def initialize(body, verts, offset)
+			def initialize(body, verts, offset=CP::Vec2.new(0,0))
 				old_init(body, verts, offset)
 				@offset = offset
 			end
