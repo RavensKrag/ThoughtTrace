@@ -22,6 +22,8 @@ class Select < ThoughtTrace::Actions::BaseAction
 	def update(point)
 		dist = 10
 		@verts << point if @verts.last.distsq(point) > dist**2
+		
+		@bb = bb_for_verts(@verts)
 	end
 	
 	# Actually apply changes to data.
@@ -56,6 +58,16 @@ class Select < ThoughtTrace::Actions::BaseAction
 		# using the center points of the queries in the immediate area.
 		# (similar to the general cull-to-get-close approach used in games in general)
 		# (and also kinda like single mouse picking? because that uses distance to center as a criterion)
+		
+		@space.bb_query @bb do |entity|
+			
+			p = entity[:physics].center
+			if point_in_polygon?(p, @verts)
+				puts p
+				
+				set.add entity
+			end
+		end
 		
 		
 		return set
@@ -97,6 +109,9 @@ class Select < ThoughtTrace::Actions::BaseAction
 		)
 		
 		
+		color = Gosu::Color.argb(0x33FFFFFF)
+		@bb.draw color, z
+		
 		
 		# $window.gl z do
 		# 	GL.PushMatrix()
@@ -131,6 +146,69 @@ class Select < ThoughtTrace::Actions::BaseAction
 		# 		GL.End()
 		# 	GL.PopMatrix()
 		# end
+	end
+	
+	
+	private
+	
+	def bb_for_verts(list)
+		l, b, r, t = [0,0,0,0]
+		list.each do |vert|
+			a = vert.x;  l = a if a < l
+			a = vert.y;  b = a if a < b
+			a = vert.x;  r = a if a > r
+			a = vert.y;  t = a if a > t
+		end
+		
+		return CP::BB.new(l,b,r,t)
+	end
+	
+	def point_in_polygon?(point, verts)
+		# sources:
+		# http://erich.realtimerendering.com/ptinpoly/
+		# http://en.wikipedia.org/wiki/Point_in_polygon
+		
+		
+		# don't even bother if the bounding box test fails
+		return false unless @bb.contains_vect? point
+		
+		
+		
+		crossing_count = 0
+		
+		# cast a ray going in the +x direction from the point, and count edge crossings
+		
+		edges = (verts.each_cons(2).to_a + [[verts.last, verts.first]])
+		edges.each do |a,b|
+			# The edge of the polygon is formed by the line AB
+			ap = a - point
+			bp = b - point
+			
+			
+			# if y components differ in sign
+			if ap.y > 0 && bp.y < 0 or ap.y < 0 && bp.y > 0
+				if ap.x > 0 && bp.x > 0
+					# x components are both positive
+					crossing_count += 1 # crossing found
+				elsif ap.x > 0 && bp.x < 0 or ap.x < 0 && bp.x > 0
+					# x components differ in sign
+					if point.x.between?(ap.x, bp.x)
+						# the x component intersects the edge
+						crossing_count += 1 # crossing found
+					end
+				end
+			end
+		end
+		
+		if crossing_count % 2 == 0
+			# even
+			# outside
+			return false
+		else
+			# odd
+			# inside
+			return true
+		end
 	end
 end
 
