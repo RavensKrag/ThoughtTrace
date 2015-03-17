@@ -6,6 +6,7 @@ module InputSystem
 class ActionFactory
 	def initialize(mapping={})
 		@conversion_table = mapping # property name => value
+		@conversion_table[:action_factory] = self
 	end
 	
 	
