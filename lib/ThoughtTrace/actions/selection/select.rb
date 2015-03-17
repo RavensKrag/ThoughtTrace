@@ -45,7 +45,11 @@ class Select < ThoughtTrace::Actions::BaseAction
 	def release(point)
 		# NOTE: may have to perform multiple queries, because Shape must be a convex whole.
 		
-		body = CP::Body.new(1,1) # doesn't really matter what the body is like, only want the Shape
+		# doesn't really matter what the body is like, only want the Shape
+		# body = CP::Body.new(1,1)
+		# p CP::Shape::Poly.valid? @verts
+		# puts "forward is ok" if CP::Shape::Poly.valid? @verts
+		# puts "backward is ok" if CP::Shape::Poly.valid? @verts.reverse
 		# shape = CP::Shape::Poly.new body, @verts
 		
 		set = Set.new
