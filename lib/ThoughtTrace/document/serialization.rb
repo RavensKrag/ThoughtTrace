@@ -313,6 +313,21 @@ class Document
 		
 		
 		
+		# TODO: should add a new Constraint object to the list of available ones, and then Package a Constraint selected from that list. Want to potentially reuse Constraint objects among multiple Pairs / Packages.
+		# constraint    = ThoughtTrace::Constraints::LimitHeight.new
+		# visualization = ThoughtTrace::Constraints::Visualizations::SingleArrow.new
+		
+		# package = ThoughtTrace::Constraints::Package.new(constraint, visualization)
+		
+		# package.marker_a[:physics].body.p = CP::Vec2.new(-12.5,-101)
+		# package.marker_b[:physics].body.p = CP::Vec2.new(223,-76)
+		
+		# add_constraint(package)
+		
+		
+		
+		
+		
 		# --- abstract types
 		# prototypes
 		prototype_data = read_data('prototypes')
@@ -331,6 +346,66 @@ class Document
 	end
 	
 	private
+	
+	def add_constraint(package)
+		constraint = package.constraint
+		
+		# store constraint object, and generate an associated UUID
+		uuid = @constraint_objects.add constraint
+		
+		
+		# make copy of template file
+		# replace UUID and CONSTRAINT_CLASS strings from the template with actual values
+		# write the new closure file to the disk
+		template_filepath = File.expand_path "./closures/template", @project_directory
+		
+		data = File.read(template_filepath)
+		data.gsub! /UUID/,              uuid
+		data.gsub! /CONSTRAINT_CLASS/,  constraint.class.name
+		
+		path = File.expand_path "./closures/#{uuid}.rb", @project_directory
+		File.write(path, data)
+		
+		
+		
+		
+		
+		# store package
+		@constraint_packages.add package
+		
+		
+		# add Marker objects to Space
+		@space.entities.add package.marker_a
+		@space.entities.add package.marker_b
+	end
+	
+	def delete_constraint(package)
+		# remove package from collection
+		@constraint_packages.delete package # TODO: implement PackageCollection#delete
+		
+		# remove markers from Space
+		@space.entities.delete package.marker_a
+		@space.entities.delete package.marker_b
+		
+		
+		# if there are no other Packages using that constraint
+			# delete constraint object from backend collection
+			# delete constraint parameterization file (try to trash it instead of hard delete)
+		constraint = package.constraint
+		count = @constraint_objects.delete constraint # remove and decrement resource count
+		# TODO: implement @constraint_objects#delete with resource counting
+		if count == 0
+			# No more users of this Constraint object. It has been removed from the collection.
+			
+			# TODO: need a way of getting the UUID when you have a Constraint object
+			uuid = constraint.uuid # NOTE: not implemented. not sure if I want this interface.
+			path = File.expand_path "./closures/#{uuid}.rb", @project_directory
+			FileUtils.rm(path)
+			# TODO: try to move to trash instead of using RM
+		end
+	end
+	
+	
 	
 	def unpack_component_data(data, id_to_entity_table)
 		# load component data from disk
