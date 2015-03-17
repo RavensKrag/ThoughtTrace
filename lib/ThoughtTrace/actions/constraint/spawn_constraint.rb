@@ -6,7 +6,7 @@ module ThoughtTrace
 
 
 class SpawnConstraint < ThoughtTrace::Actions::BaseAction
-	initialize_with :entity, :space
+	initialize_with :entity, :space, :action_factory
 	
 	
 	# called on first tick
@@ -25,11 +25,11 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 		
 		# put marker A down at this point, so that it will bind to this Entity
 		# (actually, need to bind it here, as binding is part of the Move action, but you're bypassing that right now)
+		@package.marker_a.bind_to(@entity)
 		# move marker B, with the move marker action
 		
-		# TODO: chain into move marker
-		# TODO: figure out if actions should be able to request the ActionFactory. Would be much easier to create helper actions that way.
-		@move_action = ThoughtTrace::Constraints::Marker::Actions::Move.new(marker, @space)
+		
+		@move_action = @action_factory.create(marker, :move)
 		@move_action.press(point)
 		
 		# NOTE: binding only one marker may cause the Package to constantly call @pair.unbind
