@@ -105,6 +105,7 @@ class Document
 		Dir[closure_directory].each do |filepath|
 			# execute the file, and get the necessary data out
 			uuid, proc = eval(File.read(filepath))
+			# http://polishinggems.blogspot.com/2011/06/how-to-evaluate-ruby-script-file-from.html
 			
 			# pass constraint closure to the proc to be parameterized
 			proc.call(@constraint_objects[uuid])
