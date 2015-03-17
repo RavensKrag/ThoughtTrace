@@ -23,6 +23,8 @@ class Group
 		# some groups could assign styles to their members, but I don't think it's necessary to visualize "being in a group" with the assignment of a style
 		# groups probably shouldn't be visible all the time anyway
 		# (allows for better use of groups as an abstraction tool)
+		
+		
 	end
 	
 	def gc?
@@ -41,8 +43,6 @@ class Group
 		@entities.delete obj
 	end
 	
-	
-	
 	def clear
 		@entities.clear
 	end
@@ -52,6 +52,8 @@ class Group
 	end
 	
 	include Enumerable
+	
+	
 	
 	
 	
