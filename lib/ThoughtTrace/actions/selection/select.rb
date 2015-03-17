@@ -108,9 +108,9 @@ class Select < ThoughtTrace::Actions::BaseAction
 			color:color, thickness:weight, line_offset:0.5, z_index:z
 		)
 		
-		
 		color = Gosu::Color.argb(0x33FFFFFF)
 		@bb.draw color, z
+		
 		
 		
 		# $window.gl z do
@@ -178,21 +178,19 @@ class Select < ThoughtTrace::Actions::BaseAction
 		
 		# cast a ray going in the +x direction from the point, and count edge crossings
 		
-		edges = (verts.each_cons(2).to_a << [verts.last, verts.first])
-		edges.each do |a,b|
-			# The edge of the polygon is formed by the line AB
-			ap = a - point
-			bp = b - point
-			
+		edges = (verts.each_cons(2).to_a << [verts.last, verts.first])     # collect all edge pairs
+		edges.each{|pair| pair.collect!{|v|  v - point } }  # all verts relative to the input point
+		
+		edges.each do |a,b|  # The edge of the polygon is formed by the line AB
 			
 			# if y components differ in sign
-			if ap.y > 0 && bp.y < 0 or ap.y < 0 && bp.y > 0
-				if ap.x > 0 && bp.x > 0
+			if a.y > 0 && b.y < 0 or a.y < 0 && b.y > 0
+				if a.x > 0 && b.x > 0
 					# x components are both positive
 					crossing_count += 1 # crossing found
-				elsif ap.x > 0 && bp.x < 0 or ap.x < 0 && bp.x > 0
+				elsif a.x > 0 && b.x < 0 or a.x < 0 && b.x > 0
 					# x components differ in sign
-					if point.x.between?(ap.x, bp.x)
+					if point.x.between?(a.x, b.x)
 						# the x component intersects the edge
 						crossing_count += 1 # crossing found
 					end
