@@ -57,16 +57,7 @@ class Collection
 		
 		
 		
-		
-		
-		# requires sorting, which is bad
-		@index_to_obj.keys.sort.each do |i|
-			block.call @index_to_obj[i]
-		end
-		
-		
-		# refrains from sorting,
-		# but you get more 'cache misses' as time goes on
+		# you get more 'cache misses' as time goes on
 		# because there will be holes in the data upon deletion
 		# 
 		# I implemented #gc in order to help fix that issue,
