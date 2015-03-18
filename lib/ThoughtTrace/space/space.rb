@@ -138,6 +138,23 @@ class Space
 	end
 	
 	class EntityList < List
+		# store a counter of the next z index to assign
+		# assign the next index when a new object is added
+		# never decrement the counter, though.
+		# also: do not serialize the counter - 
+		# The order of Entities in the data file will determine their z-index,
+		# which will be in the same order as the order of elements in the collection.
+		# This does not guarantee that all indicies in a range will be occupied,
+		# but it does guarantee that no index will be used more than once.
+		# The 'no duplication' part is what is truly important.
+		# You can thus 'compress' the indicies that are being used by restarting.
+		# 
+		# The z-index of each object is not super important: what is important is the sorting relative to each other.
+		# Don't try to hard-code things about z-indidies, should just reference the z-index of another object by pointer or w/e
+		# 
+		# Remember that when you swap positions of things in the list, you need to swap their z-index values as well. But because of what has been said previously, you can't assume that the z-index will always be the same as the position in the array. (deletions would get messy really fast)
+		# Should implement a simple interface for swapping positions in the list, for rearranging elements
+		
 		def add(object)
 			# raise "Physics component on #<#{object.class}:#{object.object_id}> not found." unless object.respond_to? :physics
 			
