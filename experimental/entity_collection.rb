@@ -3,7 +3,19 @@
 # (would be nice to guarantee that they were also in continuous sequence but idk how to do that)
 
 # might be better to use a linked-list as the backing store,
-# but the Hash is a built-in Ruby type, so it's just easier to get SOMETHING up this way.
+# but I'm not sure how you would get a fast ID -> object mapping that way.
+
+# Note that for serialization, the order of Entities in the data file will determine their z-index,
+# which is the same order as the order of elements in the collection.
+# This does not guarantee that all indicies in a range will be occupied,
+# but it does guarantee that no index will be used more than once.
+# The 'no duplication' part is what is truly important.
+# You can thus 'compress' the indicies that are being used by restarting.
+
+# The precise value of the index for each element is not super important:
+# what is important is the sorting relative to each other.
+# Don't try to hard-code things about z-indidies, 
+# should just reference the z-index of another object by pointer or w/e
 
 class Collection
 	def initialize(space)
@@ -102,6 +114,55 @@ class Collection
 		end
 		
 		raise "Remapping failed" unless @index_to_obj.size == @obj_to_index.size
+	end
+	
+	
+	
+	
+	
+	
+	# TODO: need to figure out how to get this code from List without just copying it over
+	
+	
+	# return a data blob
+	def pack
+		return self.collect{ |e| pack_with_class_name(e)  }
+	end
+	
+	# take a data blob, and load that data into this object
+	# NOTE: this method basically assumes that the current collection is empty. if it's not, weird things can happen
+	def unpack(data)
+		unless self.empty?
+			identifier = "#<#{self.class}:#{object_space_id_string}"
+			
+			warn "#{identifier}#unpack_into_self may not function as intended because this object is not empty." 
+		end
+		
+		data.each do |row|
+			obj = unpack_with_class_name(row)
+			self.add(obj)
+		end
+	end
+	
+	private
+	
+	def pack_with_class_name(obj)
+		if obj.respond_to? :pack
+			return obj.pack.unshift(obj.class.name)
+			# [class_name, arg1, arg2, arg3, ..., argn]
+		else
+			return nil
+		end
+	end
+	
+	def unpack_with_class_name(array)
+		# array format: same as the output to #pack_with_class_name
+		klass_name = array.shift
+		args = array
+		
+		klass = Kernel.const_get klass_name
+		
+		return klass.unpack *args
 	end
 end
 
