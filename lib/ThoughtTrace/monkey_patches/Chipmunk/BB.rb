@@ -2,6 +2,8 @@ require 'yaml'
 
 module CP
 	class BB
+		# init order: [l,b,r,t]
+		
 		def draw(color, z=0)
 			$window.draw_quad	self.l, self.t, color,
 								self.r, self.t, color,
