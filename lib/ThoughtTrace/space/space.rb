@@ -61,7 +61,7 @@ class Space
 			@entities,
 			@groups
 		].each do |collection|
-			collection.delete_if &:gc?
+			collection.gc
 		end
 	end
 	
@@ -78,21 +78,12 @@ class Space
 	
 	
 	
-	class List < Array
-		def initialize(space)
-			@space = space
-		end
-		
-		def add(object)
-			self.push object
-		end
-		
-		def delete(object)
-			super(object)
-		end
-		
-		
-		
+	module Packageable # mixin
+		# contract: must define the following - 
+			# collect
+			# empty?
+			# add
+		# in order for #pack and #unpack to function
 		
 		
 		# return a data blob
@@ -137,23 +128,122 @@ class Space
 		end
 	end
 	
-	class EntityList < List
-		# store a counter of the next z index to assign
-		# assign the next index when a new object is added
-		# never decrement the counter, though.
-		# also: do not serialize the counter - 
-		# The order of Entities in the data file will determine their z-index,
-		# which will be in the same order as the order of elements in the collection.
-		# This does not guarantee that all indicies in a range will be occupied,
-		# but it does guarantee that no index will be used more than once.
-		# The 'no duplication' part is what is truly important.
-		# You can thus 'compress' the indicies that are being used by restarting.
+	
+	
+	class Collection
+		def initialize(space)
+			@space = space
+			
+			@obj_to_index = Hash.new
+			@index_to_obj = Array.new
+		end
+		
+		# fast ish? don't really care
+		def add(object)
+			i = @index_to_obj.size
+			@obj_to_index[object] = i
+			
+			@index_to_obj << object
+		end
+		
+		# don't care
+		def delete(object)
+			i = @obj_to_index[object]
+			
+			@obj_to_index.delete object
+			@index_to_obj[i] = nil
+		end
+		
+		def delete_if # &block
+			# this works because deleting will not change the size of the array,
+			# and thus can not affect the iteration of #each.
+			each do |x|
+				if yield x
+					delete x
+				end
+			end
+		end
+		
+		# don't care
+		def empty?
+			@obj_to_index.size == 0
+		end
+		
+		# swap the items at the two indicies given
+		# fast
+		def swap(i,j)
+			@obj_to_index[@index_to_obj[i]] = j
+			@obj_to_index[@index_to_obj[j]] = i
+			
+			temp = @index_to_obj[i]
+			@index_to_obj[i] = @index_to_obj[j]
+			@index_to_obj[j] = temp
+		end
+		
+		# given an object, retrieve its index
+		# fast
+		def index_for(object)
+			return @obj_to_index[object]
+		end
+		
+		
+		include Enumerable
+		
+		def each_with_index
+			return enum_for(:each_with_index) unless block_given?
+			
+			
+			
+			# you get more 'cache misses' as time goes on
+			# because there will be holes in the data upon deletion
+			# 
+			# I implemented #gc in order to help fix that issue,
+			# but having to remember to GC regularly could be it's own problem
+			@index_to_obj.size.times do |i|
+				obj = @index_to_obj[i]
+				next if obj.nil?
+				
+				yield obj, i
+			end
+		end
+		
+		# each implemented in terms of #each_with_index
+		# ( it's normally the other way around )
+		def each
+			return enum_for(:each) unless block_given?
+			
+			each_with_index do |x, i|
+				yield x
+			end
+		end
+		
+		
+		
+		
+		
+		# Compress the range of used indicies, such that there are no gaps.
+		# By simply putting 'nil's into the Array, instead of doing a 'real' delete,
+		# you can just move a bunch of things every once in a while.
 		# 
-		# The z-index of each object is not super important: what is important is the sorting relative to each other.
-		# Don't try to hard-code things about z-indidies, should just reference the z-index of another object by pointer or w/e
-		# 
-		# Remember that when you swap positions of things in the list, you need to swap their z-index values as well. But because of what has been said previously, you can't assume that the z-index will always be the same as the position in the array. (deletions would get messy really fast)
-		# Should implement a simple interface for swapping positions in the list, for rearranging elements
+		# NOTE: #gc can potentially create garbage in the @index_to_obj collection, because the number of indicies is decreasing. But the @obj_to_index collection will never have more entries than necessary, because the number of objects before and after #gc is constant.
+		def gc
+			# do a non-in-place operation in attempt to shrink C-Level data store
+			@index_to_obj = @index_to_obj.compact
+			
+			# refresh cache
+			@index_to_obj.each_with_index do |obj, i|
+				@obj_to_index[obj] = i
+			end
+			
+			raise "Remapping failed" unless @index_to_obj.size == @obj_to_index.size
+		end
+	end
+
+
+	
+	
+	class EntityList < Collection
+		include Packageable
 		
 		def add(object)
 			# raise "Physics component on #<#{object.class}:#{object.object_id}> not found." unless object.respond_to? :physics
@@ -179,16 +269,49 @@ class Space
 			@space.remove_shape(object[:physics].shape)
 			@space.remove_body(object[:physics].body)
 		end
+		
+		def gc
+			# remove
+			self.delete_if do |x|
+				x.gc?
+			end
+			
+			# compress index range
+			super()
+		end
 	end
 	
-	class GroupList < List
-		# def add(object)
-			
-		# end
+	class GroupList
+		include Packageable
 		
-		# def delete(object)
+		def initialize(space)
+			@space = space
 			
-		# end
+			@storage = Array.new
+		end
+		
+		def add(object)
+			@storage.push object
+		end
+		
+		def delete(object)
+			@storage.delete(object)
+		end
+		
+		def empty?
+			@storage.empty?
+		end
+		
+		def each(&block)
+			@storage.each &block
+		end
+		
+		include Enumerable
+		
+		
+		def gc
+			@storage.delete_if &:gc?
+		end
 	end
 end
 
