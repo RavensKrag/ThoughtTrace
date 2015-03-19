@@ -78,6 +78,7 @@ dependency_list = [
 	'./utilities/timer',
 	'./utilities/find_and_replace',
 	'./utilities/meta',
+	'./utilities/indexed_collection',
 	
 	'./monkey_patches',
 	
