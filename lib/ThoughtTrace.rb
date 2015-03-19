@@ -98,12 +98,7 @@ dependency_list = [
 	'./queries',
 	'./groups',
 	
-	# './space',
-		'./space/layers',
-		'./space/queries',
-		# './space/serialization',
-		'./space/space',
-	
+	'./space',
 	
 	'./constraint_system/',
 	
