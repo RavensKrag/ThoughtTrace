@@ -18,9 +18,7 @@
 # should just reference the z-index of another object by pointer or w/e
 
 class Collection
-	def initialize(space)
-		@space = space
-		
+	def initialize
 		@obj_to_index = Hash.new
 		@index_to_obj = Array.new
 	end
