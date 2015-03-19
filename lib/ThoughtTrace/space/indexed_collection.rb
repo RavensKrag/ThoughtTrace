@@ -3,6 +3,25 @@ module ThoughtTrace
 class Space
 
 
+# associates an obj with an integer IDs
+# IDs are guaranteed to be unique
+# (would be nice to guarantee that they were also in continuous sequence but idk how to do that)
+
+# might be better to use a linked-list as the backing store,
+# but I'm not sure how you would get a fast ID -> object mapping that way.
+
+# Note that for serialization, the order of Entities in the data file will determine their z-index,
+# which is the same order as the order of elements in the collection.
+# This does not guarantee that all indicies in a range will be occupied,
+# but it does guarantee that no index will be used more than once.
+# The 'no duplication' part is what is truly important.
+# You can thus 'compress' the indicies that are being used by restarting.
+
+# The precise value of the index for each element is not super important:
+# what is important is the sorting relative to each other.
+# Don't try to hard-code things about z-indicies, 
+# should just reference the z-index of another object by pointer or w/e
+
 class IndexedCollection
 	def initialize(space)
 		@space = space
