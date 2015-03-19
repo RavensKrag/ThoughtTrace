@@ -3,8 +3,10 @@ module ThoughtTrace
 
 
 class Group
+	# Groups need access to the Entity list for z-index calculation. Not sure how to get that here.
+	
 	def initialize
-		@entities = Array.new
+		@entities = Set.new
 	end
 	
 	
@@ -35,17 +37,44 @@ class Group
 	
 	
 	
-	def add(obj)
-		@entities << obj
+	def include?(obj)
+		@entities.include? obj
 	end
 	
-	def remove(obj)
+	
+	
+	def add(obj)
+		@entities.add obj
+		# @z = compute_z_index()
+	end
+	
+	def delete(obj)
 		@entities.delete obj
+		# @z = compute_z_index()
 	end
 	
 	def clear
 		@entities.clear
+		# @z = 0
 	end
+	
+	
+	
+	def union!(other)
+		@entities = @entities.union other
+	end
+	
+	def difference!(other)
+		@entities = @entities.difference other
+	end
+	
+	def intersection!(other)
+		@entities = @entities.intersection other
+	end
+	
+	
+	
+	
 	
 	def each(&block)
 		@entities.each &block
@@ -54,13 +83,21 @@ class Group
 	include Enumerable
 	
 	
+	private
+	
+	def compute_z_index
+		@entities.collect{|e|  @space.entities.index_for(e) }.max
+	end
+	
+	public
+	
 	
 	
 	
 	# ===== serialization =====
 	# convert ONE object to / from array on pack / unpack
 	def pack
-		return @entities.clone
+		return @entities.to_a
 	end
 	
 	
