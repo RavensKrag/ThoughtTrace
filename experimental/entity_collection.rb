@@ -41,6 +41,11 @@ class Collection
 		@index_to_obj[i] = nil
 	end
 	
+	# don't care
+	def empty?
+		@obj_to_index.size == 0
+	end
+	
 	# swap the items at the two indicies given
 	# fast
 	def swap(i,j)
