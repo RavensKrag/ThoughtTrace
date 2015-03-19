@@ -71,7 +71,7 @@ class Space
 	
 	extend Forwardable
 	def_delegators :@space,
-		:add_collision_handler, :remove_collision_handler,
+		:add_collision_handler, :remove_collision_handler
 	# TODO: consider just binding this new Space class to the collision manager class? not really sure that the collision handler binding methods should be exposed like this
 end
 
