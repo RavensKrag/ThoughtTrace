@@ -1,8 +1,5 @@
 module ThoughtTrace
 
-class Space
-
-
 # associates an obj with an integer IDs
 # IDs are guaranteed to be unique
 # (would be nice to guarantee that they were also in continuous sequence but idk how to do that)
@@ -133,5 +130,4 @@ end
 
 
 
-end
 end

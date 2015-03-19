@@ -3,7 +3,7 @@ module ThoughtTrace
 class Space
 
 
-class EntityList < IndexedCollection
+class EntityList < ThoughtTrace::IndexedCollection
 	include Packageable
 	
 	def add(object)
