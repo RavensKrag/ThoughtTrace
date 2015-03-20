@@ -39,7 +39,8 @@ class MouseInputSystem
 		# @spatial_status = :on_object
 		# @accelerators = [:shift]
 		# @button_phase = CLICK
-		@active_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
+		@dummy_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
+		@active_action = @dummy_action
 		@entity = nil
 	end
 	
@@ -122,14 +123,14 @@ class MouseInputSystem
 	def release(event_name)
 		@active_action.release(@mouse.position_in_space)
 		
-		@active_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
+		@active_action = @dummy_action
 		@entity = nil
 	end
 	
 	def cancel(event_name)
 		@active_action.cancel
 		
-		@active_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
+		@active_action = @dummy_action
 		@entity = nil
 	end
 	
