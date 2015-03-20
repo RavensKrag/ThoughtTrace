@@ -123,6 +123,7 @@ class Document
 	def draw
 		@camera.draw do
 			@space.draw
+			$window.flush
 			@constraint_packages.draw
 			yield
 		end
