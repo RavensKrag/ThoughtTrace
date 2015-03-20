@@ -64,14 +64,13 @@ class Select < ThoughtTrace::Actions::BaseAction
 		# (and also kinda like single mouse picking? because that uses distance to center as a criterion)
 		
 		@space.bb_query @bb do |entity|
-			
 			p = entity[:physics].center
 			if point_in_polygon?(p, @verts)
-				puts p
-				
 				set.add entity
 			end
 		end
+		
+		puts "#{set.size} items selected"
 		
 		
 		return set
