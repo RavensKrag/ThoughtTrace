@@ -140,8 +140,7 @@ class ActionFactory
 			
 			base_classes = [
 				ThoughtTrace::Entity,
-				ThoughtTrace::Actions::EmptySpace,
-				ThoughtTrace::Groups::Group
+				ThoughtTrace::Actions::EmptySpace
 			]
 			if base_classes.include? klass
 				# you have reached the bottom of the chain,
@@ -170,6 +169,9 @@ class ActionFactory
 			if obj[:query] and klass == ThoughtTrace::Queries::Query
 				# if the base object has a Query component
 				# you need to check the base object's class, as well as the core Query class
+				obj.class
+			elsif @selection.include? obj and klass == ThoughtTrace::Groups::Group
+				# Group doesn't define an action, then just use the Entity action instead.
 				obj.class
 			end
 		
