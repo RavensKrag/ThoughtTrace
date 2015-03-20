@@ -72,7 +72,7 @@ class Duplicate < ThoughtTrace::Actions::BaseAction
 	# display information to the user about the current transformation
 	# called each tick
 	def draw
-		
+		@move_action.draw
 	end
 end
 
