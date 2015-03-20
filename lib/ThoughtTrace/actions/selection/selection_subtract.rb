@@ -44,9 +44,7 @@ class SelectionSubtract < Select
 	private
 	
 	def forward
-		@set.each do |entity|
-			@selection.delete entity
-		end
+		@selection.difference! @set
 	end
 end
 

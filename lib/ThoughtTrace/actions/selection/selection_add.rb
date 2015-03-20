@@ -44,9 +44,7 @@ class SelectionAdd < Select
 	private
 	
 	def forward
-		@set.each do |entity|
-			@selection.add entity
-		end
+		@selection.union! @set
 	end
 end
 
