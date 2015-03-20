@@ -48,39 +48,39 @@ module ThoughtTrace
 			@font_cache = []
 			
 			# TODO: Consider using some other sequence than Fibonacci. Just used fib because it was easy
-			fib = ->(n) {
-				return n if n < 2
+			fib = Enumerator.new do |y|
+				a, b = [1, 1]
 				
-				vals = [0, 1]
-				(n-1+2).times do # extra two times because we're gonna take off the first two
-					vals.push(vals[-1] + vals[-2]) 
+				loop do
+					y.yield a
+					
+					x = a + b
+					a = b
+					b = x
 				end
+			end
+			
+			pow2 = Enumerator.new do |y|
+				x = 1
 				
-				# remove the first two values
-				vals.shift
-				vals.shift
-				
-				return vals
-			}
-			# pow2 = ->(n) {
-			# 	vals = [1]
-			# 	(n-1).times do
-			# 		vals.push(vals[-1]*2)
-			# 	end
-				
-			# 	return vals
-			# }
+				loop do
+					y.yield x
+					
+					x = x << 1
+				end
+			end
+			
 			
 			# TODO: Consider removing font sizes < 5
 			# Really small pixel size fonts aren't noticeably different, but the extra font objects will take up extra memory
 			# Getting rid of < 5 will remove 1,2,3 == 3 items
 			# Reduces number of fonts cached from 14 -> 11
 			# That's about a 20% reduction
-			heights = fib[14]
+			heights = fib.first(14).uniq # get rid of the duplicate 1s at the start
 			# heights -= (1..10).to_a
 			# heights += (1..10).to_a
 			# heights.sort!
-			# heights = pow2[11]
+			# heights = pow2.first(11)
 			# heights = [10,30,40]
 			puts "cached font sizes: #{heights.inspect}"
 			puts "\n\n"
