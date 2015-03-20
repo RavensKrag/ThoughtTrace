@@ -64,6 +64,8 @@ class InputManager
 		
 		# TODO: consider moving the action factory into the Document, if it would somehow make document switching easier to just bind the action factory present inside each document, instead of having to re-init the factories. But maybe that structure just doesn't work for some reason.
 		action_factory = InputSystem::ActionFactory.new(
+							@selection,
+							
 							:selection => @selection,
 							:text_input => @text_input,
 							

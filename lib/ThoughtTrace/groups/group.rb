@@ -63,6 +63,11 @@ class Group
 	end
 	
 	
+	def size
+		@entities.size
+	end
+	
+	
 	
 	def add(obj)
 		@entities.add obj

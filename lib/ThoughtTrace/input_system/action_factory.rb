@@ -4,7 +4,9 @@ module InputSystem
 # Create new actions based on name,
 # sending the appropriate arguments to Action initialization as necessary.
 class ActionFactory
-	def initialize(mapping={})
+	def initialize(active_selection, mapping={})
+		@selection = active_selection
+		
 		@conversion_table = mapping # property name => value
 		@conversion_table[:action_factory] = self
 	end
@@ -65,6 +67,36 @@ class ActionFactory
 			obj[:query].callbacks.class
 		else
 			# could be a Group or an Entity
+			
+			# # note that selection is also a group
+			# if @selection.include? obj
+			# 	# in the active selection group
+				
+				
+			# else
+			# 	containing_groups = @space.groups.select{ |g|  g.include? obj  }
+			# 	if containing_groups.empty?
+			# 		# not in any groups.
+			# 		# assuming this is just a standard Entity
+			# 		obj.class
+			# 	else
+			# 		# part of one or more groups
+					
+			# 	end
+			# end
+			
+			
+			
+			
+			if @selection.include? obj
+				return @selection.class
+			else
+				return obj.class
+			end
+			
+			
+			
+			
 			# how do you handle prefabs? are those different in some way?
 			# I think they're just groups?
 			obj.class
@@ -106,8 +138,12 @@ class ActionFactory
 			# Mostly, you will traverse the class inheritance hierarchy,
 			# but there are some exceptions.
 			
-			
-			if klass == ThoughtTrace::Entity or klass == ThoughtTrace::Actions::EmptySpace
+			base_classes = [
+				ThoughtTrace::Entity,
+				ThoughtTrace::Actions::EmptySpace,
+				ThoughtTrace::Groups::Group
+			]
+			if base_classes.include? klass
 				# you have reached the bottom of the chain,
 				# the root of the the tree.
 				# The recursion stops here
@@ -118,7 +154,7 @@ class ActionFactory
 				warn "#{obj.class} does not define #{name || '<NIL>'}, nor does it's ancestors"
 				return ThoughtTrace::Actions::NullAction
 			else
-				# trigger recursion to find the Action in question 
+				# trigger recursion to find the Action in question
 				parent = get_parent(obj, klass)
 				
 				return get_action(obj, parent, name)
