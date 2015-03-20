@@ -284,6 +284,8 @@ class InputManager
 		
 		@text_input.draw
 		# @mouse_input.draw
+		
+		@selection.draw
 	end
 	
 	def button_up(id)

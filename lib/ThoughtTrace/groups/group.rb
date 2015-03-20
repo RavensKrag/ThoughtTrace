@@ -7,6 +7,10 @@ class Group
 	
 	def initialize
 		@entities = Set.new
+		@z = 0
+		
+		# @buffer = Ashton::Texture.new(1024, 1024)
+		# @shader = Ashton::Shader.new
 	end
 	
 	
@@ -26,7 +30,21 @@ class Group
 		# groups probably shouldn't be visible all the time anyway
 		# (allows for better use of groups as an abstraction tool)
 		
+		color = Gosu::Color.argb(0x33FF00FF)
+		@entities.each do |e|
+			e[:physics].shape.bb.draw color, @z
+		end
 		
+		# $window.gl @z do
+		# 	GL.Enable(GL::GL_STENCIL_TEST)
+		# 	# GL.StencilMask(stencilMask)
+		# 		GL.StencilMask(GL::SAMPLE_MASK)
+		# 	# GL.ClearStencil(clearStencilValue)
+		# 		# func = GL::GL_STENCIL_FUNC.new # nope
+		# 	# GL.StencilFunc(func, ref, mask)
+		# 	# GL.StencilOp(fail,zfail,zpass)
+		# 	GL.Clear(GL::GL_STENCIL_BUFFER_BIT)
+		# end
 	end
 	
 	def gc?
