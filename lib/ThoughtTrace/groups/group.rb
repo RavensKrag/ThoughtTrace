@@ -7,7 +7,6 @@ class Group
 	
 	def initialize
 		@entities = Set.new
-		@z = 0
 		
 		@style = ThoughtTrace::Components::Style.new
 		@style[:color] = Gosu::Color.argb(0x33FF00FF)
@@ -22,21 +21,19 @@ class Group
 	end
 	
 	def draw(space)
-		# TODO: consider just drawing a visual overlay to show what elements are in the group, rather than creating a group style for each group
-		# could still use style objects to control the properties of this overlay, however
-		
-		
 		# some groups could assign styles to their members, but I don't think it's necessary to visualize "being in a group" with the assignment of a style
 		# groups probably shouldn't be visible all the time anyway
 		# (allows for better use of groups as an abstraction tool)
+		
+		
 		
 		# must recompute z-index every frame,
 		# because the items in the Entity list could be re-sorted at any time.
 		# Can't assume that they will have the same positions as
 		# when they were added to the Group
 		z = compute_z_index(space)
-		
 		color = @style[:color]
+		
 		@entities.each do |e|
 			e[:physics].shape.bb.draw color, z
 		end
