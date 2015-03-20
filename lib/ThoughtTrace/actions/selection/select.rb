@@ -23,7 +23,7 @@ class Select < ThoughtTrace::Actions::BaseAction
 		dist = 10
 		@verts << point if @verts.last.distsq(point) > dist**2
 		
-		@bb = bb_for_verts(@verts)
+		@bb = bb_for_verts(point, @verts)
 	end
 	
 	# Actually apply changes to data.
@@ -155,8 +155,10 @@ class Select < ThoughtTrace::Actions::BaseAction
 	
 	private
 	
-	def bb_for_verts(list)
-		l, b, r, t = [0,0,0,0]
+	def bb_for_verts(point, list)
+		x = point.x
+		y = point.y
+		l, b, r, t = [x,y,x,y]
 		list.each do |vert|
 			a = vert.x;  l = a if a < l
 			a = vert.y;  b = a if a < b
