@@ -12,6 +12,8 @@ class NewSelection < ThoughtTrace::Actions::BaseAction
 	def press(point)
 		@select = @action_factory.create(nil, :select)
 		@select.press(point)
+		
+		@selection.clear
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -36,7 +38,6 @@ class NewSelection < ThoughtTrace::Actions::BaseAction
 		
 		# selection should really be a Group, not just a Set
 		# also, you can't just set the value by setting the variable: you need to move the data
-		@selection.clear
 		@set.each do |entity|
 			@selection.add entity
 		end
