@@ -5,7 +5,7 @@ module ThoughtTrace
 
 
 class SelectionAdd < Select
-	initialize_with :space, :action_factory, :selection
+	initialize_with :space, :selection
 	
 	
 	# called on first tick
