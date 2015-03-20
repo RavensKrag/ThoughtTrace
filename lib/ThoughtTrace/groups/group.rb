@@ -18,7 +18,7 @@ class Group
 		
 	end
 	
-	def draw
+	def draw(space)
 		# TODO: consider just drawing a visual overlay to show what elements are in the group, rather than creating a group style for each group
 		# could still use style objects to control the properties of this overlay, however
 		
@@ -27,9 +27,11 @@ class Group
 		# groups probably shouldn't be visible all the time anyway
 		# (allows for better use of groups as an abstraction tool)
 		
+		z = compute_z_index(space)
+		
 		color = Gosu::Color.argb(0x33FF00FF)
 		@entities.each do |e|
-			e[:physics].shape.bb.draw color, @z
+			e[:physics].shape.bb.draw color, z
 		end
 		
 		# $window.gl @z do
@@ -60,17 +62,14 @@ class Group
 	
 	def add(obj)
 		@entities.add obj
-		# @z = compute_z_index()
 	end
 	
 	def delete(obj)
 		@entities.delete obj
-		# @z = compute_z_index()
 	end
 	
 	def clear
 		@entities.clear
-		# @z = 0
 	end
 	
 	
@@ -100,8 +99,8 @@ class Group
 	
 	private
 	
-	def compute_z_index
-		@entities.collect{|e|  @space.entities.index_for(e) }.max
+	def compute_z_index(space)
+		@entities.collect{|e|  space.entities.index_for(e) }.max
 	end
 	
 	public

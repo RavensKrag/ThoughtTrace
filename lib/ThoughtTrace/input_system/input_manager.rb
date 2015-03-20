@@ -22,6 +22,7 @@ class InputManager
 		# TODO: properly implement mouse.
 		@mouse = InputSystem::Mouse.new window, @document.camera
 		
+		# TODO: figure out if the selection Group needs to be added to the Space or something. How are Groups being tracked?
 		@selection = ThoughtTrace::Groups::Group.new
 		
 		@text_input = ThoughtTrace::TextInput.new
@@ -276,6 +277,8 @@ class InputManager
 	
 	# draw things in world space
 	def draw
+		# NOTE: Input system is drawn after a flush of the draw queue, so UI will always be drawn on top of any element in the Space. It will never be occluded by the elements in the Space, not even the selection highlight ( that could actually be bad )
+		
 		@actions.each do |action|
 			action.draw @mouse.position_in_space
 		end
@@ -285,7 +288,7 @@ class InputManager
 		@text_input.draw
 		# @mouse_input.draw
 		
-		@selection.draw
+		@selection.draw(@document.space) # selection is a Group
 	end
 	
 	def button_up(id)

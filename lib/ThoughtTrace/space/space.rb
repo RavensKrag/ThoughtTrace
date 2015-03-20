@@ -32,7 +32,7 @@ class Space
 	
 	def draw
 		@entities.each_with_index{ |e,i|  e.draw i }
-		@groups.each{ |x| x.draw }
+		@groups.each{ |x| x.draw(self) }
 	end
 	
 	def empty?
