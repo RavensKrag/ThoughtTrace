@@ -138,11 +138,7 @@ class ActionFactory
 			# Mostly, you will traverse the class inheritance hierarchy,
 			# but there are some exceptions.
 			
-			base_classes = [
-				ThoughtTrace::Entity,
-				ThoughtTrace::Actions::EmptySpace
-			]
-			if base_classes.include? klass
+			if klass == ThoughtTrace::Entity or klass == ThoughtTrace::Actions::EmptySpace
 				# you have reached the bottom of the chain,
 				# the root of the the tree.
 				# The recursion stops here
