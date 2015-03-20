@@ -91,6 +91,8 @@ class Select < ThoughtTrace::Actions::BaseAction
 	# display information to the user about the current transformation
 	# called each tick
 	def draw
+		# --- draw loop line
+		# most edges
 		z = 1000
 		color = Gosu::Color.argb(0x88FFFFFF)
 		weight = 4
@@ -103,6 +105,7 @@ class Select < ThoughtTrace::Actions::BaseAction
 			)
 		end
 		
+		# final connecting edge ( special case, maybe you want a different style? )
 		a = @verts.last
 		b = @verts.first
 		ThoughtTrace::Drawing.draw_line(
@@ -111,6 +114,8 @@ class Select < ThoughtTrace::Actions::BaseAction
 			color:color, thickness:weight, line_offset:0.5, z_index:z
 		)
 		
+		
+		# --- draw bounding box
 		color = Gosu::Color.argb(0x33FFFFFF)
 		@bb.draw color, z
 		
@@ -183,10 +188,13 @@ class Select < ThoughtTrace::Actions::BaseAction
 		
 		# cast a ray going in the +x direction from the point, and count edge crossings
 		
+		# NOTE: be very careful to NOT change the original verts
 		verts = verts.collect{ |v|  v - point }          # all verts relative to the input point
 		edges = (verts.each_cons(2).to_a << [verts.last, verts.first])  # collect all edge pairs
 		
 		edges.each do |a,b|  # The edge of the polygon is formed by the line AB
+			# could check for differing sign with (a * b < 0), because 'differing' means it has to be one pos and one negative, which will always be negative
+			
 			
 			# if y components differ in sign
 			if a.y > 0 && b.y < 0 or a.y < 0 && b.y > 0
