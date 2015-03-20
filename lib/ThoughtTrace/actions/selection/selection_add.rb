@@ -11,13 +11,8 @@ class SelectionAdd < Select
 	# called on first tick
 	def press(point)
 		super(point)
-	end
-	
-	# called each tick after the first tick (first tick is setup only)
-	# perform calculations to generate the new data, but don't change the data yet.
-	# Many ticks of #update can be generated before the final application is decided.
-	def update(point)
-		super(point)
+		
+		
 	end
 	
 	# final tick of the Action
@@ -25,12 +20,7 @@ class SelectionAdd < Select
 	def release(point)
 		@set = super(point)
 		@old_selection = @selection.collect{|x|  x }
-		
-		# selection should really be a Group, not just a Set
-		# also, you can't just set the value by setting the variable: you need to move the data
-		@set.each do |entity|
-			@selection.add entity
-		end
+		forward
 	end
 	
 	# restore original state
@@ -46,6 +36,14 @@ class SelectionAdd < Select
 	# changed my mind about undo-ing
 	# apply the originally intended transformation to the data
 	def redo
+		forward
+	end
+	
+	
+	
+	private
+	
+	def forward
 		@set.each do |entity|
 			@selection.add entity
 		end
