@@ -8,6 +8,9 @@ class Group
 	def initialize
 		@entities = Set.new
 		@z = 0
+		
+		@style = ThoughtTrace::Components::Style.new
+		@style[:color] = Gosu::Color.argb(0x33FF00FF)
 	end
 	
 	
@@ -27,9 +30,13 @@ class Group
 		# groups probably shouldn't be visible all the time anyway
 		# (allows for better use of groups as an abstraction tool)
 		
+		# must recompute z-index every frame,
+		# because the items in the Entity list could be re-sorted at any time.
+		# Can't assume that they will have the same positions as
+		# when they were added to the Group
 		z = compute_z_index(space)
 		
-		color = Gosu::Color.argb(0x33FF00FF)
+		color = @style[:color]
 		@entities.each do |e|
 			e[:physics].shape.bb.draw color, z
 		end
