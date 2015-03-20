@@ -11,7 +11,7 @@ class Entity
 		
 	end
 	
-	def draw
+	def draw(z_index=0)
 		
 	end
 	

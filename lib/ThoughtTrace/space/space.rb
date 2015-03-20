@@ -31,12 +31,8 @@ class Space
 	end
 	
 	def draw
-		[
-			@entities,
-			@groups
-		].each do |collection|
-			collection.each &:draw
-		end
+		@entities.each_with_index{ |e,i|  e.draw i }
+		@groups.each{ |x| x.draw }
 	end
 	
 	def empty?
