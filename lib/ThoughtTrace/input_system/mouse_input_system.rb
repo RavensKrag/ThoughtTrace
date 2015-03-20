@@ -121,11 +121,16 @@ class MouseInputSystem
 	
 	def release(event_name)
 		@active_action.release(@mouse.position_in_space)
+		
+		@active_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
 		@entity = nil
 	end
 	
 	def cancel(event_name)
 		@active_action.cancel
+		
+		@active_action = ThoughtTrace::Actions::NullAction.new "DUMMY NODE"
+		@entity = nil
 	end
 	
 	
