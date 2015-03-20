@@ -11,8 +11,6 @@ class SelectionSubtract < Select
 	# called on first tick
 	def press(point)
 		super(point)
-		
-		
 	end
 	
 	# final tick of the Action
