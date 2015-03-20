@@ -30,7 +30,7 @@ class Select < ThoughtTrace::Actions::BaseAction
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		# n/a
+		# n/a - selection is always changed on #release
 	end
 	
 	# restore original state

@@ -22,13 +22,6 @@ class NewSelection < Select
 		super(point)
 	end
 	
-	# Actually apply changes to data.
-	# Called after #update on each tick, and also on redo.
-	# Many ticks of #apply can be fired before the action completes.
-	def apply
-		
-	end
-	
 	# final tick of the Action
 	# (used to be called #cleanup)
 	def release(point)
