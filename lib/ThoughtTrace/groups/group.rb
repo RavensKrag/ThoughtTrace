@@ -8,9 +8,6 @@ class Group
 	def initialize
 		@entities = Set.new
 		@z = 0
-		
-		# @buffer = Ashton::Texture.new(1024, 1024)
-		# @shader = Ashton::Shader.new
 	end
 	
 	
