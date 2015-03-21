@@ -96,6 +96,8 @@ module ThoughtTrace
 		end
 		
 		def draw(text, height, x,y,z=0, color=0xffffffff)
+			# NOTE: Font should provide the same interface as Gosu::Font, so rounding to pixel-perfect outputs happens in Text instead
+			
 			# --Prevent out of bounds
 			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
 			
