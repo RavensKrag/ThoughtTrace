@@ -11,4 +11,6 @@ gem 'opengl', "0.9.2"
 gem 'object-packer', :git => 'https://github.com/RavensKrag/ObjectPacker.git', :tag => 'v0.00.6'
 
 
+gem 'state_machine', '1.2.0'
+
 gem 'range_operators'
