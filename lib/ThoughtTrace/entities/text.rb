@@ -41,11 +41,11 @@ class Text < Rectangle
 	end
 	
 	def draw(z_index=0)
-		x,y = @components[:physics].body.p.to_a
+		x,y = @components[:physics].body.p.to_a.collect{|i| i.round }
 		
 		@components[:physics].draw @components[:style][:hitbox_color], z_index
 		
-		@font.draw	@string, @components[:physics].shape.height,
+		@font.draw	@string, @components[:physics].shape.height.round,
 					x,y, z_index, # position relative to top left corner of text
 					@components[:style][:color]
 	end

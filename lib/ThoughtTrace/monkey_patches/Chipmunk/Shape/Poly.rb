@@ -22,7 +22,7 @@ module CP
 						self.each_vert do |v|
 							vec = self.body.local2world(v)
 							
-							GL.Vertex2f(vec.x, vec.y)
+							GL.Vertex2f(vec.x.round, vec.y.round)
 						end
 					
 					GL.End()

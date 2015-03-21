@@ -4,6 +4,7 @@ module CP
 			def draw(color, z=0)
 				$window.gl z do
 					GL.PushMatrix()
+					# TODO: consider using integer transforms
 					GL.Translatef(self.body.p.x, self.body.p.y, 0)
 						GL.Begin(GL::GL_TRIANGLE_FAN)
 							GL.Color4ub(color.red, color.green, color.blue, color.alpha)
@@ -24,7 +25,7 @@ module CP
 							
 							# verts on the edge of the circle
 							(iterations+1).times do # extra iteration to loop back to start
-								GL.Vertex2f(vec.x, vec.y)
+								GL.Vertex2f(vec.x.round, vec.y.round)
 								
 								vec = vec.rotate rotation_vector
 							end

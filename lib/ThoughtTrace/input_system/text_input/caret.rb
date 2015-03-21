@@ -60,10 +60,10 @@ class TextInput
 		def draw(z=0)
 			if @visible
 				$window.translate @position.x,@position.y do
-					$window.draw_quad	@verts[0].x, @verts[0].y, @color,
-										@verts[1].x, @verts[1].y, @color,
-										@verts[2].x, @verts[2].y, @color,
-										@verts[3].x, @verts[3].y, @color,
+					$window.draw_quad	@verts[0].x.round, @verts[0].y.round, @color,
+										@verts[1].x.round, @verts[1].y.round, @color,
+										@verts[2].x.round, @verts[2].y.round, @color,
+										@verts[3].x.round, @verts[3].y.round, @color,
 										z
 				end
 			end

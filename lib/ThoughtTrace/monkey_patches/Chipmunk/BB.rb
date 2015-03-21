@@ -5,18 +5,20 @@ module CP
 		# init order: [l,b,r,t]
 		
 		def draw(color, z=0)
-			$window.draw_quad	self.l, self.t, color,
-								self.r, self.t, color,
-								self.r, self.b, color,
-								self.l, self.b, color, z
+			l,b,r,t = [self.l, self.b, self.r, self.t].collect{ |i|  i.round }
+			$window.draw_quad	l, t, color,
+								r, t, color,
+								r, b, color,
+								l, b, color, z
 		end
 		
 		def draw_in_space(color)
+			l,b,r,t = [self.l, self.b, self.r, self.t].collect{ |i|  i.round }
 			$window.draw_in_space :quad, 
-				self.l, self.t, color,
-				self.r, self.t, color,
-				self.r, self.b, color,
-				self.l, self.b, color
+				l, t, color,
+				r, t, color,
+				r, b, color,
+				l, b, color
 		end
 		
 		# Make sure that r < l and b < t, as expected

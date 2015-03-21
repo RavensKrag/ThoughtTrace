@@ -35,7 +35,7 @@ def draw_line(render_context, a,b, color:DEFAULT_COLOR, thickness:6, line_offset
 			
 			# TODO: Convert coordinates on GPU using local coordinates and transform
 			# transform should account for translation and rotation
-			verts.each{ |v| GL.Vertex2f(v.x, v.y)  } 
+			verts.each{ |v| GL.Vertex2f(v.x.round, v.y.round)  }
 		
 		GL.End()
 	end

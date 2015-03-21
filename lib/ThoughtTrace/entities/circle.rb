@@ -32,8 +32,6 @@ class Circle < Entity
 	end
 	
 	def draw(z_index=0)
-		x,y = @components[:physics].body.p.to_a
-		
 		@components[:physics].draw @components[:style][:color], z_index
 	end
 	
