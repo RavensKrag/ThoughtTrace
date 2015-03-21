@@ -39,19 +39,18 @@ module CP
 							
 							
 							
-							q_half = Array.new
+							q_half = Array.new(self.r.round / 2)
 								x = self.r
 								y = 0
 								r2 = self.r**2
 								
-								loop do
+								q_half.each_index do |i|
 									x -= step if ((x**2) + (y**2)) > r2
 									y += step
 									
-									q_half << CP::Vec2.new(x, y) unless y >= x
-									
-									break if y >= x
+									q_half[i] = CP::Vec2.new(x, y)
 								end
+							
 							# debug_print[q_half]
 							
 							
@@ -64,12 +63,12 @@ module CP
 								debug_print[q1234]
 							
 							
-							GL.Vertex2f(0, 0)
+							GL.Vertex2f(0, 0) # center
+							
+							q1234 << q1234.first # loop all the way around to first point
 							q1234.each do |vec|
 								GL.Vertex2f(vec.x.round, vec.y.round)
 							end
-							vec = q1234.first
-							GL.Vertex2f(vec.x.round, vec.y.round)
 						GL.End()
 					GL.PopMatrix()
 				end
