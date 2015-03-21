@@ -74,7 +74,7 @@ class Window < Gosu::Window
 		end
 		
 		
-		debug_show_mouse_position
+		# debug_show_mouse_position
 	end
 	
 	def on_shutdown
