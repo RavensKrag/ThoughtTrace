@@ -161,6 +161,10 @@ class ActionFactory
 	# ( obj and klass are the same as defined by get_action )
 	def get_parent(obj, klass)
 		# --- try taking specially defined exceptions
+		# NOTE: the klass check prevents infinite looping.
+			# first time:  obj.class != klass => triggers recursion on non-standard 'parent'
+			# other times: obj.class == klass => standard superclass traversal
+			# ( without check, you would always get the first case, because it's listed first )
 		parent =
 			if obj[:query] and klass == ThoughtTrace::Queries::Query
 				# if the base object has a Query component
