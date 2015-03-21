@@ -54,13 +54,14 @@ module CP
 							# debug_print[q_half]
 							
 							
-							q1     = q_half + q_half.collect{ |p|  CP::Vec2.new(p.y, p.x) }.reverse
+							q1    = q_half + q_half.collect{|p| CP::Vec2.new( p.y,  p.x) }.reverse!
 							
-							q12    = q1 + q1.collect{ |p|  CP::Vec2.new(-p.x, p.y) }.reverse
-								# q12.sort_by!{|p| -p.x } # go from right to left
-								
-							q1234  = q12 + q12.collect{ |p|  CP::Vec2.new(p.x, -p.y) }.reverse
-								debug_print[q1234]
+							q12   = q1  + q1.collect{  |p|      CP::Vec2.new(-p.x,  p.y) }.reverse!
+							
+							q1234 = q12 + q12.collect{ |p|      CP::Vec2.new( p.x, -p.y) }.reverse!
+							
+							
+							debug_print[q1234]
 							
 							
 							GL.Vertex2f(0, 0) # center
