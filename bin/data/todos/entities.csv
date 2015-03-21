@@ -1,12 +1,51 @@
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-310.41666666666663,22.97394578559605,group system
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-287.44272088107056,22.97394578559605,implement groups and selections
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-264.4687750954745,22.97394578559605,document format - multiple documents
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-241.49482930987844,22.97394578559605,nested document
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-218.5208835242824,22.97394578559605,layers of interaction (for UI etc)
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-195.54693773868635,22.97394578559605,TODO: limit camera drawing
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-172.5729919530903,22.97394578559605,TODO: camera layers
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-149.59904616749427,22.97394578559605,TODO: camera should be spatial data
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-126.62510038189822,22.97394578559605,implement loading of visualizations
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-103.65115459630218,22.97394578559605,constraint / constraint package maker
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-80.67720881070613,22.97394578559605,API to create / delete whole Constraint Packages
-ThoughtTrace::Text,Lucida Sans Unicode,-515.625,-57.70326302511008,22.97394578559605,add / remove whole Entities (including Components)
+ThoughtTrace::Rectangle,0.0,0.0,208.20271898124236,145.22780072276714
+ThoughtTrace::Circle,0.0,0.0,83.93337718827347
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,0.0,22.97394578559605,selection - group - group actions - disambiguation
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,23.0,22.97394578559605,group system - mark and select
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,46.0,22.97394578559605,clear selection on non-selection-altering action?
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,69.0,22.97394578559605,groups / copy group
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,92.0,22.97394578559605,pick group / abstraction layer with scroll wheel
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,115.0,22.97394578559605,TODO: consider ActionFactory#get_type for groups
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,138.0,22.97394578559605,all groups should start off as selections
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,161.0,22.97394578559605,NOTE: constraint Visualizations and Groups now both use Style Components
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,184.0,22.97394578559605,component serialization - non-Entity types
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,207.0,22.97394578559605,implement loading of visualizations
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,230.0,22.97394578559605,NOTE: each Constraint Pair needs a separate Visualization object
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,253.0,22.97394578559605,Visualizations need to save Style component data
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,276.0,22.97394578559605,rethink how Style data is saved
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,299.0,22.97394578559605,what do you do about deleting Entity markers?
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,322.0,22.97394578559605,document format - multiple documents
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,345.0,22.97394578559605,nested document
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,368.0,22.97394578559605,nested document - cascade to resolve action
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,391.0,22.97394578559605,layers of interaction (for UI etc)
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,414.0,22.97394578559605,TODO: limit camera drawing
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,437.0,22.97394578559605,TODO: camera layers
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,460.0,22.97394578559605,TODO: camera should be spatial data
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,483.0,22.97394578559605,constraint creation action
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,506.0,22.97394578559605,constraint / constraint package maker
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,529.0,22.97394578559605,API to create / delete whole Constraint Packages
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,552.0,22.97394578559605,add / remove whole entities (including components)
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,575.0,22.97394578559605,Entity delete mechanism
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,598.0,22.97394578559605,input system overhaul
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,621.0,22.97394578559605,input binding - no-target actions
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,644.0,22.97394578559605,input binding - mode-specific UI interaction
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,667.0,22.97394578559605,notes program - tree overview - text field w/ spell check
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,690.0,22.97394578559605,multi-line text input
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,713.0,22.97394578559605,how do you bind mouse click actions for a Entity?
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,736.0,22.97394578559605,action system documentation update
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,759.0,22.97394578559605,TODO: rewrite 'empty space actions' as 'zero target actions'
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,782.0,22.97394578559605,move on to queries
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,805.0,22.97394578559605,implement prefabs
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,828.0,22.97394578559605,implement text split-rip action
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,851.0,22.97394578559605,try to implement something like text caret again
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,874.0,22.97394578559605,TODO: awkward to see the text caret appear quickly - then vanish
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,897.0,22.97394578559605,locking things in place
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,920.0,22.97394578559605,attachment point markers
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,943.0,22.97394578559605,query object serialization
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,966.0,22.97394578559605,bind query object to query component
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,989.0,22.97394578559605,how are Queries shown visually?
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,1012.0,22.97394578559605,implement text search of all Text objects
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,1035.0,22.97394578559605,multiple editor views
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,1058.0,22.97394578559605,short-circuiting min_by -> really a lazy min_by
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,1081.0,22.97394578559605,TODO: make sure Physics#center works with all collision shapes ASAP
+ThoughtTrace::Text,Lucida Sans Unicode,0.0,1104.0,22.97394578559605,shrink rect resize margins as object shrinks
