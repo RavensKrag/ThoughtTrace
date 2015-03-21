@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'require_all'
 
-gem 'chipmunk', '6.1.3.1'
+gem 'chipmunk', '6.1.3.3'
 gem 'DIS', "~>0.01.0"
 
 gem 'gosu', "0.8.7.2"
