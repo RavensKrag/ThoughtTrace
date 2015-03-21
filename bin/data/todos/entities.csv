@@ -7,13 +7,13 @@ ThoughtTrace::Text,Lucida Sans Unicode,-665.6249999999999,-298.70833333333337,22
 ThoughtTrace::Text,Lucida Sans Unicode,-665.6249999999999,-275.70833333333337,22.97394578559605,pick group / abstraction layer with scroll wheel
 ThoughtTrace::Text,Lucida Sans Unicode,-665.6249999999999,-252.7083333333334,22.97394578559605,TODO: consider ActionFactory#get_type for groups
 ThoughtTrace::Text,Lucida Sans Unicode,-665.6249999999999,-229.7083333333334,22.97394578559605,all groups should start off as selections
-ThoughtTrace::Text,Lucida Sans Unicode,39.58333333333337,-378.58333333333337,22.97394578559605,NOTE: constraint Visualizations and Groups now both use Style Components
-ThoughtTrace::Text,Lucida Sans Unicode,39.58333333333337,-355.58333333333337,22.97394578559605,component serialization - non-Entity types
-ThoughtTrace::Text,Lucida Sans Unicode,39.58333333333337,-332.58333333333337,22.97394578559605,implement loading of visualizations
-ThoughtTrace::Text,Lucida Sans Unicode,39.58333333333337,-309.58333333333337,22.97394578559605,NOTE: each Constraint Pair needs a separate Visualization object
-ThoughtTrace::Text,Lucida Sans Unicode,39.58333333333337,-286.58333333333337,22.97394578559605,Visualizations need to save Style component data
-ThoughtTrace::Text,Lucida Sans Unicode,39.58333333333337,-263.58333333333337,22.97394578559605,rethink how Style data is saved
-ThoughtTrace::Text,Lucida Sans Unicode,39.58333333333337,-240.58333333333334,22.97394578559605,what do you do about deleting Entity markers?
+ThoughtTrace::Text,Lucida Sans Unicode,-73.95833333333326,-379.62500000000006,22.97394578559605,NOTE: constraint Visualizations and Groups now both use Style Components
+ThoughtTrace::Text,Lucida Sans Unicode,-73.95833333333326,-356.62500000000006,22.97394578559605,component serialization - non-Entity types
+ThoughtTrace::Text,Lucida Sans Unicode,-73.95833333333326,-333.62500000000006,22.97394578559605,implement loading of visualizations
+ThoughtTrace::Text,Lucida Sans Unicode,-73.95833333333326,-310.62500000000006,22.97394578559605,NOTE: each Constraint Pair needs a separate Visualization object
+ThoughtTrace::Text,Lucida Sans Unicode,-73.95833333333326,-287.62500000000006,22.97394578559605,Visualizations need to save Style component data
+ThoughtTrace::Text,Lucida Sans Unicode,-73.95833333333326,-264.62500000000006,22.97394578559605,rethink how Style data is saved
+ThoughtTrace::Text,Lucida Sans Unicode,-73.95833333333326,-241.62500000000003,22.97394578559605,what do you do about deleting Entity markers?
 ThoughtTrace::Text,Lucida Sans Unicode,421.8750000000001,4.291666666666572,22.97394578559605,document format - multiple documents
 ThoughtTrace::Text,Lucida Sans Unicode,421.8750000000001,27.291666666666572,22.97394578559605,nested document
 ThoughtTrace::Text,Lucida Sans Unicode,421.8750000000001,50.29166666666657,22.97394578559605,nested document - cascade to resolve action
@@ -24,8 +24,8 @@ ThoughtTrace::Text,Lucida Sans Unicode,421.8750000000001,142.29166666666657,22.9
 ThoughtTrace::Text,Lucida Sans Unicode,-54.16666666666663,-134.70833333333331,22.97394578559605,constraint creation action
 ThoughtTrace::Text,Lucida Sans Unicode,-54.16666666666663,-111.70833333333331,22.97394578559605,constraint / constraint package maker
 ThoughtTrace::Text,Lucida Sans Unicode,-54.16666666666663,-88.70833333333331,22.97394578559605,API to create / delete whole Constraint Packages
-ThoughtTrace::Text,Lucida Sans Unicode,-61.45833333333326,-200.08333333333337,22.97394578559605,add / remove whole entities (including components)
-ThoughtTrace::Text,Lucida Sans Unicode,-61.45833333333326,-177.08333333333337,22.97394578559605,Entity delete mechanism
+ThoughtTrace::Text,Lucida Sans Unicode,373.95833333333326,-281.3333333333333,22.97394578559605,add / remove whole entities (including components)
+ThoughtTrace::Text,Lucida Sans Unicode,373.95833333333326,-258.33333333333337,22.97394578559605,Entity delete mechanism
 ThoughtTrace::Text,Lucida Sans Unicode,-112.5,50.08333333333337,22.97394578559605,input system overhaul
 ThoughtTrace::Text,Lucida Sans Unicode,-112.5,73.08333333333337,22.97394578559605,input binding - no-target actions
 ThoughtTrace::Text,Lucida Sans Unicode,-112.5,96.08333333333337,22.97394578559605,input binding - mode-specific UI interaction

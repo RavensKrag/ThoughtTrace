@@ -52,7 +52,7 @@
             name: primary
             properties:
               :color: !ruby/object:Gosu::Color
-                value: fff73c49
+                value: ff573c49
               :hitbox_color: !ruby/object:Gosu::Color
                 value: 11ffffff
         :hover: &2 !ruby/object:ThoughtTrace::Style::Cascade
