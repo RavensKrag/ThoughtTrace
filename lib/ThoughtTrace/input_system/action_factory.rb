@@ -160,26 +160,25 @@ class ActionFactory
 	# helper method for get_action
 	# ( obj and klass are the same as defined by get_action )
 	def get_parent(obj, klass)
-		# --- try taking specially defined exceptions
 		# NOTE: the klass check prevents infinite looping.
 			# first time:  obj.class != klass => triggers recursion on non-standard 'parent'
 			# other times: obj.class == klass => standard superclass traversal
 			# ( without check, you would always get the first case, because it's listed first )
-		parent =
-			if obj[:query] and klass == ThoughtTrace::Queries::Query
-				# if the base object has a Query component
-				# you need to check the base object's class, as well as the core Query class
-				obj.class
-			elsif @selection.include? obj and klass == ThoughtTrace::Groups::Group
-				# Group doesn't define an action, then just use the Entity action instead.
-				obj.class
-			end
 		
-		# --- but if there aren't any, just go the standard way 
-		parent ||= klass.superclass
-		# NOTE: Modules do not have a 'superclass', so if you end up calling this on a module, it will break. Currently do not have a need to do that, but it may come up in the future.
-		
-		return parent
+		# --- try taking specially defined exceptions
+		if obj[:query] and klass == ThoughtTrace::Queries::Query
+			# if the base object has a Query component
+			# you need to check the base object's class, as well as the core Query class
+			return obj.class
+		elsif @selection.include? obj and klass == ThoughtTrace::Groups::Group
+			# Group doesn't define an action, then just use the Entity action instead.
+			return obj.class
+		# -------------------------------
+		else  # but if there aren't any, just go the standard way 
+			return klass.superclass
+			
+			# NOTE: Modules do not have a 'superclass', so if you end up calling this on a module, it will break. Currently do not have a need to do that, but it may come up in the future.
+		end
 	end
 	
 	
