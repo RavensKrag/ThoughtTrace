@@ -166,11 +166,11 @@ class ActionFactory
 			# ( without check, you would always get the first case, because it's listed first )
 		
 		# --- try taking specially defined exceptions
-		if obj[:query] and klass == ThoughtTrace::Queries::Query
+		if klass == ThoughtTrace::Queries::Query and obj[:query]
 			# if the base object has a Query component
 			# you need to check the base object's class, as well as the core Query class
 			return obj.class
-		elsif @selection.include? obj and klass == ThoughtTrace::Groups::Group
+		elsif klass == ThoughtTrace::Groups::Group and @selection.include? obj
 			# Group doesn't define an action, then just use the Entity action instead.
 			return obj.class
 		# -------------------------------
