@@ -1,6 +1,6 @@
 ThoughtTrace::Rectangle,-1519.7916666666667,-141.66666666666657,208.20271898124236,145.22780072276714
 ThoughtTrace::Circle,-1289.5833333333335,-268.7499999999999,83.93337718827347
-ThoughtTrace::Text,Lucida Sans Unicode,-665.6249999999999,-367.70833333333337,22.97394578559605,selection - group - group actions - disambiguation
+ThoughtTrace::Text,Lucida Sans Unicode,-690.6249999999999,-376.0416666666667,26.81728008867081,selection - group - group actions - disambiguation
 ThoughtTrace::Text,Lucida Sans Unicode,-665.6249999999999,-344.70833333333337,22.97394578559605,group system - mark and select
 ThoughtTrace::Text,Lucida Sans Unicode,-665.6249999999999,-321.70833333333337,22.97394578559605,clear selection on non-selection-altering action?
 ThoughtTrace::Text,Lucida Sans Unicode,-665.6249999999999,-298.70833333333337,22.97394578559605,groups / copy group
@@ -34,21 +34,21 @@ ThoughtTrace::Text,Lucida Sans Unicode,-112.5,142.08333333333337,22.973945785596
 ThoughtTrace::Text,Lucida Sans Unicode,-112.5,165.08333333333337,22.97394578559605,how do you bind mouse click actions for a Entity?
 ThoughtTrace::Text,Lucida Sans Unicode,-112.5,188.08333333333337,22.97394578559605,action system documentation update
 ThoughtTrace::Text,Lucida Sans Unicode,-112.5,211.08333333333337,22.97394578559605,TODO: rewrite 'empty space actions' as 'zero target actions'
-ThoughtTrace::Text,Lucida Sans Unicode,-761.4583333333333,93.45833333333326,22.97394578559605,move on to queries
-ThoughtTrace::Text,Lucida Sans Unicode,-761.4583333333333,116.45833333333326,22.97394578559605,implement prefabs
-ThoughtTrace::Text,Lucida Sans Unicode,-761.4583333333333,140.5,22.97394578559605,implement text split-rip action
-ThoughtTrace::Text,Lucida Sans Unicode,-761.4583333333333,163.5,22.97394578559605,try to implement something like text caret again
-ThoughtTrace::Text,Lucida Sans Unicode,-761.4583333333333,186.5,22.97394578559605,TODO: awkward to see the text caret appear quickly - then vanish
-ThoughtTrace::Text,Lucida Sans Unicode,-761.4583333333333,209.5,22.97394578559605,locking things in place
-ThoughtTrace::Text,Lucida Sans Unicode,-761.4583333333333,232.5,22.97394578559605,attachment point markers
+ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666666,153.8749999999999,22.97394578559605,move on to queries
+ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666666,176.8749999999999,22.97394578559605,implement prefabs
+ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666666,200.91666666666663,22.97394578559605,implement text split-rip action
+ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666666,223.91666666666663,22.97394578559605,try to implement something like text caret again
+ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666666,246.91666666666663,22.97394578559605,TODO: awkward to see the text caret appear quickly - then vanish
+ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666666,269.91666666666663,22.97394578559605,locking things in place
+ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666666,292.91666666666663,22.97394578559605,attachment point markers
 ThoughtTrace::Text,Lucida Sans Unicode,-613.5416666666665,-132.0000000000001,22.97394578559605,query object serialization
 ThoughtTrace::Text,Lucida Sans Unicode,-613.5416666666665,-109.00000000000011,22.97394578559605,bind query object to query component
 ThoughtTrace::Text,Lucida Sans Unicode,-613.5416666666665,-86.00000000000011,22.97394578559605,how are Queries shown visually?
-ThoughtTrace::Text,Lucida Sans Unicode,-759.3749999999999,267.20833333333337,22.97394578559605,implement text search of all Text objects
+ThoughtTrace::Text,Lucida Sans Unicode,-695.8333333333333,327.625,22.97394578559605,implement text search of all Text objects
 ThoughtTrace::Text,Lucida Sans Unicode,422.91666666666697,172.5,22.97394578559605,multiple editor views
-ThoughtTrace::Text,Lucida Sans Unicode,-760.4166666666666,299.66666666666674,22.97394578559605,short-circuiting min_by -> really a lazy min_by
-ThoughtTrace::Text,Lucida Sans Unicode,-760.4166666666666,322.66666666666674,22.97394578559605,TODO: make sure Physics#center works with all collision shapes ASAP
-ThoughtTrace::Text,Lucida Sans Unicode,-760.4166666666666,345.66666666666674,22.97394578559605,shrink rect resize margins as object shrinks
+ThoughtTrace::Text,Lucida Sans Unicode,-696.875,360.08333333333337,22.97394578559605,short-circuiting min_by -> really a lazy min_by
+ThoughtTrace::Text,Lucida Sans Unicode,-696.875,383.08333333333337,22.97394578559605,TODO: make sure Physics#center works with all collision shapes ASAP
+ThoughtTrace::Text,Lucida Sans Unicode,-696.875,406.08333333333337,22.97394578559605,shrink rect resize margins as object shrinks
 ThoughtTrace::Rectangle,-1431.25,-44.79166666666663,208.20271898124236,145.22780072276714
 ThoughtTrace::Rectangle,-800.0000000000002,-451.0173163884721,49.05754826262756,44.161783777906024
 ThoughtTrace::Rectangle,-798.9583333333335,406.2743502781946,49.05754826262756,44.161783777906024
