@@ -24,8 +24,8 @@ ThoughtTrace::Text,Lucida Sans Unicode,421.8750000000001,142.29166666666657,22.9
 ThoughtTrace::Text,Lucida Sans Unicode,-54.16666666666663,-134.70833333333331,22.97394578559605,constraint creation action
 ThoughtTrace::Text,Lucida Sans Unicode,-54.16666666666663,-111.70833333333331,22.97394578559605,constraint / constraint package maker
 ThoughtTrace::Text,Lucida Sans Unicode,-54.16666666666663,-88.70833333333331,22.97394578559605,API to create / delete whole Constraint Packages
-ThoughtTrace::Text,Lucida Sans Unicode,373.95833333333326,-281.3333333333333,22.97394578559605,add / remove whole entities (including components)
-ThoughtTrace::Text,Lucida Sans Unicode,373.95833333333326,-258.33333333333337,22.97394578559605,Entity delete mechanism
+ThoughtTrace::Text,Lucida Sans Unicode,365.6249999999998,-187.58333333333331,22.97394578559605,add / remove whole entities (including components)
+ThoughtTrace::Text,Lucida Sans Unicode,365.6249999999998,-164.58333333333337,22.97394578559605,Entity delete mechanism
 ThoughtTrace::Text,Lucida Sans Unicode,-112.5,50.08333333333337,22.97394578559605,input system overhaul
 ThoughtTrace::Text,Lucida Sans Unicode,-112.5,73.08333333333337,22.97394578559605,input binding - no-target actions
 ThoughtTrace::Text,Lucida Sans Unicode,-112.5,96.08333333333337,22.97394578559605,input binding - mode-specific UI interaction
@@ -57,3 +57,8 @@ ThoughtTrace::Rectangle,753.125,-451.01731638847207,49.05754826262756,44.1617837
 ThoughtTrace::Text,Lucida Sans Unicode,-568.7500000000001,-431.24999999999994,21,hello world
 ThoughtTrace::Text,Lucida Sans Unicode,-710.4166666666667,-444.79166666666646,34,hello world
 ThoughtTrace::Text,Lucida Sans Unicode,-180.20833333333326,-45.99999999999994,22.97394578559605,TODO: convert float -> int with #round not #to_i
+ThoughtTrace::Text,Lucida Sans Unicode,-737.5,1.9166666666666856,22.97394578559605,TODO: add / remove entire constraint Packages from the document in one easy command
+ThoughtTrace::Text,Lucida Sans Unicode,-737.5,24.890612452262737,22.97394578559605,<sketch>
+ThoughtTrace::Text,Lucida Sans Unicode,-737.5,47.86455823785879,22.97394578559605,TODO: constraints - understand overlap with query object loading
+ThoughtTrace::Text,Lucida Sans Unicode,342.7083333333335,-284.375,22.97394578559605,TODO: put the style data on the Constraint maybe?
+ThoughtTrace::Text,Lucida Sans Unicode,347.91666666666697,-250.0,22.97394578559605,TODO: how to copy style data on duplication action?
