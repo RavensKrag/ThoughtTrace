@@ -31,18 +31,33 @@ module CP
 							# end
 							
 							
-							debug_print = ->(list){
-								puts "---"
-								puts list.collect{ |p| p.to_s  }
-							}
+							
+							
+							
+							
+							# debug_print = ->(list){
+							# 	puts "---"
+							# 	puts list.collect{ |p| p.to_s  }
+							# }
+							
+							# # note:
+							# # step = length * 2 / r
+							# # (kinda want to configure based on the number of ticks per octant, not, the step value)
+							
+							# length = 5
+							
+							# r = self.r.round
+							# step = [length * 2 / r, 1].max # needs to be at least 1
+							
 							step = 1
 							
 							
+							r = self.r.round
 							
-							q_half = Array.new(self.r.round / 2)
-								x = self.r
+							q_half = Array.new(r / 2 / step)
+								x = r
 								y = 0
-								r2 = self.r**2
+								r2 = r**2
 								
 								q_half.each_index do |i|
 									x -= step if ((x**2) + (y**2)) > r2
@@ -50,8 +65,6 @@ module CP
 									
 									q_half[i] = CP::Vec2.new(x, y)
 								end
-							
-							# debug_print[q_half]
 							
 							
 							q1    = q_half + q_half.collect{|p| CP::Vec2.new( p.y,  p.x) }.reverse!
@@ -61,7 +74,7 @@ module CP
 							q1234 = q12 + q12.collect{ |p|      CP::Vec2.new( p.x, -p.y) }.reverse!
 							
 							
-							debug_print[q1234]
+							# debug_print[q1234]
 							
 							
 							GL.Vertex2f(0, 0) # center
