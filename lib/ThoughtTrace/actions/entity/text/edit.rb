@@ -11,6 +11,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		@point = point
 		
 		@start_i = @entity.nearest_character_boundary(point)
+		@end_i = @start_i
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
