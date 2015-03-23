@@ -3,6 +3,9 @@ module ThoughtTrace
 class Space
 
 
+# NOTE: UI stuff can take advantage of the fact that only one Entity is drawn at each z-index. This means, if you draw a UI overlay at the same index, it will only potentially conflict with one item. In Gosu, there shouldn't be z-fighting even then.
+	# But in other rendering systems, you could instead use 'commodore style numbering', and assign automatic indicies like 10, 20, 30, 40, etc, so that there is a guaranteed gap between them where UI things can go.
+	# would need to figure out just how much gap is appropriate.
 class EntityList < ThoughtTrace::IndexedCollection
 	include Packageable
 	
