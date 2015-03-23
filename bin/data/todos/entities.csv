@@ -22,7 +22,6 @@ ThoughtTrace::Text,Lucida Sans Unicode,434.3749999999999,282.75,22.9739457855960
 ThoughtTrace::Text,Lucida Sans Unicode,434.3749999999999,305.75,22.97394578559605,TODO: camera layers
 ThoughtTrace::Text,Lucida Sans Unicode,434.3749999999999,328.75,22.97394578559605,TODO: camera should be spatial data
 ThoughtTrace::Text,Lucida Sans Unicode,59.37499999999994,-74.2916666666668,22.97394578559605,constraint creation action
-ThoughtTrace::Text,Lucida Sans Unicode,58.3333333333332,-41.9166666666668,22.97394578559605,constraint / constraint package maker
 ThoughtTrace::Text,Lucida Sans Unicode,58.3333333333332,-19.958333333333485,22.97394578559605,API to create / delete whole Constraint Packages
 ThoughtTrace::Text,Lucida Sans Unicode,-387.49999999999915,14.5,22.97394578559605,add / remove whole entities (including components)
 ThoughtTrace::Text,Lucida Sans Unicode,-388.54166666666646,38.54166666666657,22.97394578559605,Entity delete mechanism
@@ -55,14 +54,13 @@ ThoughtTrace::Rectangle,750.0,405.232683611528,49.05754826262756,44.161783777906
 ThoughtTrace::Rectangle,753.125,-451.01731638847207,49.05754826262756,44.161783777906024
 ThoughtTrace::Text,Lucida Sans Unicode,648.9583333333331,418.75000000000006,21,hello world
 ThoughtTrace::Text,Lucida Sans Unicode,507.2916666666665,405.20833333333354,34,hello world
-ThoughtTrace::Text,Lucida Sans Unicode,58.333333333332746,2.9583333333332575,22.97394578559605,TODO: add / remove constraint Packages from the document in one command
-ThoughtTrace::Text,Lucida Sans Unicode,58.33333333333297,23.8489457855959,22.97394578559605,<sketch>
+ThoughtTrace::Text,Lucida Sans Unicode,88.54166666666612,3.0156124522625873,22.97394578559605,<sketch>
 ThoughtTrace::Text,Lucida Sans Unicode,-90.62500000000006,-169.84377509547465,22.97394578559605,TODO: constraints - understand overlap with query object loading
 ThoughtTrace::Text,Lucida Sans Unicode,-232.29166666666686,-246.87500000000017,22.97394578559605,TODO: put the style data on the Constraint maybe?
 ThoughtTrace::Text,Lucida Sans Unicode,-453.125,-426.04166666666686,22.97394578559605,TODO: how to copy style data on duplication action?
 ThoughtTrace::Text,Lucida Sans Unicode,286.4583333333337,-297.91666666666646,57.816578180508145,Visualizations
 ThoughtTrace::Text,Lucida Sans Unicode,-22.9166666666668,-433.3333333333334,57.816578180508145,Style data
-ThoughtTrace::Text,Lucida Sans Unicode,-122.91666666666703,-145.83333333333348,57.816578180508145,constraint packages
+ThoughtTrace::Text,Lucida Sans Unicode,-61.45833333333388,-142.70833333333348,57.816578180508145,constraint packages
 ThoughtTrace::Text,Lucida Sans Unicode,-306.2500000000005,-58.333333333333314,57.816578180508145,entity delete
 ThoughtTrace::Text,Lucida Sans Unicode,-770.8333333333339,-290.6250000000001,57.816578180508145,selections and groups
 ThoughtTrace::Text,Lucida Sans Unicode,439.5833333333327,-157.29166666666697,57.816578180508145,query system
