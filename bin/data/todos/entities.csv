@@ -24,7 +24,6 @@ ThoughtTrace::Text,Lucida Sans Unicode,434.3749999999999,328.75,22.9739457855960
 ThoughtTrace::Text,Lucida Sans Unicode,55.208333333333314,-74.2916666666668,22.97394578559605,constraint creation action
 ThoughtTrace::Text,Lucida Sans Unicode,49.99999999999983,-35.583333333333485,22.97394578559605,API to create / delete whole Constraint Packages
 ThoughtTrace::Text,Lucida Sans Unicode,-408.33333333333246,-37.583333333333314,22.97394578559605,add / remove whole entities (including components)
-ThoughtTrace::Text,Lucida Sans Unicode,-409.3749999999998,-13.541666666666742,22.97394578559605,Entity delete mechanism
 ThoughtTrace::Text,Lucida Sans Unicode,-160.41666666666674,315.70833333333326,22.97394578559605,input system overhaul
 ThoughtTrace::Text,Lucida Sans Unicode,-160.41666666666674,361.70833333333326,22.97394578559605,input binding - mode-specific UI interaction
 ThoughtTrace::Text,Lucida Sans Unicode,-735.4166666666666,366.99999999999994,22.97394578559605,notes program - tree overview - text field w/ spell check
