@@ -1,6 +1,6 @@
 ThoughtTrace::Rectangle,-1519.7916666666667,-141.66666666666657,208.20271898124236,145.22780072276714
 ThoughtTrace::Circle,-1289.5833333333335,-268.7499999999999,81.37186932661155
-ThoughtTrace::Text,Lucida Sans Unicode,-770.8333333333333,-297.91666666666663,26.81728008867081,selection - group - group actions - disambiguation
+ThoughtTrace::Text,Lucida Sans Unicode,-798.9583333333333,-308.3333333333333,26.81728008867081,selection - group - group actions - disambiguation
 ThoughtTrace::Text,Lucida Sans Unicode,-747.9166666666666,-233.25,22.97394578559605,group system - mark and select
 ThoughtTrace::Text,Lucida Sans Unicode,-745.8333333333334,-121.70833333333314,22.97394578559605,clear selection on non-selection-altering action?
 ThoughtTrace::Text,Lucida Sans Unicode,-747.9166666666667,-176.83333333333326,22.97394578559605,groups / copy group
@@ -78,33 +78,33 @@ ThoughtTrace::Text,Lucida Sans Unicode,1209.375,-264.05898305513875,23,TODO: lis
 ThoughtTrace::Text,Lucida Sans Unicode,1229.1666666666665,-135.8506497218056,23,BUG: object packer breaks when trying to generate pack/unpack for an object with a 0 arg init
 ThoughtTrace::Text,Lucida Sans Unicode,1605.2083333333335,-215.9756497218055,23,"Q: do you need to click on Constraints, not just markers?"
 ThoughtTrace::Text,Lucida Sans Unicode,1062.5,-231.51731638847224,23,TODO: all markers in a document should use the same visual style
-ThoughtTrace::Text,Lucida Sans Unicode,1767.7083333333333,-666.8506497218057,23,Action #update should fire right after #press
-ThoughtTrace::Text,Lucida Sans Unicode,1767.7083333333333,-643.8506497218057,23,TODO: consider action factory / mouse action extraction system interaction with multiple spaces
-ThoughtTrace::Text,Lucida Sans Unicode,1767.7083333333333,-620.8506497218057,23,TODO: polymorphic edit and resize
+ThoughtTrace::Text,Lucida Sans Unicode,1820.8333333333333,-591.8506497218057,23,Action #update should fire right after #press
+ThoughtTrace::Text,Lucida Sans Unicode,1820.8333333333333,-568.8506497218057,23,TODO: consider action factory / mouse action extraction system interaction with multiple spaces
+ThoughtTrace::Text,Lucida Sans Unicode,1820.8333333333333,-545.8506497218057,23,TODO: polymorphic edit and resize
 ThoughtTrace::Text,Lucida Sans Unicode,-716.6666666666667,628.1910169448611,23,"TODO: consider scrapping rect resize action, in favor of constraint-based control system"
-ThoughtTrace::Text,Lucida Sans Unicode,1766.6666666666663,-586.3089830551389,23,"rectangle resize #anchor_point should take argument, instead of mucking with state"
-ThoughtTrace::Text,Lucida Sans Unicode,1766.6666666666663,-563.3089830551389,23,TODO: action factory should not use ThoughtTrace::Queries::Query check
+ThoughtTrace::Text,Lucida Sans Unicode,1819.7916666666663,-511.3089830551389,23,"rectangle resize #anchor_point should take argument, instead of mucking with state"
+ThoughtTrace::Text,Lucida Sans Unicode,1819.7916666666663,-488.3089830551389,23,TODO: action factory should not use ThoughtTrace::Queries::Query check
 ThoughtTrace::Text,Lucida Sans Unicode,1484.3749999999995,-625.7256497218057,23,BUG: crash on marker move
-ThoughtTrace::Text,Lucida Sans Unicode,958.3333333333331,374.35768361152793,23,NOTE: general debug flow
-ThoughtTrace::Text,Lucida Sans Unicode,1767.708333333333,-489.1006497218056,23,BUG: rect resize action counter-steering wrecks LimitHeight
-ThoughtTrace::Text,Lucida Sans Unicode,1767.708333333333,-466.1006497218056,23,TODO: consider inverting LimitHeight
-ThoughtTrace::Text,Lucida Sans Unicode,960.4166666666665,411.0660169448613,23,"TODO: track time per frame ms, and convert to hz"
-ThoughtTrace::Text,Lucida Sans Unicode,1766.6666666666663,-529.4756497218054,23,"TODO: load up both a limiting and a propagating constraint, to test Action / Constraint interaction"
+ThoughtTrace::Text,Lucida Sans Unicode,85.41666666666629,379.56601694486136,23,NOTE: general debug flow
+ThoughtTrace::Text,Lucida Sans Unicode,1821.8749999999998,-447.4339830551389,23,BUG: rect resize action counter-steering wrecks LimitHeight
+ThoughtTrace::Text,Lucida Sans Unicode,1821.8749999999998,-424.433983055139,23,TODO: consider inverting LimitHeight
+ThoughtTrace::Text,Lucida Sans Unicode,87.49999999999966,416.27435027819473,23,"TODO: track time per frame ms, and convert to hz"
+ThoughtTrace::Text,Lucida Sans Unicode,1717.7083333333328,-349.26731638847195,23,"TODO: load up both a limiting and a propagating constraint, to test Action / Constraint interaction"
 ThoughtTrace::Text,Lucida Sans Unicode,1471.8749999999998,103.14935027819485,23,image Entity type
 ThoughtTrace::Text,Lucida Sans Unicode,1471.8749999999998,126.14935027819485,23,non-destructive crop of Images
 ThoughtTrace::Text,Lucida Sans Unicode,1471.8749999999998,149.14935027819485,23,multi-item mask (not just images)
 ThoughtTrace::Text,Lucida Sans Unicode,-713.5416666666665,516.9410169448614,23,load initial prototype config from base config for entire library
-ThoughtTrace::Text,Lucida Sans Unicode,1059.3749999999998,-348.60064972180567,23,action - input - query
+ThoughtTrace::Text,Lucida Sans Unicode,1066.6666666666665,-374.64231638847235,23,action - input - query
 ThoughtTrace::Text,Lucida Sans Unicode,1091.6666666666667,110.9410169448613,23,sharper font scaling
-ThoughtTrace::Text,Lucida Sans Unicode,1764.583333333333,-369.183983055139,23,input system - how inputs trigger actions
-ThoughtTrace::Text,Lucida Sans Unicode,1764.583333333333,-346.183983055139,23,diagram showing all actions
+ThoughtTrace::Text,Lucida Sans Unicode,1405.208333333333,-703.558983055139,23,input system - how inputs trigger actions
+ThoughtTrace::Text,Lucida Sans Unicode,1930.208333333333,-718.058983055139,23,diagram showing all actions
 ThoughtTrace::Text,Lucida Sans Unicode,-714.5833333333335,450.7743502781948,23,collision handler system
 ThoughtTrace::Text,Lucida Sans Unicode,-689.5833333333334,408.1493502781948,23,mulitple phases of text input
 ThoughtTrace::Text,Lucida Sans Unicode,618.7499999999998,-585.5173163884721,23,TODO: create graph relating files to subsystems
 ThoughtTrace::Text,Lucida Sans Unicode,618.7499999999998,-562.517316388472,23,list ALL the THINGS
 ThoughtTrace::Text,Lucida Sans Unicode,-714.5833333333339,474.0243502781947,23,TODO: adjust body masses and collisions
 ThoughtTrace::Text,Lucida Sans Unicode,1088.5416666666663,217.85768361152793,23,NOTE: notice that the prototype for Text keeps getting updated
-ThoughtTrace::Text,Lucida Sans Unicode,1917.7083333333328,-747.9166666666672,57.816578180508145,actions
+ThoughtTrace::Text,Lucida Sans Unicode,1970.8333333333328,-672.9166666666672,57.816578180508145,actions
 ThoughtTrace::Text,Lucida Sans Unicode,1453.124999999999,-343.7500000000005,57.816578180508145,constraints
 ThoughtTrace::Text,Lucida Sans Unicode,563.5416666666665,-720.8333333333336,57.816578180508145,documentation
 ThoughtTrace::Text,Lucida Sans Unicode,1122.9166666666665,46.8749999999996,57.816578180508145,Text
