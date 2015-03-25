@@ -54,7 +54,7 @@
               :color: !ruby/object:Gosu::Color
                 value: ff573c49
               :hitbox_color: !ruby/object:Gosu::Color
-                value: 11ffffff
+                value: eeffffff
         :hover: &2 !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -63,7 +63,7 @@
               :color: !ruby/object:Gosu::Color
                 value: ff0000ff
               :hitbox_color: !ruby/object:Gosu::Color
-                value: 11ffffff
+                value: eeffffff
     3: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
