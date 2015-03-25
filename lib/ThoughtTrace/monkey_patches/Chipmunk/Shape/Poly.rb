@@ -14,6 +14,9 @@ module CP
 			# Assumes that the poly is convex whole, but that's an assumption built into Chipmunk.
 			def draw(color, z=0)
 				$window.gl z do
+					GL.Enable(GL::GL_BLEND)
+					GL.BlendFunc(GL::GL_SRC_ALPHA, GL::GL_ONE_MINUS_SRC_ALPHA)
+					
 					GL.Begin(GL::GL_TRIANGLE_FAN)
 						GL.Color4ub(color.red, color.green, color.blue, color.alpha)
 						
