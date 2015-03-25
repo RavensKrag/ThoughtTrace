@@ -287,8 +287,20 @@
     47: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
-        :default: *1
-        :hover: *2
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa2a3082
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
+          styles:
+          - !ruby/object:ThoughtTrace::Style::StyleObject
+            name: primary
+            properties:
+              :color: !ruby/object:Gosu::Color
+                value: aa0000ff
     48: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
@@ -366,14 +378,18 @@
             name: primary
             properties:
               :color: !ruby/object:Gosu::Color
-                value: aa2a3082
+                value: ffe64240
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
         :hover: !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
             properties:
               :color: !ruby/object:Gosu::Color
-                value: aa0000ff
+                value: ff0000ff
+              :hitbox_color: !ruby/object:Gosu::Color
+                value: ffffffff
     53: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
@@ -608,6 +624,11 @@
     64: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
+        :default: *1
+        :hover: *2
+    65: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
         :default: !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -626,11 +647,6 @@
                 value: ff0000ff
               :hitbox_color: !ruby/object:Gosu::Color
                 value: ffffffff
-    65: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
     66: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
@@ -655,6 +671,21 @@
     67: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
+        :default: *1
+        :hover: *2
+    68: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: *1
+        :hover: *2
+    69: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: *1
+        :hover: *2
+    70: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
         :default: !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
@@ -673,21 +704,6 @@
                 value: ff0000ff
               :hitbox_color: !ruby/object:Gosu::Color
                 value: ffffffff
-    68: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    69: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    70: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
     71: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
@@ -1550,27 +1566,6 @@
               :hitbox_color: !ruby/object:Gosu::Color
                 value: ffffffff
     112: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: !ruby/object:ThoughtTrace::Style::Cascade
-          styles:
-          - !ruby/object:ThoughtTrace::Style::StyleObject
-            name: primary
-            properties:
-              :color: !ruby/object:Gosu::Color
-                value: ffe64240
-              :hitbox_color: !ruby/object:Gosu::Color
-                value: ffffffff
-        :hover: !ruby/object:ThoughtTrace::Style::Cascade
-          styles:
-          - !ruby/object:ThoughtTrace::Style::StyleObject
-            name: primary
-            properties:
-              :color: !ruby/object:Gosu::Color
-                value: ff0000ff
-              :hitbox_color: !ruby/object:Gosu::Color
-                value: ffffffff
-    113: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
         :default: !ruby/object:ThoughtTrace::Style::Cascade
