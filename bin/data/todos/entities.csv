@@ -91,3 +91,18 @@ ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-42.22564972180544,23,B
 ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-19.22564972180544,23,TODO: consider inverting LimitHeight
 ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,3.774350278194561,23,"TODO: track time per frame ms, and convert to hz"
 ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,26.77435027819456,23,"TODO: load up both a limiting and a propagating constraint, to test Action / Constraint interaction"
+ThoughtTrace::Text,Lucida Sans Unicode,1223.9583333333335,115.64935027819473,23,image Entity type
+ThoughtTrace::Text,Lucida Sans Unicode,1223.9583333333335,138.64935027819473,23,non-destructive crop of Images
+ThoughtTrace::Text,Lucida Sans Unicode,1223.9583333333335,161.64935027819473,23,multi-item mask (not just images)
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,229.44101694486142,23,load initial prototype config from base config for entire library
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,252.44101694486142,23,action - input - query
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,275.4410169448614,23,action - input - constraint
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,298.4410169448614,23,sharper font scaling
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,321.4410169448614,23,input system - how inputs trigger actions
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,344.4410169448614,23,diagram showing all actions
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,367.4410169448614,23,collision handler system
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,390.4410169448614,23,mulitple phases of text input
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,413.4410169448614,23,TODO: create graph relating files to subsystems
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,436.4410169448614,23,list ALL the THINGS
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,459.4410169448614,23,TODO: adjust body masses and collisions
+ThoughtTrace::Text,Lucida Sans Unicode,1225.0,482.4410169448614,23,NOTE: notice that the prototype for Text keeps getting updated
