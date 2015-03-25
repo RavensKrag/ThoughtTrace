@@ -69,3 +69,25 @@ ThoughtTrace::Text,Lucida Sans Unicode,247.91666666666674,-394.79166666666663,22
 ThoughtTrace::Text,Lucida Sans Unicode,-731.2500000000001,194.6666666666664,22.97394578559605,split text action
 ThoughtTrace::Text,Lucida Sans Unicode,-731.2500000000001,216.5416666666663,22.97394578559605,insert / join text action
 ThoughtTrace::Text,Lucida Sans Unicode,-748.9583333333334,-58.874999999999886,22.97394578559605,group serialization
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-456.22564972180544,23,TODO: track system - query style binding
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-433.22564972180544,23,TODO: track system development - serialization
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-410.22564972180544,23,"so, what about things that apply data to certain entities?"
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-387.22564972180544,23,NOTE: potential problems with propagating constraints
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-364.22564972180544,23,constraints on multiple objects
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-341.22564972180544,23,"NOTE: space is trying to call #gc? on constraints, but method is not yet defined"
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-318.22564972180544,23,TODO: list current constraint backend objects
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-295.22564972180544,23,BUG: object packer breaks when trying to generate pack/unpack for an object with a 0 arg init
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-272.22564972180544,23,"Q: do you need to click on Constraints, not just markers?"
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-249.22564972180544,23,TODO: all markers in a document should use the same visual style
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-226.22564972180544,23,"TODO: make sure Action#update ticks the same frame as #press, otherwise there may be a one frame lag on single-tick actions (notably, spawn actions)"
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-203.22564972180544,23,TODO: consider action factory / mouse action extraction system interaction with multiple spaces
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-180.22564972180544,23,TODO: polymorphic edit and resize
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-157.22564972180544,23,"TODO: consider scrapping rect resize action, in favor of constraint-based control system"
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-134.22564972180544,23,"TODO: update rectangle resize #anchor_point to accept an argument, instead of mucking with state"
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-111.22564972180544,23,TODO: action factory should not use ThoughtTrace::Queries::Query check
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-88.22564972180544,23,BUG: crash on marker move
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-65.22564972180544,23,NOTE: general debug flow
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-42.22564972180544,23,BUG: rect resize action counter-steering wrecks LimitHeight
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,-19.22564972180544,23,TODO: consider inverting LimitHeight
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,3.774350278194561,23,"TODO: track time per frame ms, and convert to hz"
+ThoughtTrace::Text,Lucida Sans Unicode,897.9166666666667,26.77435027819456,23,"TODO: load up both a limiting and a propagating constraint, to test Action / Constraint interaction"
