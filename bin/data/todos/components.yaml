@@ -673,5 +673,20 @@
                 value: ff0000ff
               :hitbox_color: !ruby/object:Gosu::Color
                 value: ffffffff
+    68: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: *1
+        :hover: *2
+    69: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: *1
+        :hover: *2
+    70: !ruby/object:ThoughtTrace::Components::Style
+      active_mode: :default
+      cascades:
+        :default: *1
+        :hover: *2
 :query:
   :components: {}
