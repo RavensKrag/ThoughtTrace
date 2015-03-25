@@ -29,6 +29,9 @@ def draw_line(render_context, a,b, color:DEFAULT_COLOR, thickness:6, line_offset
 	
 	
 	render_context.gl z_index do
+		GL.Enable(GL::GL_BLEND)
+		GL.BlendFunc(GL::GL_SRC_ALPHA, GL::GL_ONE_MINUS_SRC_ALPHA)
+		
 		# opengl code copied from code used to draw Poly shapes
 		GL.Begin(GL::GL_TRIANGLE_FAN)
 			GL.Color4ub(color.red, color.green, color.blue, color.alpha)

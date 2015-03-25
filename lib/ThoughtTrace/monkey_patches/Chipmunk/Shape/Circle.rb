@@ -3,6 +3,9 @@ module CP
 		class Circle
 			def draw(color, z=0)
 				$window.gl z do
+					GL.Enable(GL::GL_BLEND)
+					GL.BlendFunc(GL::GL_SRC_ALPHA, GL::GL_ONE_MINUS_SRC_ALPHA)
+					
 					GL.PushMatrix()
 					# TODO: consider using integer transforms
 					GL.Translatef(self.body.p.x, self.body.p.y, 0)
