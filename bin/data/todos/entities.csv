@@ -111,3 +111,14 @@ ThoughtTrace::Text,Lucida Sans Unicode,1122.9166666666665,46.8749999999996,57.81
 ThoughtTrace::Text,Lucida Sans Unicode,1306.2499999999995,-602.0833333333339,57.816578180508145,Input
 ThoughtTrace::Text,Lucida Sans Unicode,1479.1666666666658,31.25,57.816578180508145,Image
 ThoughtTrace::Text,Lucida Sans Unicode,397.91666666666606,122.9166666666664,57.816578180508145,Document
+ThoughtTrace::Text,Lucida Sans Unicode,-39.58333333333337,-290.74999999999983,22.97394578559605,rethink Component interface
+ThoughtTrace::Text,Lucida Sans Unicode,110.41666666666686,613.5416666666667,22.97394578559605,linear spectrum
+ThoughtTrace::Text,Lucida Sans Unicode,108.33333333333326,764.5833333333335,22.97394578559605,spectrum color selection
+ThoughtTrace::Text,Lucida Sans Unicode,108.33333333333326,787.5572791189295,22.97394578559605,constraint-based color selector
+ThoughtTrace::Text,Lucida Sans Unicode,111.45833333333337,638.6562249045256,22.97394578559605,bezier curves
+ThoughtTrace::Text,Lucida Sans Unicode,111.45833333333337,661.6301706901216,22.97394578559605,spectrum-based bezier curves
+ThoughtTrace::Text,Lucida Sans Unicode,111.45833333333337,684.6041164757177,22.97394578559605,non-linear spectrum through 2D space
+ThoughtTrace::Text,Lucida Sans Unicode,67.70833333333235,541.6666666666666,57.816578180508145,Spectra
+ThoughtTrace::Text,Lucida Sans Unicode,111.45833333333337,707.5780622613137,22.97394578559605,constraints and spectra
+ThoughtTrace::Text,Lucida Sans Unicode,111.45833333333337,730.5520080469097,22.97394578559605,entity positioned using constraint and spectrum
+ThoughtTrace::Text,Lucida Sans Unicode,108.33333333333326,810.5312249045255,22.97394578559605,spectrum-based color space generation / color pallets
