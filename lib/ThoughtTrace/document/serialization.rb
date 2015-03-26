@@ -436,10 +436,10 @@ class Document
 		
 		existing_component = entity[interface]
 		if existing_component
-			existing_component.mirror component
-		else
-			entity.add_component component
+			entity.delete_component(interface)
 		end
+		
+		entity.add_component(component)
 	end
 	
 	

@@ -32,6 +32,11 @@ class Entity
 	
 	# Components provide namespacing for common subsystems. (ex, physics)
 	def add_component(component)
+		if @components[component.class.interface]
+			warn "Component #{component.class.interface} already defined on #<#{object.class}:#{object.object_id}>"
+		end
+		
+		
 		component.on_bind(self) # execute binding callback. handles dependency resolution, etc
 		
 		@components[component.class.interface] = component
