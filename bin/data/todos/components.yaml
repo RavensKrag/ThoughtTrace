@@ -43,10 +43,10 @@
             properties:
               :color: !ruby/object:Gosu::Color
                 value: aa0000ff
-    2: !ruby/object:ThoughtTrace::Components::Style
+    2: &1 !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
-        :default: &1 !ruby/object:ThoughtTrace::Style::Cascade
+        :default: !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
@@ -55,7 +55,7 @@
                 value: ff573c49
               :hitbox_color: !ruby/object:Gosu::Color
                 value: eeffffff
-        :hover: &2 !ruby/object:ThoughtTrace::Style::Cascade
+        :hover: !ruby/object:ThoughtTrace::Style::Cascade
           styles:
           - !ruby/object:ThoughtTrace::Style::StyleObject
             name: primary
@@ -64,226 +64,50 @@
                 value: ff0000ff
               :hitbox_color: !ruby/object:Gosu::Color
                 value: eeffffff
-    3: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    4: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    5: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    6: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    7: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    8: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    9: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    10: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    11: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    12: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    13: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    14: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    15: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    16: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    17: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    18: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    19: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    20: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    21: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    22: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    23: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    24: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    25: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    26: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    27: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    28: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    29: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    30: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    31: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    32: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    33: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    34: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    35: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    36: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    37: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    38: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    39: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    40: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    41: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    42: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    43: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    44: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    45: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    46: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
+    3: *1
+    4: *1
+    5: *1
+    6: *1
+    7: *1
+    8: *1
+    9: *1
+    10: *1
+    11: *1
+    12: *1
+    13: *1
+    14: *1
+    15: *1
+    16: *1
+    17: *1
+    18: *1
+    19: *1
+    20: *1
+    21: *1
+    22: *1
+    23: *1
+    24: *1
+    25: *1
+    26: *1
+    27: *1
+    28: *1
+    29: *1
+    30: *1
+    31: *1
+    32: *1
+    33: *1
+    34: *1
+    35: *1
+    36: *1
+    37: *1
+    38: *1
+    39: *1
+    40: *1
+    41: *1
+    42: *1
+    43: *1
+    44: *1
+    45: *1
+    46: *1
     47: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
@@ -621,11 +445,7 @@
                 value: ff0000ff
               :hitbox_color: !ruby/object:Gosu::Color
                 value: ffffffff
-    64: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
+    64: *1
     65: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
@@ -668,21 +488,9 @@
                 value: ff0000ff
               :hitbox_color: !ruby/object:Gosu::Color
                 value: ffffffff
-    67: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    68: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
-    69: !ruby/object:ThoughtTrace::Components::Style
-      active_mode: :default
-      cascades:
-        :default: *1
-        :hover: *2
+    67: *1
+    68: *1
+    69: *1
     70: !ruby/object:ThoughtTrace::Components::Style
       active_mode: :default
       cascades:
