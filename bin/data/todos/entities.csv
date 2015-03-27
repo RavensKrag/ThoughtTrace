@@ -26,24 +26,24 @@ ThoughtTrace::Text,Lucida Sans Unicode,49.99999999999983,-35.583333333333485,22.
 ThoughtTrace::Text,Lucida Sans Unicode,-408.33333333333246,-37.583333333333314,22.97394578559605,add / remove whole entities (including components)
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,568.8333333333336,22.97394578559605,input system overhaul
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,614.8333333333336,22.97394578559605,input binding - mode-specific UI interaction
-ThoughtTrace::Text,Lucida Sans Unicode,-1134.375,809.7083333333334,22.97394578559605,notes program - tree overview - text field w/ spell check
-ThoughtTrace::Text,Lucida Sans Unicode,-1106.2500000000005,835.8333333333334,22.97394578559605,multi-line text input
+ThoughtTrace::Text,Lucida Sans Unicode,1877.0833333333337,121.16666666666674,22.97394578559605,notes program - tree overview - text field w/ spell check
+ThoughtTrace::Text,Lucida Sans Unicode,1905.2083333333333,147.29166666666674,22.97394578559605,multi-line text input
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,638.0000000000003,22.97394578559605,how do you bind mouse click actions for a Entity?
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,661.0000000000003,22.97394578559605,action system documentation update
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,592.3333333333336,22.97394578559605,TODO: rewrite 'empty space actions' as 'zero target actions'
 ThoughtTrace::Text,Lucida Sans Unicode,-752.0833333333338,31.041666666666174,22.97394578559605,implement prefabs
 ThoughtTrace::Text,Lucida Sans Unicode,909.3749999999999,-72.0000000000002,22.97394578559605,implement text split-rip action
-ThoughtTrace::Text,Lucida Sans Unicode,-1131.2500000000005,681.2083333333331,22.97394578559605,try to implement something like text caret again
-ThoughtTrace::Text,Lucida Sans Unicode,-1131.2500000000005,704.2083333333331,22.97394578559605,TODO: awkward to see the text caret appear quickly - then vanish
-ThoughtTrace::Text,Lucida Sans Unicode,-1130.2083333333335,746.9999999999998,22.97394578559605,locking things in place
-ThoughtTrace::Text,Lucida Sans Unicode,-1130.2083333333335,769.9999999999998,22.97394578559605,attachment point markers
+ThoughtTrace::Text,Lucida Sans Unicode,1637.5000000000005,-167.7500000000004,22.97394578559605,try to implement something like text caret again
+ThoughtTrace::Text,Lucida Sans Unicode,-986.4583333333338,629.2083333333331,22.97394578559605,TODO: awkward to see the text caret appear quickly - then vanish
+ThoughtTrace::Text,Lucida Sans Unicode,1637.5000000000007,-211.33333333333366,22.97394578559605,locking things in place
+ThoughtTrace::Text,Lucida Sans Unicode,1636.4583333333333,-94.58333333333394,22.97394578559605,attachment point markers
 ThoughtTrace::Text,Lucida Sans Unicode,484.3749999999999,-95.54166666666703,22.97394578559605,query object serialization
 ThoughtTrace::Text,Lucida Sans Unicode,484.3749999999999,-72.54166666666703,22.97394578559605,bind query object to query component
 ThoughtTrace::Text,Lucida Sans Unicode,484.3749999999999,-49.54166666666703,22.97394578559605,how are Queries shown visually?
-ThoughtTrace::Text,Lucida Sans Unicode,-1106.25,857.8333333333334,22.97394578559605,implement text search of all Text objects
+ThoughtTrace::Text,Lucida Sans Unicode,1905.2083333333337,169.29166666666674,22.97394578559605,implement text search of all Text objects
 ThoughtTrace::Text,Lucida Sans Unicode,-696.8750000000002,399.583333333333,22.97394578559605,multiple editor views
-ThoughtTrace::Text,Lucida Sans Unicode,-1129.1666666666674,620.5000000000003,22.97394578559605,short-circuiting min_by -> really a lazy min_by
-ThoughtTrace::Text,Lucida Sans Unicode,-1129.1666666666674,643.5000000000003,22.97394578559605,TODO: make sure Physics#center works with all collision shapes ASAP
+ThoughtTrace::Text,Lucida Sans Unicode,906.2499999999994,40.291666666666856,22.97394578559605,short-circuiting min_by -> really a lazy min_by
+ThoughtTrace::Text,Lucida Sans Unicode,-988.5416666666675,590.3750000000003,22.97394578559605,TODO: make sure Physics#center works with all collision shapes ASAP
 ThoughtTrace::Text,Lucida Sans Unicode,-41.666666666666856,464.4166666666673,22.97394578559605,shrink rect resize margins as object shrinks
 ThoughtTrace::Rectangle,-1431.25,-44.79166666666663,208.20271898124236,145.22780072276714
 ThoughtTrace::Rectangle,-800.0000000000002,-451.0173163884721,49.05754826262756,44.161783777906024
@@ -70,7 +70,7 @@ ThoughtTrace::Text,Lucida Sans Unicode,909.3749999999999,-27.208333333333684,22.
 ThoughtTrace::Text,Lucida Sans Unicode,-748.9583333333334,-58.874999999999886,22.97394578559605,group serialization
 ThoughtTrace::Text,Lucida Sans Unicode,-147.91666666666572,-698.9339830551388,23,TODO: track system - query style binding
 ThoughtTrace::Text,Lucida Sans Unicode,-147.91666666666572,-675.9339830551388,23,TODO: track system development - serialization
-ThoughtTrace::Text,Lucida Sans Unicode,-1130.2083333333335,1043.9410169448615,23,"so, what about things that apply data to certain entities?"
+ThoughtTrace::Text,Lucida Sans Unicode,1640.625,-12.30898305513847,23,"so, what about things that apply data to certain entities?"
 ThoughtTrace::Text,Lucida Sans Unicode,239.5833333333336,151.31601694486153,23,NOTE: potential problems with propagating constraints
 ThoughtTrace::Text,Lucida Sans Unicode,241.66666666666686,240.98268361152827,23,constraints on multiple objects
 ThoughtTrace::Text,Lucida Sans Unicode,239.5833333333336,174.39935027819502,23,"NOTE: space is trying to call #gc? on constraints, but method is not yet defined"
@@ -81,28 +81,28 @@ ThoughtTrace::Text,Lucida Sans Unicode,-301.0416666666662,190.35768361152827,23,
 ThoughtTrace::Text,Lucida Sans Unicode,324.9999999999999,499.8160169448614,23,Action #update should fire right after #press
 ThoughtTrace::Text,Lucida Sans Unicode,324.9999999999999,522.8160169448614,23,TODO: consider action factory / mouse action extraction system interaction with multiple spaces
 ThoughtTrace::Text,Lucida Sans Unicode,324.9999999999999,545.8160169448614,23,TODO: polymorphic edit and resize
-ThoughtTrace::Text,Lucida Sans Unicode,-1133.3333333333335,1112.5660169448613,23,"TODO: consider scrapping rect resize action, in favor of constraint-based control system"
+ThoughtTrace::Text,Lucida Sans Unicode,-986.4583333333334,741.7326836115279,23,"TODO: consider scrapping rect resize action, in favor of constraint-based control system"
 ThoughtTrace::Text,Lucida Sans Unicode,323.9583333333329,580.3576836115282,23,"rectangle resize #anchor_point should take argument, instead of mucking with state"
 ThoughtTrace::Text,Lucida Sans Unicode,323.9583333333329,603.3576836115282,23,TODO: action factory should not use ThoughtTrace::Queries::Query check
 ThoughtTrace::Text,Lucida Sans Unicode,51.041666666666174,500.3160169448614,23,BUG: crash on marker move
-ThoughtTrace::Text,Lucida Sans Unicode,-1594.791666666667,747.2743502781949,23,NOTE: general debug flow
+ThoughtTrace::Text,Lucida Sans Unicode,-1528.1250000000002,658.7326836115282,23,NOTE: general debug flow
 ThoughtTrace::Text,Lucida Sans Unicode,359.3749999999999,350.4826836115283,23,BUG: rect resize action counter-steering wrecks LimitHeight
 ThoughtTrace::Text,Lucida Sans Unicode,372.91666666666663,379.73268361152805,23,TODO: consider inverting LimitHeight
-ThoughtTrace::Text,Lucida Sans Unicode,-1592.7083333333335,783.9826836115283,23,"TODO: track time per frame ms, and convert to hz"
+ThoughtTrace::Text,Lucida Sans Unicode,-1526.0416666666667,695.4410169448615,23,"TODO: track time per frame ms, and convert to hz"
 ThoughtTrace::Text,Lucida Sans Unicode,353.1249999999999,319.4826836115285,23,"TODO: load up both a limiting and a propagating constraint, to test Action / Constraint interaction"
 ThoughtTrace::Text,Lucida Sans Unicode,1265.625,-137.47564972180524,23,image Entity type
 ThoughtTrace::Text,Lucida Sans Unicode,1265.625,-114.47564972180524,23,non-destructive crop of Images
 ThoughtTrace::Text,Lucida Sans Unicode,1265.625,-91.47564972180524,23,multi-item mask (not just images)
-ThoughtTrace::Text,Lucida Sans Unicode,-1130.2083333333335,1001.3160169448615,23,load initial prototype config from base config for entire library
+ThoughtTrace::Text,Lucida Sans Unicode,1794.7916666666663,-345.55898305513836,23,load initial prototype config from base config for entire library
 ThoughtTrace::Text,Lucida Sans Unicode,554.1666666666664,29.524350278194675,23,action - input - query
 ThoughtTrace::Text,Lucida Sans Unicode,910.4166666666669,-101.55898305513878,23,sharper font scaling
 ThoughtTrace::Text,Lucida Sans Unicode,-28.12500000000034,422.48268361152805,23,input system - how inputs trigger actions
 ThoughtTrace::Text,Lucida Sans Unicode,327.08333333333314,685.0660169448612,23,diagram showing all actions
-ThoughtTrace::Text,Lucida Sans Unicode,-1131.2500000000005,935.1493502781949,23,collision handler system
-ThoughtTrace::Text,Lucida Sans Unicode,-1106.2500000000005,892.5243502781949,23,mulitple phases of text input
+ThoughtTrace::Text,Lucida Sans Unicode,-985.4166666666671,674.7326836115282,23,collision handler system
+ThoughtTrace::Text,Lucida Sans Unicode,1905.2083333333333,203.98268361152827,23,mulitple phases of text input
 ThoughtTrace::Text,Lucida Sans Unicode,-145.8333333333336,-631.3506497218056,23,TODO: create graph relating files to subsystems
 ThoughtTrace::Text,Lucida Sans Unicode,-145.8333333333336,-608.3506497218054,23,list ALL the THINGS
-ThoughtTrace::Text,Lucida Sans Unicode,-1131.250000000001,958.3993502781948,23,TODO: adjust body masses and collisions
+ThoughtTrace::Text,Lucida Sans Unicode,-985.4166666666675,697.982683611528,23,TODO: adjust body masses and collisions
 ThoughtTrace::Text,Lucida Sans Unicode,907.2916666666664,5.357683611527847,23,NOTE: notice that the prototype for Text keeps getting updated
 ThoughtTrace::Text,Lucida Sans Unicode,474.99999999999943,418.7499999999999,57.816578180508145,actions
 ThoughtTrace::Text,Lucida Sans Unicode,89.58333333333292,78.125,57.816578180508145,constraints
@@ -112,13 +112,15 @@ ThoughtTrace::Text,Lucida Sans Unicode,-189.58333333333383,489.58333333333314,57
 ThoughtTrace::Text,Lucida Sans Unicode,1272.916666666666,-209.37500000000009,57.816578180508145,Image
 ThoughtTrace::Text,Lucida Sans Unicode,-734.3750000000009,163.5416666666659,57.816578180508145,Document
 ThoughtTrace::Text,Lucida Sans Unicode,-242.70833333333337,-310.54166666666646,22.97394578559605,rethink Component interface
-ThoughtTrace::Text,Lucida Sans Unicode,1640.6249999999995,-141.66666666666708,22.97394578559605,linear spectrum
-ThoughtTrace::Text,Lucida Sans Unicode,1638.5416666666665,9.374999999999659,22.97394578559605,spectrum color selection
-ThoughtTrace::Text,Lucida Sans Unicode,1638.5416666666665,32.348945785595674,22.97394578559605,constraint-based color selector
-ThoughtTrace::Text,Lucida Sans Unicode,1641.6666666666665,-116.55210842880808,22.97394578559605,bezier curves
-ThoughtTrace::Text,Lucida Sans Unicode,1641.6666666666665,-93.5781626432123,22.97394578559605,spectrum-based bezier curves
-ThoughtTrace::Text,Lucida Sans Unicode,1641.6666666666665,-70.60421685761605,22.97394578559605,non-linear spectrum through 2D space
-ThoughtTrace::Text,Lucida Sans Unicode,1597.9166666666656,-213.54166666666714,57.816578180508145,Spectra
-ThoughtTrace::Text,Lucida Sans Unicode,1641.6666666666665,-47.630271072020264,22.97394578559605,constraints and spectra
-ThoughtTrace::Text,Lucida Sans Unicode,1641.6666666666665,-24.65632528642402,22.97394578559605,entity positioned using constraint and spectrum
-ThoughtTrace::Text,Lucida Sans Unicode,1638.5416666666665,55.32289157119169,22.97394578559605,spectrum-based color space generation / color pallets
+ThoughtTrace::Text,Lucida Sans Unicode,2198.9583333333335,-192.70833333333368,22.97394578559605,linear spectrum
+ThoughtTrace::Text,Lucida Sans Unicode,2196.8750000000005,-41.66666666666694,22.97394578559605,spectrum color selection
+ThoughtTrace::Text,Lucida Sans Unicode,2196.8750000000005,-18.692720881070926,22.97394578559605,constraint-based color selector
+ThoughtTrace::Text,Lucida Sans Unicode,2200.0000000000005,-167.59377509547468,22.97394578559605,bezier curves
+ThoughtTrace::Text,Lucida Sans Unicode,2200.0000000000005,-144.6198293098789,22.97394578559605,spectrum-based bezier curves
+ThoughtTrace::Text,Lucida Sans Unicode,2200.0000000000005,-121.64588352428265,22.97394578559605,non-linear spectrum through 2D space
+ThoughtTrace::Text,Lucida Sans Unicode,2156.2499999999995,-264.5833333333337,57.816578180508145,Spectra
+ThoughtTrace::Text,Lucida Sans Unicode,2200.0000000000005,-98.67193773868686,22.97394578559605,constraints and spectra
+ThoughtTrace::Text,Lucida Sans Unicode,2200.0000000000005,-75.69799195309062,22.97394578559605,entity positioned using constraint and spectrum
+ThoughtTrace::Text,Lucida Sans Unicode,2196.8750000000005,4.281224904525089,22.97394578559605,spectrum-based color space generation / color pallets
+ThoughtTrace::Text,Lucida Sans Unicode,1637.5000000000002,-64.58333333333331,22.97394578559605,action: swap elements
+ThoughtTrace::Text,Lucida Sans Unicode,1656.2500000000002,-41.60938754773727,22.97394578559605,(switch temp element for a real one?)
