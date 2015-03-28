@@ -1,0 +1,6901 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"visua",
+				"visualizations"
+			],
+			[
+				"test_",
+				"test_package"
+			],
+			[
+				"prev",
+				"prev_tick"
+			],
+			[
+				"poss",
+				"possible_targets"
+			],
+			[
+				"const",
+				"constraint_target"
+			],
+			[
+				"data",
+				"data_dump"
+			],
+			[
+				"rec",
+				"resources"
+			],
+			[
+				"Hash",
+				"HashWrapper"
+			],
+			[
+				"remo",
+				"removal_flag"
+			],
+			[
+				"con",
+				"constraint"
+			],
+			[
+				"paramet",
+				"parameterization"
+			],
+			[
+				"visu",
+				"visualization"
+			],
+			[
+				"vis",
+				"visualization"
+			],
+			[
+				"necessary",
+				"necessary_pairs"
+			],
+			[
+				"cont",
+				"constraint_type"
+			],
+			[
+				"nece",
+				"necessary_pairs"
+			],
+			[
+				"entit",
+				"entities"
+			],
+			[
+				"inti",
+				"initialize"
+			],
+			[
+				"ent",
+				"entities"
+			],
+			[
+				"segment",
+				"segment_query"
+			],
+			[
+				"compo",
+				"components"
+			],
+			[
+				"query",
+				"query_data"
+			],
+			[
+				"origi",
+				"original_color"
+			],
+			[
+				"active",
+				"active_cascade"
+			],
+			[
+				"var",
+				"var_name"
+			],
+			[
+				"projec",
+				"project_directory"
+			],
+			[
+				"other",
+				"other_stuff"
+			],
+			[
+				"unpa",
+				"unpack_with_class_name"
+			],
+			[
+				"compon",
+				"component"
+			],
+			[
+				"qu",
+				"query_components"
+			],
+			[
+				"styl",
+				"style_components"
+			],
+			[
+				"names",
+				"named_styles"
+			],
+			[
+				"comp",
+				"component"
+			],
+			[
+				"full",
+				"full_path"
+			],
+			[
+				"sc",
+				"style_component"
+			],
+			[
+				"primary",
+				"primary_style"
+			],
+			[
+				"casc",
+				"cascade_list"
+			],
+			[
+				"enti",
+				"entity_id"
+			],
+			[
+				"component",
+				"component_data"
+			],
+			[
+				"componen",
+				"component"
+			],
+			[
+				"collec",
+				"collection"
+			],
+			[
+				"activ",
+				"active_list"
+			],
+			[
+				"write",
+				"write_data"
+			],
+			[
+				"wri",
+				"write_data"
+			],
+			[
+				"par",
+				"packed_array"
+			],
+			[
+				"compd",
+				"component_data"
+			],
+			[
+				"each_",
+				"each_with_index"
+			],
+			[
+				"all",
+				"all_style_objects"
+			],
+			[
+				"style",
+				"style_component"
+			],
+			[
+				"righc",
+				"right_callbacks"
+			],
+			[
+				"lftc",
+				"left_callbacks"
+			],
+			[
+				"butt",
+				"mouse_button"
+			],
+			[
+				"actt",
+				"active_action"
+			],
+			[
+				"ti",
+				"text_input"
+			],
+			[
+				"acc",
+				"active_action"
+			],
+			[
+				"acti",
+				"active_action"
+			],
+			[
+				"mous",
+				"mouse_button"
+			],
+			[
+				"button",
+				"button_phase"
+			],
+			[
+				"hit",
+				"hitbox_color"
+			],
+			[
+				"clone",
+				"clone_factory"
+			],
+			[
+				"old",
+				"old_text"
+			],
+			[
+				"prot",
+				"prototype"
+			],
+			[
+				"regist",
+				"register_prototype"
+			],
+			[
+				"inp",
+				"text_input"
+			],
+			[
+				"text",
+				"text_input"
+			],
+			[
+				"est",
+				"estimated_i"
+			],
+			[
+				"first",
+				"first_guess"
+			],
+			[
+				"esti",
+				"estimated_i"
+			],
+			[
+				"meas",
+				"measured_offset"
+			],
+			[
+				"disp",
+				"measured_displacement"
+			],
+			[
+				"caret",
+				"caret_pos"
+			],
+			[
+				"dir",
+				"dirty"
+			],
+			[
+				"ce",
+				"create_geometry"
+			],
+			[
+				"no",
+				"normalized_anchor"
+			],
+			[
+				"nw",
+				"new_height"
+			],
+			[
+				"plac",
+				"place_to_look"
+			],
+			[
+				"original",
+				"original_width"
+			],
+			[
+				"na",
+				"normalized_anchor"
+			],
+			[
+				"ad",
+				"anchor_delta"
+			],
+			[
+				"anp",
+				"anchor_pre"
+			],
+			[
+				"top_ri",
+				"top_right"
+			],
+			[
+				"instance",
+				"instance_eval"
+			],
+			[
+				"meta",
+				"meta_eval"
+			],
+			[
+				"Input",
+				"InputSystem"
+			],
+			[
+				"revent",
+				"released_events"
+			],
+			[
+				"parti",
+				"partition"
+			],
+			[
+				"lev",
+				"launched_events"
+			],
+			[
+				"KbLeft",
+				"KbLeftControl"
+			],
+			[
+				"ni",
+				"new_input"
+			],
+			[
+				"call",
+				"callbacks"
+			],
+			[
+				"ac",
+				"assoc_time"
+			],
+			[
+				"at",
+				"array_time"
+			],
+			[
+				"colu",
+				"columns"
+			],
+			[
+				"sepra",
+				"separator_width"
+			],
+			[
+				"hash",
+				"hash_iteration_time"
+			],
+			[
+				"ar",
+				"array_iteration_time"
+			],
+			[
+				"en",
+				"event_name"
+			],
+			[
+				"enta",
+				"event_name"
+			],
+			[
+				"contr",
+				"controller"
+			],
+			[
+				"delta",
+				"delta_threshold"
+			],
+			[
+				"displa",
+				"displacement"
+			],
+			[
+				"ori",
+				"original_radius"
+			],
+			[
+				"or",
+				"original_radius"
+			],
+			[
+				"init",
+				"initial_width"
+			],
+			[
+				"initia",
+				"initial_point"
+			],
+			[
+				"entity",
+				"entity_to_id_table"
+			],
+			[
+				"Cl",
+				"ConstraintList"
+			],
+			[
+				"List",
+				"QueryList"
+			],
+			[
+				"prope",
+				"property"
+			],
+			[
+				"pro",
+				"properties"
+			],
+			[
+				"mouse",
+				"mouseover"
+			],
+			[
+				"on_",
+				"on_tick"
+			],
+			[
+				"mn",
+				"MINIMUM_DIMENSION"
+			],
+			[
+				"body",
+				"body_lines"
+			],
+			[
+				"exa",
+				"expand_path"
+			],
+			[
+				"pack",
+				"packed_array"
+			],
+			[
+				"font",
+				"font_name"
+			],
+			[
+				"strip",
+				"strip_comment"
+			],
+			[
+				"expand",
+				"expand_path"
+			],
+			[
+				"ow",
+				"old_width"
+			],
+			[
+				"cou",
+				"counter_steer_x"
+			],
+			[
+				"heigh",
+				"height_unchanged"
+			],
+			[
+				"with",
+				"width_unchanged"
+			],
+			[
+				"proj",
+				"projection"
+			],
+			[
+				"radi",
+				"radial_axis"
+			],
+			[
+				"rad",
+				"radial_axis"
+			],
+			[
+				"cent",
+				"center_to_point  (variable)"
+			],
+			[
+				"local",
+				"local_displacement"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/text_converter.rb",
+			"settings":
+			{
+				"buffer_size": 724,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
+			"settings":
+			{
+				"buffer_size": 17934,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/components.yaml",
+			"settings":
+			{
+				"buffer_size": 56538,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "=====",
+			"settings":
+			{
+				"buffer_size": 5,
+				"line_ending": "Unix",
+				"name": "====="
+			}
+		},
+		{
+			"contents": "selection, group, group actions, disambiguation",
+			"settings":
+			{
+				"buffer_size": 47,
+				"line_ending": "Unix",
+				"name": "selection, group, group actions, disambiguation"
+			}
+		},
+		{
+			"contents": "TODO: consider ActionFactory#get_type for groups\n\ncould easily extract polymorphic action code from Group class\nbut what about the target of the action?\n\nif the action target needs to be the whole Group and not just the particular Entity,\nthat could get weird\n\n\nmight need to design Group actions such that they make sure to \"step up\" from the target Entity\nso that they can figure out what the Group they are operating upon is\n\n\n\n\n\n\nold system would use a multiple return\nto always return a pair\n	[class, target]\nbut that starts to feel clunky after a while\n\nI feel like the place to get actions from\nand the thing that is being targeted\nshould be computable in separate steps\n\nthat just feels better to me for some reason\n(at least, for right now)",
+			"settings":
+			{
+				"buffer_size": 749,
+				"line_ending": "Unix",
+				"name": "TODO: consider ActionFactory#get_type for groups"
+			}
+		},
+		{
+			"contents": "if @space.queries.include? @entity\n	# marked as a query\n	# entity which has been marked for use as a query object\n	query = @space.queries[@entity]\n	\n	# use query methods (in terms of polymorphism), but manipulate the entity\n	[query.class, @entity]\n	\nelsif @space.groups.include? @entity\n	# part of a group\n	# affect an entire group, not just one entity\n	group = @space.groups[@entity]\n	\n	[group.class, group]\nelsif @selection.include? @entity\n	# part of current selection\n	\n	# selections are a special type of group that will not be saved\n	# (at least, that's the current idea)\n	# you could always take a whole group and mark that it should be kept\n	[@selection.class, @selection]\nelse\n	# standard entity\n	\n	# assuming we have found an existing Entity\n	# but that it has no special characteristics\n	[@entity.class, @entity]\nend\n\n\n\n\n\n\n\n\n\nif query = @space.queries[@entity]\n	# marked as a query\n	# entity which has been marked for use as a query object\n	\n	# use query methods (in terms of polymorphism), but manipulate the entity\n	[query.class, @entity]\n	\nelsif group = @space.groups[@entity]\n	# part of a group\n	# affect an entire group, not just one entity\n	\n	[group.class, group]\nelsif @selection.include? @entity\n	# part of current selection\n	\n	# selections are a special type of group that will not be saved\n	# (at least, that's the current idea)\n	# you could always take a whole group and mark that it should be kept\n	[@selection.class, @selection]\nelse\n	# standard entity\n	\n	# assuming we have found an existing Entity\n	# but that it has no special characteristics\n	[@entity.class, @entity]\nend\n\n\n\n\n\n\n\n\n# how do you distinguish between editing a whole group of things, vs just one?\n# how do you know what \"level\" of grouping you should be editing?\n\n# this is actually way more complicated than the raw Entity selection\n# because that only has to do with picking one element out of a stack\n# now you want to pick any subset of elements from the entire set,\n# ideally without having to manually specify what subset you want\n# (you CERTAINLY don't want to have to specify subset by name)\n\n\n\n\n\n\n\n\n\n\n\n# assume queries are a Component\n\nif @entity[:query]\n	# marked as a query\n	# entity which has been marked for use as a query object\n	\n	query = @entity[:query]\n	# use query methods (in terms of polymorphism), but manipulate the entity\n	# (this is because the Query is only markup on top of an Entity)\n	\n	# but that means there should be fallback to Entity actions from Query actions\n		# cascade through all Query classes\n		# if action still not resolved,\n		# then cascade through Entity actions as well?\n	\n	# considering changing how elements are selected from the space in it's entirety\n	# so this may not be necessary at all\n	\n	[query.class, @entity]\n	\nelsif group = @space.groups.find{ |g| g.include? @entity  } \n	# part of a group\n	# affect an entire group, not just one entity\n	\n	\n	# oh wait, but an entity could be part of more than one group\n	\n	# hmmm... this advanced object picker needs total rethinking...\n	\n	[group.class, group]\nelsif @selection.include? @entity\n	# part of current selection\n	\n	# selections are a special type of group that will not be saved\n	# (at least, that's the current idea)\n	# you could always take a whole group and mark that it should be kept\n	[@selection.class, @selection]\nelse\n	# standard entity\n	\n	# assuming we have found an existing Entity\n	# but that it has no special characteristics\n	[@entity.class, @entity]\nend\n\n\n# sounds like what you want is to find any selectable collection (group or single Entity)\n# which corresponds to the current #point_query_best criteria\n# so like, still trying to select item under cursor, closest center, smallest area\n# but you're looking for groups, selections, prefabs, and entities,\n# instead of just raw Entity objects\n\n# in that case, you may want to consider removing the query from the Space\n# and putting it in only an action?\n# because it's more about external manipulation of the space?\n# oh wait, but then it would be weird to extract items programatically,\n# so never mind then...",
+			"settings":
+			{
+				"buffer_size": 4070,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "pick group / abstraction layer with scroll wheel",
+			"settings":
+			{
+				"buffer_size": 48,
+				"line_ending": "Unix",
+				"name": "pick group / abstraction layer with scroll wheel"
+			}
+		},
+		{
+			"contents": "group system - mark and select\n\n\n\n\nalmost want to use a tablet\nso that the pressure can be used to select how much to \"dig in\"\n\nlike, more pressure would mean you want to \"dig in\" more\nand be more precise\nso that would mean that you select smaller subsections of a group\n\nwith lighter touches you would just select the group as a whole",
+			"settings":
+			{
+				"buffer_size": 335,
+				"line_ending": "Unix",
+				"name": "group system - mark and select"
+			}
+		},
+		{
+			"contents": "groups / copy group",
+			"settings":
+			{
+				"buffer_size": 19,
+				"line_ending": "Unix",
+				"name": "groups / copy group"
+			}
+		},
+		{
+			"contents": "all groups should start off as selections\n\n\na Group that gets stored in the '@space.groups' collection,\nis just a selection that you want to keep around\n( for whatever reason )",
+			"settings":
+			{
+				"buffer_size": 176,
+				"line_ending": "Unix",
+				"name": "all groups should start off as selections"
+			}
+		},
+		{
+			"contents": "clear selection on non-selection-altering action?\n\n\nthis is a pretty typical behavior, but idk",
+			"settings":
+			{
+				"buffer_size": 94,
+				"line_ending": "Unix",
+				"name": "clear selection on non-selection-altering action?"
+			}
+		},
+		{
+			"contents": "group resize",
+			"settings":
+			{
+				"buffer_size": 12,
+				"line_ending": "Unix",
+				"name": "group resize"
+			}
+		},
+		{
+			"contents": "group serialization",
+			"settings":
+			{
+				"buffer_size": 19,
+				"line_ending": "Unix",
+				"name": "group serialization"
+			}
+		},
+		{
+			"contents": "----",
+			"settings":
+			{
+				"buffer_size": 4,
+				"line_ending": "Unix",
+				"name": "----"
+			}
+		},
+		{
+			"contents": "= overview\n\n\nclasses that will house Style Components:\n\n	entity\n\n	query\n	constraint marker\n	constraint / visualization\n	group\n\n\nbut maybe the Visualization style is taken from the Constraint it is bound to? (or rather the Pair)\nwould this allow using Visualization objects in multiple places?\nNOPE: each Pair still needs it's own Visualization because of mode state\n\n\n\n\nhow are Style components accessed?\ndo you want to keep the hash-style interface?\nshould we switch to a 'just like any other instance variable' style?\n\nEither way, all types should house Components the same way, to make serialization simple\n\n\n\n\n\nshould do a deep copy of Style data on #clone for now.\nmay decide on different data linking behaviors later, once that sort of Action can be bound\n(don't really want to try to bind that right now)",
+			"settings":
+			{
+				"buffer_size": 811,
+				"line_ending": "Unix",
+				"name": "= overview"
+			}
+		},
+		{
+			"contents": "TODO: track system - query style binding\n\n\ndocument.named_styles\nStyleCollection\nmark query action\nquery component\nquery object\n\n\n\n\nwhere should pointers to the style object be stored?\nwhere should pointers to the whole style collection (alongside the name of the style) be better?\n\nseems like it's actually pretty bad to store the style name,\nbecause you have to store the whole collection as well\nbut then you have to also wonder what happens when the name changes\n- same cache invalidation thing that you had with StyleCollection, but on a bigger scale",
+			"settings":
+			{
+				"buffer_size": 555,
+				"line_ending": "Unix",
+				"name": "TODO: track system - query style binding"
+			}
+		},
+		{
+			"contents": "rethink how Style data is saved\n\nlot of linking (really want to eventually just store a graph, and edit it as a graph as well)\nConstraint Visualizations have Style Components now too, so how is that going to be serialized?\n\nwhat about the 'named styles'?\ndo those still exist?\ndo they need to take a different form?",
+			"settings":
+			{
+				"buffer_size": 315,
+				"line_ending": "Unix",
+				"name": "rethink how Style data is saved"
+			}
+		},
+		{
+			"contents": "TODO: how to copy style data on duplication action?\n\n\n+ link style objects\n+ link full component\n+ deep copy style data\n\nthree approaches, but the main ways of making a copy are\n= duplicate (deep copy)\n= clone     (linked copy)\n\nHave 3 routes, but only 2 places to allocate\n\n\n\n\n\nI guess you actually need 3 copy operations then:\n\n+ duplicate   -  deep copy of all data.          changes to one copy do not effect the other\n\n+ clone       -  uses linked style data.         style changes to one effect the other\n\n+ mirror      -  linked components,              like one object in two places. \n                 constraints on other data.      all changes mirrored\n\n( third style could potentially eventually be implemented as actually using the same data twice )\n\n\nNOTE: would be nice if you could apply the mirror constraint to existing Entities\n( in case you realize later down the line that these things should be mirrored )\n( would potentially be pain, if one of the Entities had a bunch of constraints on it and stuff )\n\nyou would want to remove the constraint on something that already had it as well,\nturning it into a standard duplicate",
+			"settings":
+			{
+				"buffer_size": 1143,
+				"line_ending": "Unix",
+				"name": "TODO: how to copy style data on duplication action"
+			}
+		},
+		{
+			"contents": "NOTE: style data not currently duplicated when Entities are cloned\n\n\nresults in 'clones' that don't look the same,\nwhich is really weird",
+			"settings":
+			{
+				"buffer_size": 136,
+				"line_ending": "Unix",
+				"name": "NOTE: style data not currently duplicated when Ent"
+			}
+		},
+		{
+			"contents": "component serialization - non-Entity types\n\n\ncomponent lifetimes are controlled by the classes that own them\n(Entity, etc)\nso you don't have to worry about getting into some special collection for runtime.\nYou just need to take them out / put them into the temp collection during serialization\n( maybe special cases for Styles - named style objects? )\n\n\n\n\nb/c YAML is used for Components, you can have the same Component object used in multiple places\nand it's not a big deal:\nYAML will link the data correctly automatically.\n\n\n\n\nneed to think about how styles get in / out of the @named_styles collection though\n\nnamed styles could get created, and then never deleted, with the current system.\nbut maybe I don't want to change that now, and just wait for style graph editing?\n\n\n\ncurrently, Component keys are Entity array index numbers,\nhow will this effect having Groups and Visualizations in the same collection?\nshould Group and Visualization styles be separated?\n\nthat can be done, it's not a big deal,\nas long as they go into the same YAML file in the end,\ndata will still get linked correctly\n\n\n\n\n\n\nextra complication:\n\nonly Entity allows for accessing Component data through the hash-style interface\nex) @entity[:physics].body.p\n\nhow do you get the Component data out of a non-Entity object?\nshould Components always be accessed through the same interface?\nshould that interface be packed up into a mixin or something\n(just to reduce code duplication, or because of typing systems, or...?)",
+			"settings":
+			{
+				"buffer_size": 1497,
+				"line_ending": "Unix",
+				"name": "component serialization - non-Entity types"
+			}
+		},
+		{
+			"contents": "rethink component interface\n\nhash-style interface has a variety of problems.\nnow that there are Components being stored in non-Entity types,\nit's a good time to rething the interface,\nbecause after this point it's gonna get really messy to change it up\n\nshould be able to attach new Style components to non-Entity types\nin the same way as with Entity types.\nOtherwise you get a weird 'second-class citizen'-style behavior on non-Entity types\nduring serialization or what have you,\nany case where you need to use the Component interface\n\n\n\nmaybe access Components like any other instance variable,\nbut then list the available Component names in a dedicated list?\n\nI mean, is there a compelling reason to keep the Components accessed through a different interface than standard instance variables?\nWhat non-Component data is even stored on an Entity?\n	+ Text stores special data about stored String and Font objects\n	+ Image entity type would have to store what Image it was holding, and some details about a clipping mask\n	( but masks might be a component? they apply to multiple types )\n\nComponents have a special dependency management system,\nor at least they did.\nI'm not even sure that system is currently in use any more.\n\nLike, it seems to exist, but is it being used?\n\n\n\nnamespacing and dependency management\nseems like that's the two big draws for keeping the existing system.\nI was also really into blindly following the 'Entity Component' architecture,\nwithout knowing how it worked, or why it was good.\nI'm not sure I would be able to explain that even now...\nBut it's important to understand why you use patterns, and not use them blindly",
+			"settings":
+			{
+				"buffer_size": 1649,
+				"line_ending": "Unix",
+				"name": "rethink component interface"
+			}
+		},
+		{
+			"contents": "NOTE: can't save multiple Style Components with identical data.\n\n\n\nThe most that I could compress the data was linking Cascade objects\nnot sure why that is.\n\nIt's rather annoying, as I would like to share full Components\n\n\n\n\noh, I think how this works is that when a style component is attached,\nthe serialization system doesn't actually link that Component object,\nit just copies over the data into the proper component from the one that was loaded.\n\nYou need to make it so that the object loaded is the object used",
+			"settings":
+			{
+				"buffer_size": 516,
+				"line_ending": "Unix",
+				"name": "NOTE: can't save multiple Style Components with id"
+			}
+		},
+		{
+			"contents": "NOTE: constraint Visualizations and Groups now both use Style Components",
+			"settings":
+			{
+				"buffer_size": 72,
+				"line_ending": "Unix",
+				"name": "NOTE: constraint Visualizations and Groups now bot"
+			}
+		},
+		{
+			"contents": "Visualizations need to save Style component data\nthat data may have overlaps with other style data,\nso all that Style data needs to be linked together\n\nmaybe need to serialize components in a later AFTER the constraints then?\nhave to think about this is going to work...\n\n\n\nkinda want the style data to end up on the Constraint object itself though.\nWould make the most sense if the same object always styled it's visualization in a similar manner,\neven if the type of Visualization is changed.\n\nshould probably define default values on the Visualization itself though, that makes sense",
+			"settings":
+			{
+				"buffer_size": 586,
+				"line_ending": "Unix",
+				"name": "Visualizations need to save Style component data"
+			}
+		},
+		{
+			"contents": "TODO: put the style data on the Constraint maybe?\n\n\ndon't like how you could have multiple Constraint types that look different in the UI\nthat could get really confusing\n\n(\n	ofc you could have the 'opposite' problem, where you have disparate types that have the same color\n)",
+			"settings":
+			{
+				"buffer_size": 274,
+				"line_ending": "Unix",
+				"name": "TODO: put the style data on the Constraint maybe?"
+			}
+		},
+		{
+			"contents": "TODO: all markers in a document should use the same visual style\n\n\nconsider a shared named style, like with Query",
+			"settings":
+			{
+				"buffer_size": 113,
+				"line_ending": "Unix",
+				"name": "TODO: all markers in a document should use the sam"
+			}
+		},
+		{
+			"contents": "---",
+			"settings":
+			{
+				"buffer_size": 3,
+				"line_ending": "Unix",
+				"name": "---"
+			}
+		},
+		{
+			"contents": "implement loading of visualizations\n\n\ndelayed until multiple visualization types are created\ncan't think of a good way to serialize when\nit's not clear what the data is like yet\n\n\n",
+			"settings":
+			{
+				"buffer_size": 180,
+				"line_ending": "Unix",
+				"name": "implement loading of visualizations"
+			}
+		},
+		{
+			"contents": "NOTE: each Constraint Pair needs a separate Visualization object\n\n\nit's because of Visualizations transition between different states\none instance can only remember one",
+			"settings":
+			{
+				"buffer_size": 168,
+				"line_ending": "Unix",
+				"name": "NOTE: each Constraint Pair needs a separate Visual"
+			}
+		},
+		{
+			"contents": "document format - multiple documents\n\n\n\n* update document format to allow for multiple documents to be open\n* multiple docs can be edited at once, or one could be the UI etc\n\n\ndocuments have multiple data sections\n\n         |\n         |       style              entity         group\n         |----------------------------------------------------------\nconcrete |   style component        entity         group\n         |\n         |\n         |\nabstract |    other styles         prototype       prefab\n         |  (query base, etc)\n         |\n         |\n         |\n\naction can be performed by the input system on any open document",
+			"settings":
+			{
+				"buffer_size": 628,
+				"line_ending": "Unix",
+				"name": "document format - multiple documents"
+			}
+		},
+		{
+			"contents": "nested document\n",
+			"settings":
+			{
+				"buffer_size": 16,
+				"line_ending": "Unix",
+				"name": "nested document"
+			}
+		},
+		{
+			"contents": "nested document - cascade to resolve action\n\ntry for action at point\nif you get a NullAction\ntry again at the same point in the next document in the cascade\n\n(  I think you should re-project the point from screen through the camera though,\n   rather than using the same world coordinate.  )",
+			"settings":
+			{
+				"buffer_size": 290,
+				"line_ending": "Unix",
+				"name": "nested document - cascade to resolve action"
+			}
+		},
+		{
+			"contents": "layers of interaction (for UI etc)\n\n\nall visible layers are \"active\"\nit's more about what sort of interaction can happen on a layer\n\nthe selected layer is in \"edit\" mode,     ( change things around )\nand all other layers are in \"use\" mode    ( use as a live interface )",
+			"settings":
+			{
+				"buffer_size": 269,
+				"line_ending": "Unix",
+				"name": "layers of interaction (for UI etc)"
+			}
+		},
+		{
+			"contents": "TODO: limit camera drawing\n\n+ only what is on screen\n+ only specific types\n\n\ncamera\ninput system ( should limit selection as well when controlling layers )",
+			"settings":
+			{
+				"buffer_size": 155,
+				"line_ending": "Unix",
+				"name": "TODO: limit camera drawing"
+			}
+		},
+		{
+			"contents": "TODO: camera layers",
+			"settings":
+			{
+				"buffer_size": 19,
+				"line_ending": "Unix",
+				"name": "TODO: camera layers"
+			}
+		},
+		{
+			"contents": "TODO: camera should be spatial data\n\n\n\nit is an entity,\nbut it's currently not part of the space\nso it can't do things like culling based on collision queries etc\n\nnot sure if this should be part of the default camera or not\n\nrecall that Ogre has a really stupid default camera that attempts to draw everything\nsomething like that might be good for debug purposes or something\n\n\n\n\n\n\n\n\n\n\nsame as this old todo -\n	TODO: update camera to link to a particular space\n\n	allows for camera culling\n	allows for camera \"layers\" based on certain properties\n\n	need to be careful that UI elements are always drawn screen-relative\n	but there is some Action feedback UI that should be rendered space-relative",
+			"settings":
+			{
+				"buffer_size": 693,
+				"line_ending": "Unix",
+				"name": "TODO: camera should be spatial data"
+			}
+		},
+		{
+			"contents": "multiple editor views\n\n\n\nthree graph 'tabs' in the editor\n	main spatial graph        link Entity objects together with Constraints\n	constraint object graph   bind constraint objects to Packages, change Visualizations\n	style object graph        sort Styles into Cascades and Components\n\n(technically all objects in all views are Entities, so they can all be further refined using Constraints)\n\n	well, wait, you can't use Constraints in the constraint object graph,\n	because that graph is where you manage what Constraints are active.\n	How you would allocate a helper constraint? Where would it go?\n	(this is actually good, because it means the Constraint-mode accelerator from the main view can be used for 'create this type of Constraint when you make constraints' equipment select in the Constraints view)\n	ex) press ctrl to 'equip' a constraint in Constraint view, and the use ctrl to use it in the main view",
+			"settings":
+			{
+				"buffer_size": 910,
+				"line_ending": "Unix",
+				"name": "multiple editor views"
+			}
+		},
+		{
+			"contents": "constraint creation action\n\n\n\nor however constraints will be created\n\ndo you need to specify what constraint object type before launching?\nI mean, the current package structure assumes\nthat you know the Constraint type\n\nbut what about the GUI?\n\nhow does that all work?\n\nhow much of that can be pinned down now?",
+			"settings":
+			{
+				"buffer_size": 310,
+				"line_ending": "Unix",
+				"name": "constraint creation action"
+			}
+		},
+		{
+			"contents": "API to create / delete whole Constraint Packages\n\n\n\nTODO: add / remove entire constraint Packages from the document in a single easy command\n\nTODO: easy interface to bind constraint to UI\n\n	something like...\n	bind LimitHeight to e1 and e2 (editable = yes)\n\n	.bind LimitHeight, [e1, e2], editable=true\n	.bind LimitHeight, [e1, e2], editable=true\n\n	.bind constraint=LimitHeight, pair=[e1, e2], editable=true\n\n	(wait, you need to declare the visualization as well...)\n\n\n\n	even if there are more lower-level steps involved,\n	it should be as easy to bind this way in code,\n	as to declare just a basic constraint object\n\n\n\n\nTODO: easy interface to delete a whole constraint package\n\n\n	should also be able to remove backend objects that are no longer being used maybe?\n	the end user at least needs to be able to know what constraint objects are not in any pairs.\n\n	The system should be able to detect this and warn the user,\n	much like how Blender knows if a material is not being used by any objects.",
+			"settings":
+			{
+				"buffer_size": 994,
+				"line_ending": "Unix",
+				"name": "API to create / delete whole Constraint Packages"
+			}
+		},
+		{
+			"contents": "constraint = ThoughtTrace::Constraints::LimitHeight.new\nvisualization = ThoughtTrace::Constraints::DrawEdge.new\n\n\ndef easy_bind(constraint, visualization)\n	id = @constraint_objects.add(constraint)\n	# need to use this ID to create a new entry for constraint code callback\n	# can we get the system to plunk a template down or something?\n	# would probably need to move closure code declaration around,\n	# so each closure was in a separate file\n	# and all files were in one directory.\n	# Then, you could create new ones from templates pretty easily.\n	# \n	# Not sure if that has bad side-effects or not though.\n	# (  basically means you can't easily share data between Closures,\n	#    but maybe you shouldn't do that anyway  )\n	\n	package = ThoughtTrace::Constraints::Package.new constraint, visualization\n	\n	# NOTE: binding only one marker may cause the Package to constantly call @pair.unbind\n		# really need to double check that, when you try to implement this thing\n		# \n		# also need to know if calling rebind over and over is actually a problem or not\n		# I think it's only a problem if #rebind resets the cache\n		# so maybe you can just make this work by only clearing the cache on bind?\n		# that makes more sense anyway:\n		# clearing the cache is basically an initialization step.\n	# ( an older version of this note was copied into actions/spawn_constraint.rb )\n	package.marker_a.bind_to a\n	package.marker_b.bind_to b\n	\n	\n	@constraint_packages.add package\n	\n	return nil # no leak\nend",
+			"settings":
+			{
+				"buffer_size": 1485,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "TODO: constraints: understand overlap with query object loading\n\n\nI think this has to do with constraint object data being mostly code?\nand queries are rather the same:\nthey're build around some chunk of executable code that is applied to a section of the Space\n\n\n\nmay have even more in common if you want Constraint markers to all have the same visual style",
+			"settings":
+			{
+				"buffer_size": 358,
+				"line_ending": "Unix",
+				"name": "TODO: constraints: understand overlap with query o"
+			}
+		},
+		{
+			"contents": "what do you do about deleting Entity markers?\n\ndo you delete the whole Constraint Package when one marker is deleted?\ndo you prevent Markers from being deleted with the standard 'delete' Action?",
+			"settings":
+			{
+				"buffer_size": 194,
+				"line_ending": "Unix",
+				"name": "what do you do about deleting Entity markers?"
+			}
+		},
+		{
+			"contents": "add / remove whole entities (including components)\n\n\n\nactually, components are only stored in a collection temporarily for serialization:\nif a component isn't bound to anything, it won't get serialized.\n( currently only serializing the ones on Entity objects though... )\n\n\nneeds to delete all data associated with the Entity as well, if possible\n	components are pretty straightforward\n	groups\n	constraints, may be tricky (packages, not necessarily backend objs)\n		but should go through the easy-package remove API\n		in case there needs to be a removal of the backend obj too",
+			"settings":
+			{
+				"buffer_size": 574,
+				"line_ending": "Unix",
+				"name": "add / remove whole entities (including components)"
+			}
+		},
+		{
+			"contents": "input system overhaul\n\n\n\nactions\ninput events\nmouse input\nkeyboard input\naccelerator system\ntext system ( the enter key events interact with Text )\nclone factory",
+			"settings":
+			{
+				"buffer_size": 161,
+				"line_ending": "Unix",
+				"name": "input system overhaul"
+			}
+		},
+		{
+			"contents": "rewrite 'empty space actions' as 'zero target actions'\n\n\nmaybe even consider holding a collection of zero-target actions,\nrather than pulling everything out of an existing module?\nnot sure how much to deviate from the targeted actions\n",
+			"settings":
+			{
+				"buffer_size": 235,
+				"line_ending": "Unix",
+				"name": "rewrite 'empty space actions' as 'zero target acti"
+			}
+		},
+		{
+			"contents": "input binding - mode-specific UI interaction\n\n\nex) how do you bind interactions with the Constraint UI?\n    it will only ever appears in Constraint mode,\n    which means that the CTRL key will always be held",
+			"settings":
+			{
+				"buffer_size": 207,
+				"line_ending": "Unix",
+				"name": "input binding - mode-specific UI interaction"
+			}
+		},
+		{
+			"contents": "notes program - tree overview, text field w/ spell check",
+			"settings":
+			{
+				"buffer_size": 56,
+				"line_ending": "Unix",
+				"name": "notes program - tree overview, text field w/ spell"
+			}
+		},
+		{
+			"contents": "multi-line text input\n\n+ save to text file\n+ load from text file\n+ spell check\n+ newlines (either input or from file) continue the single object\n+ changing the font size of any one line changes sizes of all lines",
+			"settings":
+			{
+				"buffer_size": 212,
+				"line_ending": "Unix",
+				"name": "multi-line text input"
+			}
+		},
+		{
+			"contents": "how do you bind mouse click actions for a Entity?\n\ncreate an Action,\nmaybe it call it 'use' or something,\nand then bind that to an input in the 'use' mode\n\n'use' bindings should be separate from 'edit' bindings\n\n\n\n\nhow are mouseover events bound? are we going to have those?",
+			"settings":
+			{
+				"buffer_size": 274,
+				"line_ending": "Unix",
+				"name": "how do you bind mouse click actions for a Entity?"
+			}
+		},
+		{
+			"contents": "action system documentation update",
+			"settings":
+			{
+				"buffer_size": 34,
+				"line_ending": "Unix",
+				"name": "action system documentation update"
+			}
+		},
+		{
+			"contents": "implement prefabs",
+			"settings":
+			{
+				"buffer_size": 17,
+				"line_ending": "Unix",
+				"name": "implement prefabs"
+			}
+		},
+		{
+			"contents": "implement text split-rip action",
+			"settings":
+			{
+				"buffer_size": 31,
+				"line_ending": "Unix",
+				"name": "implement text split-rip action"
+			}
+		},
+		{
+			"contents": "split text action\n\n\nsplit rip UI entity system?\n(see notes)\n",
+			"settings":
+			{
+				"buffer_size": 60,
+				"line_ending": "Unix",
+				"name": "split text action"
+			}
+		},
+		{
+			"contents": "insert / join text action\n\n\nare insert and join the same thing?\n\nsort of like how it doesn't matter if you it \"enter\"\nin the middle of a Text object, or at the end\nit's just one case\n\nin that same way,\ndoes it not matter if you try to insert at the end or somewhere in the middle?\n\n\nwatch out for adding at the beginning though\nneed to \"counter steer\"\nand move the Text object so it looks like the new text was fused to the start of the Text object\nrather than looking like it was added via typing\n(should NOT look like you just moved the cursor there and typed, but rather like you tried to fuse the two text objects together at one end)\n\nmaybe then you do have two separate actions?\nis that not always the behavior you want?\n",
+			"settings":
+			{
+				"buffer_size": 727,
+				"line_ending": "Unix",
+				"name": "insert / join text action"
+			}
+		},
+		{
+			"contents": "try to implement something like text caret again\n\n\ncaret is basically just a rectangle,\nwith color such that the alpha is modulated to create a 'blink' effect.\nBut instead of actually using Rectangle code,\nit duplicates a lot of stuff.\n(this was done because, at the time, other systems were not mature enough)\n(but eventually, Caret should be replaceable with a constraint-based system)\n\n\n\nspecify the position of a rectangular object\nbased on where you want the edge to be locked down.\nwhich edge? (in this case, it's the bottom one)\nwhat does that constraint look like?\n\nwhat happens when you try to expand the shape downward?\n(should be 'nothing', but might just expand upwards, b/c of counter-steering)\n\nshould be able to just say\nheight = 2\nand then have it adjust as expected\n\n\ndoes this involve moving the origin of the shape?\nor is it all just constraint logic?\n\n\n\n\noverlaping areas:\n	resize action\n	rect resize method\n	text resize method   (tangentally. needs same interface is rect)\n	text input\n	text caret\n	propagation / limiting constraint system\n	( currently has problems because of how elements are resized )",
+			"settings":
+			{
+				"buffer_size": 1123,
+				"line_ending": "Unix",
+				"name": "try to implement something like text caret again"
+			}
+		},
+		{
+			"contents": "TODO: awkward to see the text caret appear quickly, then vanish\n\n\n\nmaybe cause caret to not appear for half a second,\nso that when dragging to Edit you don't notice it?\n\nor maybe consider a totally different input binding?\n\n\n(   talking about caret appearing on spawn_text action,\n    because spawn_text and edit are bound to the same button,\n    in different phases           )",
+			"settings":
+			{
+				"buffer_size": 378,
+				"line_ending": "Unix",
+				"name": "TODO: awkward to see the text caret appear quickly"
+			}
+		},
+		{
+			"contents": "locking things in place\n\n\nex) a marker will not move, even if a move action is applied to it\nbut I want to make it clear that it's an immovable object\nand not that the system is just not responding to my inputs\n\nshould probably have a static visualization to say that\n\"this object is not movable\"\n\nbut would also be good to have some sort of \n\"this object is stuck in place\"\nanimation, or effect, to show the thing is immovable",
+			"settings":
+			{
+				"buffer_size": 427,
+				"line_ending": "Unix",
+				"name": "locking things in place"
+			}
+		},
+		{
+			"contents": "attachment point markers\n\nnecessary for doing procedural generation\nneeded to make even basic structures like linked-lists\n\n\na linked list is made out of links\neach link is\n[payload, pointer]\nand each pointer connects to another link\n\nin the graph, instead of a pointer, you would have an attachment point\nsomewhere to stick another link",
+			"settings":
+			{
+				"buffer_size": 337,
+				"line_ending": "Unix",
+				"name": "attachment point markers"
+			}
+		},
+		{
+			"contents": "query object serialization",
+			"settings":
+			{
+				"buffer_size": 26,
+				"line_ending": "Unix",
+				"name": "query object serialization"
+			}
+		},
+		{
+			"contents": "bind query object to query component",
+			"settings":
+			{
+				"buffer_size": 36,
+				"line_ending": "Unix",
+				"name": "bind query object to query component"
+			}
+		},
+		{
+			"contents": "how are Queries shown visually?\n\n\ncan't use color as we have been.\nthat would mean that query objects always have to have the same color,\nbut you want to use the existing collision shape of other objects\n\nis that true?\n\nneed to understand if that's true or not.\ndo you want a Query to chain onto an existing Entity,\nhaving that collision shape serve two purposes,\nor do you merely represent the data as Query Component + Entity because the data model is cleaner?\nDo you really desire some Entities to be used as Query representations in the Space all the time?\n( still want the toggle functionality I think, because maybe you change you mind? )\n",
+			"settings":
+			{
+				"buffer_size": 645,
+				"line_ending": "Unix",
+				"name": "how are Queries shown visually?"
+			}
+		},
+		{
+			"contents": "implement text search of all Text objects",
+			"settings":
+			{
+				"buffer_size": 41,
+				"line_ending": "Unix",
+				"name": "implement text search of all Text objects"
+			}
+		},
+		{
+			"contents": "short-circuiting min_by -> really a lazy min_by\n\n'short-circuit' seems to be only used in the context of mathematical logic statements,\nas opposed to 'lazy', which is a term used in the context of iteration / iterators.\n( the opposite of 'lazy' is 'eager', which evaluates the whole iteration range )\n\nbut like, you can't use [].lazy.min_by\nbecause that is still an eager method.\n\nmin_by must be eager,\nbecause otherwise it will only find the local min, not the global min\nbut I really only want local min, because the values I have are already sorted\n\nthus, 'short_ciruiting_min_by' should be called 'local_min_by'\n(or maybe 'first_min_by')\n\nshould also implement 'local_min', which just uses the <=> operator instead of a block evaluation",
+			"settings":
+			{
+				"buffer_size": 740,
+				"line_ending": "Unix",
+				"name": "short-circuiting min_by -> really a lazy min_by"
+			}
+		},
+		{
+			"contents": "TODO: make sure Physics#center works with all collision shapes ASAP",
+			"settings":
+			{
+				"buffer_size": 67,
+				"line_ending": "Unix",
+				"name": "TODO: make sure Physics#center works with all coll"
+			}
+		},
+		{
+			"contents": "shrink rect resize margins as object shrinks\n\n\nit's like the line weight on an icon:\nit can be constant until the icon starts to get really small,\nand then you need to shrink it, or it overpowers things\n\nwould like to specify the margins in a visual spectrum editor,\n( can control the rate of transition with a curve, rather that with raw math / code )\nbut that sort of system is a long ways away, and I'm not sure I can wait that long",
+			"settings":
+			{
+				"buffer_size": 435,
+				"line_ending": "Unix",
+				"name": "shrink rect resize margins as object shrinks"
+			}
+		},
+		{
+			"contents": "---",
+			"settings":
+			{
+				"buffer_size": 3,
+				"line_ending": "Unix",
+				"name": "---"
+			}
+		},
+		{
+			"contents": "image Entity type\n\n\n\ncan just drag and drop images into the application\n- local images will be just referenced\n- external links I guess need to be downloaded and cached?\n\nshould eventually talk with an image organization system,\nso that you can link to data by ID, rather than by filename.\nThat would prevent the 'broken links' problem\n( change name of resource, break links, sad day )\n\nexternal image system would probably talk to DL manager to DL external images",
+			"settings":
+			{
+				"buffer_size": 464,
+				"line_ending": "Unix",
+				"name": "image Entity type"
+			}
+		},
+		{
+			"contents": "non-destructive crop of Images\n\n\n\nsimilar level of abstraction to individual / group selection\n\n\n\ncan step up the ladder and just move around the object as if it was a smaller picture,\n\ncan step down the ladder and adjust the cropping mask relative to the image,\nor the image relative to the mask",
+			"settings":
+			{
+				"buffer_size": 296,
+				"line_ending": "Unix",
+				"name": "non-destructive crop of Images"
+			}
+		},
+		{
+			"contents": "multi-item mask (not just images)",
+			"settings":
+			{
+				"buffer_size": 33,
+				"line_ending": "Unix",
+				"name": "multi-item mask (not just images)"
+			}
+		},
+		{
+			"contents": "---",
+			"settings":
+			{
+				"buffer_size": 3,
+				"line_ending": "Unix",
+				"name": "---"
+			}
+		},
+		{
+			"contents": "load initial prototype config from base config for entire library",
+			"settings":
+			{
+				"buffer_size": 65,
+				"line_ending": "Unix",
+				"name": "load initial prototype config from base config for"
+			}
+		},
+		{
+			"contents": "action - input - query",
+			"settings":
+			{
+				"buffer_size": 22,
+				"line_ending": "Unix",
+				"name": "action - input - query"
+			}
+		},
+		{
+			"contents": "sharper font scaling\n\n(the point was to have fonts that didn't distort like images, after all)\n\n\n\n\nclearer fonts once a size has been fixed upon(non-GPU scaling)\n\nbasically, add additional fonts to the cache as necessary\nto make Text look much better when not actively being resized\n\nshould  probably separate which sizes are always part of the cache,\nand which ones are custom added to the cache\nbecause they will make a certain Text clearer\n\n\n\n\n\n\n\n\nmake sure that fonts always scale using font system defined scaling\nrather than the standard GPU image-centeric scaling style",
+			"settings":
+			{
+				"buffer_size": 576,
+				"line_ending": "Unix",
+				"name": "sharper font scaling"
+			}
+		},
+		{
+			"contents": "input system - how inputs trigger actions\n\n\n\nhaving to bind a direct Event for pressing enter suggests\nthat something is wrong with the current system\n\n\n\ncurrent input system is weird,\nbecause \"press enter\" is an odd exception,\nbeing the only input processed as a raw Event\n\nAction system is ok\nEvent abstraction from raw input is decent\nbut the code that bridges the two is pretty awful\n",
+			"settings":
+			{
+				"buffer_size": 388,
+				"line_ending": "Unix",
+				"name": "input system - how inputs trigger actions"
+			}
+		},
+		{
+			"contents": "diagram showing all actions\n\nimplemented actions in one color\nactions that have yet to be implemented in another color\n\n\nwas also thinking about another scheme where similar actions were colored similarly\ncould then bind actions to buttons based on the color range of the names\nex) shift is blue, control is yellow, shift+control is green",
+			"settings":
+			{
+				"buffer_size": 338,
+				"line_ending": "Unix",
+				"name": "diagram showing all actions"
+			}
+		},
+		{
+			"contents": "collision handler system\n\n\nfirst, just localize handler assignment\nlater, fueled by constraint-based UI grid thing",
+			"settings":
+			{
+				"buffer_size": 114,
+				"line_ending": "Unix",
+				"name": "collision handler system"
+			}
+		},
+		{
+			"contents": "mulitple phases of text input\n\n\njumping straight to full rich text with proper word spacing is too hard \nget basic text editing,\n(like not even including line wrapping)\nfor now, just so that we have *something*",
+			"settings":
+			{
+				"buffer_size": 210,
+				"line_ending": "Unix",
+				"name": "mulitple phases of text input"
+			}
+		},
+		{
+			"contents": "TODO: create graph relating files to subsystems\n\n\n\ncreate graph listing all files and folders,\nand the \"color\" the nodes of the graph based on what system they are related to",
+			"settings":
+			{
+				"buffer_size": 174,
+				"line_ending": "Unix",
+				"name": "TODO: create graph relating files to subsystems"
+			}
+		},
+		{
+			"contents": "list ALL the THINGS\n\nqueries\ngroups\nconstraints\n\n\nclone factory - protype registration to create new basic entities\n	prototype system      (currently exists)\n	prefab system         (needs to be implemented)\n\nstyle system\n	object -> cascade -> component\n	how would you implement pallet swap under new system?\n\n\ninput system\n	mouse input\naction system\naction flow\n\ncameras\n\nspace\n\nserialization\n	entity serialization\n	component serialization\n	style system\n	query objects / callbacks\n\n\n\nutilities\n	font\n	meta\n	performance_timer\n\n\n\nentities\n	share -> dependency lists\n	components\n\n\ncollision manager\n	set up collisions between query collision types and other things\n	\n	* should eventually use a ThoughTrace document to encode data as a chart\n		* shouldn't need to manually make the conversion\n		* would allow for constraint-based programming in that system as well\n\n\n\n\n\nmonkeypatches\n	Chipmunk\n	enumerable -> short_circuting_min_by\n	hash -> extract_subhash\n	object -> delegate\n		TODO: REMOVE THIS ASAP def_delegators from the standard libraries should be used\n	string\n		multiline versions of [:strip, :rstrip, :lstrip]\n		constantize",
+			"settings":
+			{
+				"buffer_size": 1128,
+				"line_ending": "Unix",
+				"name": "list ALL the THINGS"
+			}
+		},
+		{
+			"contents": "TODO: adjust body masses and collisions\n\n\ncurrently, a lot of bodies are being declared as static\nor rather, mass and moment are infinite\n\nhow does this effect collisions?\nwill the collision callbacks still be correct when the objects are moved?\nhow is mouse picking even working right now?\n\nI thought I was doing some sort of rehash,\nbut that doesn't seem like it's the case\nso I'm quite confused...\n\n\nNeed to investigate this system",
+			"settings":
+			{
+				"buffer_size": 434,
+				"line_ending": "Unix",
+				"name": "TODO: adjust body masses and collisions"
+			}
+		},
+		{
+			"contents": "NOTE: notice that the prototype for Text keeps getting updated\n\nthis is happening because the text input system sets the prototype often\nthis is done to make sure that the next piece of text is the same size as the previously selected chunk\n\nthis sorta means that text data leaks into the prefab file though\nit's not just the size of the text objects that are being saved in the prefabs file\n\nmaybe text prefabs need to have their text wiped before insertion?\nhow would that synergy with the desire to auto-remove text elements with a zero-length string?",
+			"settings":
+			{
+				"buffer_size": 554,
+				"line_ending": "Unix",
+				"name": "NOTE: notice that the prototype for Text keeps get"
+			}
+		},
+		{
+			"contents": "---",
+			"settings":
+			{
+				"buffer_size": 3,
+				"line_ending": "Unix",
+				"name": "---"
+			}
+		},
+		{
+			"contents": "TODO: track system development - serialization\n\n\nyaml\ncsv\nArray#pack / String#unpack\nstyle serialization system\n\n\nshould probably document how these systems were developed and evolved,\nas well as how they all interact under the current paradigm",
+			"settings":
+			{
+				"buffer_size": 244,
+				"line_ending": "Unix",
+				"name": "TODO: track system development - serialization"
+			}
+		},
+		{
+			"contents": "so, what about things that apply data to certain entities?\n\nex)\nI want to make a bunch of objects whose properties conform to a set of data\n(brett victor does this in his interactive graphs video with a table of data effecting the drawing)\n\n\nis this a constraint?\nis this a property of a Group?\nis this something that should only be done at the Prefab level?\n\n\n\nConstraints should certainly align certain Entities relative to other EntitiesTODO: entity should warn when you request a 'component' with just an integer as an interface name\n\n\n\nentity has array like interface, but should probably never be accepting an integer through that interface.\nhowever, if there was supposed to be an array of entities being sent, and only one gets sent\nthen you'll get some weird errors\n\nEntity should at least raise a warning when you attempt to access the Component access interface using an integer\n\n\n(\n	I think this was because this file\n	\n	/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/enumerators/directed.rb\n	\n	has a variable called @entities\n	and is expecting that to be a list of entity objects (ie, a integer-indexed array)\n	but also has @entity    (note singular, vs plural)\n	which is a reference to a single entity,\n	which provides the [] method as a hash-style interface for accessing Components\n)\n\n\n\n\n\n\n\n\n\n\n\n\n\n( below is an old note, that describes this same bug )\n\n\nbug: passed an entity where I meant to pass a list of entities\n\n\nneed to be careful about how you load the packed data back in\nthe pack is always a linear stream of data\n(one flat array)\nwhich creates problems when one of your arguments is inherently a list",
+			"settings":
+			{
+				"buffer_size": 1656,
+				"line_ending": "Unix",
+				"name": "so, what about things that apply data to certain e"
+			}
+		},
+		{
+			"contents": "NOTE: potential problems with propagating constraints\n\n\nlimiting constraints are fine under existing systems\nbut propagating constraints will not function as intended\n\ncurrent systems allow for macroing of human inputs in the graph editor\nbut they don't really allow for the best interface to manipulate things in code.\nthis basically means that the propagating constraints will have a hard time getting values to update as expected.\n\nex)\ntrying to sync the height of two objects:\nwhat happens as the heights change?\nthis could possible change the positions of the objects, given how the current resize code works\n(counter-steering happens to keep the visuals in the same place, altering the position)\nThis could also cause unintended firing of position-based propagation constraints\n\n\n\n\n# fire on action callback\npropagating constraint -> action -> entity -> component -> data\n\n# check regularly, and limit as necessary\nlimiting constraint -> entity -> component -> data",
+			"settings":
+			{
+				"buffer_size": 971,
+				"line_ending": "Unix",
+				"name": "NOTE: potential problems with propagating constrai"
+			}
+		},
+		{
+			"contents": "constraints on multiple objects\n\n\nwould be nice to have a clean visual representation for a group of items,               groups\nsuch that if a certain property was changed on any item in that group,\nthen all other items would be updated to have that same value.\n\nsimilarly, would want a way to update one instance of a prefab on the canvas,           prefabs\nand have the default prefab be changed,\nand then have those changes propagate back down into each instance of the prefab\n\n\nwith groups of things propagating data back and forth,\nit could get arduous to maintain pairwise relationships manually,\nand it would introduce a lot of visual clutter to use the DrawEdge visualization\n\n\n\n\n\n\nlink prefab-generated object back to the original with a Constraint\nyou can remove the constraint if you don't want the data to be linked any more,\nand you can add the constraint if you want the two things to be linked\n( change you mind at any time )",
+			"settings":
+			{
+				"buffer_size": 941,
+				"line_ending": "Unix",
+				"name": "constraints on multiple objects"
+			}
+		},
+		{
+			"contents": "NOTE: space is trying to call #gc? on constraints, but method is not yet defined\n\n\n\n\n\nexamine how the #gc? boolean check intersects with\nthe concept of #unbind_when that was planned for the Constraint types\n\nwhere should this check be defined?\n	should it be defined per major type?\n	should it be defined in every class?\n	should it be on the collection that hold the objects?\n\n\n\n\n\nmay need this if you have a Constraint that's like tether break skills from League\nbut I'm not quite sure if that sort of think should be a pure Constraint or not...",
+			"settings":
+			{
+				"buffer_size": 545,
+				"line_ending": "Unix",
+				"name": "NOTE: space is trying to call #gc? on constraints,"
+			}
+		},
+		{
+			"contents": "TODO: list current constraint backend objects\n\nTODO: show what constraints are currently active\n\nis there a good way to list what constraints are active?\n\nsort like debug info\nsomething that shows current running state.\nnot talking about 'what did I type in'\n(you can get that by looking at the code)\nbut rather 'what does the system actually have'",
+			"settings":
+			{
+				"buffer_size": 348,
+				"line_ending": "Unix",
+				"name": "TODO: list current constraint backend objects"
+			}
+		},
+		{
+			"contents": "BUG: object packer breaks when trying to generate pack/unpack for an object with a 0 arg init\n\n\nnote that this means the Constraint::EntityMarker pack/unpack code\nwas partially generated by hand\n\nit's almost the same as the Circle code,\nbut with a little bit of manual tweaking",
+			"settings":
+			{
+				"buffer_size": 277,
+				"line_ending": "Unix",
+				"name": "BUG: object packer breaks when trying to generate"
+			}
+		},
+		{
+			"contents": "Q: do you need to click on Constraints, not just markers?\n\n\ncurrent paradigm is to move constraint MARKERS\nrather than editing the lines of the constraints themselves\n\nthis sounds like it should work pretty well\ndon't really see a compelling reason to allow for moving the constraints directly\nespecially since their visualizations can be changed",
+			"settings":
+			{
+				"buffer_size": 346,
+				"line_ending": "Unix",
+				"name": "Q: do you need to click on Constraints, not just m"
+			}
+		},
+		{
+			"contents": "Action #update should fire right after #press\n\n\n\nTODO: make sure Action#update ticks the same frame as #press, otherwise there may be a one frame lag on single-tick actions (notably, spawn actions)\n\n\n\n\nthis depends on when the system sends button_up / button_down callback events\nif they always are checked before #update runs,\nthen it should be ok\n\nif they run whenever they want, then this gets really messy\n( but gosu isn't multi-threaded so I would assume that's not how this goes? )\n\n\n\n\n\n\n\nthe DRAG actions now do function like this, with #press and #update on the same tick,\nbut the CLICK actions have #press and #update separate\n\nNot sure if this is super critical for click actions or not,\nespecially as the spawn actions will be moved away from click actions eventually\n(hopefully soon)\n\nbut maybe it's still important to fix things where there is a deficiency",
+			"settings":
+			{
+				"buffer_size": 869,
+				"line_ending": "Unix",
+				"name": "Action #update should fire right after #press"
+			}
+		},
+		{
+			"contents": "TODO: consider action factory / mouse action extraction system interaction with multiple spaces",
+			"settings":
+			{
+				"buffer_size": 95,
+				"line_ending": "Unix",
+				"name": "TODO: consider action factory / mouse action extra"
+			}
+		},
+		{
+			"contents": "TODO: polymorphic edit and resize\n\n\ntext has edit mode and resize\nrect has edit mode and resize\n\n\nrect resize: current resize action - aspect ratio locked\nrect edit:   move verts around     - feels like you turned aspect ratio lock off\n\ntext resize: change font size. must be aspect ratio locked, because that's how Text works\ntext edit:   select some substring (currently, this is 'select_sub_text' - not yet implemented )\n\n\nhow do you just put down the cursor?\nis that just part of the edit action?\n\n\nalso need to think about how new Text prototypes are established:\n	need to establish prototypes when Text objects are selected,\n	so that new Text objects have the same font size as the last one you edited",
+			"settings":
+			{
+				"buffer_size": 707,
+				"line_ending": "Unix",
+				"name": "TODO: polymorphic edit and resize"
+			}
+		},
+		{
+			"contents": "TODO: consider scrapping rect resize action, in favor of constraint-based control system\n\n\n\n(  similar to system that Brett Victor showed off, where a person draws lines, and tells the system they should be perpendicular, and the system eventually iteratively solves the system and forms a rectangle  )\n\n\n+ have 4 points\n+ constrain them to right angles with each other\n+ this is now a rectangle\n+ can send the positions of the points to the vectors of the collision shape\n+ the collision shape affects the shape that is rendered",
+			"settings":
+			{
+				"buffer_size": 529,
+				"line_ending": "Unix",
+				"name": "TODO: consider scrapping rect resize action, in fa"
+			}
+		},
+		{
+			"contents": "rectangle resize #anchor_point should take argument, instead of mucking with state\n\n\n\nit just seems like it would be more clear to pass the @direction variable in,\nrather than having to jump to the #anchor_point method declaration\nto see from what value the anchor is being derived\n\n\n\n\n\nthis is more complicated than how it first appears,\nbecause the relationship between @direction and the anchor is complicated.\nmay have to completely reconsider how both of these values are generated",
+			"settings":
+			{
+				"buffer_size": 486,
+				"line_ending": "Unix",
+				"name": "rectangle resize #anchor_point should take argumen"
+			}
+		},
+		{
+			"contents": "TODO: action factory should not use ThoughtTrace::Queries::Query check\n\nthis class is supposed to just be a callback collection.\nthere is no guarantee that all query callbacks will be child-classes of the base Query class",
+			"settings":
+			{
+				"buffer_size": 221,
+				"line_ending": "Unix",
+				"name": "TODO: action factory should not use ThoughtTrace::"
+			}
+		},
+		{
+			"contents": "BUG: crash on marker move\n\n\n+ move right marker to big blue rect\n+ move left marker into empty space, and release it there\n\nproblems: \n + marker does not re-center when the dimensions of the target Entity have changed\n + it seems like the marker is trying to bind to nothing, which is bad\n + seems like the crash doesn't happen until you try to move the marker again, not right on drop\n + seems like the markers are snapping to things in the blank space\n\n\n\n\nupdate:\n	no longer crashes\n	I don't think it's trying to bind to anything, but the position is \"snapping\" on release:\n	the marker moves a bit when you let it go.\n	not sure what that's based on, or why\n\n\n\nperhaps related:\nseems to be a couple frames of delay on moving markers.\nthe move marker always trails behind the cursor a bit on move.\nThis 'trailing' effecting may be the cause of the 'snapping' problem.\n\n\n\n\nok, problem found:\nit's the MoveRelative constraint.\n\nproblem has been fixed, in so much as there's no longer snap on move,\nbut there still seems to be move lag.\nthis lag effects movement with Marker Move Action, as well as MoveRelative constraint.\nappears to only effect Marker, (can't detect on standard Entity move)\nbut not sure if it's only that the Marker is smaller, so it's more pronounced.\nI suspect it's just that I can't see the problem with other Entity types.\n\n\n\nnow constraint doesn't lag,\nbut the Move Action still does.\nI can now see that it lags for both Marker as well as Rectangle.\n(previously could not see it with the Rectangle, but it's certainly there)\n\n\n\n\nAction lag does not seem to be my fault:\nGosu seems to return old mouse position data.\nEven if you calculate the mouse position in the #draw call,\nyou can't get an object to track the mouse exactly.\nIt still looks like it's behind by one frame.\n\n\n\nNOTE: current system update order\n	input\n	document\n		constraint\n		space\n\nI thought flipping space and constraint order would make even more sense,\nbut that introduces a slight delay in the MoveRelative constraint. Not sure why.\n\nHowever, Constraints must be drawn after Space,\nbecause the Constraint visualizations must be on top",
+			"settings":
+			{
+				"buffer_size": 2128,
+				"line_ending": "Unix",
+				"name": "BUG: crash on marker move"
+			}
+		},
+		{
+			"contents": "NOTE: general debug flow\n\n\n\ntraditional debuggers are bad because they don't allow for an examination of flow.\nit's constantly go stop. goooo stop. go stop.\nIt's the same frustration as being stuck in rush hour traffic\n - no flow, just always the anticipation of flow.\n\nI want to be able to perform an action, in a program,\nand then have the program output some data.\nAfter I'm done, I can go back and look at the output to see what the flow was like.\n\nThis is significantly different from using breakpoints.\n\nI want to be able to see patterns:\nI expect phases like\n	press\n	hold\n	-update\n	-apply\n	-update\n	-apply\n	-update\n	-apply\n	release\n(1, 2-loop, 1)\n\nbut then maybe you end up seeing\n	press\n	hold\n	release\n	cancel\n	press\n	hold\n	release\n	cancel\n	press\n	hold\n	release\n	cancel\n(4-loop)\n\n\nIt becomes clear that something is wrong.\nYou don't necessarily even have to automate after that.\n(though maybe automation would be nice for larger systems?)\n\nColorization of phases would make this even more visual,\nand easier to detect errors based on only glances.\n\n\n\nNOTE: should have a system to condense the repeating patterns. Want it to know that you have an \"update & apply\" thing repeating over and over again, and just say \"yeah, we saw this pattern like 10 times\" (or whatever the count is)\n	\n	That's probably hard for the computer to generate these patterns on it's own though.\n\n\n\n\n\n\nmaybe you have different systems that have different flows,\nso you want to visualize multiple flows simultaneously?\nlike, \"show me the action system, and the serialization system\"\nor something.\nAnd maybe some flows are related, so you always want them to switch on together?\nBut you still want the system to store flow data on separate layers / channels,\nso you can view only one at a time if you need / want to.\n\nShow each flow it's own column, with multiple columns shown at once,\nso that you can see flows separately, and in context of each other,\nwithout having to re-run the system.\n\nIt's a static visualization that shows various information, to help the human make a decision\n(remember that more interactivity is not always better)",
+			"settings":
+			{
+				"buffer_size": 2123,
+				"line_ending": "Unix",
+				"name": "NOTE: general debug flow"
+			}
+		},
+		{
+			"contents": "BUG: rect resize action counter-steering wrecks LimitHeight\n\n\nthe counter-steering means that as you resize a rect past it's clamped height,\nit will fly off in one direction\n\nThe current system as it is does not handle this case of data propagation very well\n(   note: this is more complicated that initial estimates,\n          because LimitHeight is a limiting constraint.     )",
+			"settings":
+			{
+				"buffer_size": 379,
+				"line_ending": "Unix",
+				"name": "BUG: rect resize action counter-steering wrecks Li"
+			}
+		},
+		{
+			"contents": "TODO: consider inverting LimitHeight\n\nall constraints are defined as \"A is related to B\"\nbut for LimitHeight, maybe it makes more sense that the relation is\n\"I look to you for guidance on my limits\"  (Data flows from B to A)\nrather than the current\n\"I impose my limits upon you\"              (data flows from A to B)\n\n\nconsider differences in high-level mental model,\nand low-level actual implementation of things\n\nwhich is more important?\nwhich approach is more 'sensible'?",
+			"settings":
+			{
+				"buffer_size": 474,
+				"line_ending": "Unix",
+				"name": "TODO: consider inverting LimitHeight"
+			}
+		},
+		{
+			"contents": "TODO: track time per frame ms, and convert to hz\n\n\nhz gives a nice intuitive scope,\nbut ms gives better precision of data",
+			"settings":
+			{
+				"buffer_size": 121,
+				"line_ending": "Unix",
+				"name": "TODO: track time per frame ms, and convert to hz"
+			}
+		},
+		{
+			"contents": "TODO: load up both a limiting and a propagating constraint, to test Action / Constraint interaction",
+			"settings":
+			{
+				"buffer_size": 99,
+				"line_ending": "Unix",
+				"name": "TODO: load up both a limiting and a propagating co"
+			}
+		},
+		{
+			"contents": "----",
+			"settings":
+			{
+				"buffer_size": 4,
+				"line_ending": "Unix",
+				"name": "----"
+			}
+		},
+		{
+			"contents": "linear spectrum\n",
+			"settings":
+			{
+				"buffer_size": 16,
+				"line_ending": "Unix",
+				"name": "linear spectrum"
+			}
+		},
+		{
+			"contents": "spectrum color selection\n",
+			"settings":
+			{
+				"buffer_size": 25,
+				"line_ending": "Unix",
+				"name": "spectrum color selection"
+			}
+		},
+		{
+			"contents": "constraint-based color selector\n",
+			"settings":
+			{
+				"buffer_size": 32,
+				"line_ending": "Unix",
+				"name": "constraint-based color selector"
+			}
+		},
+		{
+			"contents": "bezier curves\n",
+			"settings":
+			{
+				"buffer_size": 14,
+				"line_ending": "Unix",
+				"name": "bezier curves"
+			}
+		},
+		{
+			"contents": "spectrum-based bezier curves\n",
+			"settings":
+			{
+				"buffer_size": 29,
+				"line_ending": "Unix",
+				"name": "spectrum-based bezier curves"
+			}
+		},
+		{
+			"contents": "non-linear spectrum through 2D space\n",
+			"settings":
+			{
+				"buffer_size": 37,
+				"line_ending": "Unix",
+				"name": "non-linear spectrum through 2D space"
+			}
+		},
+		{
+			"contents": "Spectra\n",
+			"settings":
+			{
+				"buffer_size": 8,
+				"line_ending": "Unix",
+				"name": "Spectra"
+			}
+		},
+		{
+			"contents": "constraints and spectra\n",
+			"settings":
+			{
+				"buffer_size": 24,
+				"line_ending": "Unix",
+				"name": "constraints and spectra"
+			}
+		},
+		{
+			"contents": "entity positioned using constraint and spectrum\n",
+			"settings":
+			{
+				"buffer_size": 48,
+				"line_ending": "Unix",
+				"name": "entity positioned using constraint and spectrum"
+			}
+		},
+		{
+			"contents": "spectrum-based color space generation / color pallets\n",
+			"settings":
+			{
+				"buffer_size": 54,
+				"line_ending": "Unix",
+				"name": "spectrum-based color space generation / color pall"
+			}
+		},
+		{
+			"contents": "---",
+			"settings":
+			{
+				"buffer_size": 3,
+				"line_ending": "Unix",
+				"name": "---"
+			}
+		},
+		{
+			"contents": "BUG: circle size jiggles a bit on resize\n\ncircle size jiggles a bit on resize\n	I mean, there's drift in the size if you wiggle it\n\nthis used to happen with rectangles and text, but it doesn't seem to happen with rects any more\n	need to remember how I fixed it with rects or something",
+			"settings":
+			{
+				"buffer_size": 283,
+				"line_ending": "Unix",
+				"name": "BUG: circle size jiggles a bit on resize"
+			}
+		},
+		{
+			"contents": "is Text Box a new type?\n\nit really shouldn't be,\nbecause then you need to choose between Text and TextBox, which is weird\n\n(similarly, in HTML you have to choose between a line of text input, and an area, which is awkward)\n\na bunch of text is just a group of Text objects,\nwhere each object is one word,\nand then the objects are constrained to fit inside some box",
+			"settings":
+			{
+				"buffer_size": 363,
+				"line_ending": "Unix",
+				"name": "is Text Box a new type?"
+			}
+		},
+		{
+			"contents": "TODO: background coloring\n\n\n\nshould be able to designate a background color\nsomething other than the default black",
+			"settings":
+			{
+				"buffer_size": 114,
+				"line_ending": "Unix",
+				"name": "TODO: background coloring"
+			}
+		},
+		{
+			"contents": "TODO: use one Space for UI and another for actual active document",
+			"settings":
+			{
+				"buffer_size": 65,
+				"line_ending": "Unix",
+				"name": "TODO: use one Space for UI and another for actual"
+			}
+		},
+		{
+			"contents": "---",
+			"settings":
+			{
+				"buffer_size": 3,
+				"line_ending": "Unix",
+				"name": "---"
+			}
+		},
+		{
+			"contents": "many spawn actions\nhow do different spawn actions interface with clone collection?\nmost of the work done by the clone collection, with minimal spawn action work?\nmost of the work done in spawn action?\nare spawn actions similar enough that you can metaprogram loop them all together?\n\n",
+			"settings":
+			{
+				"buffer_size": 284,
+				"line_ending": "Unix",
+				"name": "many spawn actions"
+			}
+		},
+		{
+			"contents": "think ahead into selection\nhow does selection map onto actions?\nI meant in terms of button binding,\nbut should be thinking about how that system gets implemented\n\nnot just the selection, but how does a selection of multiple elements\nget moved as if it was one thing?\nor resized?\nor how many other actions should be applied to groups of Enitties?\nand not well-defined complex groups either,\nbut the temporary groupings formed by selection in the editor\n\n	well-defined complex groups can have special delegations explicitly defined,\n	allowing for certain types of delegation, while forbidding others\n	(like how Unity new prefabs can choose to reveal only certain properties of composite objects)\n	\n	but temporary grouping has to be \"smarter\"\n	in the sense that it's dynamic\n	you can't really make special sets of rules\n\n\n\n\n\nnote that selection is just a Group\na group that's generally considered \"temporary\" storage\nbut it could be solidified into a \"real\" group pretty easily if necessary\nperhaps that should actually be the official flow for creating new groups?\njust save the selection?\n(I mean, that totally makes sense as a good mental model for how Groups should be made)",
+			"settings":
+			{
+				"buffer_size": 1175,
+				"line_ending": "Unix",
+				"name": "think ahead into selection"
+			}
+		},
+		{
+			"contents": "editor workflow versus core coding backend interface\n\nalmost all things should be doable in code\nif they're exposed in the graphical interface\n(though not necessarily cleanly)\n(ex: the input binding is fundamentally some sort of table, and will always be a bit weird in code)\n\nbut certain core things are super important to be able to do in code easily\n\nlike binding a list of values into a collection\n(basics of visualizing a set of data)\n\n\n\n\n\n\n\ntalking about within the core codebase,\nwhat things should be done in Ruby,\nand what things should be done using ThoughtTrace itself\nas a sort of assistance framework / language\n(circular dependency, library props up itself... that sort of deal)",
+			"settings":
+			{
+				"buffer_size": 692,
+				"line_ending": "Unix",
+				"name": "editor workflow versus core coding backend interfa"
+			}
+		},
+		{
+			"contents": "why did I need queries the last time I wanted queries?\n\nI think I was trying to do input control bindings?\nthe thing with the symbol collision, lines linking things, untangle-the-string deal\n(wasn't that at the start of the project? dang)",
+			"settings":
+			{
+				"buffer_size": 238,
+				"line_ending": "Unix",
+				"name": "why did I need queries the last time I wanted quer"
+			}
+		},
+		{
+			"contents": "insert feels like a special kind of move\n\nmove it, and put it inside something else\n\nso, bind to a variant of the move key\nnot sure if it should interact with the actual move action in some way or not\n\n\n\nnote that it's just a matter of inserting the string from one Text into the string of another\nso the styles that are used will simply be from the destination entity",
+			"settings":
+			{
+				"buffer_size": 368,
+				"line_ending": "Unix",
+				"name": "insert feels like a special kind of move"
+			}
+		},
+		{
+			"contents": "are insert and join the same thing?\n\nsort of like how it doesn't matter if you it \"enter\"\nin the middle of a Text object, or at the end\nit's just one case\n\nin that same way,\ndoes it not matter if you try to insert at the end or somewhere in the middle?\n\n\nwatch out for adding at the beginning though\nneed to \"counter steer\"\nand move the Text object so it looks like the new text was fused to the start of the Text object\nrather than looking like it was added via typing\n(should NOT look like you just moved the cursor there and typed, but rather like you tried to fuse the two text objects together at one end)\n\nmaybe then you do have two separate actions?\nis that not always the behavior you want?",
+			"settings":
+			{
+				"buffer_size": 698,
+				"line_ending": "Unix",
+				"name": "are insert and join the same thing?"
+			}
+		},
+		{
+			"contents": "TODO: consider action factory / mouse action extraction system interaction with multiple spaces",
+			"settings":
+			{
+				"buffer_size": 95,
+				"line_ending": "Unix",
+				"name": "TODO: consider action factory / mouse action extra"
+			}
+		},
+		{
+			"contents": "TODO: consider overhaul of input system\n\nseparate trigger button from accelerators\nor\nseparate trigger, from press-hold-release and cancel structure\n\n	different types of inputs will have different sorts of triggers\n	singles,\n	chords\n	two buttons that trigger the same action\n		(but without either one overlapping state like the current system and being bad)",
+			"settings":
+			{
+				"buffer_size": 357,
+				"line_ending": "Unix",
+				"name": "TODO: consider overhaul of input system"
+			}
+		},
+		{
+			"contents": "button up /  down\npress-hold-release / cancel\naccelerator on / off (multiple keys for the same event, but the keys are logically related anyway)\n\nmouse click (left or right)\n	press-hold-release / cancel on mouse button\n	click / drag with mouse button\n	trigger based on button and accelerators\n\n\n\n\nmultiple button inputs that follow similar algorithmic patterns\n",
+			"settings":
+			{
+				"buffer_size": 361,
+				"line_ending": "Unix",
+				"name": "button up /  down"
+			}
+		},
+		{
+			"contents": "specific accelerator combo vs any accelerators\n\nclick combines with any and all accelerators (at least in theory)\nso you don't want to have to define accelerators individually\n\nbut somethings are like ctrl+z\nyou just want one accelerator and one standard key as a combo",
+			"settings":
+			{
+				"buffer_size": 269,
+				"line_ending": "Unix",
+				"name": "specific accelerator combo vs any accelerators"
+			}
+		},
+		{
+			"contents": "apply Style to multiple Entities at once",
+			"settings":
+			{
+				"buffer_size": 40,
+				"line_ending": "Unix",
+				"name": "apply Style to multiple Entities at once"
+			}
+		},
+		{
+			"contents": "system clipboard support\n\nget text in / out of the system clipboard\nnot sure how to do this exactly, as I did away with\nthe standard cut / copy / paste in favor of move / duplicate\n( I guess it ends up just being 'from clipboard' and 'to clipboard' )",
+			"settings":
+			{
+				"buffer_size": 250,
+				"line_ending": "Unix",
+				"name": "system clipboard support"
+			}
+		},
+		{
+			"contents": "spawn action - prototype factory - nested document - prefabs",
+			"settings":
+			{
+				"buffer_size": 60,
+				"line_ending": "Unix",
+				"name": "spawn action - prototype factory - nested document"
+			}
+		},
+		{
+			"contents": "=============== from TODO.txt",
+			"settings":
+			{
+				"buffer_size": 29,
+				"line_ending": "Unix",
+				"name": "=============== from TODO.txt"
+			}
+		},
+		{
+			"contents": "improve mouseover state\n	+ On Mar 2nd: \"Note flickering of mouseover state on drag\"\n\n",
+			"settings":
+			{
+				"buffer_size": 85,
+				"line_ending": "Unix",
+				"name": "improve mouseover state"
+			}
+		},
+		{
+			"contents": "May want to change how text resizes horizontally on center drag\n	computes 'center' as the center of the vertical distance of the hitbox\n	this is not the same as the 'center' of the text, which should be located at the midline\n\n",
+			"settings":
+			{
+				"buffer_size": 227,
+				"line_ending": "Unix",
+				"name": "May want to change how text resizes horizontally o"
+			}
+		},
+		{
+			"contents": "If Style is created without a parent, it's parent should default to the baseline style\n	not sure where the baseline style should be declared,\n	it should be a constant variable that can be easily accessed from everywhere\n	it should declare all available properties\n\n",
+			"settings":
+			{
+				"buffer_size": 265,
+				"line_ending": "Unix",
+				"name": "If Style is created without a parent, it's parent"
+			}
+		},
+		{
+			"contents": "Figure out how to change Entities when style properties are altered\n",
+			"settings":
+			{
+				"buffer_size": 68,
+				"line_ending": "Unix",
+				"name": "Figure out how to change Entities when style prope"
+			}
+		},
+		{
+			"contents": "edit space point query\nshould be able to get a list of things under the mouse\nonly highligh the one that the mouse will be working on\nit seems weird that you would highlight something that you can't act on?\n	that means that the selection has to change a little bit depending on what action is active\n	is that too much state going into the selection?\n	will that be the user's expected model of operation?\n",
+			"settings":
+			{
+				"buffer_size": 404,
+				"line_ending": "Unix",
+				"name": "edit space point query"
+			}
+		},
+		{
+			"contents": "is there any reason to keep Component?\n	it's this weird strict-typed flavor in a duck-typed system\n	especially that Actions have been reworked to be more like methods,\n	maybe components should just be like any other thing attached to a class?\n	\n	not really sure if there's any motivation to adhere strictly to entity/component style\n	considering how in the current structure, methods are attached to the object,\n	not to the components\n	\n	(or like, sometimes the action, but never the component)\n	(meaning the structure is NOT actually entity/component at all)\n",
+			"settings":
+			{
+				"buffer_size": 560,
+				"line_ending": "Unix",
+				"name": "is there any reason to keep Component?"
+			}
+		},
+		{
+			"contents": "TODO: implement screen space to world space conversion in accordance with new systems\n	old system had assumed that there was a global variable with a pointer to Window\n	trying to remove that\n	need to figure out how to perform coordinate space conversions in a sane manner now\n",
+			"settings":
+			{
+				"buffer_size": 276,
+				"line_ending": "Unix",
+				"name": "TODO: implement screen space to world space conver"
+			}
+		},
+		{
+			"contents": "TODO: custom subclass of Hash to deal with action bindings\n	need to make sure there's some sort of error when you try to declare inputs for phases that don't actually exist. otherwise, you can just go a bug hunt without knowing where the problem is.\n\n	need to find a balance between duck-typing-style dynamicism and strict protection\n",
+			"settings":
+			{
+				"buffer_size": 334,
+				"line_ending": "Unix",
+				"name": "TODO: custom subclass of Hash to deal with action"
+			}
+		},
+		{
+			"contents": "TODO: Ruby methods are objects. Apply structure to Action\n	methods in Ruby can be manipulated as objects, because everything is an object\n	how does this work?\n	how is it specifically implemented?\n	\n	\n	would this help implementation of the Action objects,\n	to help them function more like method calls?\n",
+			"settings":
+			{
+				"buffer_size": 302,
+				"line_ending": "Unix",
+				"name": "TODO: Ruby methods are objects. Apply structure to"
+			}
+		},
+		{
+			"contents": "TODO: consider different views of same space\n	view for constraints\n	view for queries\n	view for entities\n	view for just UI entities and the things they correspond to\n\n\n	custom filter types?\n	multiple filters active at one time?\n		why shouldn't you be able to layer multiple lenses together?\n\n\n\n	maybe use the bitvector from the chipmunk layer to control what things are visible?\n	maybe should use a different bitvector instead\n	collision is a bit of a different beast\n		it is possible there is overlap though\n		so should probably still look into this\n\n",
+			"settings":
+			{
+				"buffer_size": 551,
+				"line_ending": "Unix",
+				"name": "TODO: consider different views of same space"
+			}
+		},
+		{
+			"contents": "TODO: change the way corner resize of rectangles works\n	currently only allows for resize along the diagonal\n\n	desired mental model:\n		moving the selected vertex\n\n	allows for more free-form editing\n\n	(note: this is how my window resizing works)\n\n\n\n\n	should probably have some sort of aspect ratio lock or something like that\n	for when you get the proportions right,\n	but the size is wrong\n\n	(that might be way better as a constraint though)\n\n\n	NOTE:\n	GIMP allows for aspect ratio lock,\n	as well as the ability to specify an aspect ratio\n	while editing selections\n",
+			"settings":
+			{
+				"buffer_size": 562,
+				"line_ending": "Unix",
+				"name": "TODO: change the way corner resize of rectangles w"
+			}
+		},
+		{
+			"contents": "TODO: fix short circuiting min by, and the entities/text.rb -> Text#nearest_character_boundary() optimization that it messes up\n",
+			"settings":
+			{
+				"buffer_size": 128,
+				"line_ending": "Unix",
+				"name": "TODO: fix short circuiting min by, and the entitie"
+			}
+		},
+		{
+			"contents": "TODO: create action to delete a whole Entity\n	delete key by itself deletes single characters though\n	so it might be best to have \"delete Entity\" bound to something different?\n	would be weird to have a special case for Text\n",
+			"settings":
+			{
+				"buffer_size": 223,
+				"line_ending": "Unix",
+				"name": "TODO: create action to delete a whole Entity"
+			}
+		},
+		{
+			"contents": "TODO: remove Object delegate metaprogramming monkeypatch\n	should be using def_degelators from Forwardable instead\n	that is much more robust\n",
+			"settings":
+			{
+				"buffer_size": 140,
+				"line_ending": "Unix",
+				"name": "TODO: remove Object delegate metaprogramming monke"
+			}
+		},
+		{
+			"contents": "TODO: make sure an empty project can be loaded\n	funky stuff is happening here\n	\n	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/queries.csv\n	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/entities.csv\n	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/constraints.csv\n	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/prototypes.csv\n	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/rakefile.rb\n	/home/ravenskrag/Code/Tools/ThoughtTrace/bin/main.rb\n	/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/space/serialization.rb\n	/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/cloning/clone_factory.rb",
+			"settings":
+			{
+				"buffer_size": 637,
+				"line_ending": "Unix",
+				"name": "TODO: make sure an empty project can be loaded"
+			}
+		}
+	],
+	"build_system": "run",
+	"command_palette":
+	{
+		"height": 375.0,
+		"selected_items":
+		[
+			[
+				"text",
+				"Set Syntax: Plain Text"
+			],
+			[
+				"ruby",
+				"Set Syntax: Ruby"
+			],
+			[
+				"rub",
+				"Set Syntax: Ruby"
+			],
+			[
+				"mark",
+				"Set Syntax: Markdown"
+			],
+			[
+				"todo",
+				"Show TODOs: Project and open files"
+			],
+			[
+				"wra",
+				"Word Wrap: Toggle"
+			],
+			[
+				"pla",
+				"Set Syntax: Plain Text"
+			],
+			[
+				"package",
+				"Package Control: Enable Package"
+			],
+			[
+				"pack",
+				"Package Control: Disable Package"
+			],
+			[
+				"tod",
+				"Show TODOs: Project and open files"
+			],
+			[
+				"to",
+				"Show TODOs: Project and open files"
+			],
+			[
+				"",
+				"About"
+			],
+			[
+				"pac",
+				"Package Control: List Packages"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"log",
+				"Git: Log Current File"
+			],
+			[
+				"st",
+				"Git: Status"
+			],
+			[
+				"stat",
+				"Git: Status"
+			],
+			[
+				"pre",
+				"Markdown Preview: preview in Browser"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"pr",
+				"Markdown Preview: preview in Browser"
+			],
+			[
+				"previe",
+				"Markdown Preview: preview in Browser"
+			],
+			[
+				"snipp",
+				"Snippet: if … end"
+			],
+			[
+				"snip",
+				"Snippet: YAML.load(file)"
+			],
+			[
+				"prefer",
+				"Preferences: Settings - User"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"vie",
+				"Markdown Preview: preview in Browser"
+			],
+			[
+				"pa",
+				"Package Control: List Packages"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"reve",
+				"File: Revert"
+			],
+			[
+				"markdown",
+				"Markdown Preview: preview in Sublime Text"
+			],
+			[
+				"view",
+				"Markdown Preview: preview in Browser"
+			],
+			[
+				"prev",
+				"Markdown Preview: preview in Browser"
+			],
+			[
+				"smark",
+				"Set Syntax: Markdown"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"brow",
+				"Preferences: Browse Packages"
+			],
+			[
+				"bro",
+				"Preferences: Browse Packages"
+			],
+			[
+				"git pu",
+				"Git: Push"
+			],
+			[
+				"fet",
+				"Git: Fetch"
+			],
+			[
+				"com",
+				"Git: Commit"
+			],
+			[
+				"add",
+				"Git: Add Current File"
+			],
+			[
+				"syntax te",
+				"Set Syntax: Textile"
+			],
+			[
+				"lo",
+				"Git: Log All"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"oto",
+				"Show TODOs: Open files only"
+			],
+			[
+				"show",
+				"Show TODOs: Project and open files"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"pcaka",
+				"Package Control: Install Package"
+			],
+			[
+				"pcak",
+				"Package Control: Discover Packages"
+			],
+			[
+				"anno",
+				"Git: Toggle Annotations"
+			]
+		],
+		"width": 522.0
+	},
+	"console":
+	{
+		"height": 139.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/rakefile.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/constraint_loading.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/constraints/sync_height.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/constraints/move_relative.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/constraints/nothing.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/constraints/limit_height.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/constraints/constraint.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/enumerators/directed.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/enumerators/enumerator.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/enumerators/mutual.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/enumerators/parent_and_children.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/enumerators/all.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/draw_edge.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/notes.txt",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/single_arrow.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/underline.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/visualization.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/constraints/0018.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/group_and_constraint_save_formats.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/entities.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/components.yaml",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/prototypes.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/groups.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/document/serialization.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/NEW/test.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/collection/collection.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/NEW/untitled.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/entity/circle/resize.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/entity/0_entity/move.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/mouse.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/action_factory.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/base_action.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/space/space.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/NEW/move_marker.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/constraints/0017.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/constraints/0006.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/constraints/0004.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/constraint_collection.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/constraints/draw_edge.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraints/constraint.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/documentation/action_flow.txt",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/queries/query.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/old/human_action.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/style/style.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/constraints.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/document/document.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/drawing/line.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/circle.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/text.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/monkey_patches/enumerable.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/button_parser.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/mouse_input_system.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/entity/text/edit.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/notes/bugs/BUG: ensure Enumerable#short_circuting_min_by NEVER return nil",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/input_manager.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/cloning/physics/circle.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/cloning/physics/rect.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/rectangle.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/style/cascade.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/monkey_patches/Chipmunk/Shape/Rect.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/monkey_patches/Chipmunk/Shape/Poly.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/cloning/physics/body.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/document/style_collection.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/version.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/monkey_patches/Gosu/color.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/yaml/color.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/monkey_patches/object.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/style_system/serialization_test.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/query/mark_query.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraints/mirror_style.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/space/serialization.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/entity.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/yaml/color.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/style_collection.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/prefab_factory.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/document.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/entity/rectangle/resize.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/document.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/manual_serialization/color.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/components/physics.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/components/query.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/components/style.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/components/component.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/component_serialization/style.rb",
+		"/home/ravenskrag/Notes/yaml - defining new types/test.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/input_bindings/entities.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/entities/components/rendering.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/style_overhaul/sketch.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/source/Text.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/compiled_files/Rectangle_unpack.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/compiled_files/Rectangle_pack.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/source/Rectangle.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/manual_serialization/style_component.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/manual_serialization/query_component.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/manual_serialization/query_object.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/manual_serialization/style_object.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/builder_pattern_serialization.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/output/style.yaml",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/output/entities.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/manual_serialization/StyleObject.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/source/StyleObject.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/input_sketch/queries.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/input_sketch/entities.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/input_sketch/groups.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/input_bindings/prototypes.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/run.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/groups/group.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/input_graph/entities.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/compiled_files/Text_pack.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/style/pallet.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/documentation/style_humanistic.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/input_graph/groups.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/compiled_files/Circle_pack.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/serialization/compiled_files/Circle_unpack.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/document_format/prototype_factory.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/cloning/clone_factory.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/documentation/clone_factory.txt",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/queries.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/input_bindings/queries.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/queries.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/test/constraints.csv",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/templates/entity_template.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/actions/entity/0_entity/action.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/utilities/font.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/input_binding.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/experimental/input_binding_test.rb",
+		"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/input_system/accelerator_parser.rb"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"<open files>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"*2",
+			"!ruby/object:ThoughtTrace::Components::Style\n      active_mode: :default\n      cascades:\n        :default: !ruby/object:ThoughtTrace::Style::Cascade\n          styles:\n          - !ruby/object:ThoughtTrace::Style::StyleObject\n            name: primary\n            properties:\n              :color: !ruby/object:Gosu::Color\n                value: ffe64240\n              :hitbox_color: !ruby/object:Gosu::Color\n                value: ffffffff\n        :hover: !ruby/object:ThoughtTrace::Style::Cascade\n          styles:\n          - !ruby/object:ThoughtTrace::Style::StyleObject\n            name: primary\n            properties:\n              :color: !ruby/object:Gosu::Color\n                value: ff0000ff\n              :hitbox_color: !ruby/object:Gosu::Color\n                value: ffffffff",
+			"constraints",
+			",",
+			",-",
+			"ThoughtTrace::Text,Lucida Sans Unicode",
+			"!ruby/object:ThoughtTrace::Components::Style\n      active_mode: :default\n      cascades:\n        :default: *1\n        :hover: *2",
+			"multiple spaces",
+			",",
+			"img",
+			"component",
+			"delete",
+			"constraint",
+			"visualization",
+			"see",
+			"up",
+			" up",
+			"up",
+			"all",
+			"everything",
+			"everything up",
+			"all up",
+			"up at once",
+			"all",
+			"modes",
+			"dump",
+			"component",
+			"data",
+			"id_to",
+			"replace_according",
+			"data",
+			"entity_to_id_table",
+			"x",
+			"cache",
+			"data",
+			"cache",
+			".foo",
+			"foo",
+			"resources",
+			"constraint_objects",
+			"resources",
+			"data",
+			"package",
+			"prev_tick",
+			"this_tick",
+			"cache",
+			"foo",
+			"eql",
+			" \n",
+			"waz",
+			"baz",
+			"nil",
+			"entity",
+			"a",
+			"obj",
+			"entity_marker_2",
+			"entity_marker_1",
+			"entity",
+			".height",
+			"resource_list",
+			"time_to_fire_constraint",
+			"time_to_run_constraint_again",
+			"fire_constraint",
+			"baz",
+			"class propagat",
+			"propagat",
+			"syncheight",
+			"note",
+			"optimization",
+			"method chain",
+			"people",
+			"class",
+			"shallow",
+			" ",
+			"per tick",
+			"limit height",
+			"loop",
+			"circular",
+			"per tick",
+			"loop",
+			"propagate",
+			"constraint",
+			"data",
+			"constraint",
+			"ParameterizedList",
+			"renderer",
+			"cache",
+			"cache[pair]",
+			"defin",
+			"binary",
+			"circular",
+			"race",
+			"flat",
+			"cycle",
+			"@i",
+			"limit",
+			"path_to_folder",
+			"module",
+			".foo",
+			"(a,b)",
+			"@time",
+			"monad_type",
+			"monad",
+			"optimize",
+			"draw",
+			"monad_type",
+			"monad",
+			"bar",
+			"key",
+			"filter",
+			"p",
+			"x",
+			"entity",
+			"type",
+			"update_condition(a)",
+			"update_condition",
+			"# just using this name for now, because I don't know what to call it",
+			"per_pair",
+			"entity_list",
+			"data",
+			"each_pair",
+			"and_then",
+			"constraint_type",
+			"reference",
+			"LimitHeght",
+			"monad",
+			"line",
+			"monad"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			" \n",
+			"module ThoughtTrace\n\n\n# Controls overall execution flow for all input systems.\n# Like a main method for the entire input system.\n# \n# As it is a \"main\", this class is more a portion of ThoughtTrace proper,\n# rather than something than can be externalized.\n# This is reflected in the module chosen to hold this class.\nclass InputManager\n	# TODO: control mouseover effects from this class as well\n	\n	attr_reader :mouse, :buttons\n	\n	def initialize(window, space, camera)\n		@space = space\n		@camera = camera\n		\n		\n		# TODO: properly implement mouse.\n		@mouse = InputSystem::Mouse.new window\n		\n		@selection = [] # TODO: create actual selection collection. Array is placeholder. May work, may not. Haven't actually thought about it at all.\n		\n		@text_input = ThoughtTrace::TextInput.new\n		\n		\n		\n		\n		# manages many input events\n		# input events correspond to button presses\n		# those buttons can be keyboard keys, mouse buttons, or gamepad buttons\n		@buttons = InputSystem::ButtonParser.new\n		\n		\n		\n		\n		# hold actions flow controllers, so that input manager can direct action UI drawing\n		# need to draw actions so that they can show polymorphic interface information\n		# NOTE: storing actions this way means that the button parser doesn't have to know anything about the input system.\n		@actions = Array.new\n		\n		# NOTE: Action names and Event names may not necessarily have the same requirements.\n			# Action names\n				# Control what sort of action will be fired\n				# Like methods, specifics are resolved with polymorphism\n			# Event names\n				# unique ID for this specific Event\n				# must be distinct among keyboard, mouse, joystick etc events\n				# each Event is one combination of (name, binding, callback)\n				# thus, it is possible for many events to trigger one Action\n				# because you want multiple bindings on one Action\n				# (thing mouse bindings vs keyboard, rather than multiple keyboard shortcuts)\n		\n		\n		# action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @stash)\n		# # TODO: register action names in action flow controller\n		# action_flow.bindings[categorization][phase] = action_name\n		# # NOTE: There's no warning if you try to assign an action name to a phase that does not exist. This is really dangerous, and had me hunting bugs in a bunch of the wrong places.\n		\n		# 	event_name = :click\n		# 	callbacks = InputSystem::MouseActionController.new @mouse, action_flow\n		# event = InputSystem::ButtonEvent.new event_name, callbacks\n		# event.bind_to keys:[Gosu::MsLeft], modifiers:[]\n		\n		# @buttons.register event\n		\n		\n		\n		\n		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @text_input)\n		callbacks = InputSystem::MouseActionController.new @mouse, action_flow\n		\n			event = InputSystem::ButtonEvent.new :click, callbacks\n			event.bind_to keys:[Gosu::MsLeft], modifiers:[]\n			\n			action_flow.bindings[:existing][:click] = :edit\n			action_flow.bindings[:existing][:drag] = :move\n			\n			action_flow.bindings[:empty][:click] = :spawn_text \n			# action_flow.bindings[:empty][:drag] = :move\n		\n		@actions << action_flow\n		@buttons.register event\n		\n		\n		\n		action_flow = ThoughtTrace::ActionFlowController.new(@space, @selection, @text_input)\n		callbacks = InputSystem::MouseActionController.new @mouse, action_flow\n		\n			event = InputSystem::ButtonEvent.new :right_click, callbacks\n			event.bind_to keys:[Gosu::MsRight], modifiers:[]\n			\n			action_flow.bindings[:existing][:drag] = :resize\n		\n		@actions << action_flow\n		@buttons.register event\n		\n		\n		\n		\n		\n		callbacks = ThoughtTrace::Events::PressEnter.new @space, @text_input\n		event = InputSystem::ButtonEvent.new :enter, callbacks\n		\n		event.bind_to keys:[Gosu::KbReturn], modifiers:[]\n		\n		@buttons.register event\n		\n	end\n	\n	def button_down(id)\n		@buttons.button_down(id)\n	end\n	\n	def update\n		@buttons.update\n		@text_input.update\n	end\n	\n	# draw things in world space\n	def draw\n		@actions.each do |action|\n			action.draw @mouse.position_in_space\n		end\n		\n		@text_input.draw\n	end\n	\n	def button_up(id)\n		@buttons.button_up(id)\n	end\n	\n	def shutdown\n		\n	end\nend\n\n\n\nend",
+			"ThoughtTrace",
+			"\n",
+			"clerical"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 148,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/text_converter.rb",
+					"settings":
+					{
+						"buffer_size": 724,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								478,
+								478
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
+					"settings":
+					{
+						"buffer_size": 17934,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16222,
+								16222
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3944.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/components.yaml",
+					"settings":
+					{
+						"buffer_size": 56538,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8363,
+								8363
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/YAML/YAML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4139.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"settings":
+					{
+						"buffer_size": 5,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5,
+								5
+							]
+						],
+						"settings":
+						{
+							"auto_name": "=====",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"settings":
+					{
+						"buffer_size": 47,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								47,
+								47
+							]
+						],
+						"settings":
+						{
+							"auto_name": "selection, group, group actions, disambiguation",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"settings":
+					{
+						"buffer_size": 749,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								260,
+								260
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider ActionFactory#get_type for groups",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"settings":
+					{
+						"buffer_size": 4070,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2728,
+								2728
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1496.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"settings":
+					{
+						"buffer_size": 48,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								48,
+								48
+							]
+						],
+						"settings":
+						{
+							"auto_name": "pick group / abstraction layer with scroll wheel",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"settings":
+					{
+						"buffer_size": 335,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								164,
+								164
+							]
+						],
+						"settings":
+						{
+							"auto_name": "group system - mark and select",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"settings":
+					{
+						"buffer_size": 19,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								19,
+								19
+							]
+						],
+						"settings":
+						{
+							"auto_name": "groups / copy group",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"settings":
+					{
+						"buffer_size": 176,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								176,
+								176
+							]
+						],
+						"settings":
+						{
+							"auto_name": "all groups should start off as selections",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"settings":
+					{
+						"buffer_size": 94,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								94,
+								94
+							]
+						],
+						"settings":
+						{
+							"auto_name": "clear selection on non-selection-altering action?",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"settings":
+					{
+						"buffer_size": 12,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12,
+								12
+							]
+						],
+						"settings":
+						{
+							"auto_name": "group resize",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"settings":
+					{
+						"buffer_size": 19,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								19,
+								19
+							]
+						],
+						"settings":
+						{
+							"auto_name": "group serialization",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"settings":
+					{
+						"buffer_size": 4,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4,
+								4
+							]
+						],
+						"settings":
+						{
+							"auto_name": "----",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"settings":
+					{
+						"buffer_size": 811,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								125,
+								125
+							]
+						],
+						"settings":
+						{
+							"auto_name": "= overview",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"settings":
+					{
+						"buffer_size": 555,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								555,
+								555
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: track system - query style binding",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"settings":
+					{
+						"buffer_size": 315,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								315,
+								315
+							]
+						],
+						"settings":
+						{
+							"auto_name": "rethink how Style data is saved",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"settings":
+					{
+						"buffer_size": 1143,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								277,
+								277
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: how to copy style data on duplication action",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"settings":
+					{
+						"buffer_size": 136,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								136,
+								136
+							]
+						],
+						"settings":
+						{
+							"auto_name": "NOTE: style data not currently duplicated when Ent",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"settings":
+					{
+						"buffer_size": 1497,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								528,
+								528
+							]
+						],
+						"settings":
+						{
+							"auto_name": "component serialization - non-Entity types",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"settings":
+					{
+						"buffer_size": 1649,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								795,
+								795
+							]
+						],
+						"settings":
+						{
+							"auto_name": "rethink component interface",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 22,
+					"settings":
+					{
+						"buffer_size": 516,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								516,
+								516
+							]
+						],
+						"settings":
+						{
+							"auto_name": "NOTE: can't save multiple Style Components with id",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"settings":
+					{
+						"buffer_size": 72,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								72,
+								72
+							]
+						],
+						"settings":
+						{
+							"auto_name": "NOTE: constraint Visualizations and Groups now bot",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 24,
+					"settings":
+					{
+						"buffer_size": 586,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								272,
+								272
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Visualizations need to save Style component data",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 25,
+					"settings":
+					{
+						"buffer_size": 274,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								274,
+								274
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: put the style data on the Constraint maybe?",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 26,
+					"settings":
+					{
+						"buffer_size": 113,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								113,
+								113
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: all markers in a document should use the sam",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 27,
+					"settings":
+					{
+						"buffer_size": 3,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3,
+								3
+							]
+						],
+						"settings":
+						{
+							"auto_name": "---",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 28,
+					"settings":
+					{
+						"buffer_size": 180,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								180,
+								180
+							]
+						],
+						"settings":
+						{
+							"auto_name": "implement loading of visualizations",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 29,
+					"settings":
+					{
+						"buffer_size": 168,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								168,
+								168
+							]
+						],
+						"settings":
+						{
+							"auto_name": "NOTE: each Constraint Pair needs a separate Visual",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 30,
+					"settings":
+					{
+						"buffer_size": 628,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								377,
+								377
+							]
+						],
+						"settings":
+						{
+							"auto_name": "document format - multiple documents",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 3,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 31,
+					"settings":
+					{
+						"buffer_size": 16,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16,
+								16
+							]
+						],
+						"settings":
+						{
+							"auto_name": "nested document",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 32,
+					"settings":
+					{
+						"buffer_size": 290,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								290,
+								290
+							]
+						],
+						"settings":
+						{
+							"auto_name": "nested document - cascade to resolve action",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 33,
+					"settings":
+					{
+						"buffer_size": 269,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								269,
+								269
+							]
+						],
+						"settings":
+						{
+							"auto_name": "layers of interaction (for UI etc)",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 34,
+					"settings":
+					{
+						"buffer_size": 155,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								76,
+								76
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: limit camera drawing",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 35,
+					"settings":
+					{
+						"buffer_size": 19,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								19,
+								19
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: camera layers",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 36,
+					"settings":
+					{
+						"buffer_size": 693,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								380,
+								380
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: camera should be spatial data",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 37,
+					"settings":
+					{
+						"buffer_size": 910,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								724,
+								724
+							]
+						],
+						"settings":
+						{
+							"auto_name": "multiple editor views",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 38,
+					"settings":
+					{
+						"buffer_size": 310,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								218,
+								218
+							]
+						],
+						"settings":
+						{
+							"auto_name": "constraint creation action",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 39,
+					"settings":
+					{
+						"buffer_size": 994,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								467,
+								467
+							]
+						],
+						"settings":
+						{
+							"auto_name": "API to create / delete whole Constraint Packages",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 40,
+					"settings":
+					{
+						"buffer_size": 1485,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								801,
+								801
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 41,
+					"settings":
+					{
+						"buffer_size": 358,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								358,
+								358
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: constraints: understand overlap with query o",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 42,
+					"settings":
+					{
+						"buffer_size": 194,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								194,
+								194
+							]
+						],
+						"settings":
+						{
+							"auto_name": "what do you do about deleting Entity markers?",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 43,
+					"settings":
+					{
+						"buffer_size": 574,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								574,
+								574
+							]
+						],
+						"settings":
+						{
+							"auto_name": "add / remove whole entities (including components)",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 44,
+					"settings":
+					{
+						"buffer_size": 161,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								161,
+								161
+							]
+						],
+						"settings":
+						{
+							"auto_name": "input system overhaul",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 45,
+					"settings":
+					{
+						"buffer_size": 235,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								235,
+								235
+							]
+						],
+						"settings":
+						{
+							"auto_name": "rewrite 'empty space actions' as 'zero target acti",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 46,
+					"settings":
+					{
+						"buffer_size": 207,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								207,
+								207
+							]
+						],
+						"settings":
+						{
+							"auto_name": "input binding - mode-specific UI interaction",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 47,
+					"settings":
+					{
+						"buffer_size": 56,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								56,
+								56
+							]
+						],
+						"settings":
+						{
+							"auto_name": "notes program - tree overview, text field w/ spell",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 48,
+					"settings":
+					{
+						"buffer_size": 212,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								212,
+								212
+							]
+						],
+						"settings":
+						{
+							"auto_name": "multi-line text input",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 49,
+					"settings":
+					{
+						"buffer_size": 274,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								274,
+								274
+							]
+						],
+						"settings":
+						{
+							"auto_name": "how do you bind mouse click actions for a Entity?",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 50,
+					"settings":
+					{
+						"buffer_size": 34,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								34,
+								34
+							]
+						],
+						"settings":
+						{
+							"auto_name": "action system documentation update",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 51,
+					"settings":
+					{
+						"buffer_size": 17,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								17,
+								17
+							]
+						],
+						"settings":
+						{
+							"auto_name": "implement prefabs",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 52,
+					"settings":
+					{
+						"buffer_size": 31,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								31,
+								31
+							]
+						],
+						"settings":
+						{
+							"auto_name": "implement text split-rip action",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 53,
+					"settings":
+					{
+						"buffer_size": 60,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								60,
+								60
+							]
+						],
+						"settings":
+						{
+							"auto_name": "split text action",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 54,
+					"settings":
+					{
+						"buffer_size": 727,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								26,
+								26
+							]
+						],
+						"settings":
+						{
+							"auto_name": "insert / join text action",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 55,
+					"settings":
+					{
+						"buffer_size": 1123,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								281,
+								281
+							]
+						],
+						"settings":
+						{
+							"auto_name": "try to implement something like text caret again",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 56,
+					"settings":
+					{
+						"buffer_size": 378,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								378,
+								378
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: awkward to see the text caret appear quickly",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 57,
+					"settings":
+					{
+						"buffer_size": 427,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								427,
+								427
+							]
+						],
+						"settings":
+						{
+							"auto_name": "locking things in place",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 58,
+					"settings":
+					{
+						"buffer_size": 337,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								337,
+								337
+							]
+						],
+						"settings":
+						{
+							"auto_name": "attachment point markers",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 59,
+					"settings":
+					{
+						"buffer_size": 26,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								26,
+								26
+							]
+						],
+						"settings":
+						{
+							"auto_name": "query object serialization",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 60,
+					"settings":
+					{
+						"buffer_size": 36,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								36,
+								36
+							]
+						],
+						"settings":
+						{
+							"auto_name": "bind query object to query component",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 61,
+					"settings":
+					{
+						"buffer_size": 645,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								103,
+								103
+							]
+						],
+						"settings":
+						{
+							"auto_name": "how are Queries shown visually?",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 62,
+					"settings":
+					{
+						"buffer_size": 41,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								41,
+								41
+							]
+						],
+						"settings":
+						{
+							"auto_name": "implement text search of all Text objects",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 63,
+					"settings":
+					{
+						"buffer_size": 740,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								740,
+								740
+							]
+						],
+						"settings":
+						{
+							"auto_name": "short-circuiting min_by -> really a lazy min_by",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 64,
+					"settings":
+					{
+						"buffer_size": 67,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								67,
+								67
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: make sure Physics#center works with all coll",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 65,
+					"settings":
+					{
+						"buffer_size": 435,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								435,
+								435
+							]
+						],
+						"settings":
+						{
+							"auto_name": "shrink rect resize margins as object shrinks",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 66,
+					"settings":
+					{
+						"buffer_size": 3,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3,
+								3
+							]
+						],
+						"settings":
+						{
+							"auto_name": "---",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 67,
+					"settings":
+					{
+						"buffer_size": 464,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								396,
+								396
+							]
+						],
+						"settings":
+						{
+							"auto_name": "image Entity type",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 68,
+					"settings":
+					{
+						"buffer_size": 296,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								296,
+								296
+							]
+						],
+						"settings":
+						{
+							"auto_name": "non-destructive crop of Images",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 69,
+					"settings":
+					{
+						"buffer_size": 33,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								33,
+								33
+							]
+						],
+						"settings":
+						{
+							"auto_name": "multi-item mask (not just images)",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 70,
+					"settings":
+					{
+						"buffer_size": 3,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3,
+								3
+							]
+						],
+						"settings":
+						{
+							"auto_name": "---",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 71,
+					"settings":
+					{
+						"buffer_size": 65,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								65,
+								65
+							]
+						],
+						"settings":
+						{
+							"auto_name": "load initial prototype config from base config for",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 72,
+					"settings":
+					{
+						"buffer_size": 22,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								22,
+								22
+							]
+						],
+						"settings":
+						{
+							"auto_name": "action - input - query",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 73,
+					"settings":
+					{
+						"buffer_size": 576,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								302,
+								302
+							]
+						],
+						"settings":
+						{
+							"auto_name": "sharper font scaling",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 74,
+					"settings":
+					{
+						"buffer_size": 388,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								289,
+								289
+							]
+						],
+						"settings":
+						{
+							"auto_name": "input system - how inputs trigger actions",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 75,
+					"settings":
+					{
+						"buffer_size": 338,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								338,
+								338
+							]
+						],
+						"settings":
+						{
+							"auto_name": "diagram showing all actions",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 76,
+					"settings":
+					{
+						"buffer_size": 114,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								114,
+								114
+							]
+						],
+						"settings":
+						{
+							"auto_name": "collision handler system",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 77,
+					"settings":
+					{
+						"buffer_size": 210,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								210,
+								210
+							]
+						],
+						"settings":
+						{
+							"auto_name": "mulitple phases of text input",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 78,
+					"settings":
+					{
+						"buffer_size": 174,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								174,
+								174
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: create graph relating files to subsystems",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 79,
+					"settings":
+					{
+						"buffer_size": 1128,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								309,
+								309
+							]
+						],
+						"settings":
+						{
+							"auto_name": "list ALL the THINGS",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 80,
+					"settings":
+					{
+						"buffer_size": 434,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								256,
+								256
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: adjust body masses and collisions",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 81,
+					"settings":
+					{
+						"buffer_size": 554,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								63,
+								63
+							]
+						],
+						"settings":
+						{
+							"auto_name": "NOTE: notice that the prototype for Text keeps get",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 82,
+					"settings":
+					{
+						"buffer_size": 3,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3,
+								3
+							]
+						],
+						"settings":
+						{
+							"auto_name": "---",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 83,
+					"settings":
+					{
+						"buffer_size": 244,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								244,
+								244
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: track system development - serialization",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 84,
+					"settings":
+					{
+						"buffer_size": 1656,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								361,
+								361
+							]
+						],
+						"settings":
+						{
+							"auto_name": "so, what about things that apply data to certain e",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 85,
+					"settings":
+					{
+						"buffer_size": 971,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								889,
+								889
+							]
+						],
+						"settings":
+						{
+							"auto_name": "NOTE: potential problems with propagating constrai",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 86,
+					"settings":
+					{
+						"buffer_size": 941,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								941,
+								941
+							]
+						],
+						"settings":
+						{
+							"auto_name": "constraints on multiple objects",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 87,
+					"settings":
+					{
+						"buffer_size": 545,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								376,
+								376
+							]
+						],
+						"settings":
+						{
+							"auto_name": "NOTE: space is trying to call #gc? on constraints,",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 88,
+					"settings":
+					{
+						"buffer_size": 348,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								348,
+								348
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: list current constraint backend objects",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 89,
+					"settings":
+					{
+						"buffer_size": 277,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								277,
+								277
+							]
+						],
+						"settings":
+						{
+							"auto_name": "BUG: object packer breaks when trying to generate",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 90,
+					"settings":
+					{
+						"buffer_size": 346,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								346,
+								346
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Q: do you need to click on Constraints, not just m",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 91,
+					"settings":
+					{
+						"buffer_size": 869,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								489,
+								489
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Action #update should fire right after #press",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 92,
+					"settings":
+					{
+						"buffer_size": 95,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								95,
+								95
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider action factory / mouse action extra",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 93,
+					"settings":
+					{
+						"buffer_size": 707,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								502,
+								502
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: polymorphic edit and resize",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 94,
+					"settings":
+					{
+						"buffer_size": 529,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								302,
+								302
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider scrapping rect resize action, in fa",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 95,
+					"settings":
+					{
+						"buffer_size": 486,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "rectangle resize #anchor_point should take argumen",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 96,
+					"settings":
+					{
+						"buffer_size": 221,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								71,
+								71
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: action factory should not use ThoughtTrace::",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 97,
+					"settings":
+					{
+						"buffer_size": 2128,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								26,
+								26
+							]
+						],
+						"settings":
+						{
+							"auto_name": "BUG: crash on marker move",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 561.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 98,
+					"settings":
+					{
+						"buffer_size": 2123,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								25,
+								25
+							]
+						],
+						"settings":
+						{
+							"auto_name": "NOTE: general debug flow",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 510.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 99,
+					"settings":
+					{
+						"buffer_size": 379,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								60,
+								60
+							]
+						],
+						"settings":
+						{
+							"auto_name": "BUG: rect resize action counter-steering wrecks Li",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 100,
+					"settings":
+					{
+						"buffer_size": 474,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider inverting LimitHeight",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 101,
+					"settings":
+					{
+						"buffer_size": 121,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								121,
+								121
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: track time per frame ms, and convert to hz",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 102,
+					"settings":
+					{
+						"buffer_size": 99,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								99,
+								99
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: load up both a limiting and a propagating co",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 103,
+					"settings":
+					{
+						"buffer_size": 4,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4,
+								4
+							]
+						],
+						"settings":
+						{
+							"auto_name": "----",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 104,
+					"settings":
+					{
+						"buffer_size": 16,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16,
+								16
+							]
+						],
+						"settings":
+						{
+							"auto_name": "linear spectrum",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 105,
+					"settings":
+					{
+						"buffer_size": 25,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								25,
+								25
+							]
+						],
+						"settings":
+						{
+							"auto_name": "spectrum color selection",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 106,
+					"settings":
+					{
+						"buffer_size": 32,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								32,
+								32
+							]
+						],
+						"settings":
+						{
+							"auto_name": "constraint-based color selector",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 107,
+					"settings":
+					{
+						"buffer_size": 14,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14,
+								14
+							]
+						],
+						"settings":
+						{
+							"auto_name": "bezier curves",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 108,
+					"settings":
+					{
+						"buffer_size": 29,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								29,
+								29
+							]
+						],
+						"settings":
+						{
+							"auto_name": "spectrum-based bezier curves",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 109,
+					"settings":
+					{
+						"buffer_size": 37,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								37,
+								37
+							]
+						],
+						"settings":
+						{
+							"auto_name": "non-linear spectrum through 2D space",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 110,
+					"settings":
+					{
+						"buffer_size": 8,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8,
+								8
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Spectra",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 111,
+					"settings":
+					{
+						"buffer_size": 24,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								24
+							]
+						],
+						"settings":
+						{
+							"auto_name": "constraints and spectra",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 112,
+					"settings":
+					{
+						"buffer_size": 48,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								48,
+								48
+							]
+						],
+						"settings":
+						{
+							"auto_name": "entity positioned using constraint and spectrum",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 113,
+					"settings":
+					{
+						"buffer_size": 54,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								54,
+								54
+							]
+						],
+						"settings":
+						{
+							"auto_name": "spectrum-based color space generation / color pall",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 114,
+					"settings":
+					{
+						"buffer_size": 3,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3,
+								3
+							]
+						],
+						"settings":
+						{
+							"auto_name": "---",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 115,
+					"settings":
+					{
+						"buffer_size": 283,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								283,
+								283
+							]
+						],
+						"settings":
+						{
+							"auto_name": "BUG: circle size jiggles a bit on resize",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 116,
+					"settings":
+					{
+						"buffer_size": 363,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								363,
+								363
+							]
+						],
+						"settings":
+						{
+							"auto_name": "is Text Box a new type?",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 117,
+					"settings":
+					{
+						"buffer_size": 114,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								114,
+								114
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: background coloring",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 118,
+					"settings":
+					{
+						"buffer_size": 65,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								65,
+								65
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: use one Space for UI and another for actual",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 119,
+					"settings":
+					{
+						"buffer_size": 3,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3,
+								3
+							]
+						],
+						"settings":
+						{
+							"auto_name": "---",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 120,
+					"settings":
+					{
+						"buffer_size": 284,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								284,
+								284
+							]
+						],
+						"settings":
+						{
+							"auto_name": "many spawn actions",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 121,
+					"settings":
+					{
+						"buffer_size": 1175,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								27,
+								27
+							]
+						],
+						"settings":
+						{
+							"auto_name": "think ahead into selection",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 122,
+					"settings":
+					{
+						"buffer_size": 692,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								692,
+								692
+							]
+						],
+						"settings":
+						{
+							"auto_name": "editor workflow versus core coding backend interfa",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 123,
+					"settings":
+					{
+						"buffer_size": 238,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								55,
+								55
+							]
+						],
+						"settings":
+						{
+							"auto_name": "why did I need queries the last time I wanted quer",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 124,
+					"settings":
+					{
+						"buffer_size": 368,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								41,
+								41
+							]
+						],
+						"settings":
+						{
+							"auto_name": "insert feels like a special kind of move",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 125,
+					"settings":
+					{
+						"buffer_size": 698,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								36,
+								36
+							]
+						],
+						"settings":
+						{
+							"auto_name": "are insert and join the same thing?",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 126,
+					"settings":
+					{
+						"buffer_size": 95,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								95,
+								95
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider action factory / mouse action extra",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 127,
+					"settings":
+					{
+						"buffer_size": 357,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								40,
+								40
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider overhaul of input system",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 128,
+					"settings":
+					{
+						"buffer_size": 361,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "button up /  down",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 129,
+					"settings":
+					{
+						"buffer_size": 269,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								269,
+								269
+							]
+						],
+						"settings":
+						{
+							"auto_name": "specific accelerator combo vs any accelerators",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 130,
+					"settings":
+					{
+						"buffer_size": 40,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7,
+								7
+							]
+						],
+						"settings":
+						{
+							"auto_name": "apply Style to multiple Entities at once",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 131,
+					"settings":
+					{
+						"buffer_size": 250,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								250,
+								250
+							]
+						],
+						"settings":
+						{
+							"auto_name": "system clipboard support",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 85.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 132,
+					"settings":
+					{
+						"buffer_size": 60,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								60,
+								60
+							]
+						],
+						"settings":
+						{
+							"auto_name": "spawn action - prototype factory - nested document",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 133,
+					"settings":
+					{
+						"buffer_size": 29,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								29,
+								29
+							]
+						],
+						"settings":
+						{
+							"auto_name": "=============== from TODO.txt",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 134,
+					"settings":
+					{
+						"buffer_size": 85,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "improve mouseover state",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 135,
+					"settings":
+					{
+						"buffer_size": 227,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								64,
+								64
+							]
+						],
+						"settings":
+						{
+							"auto_name": "May want to change how text resizes horizontally o",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 136,
+					"settings":
+					{
+						"buffer_size": 265,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								87,
+								87
+							]
+						],
+						"settings":
+						{
+							"auto_name": "If Style is created without a parent, it's parent",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 137,
+					"settings":
+					{
+						"buffer_size": 68,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								68,
+								68
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Figure out how to change Entities when style prope",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 138,
+					"settings":
+					{
+						"buffer_size": 404,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								23,
+								23
+							]
+						],
+						"settings":
+						{
+							"auto_name": "edit space point query",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 139,
+					"settings":
+					{
+						"buffer_size": 560,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "is there any reason to keep Component?",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 140,
+					"settings":
+					{
+						"buffer_size": 276,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: implement screen space to world space conver",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 141,
+					"settings":
+					{
+						"buffer_size": 334,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: custom subclass of Hash to deal with action",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 142,
+					"settings":
+					{
+						"buffer_size": 302,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								58,
+								58
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: Ruby methods are objects. Apply structure to",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 143,
+					"settings":
+					{
+						"buffer_size": 551,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider different views of same space",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 144,
+					"settings":
+					{
+						"buffer_size": 562,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								55,
+								55
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: change the way corner resize of rectangles w",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 145,
+					"settings":
+					{
+						"buffer_size": 128,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								128,
+								128
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: fix short circuiting min by, and the entitie",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 146,
+					"settings":
+					{
+						"buffer_size": 223,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								45,
+								45
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: create action to delete a whole Entity",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 147,
+					"settings":
+					{
+						"buffer_size": 140,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								57,
+								57
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: remove Object delegate metaprogramming monke",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 148,
+					"settings":
+					{
+						"buffer_size": 637,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								47,
+								47
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: make sure an empty project can be loaded",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 323.0
+	},
+	"output.git":
+	{
+		"height": 96.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"visu",
+				"NOTE: each Constraint Pair needs a separate Visual"
+			],
+			[
+				"constraint",
+				"NOTE: constraint Visualizations and Groups now bot"
+			],
+			[
+				"allm",
+				"TODO: all markers in a document should use the sam"
+			],
+			[
+				"trackys",
+				"TODO: track system - query style binding"
+			],
+			[
+				"markdo",
+				"TODO: all markers in a document should use the sam"
+			],
+			[
+				"ptst",
+				"TODO: put the style data on the Constraint maybe?"
+			],
+			[
+				"vissav",
+				"Visualizations need to save Style component data"
+			],
+			[
+				"convisg",
+				"NOTE: constraint Visualizations and Groups now bot"
+			],
+			[
+				"savmusc",
+				"NOTE: can't save multiple Style Components with id"
+			],
+			[
+				"recomi",
+				"rethink component interface"
+			],
+			[
+				"comse",
+				"component serialization - non-Entity types"
+			],
+			[
+				"rethinhow",
+				"rethink how Style data is saved"
+			],
+			[
+				"styldata",
+				"NOTE: style data not currently duplicated when Ent"
+			],
+			[
+				"howto",
+				"TODO: how to copy style data on duplication action"
+			],
+			[
+				"styledasav",
+				"rethink how Style data is saved"
+			],
+			[
+				"query",
+				"TODO: track system - query style binding"
+			],
+			[
+				"doyouneed",
+				"Q: do you need to click on Constraints, not just m"
+			],
+			[
+				"querystyl",
+				"TODO: track system - query style binding"
+			],
+			[
+				"rectresi",
+				"TODO: consider scrapping rect resize action, in fa"
+			],
+			[
+				"minby",
+				"short-circuiting min_by -> really a lazy min_by"
+			],
+			[
+				"querysty",
+				"TODO: track system - query style binding"
+			],
+			[
+				"grops",
+				"group serialization"
+			],
+			[
+				"componentswith",
+				"NOTE: can't save multiple Style Components with id"
+			],
+			[
+				"comp",
+				"component serialization - non-Entity types"
+			],
+			[
+				"stylid",
+				"NOTE: can't save multiple Style Components with id"
+			],
+			[
+				"stysa",
+				"rethink how Style data is saved"
+			],
+			[
+				"deletmark",
+				"what do you do about deleting Entity markers?"
+			],
+			[
+				"inove",
+				"input system overhaul"
+			],
+			[
+				"moveon",
+				"move on to queries"
+			],
+			[
+				"action",
+				"action - input - constraint"
+			],
+			[
+				"updatear",
+				"TODO: update rectangle resize #anchor_point to acc"
+			],
+			[
+				"poly",
+				"TODO: polymorphic edit and resize"
+			],
+			[
+				"updat",
+				"TODO: make sure Action#update ticks the same frame"
+			],
+			[
+				"resize",
+				"group resize"
+			],
+			[
+				"pha",
+				"mulitple phases of text input"
+			],
+			[
+				"bugb",
+				"BUG: object packer breaks when trying to generate"
+			],
+			[
+				"collis",
+				"collision handler system"
+			],
+			[
+				"perframe",
+				"TODO: track time per frame ms, and convert to hz"
+			],
+			[
+				"phasetext",
+				"mulitple phases of text input"
+			],
+			[
+				"splitri",
+				"implement text split-rip action"
+			],
+			[
+				"mult",
+				"multiple editor views"
+			],
+			[
+				"layers",
+				"layers of interaction (for UI etc)"
+			],
+			[
+				"styledata",
+				"TODO: how to copy style data on duplication action"
+			],
+			[
+				"addremove",
+				"add / remove whole entities (including components)"
+			],
+			[
+				"constpac",
+				"constraint / constraint package maker"
+			],
+			[
+				"selection",
+				"all groups should start off as selections"
+			],
+			[
+				"remove",
+				"TODO: add / remove constraint Packages from the do"
+			],
+			[
+				"removecon",
+				"TODO: add / remove entire constraint Packages from"
+			],
+			[
+				"emptysp",
+				"TODO: rewrite 'empty space actions' as 'zero targe"
+			],
+			[
+				"notesprog",
+				"notes program - tree overview, text field w/ spell"
+			],
+			[
+				"todozero",
+				"TODO: rewrite 'empty space actions' as 'zero targe"
+			],
+			[
+				"entyt",
+				"Entity delete mechanism"
+			],
+			[
+				"qu",
+				"query object serialization"
+			],
+			[
+				"whatd",
+				"what do you do about deleting Entity markers?"
+			],
+			[
+				"flot",
+				"TODO: convert float -> int with #round not #to_i"
+			],
+			[
+				"vissty",
+				"Visualizations need to save Style component data"
+			],
+			[
+				"const",
+				"constraint creation action"
+			],
+			[
+				"entydelet",
+				"Entity delete mechanism"
+			],
+			[
+				"group",
+				"NOTE: constraint Visualizations and Groups now bot"
+			],
+			[
+				"packag",
+				"constraint / constraint package maker"
+			],
+			[
+				"idn",
+				"input binding - no-target actions"
+			],
+			[
+				"documf",
+				"document format - multiple documents"
+			],
+			[
+				"locking",
+				"locking things in place"
+			],
+			[
+				"prefab",
+				"implement prefabs"
+			],
+			[
+				"doc",
+				"nested document"
+			],
+			[
+				"layer",
+				"layers of interaction (for UI etc)"
+			],
+			[
+				"pack",
+				"API to create / delete whole Constraint Packages"
+			],
+			[
+				"ui",
+				"layers of interaction (for UI etc)"
+			],
+			[
+				"nested",
+				"notes program - tree overview, text field w/ spell"
+			],
+			[
+				"pac",
+				"TODO: add / remove entire constraint Packages from"
+			],
+			[
+				"pacage",
+				"TODO: add / remove entire constraint Packages from"
+			],
+			[
+				"bug",
+				"BUG: visualization not updating"
+			],
+			[
+				"marker",
+				"BUG: crash on marker move"
+			],
+			[
+				"visua",
+				"ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/visualization.rb"
+			],
+			[
+				"draw",
+				"ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/draw_edge.rb"
+			],
+			[
+				"rake",
+				"ThoughtTrace/bin/rakefile.rb"
+			],
+			[
+				"rous",
+				"ThoughtTrace/experimental/document_format/group_and_constraint_save_formats.rb"
+			],
+			[
+				"visuali",
+				"ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/visualization.rb"
+			],
+			[
+				"docser",
+				"ThoughtTrace/lib/ThoughtTrace/document/serialization.rb"
+			],
+			[
+				"docseri",
+				"ThoughtTrace/lib/ThoughtTrace/document/serialization.rb"
+			],
+			[
+				"edge",
+				"ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/draw_edge.rb"
+			],
+			[
+				"collection",
+				"ThoughtTrace/lib/ThoughtTrace/constraint_system/collection/collection.rb"
+			],
+			[
+				"move",
+				"ThoughtTrace/lib/ThoughtTrace/actions/entity/0_entity/move.rb"
+			],
+			[
+				"mouse",
+				"ThoughtTrace/lib/ThoughtTrace/input_system/mouse_input_system.rb"
+			],
+			[
+				"docaction",
+				"ThoughtTrace/documentation/action_memento.txt"
+			],
+			[
+				"baseac",
+				"ThoughtTrace/lib/ThoughtTrace/actions/base_action.rb"
+			],
+			[
+				"baseact",
+				"ThoughtTrace/lib/ThoughtTrace/actions/base_action.rb"
+			],
+			[
+				"spa",
+				"ThoughtTrace/lib/ThoughtTrace/space/space.rb"
+			],
+			[
+				"space",
+				"ThoughtTrace/lib/ThoughtTrace/space/space.rb"
+			],
+			[
+				"baseaction",
+				"ThoughtTrace/lib/ThoughtTrace/actions/base_action.rb"
+			],
+			[
+				"enitaction",
+				"ThoughtTrace/lib/ThoughtTrace/actions/entity/0_entity/action.rb"
+			],
+			[
+				"lib/thou",
+				"ThoughtTrace/lib/ThoughtTrace.rb"
+			],
+			[
+				"moverel",
+				"constraints/move_relative.rb"
+			],
+			[
+				"constraintcollectionser",
+				"/home/ravenskrag/Code/Tools/ThoughtTrace/lib/ThoughtTrace/constraint_system/collection/serialization.rb"
+			],
+			[
+				"ser",
+				"constraint_system/collection/serialization.rb"
+			],
+			[
+				"drawe",
+				"constraint_system/visualizations/draw_edge.rb"
+			],
+			[
+				"coll",
+				"constraint_system/collection/collection.rb"
+			],
+			[
+				"seri",
+				"constraint_system/collection/serialization.rb"
+			],
+			[
+				"dra",
+				"constraint_system/visualizations/draw_edge.rb"
+			],
+			[
+				"spac",
+				"lib/ThoughtTrace/space/space.rb"
+			],
+			[
+				"thoughtra",
+				"lib/ThoughtTrace.rb"
+			],
+			[
+				"line",
+				"lib/ThoughtTrace/drawing/line.rb"
+			],
+			[
+				"space/quer",
+				"lib/ThoughtTrace/space/queries.rb"
+			],
+			[
+				"style",
+				"lib/ThoughtTrace/style/style.rb"
+			],
+			[
+				"collisionmanag",
+				"lib/ThoughtTrace/queries/collision_manager.rb"
+			],
+			[
+				"querie.rb",
+				"lib/ThoughtTrace/space/queries.rb"
+			],
+			[
+				"layers.rb",
+				"lib/ThoughtTrace/space/layers.rb"
+			],
+			[
+				"constraint.rb",
+				"lib/ThoughtTrace/constraints/constraint.rb"
+			],
+			[
+				"though",
+				"lib/ThoughtTrace.rb"
+			],
+			[
+				"constraints.rb",
+				"experimental/document_format/constraints.rb"
+			],
+			[
+				"drawing",
+				"lib/ThoughtTrace/drawing/line.rb"
+			],
+			[
+				"document",
+				"lib/ThoughtTrace/document/document.rb"
+			],
+			[
+				"csv",
+				"bin/data/test/entities.csv"
+			],
+			[
+				"constcsv",
+				"bin/data/test/constraints.csv"
+			],
+			[
+				"documentser",
+				"lib/ThoughtTrace/document/serialization.rb"
+			],
+			[
+				"drawingline",
+				"lib/ThoughtTrace/drawing/line.rb"
+			],
+			[
+				"shapecirce",
+				"lib/ThoughtTrace/monkey_patches/Chipmunk/Shape/Circle.rb"
+			],
+			[
+				"circ",
+				"lib/ThoughtTrace/entities/circle.rb"
+			],
+			[
+				"inputman",
+				"lib/ThoughtTrace/input_system/input_manager.rb"
+			],
+			[
+				"mousis",
+				"lib/ThoughtTrace/input_system/mouse_input_system.rb"
+			],
+			[
+				"base",
+				"lib/ThoughtTrace/actions/base_action.rb"
+			],
+			[
+				"textedit",
+				"lib/ThoughtTrace/actions/entity/text/edit.rb"
+			],
+			[
+				"text.rb",
+				"lib/ThoughtTrace/entities/text.rb"
+			],
+			[
+				"enu",
+				"lib/ThoughtTrace/monkey_patches/enumerable.rb"
+			],
+			[
+				"entities/re",
+				"lib/ThoughtTrace/entities/rectangle.rb"
+			],
+			[
+				"physcs",
+				"lib/ThoughtTrace/entities/components/physics.rb"
+			],
+			[
+				"rect",
+				"lib/ThoughtTrace/entities/rectangle.rb"
+			],
+			[
+				"phy/ci",
+				"lib/ThoughtTrace/cloning/physics/circle.rb"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"th",
+				"/home/ravenskrag/Documents/Sublime/ThoughtTrace.sublime-project"
+			],
+			[
+				"",
+				"/home/ravenskrag/Documents/Sublime/TextSpace3.sublime-project"
+			],
+			[
+				"ete",
+				"/home/ravenskrag/Documents/Projects/Eternity.sublime-project"
+			],
+			[
+				"e",
+				"/home/ravenskrag/Documents/Projects/Eternity.sublime-project"
+			],
+			[
+				"et",
+				"/home/ravenskrag/Documents/Projects/Eternity.sublime-project"
+			],
+			[
+				"gamn",
+				"/home/ravenskrag/Documents/Projects/GameDesignNotes.sublime-project"
+			],
+			[
+				"oni",
+				"/home/ravenskrag/Documents/Projects/Oni.sublime-project"
+			],
+			[
+				"on",
+				"/home/ravenskrag/Documents/Projects/Oni.sublime-project"
+			],
+			[
+				"321",
+				"/home/ravenskrag/Documents/Projects/CS321_Project.sublime-project"
+			],
+			[
+				"go",
+				"/home/ravenskrag/Documents/Projects/Gosu.sublime-project"
+			],
+			[
+				"42",
+				"/home/ravenskrag/Documents/Projects/CS425_OgreProject.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": false,
+	"side_bar_visible": true,
+	"side_bar_width": 339.0,
+	"status_bar_visible": true
+}
