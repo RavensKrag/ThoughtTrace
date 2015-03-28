@@ -124,3 +124,7 @@ ThoughtTrace::Text,Lucida Sans Unicode,2200.0000000000005,-75.69799195309062,22.
 ThoughtTrace::Text,Lucida Sans Unicode,2196.8750000000005,4.281224904525089,22.97394578559605,spectrum-based color space generation / color pallets
 ThoughtTrace::Text,Lucida Sans Unicode,1637.5000000000002,-64.58333333333331,22.97394578559605,action: swap elements
 ThoughtTrace::Text,Lucida Sans Unicode,1656.2500000000002,-41.60938754773727,22.97394578559605,(switch temp element for a real one?)
+ThoughtTrace::Text,Lucida Sans Unicode,1260.416666666667,-494.79166666666663,22.97394578559605,BUG: circle size jiggles a bit on resize
+ThoughtTrace::Text,Lucida Sans Unicode,1260.416666666667,-471.81772088107056,22.97394578559605,is Text Box a new type?
+ThoughtTrace::Text,Lucida Sans Unicode,1260.416666666667,-448.8437750954745,22.97394578559605,TODO: background coloring
+ThoughtTrace::Text,Lucida Sans Unicode,1260.416666666667,-425.8698293098784,22.97394578559605,TODO: one one Space for UI and another for actual active document
