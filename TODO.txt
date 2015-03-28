@@ -38,16 +38,6 @@ it seems weird that you would highlight something that you can't act on?
 
 
 
-create action or something that allows for the movement of the Camera
-	move action was not added to Camera explicitly under new structure
-	because all of the "add_action" calls were removed
-	
-	really just a matter of creating a new action flow for
-	when you know exactly what Entity you want, 
-	and exactly what Action to fire on it
-	
-	and then hook that up to the input system
-
 
 is there any reason to keep Component?
 	it's this weird strict-typed flavor in a duck-typed system
@@ -129,25 +119,6 @@ TODO: consider different views of same space
 
 
 
-TODO: create duplication action
-	not sure what to bind it to yet
-
-	but the action itself is fairly simple
-
-	just clone the selected Entity
-	and add the new object to the space
-	(made rather easy because of the CloneFactory foundation stuff)
-
-
-
-
-	(well, there's the question of where the clone should be placed in Space)
-	(or how, for that matter)
-
-	I think it should be placed like Move (interactively, rather than specifying a strict relationship)
-	so either duplicate can have a Move action inside of it that it delegates to
-	or something like that (otherwise you would have to duplicate code to re-implement move)
-	want to try to avoid using some sort of ActionStash if possible
 
 
 TODO: change the way corner resize of rectangles works
