@@ -138,3 +138,5 @@ ThoughtTrace::Text,Lucida Sans Unicode,1830.2083333333333,-518.2256497218054,23,
 ThoughtTrace::Text,Lucida Sans Unicode,1830.2083333333333,-495.22564972180544,23,TODO: consider overhaul of input system
 ThoughtTrace::Text,Lucida Sans Unicode,1830.2083333333333,-472.22564972180544,23,button up /  down
 ThoughtTrace::Text,Lucida Sans Unicode,1830.2083333333333,-449.22564972180544,23,specific accelerator combo vs any accelerators
+ThoughtTrace::Text,Lucida Sans Unicode,1582.291666666667,-747.9166666666667,23,apply Style to mulitple Entities at once
+ThoughtTrace::Text,Lucida Sans Unicode,1582.291666666667,-724.9166666666667,23,system clipboard support
