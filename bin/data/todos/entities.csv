@@ -141,3 +141,18 @@ ThoughtTrace::Text,Lucida Sans Unicode,1830.2083333333333,-449.22564972180544,23
 ThoughtTrace::Text,Lucida Sans Unicode,1325.0000000000002,-754.1666666666667,23,apply Style to mulitple Entities at once
 ThoughtTrace::Text,Lucida Sans Unicode,1325.0000000000002,-731.1666666666667,23,system clipboard support
 ThoughtTrace::Text,Lucida Sans Unicode,1325.0000000000002,-708.2500000000001,23,spawn action - prototype factory - nested document - prefabs
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-748.9339830551388,23,improve mouseover state
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-725.9339830551388,23,May want to change how text resizes horizontally on center drag
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-702.9339830551388,23,"If Style is created without a parent, it's parent should default to the baseline style"
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-679.9339830551388,23,Figure out how to change Entities when style properties are altered
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-656.9339830551388,23,edit space point query
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-633.9339830551388,23,is there any reason to keep Component?
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-610.9339830551388,23,TODO: implement screen space to world space conversion in accordance with new systems
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-587.9339830551388,23,TODO: custom subclass of Hash to deal with action bindings
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-564.9339830551388,23,TODO: Ruby methods are objects. Apply structure to Action
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-541.9339830551388,23,TODO: consider different views of same space
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-518.9339830551388,23,TODO: change the way corner resize of rectangles works
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-495.9339830551388,23,"TODO: fix short circuiting min by, and the entities/text.rb -> Text#nearest_character_boundary() optimization that it messes up"
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-472.9339830551388,23,TODO: create action to delete a whole Entity
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-449.9339830551388,23,TODO: remove Object delegate metaprogramming monkeypatch
+ThoughtTrace::Text,Lucida Sans Unicode,2700.0000000000005,-426.9339830551388,23,TODO: make sure an empty project can be loaded
