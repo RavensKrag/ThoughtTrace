@@ -156,3 +156,5 @@ ThoughtTrace::Text,Lucida Sans Unicode,-761.4583333333338,133.48268361152776,23,
 ThoughtTrace::Text,Lucida Sans Unicode,1372.9166666666672,-333.33333333333303,23,undo stack / history view
 ThoughtTrace::Text,Lucida Sans Unicode,361.45833333333326,568.8160169448614,23,"( NOTE: edit = move verts, resize = aspect ratio lock )"
 ThoughtTrace::Text,Lucida Sans Unicode,1666.6666666666674,-234.25000000000034,22.97394578559605,(required for more complex input system visualization)
+ThoughtTrace::Text,Lucida Sans Unicode,332.2916666666668,887.5000000000005,22.97394578559605,"'press_enter' should fire an Action, not a raw event"
+ThoughtTrace::Text,Lucida Sans Unicode,-347.9166666666664,-622.9166666666666,22.97394578559605,all classes using Style component should define a default style object
