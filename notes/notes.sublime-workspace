@@ -523,7 +523,7 @@
 			"file": "notes.sublime-workspace",
 			"settings":
 			{
-				"buffer_size": 187856,
+				"buffer_size": 190026,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
 			"settings":
 			{
-				"buffer_size": 19952,
+				"buffer_size": 19913,
 				"line_ending": "Unix"
 			}
 		},
@@ -866,6 +866,15 @@
 			}
 		},
 		{
+			"contents": "TODO: consider different views of same space\n\nNOTE: this note is OLD\nnot sure if these things should be implemented as Camera layers, editor tabs, or what.\nsome of these ideas may no longer make sense\n\n\n\n	view for constraints\n	view for queries\n	view for entities\n	view for just UI entities and the things they correspond to\n\n\n	custom filter types?\n	multiple filters active at one time?\n		why shouldn't you be able to layer multiple lenses together?\n\n\n\n	maybe use the bitvector from the chipmunk layer to control what things are visible?\n	maybe should use a different bitvector instead\n	collision is a bit of a different beast\n		it is possible there is overlap though\n		so should probably still look into this\n\n",
+			"settings":
+			{
+				"buffer_size": 710,
+				"line_ending": "Unix",
+				"name": "TODO: consider different views of same space"
+			}
+		},
+		{
 			"contents": "constraint creation action\n\n\n\nor however constraints will be created\n\ndo you need to specify what constraint object type before launching?\nI mean, the current package structure assumes\nthat you know the Constraint type\n\nbut what about the GUI?\n\nhow does that all work?\n\nhow much of that can be pinned down now?",
 			"settings":
 			{
@@ -925,6 +934,15 @@
 				"buffer_size": 161,
 				"line_ending": "Unix",
 				"name": "input system overhaul"
+			}
+		},
+		{
+			"contents": "TODO: consider overhaul of input system\n\nseparate trigger button from accelerators\nor\nseparate trigger, from press-hold-release and cancel structure\n\n	different types of inputs will have different sorts of triggers\n	singles,\n	chords\n	two buttons that trigger the same action\n		(but without either one overlapping state like the current system and being bad)e",
+			"settings":
+			{
+				"buffer_size": 358,
+				"line_ending": "Unix",
+				"name": "TODO: consider overhaul of input system"
 			}
 		},
 		{
@@ -1657,30 +1675,12 @@
 			}
 		},
 		{
-			"contents": "TODO: consider action factory / mouse action extraction system interaction with multiple spaces",
+			"contents": "NOTE: different input phases and flows\n\nbutton up /  down\npress-hold-release / cancel\naccelerator on / off (multiple keys for the same event, but the keys are logically related anyway)\n\nmouse click (left or right)\n	press-hold-release / cancel on mouse button\n	click / drag with mouse button\n	trigger based on button and accelerators\n\n\n\n\nmultiple button inputs that follow similar algorithmic patterns\n",
 			"settings":
 			{
-				"buffer_size": 95,
+				"buffer_size": 401,
 				"line_ending": "Unix",
-				"name": "TODO: consider action factory / mouse action extra"
-			}
-		},
-		{
-			"contents": "TODO: consider overhaul of input system\n\nseparate trigger button from accelerators\nor\nseparate trigger, from press-hold-release and cancel structure\n\n	different types of inputs will have different sorts of triggers\n	singles,\n	chords\n	two buttons that trigger the same action\n		(but without either one overlapping state like the current system and being bad)",
-			"settings":
-			{
-				"buffer_size": 357,
-				"line_ending": "Unix",
-				"name": "TODO: consider overhaul of input system"
-			}
-		},
-		{
-			"contents": "button up /  down\npress-hold-release / cancel\naccelerator on / off (multiple keys for the same event, but the keys are logically related anyway)\n\nmouse click (left or right)\n	press-hold-release / cancel on mouse button\n	click / drag with mouse button\n	trigger based on button and accelerators\n\n\n\n\nmultiple button inputs that follow similar algorithmic patterns\n",
-			"settings":
-			{
-				"buffer_size": 361,
-				"line_ending": "Unix",
-				"name": "button up /  down"
+				"name": "NOTE: different input phases and flows"
 			}
 		},
 		{
@@ -1738,12 +1738,12 @@
 			}
 		},
 		{
-			"contents": "May want to change how text resizes horizontally on center drag\n	computes 'center' as the center of the vertical distance of the hitbox\n	this is not the same as the 'center' of the text, which should be located at the midline\n\n",
+			"contents": "May want to change how Text resizes horizontally on center drag\n	computes 'center' as the center of the vertical distance of the hitbox\n	this is not the same as the 'center' of the text, which should be located at the midline\n\n",
 			"settings":
 			{
 				"buffer_size": 227,
 				"line_ending": "Unix",
-				"name": "May want to change how text resizes horizontally o"
+				"name": "May want to change how Text resizes horizontally o"
 			}
 		},
 		{
@@ -1756,10 +1756,10 @@
 			}
 		},
 		{
-			"contents": "Figure out how to change Entities when style properties are altered\n",
+			"contents": "Figure out how to change Entities when style properties are altered\n\n\nex) you want to put the Font size in the Style,\n    but you would need to update the Text object hitbox when the style shifts",
 			"settings":
 			{
-				"buffer_size": 68,
+				"buffer_size": 195,
 				"line_ending": "Unix",
 				"name": "Figure out how to change Entities when style prope"
 			}
@@ -1783,12 +1783,12 @@
 			}
 		},
 		{
-			"contents": "TODO: implement screen space to world space conversion in accordance with new systems\n	old system had assumed that there was a global variable with a pointer to Window\n	trying to remove that\n	need to figure out how to perform coordinate space conversions in a sane manner now\n",
+			"contents": "convert screen space <-> world space without global $window\n\n\nTODO: implement screen space to world space conversion in accordance with new systems\n	old system had assumed that there was a global variable with a pointer to Window\n	trying to remove that\n	need to figure out how to perform coordinate space conversions in a sane manner now\n",
 			"settings":
 			{
-				"buffer_size": 276,
+				"buffer_size": 338,
 				"line_ending": "Unix",
-				"name": "TODO: implement screen space to world space conver"
+				"name": "convert screen space <-> world space without globa"
 			}
 		},
 		{
@@ -1807,24 +1807,6 @@
 				"buffer_size": 302,
 				"line_ending": "Unix",
 				"name": "TODO: Ruby methods are objects. Apply structure to"
-			}
-		},
-		{
-			"contents": "TODO: consider different views of same space\n	view for constraints\n	view for queries\n	view for entities\n	view for just UI entities and the things they correspond to\n\n\n	custom filter types?\n	multiple filters active at one time?\n		why shouldn't you be able to layer multiple lenses together?\n\n\n\n	maybe use the bitvector from the chipmunk layer to control what things are visible?\n	maybe should use a different bitvector instead\n	collision is a bit of a different beast\n		it is possible there is overlap though\n		so should probably still look into this\n\n",
-			"settings":
-			{
-				"buffer_size": 551,
-				"line_ending": "Unix",
-				"name": "TODO: consider different views of same space"
-			}
-		},
-		{
-			"contents": "TODO: change the way corner resize of rectangles works\n	currently only allows for resize along the diagonal\n\n	desired mental model:\n		moving the selected vertex\n\n	allows for more free-form editing\n\n	(note: this is how my window resizing works)\n\n\n\n\n	should probably have some sort of aspect ratio lock or something like that\n	for when you get the proportions right,\n	but the size is wrong\n\n	(that might be way better as a constraint though)\n\n\n	NOTE:\n	GIMP allows for aspect ratio lock,\n	as well as the ability to specify an aspect ratio\n	while editing selections\n",
-			"settings":
-			{
-				"buffer_size": 562,
-				"line_ending": "Unix",
-				"name": "TODO: change the way corner resize of rectangles w"
 			}
 		},
 		{
@@ -2237,7 +2219,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 101.0,
 		"where_history":
 		[
 			"<open files>",
@@ -2249,6 +2231,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"TODO: implement",
+			"implement text",
 			"*2",
 			"!ruby/object:ThoughtTrace::Components::Style\n      active_mode: :default\n      cascades:\n        :default: !ruby/object:ThoughtTrace::Style::Cascade\n          styles:\n          - !ruby/object:ThoughtTrace::Style::StyleObject\n            name: primary\n            properties:\n              :color: !ruby/object:Gosu::Color\n                value: ffe64240\n              :hitbox_color: !ruby/object:Gosu::Color\n                value: ffffffff\n        :hover: !ruby/object:ThoughtTrace::Style::Cascade\n          styles:\n          - !ruby/object:ThoughtTrace::Style::StyleObject\n            name: primary\n            properties:\n              :color: !ruby/object:Gosu::Color\n                value: ff0000ff\n              :hitbox_color: !ruby/object:Gosu::Color\n                value: ffffffff",
 			"constraints",
@@ -2374,8 +2358,6 @@
 			"constraint_type",
 			"reference",
 			"LimitHeght",
-			"monad",
-			"line",
 			"monad"
 		],
 		"highlight": true,
@@ -2399,7 +2381,7 @@
 	"groups":
 	[
 		{
-			"selected": 151,
+			"selected": 120,
 			"sheets":
 			[
 				{
@@ -2407,15 +2389,15 @@
 					"file": "notes.sublime-workspace",
 					"settings":
 					{
-						"buffer_size": 187856,
+						"buffer_size": 190026,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								128,
-								128
+								0,
+								0
 							]
 						],
 						"settings":
@@ -2460,15 +2442,15 @@
 					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
 					"settings":
 					{
-						"buffer_size": 19952,
+						"buffer_size": 19913,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								17171,
-								17171
+								17904,
+								17904
 							]
 						],
 						"settings":
@@ -2476,7 +2458,7 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 3791.0,
+						"translation.y": 4369.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -3426,6 +3408,33 @@
 					"buffer": 39,
 					"settings":
 					{
+						"buffer_size": 710,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								584,
+								584
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider different views of same space",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 40,
+					"settings":
+					{
 						"buffer_size": 310,
 						"regions":
 						{
@@ -3449,7 +3458,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 40,
+					"buffer": 41,
 					"settings":
 					{
 						"buffer_size": 994,
@@ -3476,7 +3485,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 41,
+					"buffer": 42,
 					"settings":
 					{
 						"buffer_size": 1485,
@@ -3502,7 +3511,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 42,
+					"buffer": 43,
 					"settings":
 					{
 						"buffer_size": 358,
@@ -3528,7 +3537,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 43,
+					"buffer": 44,
 					"settings":
 					{
 						"buffer_size": 194,
@@ -3554,7 +3563,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 44,
+					"buffer": 45,
 					"settings":
 					{
 						"buffer_size": 574,
@@ -3580,7 +3589,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 45,
+					"buffer": 46,
 					"settings":
 					{
 						"buffer_size": 161,
@@ -3606,7 +3615,33 @@
 					"type": "text"
 				},
 				{
-					"buffer": 46,
+					"buffer": 47,
+					"settings":
+					{
+						"buffer_size": 358,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								358,
+								358
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider overhaul of input system",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 48,
 					"settings":
 					{
 						"buffer_size": 235,
@@ -3632,7 +3667,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 47,
+					"buffer": 49,
 					"settings":
 					{
 						"buffer_size": 207,
@@ -3658,7 +3693,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 48,
+					"buffer": 50,
 					"settings":
 					{
 						"buffer_size": 56,
@@ -3684,7 +3719,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 49,
+					"buffer": 51,
 					"settings":
 					{
 						"buffer_size": 212,
@@ -3710,7 +3745,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 50,
+					"buffer": 52,
 					"settings":
 					{
 						"buffer_size": 274,
@@ -3736,7 +3771,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 51,
+					"buffer": 53,
 					"settings":
 					{
 						"buffer_size": 34,
@@ -3762,7 +3797,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 52,
+					"buffer": 54,
 					"settings":
 					{
 						"buffer_size": 17,
@@ -3788,7 +3823,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 53,
+					"buffer": 55,
 					"settings":
 					{
 						"buffer_size": 31,
@@ -3814,7 +3849,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 54,
+					"buffer": 56,
 					"settings":
 					{
 						"buffer_size": 60,
@@ -3840,7 +3875,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 55,
+					"buffer": 57,
 					"settings":
 					{
 						"buffer_size": 727,
@@ -3866,7 +3901,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 56,
+					"buffer": 58,
 					"settings":
 					{
 						"buffer_size": 1123,
@@ -3892,7 +3927,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 57,
+					"buffer": 59,
 					"settings":
 					{
 						"buffer_size": 378,
@@ -3918,7 +3953,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 58,
+					"buffer": 60,
 					"settings":
 					{
 						"buffer_size": 427,
@@ -3944,7 +3979,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 59,
+					"buffer": 61,
 					"settings":
 					{
 						"buffer_size": 337,
@@ -3970,7 +4005,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 60,
+					"buffer": 62,
 					"settings":
 					{
 						"buffer_size": 26,
@@ -3996,7 +4031,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 61,
+					"buffer": 63,
 					"settings":
 					{
 						"buffer_size": 36,
@@ -4022,7 +4057,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 62,
+					"buffer": 64,
 					"settings":
 					{
 						"buffer_size": 645,
@@ -4048,7 +4083,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 63,
+					"buffer": 65,
 					"settings":
 					{
 						"buffer_size": 41,
@@ -4074,7 +4109,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 64,
+					"buffer": 66,
 					"settings":
 					{
 						"buffer_size": 740,
@@ -4100,7 +4135,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 65,
+					"buffer": 67,
 					"settings":
 					{
 						"buffer_size": 67,
@@ -4126,7 +4161,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 66,
+					"buffer": 68,
 					"settings":
 					{
 						"buffer_size": 435,
@@ -4152,7 +4187,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 67,
+					"buffer": 69,
 					"settings":
 					{
 						"buffer_size": 3,
@@ -4178,7 +4213,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 68,
+					"buffer": 70,
 					"settings":
 					{
 						"buffer_size": 464,
@@ -4204,7 +4239,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 69,
+					"buffer": 71,
 					"settings":
 					{
 						"buffer_size": 296,
@@ -4230,7 +4265,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 70,
+					"buffer": 72,
 					"settings":
 					{
 						"buffer_size": 33,
@@ -4256,7 +4291,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 71,
+					"buffer": 73,
 					"settings":
 					{
 						"buffer_size": 3,
@@ -4282,7 +4317,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 72,
+					"buffer": 74,
 					"settings":
 					{
 						"buffer_size": 65,
@@ -4308,7 +4343,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 73,
+					"buffer": 75,
 					"settings":
 					{
 						"buffer_size": 22,
@@ -4334,7 +4369,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 74,
+					"buffer": 76,
 					"settings":
 					{
 						"buffer_size": 576,
@@ -4360,7 +4395,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 75,
+					"buffer": 77,
 					"settings":
 					{
 						"buffer_size": 388,
@@ -4386,7 +4421,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 76,
+					"buffer": 78,
 					"settings":
 					{
 						"buffer_size": 338,
@@ -4412,7 +4447,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 77,
+					"buffer": 79,
 					"settings":
 					{
 						"buffer_size": 114,
@@ -4438,7 +4473,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 78,
+					"buffer": 80,
 					"settings":
 					{
 						"buffer_size": 210,
@@ -4464,7 +4499,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 79,
+					"buffer": 81,
 					"settings":
 					{
 						"buffer_size": 174,
@@ -4490,7 +4525,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 80,
+					"buffer": 82,
 					"settings":
 					{
 						"buffer_size": 1128,
@@ -4517,7 +4552,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 81,
+					"buffer": 83,
 					"settings":
 					{
 						"buffer_size": 434,
@@ -4543,7 +4578,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 82,
+					"buffer": 84,
 					"settings":
 					{
 						"buffer_size": 554,
@@ -4569,7 +4604,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 83,
+					"buffer": 85,
 					"settings":
 					{
 						"buffer_size": 3,
@@ -4595,7 +4630,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 84,
+					"buffer": 86,
 					"settings":
 					{
 						"buffer_size": 244,
@@ -4621,7 +4656,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 85,
+					"buffer": 87,
 					"settings":
 					{
 						"buffer_size": 1656,
@@ -4647,7 +4682,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 86,
+					"buffer": 88,
 					"settings":
 					{
 						"buffer_size": 971,
@@ -4673,7 +4708,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 87,
+					"buffer": 89,
 					"settings":
 					{
 						"buffer_size": 941,
@@ -4699,7 +4734,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 88,
+					"buffer": 90,
 					"settings":
 					{
 						"buffer_size": 545,
@@ -4725,7 +4760,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 89,
+					"buffer": 91,
 					"settings":
 					{
 						"buffer_size": 348,
@@ -4751,7 +4786,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 90,
+					"buffer": 92,
 					"settings":
 					{
 						"buffer_size": 277,
@@ -4777,7 +4812,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 91,
+					"buffer": 93,
 					"settings":
 					{
 						"buffer_size": 346,
@@ -4803,7 +4838,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 92,
+					"buffer": 94,
 					"settings":
 					{
 						"buffer_size": 869,
@@ -4829,7 +4864,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 93,
+					"buffer": 95,
 					"settings":
 					{
 						"buffer_size": 95,
@@ -4855,7 +4890,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 94,
+					"buffer": 96,
 					"settings":
 					{
 						"buffer_size": 707,
@@ -4865,8 +4900,8 @@
 						"selection":
 						[
 							[
-								502,
-								502
+								707,
+								707
 							]
 						],
 						"settings":
@@ -4881,7 +4916,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 95,
+					"buffer": 97,
 					"settings":
 					{
 						"buffer_size": 529,
@@ -4907,7 +4942,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 96,
+					"buffer": 98,
 					"settings":
 					{
 						"buffer_size": 486,
@@ -4933,7 +4968,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 97,
+					"buffer": 99,
 					"settings":
 					{
 						"buffer_size": 221,
@@ -4959,7 +4994,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 98,
+					"buffer": 100,
 					"settings":
 					{
 						"buffer_size": 2128,
@@ -4985,7 +5020,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 99,
+					"buffer": 101,
 					"settings":
 					{
 						"buffer_size": 2123,
@@ -5012,7 +5047,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 100,
+					"buffer": 102,
 					"settings":
 					{
 						"buffer_size": 379,
@@ -5038,7 +5073,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 101,
+					"buffer": 103,
 					"settings":
 					{
 						"buffer_size": 474,
@@ -5064,7 +5099,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 102,
+					"buffer": 104,
 					"settings":
 					{
 						"buffer_size": 121,
@@ -5090,7 +5125,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 103,
+					"buffer": 105,
 					"settings":
 					{
 						"buffer_size": 99,
@@ -5116,7 +5151,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 104,
+					"buffer": 106,
 					"settings":
 					{
 						"buffer_size": 4,
@@ -5142,7 +5177,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 105,
+					"buffer": 107,
 					"settings":
 					{
 						"buffer_size": 16,
@@ -5168,7 +5203,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 106,
+					"buffer": 108,
 					"settings":
 					{
 						"buffer_size": 25,
@@ -5194,7 +5229,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 107,
+					"buffer": 109,
 					"settings":
 					{
 						"buffer_size": 32,
@@ -5220,7 +5255,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 108,
+					"buffer": 110,
 					"settings":
 					{
 						"buffer_size": 14,
@@ -5246,7 +5281,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 109,
+					"buffer": 111,
 					"settings":
 					{
 						"buffer_size": 29,
@@ -5272,7 +5307,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 110,
+					"buffer": 112,
 					"settings":
 					{
 						"buffer_size": 37,
@@ -5298,7 +5333,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 111,
+					"buffer": 113,
 					"settings":
 					{
 						"buffer_size": 8,
@@ -5324,7 +5359,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 112,
+					"buffer": 114,
 					"settings":
 					{
 						"buffer_size": 24,
@@ -5350,7 +5385,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 113,
+					"buffer": 115,
 					"settings":
 					{
 						"buffer_size": 48,
@@ -5376,7 +5411,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 114,
+					"buffer": 116,
 					"settings":
 					{
 						"buffer_size": 54,
@@ -5402,7 +5437,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 115,
+					"buffer": 117,
 					"settings":
 					{
 						"buffer_size": 3,
@@ -5428,7 +5463,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 116,
+					"buffer": 118,
 					"settings":
 					{
 						"buffer_size": 283,
@@ -5454,7 +5489,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 117,
+					"buffer": 119,
 					"settings":
 					{
 						"buffer_size": 363,
@@ -5480,7 +5515,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 118,
+					"buffer": 120,
 					"settings":
 					{
 						"buffer_size": 114,
@@ -5506,7 +5541,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 119,
+					"buffer": 121,
 					"settings":
 					{
 						"buffer_size": 65,
@@ -5532,7 +5567,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 120,
+					"buffer": 122,
 					"settings":
 					{
 						"buffer_size": 3,
@@ -5558,7 +5593,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 121,
+					"buffer": 123,
 					"settings":
 					{
 						"buffer_size": 284,
@@ -5584,7 +5619,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 122,
+					"buffer": 124,
 					"settings":
 					{
 						"buffer_size": 1175,
@@ -5610,7 +5645,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 123,
+					"buffer": 125,
 					"settings":
 					{
 						"buffer_size": 692,
@@ -5636,7 +5671,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 124,
+					"buffer": 126,
 					"settings":
 					{
 						"buffer_size": 238,
@@ -5662,7 +5697,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 125,
+					"buffer": 127,
 					"settings":
 					{
 						"buffer_size": 368,
@@ -5688,7 +5723,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 126,
+					"buffer": 128,
 					"settings":
 					{
 						"buffer_size": 698,
@@ -5698,8 +5733,8 @@
 						"selection":
 						[
 							[
-								36,
-								36
+								656,
+								656
 							]
 						],
 						"settings":
@@ -5714,75 +5749,23 @@
 					"type": "text"
 				},
 				{
-					"buffer": 127,
-					"settings":
-					{
-						"buffer_size": 95,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								95,
-								95
-							]
-						],
-						"settings":
-						{
-							"auto_name": "TODO: consider action factory / mouse action extra",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 128,
-					"settings":
-					{
-						"buffer_size": 357,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								40,
-								40
-							]
-						],
-						"settings":
-						{
-							"auto_name": "TODO: consider overhaul of input system",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 129,
 					"settings":
 					{
-						"buffer_size": 361,
+						"buffer_size": 401,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								401,
+								401
 							]
 						],
 						"settings":
 						{
-							"auto_name": "button up /  down",
+							"auto_name": "NOTE: different input phases and flows",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -5959,13 +5942,13 @@
 						"selection":
 						[
 							[
-								64,
-								64
+								227,
+								227
 							]
 						],
 						"settings":
 						{
-							"auto_name": "May want to change how text resizes horizontally o",
+							"auto_name": "May want to change how Text resizes horizontally o",
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -5986,8 +5969,8 @@
 						"selection":
 						[
 							[
-								87,
-								87
+								265,
+								265
 							]
 						],
 						"settings":
@@ -6006,15 +5989,15 @@
 					"buffer": 138,
 					"settings":
 					{
-						"buffer_size": 68,
+						"buffer_size": 195,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								68,
-								68
+								195,
+								195
 							]
 						],
 						"settings":
@@ -6040,8 +6023,8 @@
 						"selection":
 						[
 							[
-								23,
-								23
+								404,
+								404
 							]
 						],
 						"settings":
@@ -6087,20 +6070,20 @@
 					"buffer": 141,
 					"settings":
 					{
-						"buffer_size": 276,
+						"buffer_size": 338,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								60,
+								60
 							]
 						],
 						"settings":
 						{
-							"auto_name": "TODO: implement screen space to world space conver",
+							"auto_name": "convert screen space <-> world space without globa",
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -6168,60 +6151,6 @@
 					"buffer": 144,
 					"settings":
 					{
-						"buffer_size": 551,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "TODO: consider different views of same space",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 145,
-					"settings":
-					{
-						"buffer_size": 562,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								55,
-								55
-							]
-						],
-						"settings":
-						{
-							"auto_name": "TODO: change the way corner resize of rectangles w",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 146,
-					"settings":
-					{
 						"buffer_size": 128,
 						"regions":
 						{
@@ -6246,7 +6175,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 147,
+					"buffer": 145,
 					"settings":
 					{
 						"buffer_size": 223,
@@ -6273,7 +6202,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 148,
+					"buffer": 146,
 					"settings":
 					{
 						"buffer_size": 140,
@@ -6300,7 +6229,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 149,
+					"buffer": 147,
 					"settings":
 					{
 						"buffer_size": 637,
@@ -6327,7 +6256,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 150,
+					"buffer": 148,
 					"settings":
 					{
 						"buffer_size": 3,
@@ -6353,7 +6282,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 151,
+					"buffer": 149,
 					"settings":
 					{
 						"buffer_size": 339,
@@ -6430,6 +6359,78 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"back",
+				"TODO: background coloring"
+			],
+			[
+				"in",
+				"input system overhaul"
+			],
+			[
+				"over",
+				"TODO: consider overhaul of input system"
+			],
+			[
+				"butup",
+				"button up /  down"
+			],
+			[
+				"insertjo",
+				"are insert and join the same thing?"
+			],
+			[
+				"mousextra",
+				"TODO: consider action factory / mouse action extra"
+			],
+			[
+				"actionfactmous",
+				"TODO: consider action factory / mouse action extra"
+			],
+			[
+				"mul",
+				"multiple editor views"
+			],
+			[
+				"differ",
+				"TODO: consider different views of same space"
+			],
+			[
+				"changeen",
+				"Figure out how to change Entities when style prope"
+			],
+			[
+				"stylewitho",
+				"If Style is created without a parent, it's parent"
+			],
+			[
+				"scree",
+				"TODO: implement screen space to world space conver"
+			],
+			[
+				"ed",
+				"edit space point query"
+			],
+			[
+				"fixsho",
+				"TODO: fix short circuiting min by, and the entitie"
+			],
+			[
+				"search",
+				"implement text search of all Text objects"
+			],
+			[
+				"textresi",
+				"May want to change how text resizes horizontally o"
+			],
+			[
+				"poly",
+				"TODO: polymorphic edit and resize"
+			],
+			[
+				"cornerre",
+				"TODO: change the way corner resize of rectangles w"
+			],
 			[
 				"nesteddocum",
 				"nested document"
@@ -6577,10 +6578,6 @@
 			[
 				"updatear",
 				"TODO: update rectangle resize #anchor_point to acc"
-			],
-			[
-				"poly",
-				"TODO: polymorphic edit and resize"
 			],
 			[
 				"updat",
@@ -6873,74 +6870,6 @@
 			[
 				"querie.rb",
 				"lib/ThoughtTrace/space/queries.rb"
-			],
-			[
-				"layers.rb",
-				"lib/ThoughtTrace/space/layers.rb"
-			],
-			[
-				"constraint.rb",
-				"lib/ThoughtTrace/constraints/constraint.rb"
-			],
-			[
-				"though",
-				"lib/ThoughtTrace.rb"
-			],
-			[
-				"constraints.rb",
-				"experimental/document_format/constraints.rb"
-			],
-			[
-				"drawing",
-				"lib/ThoughtTrace/drawing/line.rb"
-			],
-			[
-				"document",
-				"lib/ThoughtTrace/document/document.rb"
-			],
-			[
-				"csv",
-				"bin/data/test/entities.csv"
-			],
-			[
-				"constcsv",
-				"bin/data/test/constraints.csv"
-			],
-			[
-				"documentser",
-				"lib/ThoughtTrace/document/serialization.rb"
-			],
-			[
-				"drawingline",
-				"lib/ThoughtTrace/drawing/line.rb"
-			],
-			[
-				"shapecirce",
-				"lib/ThoughtTrace/monkey_patches/Chipmunk/Shape/Circle.rb"
-			],
-			[
-				"circ",
-				"lib/ThoughtTrace/entities/circle.rb"
-			],
-			[
-				"inputman",
-				"lib/ThoughtTrace/input_system/input_manager.rb"
-			],
-			[
-				"mousis",
-				"lib/ThoughtTrace/input_system/mouse_input_system.rb"
-			],
-			[
-				"base",
-				"lib/ThoughtTrace/actions/base_action.rb"
-			],
-			[
-				"textedit",
-				"lib/ThoughtTrace/actions/entity/text/edit.rb"
-			],
-			[
-				"text.rb",
-				"lib/ThoughtTrace/entities/text.rb"
 			]
 		],
 		"width": 0.0
