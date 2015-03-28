@@ -154,4 +154,4 @@ ThoughtTrace::Text,Lucida Sans Unicode,2266.666666666666,576.0243502781948,23,TO
 ThoughtTrace::Text,Lucida Sans Unicode,1442.7083333333333,882.3576836115279,23,TODO: remove Object delegate metaprogramming monkeypatch
 ThoughtTrace::Text,Lucida Sans Unicode,-761.4583333333338,133.48268361152776,23,TODO: make sure an empty project can be loaded
 ThoughtTrace::Text,Lucida Sans Unicode,1372.9166666666672,-333.33333333333303,23,undo stack / history view
-ThoughtTrace::Text,Lucida Sans Unicode,361.45833333333326,568.8160169448614,23,"(NOTE: edit = move verts, resize = aspect ratio lock)"
+ThoughtTrace::Text,Lucida Sans Unicode,361.45833333333326,568.8160169448614,23,"( NOTE: edit = move verts, resize = aspect ratio lock )"
