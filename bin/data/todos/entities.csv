@@ -14,20 +14,20 @@ ThoughtTrace::Text,Lucida Sans Unicode,245.83333333333326,-211.6666666666667,22.
 ThoughtTrace::Text,Lucida Sans Unicode,120.83333333333337,-333.45833333333314,22.97394578559605,Visualizations need to save Style component data
 ThoughtTrace::Text,Lucida Sans Unicode,-243.75,-355.2500000000001,22.97394578559605,rethink how Style data is saved
 ThoughtTrace::Text,Lucida Sans Unicode,-180.2083333333332,36.500000000000114,22.97394578559605,what do you do about deleting Entity markers?
-ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666672,231.3749999999995,22.97394578559605,document format - multiple documents
-ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666672,254.3749999999995,22.97394578559605,nested document - UI and main document
-ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666672,277.3749999999995,22.97394578559605,nested document - cascade to resolve action
-ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666672,300.3749999999995,22.97394578559605,layers of interaction (for UI etc)
-ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666672,323.3749999999995,22.97394578559605,TODO: limit camera drawing
-ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666672,346.3749999999995,22.97394578559605,TODO: camera layers
-ThoughtTrace::Text,Lucida Sans Unicode,-697.9166666666672,369.3749999999995,22.97394578559605,TODO: camera should be spatial data
+ThoughtTrace::Text,Lucida Sans Unicode,-738.5416666666672,213.6666666666662,22.97394578559605,document format - multiple documents
+ThoughtTrace::Text,Lucida Sans Unicode,-738.5416666666672,236.6666666666662,22.97394578559605,nested document - UI and main document
+ThoughtTrace::Text,Lucida Sans Unicode,-738.5416666666672,259.6666666666662,22.97394578559605,nested document - cascade to resolve action
+ThoughtTrace::Text,Lucida Sans Unicode,-738.5416666666672,282.6666666666662,22.97394578559605,layers of interaction (for UI etc)
+ThoughtTrace::Text,Lucida Sans Unicode,-738.5416666666672,305.6666666666662,22.97394578559605,TODO: limit camera drawing
+ThoughtTrace::Text,Lucida Sans Unicode,-738.5416666666672,328.6666666666662,22.97394578559605,TODO: camera layers
+ThoughtTrace::Text,Lucida Sans Unicode,-738.5416666666672,351.6666666666662,22.97394578559605,TODO: camera should be spatial data
 ThoughtTrace::Text,Lucida Sans Unicode,55.208333333333314,-74.2916666666668,22.97394578559605,constraint creation action
 ThoughtTrace::Text,Lucida Sans Unicode,49.99999999999983,-35.583333333333485,22.97394578559605,API to create / delete whole Constraint Packages
 ThoughtTrace::Text,Lucida Sans Unicode,-408.33333333333246,-37.583333333333314,22.97394578559605,add / remove whole entities (including components)
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,568.8333333333336,22.97394578559605,input system overhaul
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,614.8333333333336,22.97394578559605,input binding - mode-specific UI interaction
-ThoughtTrace::Text,Lucida Sans Unicode,1280.2083333333335,124.29166666666677,22.97394578559605,notes program - tree overview - text field w/ spell check
-ThoughtTrace::Text,Lucida Sans Unicode,1308.333333333333,150.41666666666677,22.97394578559605,multi-line text input
+ThoughtTrace::Text,Lucida Sans Unicode,1143.7500000000002,130.54166666666677,22.97394578559605,notes program - tree overview - text field w/ spell check
+ThoughtTrace::Text,Lucida Sans Unicode,1171.8749999999998,156.66666666666677,22.97394578559605,multi-line text input
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,638.0000000000003,22.97394578559605,how do you bind mouse click actions for a Entity?
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,661.0000000000003,22.97394578559605,action system documentation update
 ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,592.3333333333336,22.97394578559605,TODO: rewrite 'empty space actions' as 'zero target actions'
@@ -40,9 +40,9 @@ ThoughtTrace::Text,Lucida Sans Unicode,1636.4583333333333,-94.58333333333394,22.
 ThoughtTrace::Text,Lucida Sans Unicode,484.3749999999999,-95.54166666666703,22.97394578559605,query object serialization
 ThoughtTrace::Text,Lucida Sans Unicode,484.3749999999999,-72.54166666666703,22.97394578559605,bind query object to query component
 ThoughtTrace::Text,Lucida Sans Unicode,484.3749999999999,-49.54166666666703,22.97394578559605,how are Queries shown visually?
-ThoughtTrace::Text,Lucida Sans Unicode,1308.3333333333335,172.41666666666677,22.97394578559605,implement text search of all Text objects
-ThoughtTrace::Text,Lucida Sans Unicode,-696.8750000000002,399.583333333333,22.97394578559605,multiple editor views
-ThoughtTrace::Text,Lucida Sans Unicode,906.2499999999994,40.291666666666856,22.97394578559605,short-circuiting min_by -> really a lazy min_by
+ThoughtTrace::Text,Lucida Sans Unicode,1171.8750000000002,178.66666666666677,22.97394578559605,implement text search of all Text objects
+ThoughtTrace::Text,Lucida Sans Unicode,-737.5000000000002,381.87499999999966,22.97394578559605,multiple editor views
+ThoughtTrace::Text,Lucida Sans Unicode,896.8749999999994,43.416666666666885,22.97394578559605,short-circuiting min_by -> really a lazy min_by
 ThoughtTrace::Text,Lucida Sans Unicode,-988.5416666666675,590.3750000000003,22.97394578559605,TODO: make sure Physics#center works with all collision shapes ASAP
 ThoughtTrace::Text,Lucida Sans Unicode,-41.666666666666856,464.4166666666673,22.97394578559605,shrink rect resize margins as object shrinks
 ThoughtTrace::Rectangle,-1431.25,-44.79166666666663,208.20271898124236,145.22780072276714
@@ -82,8 +82,8 @@ ThoughtTrace::Text,Lucida Sans Unicode,324.9999999999999,499.8160169448614,23,Ac
 ThoughtTrace::Text,Lucida Sans Unicode,324.9999999999999,522.8160169448614,23,TODO: consider action factory / mouse action extraction system interaction with multiple spaces
 ThoughtTrace::Text,Lucida Sans Unicode,324.9999999999999,545.8160169448614,23,TODO: polymorphic edit and resize
 ThoughtTrace::Text,Lucida Sans Unicode,-986.4583333333334,741.7326836115279,23,"TODO: consider scrapping rect resize action, in favor of constraint-based control system"
-ThoughtTrace::Text,Lucida Sans Unicode,323.9583333333329,580.3576836115282,23,"rectangle resize #anchor_point should take argument, instead of mucking with state"
-ThoughtTrace::Text,Lucida Sans Unicode,323.9583333333329,603.3576836115282,23,TODO: action factory should not use ThoughtTrace::Queries::Query check
+ThoughtTrace::Text,Lucida Sans Unicode,323.9583333333329,603.2743502781948,23,"rectangle resize #anchor_point should take argument, instead of mucking with state"
+ThoughtTrace::Text,Lucida Sans Unicode,323.9583333333329,626.2743502781948,23,TODO: action factory should not use ThoughtTrace::Queries::Query check
 ThoughtTrace::Text,Lucida Sans Unicode,51.041666666666174,500.3160169448614,23,BUG: crash on marker move
 ThoughtTrace::Text,Lucida Sans Unicode,-1528.1250000000002,658.7326836115282,23,NOTE: general debug flow
 ThoughtTrace::Text,Lucida Sans Unicode,359.3749999999999,350.4826836115283,23,BUG: rect resize action counter-steering wrecks LimitHeight
@@ -93,13 +93,13 @@ ThoughtTrace::Text,Lucida Sans Unicode,353.1249999999999,319.4826836115285,23,"T
 ThoughtTrace::Text,Lucida Sans Unicode,1265.625,-137.47564972180524,23,image Entity type
 ThoughtTrace::Text,Lucida Sans Unicode,1265.625,-114.47564972180524,23,non-destructive crop of Images
 ThoughtTrace::Text,Lucida Sans Unicode,1265.625,-91.47564972180524,23,multi-item mask (not just images)
-ThoughtTrace::Text,Lucida Sans Unicode,1794.7916666666663,-345.55898305513836,23,load initial prototype config from base config for entire library
+ThoughtTrace::Text,Lucida Sans Unicode,-736.4583333333337,446.1076836115284,23,load initial prototype config from base config for entire library
 ThoughtTrace::Text,Lucida Sans Unicode,554.1666666666664,29.524350278194675,23,action - input - query
 ThoughtTrace::Text,Lucida Sans Unicode,910.4166666666669,-101.55898305513878,23,sharper font scaling
 ThoughtTrace::Text,Lucida Sans Unicode,-28.12500000000034,422.48268361152805,23,input system - how inputs trigger actions
 ThoughtTrace::Text,Lucida Sans Unicode,327.08333333333314,685.0660169448612,23,diagram showing all actions
 ThoughtTrace::Text,Lucida Sans Unicode,-985.4166666666671,674.7326836115282,23,collision handler system
-ThoughtTrace::Text,Lucida Sans Unicode,1308.333333333333,207.1076836115283,23,mulitple phases of text input
+ThoughtTrace::Text,Lucida Sans Unicode,1171.8749999999998,213.3576836115283,23,mulitple phases of text input
 ThoughtTrace::Text,Lucida Sans Unicode,-145.8333333333336,-631.3506497218056,23,TODO: create graph relating files to subsystems
 ThoughtTrace::Text,Lucida Sans Unicode,-145.8333333333336,-608.3506497218054,23,list ALL the THINGS
 ThoughtTrace::Text,Lucida Sans Unicode,-985.4166666666675,697.982683611528,23,TODO: adjust body masses and collisions
@@ -110,7 +110,7 @@ ThoughtTrace::Text,Lucida Sans Unicode,-201.04166666666686,-766.6666666666671,57
 ThoughtTrace::Text,Lucida Sans Unicode,941.6666666666666,-165.62500000000048,57.816578180508145,Text
 ThoughtTrace::Text,Lucida Sans Unicode,-189.58333333333383,489.58333333333314,57.816578180508145,Input
 ThoughtTrace::Text,Lucida Sans Unicode,1272.916666666666,-209.37500000000009,57.816578180508145,Image
-ThoughtTrace::Text,Lucida Sans Unicode,-734.3750000000009,163.5416666666659,57.816578180508145,Document
+ThoughtTrace::Text,Lucida Sans Unicode,-775.0000000000009,145.8333333333326,57.816578180508145,Document
 ThoughtTrace::Text,Lucida Sans Unicode,-242.70833333333337,-310.54166666666646,22.97394578559605,rethink Component interface
 ThoughtTrace::Text,Lucida Sans Unicode,2198.9583333333335,-192.70833333333368,22.97394578559605,linear spectrum
 ThoughtTrace::Text,Lucida Sans Unicode,2196.8750000000005,-41.66666666666694,22.97394578559605,spectrum color selection
@@ -125,8 +125,8 @@ ThoughtTrace::Text,Lucida Sans Unicode,2196.8750000000005,4.281224904525089,22.9
 ThoughtTrace::Text,Lucida Sans Unicode,1637.5000000000002,-64.58333333333331,22.97394578559605,action: swap elements
 ThoughtTrace::Text,Lucida Sans Unicode,1656.2500000000002,-41.60938754773727,22.97394578559605,(switch temp element for a real one?)
 ThoughtTrace::Text,Lucida Sans Unicode,1787.4999999999998,1143.7500000000005,22.97394578559605,BUG: circle size jiggles a bit on resize
-ThoughtTrace::Text,Lucida Sans Unicode,1080.2083333333333,204.22394578559627,22.97394578559605,is Text Box a new type?
-ThoughtTrace::Text,Lucida Sans Unicode,1379.1666666666663,773.0312249045256,22.97394578559605,TODO: background coloring
+ThoughtTrace::Text,Lucida Sans Unicode,968.75,186.5156124522629,22.97394578559605,is Text Box a new type?
+ThoughtTrace::Text,Lucida Sans Unicode,1819.7916666666667,479.28122490452574,22.97394578559605,TODO: background coloring
 ThoughtTrace::Text,Lucida Sans Unicode,1766.6666666666658,975.0243502781948,23,many spawn actions
 ThoughtTrace::Text,Lucida Sans Unicode,2120.8333333333326,749.0660169448614,23,think ahead into selection
 ThoughtTrace::Text,Lucida Sans Unicode,2120.8333333333326,772.0660169448614,23,editor workflow versus core coding backend interface
@@ -137,22 +137,22 @@ ThoughtTrace::Text,Lucida Sans Unicode,1377.0833333333323,834.8993502781949,23,T
 ThoughtTrace::Text,Lucida Sans Unicode,1262.4999999999995,966.2326836115283,23,TODO: consider overhaul of input system
 ThoughtTrace::Text,Lucida Sans Unicode,1262.4999999999995,989.2326836115283,23,button up /  down
 ThoughtTrace::Text,Lucida Sans Unicode,1262.4999999999995,1012.2326836115283,23,specific accelerator combo vs any accelerators
-ThoughtTrace::Text,Lucida Sans Unicode,1427.0833333333328,622.9166666666669,23,apply Style to mulitple Entities at once
-ThoughtTrace::Text,Lucida Sans Unicode,1699.9999999999995,718.8333333333334,23,system clipboard support
+ThoughtTrace::Text,Lucida Sans Unicode,1280.2083333333328,651.0416666666669,23,apply Style to mulitple Entities at once
+ThoughtTrace::Text,Lucida Sans Unicode,1578.1249999999995,482.37500000000006,23,system clipboard support
 ThoughtTrace::Text,Lucida Sans Unicode,1766.6666666666663,951.125,23,spawn action - prototype factory - nested document - prefabs
-ThoughtTrace::Text,Lucida Sans Unicode,1427.0833333333335,1168.7743502781948,23,improve mouseover state
-ThoughtTrace::Text,Lucida Sans Unicode,1787.5000000000002,1166.7743502781948,23,May want to change how text resizes horizontally on center drag
-ThoughtTrace::Text,Lucida Sans Unicode,1427.0833333333333,600.1910169448613,23,"If Style is created without a parent, it's parent should default to the baseline style"
-ThoughtTrace::Text,Lucida Sans Unicode,1427.083333333333,645.0660169448613,23,Figure out how to change Entities when style properties are altered
-ThoughtTrace::Text,Lucida Sans Unicode,2452.0833333333326,1079.5243502781948,23,edit space point query
+ThoughtTrace::Text,Lucida Sans Unicode,1392.7083333333328,1175.024350278195,23,improve mouseover state
+ThoughtTrace::Text,Lucida Sans Unicode,1787.5000000000002,1166.7743502781948,23,May want to change how Text resizes horizontally on center drag
+ThoughtTrace::Text,Lucida Sans Unicode,1280.2083333333333,628.3160169448613,23,"If Style is created without a parent, it's parent should default to the baseline style"
+ThoughtTrace::Text,Lucida Sans Unicode,1280.208333333333,673.1910169448613,23,Figure out how to change Entities when style properties are altered
+ThoughtTrace::Text,Lucida Sans Unicode,1394.7916666666654,1221.1910169448618,23,edit space point query
 ThoughtTrace::Text,Lucida Sans Unicode,2273.958333333333,883.7743502781947,23,is there any reason to keep Component?
-ThoughtTrace::Text,Lucida Sans Unicode,2452.0833333333326,1111.982683611528,23,TODO: implement screen space to world space conversion in accordance with new systems
+ThoughtTrace::Text,Lucida Sans Unicode,1220.833333333332,1256.774350278195,23,convert screen space <-> world space without global $window
 ThoughtTrace::Text,Lucida Sans Unicode,1262.4999999999998,945.3993502781946,23,TODO: custom subclass of Hash to deal with action bindings
 ThoughtTrace::Text,Lucida Sans Unicode,1819.7916666666665,1049.6493502781946,23,TODO: Ruby methods are objects. Apply structure to Action
 ThoughtTrace::Text,Lucida Sans Unicode,1377.0833333333326,867.4410169448613,23,TODO: consider different views of same space
-ThoughtTrace::Text,Lucida Sans Unicode,1787.499999999999,1120.6493502781946,23,TODO: change the way corner resize of rectangles works
-ThoughtTrace::Text,Lucida Sans Unicode,2418.749999999999,938.4410169448614,23,"TODO: fix short circuiting min by, and the entities/text.rb -> Text#nearest_character_boundary() optimization that it messes up"
+ThoughtTrace::Text,Lucida Sans Unicode,821.8749999999993,66.5660169448613,23,"TODO: fix short circuiting min by, and the entities/text.rb -> Text#nearest_character_boundary() optimization that it messes up"
 ThoughtTrace::Text,Lucida Sans Unicode,2418.7499999999995,912.4826836115282,23,TODO: create action to delete a whole Entity
 ThoughtTrace::Text,Lucida Sans Unicode,1807.2916666666665,1306.3160169448613,23,TODO: remove Object delegate metaprogramming monkeypatch
-ThoughtTrace::Text,Lucida Sans Unicode,1794.7916666666663,-368.60064972180567,23,TODO: make sure an empty project can be loaded
-ThoughtTrace::Text,Lucida Sans Unicode,2264.5833333333344,497.9166666666669,23,undo stack / history view
+ThoughtTrace::Text,Lucida Sans Unicode,-736.4583333333337,423.0660169448611,23,TODO: make sure an empty project can be loaded
+ThoughtTrace::Text,Lucida Sans Unicode,2085.4166666666674,480.2083333333336,23,undo stack / history view
+ThoughtTrace::Text,Lucida Sans Unicode,361.45833333333326,568.8160169448614,23,"(NOTE: edit = move verts, resize = aspect ratio lock)"
