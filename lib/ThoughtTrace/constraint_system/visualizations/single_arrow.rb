@@ -5,29 +5,63 @@ module ThoughtTrace
 
 
 class SingleArrow < Visualization
+	def self.setup_style
+		unless @style
+			@style = ThoughtTrace::Components::Style.new
+			
+			# TODO: load the default style info from a project config file
+			@style.edit(:unbound) do |c|
+				c['color'] = Gosu::Color.argb(0xaa220000)
+				c['body_weight'] = 6 # default: 10 (base offset based on the default)
+				c['fin_weight']  = (c['body_weight'] * 0.8).to_i
+				c['fin_offset']  = CP::Vec2.new(-30, 20)*0.8
+			end
+			
+			@style.edit(:bound) do |c|
+				c['color'] = Gosu::Color.argb(0xaaBB0000)
+				c['body_weight'] = 6
+				c['fin_weight']  = (c['body_weight'] * 0.8).to_i
+				c['fin_offset']  = CP::Vec2.new(-30, 20)*0.8
+			end
+			
+			@style.edit(:active) do |c|
+				c['color'] = Gosu::Color.argb(0xaaFFAAAA)
+				c['body_weight'] = 6
+				c['fin_weight']  = (c['body_weight'] * 1).to_i
+				c['fin_offset']  = CP::Vec2.new(-30, 12)*0.8
+			end
+		end
+		
+		return @style
+	end
+	
 	def initialize
 		super()
 		
+		root_style = self.class.setup_style()
+		root_style.cascade(:unbound).read_socket(0)
+		
+		# TODO: check cascade order. I think it may have to be inverted or something.
+		# (may have to do a weird '0 is high, as an exception' structure)
+		# (kinda like how aces are high in some card games, but sometimes they're only 1 (lowest))
+			# I want there to be a particular slot that always has priority over other things,
+			# which is useful for debugging or whatever,
+			# but then I want StyleObjects that are slotted later to have priority over ones that were slotted earlier
+			# 
+			# NOTE: may also not want to let the user specify what socket to put the new style into, just put it in the next available socket? idk, need UI before I can tell if that's acceptable or not.
+		
+		
 		# TODO: consider putting the style at the class-level in a class-instance variable
 		@components[:style].edit(:unbound) do |c|
-			c['color'] = Gosu::Color.argb(0xaa220000)
-			c['body_weight'] = 6 # default: 10 (base offset based on the default)
-			c['fin_weight']  = (c['body_weight'] * 0.8).to_i
-			c['fin_offset']  = CP::Vec2.new(-30, 20)*0.8
+			c.socket(1, root_style.cascade(:unbound).read_socket(0))
 		end
 		
 		@components[:style].edit(:bound) do |c|
-			c['color'] = Gosu::Color.argb(0xaaBB0000)
-			c['body_weight'] = 6
-			c['fin_weight']  = (c['body_weight'] * 0.8).to_i
-			c['fin_offset']  = CP::Vec2.new(-30, 20)*0.8
+			c.socket(1, root_style.cascade(:bound).read_socket(0))
 		end
 		
 		@components[:style].edit(:active) do |c|
-			c['color'] = Gosu::Color.argb(0xaaFFAAAA)
-			c['body_weight'] = 6
-			c['fin_weight']  = (c['body_weight'] * 1).to_i
-			c['fin_offset']  = CP::Vec2.new(-30, 12)*0.8
+			c.socket(1, root_style.cascade(:active).read_socket(0))
 		end
 	end
 	
