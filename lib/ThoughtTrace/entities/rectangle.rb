@@ -14,11 +14,6 @@ class Rectangle < Entity
 		
 		
 		
-		# TODO: depreciate width and height being stored in style
-		# (maybe not? it would be nice allow element to sync dimensions via style)
-		# (maybe that should be the work of some Constraint though?)
-		
-		
 		# TODO: cascade into default style
 		style = ThoughtTrace::Components::Style.new
 		add_component style
