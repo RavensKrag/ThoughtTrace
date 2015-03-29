@@ -108,7 +108,7 @@ class Cascade
 	
 	# retrieve the style object stored at the specified index
 	def read_socket(index)
-		return @styles[i]
+		return @styles[index]
 	end
 	
 	# iterate through all available style objects
