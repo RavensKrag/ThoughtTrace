@@ -21,7 +21,7 @@ class Marker < ThoughtTrace::Circle
 				# marker
 				# entity
 		
-		self[:style].edit(:default)  do |s|
+		@components[:style].edit(:default)  do |s|
 			s[:color] = Gosu::Color.argb(0xaa0BF0F1)
 		end
 	end
@@ -32,7 +32,7 @@ class Marker < ThoughtTrace::Circle
 		# TODO: consider doing this by constraint or something, because you don't really want to recalculate the center all the time.
 		if @constraint_target
 			p = @constraint_target[:physics].center
-			self[:physics].body.p = p
+			@components[:physics].body.p = p
 		end
 	end
 	
@@ -46,7 +46,7 @@ class Marker < ThoughtTrace::Circle
 		@constraint_target = entity
 		@render_target     = entity
 		
-		self[:physics].body.p = entity[:physics].center
+		@components[:physics].body.p = entity[:physics].center
 	end
 	
 	def unbind
