@@ -9,7 +9,7 @@ class ToggleQueryStatus < ThoughtTrace::Actions::OneShotAction
 	initialize_with :entity
 	
 	# called on first tick
-	def apply(point)
+	def setup(point)
 		
 	end
 	

@@ -8,7 +8,7 @@ class ToggleQueryStatus < ThoughtTrace::Actions::OneShotAction
 	initialize_with :entity, :styles
 	
 	# called on first tick
-	def apply(point)
+	def setup(point)
 		# the type of query object to be used will very, depending on what you want to do
 		# you could ever re-bind the Query object inside the component at runtime if you like
 		query = ThoughtTrace::Queries::Query.new
