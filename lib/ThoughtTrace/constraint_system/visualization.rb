@@ -2,6 +2,7 @@ require 'state_machine'
 
 module ThoughtTrace
 	module Constraints
+		module Visualizations
 
 
 class Visualization
@@ -107,5 +108,6 @@ end
 
 
 
+end
 end
 end
