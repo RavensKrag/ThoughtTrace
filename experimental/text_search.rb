@@ -1,7 +1,7 @@
  
 # find text objects with the desired string inside
 def search(target_string)
-	text_objects = @space.entites.select{|x| x.is_a? ThoughtTrace::Text }
+	text_objects = @space.entities.select{|x| x.is_a? ThoughtTrace::Text }
 	text_objects.select!{ |text|  text.string.include? target_string }
 	
 	
@@ -16,20 +16,23 @@ def search(target_string)
 	
 	
 	# highlight the portions of the string the match the search query
-	color = Gosu::Color.argb(0xaaFF0000)
+	color = Gosu::Color.argb(0x99FF0000)
 	
 	highlight_mapping.each do |text, start_i, end_i|
 		# NOTE: width_of_first may break for i=1, because it handles conversion weird. need to totally overhaul that
 		ax = text.width_of_first(start_i)
 		bx = text.width_of_first(end_i)
 		
+		height = text[:physics].shape.height
+		offset = height / 2
+		
 		p = text[:physics].body.p
-		a = CP::Vec2.new(ax, 0) + p
-		b = CP::Vec2.new(bx, 0) + p
+		a = CP::Vec2.new(ax, offset) + p
+		b = CP::Vec2.new(bx, offset) + p
 		
 		ThoughtTrace::Drawing.draw_line(
-			render_context, a,b, 
-			color:color, thickness:6, line_offset:0.5, z_index:0
+			$window, a,b, 
+			color:color, thickness:height, line_offset:0.5, z_index:0
 		)
 	end
 end
