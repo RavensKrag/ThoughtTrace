@@ -12,15 +12,15 @@ class Rectangle < Entity
 		
 		# TODO: cascade into default style
 		style = ThoughtTrace::Components::Style.new
-		style.edit(:default) do |s|
+		add_component style
+		
+		@components[:style].edit(:default) do |s|
 			s[:color] = Gosu::Color.argb(0xaa2A3082)
 		end
 		
-		style.edit(:hover) do |s|
+		@components[:style].edit(:hover) do |s|
 			s[:color] = Gosu::Color.argb(0xaa0000FF)
 		end
-		
-		add_component style
 		
 		
 		# TODO: Update geometry when style is updated, and vice versa. (or else maybe width and height shouldn't be stored in Style)
