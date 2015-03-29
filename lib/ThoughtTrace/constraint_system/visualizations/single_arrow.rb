@@ -5,7 +5,7 @@ module ThoughtTrace
 
 
 class SingleArrow < Visualization
-	def self.setup_style
+	def self.root_style
 		unless @style
 			@style = ThoughtTrace::Components::Style.new
 			
@@ -38,8 +38,7 @@ class SingleArrow < Visualization
 	def initialize
 		super()
 		
-		root_style = self.class.setup_style()
-		root_style.cascade(:unbound).read_socket(0)
+		root_style = self.class.root_style()
 		
 		# TODO: check cascade order. I think it may have to be inverted or something.
 		# (may have to do a weird '0 is high, as an exception' structure)
