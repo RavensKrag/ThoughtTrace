@@ -149,8 +149,6 @@ class Document
 	# find text objects with the desired string inside
 	def text_search(target_string)
 		text_objects = @space.entities.select{|x| x.is_a? ThoughtTrace::Text }
-		text_objects.select!{ |text|  text.string.include? target_string }
-		
 		
 		highlight_mapping = 
 			text_objects.map do |text|
