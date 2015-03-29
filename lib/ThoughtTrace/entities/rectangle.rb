@@ -3,7 +3,16 @@ module ThoughtTrace
 
 class Rectangle < Entity
 	def initialize(width, height)
-		super()
+		# TODO: Update geometry when style is updated, and vice versa. (or else maybe width and height shouldn't be stored in Style)
+					body = CP::Body.new(Float::INFINITY, Float::INFINITY)
+					shape = CP::Shape::Rect.new body, width, height
+		physics = ThoughtTrace::Components::Physics.new self, body, shape
+		
+		super(physics)
+		
+		
+		
+		
 		
 		# TODO: depreciate width and height being stored in style
 		# (maybe not? it would be nice allow element to sync dimensions via style)
@@ -21,12 +30,6 @@ class Rectangle < Entity
 		@components[:style].edit(:hover) do |s|
 			s[:color] = Gosu::Color.argb(0xaa0000FF)
 		end
-		
-		
-		# TODO: Update geometry when style is updated, and vice versa. (or else maybe width and height shouldn't be stored in Style)
-							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-							shape = CP::Shape::Rect.new body, width, height
-		add_component	ThoughtTrace::Components::Physics.new self, body, shape
 	end
 	
 	def update

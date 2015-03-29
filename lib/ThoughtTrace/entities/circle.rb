@@ -3,7 +3,14 @@ module ThoughtTrace
 
 class Circle < Entity
 	def initialize(radius)
-		super()
+		# TODO: Update geometry when style is updated, and vice versa. (or else maybe width and height shouldn't be stored in Style)
+					body = CP::Body.new(Float::INFINITY, Float::INFINITY)
+					shape = CP::Shape::Circle.new body, radius
+		physics = ThoughtTrace::Components::Physics.new self, body, shape
+		
+		super(physics)
+		
+		
 		
 		
 		
@@ -18,12 +25,6 @@ class Circle < Entity
 		@components[:style].edit(:hover) do |s|
 			s[:color] = Gosu::Color.argb(0xaa0000FF)
 		end
-		
-		
-		# TODO: Update geometry when style is updated, and vice versa. (or else maybe width and height shouldn't be stored in Style)
-							body = CP::Body.new(Float::INFINITY, Float::INFINITY) 
-							shape = CP::Shape::Circle.new body, radius
-		add_component	ThoughtTrace::Components::Physics.new self, body, shape
 	end
 	
 	def update
