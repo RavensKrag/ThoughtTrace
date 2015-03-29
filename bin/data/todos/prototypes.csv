@@ -1,3 +1,3 @@
-Text,Lucida Sans Unicode,332.2916666666668,887.5000000000005,22.97394578559605,"'press_enter' should fire an Action, not a raw event"
+Text,Lucida Sans Unicode,235.41666666666674,-420.8333333333334,22.97394578559605,"NOTE: Entity, Group, and Visualization use Style Component"
 Rectangle,715.0,194.0,456.0,200
 Circle,1257.0,600.0,83.93337718827347
