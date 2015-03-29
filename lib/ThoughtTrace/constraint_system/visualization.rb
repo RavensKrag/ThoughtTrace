@@ -5,21 +5,22 @@ module ThoughtTrace
 		module Visualizations
 
 
-class Visualization
+class Visualization < ThoughtTrace::ComponentContainer
 	def initialize
 		super()
 		
 		@timer = ThoughtTrace::Timer.new
 		
-		@style = ThoughtTrace::Components::Style.new
+		style = ThoughtTrace::Components::Style.new
+		add_component style
 		
 		# create style modes to match state machine states
-		@style.mode = :unbound
-		@style.mode = :bound
-		@style.mode = :active
+		@components[:style].mode = :unbound
+		@components[:style].mode = :bound
+		@components[:style].mode = :active
 		
 		# set initial style mode
-		@style.mode = :unbound
+		@components[:style].mode = :unbound
 	end
 	
 	state_machine :state, :initial => :unbound do
@@ -94,15 +95,15 @@ class Visualization
 	end
 	
 	def activate_unbound_style
-		@style.mode = :unbound
+		@components[:style].mode = :unbound
 	end
 	
 	def activate_bound_style
-		@style.mode = :bound
+		@components[:style].mode = :bound
 	end
 	
 	def activate_active_style
-		@style.mode = :active
+		@components[:style].mode = :active
 	end
 end
 
