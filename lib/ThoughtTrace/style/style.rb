@@ -17,6 +17,8 @@ class StyleObject
 		return @properties.all?{ |k,v|  v == other[k] }
 	end
 	
+	alias :eql? :==
+	
 	
 	# read property
 	def [](property)

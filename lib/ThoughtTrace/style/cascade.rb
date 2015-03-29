@@ -21,6 +21,8 @@ class Cascade
 		)
 	end
 	
+	alias :eql? :==
+	
 	
 	def name
 		"cascade #{object_space_id_string}"

@@ -18,6 +18,8 @@ class Color
 		[:alpha, :red, :green, :blue].all?{ |x| self.send(x) == other.send(x) }
 	end
 	
+	alias :eql? :==
+	
 	
 	
 	
