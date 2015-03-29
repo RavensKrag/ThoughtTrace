@@ -21,16 +21,15 @@ class Package
 		
 		# define helper constraints:
 		# makes it so that Markers will move when their target Entities are moved
-		@helper_constraints = Array.new(1)
-		@helper_constraints[0] = ThoughtTrace::Constraints::MoveRelative.new
-		@helper_constraints[0].closure
+		constraint_object = ThoughtTrace::Constraints::MoveRelative.new
+		constraint_object.closure
 			.let do |delta|
 				delta # no additional offset.
 			end
 		
 		@helpers = Array.new(2)
-			@helpers[0] = Pair.new(@helper_constraints[0])
-			@helpers[1] = Pair.new(@helper_constraints[0])
+			@helpers[0] = Pair.new(constraint_object)
+			@helpers[1] = Pair.new(constraint_object)
 			# Helper constraint pairs are bound in #update_bindings,
 			# when marker bindings are copied over.
 	end
