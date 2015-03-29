@@ -2,14 +2,17 @@ module ThoughtTrace
 	module Groups
 
 
-class Group
+class Group < ThoughtTrace::ComponentContainer
 	# Groups need access to the Entity list for z-index calculation. Not sure how to get that here.
 	
 	def initialize
+		super()
+		
 		@entities = Set.new
 		
-		@style = ThoughtTrace::Components::Style.new
-		@style[:color] = Gosu::Color.argb(0x33FF00FF)
+		
+		add_component ThoughtTrace::Components::Style.new
+		@components[:style][:color] = Gosu::Color.argb(0x33FF00FF)
 	end
 	
 	
@@ -32,7 +35,7 @@ class Group
 		# Can't assume that they will have the same positions as
 		# when they were added to the Group
 		z = compute_z_index(space)
-		color = @style[:color]
+		color = @components[:style][:color]
 		
 		@entities.each do |e|
 			e[:physics].shape.bb.draw color, z
