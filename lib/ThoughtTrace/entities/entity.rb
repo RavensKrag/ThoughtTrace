@@ -5,7 +5,11 @@ class Entity < ComponentContainer
 	def initialize(physics_component)
 		super()
 		
-		self.add_component physics_component
+		add_component physics_component
+		
+		
+		style = ThoughtTrace::Components::Style.new
+		add_component style
 	end
 	
 	def update

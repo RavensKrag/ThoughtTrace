@@ -15,9 +15,6 @@ class Rectangle < Entity
 		
 		
 		# TODO: cascade into default style
-		style = ThoughtTrace::Components::Style.new
-		add_component style
-		
 		@components[:style].edit(:default) do |s|
 			s[:color] = Gosu::Color.argb(0xaa2A3082)
 		end
