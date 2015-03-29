@@ -107,6 +107,8 @@ class InputManager
  		# alt:     selection mode ( selection and groups are pretty much the same thing )
  		# shift:   extra modifier - mode dependent
  		
+ 		# control + alt = query? (queries are kinda like constraints, and they select things...)
+ 		
  		
  		# NOTE: need Entity type 'image'
  		# NOTE: spawning new Entities has been removed from input bindings. Should use duplication of existing things, or drag in items from the prototype list.
