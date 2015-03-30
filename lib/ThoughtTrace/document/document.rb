@@ -121,6 +121,13 @@ class Document
 	end
 	
 	def draw
+		$window.gl 0 do
+			# Set the background color to something other than pure black
+			Gl.glClearColor(0.1, 0.1, 0.1, 1.0) # RGBA, all GLclampf
+			GL.Clear(GL::GL_COLOR_BUFFER_BIT)
+		end
+		$window.flush
+		
 		# TODO: consider passing window reference through this function, down into all other systems ( but in that case, the variable is practically global anyway so... not sure )
 		@camera.draw do
 			@space.draw
