@@ -123,7 +123,8 @@ class Document
 	def draw
 		$window.gl 0 do
 			# Set the background color to something other than pure black
-			Gl.glClearColor(0.1, 0.1, 0.1, 1.0) # RGBA, all GLclampf
+			color = Gosu::Color.argb 0xff161616 # 24 bit color + alpha (8 bits per channel)
+			Gl.glClearColor(*color.to_opengl) # RGBA, all GLclampf
 			GL.Clear(GL::GL_COLOR_BUFFER_BIT)
 		end
 		$window.flush

@@ -60,6 +60,7 @@ end
 
 
 require 'gosu'
+require 'ashton'
 require 'gl'
 
 require 'DIS'
