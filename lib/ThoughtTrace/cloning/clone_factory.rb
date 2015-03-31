@@ -13,6 +13,9 @@ class CloneFactory
 	# a basis from which other objects
 	# of the same class can be created, via cloning
 	def register_prototype(prototype)
+		# TODO: blank out the string on the Text prototype on entry (make make sure it's a clone too? don't want to register objects that exist in the space)
+			# registering things that are in the space IS the current behavior though.
+			# that's bad and needs to change
 		@prototypes[prototype.class] = prototype
 	end
 	

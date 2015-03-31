@@ -13,6 +13,7 @@ class Package
 		@marker_a = Marker.new
 		@marker_b = Marker.new
 		
+		# TODO: figure out how to change color of Visualization based on the type of Constraint that is bound in the Pair
 		@visualization = visualization
 		
 		@visible = true

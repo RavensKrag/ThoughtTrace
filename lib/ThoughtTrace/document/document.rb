@@ -159,6 +159,8 @@ class Document
 	
 	# find text objects with the desired string inside
 	def text_search(target_string)
+		# NOTE: always search all entities, not just the ones that are on screen
+		# (not sure how you should let the user know that there are entities that have been found, but which are not currently on the screen)
 		text_objects = @space.entities.select{|x| x.is_a? ThoughtTrace::Text }
 		
 		highlight_mapping = 
