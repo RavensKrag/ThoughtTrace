@@ -19,6 +19,7 @@ class Group < ThoughtTrace::ComponentContainer
 		# @rect is used to draw the extent of the group,
 		# but also during various Group actions, such as 'resize'
 		@rect = ThoughtTrace::Rectangle.new(10,10)
+		@visible = false
 	end
 	
 	
@@ -28,9 +29,13 @@ class Group < ThoughtTrace::ComponentContainer
 	def update
 		bb = @entities.collect{|x|  x[:physics].shape.bb }.reduce(&:merge)
 		
-		return unless bb
-		@rect[:physics].shape.resize!(bb.width, bb.height)
-		@rect[:physics].body.p = CP::Vec2.new(bb.l, bb.b)
+		if bb
+			@rect[:physics].shape.resize!(bb.width, bb.height)
+			@rect[:physics].body.p = CP::Vec2.new(bb.l, bb.b)
+			@visible = true
+		else
+			@visible = false
+		end
 	end
 	
 	def draw(space)
@@ -47,7 +52,7 @@ class Group < ThoughtTrace::ComponentContainer
 		z = compute_z_index(space)
 		color = @components[:style][:color]
 		
-		unless @entities.empty?
+		if @visible
 			# TODO: z-index of the visualization of the full group may need to be different that the z-index of the individual Entity highlight overlay.
 			
 			
