@@ -53,7 +53,7 @@ ThoughtTrace::Text,Lucida Sans Unicode,-1536.4583333333333,132.291666666667,34,h
 ThoughtTrace::Text,Lucida Sans Unicode,80.20833333333275,-12.609387547737413,22.97394578559605,<sketch>
 ThoughtTrace::Text,Lucida Sans Unicode,-90.62500000000006,-169.84377509547465,22.97394578559605,TODO: constraints - understand overlap with query object loading
 ThoughtTrace::Text,Lucida Sans Unicode,236.45833333333337,-376.0416666666668,22.97394578559605,TODO: put the style data on the Constraint maybe?
-ThoughtTrace::Text,Lucida Sans Unicode,-407.29166666666663,-432.29166666666686,22.97394578559605,TODO: how to copy style data on duplication action?
+ThoughtTrace::Text,Lucida Sans Unicode,-626.9856534742887,-438.5416666666669,35.42229208401936,TODO: how to copy style data on duplication action?
 ThoughtTrace::Text,Lucida Sans Unicode,453.12500000000045,-299.99999999999983,57.816578180508145,Visualizations
 ThoughtTrace::Text,Lucida Sans Unicode,16.666666666666572,-428.1250000000001,57.816578180508145,Style data
 ThoughtTrace::Text,Lucida Sans Unicode,1.0416666666661172,-136.45833333333337,57.816578180508145,constraint packages
