@@ -118,5 +118,14 @@ module CP
 		def width
 			self.r - self.l
 		end
+		
+		
+		def to_rectangle
+			rect = ThoughtTrace::Rectangle.new(self.width, self.height)
+			
+			rect[:physics].body.p = CP::Vec2.new(self.l, self.b)
+			
+			return rect
+		end
 	end
 end

@@ -160,17 +160,23 @@ class Select < ThoughtTrace::Actions::BaseAction
 	private
 	
 	def bb_for_verts(point, list)
+		# NOTE: If you don't set the BB based on the initial point, then it will stretch to include the global origin.
+		
 		x = point.x
 		y = point.y
 		l, b, r, t = [x,y,x,y]
-		list.each do |vert|
-			a = vert.x;  l = a if a < l
-			a = vert.y;  b = a if a < b
-			a = vert.x;  r = a if a > r
-			a = vert.y;  t = a if a > t
-		end
+		# list.each do |vert|
+		# 	a = vert.x;  l = a if a < l
+		# 	a = vert.y;  b = a if a < b
+		# 	a = vert.x;  r = a if a > r
+		# 	a = vert.y;  t = a if a > t
+		# end
 		
-		return CP::BB.new(l,b,r,t)
+		# return CP::BB.new(l,b,r,t)
+		
+		
+		bb = CP::BB.new(l,b,r,t)
+		return list.reduce(bb, :expand) # expand BB to include the given vert (not in place)
 	end
 	
 	def point_in_polygon?(point, verts)

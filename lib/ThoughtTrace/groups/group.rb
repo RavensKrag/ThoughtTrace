@@ -12,7 +12,8 @@ class Group < ThoughtTrace::ComponentContainer
 		
 		
 		add_component ThoughtTrace::Components::Style.new
-		@components[:style][:color] = Gosu::Color.argb(0x33FF00FF)
+		@components[:style][:color]        = Gosu::Color.argb(0x33FF00FF)
+		@components[:style][:hitbox_color] = Gosu::Color.argb(0x33AA00AA)
 	end
 	
 	
@@ -36,6 +37,33 @@ class Group < ThoughtTrace::ComponentContainer
 		# when they were added to the Group
 		z = compute_z_index(space)
 		color = @components[:style][:color]
+		
+		unless @entities.empty?
+			# TODO: z-index of the visualization of the full group may need to be different that the z-index of the individual Entity highlight overlay.
+			
+			bb = @entities.collect{|x|  x[:physics].shape.bb }.reduce(&:merge)
+			# bb.draw @components[:style][:hitbox_color], 0
+			
+			rect = bb.to_rectangle
+			# rect.draw(z)
+			verts = rect[:physics].shape.verts
+			verts.collect!{ |p| rect[:physics].body.local2world(p)  }
+			verts << verts.first
+			verts.each_cons(2) do |a,b|
+				ThoughtTrace::Drawing.draw_line(
+					$window,
+					a, b, 
+					color:color, thickness:6, line_offset:0.5, z_index:z
+				)
+			end
+			# TODO: make a proper iterator that will yield all the vert pairs in a loop. Seems to be the sort of code I keep writing over and over, and would be much clearer to say what I mean, instead of having to do this 'push an extra thing' style all the time.
+		end
+		# wait... because of draw stack flushing, you may not be able to render this at the proper level for Selection ('standard' groups may work differently, but those are not in yet)
+		
+		
+		# TODO: try rendering group bb and individual bbs?
+		# you need the group BB to do group resize, but you need the individuals to show up selected to make selections that don't just look like straight box selections. selections need to be clear that they select a set of items, not a region. and it's not a box area.
+		
 		
 		@entities.each do |e|
 			e[:physics].shape.bb.draw color, z
