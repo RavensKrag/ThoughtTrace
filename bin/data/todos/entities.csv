@@ -124,7 +124,6 @@ ThoughtTrace::Text,Lucida Sans Unicode,1656.2500000000002,-41.60938754773727,22.
 ThoughtTrace::Text,Lucida Sans Unicode,327.0833333333326,805.2083333333335,22.97394578559605,BUG: circle size jiggles a bit on resize
 ThoughtTrace::Text,Lucida Sans Unicode,968.75,186.5156124522629,22.97394578559605,is Text Box a new type?
 ThoughtTrace::Text,Lucida Sans Unicode,-760.4166666666667,427.1978915711924,22.97394578559605,TODO: background coloring
-ThoughtTrace::Text,Lucida Sans Unicode,327.0833333333321,769.8160169448611,23,many spawn actions
 ThoughtTrace::Text,Lucida Sans Unicode,-889.5833333333344,-284.26731638847207,23,think ahead into selection
 ThoughtTrace::Text,Lucida Sans Unicode,-1068.750000000001,523.107683611528,23,editor workflow versus core coding backend interface
 ThoughtTrace::Text,Lucida Sans Unicode,-1068.750000000001,546.107683611528,23,why did I need queries the last time I wanted queries?
@@ -135,7 +134,7 @@ ThoughtTrace::Text,Lucida Sans Unicode,-230.20833333333394,746.5243502781949,23,
 ThoughtTrace::Text,Lucida Sans Unicode,-255.20833333333394,769.5243502781949,23,specific accelerator combo vs any accelerators
 ThoughtTrace::Text,Lucida Sans Unicode,-75.00000000000068,-547.9166666666666,23,apply Style to mulitple Entities at once
 ThoughtTrace::Text,Lucida Sans Unicode,1095.8333333333323,-329.0833333333332,23,system clipboard support
-ThoughtTrace::Text,Lucida Sans Unicode,327.0833333333326,745.9166666666664,23,spawn action - prototype factory - nested document - prefabs
+ThoughtTrace::Text,Lucida Sans Unicode,324.9999999999993,729.2499999999997,23,spawn action - prototype factory - nested document - prefabs
 ThoughtTrace::Text,Lucida Sans Unicode,-191.66666666666742,860.4410169448615,23,improve mouseover state
 ThoughtTrace::Text,Lucida Sans Unicode,327.08333333333303,828.2326836115276,23,May want to change how Text resizes horizontally on center drag
 ThoughtTrace::Text,Lucida Sans Unicode,-75.00000000000023,-570.6423163884722,23,"If Style is created without a parent, it's parent should default to the baseline style"
@@ -165,3 +164,8 @@ ThoughtTrace::Text,Lucida Sans Unicode,-378.12500000000006,-699.6666666666665,23
 ThoughtTrace::Text,Lucida Sans Unicode,-408.3333333333334,-676.6666666666665,23,serialize all of the new places to save Style Component data
 ThoughtTrace::Text,Lucida Sans Unicode,-408.3333333333334,-630.6666666666665,23,"load defaut styles from project config, rather than from library hard-coded deafult"
 ThoughtTrace::Text,Lucida Sans Unicode,1152.0833333333335,272.9166666666667,23,multiple text input carets active at once
+ThoughtTrace::Text,Lucida Sans Unicode,346.8750000000001,962.5000000000002,23,'link styles' split weirdly between Action and Event
+ThoughtTrace::Text,Lucida Sans Unicode,346.8750000000001,985.5000000000002,23,'link styles' may have weird behavior if linking disparate Entity types together
+ThoughtTrace::Text,Lucida Sans Unicode,346.8750000000001,1008.5000000000002,23,'link styles' has a weird keybinding (currently: F8)
+ThoughtTrace::Text,Lucida Sans Unicode,346.8750000000001,1031.5000000000002,23,'link styles' needs to notify the user that the button has been pressed
+ThoughtTrace::Text,Lucida Sans Unicode,325.0000000000002,752.416666666667,23,spawn action: consider using duplication from nested document instead of clone factory
