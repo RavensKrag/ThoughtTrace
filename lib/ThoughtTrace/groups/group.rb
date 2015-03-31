@@ -70,6 +70,10 @@ class Group < ThoughtTrace::ComponentContainer
 		@entities.size
 	end
 	
+	def empty?
+		@entities.empty?
+	end
+	
 	
 	
 	def add(obj)

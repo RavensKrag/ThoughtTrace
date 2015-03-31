@@ -258,6 +258,15 @@ class InputManager
 		
 		@buttons.register event
 		
+		
+		
+		callbacks = ThoughtTrace::Events::LinkStyles.new @selection, action_factory
+		event = InputSystem::ButtonEvent.new :link_styles, callbacks
+		
+		event.bind_to keys:[Gosu::KbF8], modifiers:[]
+		
+		@buttons.register event
+		
 	end
 	
 	def button_down(id)
