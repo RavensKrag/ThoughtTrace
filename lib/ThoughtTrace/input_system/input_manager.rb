@@ -282,6 +282,7 @@ class InputManager
 		[
 			@buttons,
 			@text_input,
+			@selection
 			# @mouse_input
 		].each do |x|
 			x.update
