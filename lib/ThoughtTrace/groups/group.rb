@@ -44,30 +44,30 @@ class Group < ThoughtTrace::ComponentContainer
 		# (allows for better use of groups as an abstraction tool)
 		
 		
-		
-		# must recompute z-index every frame,
-		# because the items in the Entity list could be re-sorted at any time.
-		# Can't assume that they will have the same positions as
-		# when they were added to the Group
-		z = compute_z_index(space)
-		color = @components[:style][:color]
-		
 		if @visible
+			# must recompute z-index every frame,
+			# because the items in the Entity list could be re-sorted at any time.
+			# Can't assume that they will have the same positions as
+			# when they were added to the Group
+			z = compute_z_index(space)
+			color = @components[:style][:color]
+			
+			
 			# TODO: z-index of the visualization of the full group may need to be different that the z-index of the individual Entity highlight overlay.
 			
 			
 			# @rect.draw(z)
+			
 			verts = @rect[:physics].shape.verts
 			verts.collect!{ |p| @rect[:physics].body.local2world(p)  }
-			verts << verts.first
-			verts.each_cons(2) do |a,b|
+			
+			consecutive_pairs(verts).each do |a,b|
 				ThoughtTrace::Drawing.draw_line(
 					$window,
 					a, b, 
 					color:color, thickness:6, line_offset:0.5, z_index:z
 				)
 			end
-			# TODO: make a proper iterator that will yield all the vert pairs in a loop. Seems to be the sort of code I keep writing over and over, and would be much clearer to say what I mean, instead of having to do this 'push an extra thing' style all the time.
 		end
 		# wait... because of draw stack flushing, you may not be able to render this at the proper level for Selection ('standard' groups may work differently, but those are not in yet)
 		
@@ -176,6 +176,21 @@ class Group < ThoughtTrace::ComponentContainer
 		end
 	end
 	# =========================
+	
+	
+	# returns an iterator that gives all consecutive pairs in a loop
+	# ie) treats the list as if it's a circular queue, and performs one full loop around
+	def consecutive_pairs(list)
+		enum = Enumerator.new do |y|
+			list.each_cons(2) do |a,b|
+				y.yield a,b
+			end
+			
+			y.yield list.last, list.first
+		end
+		
+		return enum
+	end
 end
 
 
