@@ -103,8 +103,8 @@ class InputManager
  		
  		
  		
- 		# control: constraint mode
- 		# alt:     selection mode ( selection and groups are pretty much the same thing )
+ 		# control: constraint mode ( drag for constraint, click for query? kinda makes sense )
+ 		# alt:     selection mode  ( selection and groups are pretty much the same thing )
  		# shift:   extra modifier - mode dependent
  		
  		# control + alt = query? (queries are kinda like constraints, and they select things...)
@@ -120,7 +120,7 @@ class InputManager
 			:on_object => {
 				[]                        => [:place_text_caret,       :edit              ],
 				[:shift]                  => [:spawn_text,             :resize            ],
-				[:control]                => [nil,                     :constrain         ],
+				[:control]                => [:toggle_query_status,    :constrain         ],
 				[:alt]                    => [:select_single,          :new_selection     ],
 				[:shift, :control]        => [nil,                     nil],
 				[:shift, :alt]            => [:single_select_add,      :selection_add     ],
@@ -145,7 +145,7 @@ class InputManager
 			:on_object => {
 				[]                        => [nil, :move],
 				[:shift]                  => [nil, :duplicate],
-				[:control]                => [:toggle_query_status, :clone],
+				[:control]                => [nil, :clone],
 				[:alt]                    => [:join, nil],
 				[:shift, :control]        => [nil, :mirror],
 				[:shift, :alt]            => [nil, nil],
