@@ -523,7 +523,7 @@
 			"file": "notes.sublime-workspace",
 			"settings":
 			{
-				"buffer_size": 188534,
+				"buffer_size": 188583,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
 			"settings":
 			{
-				"buffer_size": 19904,
+				"buffer_size": 21838,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/components.yaml",
 			"settings":
 			{
-				"buffer_size": 69309,
+				"buffer_size": 61611,
 				"line_ending": "Unix"
 			}
 		},
@@ -632,12 +632,21 @@
 			}
 		},
 		{
-			"contents": "group resize",
+			"contents": "group resize\n\n\n+ group BB => rectangle A\n+ for each element in group, convert position into normalized (0..1) coordinate space of A\n+ resize A into rectangle B\n+ take normalized positions in space of A, convert them to normalized positions in space of B\n+ convert normalized positions in space of B into standard coordinates relative to B\n+ convert standard coordinates in space of B into global coordinates\n+ assign these new global coordinates to each and every element of the group\n\nkeep A and regenerate B every tick in order to minimize the compounding of errors.\nit's similar to how in the Move Action,\nthe delta is always calculated relative to the original press point\n\n\n\n\n\nThe workflow of \"make a thing, and then shrink it\" is so useful\nit may be useful to think of it as the springboard from which Prefabs can be generated.\n\nNot EXACTLY sure how it's related,\nbut kinda want the group resize and prefab generation to feel similar\n\n\n\n\n\n\n\n\n\n\n---\nWAIT, that's just for the positions.\nStill need to scale each object.\nBut that should be easier,\nisn't it just 'scale each object the same amount as the group rect'?\n(at least for rectangle types... idk it's probably more complicated than that maybe?)\n---\n\n--\nnote that circles can be scaled on any axis, but always scale uniform, (definition of a circle)\nrectangles can only be scaled on horizontal and vertical,\nand text can only be scaled on the vertical\n(or rather, you always have aspect ratio lock for Text)\n\ncan really only even consider the option of non-uniform scale when you have all Rectangles.\notherwise, you NEED to lock the aspect ratio when you do a group scale.\n\n(maybe always group scale with aspect lock, and provide another option for position-only scaling? like, 'everybody skootch towards the center' or something)\n--\n\n",
 			"settings":
 			{
-				"buffer_size": 12,
+				"buffer_size": 1795,
 				"line_ending": "Unix",
 				"name": "group resize"
+			}
+		},
+		{
+			"contents": "TODO: group edit and resize\n\nresize\n	as in Windows Journal\n	aspect ratio is locked\nedit\n	aspect ratio unlocked\n	alters positions of contained Entities, but not their sizes\n	(basically, you resize the box, but not the things inside the box)\n	(you're resizing their relationships? idk how to explain this sufficiently, but I think it will make sense)",
+			"settings":
+			{
+				"buffer_size": 348,
+				"line_ending": "Unix",
+				"name": "TODO: group edit and resize"
 			}
 		},
 		{
@@ -650,37 +659,46 @@
 			}
 		},
 		{
-			"contents": "----",
+			"contents": "------------------------------------",
 			"settings":
 			{
-				"buffer_size": 4,
+				"buffer_size": 36,
 				"line_ending": "Unix",
-				"name": "----"
+				"name": "------------------------------------"
 			}
 		},
 		{
-			"contents": "= overview\n\n\nclasses that will house Style Components:\n\n	entity\n\n	query\n	constraint marker\n	constraint / visualization\n	group\n\n\nbut maybe the Visualization style is taken from the Constraint it is bound to? (or rather the Pair)\nwould this allow using Visualization objects in multiple places?\nNOPE: each Pair still needs it's own Visualization because of mode state\n\n\n\n\nhow are Style components accessed?\ndo you want to keep the hash-style interface?\nshould we switch to a 'just like any other instance variable' style?\n\nEither way, all types should house Components the same way, to make serialization simple\n\n\n\n\n\nshould do a deep copy of Style data on #clone for now.\nmay decide on different data linking behaviors later, once that sort of Action can be bound\n(don't really want to try to bind that right now)",
+			"contents": "= overview\n\n\nclasses that will house Style Components:\n\n	entity\n\n	query                        <-- the component, or the query object?\n	constraint marker            <-- DONE-ish (Already an entity type. Needs unification though)\n	constraint / visualization   <-- DONE\n	group                        <-- DONE\n\n\nbut maybe the Visualization style is taken from the Constraint it is bound to? (or rather the Pair)\nwould this allow using Visualization objects in multiple places?\nNOPE: each Pair still needs it's own Visualization because of mode state\n\nunless you want to read from a Style Component in different modes,\nwithout actually switching the modes...\nbut that could just get really ugly really fast, so I don't think that's a good idea\n\n\n\n\n\nTODO: separate Style serialization from Query serialization\n\n\nTODO: establish default styles for all objects that use styles component\nTODO: properly copy style data on clone, both via Entity#clone, and CloneFactory\n\n	TODO: load visualizations - separate object per Constraint Pair\n	TODO: make sure that Visualization style data loads correctly (check this after new saving)\n	\nTODO: serialize all of the new places to save Style Component data\n\n\n\nTODO: load default styles from project config, rather than from library hard-coded default\n\n\n\n\n\n\n\n\n---\n	how are Style components accessed?\n	do you want to keep the hash-style interface?\n	should we switch to a 'just like any other instance variable' style?\n\n	Either way, all types should house Components the same way, to make serialization simple\n\n\n\n\n\n	note that Entity has the optional Component type: Query\n	it would be hard (and weird) to have an optional instance variable\n	that somehow gets added to some Entity objects\n	( not even some types, just some objects )\n\n\n\n\n	should style basically be like XML, allowing the user to define their own properties?\n	(it feels like this is currently how things are going which feels kinda weird)\n	should properties be defined by the system?\n	should properties just be defined as standard instance variables with attr_accessor?\n	you could adopt a similar cascading lookup flow with just instance variables.\n\nI think it's best to keep the current style interface for now,\nuntil I understand better how everything comes together.\n\n--\n\n\n\n\ncurrent dependency mangement in Component system would prevent things such as\nQueries being wrapped around objects without Physics components.\n\nie) the constraint visualization could never be turned into a query on accident\n\n\n\n\n\n\nshould do a deep copy of Style data on #clone for now.\nmay decide on different data linking behaviors later, once that sort of Action can be bound\n(don't really want to try to bind that right now)\n\n\n\n\n\n\n\n\n\nDON'T TRY TO SOLVE THIS PROBLEM NOW.\nWAIT UNTIL YOU CAN EXPLORE STYLE SPACES LATER WITH A GRAPH VIEW OR SOMETHING\n\nmajor problem with current style system is that you lose namespacing:\nif you have two different types of color,\nsuch as 'main text color' and 'hitbox color',\nyou would have to differentiate them as\n:color and :hitbox_color\n\narrow visualization defines\n:fin_weight and :fin_offset\n\nwhich are pretty much two completely dedicated properties for a subsector 'fin'\nrather than really being related to the general whole at all\n\nthis gets extra complicated for this library,\nas most things are probably just going to be colors:\nit's not like CSS where you have properties that are spacings and alignments -\nthat sort of thing would all be done via constraints here.\n( the arrow fin properties thing makes for a nice counterexample though )\n",
 			"settings":
 			{
-				"buffer_size": 811,
+				"buffer_size": 3556,
 				"line_ending": "Unix",
 				"name": "= overview"
 			}
 		},
 		{
-			"contents": "If Style is created without a parent, it's parent should default to the baseline style\n	not sure where the baseline style should be declared,\n	it should be a constant variable that can be easily accessed from everywhere\n	it should declare all available properties\n\n",
+			"contents": "all classes using Style Component should define default style object\n\n\n\n\neach Component generated for those types should socket, at low priority,\nthat style object for the sake of fallback.\n\n\nthat way, you never have properties that can't be satisfied\nbecause they weren't defined at least once\n\n\nthat style object needs to be on a class-instance variable,\nand not a class variable,\nas you don't want the value being shared with child classes\n(   ex) Marker is a subclass of Circle, \n    but you want those objects to have different default styles   )\n\nalso, need to consider loading these default styles from a file,\nso that 'defaults' can be specific to a project,\ninstead of being specific to the library",
 			"settings":
 			{
-				"buffer_size": 265,
+				"buffer_size": 707,
+				"line_ending": "Unix",
+				"name": "all classes using Style Component should define de"
+			}
+		},
+		{
+			"contents": "If Style is created without a parent, it's parent should default to the baseline style\n	not sure where the baseline style should be declared,\n	it should be a constant variable that can be easily accessed from everywhere\n	it should declare all available properties\n\nshould you really be using a global baseline style?\nmaybe just use the style modes from the default object of that type.\n\nNot sure if the default should be loaded from library settings, or project settings.\n( probably project settings )\n\nThis intersects with:\n+ serialization / document loading\n+ clone factory\n+ entity cloning\n",
+			"settings":
+			{
+				"buffer_size": 593,
 				"line_ending": "Unix",
 				"name": "If Style is created without a parent, it's parent"
 			}
 		},
 		{
-			"contents": "apply Style to multiple Entities at once",
+			"contents": "apply Style to multiple Entities at once\n\n\n\napply full Component?\none cascade?\none style object?\n\nhow you do apply one style to disparate Entity types?",
 			"settings":
 			{
-				"buffer_size": 40,
+				"buffer_size": 151,
 				"line_ending": "Unix",
 				"name": "apply Style to multiple Entities at once"
 			}
@@ -692,24 +710,6 @@
 				"buffer_size": 195,
 				"line_ending": "Unix",
 				"name": "Figure out how to change Entities when style prope"
-			}
-		},
-		{
-			"contents": "TODO: track system - query style binding\n\n\ndocument.named_styles\nStyleCollection\nmark query action\nquery component\nquery object\n\n\n\n\nwhere should pointers to the style object be stored?\nwhere should pointers to the whole style collection (alongside the name of the style) be better?\n\nseems like it's actually pretty bad to store the style name,\nbecause you have to store the whole collection as well\nbut then you have to also wonder what happens when the name changes\n- same cache invalidation thing that you had with StyleCollection, but on a bigger scale",
-			"settings":
-			{
-				"buffer_size": 555,
-				"line_ending": "Unix",
-				"name": "TODO: track system - query style binding"
-			}
-		},
-		{
-			"contents": "rethink how Style data is saved\n\nlot of linking (really want to eventually just store a graph, and edit it as a graph as well)\nConstraint Visualizations have Style Components now too, so how is that going to be serialized?\n\nwhat about the 'named styles'?\ndo those still exist?\ndo they need to take a different form?",
-			"settings":
-			{
-				"buffer_size": 315,
-				"line_ending": "Unix",
-				"name": "rethink how Style data is saved"
 			}
 		},
 		{
@@ -731,64 +731,28 @@
 			}
 		},
 		{
-			"contents": "component serialization - non-Entity types\n\n\ncomponent lifetimes are controlled by the classes that own them\n(Entity, etc)\nso you don't have to worry about getting into some special collection for runtime.\nYou just need to take them out / put them into the temp collection during serialization\n( maybe special cases for Styles - named style objects? )\n\n\n\n\nb/c YAML is used for Components, you can have the same Component object used in multiple places\nand it's not a big deal:\nYAML will link the data correctly automatically.\n\n\n\n\nneed to think about how styles get in / out of the @named_styles collection though\n\nnamed styles could get created, and then never deleted, with the current system.\nbut maybe I don't want to change that now, and just wait for style graph editing?\n\n\n\ncurrently, Component keys are Entity array index numbers,\nhow will this effect having Groups and Visualizations in the same collection?\nshould Group and Visualization styles be separated?\n\nthat can be done, it's not a big deal,\nas long as they go into the same YAML file in the end,\ndata will still get linked correctly\n\n\n\n\n\n\nextra complication:\n\nonly Entity allows for accessing Component data through the hash-style interface\nex) @entity[:physics].body.p\n\nhow do you get the Component data out of a non-Entity object?\nshould Components always be accessed through the same interface?\nshould that interface be packed up into a mixin or something\n(just to reduce code duplication, or because of typing systems, or...?)",
+			"contents": "rethink how Style data is saved\n\nlot of linking (really want to eventually just store a graph, and edit it as a graph as well)\nConstraint Visualizations have Style Components now too, so how is that going to be serialized?\n\nwhat about the 'named styles'?\ndo those still exist?\ndo they need to take a different form?",
 			"settings":
 			{
-				"buffer_size": 1497,
+				"buffer_size": 315,
+				"line_ending": "Unix",
+				"name": "rethink how Style data is saved"
+			}
+		},
+		{
+			"contents": "component serialization - non-Entity types\n\n\ncomponent lifetimes are controlled by the classes that own them\n(Entity, etc)\nso you don't have to worry about getting into some special collection for runtime.\nYou just need to take them out / put them into the temp collection during serialization\n( maybe special cases for Styles - named style objects? )\n\n\n\n\nb/c YAML is used for Components, you can have the same Component object used in multiple places\nand it's not a big deal:\nYAML will link the data correctly automatically.\n\n\n\n\nneed to think about how styles get in / out of the @named_styles collection though\n\nnamed styles could get created, and then never deleted, with the current system.\nbut maybe I don't want to change that now, and just wait for style graph editing?\n\n\n\ncurrently, Component keys are Entity array index numbers,\nhow will this effect having Groups and Visualizations in the same collection?\nshould Group and Visualization styles be separated?\n\nthat can be done, it's not a big deal,\nas long as they go into the same YAML file in the end,\ndata will still get linked correctly\n\n\n\n",
+			"settings":
+			{
+				"buffer_size": 1103,
 				"line_ending": "Unix",
 				"name": "component serialization - non-Entity types"
 			}
 		},
 		{
-			"contents": "rethink component interface\n\nhash-style interface has a variety of problems.\nnow that there are Components being stored in non-Entity types,\nit's a good time to rething the interface,\nbecause after this point it's gonna get really messy to change it up\n\nshould be able to attach new Style components to non-Entity types\nin the same way as with Entity types.\nOtherwise you get a weird 'second-class citizen'-style behavior on non-Entity types\nduring serialization or what have you,\nany case where you need to use the Component interface\n\n\n\nmaybe access Components like any other instance variable,\nbut then list the available Component names in a dedicated list?\n\nI mean, is there a compelling reason to keep the Components accessed through a different interface than standard instance variables?\nWhat non-Component data is even stored on an Entity?\n	+ Text stores special data about stored String and Font objects\n	+ Image entity type would have to store what Image it was holding, and some details about a clipping mask\n	( but masks might be a component? they apply to multiple types )\n\nComponents have a special dependency management system,\nor at least they did.\nI'm not even sure that system is currently in use any more.\n\nLike, it seems to exist, but is it being used?\n\n\n\nnamespacing and dependency management\nseems like that's the two big draws for keeping the existing system.\nI was also really into blindly following the 'Entity Component' architecture,\nwithout knowing how it worked, or why it was good.\nI'm not sure I would be able to explain that even now...\nBut it's important to understand why you use patterns, and not use them blindly",
+			"contents": "TODO: put the style data on the Constraint maybe?\n\n\ndon't like how you could have multiple Constraint types that look different in the UI\nthat could get really confusing\n\n(\n	ofc you could have the 'opposite' problem,\n	where you have disparate types that have the same color\n)\n\n\n\nmaybe Constraint style defines a color, and then\nthe Visualization default style defines properties specific to that visualization?\n\nwhere you do put the non-defaults?\nhow do you share that data?\nhow do you deal with Visualizations having multiple modes, each which need to be styled?\n\nwait but the color changes with state too...\nbut do you want that to happen manually, or through systemic transformation?\nand at what level should those transformations be baked into the system?\n\n\n\n\n\n\n\n\n\nkinda want the style data to end up on the Constraint object itself though.\nWould make the most sense if the same object\nalways styled it's visualization in a similar manner,\neven if the type of Visualization is changed.\n\nshould probably define default values on the Visualization itself though,\nthat makes sense",
 			"settings":
 			{
-				"buffer_size": 1649,
-				"line_ending": "Unix",
-				"name": "rethink component interface"
-			}
-		},
-		{
-			"contents": "is there any reason to keep Component?\n	it's this weird strict-typed flavor in a duck-typed system\n	especially that Actions have been reworked to be more like methods,\n	maybe components should just be like any other thing attached to a class?\n	\n	not really sure if there's any motivation to adhere strictly to entity/component style\n	considering how in the current structure, methods are attached to the object,\n	not to the components\n	\n	(or like, sometimes the action, but never the component)\n	(meaning the structure is NOT actually entity/component at all)\n",
-			"settings":
-			{
-				"buffer_size": 560,
-				"line_ending": "Unix",
-				"name": "is there any reason to keep Component?"
-			}
-		},
-		{
-			"contents": "NOTE: can't save multiple Style Components with identical data.\n\n\n\nThe most that I could compress the data was linking Cascade objects\nnot sure why that is.\n\nIt's rather annoying, as I would like to share full Components\n\n\n\n\noh, I think how this works is that when a style component is attached,\nthe serialization system doesn't actually link that Component object,\nit just copies over the data into the proper component from the one that was loaded.\n\nYou need to make it so that the object loaded is the object used",
-			"settings":
-			{
-				"buffer_size": 516,
-				"line_ending": "Unix",
-				"name": "NOTE: can't save multiple Style Components with id"
-			}
-		},
-		{
-			"contents": "NOTE: constraint Visualizations and Groups now both use Style Components",
-			"settings":
-			{
-				"buffer_size": 72,
-				"line_ending": "Unix",
-				"name": "NOTE: constraint Visualizations and Groups now bot"
-			}
-		},
-		{
-			"contents": "Visualizations need to save Style component data\nthat data may have overlaps with other style data,\nso all that Style data needs to be linked together\n\nmaybe need to serialize components in a later AFTER the constraints then?\nhave to think about this is going to work...\n\n\n\nkinda want the style data to end up on the Constraint object itself though.\nWould make the most sense if the same object always styled it's visualization in a similar manner,\neven if the type of Visualization is changed.\n\nshould probably define default values on the Visualization itself though, that makes sense",
-			"settings":
-			{
-				"buffer_size": 586,
-				"line_ending": "Unix",
-				"name": "Visualizations need to save Style component data"
-			}
-		},
-		{
-			"contents": "TODO: put the style data on the Constraint maybe?\n\n\ndon't like how you could have multiple Constraint types that look different in the UI\nthat could get really confusing\n\n(\n	ofc you could have the 'opposite' problem, where you have disparate types that have the same color\n)",
-			"settings":
-			{
-				"buffer_size": 274,
+				"buffer_size": 1081,
 				"line_ending": "Unix",
 				"name": "TODO: put the style data on the Constraint maybe?"
 			}
@@ -803,12 +767,48 @@
 			}
 		},
 		{
+			"contents": "TODO: track system - query style binding\n\n\ndocument.named_styles\nStyleCollection\nmark query action\nquery component\nquery object\n\n\n\n\nwhere should pointers to the style object be stored?\nwhere should pointers to the whole style collection (alongside the name of the style) be better?\n\nseems like it's actually pretty bad to store the style name,\nbecause you have to store the whole collection as well\nbut then you have to also wonder what happens when the name changes\n- same cache invalidation thing that you had with StyleCollection, but on a bigger scale",
+			"settings":
+			{
+				"buffer_size": 555,
+				"line_ending": "Unix",
+				"name": "TODO: track system - query style binding"
+			}
+		},
+		{
 			"contents": "---",
 			"settings":
 			{
 				"buffer_size": 3,
 				"line_ending": "Unix",
 				"name": "---"
+			}
+		},
+		{
+			"contents": "is there any reason to keep Component?\n	it's this weird strict-typed flavor in a duck-typed system\n	especially that Actions have been reworked to be more like methods,\n	maybe components should just be like any other thing attached to a class?\n	\n	not really sure if there's any motivation to adhere strictly to entity/component style\n	considering how in the current structure, methods are attached to the object,\n	not to the components\n	\n	(or like, sometimes the action, but never the component)\n	(meaning the structure is NOT actually entity/component at all)\n",
+			"settings":
+			{
+				"buffer_size": 560,
+				"line_ending": "Unix",
+				"name": "is there any reason to keep Component?"
+			}
+		},
+		{
+			"contents": "rethink component interface\n\nhash-style interface has a variety of problems.\nnow that there are Components being stored in non-Entity types,\nit's a good time to rething the interface,\nbecause after this point it's gonna get really messy to change it up\n\nshould be able to attach new Style components to non-Entity types\nin the same way as with Entity types.\nOtherwise you get a weird 'second-class citizen'-style behavior on non-Entity types\nduring serialization or what have you,\nany case where you need to use the Component interface\n\n\n\nmaybe access Components like any other instance variable,\nbut then list the available Component names in a dedicated list?\n\nI mean, is there a compelling reason to keep the Components accessed through a different interface than standard instance variables?\nWhat non-Component data is even stored on an Entity?\n	+ Text stores special data about stored String and Font objects\n	+ Image entity type would have to store what Image it was holding, and some details about a clipping mask\n	( but masks might be a component? they apply to multiple types )\n\nComponents have a special dependency management system,\nor at least they did.\nI'm not even sure that system is currently in use any more.\n\nLike, it seems to exist, but is it being used?\n\n\n\nnamespacing and dependency management\nseems like that's the two big draws for keeping the existing system.\nI was also really into blindly following the 'Entity Component' architecture,\nwithout knowing how it worked, or why it was good.\nI'm not sure I would be able to explain that even now...\nBut it's important to understand why you use patterns, and not use them blindly",
+			"settings":
+			{
+				"buffer_size": 1649,
+				"line_ending": "Unix",
+				"name": "rethink component interface"
+			}
+		},
+		{
+			"contents": "------------------------------------",
+			"settings":
+			{
+				"buffer_size": 36,
+				"line_ending": "Unix",
+				"name": "------------------------------------"
 			}
 		},
 		{
@@ -1639,15 +1639,6 @@
 			}
 		},
 		{
-			"contents": "TODO: background coloring\n\n\n\nshould be able to designate a background color\nsomething other than the default black",
-			"settings":
-			{
-				"buffer_size": 114,
-				"line_ending": "Unix",
-				"name": "TODO: background coloring"
-			}
-		},
-		{
 			"contents": "TODO: use one Space for UI and another for actual active document",
 			"settings":
 			{
@@ -1663,15 +1654,6 @@
 				"buffer_size": 3,
 				"line_ending": "Unix",
 				"name": "---"
-			}
-		},
-		{
-			"contents": "many spawn actions\nhow do different spawn actions interface with clone collection?\nmost of the work done by the clone collection, with minimal spawn action work?\nmost of the work done in spawn action?\nare spawn actions similar enough that you can metaprogram loop them all together?\n\n",
-			"settings":
-			{
-				"buffer_size": 284,
-				"line_ending": "Unix",
-				"name": "many spawn actions"
 			}
 		},
 		{
@@ -1753,6 +1735,15 @@
 				"buffer_size": 60,
 				"line_ending": "Unix",
 				"name": "spawn action - prototype factory - nested document"
+			}
+		},
+		{
+			"contents": "spawn action: consider using duplication from nested document instead of clone factory\n",
+			"settings":
+			{
+				"buffer_size": 87,
+				"line_ending": "Unix",
+				"name": "spawn action: consider using duplication from nest"
 			}
 		},
 		{
@@ -1862,14 +1853,72 @@
 				"line_ending": "Unix",
 				"name": "undo stack / history view"
 			}
+		},
+		{
+			"contents": "'press-enter' should fire an Action, not a raw event",
+			"settings":
+			{
+				"buffer_size": 52,
+				"line_ending": "Unix",
+				"name": "'press-enter' should fire an Action, not a raw eve"
+			}
+		},
+		{
+			"contents": "multiple text input carets active at once",
+			"settings":
+			{
+				"buffer_size": 41,
+				"line_ending": "Unix",
+				"name": "multiple text input carets active at once"
+			}
+		},
+		{
+			"contents": "'link styles' split weirdly between Action and Event\n",
+			"settings":
+			{
+				"buffer_size": 53,
+				"line_ending": "Unix",
+				"name": "'link styles' split weirdly between Action and Eve"
+			}
+		},
+		{
+			"contents": "'link styles' may have weird behavior if linking disparate Entity types together\n",
+			"settings":
+			{
+				"buffer_size": 81,
+				"line_ending": "Unix",
+				"name": "'link styles' may have weird behavior if linking d"
+			}
+		},
+		{
+			"contents": "'link styles' has a weird keybinding (currently: F8)\n",
+			"settings":
+			{
+				"buffer_size": 53,
+				"line_ending": "Unix",
+				"name": "'link styles' has a weird keybinding (currently: F"
+			}
+		},
+		{
+			"contents": "'link styles' needs to notify the user that the button has been pressed",
+			"settings":
+			{
+				"buffer_size": 71,
+				"line_ending": "Unix",
+				"name": "'link styles' needs to notify the user that the bu"
+			}
 		}
 	],
 	"build_system": "run",
 	"command_palette":
 	{
-		"height": 375.0,
+		"height": 166.0,
 		"selected_items":
 		[
+			[
+				"package dis",
+				"Package Control: Disable Package"
+			],
 			[
 				"text",
 				"Set Syntax: Plain Text"
@@ -2231,6 +2280,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"link styles",
 			"BUG:",
 			"BUG",
 			"TODO: implement",
@@ -2357,8 +2407,7 @@
 			"data",
 			"each_pair",
 			"and_then",
-			"constraint_type",
-			"reference"
+			"constraint_type"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -2381,7 +2430,7 @@
 	"groups":
 	[
 		{
-			"selected": 27,
+			"selected": 53,
 			"sheets":
 			[
 				{
@@ -2389,7 +2438,7 @@
 					"file": "notes.sublime-workspace",
 					"settings":
 					{
-						"buffer_size": 188534,
+						"buffer_size": 188583,
 						"regions":
 						{
 						},
@@ -2442,15 +2491,27 @@
 					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
 					"settings":
 					{
-						"buffer_size": 19904,
+						"buffer_size": 21838,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								886,
-								867
+								21231,
+								21231
+							],
+							[
+								21390,
+								21390
+							],
+							[
+								21522,
+								21522
+							],
+							[
+								21673,
+								21673
 							]
 						],
 						"settings":
@@ -2458,7 +2519,7 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 4981.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -2468,15 +2529,15 @@
 					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/components.yaml",
 					"settings":
 					{
-						"buffer_size": 69309,
+						"buffer_size": 61611,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16113,
-								16113
+								12282,
+								12282
 							]
 						],
 						"settings":
@@ -2486,7 +2547,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 20995.0,
+						"translation.y": 5916.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -2729,15 +2790,15 @@
 					"buffer": 13,
 					"settings":
 					{
-						"buffer_size": 12,
+						"buffer_size": 1795,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12,
-								12
+								943,
+								943
 							]
 						],
 						"settings":
@@ -2753,6 +2814,32 @@
 				},
 				{
 					"buffer": 14,
+					"settings":
+					{
+						"buffer_size": 348,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								228,
+								228
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: group edit and resize",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
 					"settings":
 					{
 						"buffer_size": 19,
@@ -2778,23 +2865,23 @@
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 16,
 					"settings":
 					{
-						"buffer_size": 4,
+						"buffer_size": 36,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4,
-								4
+								36,
+								36
 							]
 						],
 						"settings":
 						{
-							"auto_name": "----",
+							"auto_name": "------------------------------------",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -2804,18 +2891,18 @@
 					"type": "text"
 				},
 				{
-					"buffer": 16,
+					"buffer": 17,
 					"settings":
 					{
-						"buffer_size": 811,
+						"buffer_size": 3556,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								612,
-								612
+								806,
+								806
 							]
 						],
 						"settings":
@@ -2824,24 +2911,50 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 153.0,
+						"translation.y": 102.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 17,
+					"buffer": 18,
 					"settings":
 					{
-						"buffer_size": 265,
+						"buffer_size": 707,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								265,
-								265
+								707,
+								707
+							]
+						],
+						"settings":
+						{
+							"auto_name": "all classes using Style Component should define de",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"settings":
+					{
+						"buffer_size": 593,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								592,
+								592
 							]
 						],
 						"settings":
@@ -2857,18 +2970,18 @@
 					"type": "text"
 				},
 				{
-					"buffer": 18,
+					"buffer": 20,
 					"settings":
 					{
-						"buffer_size": 40,
+						"buffer_size": 151,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								40,
-								40
+								43,
+								43
 							]
 						],
 						"settings":
@@ -2883,7 +2996,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 19,
+					"buffer": 21,
 					"settings":
 					{
 						"buffer_size": 195,
@@ -2902,58 +3015,6 @@
 							"auto_name": "Figure out how to change Entities when style prope",
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 20,
-					"settings":
-					{
-						"buffer_size": 555,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								555,
-								555
-							]
-						],
-						"settings":
-						{
-							"auto_name": "TODO: track system - query style binding",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 21,
-					"settings":
-					{
-						"buffer_size": 315,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								315,
-								315
-							]
-						],
-						"settings":
-						{
-							"auto_name": "rethink how Style data is saved",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -3017,7 +3078,33 @@
 					"buffer": 24,
 					"settings":
 					{
-						"buffer_size": 1497,
+						"buffer_size": 315,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								315,
+								315
+							]
+						],
+						"settings":
+						{
+							"auto_name": "rethink how Style data is saved",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 25,
+					"settings":
+					{
+						"buffer_size": 1103,
 						"regions":
 						{
 						},
@@ -3040,23 +3127,23 @@
 					"type": "text"
 				},
 				{
-					"buffer": 25,
+					"buffer": 26,
 					"settings":
 					{
-						"buffer_size": 1649,
+						"buffer_size": 1081,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								795,
-								795
+								761,
+								761
 							]
 						],
 						"settings":
 						{
-							"auto_name": "rethink component interface",
+							"auto_name": "TODO: put the style data on the Constraint maybe?",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -3066,7 +3153,85 @@
 					"type": "text"
 				},
 				{
-					"buffer": 26,
+					"buffer": 27,
+					"settings":
+					{
+						"buffer_size": 113,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								113,
+								113
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: all markers in a document should use the sam",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 28,
+					"settings":
+					{
+						"buffer_size": 555,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								129,
+								129
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: track system - query style binding",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 29,
+					"settings":
+					{
+						"buffer_size": 3,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3,
+								3
+							]
+						],
+						"settings":
+						{
+							"auto_name": "---",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 30,
 					"settings":
 					{
 						"buffer_size": 560,
@@ -3093,127 +3258,23 @@
 					"type": "text"
 				},
 				{
-					"buffer": 27,
-					"settings":
-					{
-						"buffer_size": 516,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								157,
-								157
-							]
-						],
-						"settings":
-						{
-							"auto_name": "NOTE: can't save multiple Style Components with id",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 28,
-					"settings":
-					{
-						"buffer_size": 72,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								72,
-								72
-							]
-						],
-						"settings":
-						{
-							"auto_name": "NOTE: constraint Visualizations and Groups now bot",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 29,
-					"settings":
-					{
-						"buffer_size": 586,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								272,
-								272
-							]
-						],
-						"settings":
-						{
-							"auto_name": "Visualizations need to save Style component data",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 30,
-					"settings":
-					{
-						"buffer_size": 274,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								274,
-								274
-							]
-						],
-						"settings":
-						{
-							"auto_name": "TODO: put the style data on the Constraint maybe?",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 31,
 					"settings":
 					{
-						"buffer_size": 113,
+						"buffer_size": 1649,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								113,
-								113
+								795,
+								795
 							]
 						],
 						"settings":
 						{
-							"auto_name": "TODO: all markers in a document should use the sam",
+							"auto_name": "rethink component interface",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -3226,20 +3287,20 @@
 					"buffer": 32,
 					"settings":
 					{
-						"buffer_size": 3,
+						"buffer_size": 36,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3,
-								3
+								36,
+								36
 							]
 						],
 						"settings":
 						{
-							"auto_name": "---",
+							"auto_name": "------------------------------------",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -5652,32 +5713,6 @@
 					"buffer": 125,
 					"settings":
 					{
-						"buffer_size": 114,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								114,
-								114
-							]
-						],
-						"settings":
-						{
-							"auto_name": "TODO: background coloring",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 126,
-					"settings":
-					{
 						"buffer_size": 65,
 						"regions":
 						{
@@ -5701,7 +5736,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 127,
+					"buffer": 126,
 					"settings":
 					{
 						"buffer_size": 3,
@@ -5727,33 +5762,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 128,
-					"settings":
-					{
-						"buffer_size": 284,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								284,
-								284
-							]
-						],
-						"settings":
-						{
-							"auto_name": "many spawn actions",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 129,
+					"buffer": 127,
 					"settings":
 					{
 						"buffer_size": 1175,
@@ -5779,7 +5788,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 130,
+					"buffer": 128,
 					"settings":
 					{
 						"buffer_size": 692,
@@ -5805,7 +5814,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 131,
+					"buffer": 129,
 					"settings":
 					{
 						"buffer_size": 238,
@@ -5831,7 +5840,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 132,
+					"buffer": 130,
 					"settings":
 					{
 						"buffer_size": 368,
@@ -5857,7 +5866,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 133,
+					"buffer": 131,
 					"settings":
 					{
 						"buffer_size": 698,
@@ -5883,7 +5892,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 134,
+					"buffer": 132,
 					"settings":
 					{
 						"buffer_size": 401,
@@ -5909,7 +5918,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 135,
+					"buffer": 133,
 					"settings":
 					{
 						"buffer_size": 269,
@@ -5935,7 +5944,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 136,
+					"buffer": 134,
 					"settings":
 					{
 						"buffer_size": 250,
@@ -5961,7 +5970,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 137,
+					"buffer": 135,
 					"settings":
 					{
 						"buffer_size": 60,
@@ -5987,7 +5996,33 @@
 					"type": "text"
 				},
 				{
-					"buffer": 138,
+					"buffer": 136,
+					"settings":
+					{
+						"buffer_size": 87,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								87,
+								87
+							]
+						],
+						"settings":
+						{
+							"auto_name": "spawn action: consider using duplication from nest",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 137,
 					"settings":
 					{
 						"buffer_size": 15,
@@ -6013,7 +6048,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 139,
+					"buffer": 138,
 					"settings":
 					{
 						"buffer_size": 85,
@@ -6040,7 +6075,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 140,
+					"buffer": 139,
 					"settings":
 					{
 						"buffer_size": 227,
@@ -6067,7 +6102,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 141,
+					"buffer": 140,
 					"settings":
 					{
 						"buffer_size": 404,
@@ -6094,7 +6129,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 142,
+					"buffer": 141,
 					"settings":
 					{
 						"buffer_size": 338,
@@ -6121,7 +6156,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 143,
+					"buffer": 142,
 					"settings":
 					{
 						"buffer_size": 334,
@@ -6148,7 +6183,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 144,
+					"buffer": 143,
 					"settings":
 					{
 						"buffer_size": 302,
@@ -6175,7 +6210,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 145,
+					"buffer": 144,
 					"settings":
 					{
 						"buffer_size": 128,
@@ -6202,7 +6237,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 146,
+					"buffer": 145,
 					"settings":
 					{
 						"buffer_size": 140,
@@ -6229,7 +6264,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 147,
+					"buffer": 146,
 					"settings":
 					{
 						"buffer_size": 637,
@@ -6256,7 +6291,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 148,
+					"buffer": 147,
 					"settings":
 					{
 						"buffer_size": 3,
@@ -6282,7 +6317,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 149,
+					"buffer": 148,
 					"settings":
 					{
 						"buffer_size": 339,
@@ -6299,6 +6334,162 @@
 						"settings":
 						{
 							"auto_name": "undo stack / history view",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 149,
+					"settings":
+					{
+						"buffer_size": 52,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								52,
+								52
+							]
+						],
+						"settings":
+						{
+							"auto_name": "'press-enter' should fire an Action, not a raw eve",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 150,
+					"settings":
+					{
+						"buffer_size": 41,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								41,
+								41
+							]
+						],
+						"settings":
+						{
+							"auto_name": "multiple text input carets active at once",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 151,
+					"settings":
+					{
+						"buffer_size": 53,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								53,
+								53
+							]
+						],
+						"settings":
+						{
+							"auto_name": "'link styles' split weirdly between Action and Eve",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 152,
+					"settings":
+					{
+						"buffer_size": 81,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								81,
+								81
+							]
+						],
+						"settings":
+						{
+							"auto_name": "'link styles' may have weird behavior if linking d",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 153,
+					"settings":
+					{
+						"buffer_size": 53,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								53,
+								53
+							]
+						],
+						"settings":
+						{
+							"auto_name": "'link styles' has a weird keybinding (currently: F",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 154,
+					"settings":
+					{
+						"buffer_size": 71,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								71,
+								71
+							]
+						],
+						"settings":
+						{
+							"auto_name": "'link styles' needs to notify the user that the bu",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -6359,6 +6550,54 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"empyt",
+				"rewrite 'empty space actions' as 'zero target acti"
+			],
+			[
+				"back",
+				"TODO: background coloring"
+			],
+			[
+				"spawn",
+				"spawn action - prototype factory - nested document"
+			],
+			[
+				"manysp",
+				"many spawn actions"
+			],
+			[
+				"groure",
+				"group resize"
+			],
+			[
+				"resize",
+				"group resize"
+			],
+			[
+				"querysb",
+				"TODO: track system - query style binding"
+			],
+			[
+				"visandg",
+				"NOTE: constraint Visualizations and Groups now bot"
+			],
+			[
+				"put",
+				"TODO: put the style data on the Constraint maybe?"
+			],
+			[
+				"how",
+				"how are Queries shown visually?"
+			],
+			[
+				"visua",
+				"Visualizations need to save Style component data"
+			],
+			[
+				"styda",
+				"NOTE: style data not currently duplicated when Ent"
+			],
 			[
 				"stylcomp",
 				"NOTE: can't save multiple Style Components with id"
@@ -6422,10 +6661,6 @@
 			[
 				"cretaction",
 				"TODO: create action to delete a whole Entity"
-			],
-			[
-				"back",
-				"TODO: background coloring"
 			],
 			[
 				"in",
@@ -6648,10 +6883,6 @@
 				"TODO: make sure Action#update ticks the same frame"
 			],
 			[
-				"resize",
-				"group resize"
-			],
-			[
 				"pha",
 				"mulitple phases of text input"
 			],
@@ -6800,10 +7031,6 @@
 				"BUG: crash on marker move"
 			],
 			[
-				"visua",
-				"ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/visualization.rb"
-			],
-			[
 				"draw",
 				"ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/draw_edge.rb"
 			],
@@ -6834,42 +7061,6 @@
 			[
 				"collection",
 				"ThoughtTrace/lib/ThoughtTrace/constraint_system/collection/collection.rb"
-			],
-			[
-				"move",
-				"ThoughtTrace/lib/ThoughtTrace/actions/entity/0_entity/move.rb"
-			],
-			[
-				"mouse",
-				"ThoughtTrace/lib/ThoughtTrace/input_system/mouse_input_system.rb"
-			],
-			[
-				"docaction",
-				"ThoughtTrace/documentation/action_memento.txt"
-			],
-			[
-				"baseac",
-				"ThoughtTrace/lib/ThoughtTrace/actions/base_action.rb"
-			],
-			[
-				"baseact",
-				"ThoughtTrace/lib/ThoughtTrace/actions/base_action.rb"
-			],
-			[
-				"spa",
-				"ThoughtTrace/lib/ThoughtTrace/space/space.rb"
-			],
-			[
-				"space",
-				"ThoughtTrace/lib/ThoughtTrace/space/space.rb"
-			],
-			[
-				"baseaction",
-				"ThoughtTrace/lib/ThoughtTrace/actions/base_action.rb"
-			],
-			[
-				"enitaction",
-				"ThoughtTrace/lib/ThoughtTrace/actions/entity/0_entity/action.rb"
 			]
 		],
 		"width": 0.0
