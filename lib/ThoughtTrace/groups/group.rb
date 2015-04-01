@@ -42,38 +42,41 @@ class Group < ThoughtTrace::ComponentContainer
 		# some groups could assign styles to their members, but I don't think it's necessary to visualize "being in a group" with the assignment of a style
 		# groups probably shouldn't be visible all the time anyway
 		# (allows for better use of groups as an abstraction tool)
+		return unless @visible
 		
 		
-		if @visible
-			# must recompute z-index every frame,
-			# because the items in the Entity list could be re-sorted at any time.
-			# Can't assume that they will have the same positions as
-			# when they were added to the Group
-			z = compute_z_index(space)
-			color = @components[:style][:color]
-			
-			
-			# TODO: z-index of the visualization of the full group may need to be different that the z-index of the individual Entity highlight overlay.
-			
-			
-			# @rect.draw(z)
-			
-			verts = @rect[:physics].shape.verts
-			verts.collect!{ |p| @rect[:physics].body.local2world(p)  }
-			
-			consecutive_pairs(verts).each do |a,b|
-				ThoughtTrace::Drawing.draw_line(
-					$window,
-					a, b, 
-					color:color, thickness:6, line_offset:0.5, z_index:z
-				)
-			end
+		
+		# must recompute z-index every frame,
+		# because the items in the Entity list could be re-sorted at any time.
+		# Can't assume that they will have the same positions as
+		# when they were added to the Group
+		z_values = @entities.collect{|e|  space.entities.index_for(e) }
+		min_z, max_z = z_values.minmax
+		
+		color = @components[:style][:color]
+		
+		
+		# TODO: z-index of the visualization of the full group may need to be different that the z-index of the individual Entity highlight overlay.
+		
+		
+		# @rect.draw(z)
+		
+		verts = @rect[:physics].shape.verts
+		verts.collect!{ |p| @rect[:physics].body.local2world(p)  }
+		
+		consecutive_pairs(verts).each do |a,b|
+			ThoughtTrace::Drawing.draw_line(
+				$window,
+				a, b, 
+				color:color, thickness:6, line_offset:0.5, z_index:min_z
+			)
 		end
 		# wait... because of draw stack flushing, you may not be able to render this at the proper level for Selection ('standard' groups may work differently, but those are not in yet)
 		
 		
+		
 		@entities.each do |e|
-			e[:physics].shape.bb.draw color, z
+			e[:physics].shape.bb.draw color, max_z
 		end
 		
 		# $window.gl @z do
@@ -148,10 +151,23 @@ class Group < ThoughtTrace::ComponentContainer
 	include Enumerable
 	
 	
+	
+	
+	
 	private
 	
-	def compute_z_index(space)
-		@entities.collect{|e|  space.entities.index_for(e) }.max
+	# returns an iterator that gives all consecutive pairs in a loop
+	# ie) treats the list as if it's a circular queue, and performs one full loop around
+	def consecutive_pairs(list)
+		enum = Enumerator.new do |y|
+			list.each_cons(2) do |a,b|
+				y.yield a,b
+			end
+			
+			y.yield list.last, list.first
+		end
+		
+		return enum
 	end
 	
 	public
@@ -176,21 +192,6 @@ class Group < ThoughtTrace::ComponentContainer
 		end
 	end
 	# =========================
-	
-	
-	# returns an iterator that gives all consecutive pairs in a loop
-	# ie) treats the list as if it's a circular queue, and performs one full loop around
-	def consecutive_pairs(list)
-		enum = Enumerator.new do |y|
-			list.each_cons(2) do |a,b|
-				y.yield a,b
-			end
-			
-			y.yield list.last, list.first
-		end
-		
-		return enum
-	end
 end
 
 
