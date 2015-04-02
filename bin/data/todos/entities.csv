@@ -168,3 +168,4 @@ ThoughtTrace::Text,Lucida Sans Unicode,54.16666666666663,1056.3333333333337,23,'
 ThoughtTrace::Text,Lucida Sans Unicode,54.16666666666663,1079.3333333333337,23,'link styles' has a weird keybinding (currently: F8)
 ThoughtTrace::Text,Lucida Sans Unicode,54.16666666666663,1102.3333333333337,23,'link styles' needs to notify the user that the button has been pressed
 ThoughtTrace::Text,Lucida Sans Unicode,325.0000000000002,552.416666666667,23,spawn action: consider using duplication from nested document instead of clone factory
+ThoughtTrace::Text,Lucida Sans Unicode,-918.750000000001,305.20833333333263,57.816578180508145,Camera
