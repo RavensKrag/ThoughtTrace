@@ -20,6 +20,8 @@ class Group < ThoughtTrace::ComponentContainer
 		# but also during various Group actions, such as 'resize'
 		@rect = ThoughtTrace::Rectangle.new(10,10)
 		@visible = false
+		
+		# TODO: link style object from Group style into @rect, so that the color of @rect changes according to the group style (only need this if you want to ever render the Rectangle)
 	end
 	
 	
@@ -56,9 +58,8 @@ class Group < ThoughtTrace::ComponentContainer
 		color = @components[:style][:color]
 		
 		
-		# TODO: z-index of the visualization of the full group may need to be different that the z-index of the individual Entity highlight overlay.
 		
-		
+		# === visualization for the group as a whole
 		# @rect.draw(z)
 		
 		verts = @rect[:physics].shape.verts
@@ -74,7 +75,7 @@ class Group < ThoughtTrace::ComponentContainer
 		# wait... because of draw stack flushing, you may not be able to render this at the proper level for Selection ('standard' groups may work differently, but those are not in yet)
 		
 		
-		
+		# === visualization for each element in the group
 		@entities.each do |e|
 			e[:physics].shape.bb.draw color, max_z
 		end
@@ -158,6 +159,7 @@ class Group < ThoughtTrace::ComponentContainer
 	
 	# returns an iterator that gives all consecutive pairs in a loop
 	# ie) treats the list as if it's a circular queue, and performs one full loop around
+	# TODO: move this into a more general location
 	def consecutive_pairs(list)
 		enum = Enumerator.new do |y|
 			list.each_cons(2) do |a,b|
