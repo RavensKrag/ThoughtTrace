@@ -29,6 +29,13 @@ task :show_todos => [:build_serialization_system, :load_dependencies, :load_main
 	x.on_shutdown
 end
 
+task :open, [:path] => [:build_serialization_system, :load_dependencies, :load_main] do |t, args|
+	# call this with `rake open['./path/to/project/root']`
+	x = Window.new args[:path]
+	x.show
+	x.on_shutdown
+end
+
 task :build_serialization_system do
 	path = File.join PATH_TO_ROOT, 'bin'
 	Dir.chdir path do
