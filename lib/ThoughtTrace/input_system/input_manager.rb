@@ -299,7 +299,7 @@ class InputManager
 		
 		@mouse_actions.each{ |x| x.draw  }
 		
-		@text_input.draw
+		@text_input.draw(@document.space)
 		# @mouse_input.draw
 		
 		@selection.draw(@document.space) # selection is a Group

@@ -26,10 +26,10 @@ class TextInput
 		end
 	end
 	
-	def draw
+	def draw(space)
 		# draw the caret
 		if @buffer
-			z = 100
+			z = space.entities.index_for(@text)
 			@caret.draw z
 		end
 	end
