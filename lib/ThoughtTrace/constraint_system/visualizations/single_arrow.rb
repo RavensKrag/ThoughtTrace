@@ -64,7 +64,7 @@ class SingleArrow < Visualization
 		end
 	end
 	
-	def draw(a,b)
+	def draw(a,b,z)
 		color       = @components[:style]['color']
 		body_weight = @components[:style]['body_weight']
 		fin_weight  = @components[:style]['fin_weight']
@@ -81,7 +81,7 @@ class SingleArrow < Visualization
 		ThoughtTrace::Drawing.draw_line(
 			$window,
 			ac, bc, 
-			color:color, thickness:body_weight
+			color:color, thickness:body_weight, z_index:z
 		)
 		
 		# fins
@@ -95,13 +95,13 @@ class SingleArrow < Visualization
 		ThoughtTrace::Drawing.draw_line(
 			$window,
 			bc, v1, 
-			color:color, thickness:fin_weight
+			color:color, thickness:fin_weight, z_index:z
 		)
 		
 		ThoughtTrace::Drawing.draw_line(
 			$window,
 			bc, v2, 
-			color:color, thickness:fin_weight
+			color:color, thickness:fin_weight, z_index:z
 		)
 	end
 	

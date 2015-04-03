@@ -25,10 +25,10 @@ class PackageCollection
 		end
 	end
 	
-	def draw
+	def draw(space)
 		@list.each do |package|
 			# raw Constraint objects don't have visualizations, so not all objects will #draw
-			package.draw if package.respond_to? :draw
+			package.draw(space) if package.respond_to? :draw
 		end
 	end
 	

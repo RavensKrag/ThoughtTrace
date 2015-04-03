@@ -49,7 +49,7 @@ class Package
 		@helpers.each{ |h| h.update  }
 	end
 	
-	def draw
+	def draw(space)
 		return if not @visible # allow hiding the visualization (useful for optimization)
 		# (by which I mean that abstracted hidden packages can be turned into raw constraints)
 		
@@ -58,8 +58,8 @@ class Package
 		
 		raise "Packaged constraints should always be drawn" if a.nil? or b.nil?
 		
-		
-		@visualization.draw(a,b)
+		z = [@marker_a,@marker_b].collect{ |x|  space.entities.index_for(x) }.max
+		@visualization.draw(a,b,z)
 	end
 	
 	

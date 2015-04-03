@@ -135,8 +135,8 @@ class Document
 		# TODO: consider passing window reference through this function, down into all other systems ( but in that case, the variable is practically global anyway so... not sure )
 		@camera.draw do
 			@space.draw
-			$window.flush
-			@constraint_packages.draw
+			# $window.flush
+			@constraint_packages.draw(@space)
 			yield
 			
 			

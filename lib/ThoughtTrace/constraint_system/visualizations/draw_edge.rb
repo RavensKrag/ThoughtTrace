@@ -22,13 +22,13 @@ class DrawEdge < Visualization
 		end
 	end
 	
-	def draw(a,b)
+	def draw(a,b,z)
 		color = @components[:style]['color']
 		
 		ThoughtTrace::Drawing.draw_line(
 			$window,
 			a[:physics].center, b[:physics].center, 
-			color:color, thickness:5
+			color:color, thickness:5, z_index:z
 		)
 	end
 end

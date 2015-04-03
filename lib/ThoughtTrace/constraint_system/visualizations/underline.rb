@@ -22,7 +22,7 @@ class Underline < Visualization
 		end
 	end
 	
-	def draw(a,b)
+	def draw(a,b,z)
 		
 	end
 end

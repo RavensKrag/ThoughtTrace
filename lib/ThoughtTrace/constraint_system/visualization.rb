@@ -30,7 +30,7 @@ class Visualization < ThoughtTrace::ComponentContainer
 				
 			end
 			
-			def draw(a,b)
+			def draw(a,b,z)
 				
 			end
 		end
@@ -41,7 +41,7 @@ class Visualization < ThoughtTrace::ComponentContainer
 				
 			end
 			
-			def draw(a,b)
+			def draw(a,b,z)
 				
 			end
 		end
@@ -54,7 +54,7 @@ class Visualization < ThoughtTrace::ComponentContainer
 				
 			end
 			
-			def draw(a,b)
+			def draw(a,b,z)
 				
 			end
 		end
