@@ -225,6 +225,15 @@ class Document
 		@project_directory = File.expand_path path_to_folder
 		
 		
+		# === if project has not yet been created, populate directory based on template data
+		unless File.exists? @project_directory
+			template_path = File.expand_path './bin/data/empty_data', ThoughtTrace::PATH_TO_ROOT
+			
+			FileUtils.cp_r(template_path, @project_directory)
+		end
+		
+		
+		
 		# === load data from disk
 		# read data off the disk, using appropriate format => store in dump
 		# unpack the dump, loading the data into the appropriate collection
