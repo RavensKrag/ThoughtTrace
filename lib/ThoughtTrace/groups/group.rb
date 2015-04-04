@@ -13,7 +13,6 @@ class Group < ThoughtTrace::ComponentContainer
 		
 		add_component ThoughtTrace::Components::Style.new
 		@components[:style][:color]        = Gosu::Color.argb(0x33FF00FF)
-		@components[:style][:hitbox_color] = Gosu::Color.argb(0x33AA00AA)
 		
 		
 		# @rect is used to draw the extent of the group,
@@ -21,8 +20,6 @@ class Group < ThoughtTrace::ComponentContainer
 		# (it's a rectangle, but it's basically being used as a bounding box)
 		@rect = ThoughtTrace::Rectangle.new(10,10)
 		@rect[:style][:color] = Gosu::Color.argb(0xaa00FFFF)
-		
-		@visible = false
 		
 		# TODO: link style object from Group style into @rect, so that the color of @rect changes according to the group style (only need this if you want to ever render the Rectangle)
 	end
@@ -38,10 +35,6 @@ class Group < ThoughtTrace::ComponentContainer
 			@rect[:physics].shape.resize!(bb.width, bb.height)
 			@rect[:physics].body.p.x = bb.l
 			@rect[:physics].body.p.y = bb.b
-			
-			@visible = true
-		else
-			@visible = false
 		end
 	end
 	
@@ -49,7 +42,6 @@ class Group < ThoughtTrace::ComponentContainer
 		# some groups could assign styles to their members, but I don't think it's necessary to visualize "being in a group" with the assignment of a style
 		# groups probably shouldn't be visible all the time anyway
 		# (allows for better use of groups as an abstraction tool)
-		return unless @visible
 		
 		
 		
@@ -57,10 +49,15 @@ class Group < ThoughtTrace::ComponentContainer
 		# because the items in the Entity list could be re-sorted at any time.
 		# Can't assume that they will have the same positions as
 		# when they were added to the Group
-		z_values = @entities.collect{|e|  space.entities.index_for(e) }
-		min_z, max_z = z_values.minmax
-		
-		color = @components[:style][:color]
+		min_z, max_z = 
+			if empty?
+				# Prevents crashing when the Group has 0 things inside it.
+				# May want to keep it visible so you can add things into it again?
+				[-1000, -1000]
+			else
+				z_values = @entities.collect{|e|  space.entities.index_for(e) }
+				z_values.minmax
+			end
 		
 		
 		
@@ -72,7 +69,8 @@ class Group < ThoughtTrace::ComponentContainer
 		# === visualization for each element in the group
 		@entities.each do |e|
 			e[:physics].shape.bb.draw(
-				color, max_z+ThoughtTrace::Space::EntityList::SELECTION_INDIV_OFFSET
+				@components[:style][:color],
+				max_z+ThoughtTrace::Space::EntityList::SELECTION_INDIV_OFFSET
 			)
 		end
 		

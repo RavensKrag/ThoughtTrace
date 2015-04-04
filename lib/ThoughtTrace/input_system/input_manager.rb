@@ -302,7 +302,7 @@ class InputManager
 		@text_input.draw(@document.space)
 		# @mouse_input.draw
 		
-		@selection.draw(@document.space) # selection is a Group
+		@selection.draw(@document.space) unless @selection.empty? # selection is a Group
 	end
 	
 	def button_up(id)
