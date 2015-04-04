@@ -76,7 +76,15 @@ class EntityList < ThoughtTrace::IndexedCollection
 	end
 	
 	def swap(i,j)
-		super(i.to_1/Z_PER_INDEX, j.to_1/Z_PER_INDEX)
+		i = i.to_i
+		j = j.to_i
+		
+		raise IndexError, 
+			"First index given does not specify an Entity layer" unless i % Z_PER_INDEX == 0
+		raise IndexError,
+			"Second index given does not specify an Entity layer" unless j % Z_PER_INDEX == 0
+		
+		super(i/Z_PER_INDEX, j/Z_PER_INDEX)
 	end
 end
 

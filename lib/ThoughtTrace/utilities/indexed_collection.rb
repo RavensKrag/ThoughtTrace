@@ -61,6 +61,17 @@ class IndexedCollection
 	# swap the items at the two indicies given
 	# fast
 	def swap(i,j)
+		flag1 = @index_to_obj[i].nil?
+		flag2 = @index_to_obj[j].nil?
+		
+		if flag1 or flag2
+			ordinal = flag1 ? "First" : "Second"
+			
+			raise IndexError, "#{ordinal} index given is not a valid index. Expected one of these: #{@obj_to_index.values.sort}"
+		end
+		
+		
+		
 		@obj_to_index[@index_to_obj[i]] = j
 		@obj_to_index[@index_to_obj[j]] = i
 		
