@@ -430,9 +430,28 @@ class Document
 		
 		
 		
-		[style_data, query_data].collect{ |x| x[:components]  }.each do |component_list|
-			component_list.each do |entity_id, component|
+		[style_data, query_data].collect{ |x| x[:components]  }.each do |component_map|
+			component_map.each do |entity_id, component|
 				entity = id_to_entity_table[entity_id]
+				
+				
+				if entity.nil?
+					puts
+					puts "===== DATA DUMP ======================="
+					puts "iterating through component map..."
+					# all components in one list are the same type
+					puts component_map.values.first.class
+					# p id_to_entity_table.collect{|id,e|  [id, e.class] }.to_h
+					
+					puts "component map entity IDs"
+					p component_map.keys
+					puts
+					puts "all available entity IDs"
+					p id_to_entity_table.keys
+					
+					raise KeyError, 
+						"Entity with ID #{entity_id} found in Component map, but not Entity list. Data dump above, traceback below."
+				end
 				
 				attach_component(entity, component)
 			end
