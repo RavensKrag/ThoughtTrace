@@ -9,6 +9,12 @@ class Space
 class EntityList < ThoughtTrace::IndexedCollection
 	include Packageable
 	
+	# ThoughtTrace::Space::EntityList
+	Z_PER_INDEX = 3
+	SELECTION_INDIV_OFFSET =  1
+	SELECTION_GROUP_OFFSET = -1
+	
+	
 	def add(object)
 		# raise "Physics component on #<#{object.class}:#{object.object_id}> not found." unless object.respond_to? :physics
 		
@@ -42,6 +48,35 @@ class EntityList < ThoughtTrace::IndexedCollection
 		
 		# compress index range
 		super()
+	end
+	
+	
+	
+	
+	# Convert back and forth between backend index values, and frontend z-index values
+	# 
+	# backend values, in tightest pack possible, are mapped to all sequential non-negative integers
+	# frontend values are spaced out more, so other objects can render between Entity layers
+	# 
+	# 
+	# NOTE: serialization bypasses this indexing scheme by converting the EntityList into an Array
+	# Doing these manipulations in an 'in-memory only' way
+	# allows for the configuration to be tweaked
+	# without altering the saved data format.
+	def each_with_index
+		return enum_for(:each_with_index) unless block_given?
+		
+		super do |x,i|
+			yield x,i*Z_PER_INDEX
+		end
+	end
+	
+	def index_for(e)
+		super(e)*Z_PER_INDEX
+	end
+	
+	def swap(i,j)
+		super(i.to_1/Z_PER_INDEX, j.to_1/Z_PER_INDEX)
 	end
 end
 

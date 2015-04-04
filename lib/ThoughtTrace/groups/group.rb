@@ -68,16 +68,24 @@ class Group < ThoughtTrace::ComponentContainer
 		consecutive_pairs(verts).each do |a,b|
 			ThoughtTrace::Drawing.draw_line(
 				$window,
-				a, b, 
-				color:color, thickness:6, line_offset:0.5, z_index:min_z
+				a, b,
+				color:color, thickness:6, line_offset:0.5,
+				z_index:min_z+ThoughtTrace::Space::EntityList::SELECTION_GROUP_OFFSET
 			)
 		end
+		
+		@rect[:physics].shape.bb.draw(
+			Gosu::Color.argb(0xff00FFFF),
+			min_z+ThoughtTrace::Space::EntityList::SELECTION_GROUP_OFFSET
+		)
 		# wait... because of draw stack flushing, you may not be able to render this at the proper level for Selection ('standard' groups may work differently, but those are not in yet)
 		
 		
 		# === visualization for each element in the group
 		@entities.each do |e|
-			e[:physics].shape.bb.draw color, max_z
+			e[:physics].shape.bb.draw(
+				color, max_z+ThoughtTrace::Space::EntityList::SELECTION_INDIV_OFFSET
+			)
 		end
 		
 		# $window.gl @z do

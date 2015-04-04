@@ -38,8 +38,11 @@ class Document
 			entity_dump = entities.pack
 			write_data(entity_dump, "entities")
 				# NOTE: entries in the Entity list may be of a basic entity type, or they may be of a prefab type. Not sure how that will effect the current systems.
-			
-				entity_to_id_table = entities.each_with_index.to_h
+				
+				
+				# NOTE: must first treat EntityList like an array before generating IDs for serialization
+				# entity_to_id_table = entities.each.to_a.each_with_index.to_h
+				entity_to_id_table = entities.each.with_index.to_h
 			
 			
 			# components (style and query)
@@ -254,7 +257,9 @@ class Document
 		entities = @space.entities
 		entities.unpack(entity_dump)
 		
-		id_to_entity_table = entities.each_with_index.to_h.invert
+		# NOTE: must first treat EntityList like an array before generating IDs for serialization
+		# id_to_entity_table = entities.each.to_a.each_with_index.to_h.invert
+		id_to_entity_table = entities.each.with_index.to_h.invert
 		
 		
 		# components
