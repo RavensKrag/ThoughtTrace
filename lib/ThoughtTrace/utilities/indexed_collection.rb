@@ -88,11 +88,10 @@ class IndexedCollection
 		# 
 		# I implemented #gc in order to help fix that issue,
 		# but having to remember to GC regularly could be it's own problem
-		@index_to_obj.size.times do |i|
-			obj = @index_to_obj[i]
-			next if obj.nil?
+		@index_to_obj.each_with_index do |x,i|
+			next if x.nil?
 			
-			yield obj, i
+			yield x, i
 		end
 	end
 	
