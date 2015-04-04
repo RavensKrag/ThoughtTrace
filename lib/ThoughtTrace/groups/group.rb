@@ -18,7 +18,10 @@ class Group < ThoughtTrace::ComponentContainer
 		
 		# @rect is used to draw the extent of the group,
 		# but also during various Group actions, such as 'resize'
+		# (it's a rectangle, but it's basically being used as a bounding box)
 		@rect = ThoughtTrace::Rectangle.new(10,10)
+		@rect[:style][:color] = Gosu::Color.argb(0xaa00FFFF)
+		
 		@visible = false
 		
 		# TODO: link style object from Group style into @rect, so that the color of @rect changes according to the group style (only need this if you want to ever render the Rectangle)
@@ -33,7 +36,9 @@ class Group < ThoughtTrace::ComponentContainer
 		
 		if bb
 			@rect[:physics].shape.resize!(bb.width, bb.height)
-			@rect[:physics].body.p = CP::Vec2.new(bb.l, bb.b)
+			@rect[:physics].body.p.x = bb.l
+			@rect[:physics].body.p.y = bb.b
+			
 			@visible = true
 		else
 			@visible = false
@@ -60,24 +65,7 @@ class Group < ThoughtTrace::ComponentContainer
 		
 		
 		# === visualization for the group as a whole
-		# @rect.draw(z)
-		
-		verts = @rect[:physics].shape.verts
-		verts.collect!{ |p| @rect[:physics].body.local2world(p)  }
-		
-		consecutive_pairs(verts).each do |a,b|
-			ThoughtTrace::Drawing.draw_line(
-				$window,
-				a, b,
-				color:color, thickness:6, line_offset:0.5,
-				z_index:min_z+ThoughtTrace::Space::EntityList::SELECTION_GROUP_OFFSET
-			)
-		end
-		
-		@rect[:physics].shape.bb.draw(
-			Gosu::Color.argb(0xff00FFFF),
-			min_z+ThoughtTrace::Space::EntityList::SELECTION_GROUP_OFFSET
-		)
+		@rect.draw(min_z+ThoughtTrace::Space::EntityList::SELECTION_GROUP_OFFSET)
 		# wait... because of draw stack flushing, you may not be able to render this at the proper level for Selection ('standard' groups may work differently, but those are not in yet)
 		
 		
