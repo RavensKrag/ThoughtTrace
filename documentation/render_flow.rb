@@ -65,7 +65,7 @@ Window # main
 		@camera = Camera
 			yield => # goto: block in Document
 		
-		# LABEL black in Document
+		# LABEL block in Document
 		@space = Space
 			@space = CP::Space.new
 			@groups = GroupList.new @space
@@ -81,10 +81,10 @@ Window # main
 		@selection = Group  # Group that controls current selection
 	
 # what objects require z index information from the Entity list?
-Space @entities => Entity        i*ThoughtTrace::Space::EntityList::Z_PER_INDEX
-Group                            min_z*ThoughtTrace::Space::EntityList::Z_PER_INDEX+ThoughtTrace::Space::EntityList::SELECTION_GROUP_OFFSET
-                                 max_z*ThoughtTrace::Space::EntityList::Z_PER_INDEX+ThoughtTrace::Space::EntityList::SELECTION_INDIV_OFFSET
-
+Space @entities => Entity     i
+Group                         min_z+ThoughtTrace::Space::EntityList::SELECTION_GROUP_OFFSET
+							  max_z+ThoughtTrace::Space::EntityList::SELECTION_INDIV_OFFSET
+							
 
 
 

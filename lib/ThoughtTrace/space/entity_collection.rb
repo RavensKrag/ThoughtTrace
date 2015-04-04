@@ -10,9 +10,12 @@ class EntityList < ThoughtTrace::IndexedCollection
 	include Packageable
 	
 	# ThoughtTrace::Space::EntityList
-	Z_PER_INDEX = 3
-	SELECTION_INDIV_OFFSET =  1
-	SELECTION_GROUP_OFFSET = -1
+	Z_PER_INDEX = 3 # must be at least the number of variables below
+	# (actually, must be equal to the difference between the lowest and the highest value)
+		# each offset must have a different value, and be an integer
+		CONSTRAINT_VISUALIZATION_OFFSET =  2
+		SELECTION_INDIV_OFFSET          =  1
+		SELECTION_GROUP_OFFSET          = -1
 	
 	
 	def add(object)
