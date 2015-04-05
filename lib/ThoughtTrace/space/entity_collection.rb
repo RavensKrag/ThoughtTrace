@@ -9,13 +9,26 @@ class Space
 class EntityList < ThoughtTrace::IndexedCollection
 	include Packageable
 	
-	# ThoughtTrace::Space::EntityList
-	Z_PER_INDEX = 3 # must be at least the number of variables below
-	# (actually, must be equal to the difference between the lowest and the highest value)
+	
+	attr_reader :offsets
+	
+	def initialize(space)
+		super(space)
+		
+		
 		# each offset must have a different value, and be an integer
-		CONSTRAINT_VISUALIZATION_OFFSET =  2
-		SELECTION_INDIV_OFFSET          =  1
-		SELECTION_GROUP_OFFSET          = -1
+		map = {
+			:constraint_visualization =>  2,
+			:selection_indiv          =>  1,
+			:selection_group          => -1
+		}
+		min, max = map.values.minmax
+		range = max - min
+		
+		
+		@z_per_index = range
+		@offsets = map
+	end
 	
 	
 	def add(object)
@@ -70,12 +83,12 @@ class EntityList < ThoughtTrace::IndexedCollection
 		return enum_for(:each_with_index) unless block_given?
 		
 		super do |x,i|
-			yield x,i*Z_PER_INDEX
+			yield x,i*@z_per_index
 		end
 	end
 	
 	def index_for(e)
-		super(e)*Z_PER_INDEX
+		super(e)*@z_per_index
 	end
 	
 	def swap(i,j)
@@ -83,11 +96,11 @@ class EntityList < ThoughtTrace::IndexedCollection
 		j = j.to_i
 		
 		raise IndexError, 
-			"First index given does not specify an Entity layer" unless i % Z_PER_INDEX == 0
+			"First index given does not specify an Entity layer" unless i % @z_per_index == 0
 		raise IndexError,
-			"Second index given does not specify an Entity layer" unless j % Z_PER_INDEX == 0
+			"Second index given does not specify an Entity layer" unless j % @z_per_index == 0
 		
-		super(i/Z_PER_INDEX, j/Z_PER_INDEX)
+		super(i/@z_per_index, j/@z_per_index)
 	end
 end
 

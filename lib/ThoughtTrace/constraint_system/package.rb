@@ -59,7 +59,7 @@ class Package
 		raise "Packaged constraints should always be drawn" if a.nil? or b.nil?
 		
 		z = [@marker_a,@marker_b].collect{ |x|  space.entities.index_for(x) }.max
-		@visualization.draw(a,b,z+ThoughtTrace::Space::EntityList::CONSTRAINT_VISUALIZATION_OFFSET)
+		@visualization.draw(a,b,z+space.entities.offsets[:constraint_visualization])
 	end
 	
 	

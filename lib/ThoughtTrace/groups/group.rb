@@ -62,7 +62,7 @@ class Group < ThoughtTrace::ComponentContainer
 		
 		
 		# === visualization for the group as a whole
-		@rect.draw(min_z+ThoughtTrace::Space::EntityList::SELECTION_GROUP_OFFSET)
+		@rect.draw(min_z+space.entities.offsets[:selection_group])
 		# wait... because of draw stack flushing, you may not be able to render this at the proper level for Selection ('standard' groups may work differently, but those are not in yet)
 		
 		
@@ -70,7 +70,7 @@ class Group < ThoughtTrace::ComponentContainer
 		@entities.each do |e|
 			e[:physics].shape.bb.draw(
 				@components[:style][:color],
-				max_z+ThoughtTrace::Space::EntityList::SELECTION_INDIV_OFFSET
+				max_z+space.entities.offsets[:selection_indiv]
 			)
 		end
 		
