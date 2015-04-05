@@ -22,6 +22,8 @@ class Group < ThoughtTrace::ComponentContainer
 		@rect[:style][:color] = Gosu::Color.argb(0xaa00FFFF)
 		
 		# TODO: link style object from Group style into @rect, so that the color of @rect changes according to the group style (only need this if you want to ever render the Rectangle)
+		# NOTE: can't just cascade @rect style into Group style if you want the two colors to be different. The two properties would need two separate names, but both shapes want to draw based on the :color property.
+		# NOTE: this means the entire Style cascading process needs to be rethought. This is most likely a problem you would run across in CSS as well, because there are no variables in vanilla CSS.
 	end
 	
 	
