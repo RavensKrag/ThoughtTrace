@@ -3,6 +3,8 @@ module ThoughtTrace
 		module Actions
 
 
+# Change dimensions of Rectangle by moving edges.
+# Aspect ratio is LOCKED.
 class Resize < ThoughtTrace::Actions::BaseAction
 	MARGIN = 20
 	MINIMUM_DIMENSION = 10
