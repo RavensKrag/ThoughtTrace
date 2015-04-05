@@ -113,6 +113,11 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
 		@rect_resize.undo
+		
+		@group.each_with_index do |entity, i|
+			p = @original_positions[i]
+			entity[:physics].body.p = p
+		end
 	end
 	
 	# final tick of the Action
