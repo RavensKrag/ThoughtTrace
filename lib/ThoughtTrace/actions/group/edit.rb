@@ -47,8 +47,8 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# + convert standard coordinates in space of B into global coordinates
 	# + assign these new global coordinates to each and every element of the group
 		
-		@original_width  = @group.rect.[:physics].shape.width
-		@original_height = @group.rect.[:physics].shape.height
+		@original_width  = @group.rect[:physics].shape.width
+		@original_height = @group.rect[:physics].shape.height
 		
 		
 		@rect_resize = @action_factory.create(@group.rect, :resize)
@@ -61,7 +61,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		# NOTE: remember that the group resize will always be done with locked aspect ratio (I think only Rectangle can be resized WITHOUT locking the ratio, and that is done as a separate action called Rectangle 'edit')
 		
 		@original_positions = @group.collect{ |e|  e[:physics].body.p.clone }
-		@original_body = @group.rect.[:physics].body.clone
+		@original_body = @group.rect[:physics].body.clone
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -95,7 +95,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			
 			
 			# convert back to global coordinate space
-			p = @group.rect.[:physics].body.local2world(p)
+			p = @group.rect[:physics].body.local2world(p)
 			
 			
 			
