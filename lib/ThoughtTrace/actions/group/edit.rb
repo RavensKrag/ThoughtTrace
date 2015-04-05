@@ -19,6 +19,11 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		@group = @selection
 		
 		
+		# NOTE: undefined behavior if the elements of Group are changed while the 'edit' or 'resize' actions are active
+		
+		
+		
+		
 		# NOTE: this action needs to be called when clicking on the bounding box around the entire Group, not simply when clicking on some element within the group. You need to see the bounding box for this to make sense.
 		
 		
@@ -55,6 +60,8 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		# NOTE: remember that the group resize will always be done with locked aspect ratio (I think only Rectangle can be resized WITHOUT locking the ratio, and that is done as a separate action called Rectangle 'edit')
 		
+		@original_positions = @group.collect{ |e|  e[:physics].body.p.clone }
+		@original_body = @group.rect.[:physics].body.clone
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -73,10 +80,10 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		
 		# examine each Entity in the Group
-		@group.each do |entity|
+		@group.each_with_index do |entity, i|
 			# position of the Entity in the Group's coordinate space
-			p = entity[:physics].body.p.clone # clone may be unnecessary
-			p = @group.rect.[:physics].body.world2local(p)
+			p = @original_positions[i].clone # clone is unnecessary if world2local returns new vec
+			p = @original_body.world2local(p)
 			
 			
 				# remap intervals to account for resize
