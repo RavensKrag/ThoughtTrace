@@ -76,6 +76,9 @@ class Group < ThoughtTrace::ComponentContainer
 			)
 		end
 		
+		
+		# NOTE: can't really do group visualization with stencil buffer right now because text objects are bitmap, not OpenGL real 3D things. so you can't draw them into the stencil buffer.
+		
 		# $window.gl @z do
 		# 	GL.Enable(GL::GL_STENCIL_TEST)
 		# 	# GL.StencilMask(stencilMask)
