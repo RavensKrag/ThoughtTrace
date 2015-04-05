@@ -68,9 +68,12 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# perform calculations to generate the new data, but don't change the data yet.
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
-		# resize the group's bounding shape
+		# === resize the group's bounding shape
 		@rect_resize.press(point)
 		
+		
+		
+		# === map original Entity positions onto new Group coordinate space
 		# specify intervals for interval remapping
 		x_in  = 0..@original_width
 		x_out = 0..@group.rect[:physics].shape.width
@@ -150,7 +153,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# NOTE: move this to a more general location. This is an extremely useful method, and will be become even more useful as we get into complex spectrum stuff.
 	
 	# Remap a value from the input range, to the output range.
-	# If no output range is specified, will map unto the normalized range aka [0..1]
+	# If no output range is specified, will map onto the normalized range aka [0..1]
 	def range_remap(input_range:0..255, output_range:0.0..1.0, value:0)
 		src  = input_range
 		dest = output_range
