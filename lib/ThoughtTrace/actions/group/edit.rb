@@ -137,14 +137,14 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	
 	# NOTE: Action visualizations are not the same as Constraint visualizations
 	def update_visualization(point)
-		
+		@rect_resize.update_visualization(point)
 	end
 	
 	
 	# display information to the user about the current transformation
 	# called each tick
 	def draw
-		
+		@rect_resize.draw
 	end
 	
 	
