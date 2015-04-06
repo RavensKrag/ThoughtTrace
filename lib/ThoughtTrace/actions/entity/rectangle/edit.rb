@@ -87,25 +87,25 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		@vert_bitmask = 
 			case [x,y]
 				when [-1, -1]
-					0b1000
+					0b1000 # top left vert
 				when [ 0, -1]
-					0b1100
+					0b1100 # top edge
 				when [ 1, -1]
-					0b0100
+					0b0100 # top right vert
 				
 				when [-1,  0]
-					0b1001
+					0b1001 # left edge
 				when [ 0,  0]
-					0b0000
+					0b0000 # center
 				when [ 1,  0]
-					0b0110
+					0b0110 # right edge
 				
 				when [-1,  1]
-					0b0001
+					0b0001 # bottom left vert
 				when [ 0,  1]
-					0b0011
+					0b0011 # bottom edge
 				when [ 1,  1]
-					0b0010
+					0b0010 # bottom right vert
 			end
 		# wait this is too general of a solution.
 		# the moving of the edge allows for the creation of shapes which are no longer rectangles.
