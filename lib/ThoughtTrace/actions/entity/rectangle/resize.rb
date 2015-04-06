@@ -253,24 +253,13 @@ class Resize < ThoughtTrace::Actions::BaseAction
 		else
 			# corner scaling
 			
-			if projection.x != 0
-				# Horizontal Stretch
-				
-				if @direction.x < 0
-					width -= projection.x
-				else
-					width += projection.x
-				end
-			end
-			if projection.y != 0
-				# Vertical Stretch
-				
-				if @direction.y < 0
-					height -= projection.y
-				else
-					height += projection.y
-				end
-			end
+			# Horizontal Stretch
+			sign = @direction.x < 0 ? -1 : 1
+			width  += projection.x * sign
+			
+			# Vertical Stretch
+			sign = @direction.y < 0 ? -1 : 1
+			height += projection.y * sign
 		end
 		
 		
