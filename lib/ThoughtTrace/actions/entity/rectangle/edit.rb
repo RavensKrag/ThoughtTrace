@@ -173,6 +173,8 @@ class Edit < ThoughtTrace::Actions::BaseAction
 					p verts.collect{|p| p.to_s}
 				@new_verts = verts
 				
+				# TODO: must limit verts so you don't create a structure that's too small to edit any more
+				
 				[@original_width, @original_height]
 			elsif x == 0 and y == 0
 				# center
@@ -193,8 +195,13 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	def apply
 		if @new_verts
 			width,height = @entity[:physics].shape.top_right_vert.to_a
+			# width,height = (@entity[:physics].shape.top_right_vert-@entity[:physics].shape.bottom_left_vert).to_a
 			
+			puts width
+			puts height
 			
+			puts @width
+			puts @height
 			
 			offset = CP::Vec2.new(0,0)
 			@entity[:physics].shape.set_verts! @new_verts, offset
