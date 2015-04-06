@@ -210,9 +210,9 @@ ThoughtTrace::Text,Lucida Sans Unicode,-117.70833333333337,-1113.2083333333335,2
 ThoughtTrace::Text,Lucida Sans Unicode,-284.3749999999998,-1348.1112779935033,58.61127799350382,input system / action system
 ThoughtTrace::Text,Lucida Sans Unicode,-715.6250000000005,-1303.1250000000007,23,"UI for color, and other item info"
 ThoughtTrace::Text,Lucida Sans Unicode,-31.250000000000114,-1797.9166666666663,23,"when just setting width, countersteer in a predictable way"
-ThoughtTrace::Text,Lucida Sans Unicode,-51.041666666666515,-1481.2500000000005,23,z index order resorting
-ThoughtTrace::Text,Lucida Sans Unicode,223.95833333333314,-1593.7499999999995,23,general: locking things in place
-ThoughtTrace::Text,Lucida Sans Unicode,223.95833333333314,-1570.7499999999995,23,"(show that it's immovable, not a failure to respond to input)"
+ThoughtTrace::Text,Lucida Sans Unicode,-55.20833333333326,-1461.458333333334,23,z index order resorting
+ThoughtTrace::Text,Lucida Sans Unicode,12.499999999999659,-1601.0416666666663,23,general: locking things in place
+ThoughtTrace::Text,Lucida Sans Unicode,12.499999999999659,-1578.0416666666663,23,"(show that it's immovable, not a failure to respond to input)"
 ThoughtTrace::Text,Lucida Sans Unicode,-740.625,-1519.791666666667,23,'layers' can be implemented with nested documents
 ThoughtTrace::Text,Lucida Sans Unicode,-740.625,-1496.791666666667,23,feels like group abstraction and nested documents are similar?
 ThoughtTrace::Text,Lucida Sans Unicode,-567.708333333333,-1245.8333333333335,23,unbind text input when doing other things
@@ -220,3 +220,8 @@ ThoughtTrace::Text,Lucida Sans Unicode,-675.0,-1450.0,23,layer bleed through?
 ThoughtTrace::Text,Lucida Sans Unicode,-675.0,-1427.0,23,"can edit items from two documents at once,"
 ThoughtTrace::Text,Lucida Sans Unicode,-675.0,-1404.0,23,because they're logically grouped
 ThoughtTrace::Text,Lucida Sans Unicode,-289.5833333333337,242.70833333333343,23,weak bond constraints - unbind on certain 'breaking' conditions
+ThoughtTrace::Text,Lucida Sans Unicode,651.041666666667,-1644.791666666667,23,functions map a domain onto a range
+ThoughtTrace::Text,Lucida Sans Unicode,651.041666666667,-1621.791666666667,23,constraints move data from A to B
+ThoughtTrace::Text,Lucida Sans Unicode,651.041666666667,-1598.791666666667,23,what moves data between spectra?
+ThoughtTrace::Text,Lucida Sans Unicode,651.041666666667,-1575.791666666667,23,is it a constraint? or some other type of function?
+ThoughtTrace::Text,Lucida Sans Unicode,-357.2916666666665,-1937.4999999999998,23,how is rectangle margin size decay related to Text font size cache series?
