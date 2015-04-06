@@ -97,22 +97,32 @@ class Select < ThoughtTrace::Actions::BaseAction
 		color = Gosu::Color.argb(0x88FFFFFF)
 		weight = 4
 		
-		@verts.each_cons(2) do |a,b|
+		# @verts.each_cons(2) do |a,b|
+		# 	ThoughtTrace::Drawing.draw_line(
+		# 		$window,
+		# 		a,b,
+		# 		color:color, thickness:weight, line_offset:0.5, z_index:z
+		# 	)
+		# end
+		
+		# # final connecting edge ( special case, maybe you want a different style? )
+		# a = @verts.last
+		# b = @verts.first
+		# ThoughtTrace::Drawing.draw_line(
+		# 	$window,
+		# 	a,b,
+		# 	color:color, thickness:weight, line_offset:0.5, z_index:z
+		# )
+		
+		
+		# draw all edges using a custom Enumerator
+		ThoughtTrace.consecutive_pairs(@verts).each do |a,b|
 			ThoughtTrace::Drawing.draw_line(
 				$window,
 				a,b,
 				color:color, thickness:weight, line_offset:0.5, z_index:z
 			)
 		end
-		
-		# final connecting edge ( special case, maybe you want a different style? )
-		a = @verts.last
-		b = @verts.first
-		ThoughtTrace::Drawing.draw_line(
-			$window,
-			a,b,
-			color:color, thickness:weight, line_offset:0.5, z_index:z
-		)
 		
 		
 		# --- draw bounding box

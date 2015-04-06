@@ -76,6 +76,8 @@ end
 
 
 dependency_list = [
+	'./utilities/consecutive_pairs',
+	
 	'./utilities/timer',
 	'./utilities/find_and_replace',
 	'./utilities/meta',
