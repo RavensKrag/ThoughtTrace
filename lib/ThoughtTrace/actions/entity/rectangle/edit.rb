@@ -109,6 +109,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			if x != 0 and y != 0
 				# corner
 				
+				# === get corner index
 				i = 
 					if    x == -1 and y == -1
 						# top left
@@ -131,7 +132,8 @@ class Edit < ThoughtTrace::Actions::BaseAction
 					end
 				
 				
-				
+				# === move the corner and the two adjacent verts to preserve rectangle
+				# (adjacency in a ring)
 				verts = @original_verts.collect{|x| x.clone}
 				
 				max_i = verts.size-1
@@ -159,7 +161,16 @@ class Edit < ThoughtTrace::Actions::BaseAction
 					after.x, before.y = current.to_a
 				end
 				
-				
+				# === offset all vectors to give verts the same form as a default Rect shape
+				# offset = CP::Vec2.new(verts[1].x, verts[3].y)
+				# offset = (verts[1] - verts[3])
+				# offset = (verts[3] - verts[1])
+				offset = verts.last.clone
+					p @original_verts.collect{|p| p.to_s}
+					p verts.collect{|p| p.to_s}
+					puts offset
+				verts.each{ |p| p.x -= offset.x; p.y -= offset.y  }
+					p verts.collect{|p| p.to_s}
 				@new_verts = verts
 				
 				[@original_width, @original_height]
@@ -171,7 +182,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 				[@original_width+displacement.x*x, @original_height+displacement.y*y]
 			end
 		
-		
 		@width  = @original_width+displacement.x*x
 		@height = @original_height+displacement.y*y
 		@anchor = anchor_point()
@@ -181,10 +191,29 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		
 		if @new_verts
+			width,height = @entity[:physics].shape.top_right_vert.to_a
+			
+			
+			
 			offset = CP::Vec2.new(0,0)
 			@entity[:physics].shape.set_verts! @new_verts, offset
+			
+			
+			
+			
+			# counter-steering
+			# use the current set height and width, NOT the original height and width. not the same
+			# delta_width  = width  - @entity[:physics].shape.width
+			# delta_height = height - @entity[:physics].shape.height
+			
+			@entity[:physics].shape.instance_eval do
+				@width  = width
+				@height = height
+			end
+			
+			# @entity[:physics].body.p.x -= delta_width * @anchor.x
+			# @entity[:physics].body.p.y -= delta_height * @anchor.y
 		else
 			@entity.resize!(@width, @height, @anchor)
 		end
