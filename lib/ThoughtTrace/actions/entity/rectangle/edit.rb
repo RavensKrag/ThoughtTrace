@@ -81,39 +81,17 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		
 		# verts are specified [tl, tr, br, bl] in +x right y+ up space
-		# bl,br,tr,tl @entity[:physics].shape.verts
+		# (not sure about that coordinate space... seems to working just fine here)
 		
-		# bitmask for what verts should be changed
-		@vert_bitmask = 
-			case [x,y]
-				when [-1, -1]
-					0b1000 # top left vert
-				when [ 0, -1]
-					0b1100 # top edge
-				when [ 1, -1]
-					0b0100 # top right vert
-				
-				when [-1,  0]
-					0b1001 # left edge
-				when [ 0,  0]
-					0b0000 # center
-				when [ 1,  0]
-					0b0110 # right edge
-				
-				when [-1,  1]
-					0b0001 # bottom left vert
-				when [ 0,  1]
-					0b0011 # bottom edge
-				when [ 1,  1]
-					0b0010 # bottom right vert
-			end
+		
+		
 		# wait this is too general of a solution.
 		# the moving of the edge allows for the creation of shapes which are no longer rectangles.
 		# That is not what you want.
 		# You need to enforce that edges can only move along one axis,
 		# while verts can move on two axes.
 		
-		@direction.normalize!
+		# @direction.normalize!
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -122,52 +100,101 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	def update(point)
 		displacement = point - @origin
 		
-		# projection = displacement.project(@direction)
+		x = @direction.x
+		y = @direction.y
 		
+		@new_verts = nil
 		
-		
-		if    [0b1001, 0b0110].include? @vert_bitmask
-			# x axis only (left or right edge)
-			displacement.y = 0
-		elsif [0b0011, 0b1100].include? @vert_bitmask
-			# y axis only (top or bottom edge)
-			displacement.x = 0
-		else
-			# movement on both axes
-			# single vert
-			
-		end
-		
-		
-		# 0b0000
-		#   8421
-		bitmask = @vert_bitmask
-		verts = @original_verts.collect{ |x|  x.clone }
-		verts.each_with_index do |vert, i|
-			if bitmask & (1 << i) != 0 # check if bit at position i is set
-				vert.x += displacement.x
-				vert.y += displacement.y
+		@width, @height =
+			if x != 0 and y != 0
+				# corner
+				
+				i = 
+					if    x == -1 and y == -1
+						# top left
+						puts "top left"
+						3 # xy (prev vert axis, next vert axis)
+					elsif x ==  1 and y == -1
+						# top right
+						puts "top right"
+						2 # yx
+					elsif x == -1 and y ==  1
+						# bottom left
+						puts "bottom left"
+						0 # yx
+					elsif x ==  1 and y ==  1
+						# bottom right
+						puts "bottom right"
+						1 # xy
+					else
+						raise "derp. this should not happen EVER."
+					end
+				
+				
+				
+				verts = @original_verts.collect{|x| x.clone}
+				
+				max_i = verts.size-1
+				prev_i = (i == 0     ? max_i : i-1)
+				next_i = (i == max_i ? 0     : i+1)
+				
+				before  = verts[prev_i]
+				current = verts[i]
+				after   = verts[next_i]
+				
+				
+				
+				# alter vectors in-place
+				current.x += displacement.x
+				current.y += displacement.y
+				
+				
+				if i % 2 == 0
+					# even
+					# xy
+					before.x, after.y = current.to_a
+				else
+					# odd
+					# yx
+					after.x, before.y = current.to_a
+				end
+				
+				
+				@new_verts = verts
+				
+				[@original_width, @original_height]
+			elsif x == 0 and y == 0
+				# center
+				[@original_width, @original_height]
+			else
+				# edge
+				[@original_width+displacement.x*x, @original_height+displacement.y*y]
 			end
-		end
 		
-		@new_verts = verts
+		
+		@width  = @original_width+displacement.x*x
+		@height = @original_height+displacement.y*y
+		@anchor = anchor_point()
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		# @entity.resize!(@width, @height, @anchor)
 		
-		offset = CP::Vec2.new(0,0)
-		@entity[:physics].shape.set_verts! @new_verts, offset
+		if @new_verts
+			offset = CP::Vec2.new(0,0)
+			@entity[:physics].shape.set_verts! @new_verts, offset
+		else
+			@entity.resize!(@width, @height, @anchor)
+		end
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		# @entity.resize!(@original_width, @original_height, @anchor)
+		@entity.resize!(@original_width, @original_height, @anchor)
 		# use the same anchor from the apply step.
 		# this should be enough to reverse the operation.
 		# There's no real way to calculate an "inverse anchor",
