@@ -172,6 +172,9 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	def draw
 		# TODO: draw margins to get a better idea of how they should be altered as the shape changes.
 		# TODO: consider implementing margin rendering using entities and constraints. Then that data could easily be used to drive the modulation of the margins themselves.
+		# TODO: should visualize margins on mouseover or something. By the time you have activated the edit action, you already have to know kinda where the margin is.
+		
+		# NOTE: currently visualization changes, but actual margins are always constant.
 		
 		# @a ||= CP::Vec2.new(0,0)
 		# @b ||= CP::Vec2.new(0,0)
@@ -188,9 +191,27 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		z      = 1000
 		
 		
-		m = MARGIN # TODO: need margins to shrink as size gets really small
 		w = @entity[:physics].shape.width
 		h = @entity[:physics].shape.height
+		
+		
+		# TODO: need margins to shrink as size gets really small
+		# transform progression of the smaller of the two sides
+		# into a bounded linear quantized sequence, and
+		# transform that into super-linear final output sequence
+		min_side = [w,h].min
+		i = Math.sqrt(min_side/2) # approx of the inverse function of the side progression?
+		
+		seq = [1,2,3,5,8,13,25]   # limit of this sequence should ideally be MARGIN (currently 20)
+		
+		max_i = seq.length - 1
+		i = max_i if i > max_i
+		
+		margin = seq[i]
+		
+		m = margin
+		
+		
 		
 		xL = 0
 		xa = m
