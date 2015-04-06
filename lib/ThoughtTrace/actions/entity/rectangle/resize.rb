@@ -228,7 +228,7 @@ class Resize < ThoughtTrace::Actions::BaseAction
 		
 		
 		
-		projection = delta.project(@direction)
+		delta = delta.project(@direction)
 		
 		
 		
@@ -238,14 +238,14 @@ class Resize < ThoughtTrace::Actions::BaseAction
 		
 		# Horizontal Stretch
 		if @direction.x != 0
-			projection.x *= -1 if @direction.x < 0
-			width  += projection.x
+			delta.x *= -1 if @direction.x < 0
+			width  += delta.x
 		end
 		
 		# Vertical Stretch
 		if @direction.y != 0
-			projection.y *= -1 if @direction.y < 0
-			height += projection.y
+			delta.y *= -1 if @direction.y < 0
+			height += delta.y
 		end
 		
 		
