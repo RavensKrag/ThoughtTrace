@@ -69,7 +69,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
 		# === resize the group's bounding shape
-		@rect_resize.press(point)
+		@rect_resize.update(point)
 		
 		
 		
