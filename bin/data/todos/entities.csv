@@ -208,11 +208,15 @@ ThoughtTrace::Text,Lucida Sans Unicode,-117.70833333333337,-1159.2083333333335,2
 ThoughtTrace::Text,Lucida Sans Unicode,-117.70833333333337,-1136.2083333333335,23,"is this purely a human interface problem? not really, you want code-based selection to select the same way"
 ThoughtTrace::Text,Lucida Sans Unicode,-117.70833333333337,-1113.2083333333335,23,"but it's increasingly about a complex notion of selections, and not something explictly inheriant to the Space"
 ThoughtTrace::Text,Lucida Sans Unicode,-284.3749999999998,-1348.1112779935033,58.61127799350382,input system / action system
-ThoughtTrace::Text,Lucida Sans Unicode,-703.1250000000003,-1395.8333333333337,23,"UI for color, and other item info"
+ThoughtTrace::Text,Lucida Sans Unicode,-715.6250000000005,-1303.1250000000007,23,"UI for color, and other item info"
 ThoughtTrace::Text,Lucida Sans Unicode,-31.250000000000114,-1797.9166666666663,23,"when just setting width, countersteer in a predictable way"
 ThoughtTrace::Text,Lucida Sans Unicode,-51.041666666666515,-1481.2500000000005,23,z index order resorting
 ThoughtTrace::Text,Lucida Sans Unicode,223.95833333333314,-1593.7499999999995,23,general: locking things in place
 ThoughtTrace::Text,Lucida Sans Unicode,223.95833333333314,-1570.7499999999995,23,"(show that it's immovable, not a failure to respond to input)"
 ThoughtTrace::Text,Lucida Sans Unicode,-740.625,-1519.791666666667,23,'layers' can be implemented with nested documents
 ThoughtTrace::Text,Lucida Sans Unicode,-740.625,-1496.791666666667,23,feels like group abstraction and nested documents are similar?
-ThoughtTrace::Text,Lucida Sans Unicode,-574.9999999999998,-1213.5416666666667,23,unbind text input when doing other things
+ThoughtTrace::Text,Lucida Sans Unicode,-567.708333333333,-1245.8333333333335,23,unbind text input when doing other things
+ThoughtTrace::Text,Lucida Sans Unicode,-675.0,-1450.0,23,layer bleed through?
+ThoughtTrace::Text,Lucida Sans Unicode,-675.0,-1427.0,23,"can edit items from two documents at once,"
+ThoughtTrace::Text,Lucida Sans Unicode,-675.0,-1404.0,23,because they're logically grouped
+ThoughtTrace::Text,Lucida Sans Unicode,-289.5833333333337,242.70833333333343,23,weak bond constraints - unbind on certain 'breaking' conditions
