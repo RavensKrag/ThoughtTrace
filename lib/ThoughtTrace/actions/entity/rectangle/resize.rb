@@ -90,17 +90,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		original_width  = width
 		original_height = height
 		
-		# Horizontal Stretch
-		if @direction.x != 0
-			delta.x *= -1 if @direction.x < 0
-			width  += delta.x
-		end
-		
-		# Vertical Stretch
-		if @direction.y != 0
-			delta.y *= -1 if @direction.y < 0
-			height += delta.y
-		end
+		width, height = super(point, delta, width, height)
 		
 		
 		# aspect ratio lock for edge scaling
