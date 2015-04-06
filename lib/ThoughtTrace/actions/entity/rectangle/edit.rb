@@ -172,6 +172,58 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	def draw
 		# TODO: draw margins to get a better idea of how they should be altered as the shape changes.
 		# TODO: consider implementing margin rendering using entities and constraints. Then that data could easily be used to drive the modulation of the margins themselves.
+		
+		# @a ||= CP::Vec2.new(0,0)
+		# @b ||= CP::Vec2.new(0,0)
+		# ThoughtTrace::Drawing.draw_line(
+		# 	$window,
+		# 	@a,@b,
+		# 	thickness:20, z_index:100000
+		# )
+		
+		
+		
+		color  = Gosu::Color.argb(0xffFFFF00)
+		weight = 2
+		z      = 1000
+		
+		
+		m = MARGIN # TODO: need margins to shrink as size gets really small
+		w = @entity[:physics].shape.width
+		h = @entity[:physics].shape.height
+		
+		xL = 0
+		xa = m
+		xb = w-m
+		xR = w
+		
+		yT = 0
+		ya = m
+		yb = h-m
+		yB = h
+		
+		
+		[
+			[[xa,yT], [xa,yB]],
+			[[xb,yT], [xb,yB]],
+			[[xL,ya], [xR,ya]],
+			[[xL,yb], [xR,yb]]
+		].each do |a, b|
+			
+			$window.translate *@entity[:physics].body.p.to_a do
+			
+				a = CP::Vec2.new(*a)
+				b = CP::Vec2.new(*b)
+				ThoughtTrace::Drawing.draw_line(
+					$window,
+					a,b,
+					color:color, thickness:weight, line_offset:0.5, z_index:z
+				)
+				
+			end
+			
+			
+		end
 	end
 	
 	
