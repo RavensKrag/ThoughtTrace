@@ -83,9 +83,10 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 		
 		
 		# this should grab edge movement only, and leave vertex movement unrestricted
-		if (@direction.x == 0) ^ (@direction.y == 0)
-			delta = delta.project(@direction)
-		end
+		# if (@direction.x == 0) ^ (@direction.y == 0)
+		# 	delta = delta.project(@direction)
+		# end
+		# NOTE: you don't need this, as long as you have the conditional guards on the axis scaling
 		
 		
 		
