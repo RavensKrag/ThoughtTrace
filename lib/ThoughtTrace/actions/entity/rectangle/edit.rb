@@ -3,9 +3,9 @@ module ThoughtTrace
 		module Actions
 
 
-# Change dimensions of Rectangle by moving verts around.
-# No aspect ratio locking.
-class Edit < ThoughtTrace::Rectangle::Actions::Resize
+# Change dimensions of Rectangle by moving edges.
+# Aspect ratio is LOCKED.
+class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	MARGIN = 20
 	MINIMUM_DIMENSION = 10
 	
@@ -82,13 +82,13 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 		
 		
 		
-		# this should grab edge movement only, and leave vertex movement unrestricted
-		# if (@direction.x == 0) ^ (@direction.y == 0)
-		# 	delta = delta.project(@direction)
-		# end
-		# NOTE: you don't need this, as long as you have the conditional guards on the axis scaling
+		delta = delta.project(@direction)
 		
 		
+		
+		
+		original_width  = width
+		original_height = height
 		
 		# Horizontal Stretch
 		if @direction.x != 0
@@ -100,6 +100,19 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 		if @direction.y != 0
 			delta.y *= -1 if @direction.y < 0
 			height += delta.y
+		end
+		
+		
+		# aspect ratio lock for edge scaling
+		# (corner aspect ratio lock is a systemic consequence of projection onto @direction)
+		if    @direction.x == 0 and @direction.y != 0
+			# vertical scaling
+			ratio = height.to_f / original_height.to_f
+			width = width * ratio
+		elsif @direction.x != 0 and @direction.y == 0
+			# horizontal scaling
+			ratio = width.to_f / original_width.to_f
+			height = height * ratio
 		end
 		
 		
