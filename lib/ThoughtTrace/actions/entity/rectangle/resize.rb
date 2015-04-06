@@ -93,84 +93,19 @@ class Resize < ThoughtTrace::Actions::BaseAction
 			# thus, the current implementation scales corners faster
 				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
-			# get axes
-			width = @original_width
-			height = @original_height
-			
-			if @direction.zero?
-				# ===== Radial Scaling =====
-				# scale about the center
-				
-				# Sign-age of scale is relative to center of rectangle
-				# towards center is negative (shrinking)
-				# away from center is positive (growing)
-				
-				
-				# --- Magnitude of transform
-				# find vector starting from center, and going towards the current point
-				center = @entity[:physics].shape.center
-				center_to_point = local_point - center
-				radial_axis = center_to_point.normalize
-				
-				
-				
-				# displacement in local space along the radial vector
-				radial_displacement = delta.project(radial_axis).length
-				
-				# flip sign to negative if necessary
-				same_direction = delta.dot(radial_axis) > 0
-				radial_displacement *= -1 unless same_direction
-				
-				
-				
-				
-				# --- Apply magnitude of transform in appropriate directions
-				# multiply by two, because resizing is happening in two directions at once
-				width  += radial_displacement * 2
-				height += radial_displacement * 2
-			else
-				# ===== Cartesian Scaling =====
-				# scale along the axes of the rectangle
-				
-				# pin down part (edge or vert) of the rectangle, and stretch out the rest
-				
-				# rescale in the direction specified by @direction
-				# displacement towards the center of the shape is negative,
-				# displacement towards the outside of the shape is positive
-				
-				projection = delta.project(@direction)
-				
-				
-				# Compute new dimensions
-				if projection.x != 0
-					# Horizontal Stretch
-					
-					if @direction.x < 0
-						width -= projection.x
-					else
-						width += projection.x
-					end
+			width, height =
+				if @direction.zero?
+					radial_scaling(point, delta, @original_width, @original_height)
+				else
+					cartesian_scaling(point, delta, @original_width, @original_height)
 				end
-				if projection.y != 0
-					# Vertical Stretch
-					
-					if @direction.y < 0
-						height -= projection.y
-					else
-						height += projection.y
-					end
-				end
-			end
-			
-			
 			
 			# limit minimum size (like a clamp, but lower bound only)
 			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
 			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
 		
 		
-		
-		@width = width
+		@width  = width
 		@height = height
 		@anchor = anchor_point()
 	end
@@ -224,6 +159,79 @@ class Resize < ThoughtTrace::Actions::BaseAction
 	
 	
 	private
+	
+	def radial_scaling(point, delta, width, height)
+		# ===== Radial Scaling =====
+		# scale about the center
+		
+		# Sign-age of scale is relative to center of rectangle
+		# towards center is negative (shrinking)
+		# away from center is positive (growing)
+		
+		
+		# --- Magnitude of transform
+		# find vector starting from center, and going towards the current point
+		center = @entity[:physics].shape.center
+		center_to_point = point - center
+		radial_axis = center_to_point.normalize
+		
+		
+		
+		# displacement in local space along the radial vector
+		radial_displacement = delta.project(radial_axis).length
+		
+		# flip sign to negative if necessary
+		same_direction = delta.dot(radial_axis) > 0
+		radial_displacement *= -1 unless same_direction
+		
+		
+		
+		
+		# --- Apply magnitude of transform in appropriate directions
+		# multiply by two, because resizing is happening in two directions at once
+		width  += radial_displacement * 2
+		height += radial_displacement * 2
+		
+		return width,height
+	end
+	
+	def cartesian_scaling(point, delta, width, height)
+		# ===== Cartesian Scaling =====
+		# scale along the axes of the rectangle
+		
+		# pin down part (edge or vert) of the rectangle, and stretch out the rest
+		
+		# rescale in the direction specified by @direction
+		# displacement towards the center of the shape is negative,
+		# displacement towards the outside of the shape is positive
+		
+		projection = delta.project(@direction)
+		
+		
+		# Compute new dimensions
+		if projection.x != 0
+			# Horizontal Stretch
+			
+			if @direction.x < 0
+				width -= projection.x
+			else
+				width += projection.x
+			end
+		end
+		if projection.y != 0
+			# Vertical Stretch
+			
+			if @direction.y < 0
+				height -= projection.y
+			else
+				height += projection.y
+			end
+		end
+		
+		return width,height
+	end
+	
+	
 	
 	def anchor_point
 		# normalized anchor
