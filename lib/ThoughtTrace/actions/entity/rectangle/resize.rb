@@ -231,35 +231,34 @@ class Resize < ThoughtTrace::Actions::BaseAction
 		projection = delta.project(@direction)
 		
 		
-		# Compute new dimensions
-		if    @direction.x == 0 and @direction.y != 0
-			# vertical scaling
-			original_height = height
-			
+		
+		
+		original_width  = width
+		original_height = height
+		
+		# Horizontal Stretch
+		if @direction.x != 0
+			sign = @direction.x < 0 ? -1 : 1
+			width  += projection.x * sign
+		end
+		
+		# Vertical Stretch
+		if @direction.y != 0
 			sign = @direction.y < 0 ? -1 : 1
 			height += projection.y * sign
-			
+		end
+		
+		
+		# aspect ratio lock for edge scaling
+		# (corner aspect ratio lock is a systemic consequence of projection onto @direction)
+		if    @direction.x == 0 and @direction.y != 0
+			# vertical scaling
 			ratio = height.to_f / original_height.to_f
 			width = width * ratio
 		elsif @direction.x != 0 and @direction.y == 0
 			# horizontal scaling
-			original_width = width
-			
-			sign = @direction.x < 0 ? -1 : 1
-			width += projection.x * sign
-			
 			ratio = width.to_f / original_width.to_f
 			height = height * ratio
-		else
-			# corner scaling
-			
-			# Horizontal Stretch
-			sign = @direction.x < 0 ? -1 : 1
-			width  += projection.x * sign
-			
-			# Vertical Stretch
-			sign = @direction.y < 0 ? -1 : 1
-			height += projection.y * sign
 		end
 		
 		
