@@ -192,14 +192,17 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		# --- Magnitude of transform
 		# find vector starting from center, and going towards the current point
-		center = @entity[:physics].shape.center
+		center = @entity[:physics].center
 		center_to_point = point - center
 		radial_axis = center_to_point.normalize
 		
+		# NOTE: possible crash if 'center' and 'point' are EXACTLY the same
+		# ( likelihood is extremely low, but still want to safeguard against it )
 		
 		
 		# displacement in local space along the radial vector
-		radial_displacement = delta.project(radial_axis).length
+		radial_delta = delta.project(radial_axis)
+		radial_displacement = radial_delta.length
 		
 		# flip sign to negative if necessary
 		same_direction = delta.dot(radial_axis) > 0
