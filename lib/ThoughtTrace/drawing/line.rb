@@ -9,12 +9,21 @@ class << self
 # draw a line that connects points a and b
 # (line will always be drawn from left to right)
 def draw_line(render_context, a,b, color:DEFAULT_COLOR, thickness:6, line_offset:0.5, z_index:0)
+	# when given two points that are exactly the same, this is not a line
+	# attempting to process this will result is issues, so don't.
+	# (further explained in note below, in context)
+	if a == b
+		warn "WARNING: Wanted to draw a line, but both endpoints are the same point. No line will be drawn"
+		return 
+	end
+	
 	# may want to sort the points by x value, in order to help maintain vertex winding
 	a,b = [a, b].sort_by{ |v| v.x  }
 	
 	
 	x = b - a
 	
+	# NOTE: When x has a magnitude of zero, x_hat gets NaN values
 	x_hat = x.normalize
 	y_hat = x_hat.perp
 	
