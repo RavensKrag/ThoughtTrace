@@ -88,25 +88,19 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 		end
 		
 		
-		# Compute new dimensions
-		if delta.x != 0
-			# Horizontal Stretch
-			
-			if @direction.x < 0
-				width -= delta.x
-			else
-				width += delta.x
-			end
+		
+		# Horizontal Stretch
+		if @direction.x != 0
+			delta.x *= -1 if @direction.x < 0
+			width  += delta.x
 		end
-		if delta.y != 0
-			# Vertical Stretch
-			
-			if @direction.y < 0
-				height -= delta.y
-			else
-				height += delta.y
-			end
-		end 
+		
+		# Vertical Stretch
+		if @direction.y != 0
+			delta.y *= -1 if @direction.y < 0
+			height += delta.y
+		end
+		
 		
 		return width,height
 	end
