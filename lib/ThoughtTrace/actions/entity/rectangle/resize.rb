@@ -226,28 +226,53 @@ class Resize < ThoughtTrace::Actions::BaseAction
 		# displacement towards the center of the shape is negative,
 		# displacement towards the outside of the shape is positive
 		
+		
+		
 		projection = delta.project(@direction)
 		
 		
 		# Compute new dimensions
-		if projection.x != 0
-			# Horizontal Stretch
+		if    @direction.x == 0 and @direction.y != 0
+			# vertical scaling
+			original_height = height
 			
-			if @direction.x < 0
-				width -= projection.x
-			else
-				width += projection.x
+			sign = @direction.y < 0 ? -1 : 1
+			height += projection.y * sign
+			
+			ratio = height.to_f / original_height.to_f
+			width = width * ratio
+		elsif @direction.x != 0 and @direction.y == 0
+			# horizontal scaling
+			original_width = width
+			
+			sign = @direction.x < 0 ? -1 : 1
+			width += projection.x * sign
+			
+			ratio = width.to_f / original_width.to_f
+			height = height * ratio
+		else
+			# corner scaling
+			
+			if projection.x != 0
+				# Horizontal Stretch
+				
+				if @direction.x < 0
+					width -= projection.x
+				else
+					width += projection.x
+				end
+			end
+			if projection.y != 0
+				# Vertical Stretch
+				
+				if @direction.y < 0
+					height -= projection.y
+				else
+					height += projection.y
+				end
 			end
 		end
-		if projection.y != 0
-			# Vertical Stretch
-			
-			if @direction.y < 0
-				height -= projection.y
-			else
-				height += projection.y
-			end
-		end
+		
 		
 		return width,height
 	end
