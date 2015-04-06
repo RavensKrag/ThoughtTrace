@@ -238,14 +238,14 @@ class Resize < ThoughtTrace::Actions::BaseAction
 		
 		# Horizontal Stretch
 		if @direction.x != 0
-			sign = @direction.x < 0 ? -1 : 1
-			width  += projection.x * sign
+			projection.x *= -1 if @direction.x < 0
+			width  += projection.x
 		end
 		
 		# Vertical Stretch
 		if @direction.y != 0
-			sign = @direction.y < 0 ? -1 : 1
-			height += projection.y * sign
+			projection.y *= -1 if @direction.y < 0
+			height += projection.y
 		end
 		
 		
