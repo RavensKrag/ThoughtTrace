@@ -20,75 +20,7 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 	# perform calculations to generate the new data, but don't change the data yet.
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
-		delta = point - @origin
-			
-			
-			return if delta.zero? # short circuit when there is no movement
-			
-			
-			# only use the component of the displacement in the direction of the edited component
-			# ie) the direction of a corner, or one of the edges
-			# this is NOT currently the value of the @direction vector
-			# that merely shows which edges should be scaled
-			# thus, the current implementation scales corners faster
-				# (diagonal straight-line distance is shorter than taxi-cab distance)
-			
-			# get axes
-			width = @original_width
-			height = @original_height
-			
-			if @direction.zero?
-				
-			else
-				# ===== Cartesian Scaling =====
-				# scale along the axes of the rectangle
-				
-				# pin down part (edge or vert) of the rectangle, and stretch out the rest
-				
-				# rescale in the direction specified by @direction
-				# displacement towards the center of the shape is negative,
-				# displacement towards the outside of the shape is positive
-				
-				
-				
-				# this should grab edge movement only, and leave vertex movement unrestricted
-				if (@direction.x == 0) ^ (@direction.y == 0)
-					delta = delta.project(@direction)
-				end
-				
-				
-				# Compute new dimensions
-				if delta.x != 0
-					# Horizontal Stretch
-					
-					if @direction.x < 0
-						width -= delta.x
-					else
-						width += delta.x
-					end
-				end
-				if delta.y != 0
-					# Vertical Stretch
-					
-					if @direction.y < 0
-						height -= delta.y
-					else
-						height += delta.y
-					end
-				end
-			end
-			
-			
-			
-			# limit minimum size (like a clamp, but lower bound only)
-			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
-			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
-		
-		
-		
-		@width = width
-		@height = height
-		@anchor = anchor_point()
+		super(point)
 	end
 	
 	# Actually apply changes to data.
@@ -138,39 +70,45 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 	
 	private
 	
-	def anchor_point
-		# normalized anchor
-		# NOTE: remember that the anchor specifies the amount of counter-steering
-		# TODO: allow for more analog anchor specification
-		# TODO: consider anchoring based on where the initial point of context was.
-		# TODO: consider more complex margin specification. Maybe it should be proportional to size? Not sure in what specify way though.
-		x = 
-			if @direction.x > 0
-				# pos
-				0.0
-			elsif @direction.x < 0
-				# neg
-				1.0
+	def cartesian_scaling(point, delta, width, height)
+		# ===== Cartesian Scaling =====
+		# scale along the axes of the rectangle
+		
+		# pin down part (edge or vert) of the rectangle, and stretch out the rest
+		
+		# rescale in the direction specified by @direction
+		# displacement towards the center of the shape is negative,
+		# displacement towards the outside of the shape is positive
+		
+		
+		
+		# this should grab edge movement only, and leave vertex movement unrestricted
+		if (@direction.x == 0) ^ (@direction.y == 0)
+			delta = delta.project(@direction)
+		end
+		
+		
+		# Compute new dimensions
+		if delta.x != 0
+			# Horizontal Stretch
+			
+			if @direction.x < 0
+				width -= delta.x
 			else
-				# zero
-				# center
-				0.5
+				width += delta.x
 			end
-		y = 
-			if @direction.y > 0
-				# pos
-				0.0
-			elsif @direction.y < 0
-				# neg
-				1.0
+		end
+		if delta.y != 0
+			# Vertical Stretch
+			
+			if @direction.y < 0
+				height -= delta.y
 			else
-				# zero
-				0.5
+				height += delta.y
 			end
+		end 
 		
-		
-		
-		return CP::Vec2.new(x,y)
+		return width,height
 	end
 end
 
