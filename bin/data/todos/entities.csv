@@ -194,8 +194,8 @@ ThoughtTrace::Text,Lucida Sans Unicode,97.91666666666663,-1730.2083333333335,23,
 ThoughtTrace::Text,Lucida Sans Unicode,-17.708333333333258,-1689.5000000000002,23,edge select
 ThoughtTrace::Text,Lucida Sans Unicode,-15.625000000000114,-1659.2083333333335,23,vert select
 ThoughtTrace::Text,Lucida Sans Unicode,-55.20833333333337,-1735.166666666667,23,aspect ratio lock
-ThoughtTrace::Text,Lucida Sans Unicode,-434.37499999999994,-1554.1666666666665,23,group resize
-ThoughtTrace::Text,Lucida Sans Unicode,-477.08333333333326,-1646.0279446601699,58.61127799350382,group
+ThoughtTrace::Text,Lucida Sans Unicode,-309.37499999999994,-1576.0416666666665,23,group resize
+ThoughtTrace::Text,Lucida Sans Unicode,-496.87499999999994,-1656.4446113268364,58.61127799350382,group
 ThoughtTrace::Text,Lucida Sans Unicode,470.8333333333336,-1864.7779446601699,58.61127799350382,spectrum
 ThoughtTrace::Text,Lucida Sans Unicode,96.87499999999943,-1680.2083333333335,23,edge lockdown
 ThoughtTrace::Text,Lucida Sans Unicode,96.87499999999943,-1657.2083333333335,23,vert lockdown
@@ -208,6 +208,11 @@ ThoughtTrace::Text,Lucida Sans Unicode,-117.70833333333337,-1159.2083333333335,2
 ThoughtTrace::Text,Lucida Sans Unicode,-117.70833333333337,-1136.2083333333335,23,"is this purely a human interface problem? not really, you want code-based selection to select the same way"
 ThoughtTrace::Text,Lucida Sans Unicode,-117.70833333333337,-1113.2083333333335,23,"but it's increasingly about a complex notion of selections, and not something explictly inheriant to the Space"
 ThoughtTrace::Text,Lucida Sans Unicode,-284.3749999999998,-1348.1112779935033,58.61127799350382,input system / action system
-ThoughtTrace::Text,Lucida Sans Unicode,-718.7500000000002,-1504.1666666666672,23,"UI for color, and other tem info"
-ThoughtTrace::Text,Lucida Sans Unicode,-31.250000000000114,-1797.9166666666663,23,"every time you set width, countersteer in a predictable way"
+ThoughtTrace::Text,Lucida Sans Unicode,-703.1250000000003,-1395.8333333333337,23,"UI for color, and other item info"
+ThoughtTrace::Text,Lucida Sans Unicode,-31.250000000000114,-1797.9166666666663,23,"when just setting width, countersteer in a predictable way"
 ThoughtTrace::Text,Lucida Sans Unicode,-51.041666666666515,-1481.2500000000005,23,z index order resorting
+ThoughtTrace::Text,Lucida Sans Unicode,223.95833333333314,-1593.7499999999995,23,general: locking things in place
+ThoughtTrace::Text,Lucida Sans Unicode,223.95833333333314,-1570.7499999999995,23,"(show that it's immovable, not a failure to respond to input)"
+ThoughtTrace::Text,Lucida Sans Unicode,-740.625,-1519.791666666667,23,'layers' can be implemented with nested documents
+ThoughtTrace::Text,Lucida Sans Unicode,-740.625,-1496.791666666667,23,feels like group abstraction and nested documents are similar?
+ThoughtTrace::Text,Lucida Sans Unicode,-574.9999999999998,-1213.5416666666667,23,unbind text input when doing other things
