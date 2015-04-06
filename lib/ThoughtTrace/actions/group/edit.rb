@@ -160,7 +160,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		# src: http://stackoverflow.com/questions/3451553/value-remapping
 		# low2 + (value - low1) * (high2 - low2) / (high1 - low1)
-		return dest.low + (value - src.low) * (dest.high - dest.low) / (source.high - source.low)
+		return dest.first + (value - src.first) * (dest.last - dest.first) / (src.last - src.first)
 	end
 end
 
