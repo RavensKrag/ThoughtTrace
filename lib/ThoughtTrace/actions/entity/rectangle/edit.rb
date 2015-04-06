@@ -14,28 +14,12 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 	# called on first tick
 	def press(point)
 		super(point)
-		@core_direction = @direction
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
 	# perform calculations to generate the new data, but don't change the data yet.
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
-		# if not (@core_direction.x == 0) ^ (@core_direction.y == 0)
-		# 	# should grab corners only
-		# 	# (not sure what the behavior will be for the center region)
-			center = @entity[:physics].center
-		# 	@direction = (point - center).normalize
-		# end
-		
-		@a = center
-		@b = center + @direction*500
-		
-		
-		
-		
-		
-		
 		delta = point - @origin
 			
 			
@@ -66,6 +50,8 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 				# displacement towards the outside of the shape is positive
 				
 				
+				
+				# this should grab edge movement only, and leave vertex movement unrestricted
 				if (@direction.x == 0) ^ (@direction.y == 0)
 					delta = delta.project(@direction)
 				end
@@ -103,13 +89,6 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 		@width = width
 		@height = height
 		@anchor = anchor_point()
-		
-		
-		
-		
-		
-		
-		# @anchor = 
 	end
 	
 	# Actually apply changes to data.
@@ -150,18 +129,6 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 		# TODO: draw margins to get a better idea of how they should be altered as the shape changes.
 		# TODO: consider implementing margin rendering using entities and constraints. Then that data could easily be used to drive the modulation of the margins themselves.
 		super()
-		
-		
-		
-		color = Gosu::Color.argb(0xffFF0000)
-		weight = 10
-		z = 1000
-		
-		ThoughtTrace::Drawing.draw_line(
-			$window,
-			@a,@b,
-			color:color, thickness:weight, line_offset:0.5, z_index:z
-		)
 	end
 	
 	
@@ -178,11 +145,10 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 		# TODO: consider anchoring based on where the initial point of context was.
 		# TODO: consider more complex margin specification. Maybe it should be proportional to size? Not sure in what specify way though.
 		x = 
-			if @core_direction.x > 0
+			if @direction.x > 0
 				# pos
-				puts "right"
 				0.0
-			elsif @core_direction.x < 0
+			elsif @direction.x < 0
 				# neg
 				1.0
 			else
@@ -191,11 +157,10 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 				0.5
 			end
 		y = 
-			if @core_direction.y > 0
+			if @direction.y > 0
 				# pos
-				puts "top"
 				0.0
-			elsif @core_direction.y < 0
+			elsif @direction.y < 0
 				# neg
 				1.0
 			else
