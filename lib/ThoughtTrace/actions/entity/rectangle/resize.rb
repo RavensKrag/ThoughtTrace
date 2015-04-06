@@ -7,7 +7,7 @@ module ThoughtTrace
 # Aspect ratio is LOCKED.
 class Resize < ThoughtTrace::Actions::BaseAction
 	MARGIN = 20
-	MINIMUM_DIMENSION = 10
+	MINIMUM_DIMENSION = 25
 	
 	initialize_with :entity
 	
@@ -24,36 +24,57 @@ class Resize < ThoughtTrace::Actions::BaseAction
 		# find distance to edges using local x,y coordinate system
 			# don't need to actually use distance formula,
 			# and can get distance even if there's rotation in the shape.
-		top_right = @entity[:physics].shape.top_right_vert
-		bottom_left = @entity[:physics].shape.bottom_left_vert
-		
 		
 		local_point = @entity[:physics].body.world2local point
+		m = MARGIN # TODO: need margins to shrink as size gets really small
+		w = @entity[:physics].shape.width
+		h = @entity[:physics].shape.height
+		
+		# xL = 0
+		xa = m
+		xb = w-m
+		xR = w
+		
+		# yT = 0
+		ya = m
+		yb = h-m
+		yB = h
 		
 		
-		
-		
-		# Figure out what sector out of nine the point is in
-		# (top, bottom, right, left, top_right, top_left, bottom_right, bottom_left, center)
-		x =	if local_point.x.between? top_right.x - MARGIN, top_right.x
-				# :right
-				1
-			elsif local_point.x.between? bottom_left.x, bottom_left.x + MARGIN
-				# :left
+		x = 
+			if    local_point.x < xa
+				# left
 				-1
-			else
+			elsif local_point.x < xb
+				# center
 				0
+			elsif local_point.x < xR
+				# right
+				1
 			end
 		
-		y =	if local_point.y.between? top_right.y - MARGIN, top_right.y
-				# :top
-				1
-			elsif local_point.y.between? bottom_left.y, bottom_left.y + MARGIN
-				# :bottom
+		y = 
+			if    local_point.y < ya
+				# top
 				-1
-			else
+			elsif local_point.y < yb
+				# center
 				0
+			elsif local_point.y < yB
+				# bottom
+				1
 			end
+		
+		# different edge characteristics,
+		# slicing from low to high vs chopping the edges from the core
+		# only would really effect very small parts of the data, but it's something to think about
+		
+		# new way favors the low end, old way favors the high end (of a particular axis)
+		# don't think you can really tell that about the old code by looking at it though...
+		
+		
+		
+		
 		
 		@direction = CP::Vec2.new(x,y)
 		
