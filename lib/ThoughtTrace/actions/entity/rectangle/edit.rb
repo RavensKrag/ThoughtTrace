@@ -70,8 +70,26 @@ class Edit < ThoughtTrace::Rectangle::Actions::Resize
 					delta = delta.project(@direction)
 				end
 				
-				width  += delta.x
-				height += delta.y
+				
+				# Compute new dimensions
+				if delta.x != 0
+					# Horizontal Stretch
+					
+					if @direction.x < 0
+						width -= delta.x
+					else
+						width += delta.x
+					end
+				end
+				if delta.y != 0
+					# Vertical Stretch
+					
+					if @direction.y < 0
+						height -= delta.y
+					else
+						height += delta.y
+					end
+				end
 			end
 			
 			
