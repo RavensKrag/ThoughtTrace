@@ -80,12 +80,10 @@ class Resize < ThoughtTrace::Actions::BaseAction
 	# perform calculations to generate the new data, but don't change the data yet.
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
-		local_origin = @entity[:physics].body.world2local @origin
-		local_point = @entity[:physics].body.world2local point
-		local_displacement = local_point - local_origin
+		delta = point - @origin
 			
 			
-			return if local_displacement.zero? # short circuit when there is no movement
+			return if delta.zero? # short circuit when there is no movement
 			
 			
 			# only use the component of the displacement in the direction of the edited component
@@ -117,10 +115,10 @@ class Resize < ThoughtTrace::Actions::BaseAction
 				
 				
 				# displacement in local space along the radial vector
-				radial_displacement = local_displacement.project(radial_axis).length
+				radial_displacement = delta.project(radial_axis).length
 				
 				# flip sign to negative if necessary
-				same_direction = local_displacement.dot(radial_axis) > 0
+				same_direction = delta.dot(radial_axis) > 0
 				radial_displacement *= -1 unless same_direction
 				
 				
@@ -140,7 +138,7 @@ class Resize < ThoughtTrace::Actions::BaseAction
 				# displacement towards the center of the shape is negative,
 				# displacement towards the outside of the shape is positive
 				
-				projection = local_displacement.project(@direction)
+				projection = delta.project(@direction)
 				
 				
 				# Compute new dimensions
@@ -256,6 +254,8 @@ class Resize < ThoughtTrace::Actions::BaseAction
 				# zero
 				0.5
 			end
+		
+		
 		
 		return CP::Vec2.new(x,y)
 	end
