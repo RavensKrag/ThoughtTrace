@@ -379,9 +379,8 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		width  = vec.x
 		height = vec.y
 		
-		verts.each_with_index do |vert, i|
-			original = @original_verts[i]
-			
+		
+		verts.zip(@original_verts).each do |vert, original|
 			if original != vert
 				# vert has been altered
 				
