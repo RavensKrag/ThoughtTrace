@@ -380,31 +380,51 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		height = vec.y
 		
 		verts.each_with_index do |vert, i|
-			if @original_verts[i] != vert
+			original = @original_verts[i]
+			
+			if original != vert
 				# vert has been altered
 				
 				
-				if vert.x != @original_verts[i].x
-					# vert has been transformed on horizontal axis
-					if width  < MINIMUM_DIMENSION
-						direction = ( vert.x > @original_verts[i].x ? 1 : -1 )
+				# if vert.x != original.x
+				# 	# vert has been transformed on horizontal axis
+				# 	if width  < MINIMUM_DIMENSION
+				# 		# counter-steer in the direction of the original vert
+				# 		direction = ( vert.x > original.x ? 1 : -1 )
 						
-						delta = MINIMUM_DIMENSION - width
+				# 		delta = MINIMUM_DIMENSION - width
 						
-						vert.x += delta * direction * -1
+				# 		vert.x += delta * direction * -1
+				# 	end
+				# end
+				
+				
+				[
+					[:x, width],
+					[:y, height]
+				].each do |axis, length|
+					
+					if vert.send(axis) != original.send(axis)
+						# vert has been transformed on the given axis
+						
+						# if the dimension on this axis is too short...
+						if length < MINIMUM_DIMENSION
+							# counter-steer in the direction of the original vert
+							direction = ( vert.send(axis) > original.send(axis) ? 1 : -1 )
+							# by an amount that would make the dimension equal the minimum
+							delta = MINIMUM_DIMENSION - length
+							
+							
+							eval "vert.#{axis} += #{delta} * #{direction} * -1"
+						end
 					end
+					
+					
 				end
 				
-				if vert.y != @original_verts[i].y
-					# vert has been transformed on vertical axis
-					if height < MINIMUM_DIMENSION
-						direction = ( vert.y > @original_verts[i].y ? 1 : -1 )
-						
-						delta = MINIMUM_DIMENSION - height
-						
-						vert.y += delta * direction * -1
-					end
-				end
+				
+				
+				
 			end
 		end
 		
