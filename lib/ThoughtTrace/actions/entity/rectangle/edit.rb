@@ -96,7 +96,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 					[:edge,     [3,0]]
 				
 				when [ 0,  0]
-					[:center,   []]
+					[:center,   [0,1,2,3]]
 				
 				when [ 1,  0] # right
 					[:edge,     [1,2]]
@@ -132,6 +132,53 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			
 			return if delta.zero? # short circuit when there is no movement
 			
+			# dimension_clamp!(delta)
+			# width  = @entity[:physics].shape.width
+			# height = @entity[:physics].shape.height
+			
+			# if width  - delta.x.abs  < MINIMUM_DIMENSION
+			# 	delta.x = 0
+			# end
+			# if height - delta.y.abs  < MINIMUM_DIMENSION
+			# 	delta.y = 0
+			# end
+			
+			# oscillation between current desired, and some states based on the initial
+			# is because the transformation is applied each tick relative to the initial data
+			
+			# but there is a range in which the system will snap as desired.
+			# It seems to trigger when you're under the minimum, and pull out fast,
+			# rather than stopping anything from getting under the minimum the first time
+			
+			
+			
+			
+			# weird things are happening because deltas are from the start of the operation,
+			# not since the previous frame.
+			
+			# but I think that doing per-frame deltas would compound error?
+			# you need to make sure that you're getting a 'converging' sort of thing,
+			# where overtime your error gets smaller and smaller,
+			# and not a divergent thing where error spirals off into infinity
+			
+			
+			# could probably switch to per-frame deltas with little difficulty, 
+			# because deltas are being computed inside each Action as necessary.
+			# could even fix per-frame and per-action deltas, for the same reason.
+			
+			
+			# oscillation:
+			# too close - push it back
+			# space to get closer - move it
+			# too close - push it back
+			# etc etc
+			# (thus, flipping between two states as controlled by the branch of the if in clamp!)
+			
+			
+			
+			
+			
+			
 			
 			# only use the component of the displacement in the direction of the edited component
 			# ie) the direction of a corner, or one of the edges
@@ -147,7 +194,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 					# scale the edge along the axis shared by it's verts
 					a,b = @vert_indicies.collect{|i| verts[i] }
 					axis = ( a.x == b.x ? :x : :y )
-					puts axis
 					
 					
 					@vert_indicies.each do |i|
@@ -159,9 +205,9 @@ class Edit < ThoughtTrace::Actions::BaseAction
 					
 					main  = verts[i]
 					
-					other = verts.each_with_index.select{ |vert, index| index != i  }
-					a = other.find{ |vert, index|  vert.x == main.x }.first
-					b = other.find{ |vert, index|  vert.y == main.y }.first
+					other = verts.select.with_index{ |vert, index| index != i  }
+					a = other.find{ |vert|  vert.x == main.x }
+					b = other.find{ |vert|  vert.y == main.y }
 					
 					
 					
@@ -174,7 +220,16 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			end
 		
 		
-		clamp_dimensions!(verts)	
+		clamp_dimensions!(verts)
+		
+		# transform verts, and then limit by moving back towards the original verts as necessary
+		# altered_verts = verts.select.with_index{|x,i| @original_verts[i] != x }
+		
+		
+		
+		
+		
+		
 		
 		
 		@new_verts = verts
@@ -200,8 +255,8 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		
 		
-		w = @entity[:physics].shape.width
-		h = @entity[:physics].shape.height
+		# w = @entity[:physics].shape.width
+		# h = @entity[:physics].shape.height
 	end
 	
 	# restore original state
@@ -324,15 +379,51 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		width  = vec.x
 		height = vec.y
 		
+		verts.each_with_index do |vert, i|
+			if @original_verts[i] != vert
+				# vert has been altered
+				
+				
+				if vert.x != @original_verts[i].x
+					# vert has been transformed on horizontal axis
+					if width  < MINIMUM_DIMENSION
+						direction = ( vert.x > @original_verts[i].x ? 1 : -1 )
+						
+						delta = MINIMUM_DIMENSION - width
+						
+						vert.x += delta * direction * -1
+					end
+				end
+				
+				if vert.y != @original_verts[i].y
+					# vert has been transformed on vertical axis
+					if height < MINIMUM_DIMENSION
+						direction = ( vert.y > @original_verts[i].y ? 1 : -1 )
+						
+						delta = MINIMUM_DIMENSION - height
+						
+						vert.y += delta * direction * -1
+					end
+				end
+			end
+		end
 		
+	end
+	
+	def dimension_clamp!(delta)
+		width  = @entity[:physics].shape.width
+		height = @entity[:physics].shape.height
+		
+		width  += delta.x
+		height += delta.y
 		
 		if width  < MINIMUM_DIMENSION
-			
+			delta.x = 0
 		end
 		
 		
 		if height < MINIMUM_DIMENSION
-			
+			delta.y = 0
 		end
 	end
 	

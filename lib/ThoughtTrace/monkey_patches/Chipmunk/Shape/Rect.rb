@@ -15,7 +15,6 @@ module CP
 			
 			
 			# TODO: Make sure @offset is ok this way. It may have to become a relative offset system to get things to resize dynamically as intended. (related to the anchor point system used in Rectangle entity [rectangle anchor]). Come back and check on this when Constraints are more developed. May not work as intended.
-			attr_reader :width, :height
 			
 			def width
 				(self.top_right_vert- self.bottom_left_vert).x
@@ -26,13 +25,11 @@ module CP
 			end
 			
 			def resize!(width, height, offset=nil)
-				@width = width
-				@height = height
-				
-				
 				@offset = offset unless offset.nil?
 				
-				update_geometry @offset
+				new_verts = new_geometry(width, height)
+				
+				self.set_verts! new_verts, @offset
 			end
 			
 			
