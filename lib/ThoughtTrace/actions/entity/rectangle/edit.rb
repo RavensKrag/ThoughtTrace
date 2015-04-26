@@ -155,14 +155,27 @@ class Edit < ThoughtTrace::Actions::BaseAction
 					end
 					
 				when :vert
-					# this is just for debug. not intended behavior yet
-					@vert_indicies.each do |i|
-						verts[i] += delta
-					end
+					i = @vert_indicies.first
+					
+					main  = verts[i]
+					
+					other = verts.each_with_index.select{ |vert, index| index != i  }
+					a = other.find{ |vert, index|  vert.x == main.x }.first
+					b = other.find{ |vert, index|  vert.y == main.y }.first
+					
+					
+					
+					main.x += delta.x
+					main.y += delta.y
+					a.x += delta.x
+					b.y += delta.y
 				when :center
 					
 			end
-			
+		
+		
+		clamp_dimensions!(verts)	
+		
 		
 		@new_verts = verts
 		# @offset    = CP::Vec2.new(0,0)
@@ -304,10 +317,23 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	
 	private
 	
-	def clamp_dimensions(verts)
-		# limit minimum size (like a clamp, but lower bound only)
-		width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
-		height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
+	
+	# limit minimum size (like a clamp, but lower bound only)
+	def clamp_dimensions!(verts)
+		vec = (verts[1] - verts[3])
+		width  = vec.x
+		height = vec.y
+		
+		
+		
+		if width  < MINIMUM_DIMENSION
+			
+		end
+		
+		
+		if height < MINIMUM_DIMENSION
+			
+		end
 	end
 	
 	
@@ -383,43 +409,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		
 		return width,height
-	end
-	
-	
-	
-	def anchor_point
-		# normalized anchor
-		# NOTE: remember that the anchor specifies the amount of counter-steering
-		# TODO: allow for more analog anchor specification
-		# TODO: consider anchoring based on where the initial point of context was.
-		# TODO: consider more complex margin specification. Maybe it should be proportional to size? Not sure in what specify way though.
-		x = 
-			if @direction.x > 0
-				# pos
-				0.0
-			elsif @direction.x < 0
-				# neg
-				1.0
-			else
-				# zero
-				# center
-				0.5
-			end
-		y = 
-			if @direction.y > 0
-				# pos
-				0.0
-			elsif @direction.y < 0
-				# neg
-				1.0
-			else
-				# zero
-				0.5
-			end
-		
-		
-		
-		return CP::Vec2.new(x,y)
 	end
 end
 
