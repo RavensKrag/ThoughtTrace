@@ -523,7 +523,7 @@
 			"file": "notes.sublime-workspace",
 			"settings":
 			{
-				"buffer_size": 188583,
+				"buffer_size": 197443,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
 			"settings":
 			{
-				"buffer_size": 21838,
+				"buffer_size": 23381,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/components.yaml",
 			"settings":
 			{
-				"buffer_size": 61611,
+				"buffer_size": 72783,
 				"line_ending": "Unix"
 			}
 		},
@@ -1907,6 +1907,24 @@
 				"line_ending": "Unix",
 				"name": "'link styles' needs to notify the user that the bu"
 			}
+		},
+		{
+			"contents": "TODO: consider how to visualize groups inside of groups\n\ndo you design a stacking visualization, that changes a little as you get more stacks?\ndo you visualize only to a certain threshold, abstracting the rest out completely?\nis there user control over these things?\n\n\n\n\n\nright click to move individual         (at current level of abstraction)\nshift + right click to move group      (at current level of abstraction)\nscroll wheel to move up and down the ladder of abstraction\n\n(wait shift + right click is 'duplicate' so not the exact binding... but like that)\nmaybe alt? because groups?\nthat actually makes a good deal of sense...\n\n\n\ndo you step up and down for the whole system, or just the local subgraph?\nsubgraph? subtree? can you know if it's a tree?\n\nstepping up, you know to collapse into a single parent,\nbut stepping down, you need to reveal ALL children, so the user can decide where to go next",
+			"settings":
+			{
+				"buffer_size": 906,
+				"line_ending": "Unix",
+				"name": "TODO: consider how to visualize groups inside of g"
+			}
+		},
+		{
+			"contents": "text actions (other than general Entity ones)\n\ncut        draw a line and slice a text object at a particular point => two text objects\nrip        select some chunk of text, and then rip it off => remove from original, create new text\ninsert     drag text A onto text B => text from A is inserted into B, A disappears\njoin       append / prepend A unto B ( similar to insert, but happens at edges )",
+			"settings":
+			{
+				"buffer_size": 398,
+				"line_ending": "Unix",
+				"name": "text actions (other than general Entity ones)"
+			}
 		}
 	],
 	"build_system": "run",
@@ -2430,7 +2448,7 @@
 	"groups":
 	[
 		{
-			"selected": 53,
+			"selected": 156,
 			"sheets":
 			[
 				{
@@ -2438,7 +2456,7 @@
 					"file": "notes.sublime-workspace",
 					"settings":
 					{
-						"buffer_size": 188583,
+						"buffer_size": 197443,
 						"regions":
 						{
 						},
@@ -2491,27 +2509,15 @@
 					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
 					"settings":
 					{
-						"buffer_size": 21838,
+						"buffer_size": 23381,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								21231,
-								21231
-							],
-							[
-								21390,
-								21390
-							],
-							[
-								21522,
-								21522
-							],
-							[
-								21673,
-								21673
+								0,
+								0
 							]
 						],
 						"settings":
@@ -2529,15 +2535,15 @@
 					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/components.yaml",
 					"settings":
 					{
-						"buffer_size": 61611,
+						"buffer_size": 72783,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12282,
-								12282
+								0,
+								0
 							]
 						],
 						"settings":
@@ -2908,7 +2914,8 @@
 						"settings":
 						{
 							"auto_name": "= overview",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 102.0,
@@ -2927,8 +2934,8 @@
 						"selection":
 						[
 							[
-								707,
-								707
+								382,
+								382
 							]
 						],
 						"settings":
@@ -4158,8 +4165,8 @@
 						"selection":
 						[
 							[
-								335,
-								335
+								427,
+								427
 							]
 						],
 						"settings":
@@ -6497,6 +6504,58 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 155,
+					"settings":
+					{
+						"buffer_size": 906,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								588,
+								588
+							]
+						],
+						"settings":
+						{
+							"auto_name": "TODO: consider how to visualize groups inside of g",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 156,
+					"settings":
+					{
+						"buffer_size": 398,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								398,
+								398
+							]
+						],
+						"settings":
+						{
+							"auto_name": "text actions (other than general Entity ones)",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		}
@@ -6550,6 +6609,18 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"locking",
+				"locking things in place"
+			],
+			[
+				"groupedi",
+				"TODO: group edit and resize"
+			],
+			[
+				"styecompo",
+				"all classes using Style Component should define de"
+			],
 			[
 				"empyt",
 				"rewrite 'empty space actions' as 'zero target acti"
@@ -6991,10 +7062,6 @@
 				"document format - multiple documents"
 			],
 			[
-				"locking",
-				"locking things in place"
-			],
-			[
 				"prefab",
 				"implement prefabs"
 			],
@@ -7053,14 +7120,6 @@
 			[
 				"docseri",
 				"ThoughtTrace/lib/ThoughtTrace/document/serialization.rb"
-			],
-			[
-				"edge",
-				"ThoughtTrace/lib/ThoughtTrace/constraint_system/visualizations/draw_edge.rb"
-			],
-			[
-				"collection",
-				"ThoughtTrace/lib/ThoughtTrace/constraint_system/collection/collection.rb"
 			]
 		],
 		"width": 0.0
