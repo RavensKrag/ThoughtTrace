@@ -75,7 +75,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		
 		# all 9 slices in order:
-		# left to right, top to bottom.
+		# top to bottom, left to right
 		@type          = nil # type of transform
 		@vert_indicies = nil # affected verts
 		
@@ -114,7 +114,9 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		
 		@direction = CP::Vec2.new(x,y)
+		# NOTE: direction vector now completely unnecessary
 		
+		# TODO: need to figure out what to do about center scaling. Do I still want that feature?
 		
 		
 		
@@ -352,23 +354,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			end
 		end
 		
-	end
-	
-	def dimension_clamp!(delta)
-		width  = @entity[:physics].shape.width
-		height = @entity[:physics].shape.height
-		
-		width  += delta.x
-		height += delta.y
-		
-		if width  < MINIMUM_DIMENSION
-			delta.x = 0
-		end
-		
-		
-		if height < MINIMUM_DIMENSION
-			delta.y = 0
-		end
 	end
 	
 	
