@@ -79,6 +79,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		@type          = nil # type of transform
 		@vert_indicies = nil # affected verts
 		
+		# vert order: bottom left, bottom right, top right, top left (Gosu render coordinate space)
 		@type, @vert_indicies = 
 			case [x,y]
 				
@@ -120,10 +121,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		@original_verts    = @entity[:physics].shape.verts
 		@original_offset   = @entity[:physics].shape.instance_variable_get(:@offset).clone
 		@original_position = @entity[:physics].body.p.clone
-		
-		shape = @entity[:physics].shape
-		@original_width  = shape.width
-		@original_height = shape.height
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -166,35 +163,32 @@ class Edit < ThoughtTrace::Actions::BaseAction
 					
 			end
 			
-			
-			width  = 20
-			height = 20
-			
-			# limit minimum size (like a clamp, but lower bound only)
-			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
-			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
 		
-		
-		@width     = width
-		@height    = height
 		@new_verts = verts
-		@offset    = CP::Vec2.new(0,0)
+		# @offset    = CP::Vec2.new(0,0)
+		@offset    = verts[3] * -1
+		# this vert is by default (0,0) in local space,
+		# so you need to restore it to it's default position as the local origin.
+		# if you don't, then width / height calculations get weird
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		# @entity.resize!(@width, @height, @anchor)
 		@entity[:physics].shape.set_verts!(@new_verts, @offset)
+		@entity[:physics].body.p =  @original_position - @offset
+		
+		# checking to make sure the @offset modifies verts as expected (it does)
+		# p @entity[:physics].shape.verts.collect{|v|  v.to_s }
 		
 		
-		# w = @width
-		# h = @height 
-		# @entity[:physics].shape.instance_eval do
-		# 	@width  = w
-		# 	@height = h
-		# end
+		# NOTE: little bit of jitter on counter-steering
+		
+		
+		
+		w = @entity[:physics].shape.width
+		h = @entity[:physics].shape.height
 	end
 	
 	# restore original state
@@ -202,14 +196,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
 		@entity[:physics].shape.set_verts!(@original_verts, @original_offset)
-		
-		
-		w = @original_width
-		h = @original_height
-		@entity[:physics].shape.instance_eval do
-			@width  = w
-			@height = h
-		end
+		@entity[:physics].body.p = @original_position
 	end
 	
 	# final tick of the Action
