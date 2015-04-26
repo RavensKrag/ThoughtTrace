@@ -3,7 +3,7 @@ module ThoughtTrace
 		module Actions
 
 
-# Change dimensions of Rectangle by moving verts around.
+# Change dimensions of Rectangle by using 9-slice style transformation
 # No aspect ratio locking.
 class Edit < ThoughtTrace::Actions::BaseAction
 	MARGIN = 20
@@ -74,26 +74,55 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		
 		
+		# all 9 slices in order:
+		# left to right, top to bottom.
+		@type          = nil # type of transform
+		@vert_indicies = nil # affected verts
+		
+		@type, @vert_indicies = 
+			case [x,y]
+				
+				when [-1, -1]
+					[:vert,     [3]]
+				
+				when [ 0, -1] # top
+					[:edge,     [2,3]]
+				
+				when [ 1, -1]
+					[:vert,     [2]]
+				
+				when [-1,  0] # left
+					[:edge,     [3,0]]
+				
+				when [ 0,  0]
+					[:center,   []]
+				
+				when [ 1,  0] # right
+					[:edge,     [1,2]]
+				
+				when [-1,  1]
+					[:vert,     [0]]
+				
+				when [ 0,  1] # bottom
+					[:edge,     [0,1]]
+				
+				when [ 1,  1]
+					[:vert,     [1]]
+				
+			end
 		
 		
 		@direction = CP::Vec2.new(x,y)
 		
 		
 		
-		# Reshape diagonals to point at the actual corners,
-		# not just the corners of an ideal square
-		if x != 0 && y != 0
-			@direction.x *= @entity[:physics].shape.width
-			@direction.y *= @entity[:physics].shape.height
-			
-			@direction.normalize!
-		end
 		
-		
-		
+		@original_verts    = @entity[:physics].shape.verts
+		@original_offset   = @entity[:physics].shape.instance_variable_get(:@offset).clone
+		@original_position = @entity[:physics].body.p.clone
 		
 		shape = @entity[:physics].shape
-		@original_width = shape.width
+		@original_width  = shape.width
 		@original_height = shape.height
 	end
 	
@@ -114,39 +143,73 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			# thus, the current implementation scales corners faster
 				# (diagonal straight-line distance is shorter than taxi-cab distance)
 			
-			width, height =
-				if @direction.zero?
-					radial_scaling(point, delta, @original_width, @original_height)
-				else
-					cartesian_scaling(point, delta, @original_width, @original_height)
-				end
+			verts = @original_verts.collect{ |vec|  vec.clone  }
+			
+			case @type
+				when :edge
+					# scale the edge along the axis shared by it's verts
+					a,b = @vert_indicies.collect{|i| verts[i] }
+					axis = ( a.x == b.x ? :x : :y )
+					puts axis
+					
+					
+					@vert_indicies.each do |i|
+						eval "verts[#{i}].#{axis} += delta.#{axis}"
+					end
+					
+				when :vert
+					# this is just for debug. not intended behavior yet
+					@vert_indicies.each do |i|
+						verts[i] += delta
+					end
+				when :center
+					
+			end
+			
+			
+			width  = 20
+			height = 20
 			
 			# limit minimum size (like a clamp, but lower bound only)
 			width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
 			height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
 		
 		
-		@width  = width
-		@height = height
-		@anchor = anchor_point()
+		@width     = width
+		@height    = height
+		@new_verts = verts
+		@offset    = CP::Vec2.new(0,0)
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		@entity.resize!(@width, @height, @anchor)
+		# @entity.resize!(@width, @height, @anchor)
+		@entity[:physics].shape.set_verts!(@new_verts, @offset)
+		
+		
+		# w = @width
+		# h = @height 
+		# @entity[:physics].shape.instance_eval do
+		# 	@width  = w
+		# 	@height = h
+		# end
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		@entity.resize!(@original_width, @original_height, @anchor)
-		# use the same anchor from the apply step.
-		# this should be enough to reverse the operation.
-		# There's no real way to calculate an "inverse anchor",
-		# but I don't think that's necessary anyway.
+		@entity[:physics].shape.set_verts!(@original_verts, @original_offset)
+		
+		
+		w = @original_width
+		h = @original_height
+		@entity[:physics].shape.instance_eval do
+			@width  = w
+			@height = h
+		end
 	end
 	
 	# final tick of the Action
@@ -253,6 +316,13 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	
 	
 	private
+	
+	def clamp_dimensions(verts)
+		# limit minimum size (like a clamp, but lower bound only)
+		width  = MINIMUM_DIMENSION if width  < MINIMUM_DIMENSION
+		height = MINIMUM_DIMENSION if height < MINIMUM_DIMENSION
+	end
+	
 	
 	def radial_scaling(point, delta, width, height)
 		# ===== Radial Scaling =====
