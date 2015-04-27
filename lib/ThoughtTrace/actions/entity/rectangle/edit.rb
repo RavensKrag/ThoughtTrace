@@ -113,13 +113,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			end
 		
 		
-		@direction = CP::Vec2.new(x,y)
-		# NOTE: direction vector now completely unnecessary
-		
-		# TODO: need to figure out what to do about center scaling. Do I still want that feature?
-		
-		
-		
 		@original_verts    = @entity[:physics].shape.verts
 		@original_offset   = @entity[:physics].shape.instance_variable_get(:@offset).clone
 		@original_position = @entity[:physics].body.p.clone
@@ -130,42 +123,44 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
 		delta = point - @origin
-			
-			
-			return if delta.zero? # short circuit when there is no movement
-			
-			
-			verts = @original_verts.collect{ |vec|  vec.clone  }
-			
-			case @type
-				when :edge
-					# scale the edge along the axis shared by it's verts
-					a,b = @vert_indicies.collect{|i| verts[i] }
-					axis = ( a.x == b.x ? :x : :y )
-					
-					
-					@vert_indicies.each do |i|
-						eval "verts[#{i}].#{axis} += delta.#{axis}"
-					end
-					
-				when :vert
-					i = @vert_indicies.first
-					
-					main  = verts[i]
-					
-					other = verts.select.with_index{ |vert, index| index != i  }
-					a = other.find{ |vert|  vert.x == main.x }
-					b = other.find{ |vert|  vert.y == main.y }
-					
-					
-					
-					main.x += delta.x
-					main.y += delta.y
-					a.x += delta.x
-					b.y += delta.y
-				when :center
-					
-			end
+		
+		
+		return if delta.zero? # short circuit when there is no movement
+		
+		
+		verts = @original_verts.collect{ |vec|  vec.clone  }
+		
+		case @type
+			when :edge
+				# scale the edge along the axis shared by it's verts
+				a,b = @vert_indicies.collect{|i| verts[i] }
+				axis = ( a.x == b.x ? :x : :y )
+				
+				
+				@vert_indicies.each do |i|
+					eval "verts[#{i}].#{axis} += delta.#{axis}"
+				end
+				
+			when :vert
+				# move one main vert on both axis,
+				# and two secondary verts one axis each, in accordance with the main one.
+				i = @vert_indicies.first
+				
+				main  = verts[i]
+				
+				other = verts.select.with_index{ |vert, index| index != i  }
+				a = other.find{ |vert|  vert.x == main.x }
+				b = other.find{ |vert|  vert.y == main.y }
+				
+				
+				
+				main.x += delta.x
+				main.y += delta.y
+				a.x += delta.x
+				b.y += delta.y
+			when :center
+				# do nothing
+		end
 		
 		
 		clamp_dimensions!(verts)
@@ -354,81 +349,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			end
 		end
 		
-	end
-	
-	
-	def radial_scaling(point, delta, width, height)
-		# ===== Radial Scaling =====
-		# scale about the center
-		
-		# Sign-age of scale is relative to center of rectangle
-		# towards center is negative (shrinking)
-		# away from center is positive (growing)
-		
-		
-		# --- Magnitude of transform
-		# find vector starting from center, and going towards the current point
-		center = @entity[:physics].center
-		center_to_point = point - center
-		radial_axis = center_to_point.normalize
-		
-		# NOTE: possible crash if 'center' and 'point' are EXACTLY the same
-		# ( likelihood is extremely low, but still want to safeguard against it )
-		
-		
-		# displacement in local space along the radial vector
-		radial_delta = delta.project(radial_axis)
-		radial_displacement = radial_delta.length
-		
-		# flip sign to negative if necessary
-		same_direction = delta.dot(radial_axis) > 0
-		radial_displacement *= -1 unless same_direction
-		
-		
-		
-		
-		# --- Apply magnitude of transform in appropriate directions
-		# multiply by two, because resizing is happening in two directions at once
-		width  += radial_displacement * 2
-		height += radial_displacement * 2
-		
-		return width,height
-	end
-	
-	def cartesian_scaling(point, delta, width, height)
-		# ===== Cartesian Scaling =====
-		# scale along the axes of the rectangle
-		
-		# pin down part (edge or vert) of the rectangle, and stretch out the rest
-		
-		# rescale in the direction specified by @direction
-		# displacement towards the center of the shape is negative,
-		# displacement towards the outside of the shape is positive
-		
-		
-		
-		# this should grab edge movement only, and leave vertex movement unrestricted
-		# if (@direction.x == 0) ^ (@direction.y == 0)
-		# 	delta = delta.project(@direction)
-		# end
-		# NOTE: you don't need this, as long as you have the conditional guards on the axis scaling
-		
-		
-		
-		# Horizontal Stretch
-		if @direction.x != 0
-			delta.x *= -1 if @direction.x < 0
-			width  += delta.x
-		end
-		
-		# Vertical Stretch
-		if @direction.y != 0
-			delta.y *= -1 if @direction.y < 0
-			height += delta.y
-		end
-		
-		
-		return width,height
 	end
 end
 
