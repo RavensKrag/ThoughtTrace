@@ -72,45 +72,8 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		# new way favors the low end, old way favors the high end (of a particular axis)
 		# don't think you can really tell that about the old code by looking at it though...
 		
+		@grab_handle = CP::Vec2.new(x,y)
 		
-		
-		# all 9 slices in order:
-		# top to bottom, left to right
-		@type          = nil # type of transform
-		@vert_indicies = nil # affected verts
-		
-		# vert order: bottom left, bottom right, top right, top left (Gosu render coordinate space)
-		@type, @vert_indicies = 
-			case [x,y]
-				
-				when [-1, -1]
-					[:vert,     [3]]
-				
-				when [ 0, -1] # top
-					[:edge,     [2,3]]
-				
-				when [ 1, -1]
-					[:vert,     [2]]
-				
-				when [-1,  0] # left
-					[:edge,     [3,0]]
-				
-				when [ 0,  0]
-					[:center,   [0,1,2,3]]
-				
-				when [ 1,  0] # right
-					[:edge,     [1,2]]
-				
-				when [-1,  1]
-					[:vert,     [0]]
-				
-				when [ 0,  1] # bottom
-					[:edge,     [0,1]]
-				
-				when [ 1,  1]
-					[:vert,     [1]]
-				
-			end
 		
 		
 		@original_verts    = @entity[:physics].shape.verts
@@ -123,89 +86,30 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	def update(point)
 		delta = point - @origin
 		
-		
-		return if delta.zero? # short circuit when there is no movement
-		
-		
-		verts = @original_verts.collect{ |vec|  vec.clone  }
-		
-		case @type
-			when :edge
-				# scale the edge along the axis shared by it's verts
-				a,b = @vert_indicies.collect{|i| verts[i] }
-				axis = ( a.x == b.x ? :x : :y )
-				
-				
-				@vert_indicies.each do |i|
-					eval "verts[#{i}].#{axis} += delta.#{axis}"
-				end
-				
-			when :vert
-				# move one main vert on both axis,
-				# and two secondary verts one axis each, in accordance with the main one.
-				i = @vert_indicies.first
-				
-				main  = verts[i]
-				
-				other = verts.select.with_index{ |vert, index| index != i  }
-				a = other.find{ |vert|  vert.x == main.x }
-				b = other.find{ |vert|  vert.y == main.y }
-				
-				
-				
-				main.x += delta.x
-				main.y += delta.y
-				a.x += delta.x
-				b.y += delta.y
-			when :center
-				# do nothing
-		end
-		
-		
-		clamp_dimensions!(verts)
-		# NOTE: this assumes you are only stretching in one direction at a time.
-		# ex) if you stretch outwards horizontally (rescale x axis)
-		# then the clamp will not perform as expected
-		
-		
-		
-		
-		
-		
-		
-		
-		@new_verts = verts
-		# @offset    = CP::Vec2.new(0,0)
-		@offset    = verts[3] * -1
-		# this vert is by default (0,0) in local space,
-		# so you need to restore it to it's default position as the local origin.
-		# if you don't, then width / height calculations get weird
+		@delta = delta
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		@entity[:physics].shape.set_verts!(@new_verts, @offset)
-		@entity[:physics].body.p =  @original_position - @offset
+		# shape resize method is a one-shot thing,
+		# so you must undo the last tick of the action before running the resize again
+		# (this is because deltas are per-action rather than per-tick)
+		# (probably would not have to undo when using per-tick deltas)
+		undo()
 		
-		# checking to make sure the @offset modifies verts as expected (it does)
-		# p @entity[:physics].shape.verts.collect{|v|  v.to_s }
-		
-		
-		# NOTE: little bit of jitter on counter-steering
-		
+		return if @delta.zero? # short circuit when there is no movement
 		
 		
-		# w = @entity[:physics].shape.width
-		# h = @entity[:physics].shape.height
+		@entity[:physics].shape.resize_by_delta!(@grab_handle, @delta, MINIMUM_DIMENSION)
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		@entity[:physics].shape.set_verts!(@original_verts)
+		@entity[:physics].shape.set_verts!(@original_verts, CP::Vec2.new(0,0))
 		@entity[:physics].body.p = @original_position
 	end
 	
@@ -305,49 +209,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			
 			
 		end
-	end
-	
-	
-	
-	
-	
-	
-	private
-	
-	
-	# limit minimum size (like a clamp, but lower bound only)
-	def clamp_dimensions!(verts)
-		vec = (verts[1] - verts[3])
-		width  = vec.x
-		height = vec.y
-		
-		
-		verts.zip(@original_verts).each do |vert, original|
-			[
-				[:x, width],
-				[:y, height]
-			].each do |axis, length|
-				
-				
-				if vert.send(axis) != original.send(axis)
-					# vert has been transformed on the given axis
-					
-					# if the dimension on this axis is too short...
-					if length < MINIMUM_DIMENSION
-						# counter-steer in the direction of the original vert
-						direction = ( vert.send(axis) > original.send(axis) ? 1 : -1 )
-						# by an amount that would make the dimension equal the minimum
-						delta = MINIMUM_DIMENSION - length
-						
-						
-						eval "vert.#{axis} += #{delta} * #{direction} * -1"
-					end
-				end
-				
-				
-			end
-		end
-		
 	end
 end
 
