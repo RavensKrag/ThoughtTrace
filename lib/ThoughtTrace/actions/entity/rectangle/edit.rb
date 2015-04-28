@@ -96,6 +96,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		# so you must undo the last tick of the action before running the resize again
 		# (this is because deltas are per-action rather than per-tick)
 		# (probably would not have to undo when using per-tick deltas)
+		# NOTE: per-tick deltas introduce a lot of drift (at least for naive implementation)
 		undo()
 		
 		return if @delta.zero? # short circuit when there is no movement
