@@ -78,7 +78,6 @@ module CP
 				
 				case type
 					when :edge
-						puts "edge scaling"
 						# scale the edge along the axis shared by it's verts
 						a,b = target_indidies.collect{|i| verts[i] }
 						axis = ( a.x == b.x ? :x : :y )
