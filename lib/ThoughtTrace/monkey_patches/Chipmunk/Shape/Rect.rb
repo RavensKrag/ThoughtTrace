@@ -132,7 +132,7 @@ module CP
 			# (and obviously it uses 'point' instead of 'delta')
 			def resize_to_point!(grab_handle, point, minimum_dimension=1)
 				point = self.body.world2local(point)
-				type, target_indidies = VEC_TO_TRANSFORM_DATA[grab_handle.to_a]
+				type, target_indicies = VEC_TO_TRANSFORM_DATA[grab_handle.to_a]
 				
 				
 				verts = self.verts()
@@ -141,18 +141,18 @@ module CP
 				case type
 					when :edge
 						# scale the edge along the axis shared by it's verts
-						a,b = target_indidies.collect{|i| verts[i] }
+						a,b = target_indicies.collect{|i| verts[i] }
 						axis = ( a.x == b.x ? :x : :y )
 						
 						
-						target_indidies.each do |i|
+						target_indicies.each do |i|
 							eval "verts[#{i}].#{axis} = point.#{axis}"
 						end
 						
 					when :vert
 						# move one main vert on both axis,
 						# and two secondary verts one axis each, in accordance with the main one.
-						i = target_indidies.first
+						i = target_indicies.first
 						
 						main  = verts[i]
 						
