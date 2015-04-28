@@ -68,7 +68,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		# slicing from low to high vs chopping the edges from the core
 		# only would really effect very small parts of the data, but it's something to think about
 		
-		# new way favors the low end, old way favors the high end (of a particular axis)
+		# former favors the low end, latter favors the high end (of a particular axis)
 		# don't think you can really tell that about the old code by looking at it though...
 		
 		@grab_handle = CP::Vec2.new(x,y)
