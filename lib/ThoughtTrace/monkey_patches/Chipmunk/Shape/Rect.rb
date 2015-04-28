@@ -52,12 +52,6 @@ module CP
 			
 			private
 			
-			def update_geometry(offset=CP::Vec2.new(0,0))
-				new_verts = new_geometry(@width, @height)
-				
-				self.set_verts! new_verts, offset
-			end
-			
 			def new_geometry(width, height)
 				l = 0
 				b = 0
