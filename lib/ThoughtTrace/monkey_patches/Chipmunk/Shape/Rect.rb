@@ -24,6 +24,15 @@ module CP
 				top_right_vert / 2
 			end
 			
+			# Returns the two verts that specify an edge.
+			# Edge is specified using 'resize' grab handle format.
+			def edge(grab_handle)
+				type, target_indidies = VEC_TO_TRANSFORM_DATA[grab_handle.to_a]
+				raise "Coordinates do not specify an edge" unless type == :edge
+				
+				return target_indidies.collect{|i|  self.vert(i)  }
+			end
+			
 			
 			
 			
