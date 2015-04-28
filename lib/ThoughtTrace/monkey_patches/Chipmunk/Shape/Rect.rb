@@ -63,6 +63,7 @@ module CP
 				[ 0.0,  1.0] => [:edge,     [0,1]],
 				[ 1.0,  1.0] => [:vert,     [1]]
 			}
+			# NOTE: list numbers as floats, not ints, because that's how CP::Vec2 data is stored.
 			
 			# NOTE: little bit of jitter on counter-steering
 			
