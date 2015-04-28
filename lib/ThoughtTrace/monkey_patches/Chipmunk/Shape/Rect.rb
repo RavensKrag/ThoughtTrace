@@ -79,7 +79,7 @@ module CP
 			
 			
 			# Transform the rectangle based on a transformation delta
-			def resize_by_delta!(grab_handle, delta, minimum_dimension)
+			def resize_by_delta!(grab_handle, delta, minimum_dimension=1)
 				type, target_indidies = VEC_TO_TRANSFORM_DATA[grab_handle.to_a]
 				
 				
@@ -130,7 +130,7 @@ module CP
 			# code is pretty much identical to #resize_by_delta!()
 			# except it uses '=' instead of '+=' to transform the verts
 			# (and obviously it uses 'point' instead of 'delta')
-			def resize_to_point!(grab_handle, point, minimum_dimension)
+			def resize_to_point!(grab_handle, point, minimum_dimension=1)
 				point = self.body.world2local(point)
 				type, target_indidies = VEC_TO_TRANSFORM_DATA[grab_handle.to_a]
 				
