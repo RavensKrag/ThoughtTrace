@@ -28,7 +28,8 @@ module CP
 			# Edge is specified using 'resize' grab handle format.
 			def edge(grab_handle)
 				type, target_indidies = VEC_TO_TRANSFORM_DATA[grab_handle.to_a]
-				raise "Coordinates do not specify an edge" unless type == :edge
+				raise ArgumentError, "#{grab_handle.to_s} is not a valid grab handle" if type.nil?
+				raise ArgumentError, "Coordinates do not specify an edge" unless type == :edge
 				
 				return target_indidies.collect{|i|  self.vert(i)  }
 			end
