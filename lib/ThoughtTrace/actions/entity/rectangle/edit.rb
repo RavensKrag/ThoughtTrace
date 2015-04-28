@@ -12,9 +12,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	
 	# called on first tick
 	def press(point)
-		# mark the initial point for reference
-		@origin = point
-		
 		# test in which region of the shape the point lies
 		# ASSUMPTION: point is already known to lie within the shape
 		
@@ -83,26 +80,14 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# perform calculations to generate the new data, but don't change the data yet.
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
-		delta = point - @origin
-		
-		@delta = delta
+		@point = point
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		# shape resize method is a one-shot thing,
-		# so you must undo the last tick of the action before running the resize again
-		# (this is because deltas are per-action rather than per-tick)
-		# (probably would not have to undo when using per-tick deltas)
-		# NOTE: per-tick deltas introduce a lot of drift (at least for naive implementation)
-		undo()
-		
-		return if @delta.zero? # short circuit when there is no movement
-		
-		
-		@entity[:physics].shape.resize_by_delta!(@grab_handle, @delta, MINIMUM_DIMENSION)
+		@entity[:physics].shape.resize_to_point!(@grab_handle, @point, MINIMUM_DIMENSION)
 	end
 	
 	# restore original state
