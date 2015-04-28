@@ -124,13 +124,14 @@ module CP
 			end
 			
 			
-			# Transform the rectangle by moving a grab handle to match up with a point
+			# Transform by moving a grab handle to match up with a point in world space
 			# (as best as possible while maintaining the properties of a rectangle)
 			# 
 			# code is pretty much identical to #resize_by_delta!()
 			# except it uses '=' instead of '+=' to transform the verts
 			# (and obviously it uses 'point' instead of 'delta')
 			def resize_to_point!(grab_handle, point, minimum_dimension)
+				point = self.body.world2local(point)
 				type, target_indidies = VEC_TO_TRANSFORM_DATA[grab_handle.to_a]
 				
 				
