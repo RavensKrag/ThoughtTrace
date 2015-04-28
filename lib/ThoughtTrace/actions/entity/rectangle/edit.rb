@@ -6,7 +6,6 @@ module ThoughtTrace
 # Change dimensions of Rectangle by using 9-slice style transformation
 # No aspect ratio locking.
 class Edit < ThoughtTrace::Actions::BaseAction
-	MARGIN = 20
 	MINIMUM_DIMENSION = 25
 	
 	initialize_with :entity
@@ -26,9 +25,9 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			# and can get distance even if there's rotation in the shape.
 		
 		local_point = @entity[:physics].body.world2local point
-		m = MARGIN # TODO: need margins to shrink as size gets really small
 		w = @entity[:physics].shape.width
 		h = @entity[:physics].shape.height
+		m = margin(w,h)
 		
 		# xL = 0
 		xa = m
@@ -159,21 +158,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		h = @entity[:physics].shape.height
 		
 		
-		# TODO: need margins to shrink as size gets really small
-		# transform progression of the smaller of the two sides
-		# into a bounded linear quantized sequence, and
-		# transform that into super-linear final output sequence
-		min_side = [w,h].min
-		i = Math.sqrt(min_side/2) # approx of the inverse function of the side progression?
-		
-		seq = [1,2,3,5,8,13,25]   # limit of this sequence should ideally be MARGIN (currently 20)
-		
-		max_i = seq.length - 1
-		i = max_i if i > max_i
-		
-		margin = seq[i]
-		
-		m = margin
+		m = margin(w,h)
 		
 		
 		
@@ -209,6 +194,27 @@ class Edit < ThoughtTrace::Actions::BaseAction
 			
 			
 		end
+	end
+	
+	
+	private
+	
+	def margin(w,h)
+		# default: MARGIN = 20
+		
+		# TODO: need margins to shrink as size gets really small
+		# transform progression of the smaller of the two sides
+		# into a bounded linear quantized sequence, and
+		# transform that into super-linear final output sequence
+		min_side = [w,h].min
+		i = Math.sqrt(min_side/2) # approx of the inverse function of the side progression?
+		
+		seq = [1,2,3,5,8,13,25]   # limit of this sequence should ideally be MARGIN (currently 20)
+		
+		max_i = seq.length - 1
+		i = max_i if i > max_i
+		
+		seq[i]
 	end
 end
 
