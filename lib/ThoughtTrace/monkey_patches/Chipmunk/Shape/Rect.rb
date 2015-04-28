@@ -6,11 +6,6 @@ module CP
 				@height = height
 				
 				
-				# TODO: depreciate @offset
-				# used to maintain proper offset when you just want to change one dimension
-				@offset = offset
-				
-				
 				super(body, new_geometry(width, height), offset)
 			end
 			
@@ -32,8 +27,6 @@ module CP
 			
 			
 			
-			# TODO: Make sure @offset is ok this way. It may have to become a relative offset system to get things to resize dynamically as intended. (related to the anchor point system used in Rectangle entity [rectangle anchor]). Come back and check on this when Constraints are more developed. May not work as intended.
-			
 			def width
 				(self.top_right_vert- self.bottom_left_vert).x
 			end
@@ -45,12 +38,10 @@ module CP
 			
 			# TODO: fully depreciate this method
 			# NOTE: currently very important to Text entities
-			def resize!(width, height, offset=nil)
-				@offset = offset unless offset.nil?
-				
+			def resize!(width, height, offset=CP::Vec2.new(0,0))
 				new_verts = new_geometry(width, height)
 				
-				self.set_verts! new_verts, @offset
+				self.set_verts! new_verts, offset
 			end
 			
 			
@@ -247,7 +238,6 @@ module CP
 				end
 				
 			end
-			
 			
 			def commit_verts!(new_verts)
 				offset = new_verts[3] * -1
