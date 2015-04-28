@@ -114,7 +114,6 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		
 		
 		@original_verts    = @entity[:physics].shape.verts
-		@original_offset   = @entity[:physics].shape.instance_variable_get(:@offset).clone
 		@original_position = @entity[:physics].body.p.clone
 	end
 	
@@ -206,7 +205,7 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		@entity[:physics].shape.set_verts!(@original_verts, @original_offset)
+		@entity[:physics].shape.set_verts!(@original_verts)
 		@entity[:physics].body.p = @original_position
 	end
 	
