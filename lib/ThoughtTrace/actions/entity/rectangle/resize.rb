@@ -66,8 +66,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				# -----
 				# Compare these two ratios:
-				# above  ^  minimum dimension calculation
-				# below  v  scale the secondary axis
+				# > minimum dimension calculation
+				# > scale the secondary axis
 				# 
 				# The two ratios are similarly calculated, but you can't reuse the same variable.
 				# The top ratio is based on the which side is longer, 
