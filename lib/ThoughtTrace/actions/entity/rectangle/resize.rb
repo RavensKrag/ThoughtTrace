@@ -7,7 +7,7 @@ module ThoughtTrace
 # Aspect ratio is LOCKED.
 class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	MARGIN = 20
-	MINIMUM_DIMENSION = 10
+	MINIMUM_DIMENSION = self.superclass::MINIMUM_DIMENSION
 	
 	initialize_with :entity
 	
@@ -51,8 +51,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				# compute minimum dimensions
 				diag  = new_verts[1]
 				
-				minimum = self.class.superclass::MINIMUM_DIMENSION
-				
 				minimum_x = nil
 				minimum_y = nil
 				
@@ -60,14 +58,14 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					# width limits scaling
 					ratio = diag.y / diag.x
 					
-					minimum_x = minimum
-					minimum_y = minimum * ratio
+					minimum_x = MINIMUM_DIMENSION
+					minimum_y = MINIMUM_DIMENSION * ratio
 				else
 					# height limits scaling
 					ratio = diag.x / diag.y
 					
-					minimum_y = minimum
-					minimum_x = minimum * ratio
+					minimum_y = MINIMUM_DIMENSION
+					minimum_x = MINIMUM_DIMENSION * ratio
 				end
 				
 				
@@ -143,14 +141,14 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				
 			when :vert
+				# NOTE: vert scaling still converges to square, ignoring the aspect ratio.
 				center = @entity[:physics].shape.center
 				vert = new_verts[target_indicies.first]
 				diagonal = (vert - center).normalize
 				
 				vec = @delta.project(diagonal)
 				
-				minimum = self.class.superclass::MINIMUM_DIMENSION
-				@entity[:physics].shape.resize_by_delta!(@grab_handle, vec, minimum)
+				@entity[:physics].shape.resize_by_delta!(@grab_handle, vec, MINIMUM_DIMENSION)
 				
 				
 			when :center
