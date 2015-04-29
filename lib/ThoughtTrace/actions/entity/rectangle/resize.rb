@@ -113,53 +113,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				# nothing
 		end
 		
-		
-		
-		# offset = new_verts[3] * -1
-		# # this vert is by default (0,0) in local space,
-		# # so you need to restore it to it's default position as the local origin.
-		# # if you don't, then width / height calculations get weird
-		
-		# @entity[:physics].shape.set_verts!(new_verts, offset)
-		# @entity[:physics].shape.body.p -= offset
-		
-		
-		# # then, scale along the other axis
-		# midpoint = CP::Vec2.midpoint(a,b)
-		# midpoint_world = @entity[:physics].body.local2world(midpoint)
-			
-		# 	# list = [:x, :y]
-		# 	# list.delete(axis)
-		# 	# scale_axis = list.first
-		# 	p verts.collect{|p| p.to_s}
-		# 	if axis == :x
-		# 		# scale along y
-		# 		original_width = width
-		# 		width += @delta.x
-				
-		# 		ratio = width.to_f / original_width.to_f
-		# 		height = height * ratio
-				
-				
-		# 		verts[0].y = height
-		# 	else # axis == :y
-		# 		# scale along x
-		# 		original_height = height
-		# 		height += @delta.y
-				
-		# 		ratio = height.to_f / original_height.to_f
-		# 		width = width * ratio
-				
-				
-		# 		verts[2].x = width
-		# 	end
-		
-		# a,b = target_indicies.collect{|i| verts[i] }
-		# new_midpoint = CP::Vec2.midpoint(a,b)
-		# new_midpoint_world = @entity[:physics].body.local2world(new_midpoint)
-		
-		# shift = new_midpoint_world - midpoint_world
-		# @entity[:physics].body.p += shift
 	end
 	
 	# restore original state
