@@ -38,7 +38,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		# p target_indicies
 		
 		new_verts = @entity[:physics].shape.verts
-		
+		diagonal  = new_verts[1]
 		
 		# store original dimensions before any transforms
 		original_width  = @entity[:physics].shape.width
@@ -46,32 +46,15 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		
 		
 		# compute minimum dimensions
-		diag  = new_verts[1]
-		
-		minimum_x = nil
-		minimum_y = nil
-		
-		
-		minimum = self.class.const_get('MINIMUM_DIMENSION')
-		if original_width <= original_height
-			# width limits scaling
-			ratio = diag.y / diag.x
-			
-			minimum_x = minimum
-			minimum_y = minimum * ratio
-		else
-			# height limits scaling
-			ratio = diag.x / diag.y
-			
-			minimum_y = minimum
-			minimum_x = minimum * ratio
-		end
+		minimum_x, minimum_y = minimum_dimensions(diagonal)
 		
 		
 		
 		
 		case type
 			when :edge
+				diag  = new_verts[1]
+				
 				# these two lines stolen from CP::Shape::Rect#resize_by_delta!
 				a,b = target_indicies.collect{|i| new_verts[i] }
 				axis = ( a.x == b.x ? :x : :y )
@@ -101,7 +84,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					
 					
 					# secondary y
-					ratio = diag.y / diag.x
+					ratio = diagonal.y / diagonal.x
 					
 					new_width  = @entity[:physics].shape.width
 					new_height = new_width * ratio
@@ -119,7 +102,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					
 					
 					# secondary x
-					ratio = diag.x / diag.y
+					ratio = diagonal.x / diagonal.y
 					
 					new_height = @entity[:physics].shape.height
 					new_width = new_height * ratio
@@ -186,6 +169,33 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		# TODO: draw margins to get a better idea of how they should be altered as the shape changes.
 		# TODO: consider implementing margin rendering using entities and constraints. Then that data could easily be used to drive the modulation of the margins themselves.
 		super()
+	end
+	
+	
+	private
+	
+	def minimum_dimensions(diagonal)
+		minimum_x = nil
+		minimum_y = nil
+		
+		minimum = self.class.const_get('MINIMUM_DIMENSION')
+		
+		
+		if diagonal.x <= diagonal.y
+			# width limits scaling
+			ratio = diagonal.y / diagonal.x
+			
+			minimum_x = minimum
+			minimum_y = minimum * ratio
+		else
+			# height limits scaling
+			ratio = diagonal.x / diagonal.y
+			
+			minimum_y = minimum
+			minimum_x = minimum * ratio
+		end
+		
+		return minimum_x, minimum_y
 	end
 end
 
