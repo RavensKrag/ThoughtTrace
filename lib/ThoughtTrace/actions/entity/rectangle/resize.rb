@@ -41,8 +41,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		case type
 			when :edge
 				# store original dimensions before any transforms
-				width  = @entity[:physics].shape.width
-				height = @entity[:physics].shape.height
+				original_width  = @entity[:physics].shape.width
+				original_height = @entity[:physics].shape.height
 				
 				
 				
@@ -66,13 +66,12 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				# then, scale along the other axis
 				if axis == :x
 					# scale along y
-					original_width = width
-					width  = @entity[:physics].shape.width
+					new_width  = @entity[:physics].shape.width
 					
-					ratio = width.to_f / original_width.to_f
-					new_height = height * ratio
+					ratio = new_width.to_f / original_width.to_f
+					new_height = original_height * ratio
 					
-					delta = new_height - height
+					delta = new_height - original_height
 					
 					
 					a = CP::Vec2.new(0,  1)
@@ -81,13 +80,12 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					@entity[:physics].shape.resize_by_delta!(b, b*delta/2, minimum)
 				else # axis == :y
 					# scale along x
-					original_height = height
-					height = @entity[:physics].shape.height
+					new_height = @entity[:physics].shape.height
 					
-					ratio = height.to_f / original_height.to_f
-					new_width = width * ratio
+					ratio = new_height.to_f / original_height.to_f
+					new_width = original_width * ratio
 					
-					delta = new_width - width
+					delta = new_width - original_width
 					
 					
 					a = CP::Vec2.new( 1, 0)
