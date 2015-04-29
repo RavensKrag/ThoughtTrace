@@ -30,6 +30,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
 		undo()
+		# TODO: figure out if undo is necessary
 		
 		
 		type, target_indicies = CP::Shape::Rect::VEC_TO_TRANSFORM_DATA[@grab_handle.to_a]
@@ -48,13 +49,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				
 				# compute minimum dimensions
-				
-				# TODO: minimum dimension for aspect ratio locked scaling needs to take into account aspect ratio, or else on the extreme low end, you ignore aspect ratio and converge to square.
-				
-				# Need to make sure this works when scaling along the major dimension. The original version already systemically protected aspect ratio when scaling along the minor dimension
-					# should work now, now that the computation is performed before the first scaling, so that all scaling operations can use the x / y minimum values
-				
-				# p new_verts.collect{|p| p.to_s}
 				diag  = new_verts[1]
 				
 				minimum = self.class.superclass::MINIMUM_DIMENSION
@@ -103,16 +97,17 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				
 				
-				
+				# TODO: try to use a ratio calculation similar to the one used above in minimum dimension calculation to drive the secondary axis scaling
+					# NOTE: the two ratios are similarly calculated, but you can't reuse the same variable. The top ratio is based on the which side is longer, and the bottom ratio is based on which side is being directly manipulated.
 				
 				
 				# then, scale along the other axis
 				if axis == :x
 					# scale along y
-					new_width  = @entity[:physics].shape.width
+					ratio = diag.y / diag.x
 					
-					ratio = new_width.to_f / original_width.to_f
-					new_height = original_height * ratio
+					new_width  = @entity[:physics].shape.width
+					new_height = new_width * ratio
 					
 					delta = new_height - original_height
 					
@@ -123,10 +118,10 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					@entity[:physics].shape.resize_by_delta!(b, b*delta/2, minimum_y)
 				else # axis == :y
 					# scale along x
-					new_height = @entity[:physics].shape.height
+					ratio = diag.x / diag.y
 					
-					ratio = new_height.to_f / original_height.to_f
-					new_width = original_width * ratio
+					new_height = @entity[:physics].shape.height
+					new_width = new_height * ratio
 					
 					delta = new_width - original_width
 					
