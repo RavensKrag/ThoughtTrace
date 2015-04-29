@@ -31,7 +31,6 @@ class Resize < Rectangle::Actions::Resize
 		super()
 		
 		# NOTE: Want to always limit the minimum HEIGHT on resize. Don't really care about what the width is. This applies to Text only, not general rectangles.
-			# Need to figure out how to get Text resizing to be slightly different from the main Rectangle resizing
 	end
 	
 	# restore original state
