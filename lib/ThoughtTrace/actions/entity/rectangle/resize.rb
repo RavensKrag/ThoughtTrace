@@ -47,20 +47,63 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				
 				
+				# compute minimum dimensions
+				
+				# TODO: minimum dimension for aspect ratio locked scaling needs to take into account aspect ratio, or else on the extreme low end, you ignore aspect ratio and converge to square.
+				
+				# Need to make sure this works when scaling along the major dimension. The original version already systemically protected aspect ratio when scaling along the minor dimension
+					# should work now, now that the computation is performed before the first scaling, so that all scaling operations can use the x / y minimum values
+				
+				# p new_verts.collect{|p| p.to_s}
+				diag  = new_verts[1]
+				
+				minimum = self.class.superclass::MINIMUM_DIMENSION
+				
+				minimum_x = nil
+				minimum_y = nil
+				
+				if original_width <= original_height
+					# width limits scaling
+					ratio = diag.y / diag.x
+					
+					minimum_x = minimum
+					minimum_y = minimum * ratio
+				else
+					# height limits scaling
+					ratio = diag.x / diag.y
+					
+					minimum_y = minimum
+					minimum_x = minimum * ratio
+				end
+				
+				
+				
+				
+				
+				
+				
 				# scale the edge along the axis shared by it's verts
 				a,b = target_indicies.collect{|i| new_verts[i] }
 				axis = ( a.x == b.x ? :x : :y )
+				# ^ these two lines stolen from CP::Shape::Rect#resize_by_delta!
 				
 				
 				
-				minimum = self.class.superclass::MINIMUM_DIMENSION
-				@entity[:physics].shape.resize_to_point!(@grab_handle, @point, minimum)
+				min =
+					if axis == :x
+						minimum_x
+					else # axis == :y
+						minimum_y
+					end
+				@entity[:physics].shape.resize_to_point!(@grab_handle, @point, min)
 				
 				
 				
 				# TODO: consider possible problems of dividing delta by two. Should you use integer division? The underlying measurements are pixels, so what happens when you divide in half? Will you ever lose precision?
 				
-				# TODO: minimum dimension for aspect ratio locked scaling needs to take into account aspect ratio, or else on the extreme low end, you ignore aspect ratio and converge to square.
+				
+				
+				
 				
 				
 				# then, scale along the other axis
@@ -76,8 +119,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					
 					a = CP::Vec2.new(0,  1)
 					b = CP::Vec2.new(0, -1)
-					@entity[:physics].shape.resize_by_delta!(a, a*delta/2, minimum)
-					@entity[:physics].shape.resize_by_delta!(b, b*delta/2, minimum)
+					@entity[:physics].shape.resize_by_delta!(a, a*delta/2, minimum_y)
+					@entity[:physics].shape.resize_by_delta!(b, b*delta/2, minimum_y)
 				else # axis == :y
 					# scale along x
 					new_height = @entity[:physics].shape.height
@@ -90,8 +133,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					
 					a = CP::Vec2.new( 1, 0)
 					b = CP::Vec2.new(-1, 0)
-					@entity[:physics].shape.resize_by_delta!(a, a*delta/2, minimum)
-					@entity[:physics].shape.resize_by_delta!(b, b*delta/2, minimum)
+					@entity[:physics].shape.resize_by_delta!(a, a*delta/2, minimum_x)
+					@entity[:physics].shape.resize_by_delta!(b, b*delta/2, minimum_x)
 				end
 				
 				
