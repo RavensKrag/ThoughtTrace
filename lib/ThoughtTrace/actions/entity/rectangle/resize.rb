@@ -76,27 +76,19 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				
 				
-				# scale the edge along the axis shared by it's verts
+				# these two lines stolen from CP::Shape::Rect#resize_by_delta!
 				a,b = target_indicies.collect{|i| new_verts[i] }
 				axis = ( a.x == b.x ? :x : :y )
-				# ^ these two lines stolen from CP::Shape::Rect#resize_by_delta!
 				
 				
 				
-				min =
-					if axis == :x
-						minimum_x
-					else # axis == :y
-						minimum_y
-					end
-				@entity[:physics].shape.resize_to_point!(@grab_handle, @point, min)
 				
 				
 				
 				# TODO: consider possible problems of dividing delta by two. Should you use integer division? The underlying measurements are pixels, so what happens when you divide in half? Will you ever lose precision?
 				
 				
-				
+				# -----
 				# Compare these two ratios:
 				# above  ^  minimum dimension calculation
 				# below  v  scale the secondary axis
@@ -104,11 +96,18 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				# The two ratios are similarly calculated, but you can't reuse the same variable.
 				# The top ratio is based on the which side is longer, 
 				# but the bottom ratio is based on which side is being directly manipulated.
+				# -----
 				
 				
-				# then, scale along the other axis
+				
+				# Scale the edge along the axis shared by it's verts
+				# Then, scale along the other axis
 				if axis == :x
-					# scale along y
+					# primary x
+					@entity[:physics].shape.resize_to_point!(@grab_handle, @point, minimum_x)
+					
+					
+					# secondary y
 					ratio = diag.y / diag.x
 					
 					new_width  = @entity[:physics].shape.width
@@ -122,7 +121,11 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					@entity[:physics].shape.resize_by_delta!(a, a*delta/2, minimum_y)
 					@entity[:physics].shape.resize_by_delta!(b, b*delta/2, minimum_y)
 				else # axis == :y
-					# scale along x
+					# primary y
+					@entity[:physics].shape.resize_to_point!(@grab_handle, @point, minimum_y)
+					
+					
+					# secondary x
 					ratio = diag.x / diag.y
 					
 					new_height = @entity[:physics].shape.height
