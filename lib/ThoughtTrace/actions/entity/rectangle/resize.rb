@@ -30,7 +30,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
 		undo()
-		# TODO: figure out if undo is necessary
+		# NOTE: only need to run undo in the case of corner scaling, but it must be done before verts are examined, so it can't be isolated into the :vert case branch.
 		
 		
 		type, target_indicies = CP::Shape::Rect::VEC_TO_TRANSFORM_DATA[@grab_handle.to_a]
