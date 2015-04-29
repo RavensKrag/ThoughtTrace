@@ -4,7 +4,7 @@ module ThoughtTrace
 
 
 class Resize < Rectangle::Actions::Resize
-	MARGIN = 50
+	MARGIN = 50 # this currently does nothing
 	MINIMUM_FONT_HEIGHT = 10
 	
 	initialize_with :entity
@@ -29,6 +29,9 @@ class Resize < Rectangle::Actions::Resize
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
 		super()
+		
+		# NOTE: Want to always limit the minimum HEIGHT on resize. Don't really care about what the width is. This applies to Text only, not general rectangles.
+			# Need to figure out how to get Text resizing to be slightly different from the main Rectangle resizing
 	end
 	
 	# restore original state
@@ -52,7 +55,7 @@ class Resize < Rectangle::Actions::Resize
 	
 	# NOTE: Action visualizations are not the same as Constraint visualizations
 	def update_visualization(point)
-		# super(point)
+		super(point)
 	end
 	
 	
@@ -60,13 +63,28 @@ class Resize < Rectangle::Actions::Resize
 	# called each tick
 	def draw
 		# NOTE: consider adjusting margins for Text resize, such that the bottom margin matches up with the baseline of the text.
-		# super()
+		super()
 	end
 	
 	private
 	
 	def margin(w,h)
 		super(w,h)
+	end
+	
+	def minimum_dimensions(diagonal)
+		minimum_x = nil
+		minimum_y = nil
+		
+		
+		# height ALWAYS limits scaling
+		ratio = diagonal.x / diagonal.y
+		
+		minimum_y = MINIMUM_FONT_HEIGHT
+		minimum_x = MINIMUM_FONT_HEIGHT * ratio
+		
+		
+		return minimum_x, minimum_y
 	end
 end
 

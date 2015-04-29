@@ -178,21 +178,19 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		minimum_x = nil
 		minimum_y = nil
 		
-		minimum = self.class.const_get('MINIMUM_DIMENSION')
-		
 		
 		if diagonal.x <= diagonal.y
 			# width limits scaling
 			ratio = diagonal.y / diagonal.x
 			
-			minimum_x = minimum
-			minimum_y = minimum * ratio
+			minimum_x = MINIMUM_DIMENSION
+			minimum_y = MINIMUM_DIMENSION * ratio
 		else
 			# height limits scaling
 			ratio = diagonal.x / diagonal.y
 			
-			minimum_y = minimum
-			minimum_x = minimum * ratio
+			minimum_y = MINIMUM_DIMENSION
+			minimum_x = MINIMUM_DIMENSION * ratio
 		end
 		
 		return minimum_x, minimum_y
