@@ -6,7 +6,7 @@ module ThoughtTrace
 # Change dimensions of Rectangle by moving edges.
 # Aspect ratio is LOCKED.
 class Resize < ThoughtTrace::Rectangle::Actions::Edit
-	MARGIN = 20
+	MARGIN = 20 # this currently does nothing
 	MINIMUM_DIMENSION = self.superclass::MINIMUM_DIMENSION
 	
 	initialize_with :entity
@@ -39,47 +39,42 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		
 		new_verts = @entity[:physics].shape.verts
 		
+		
+		# store original dimensions before any transforms
+		original_width  = @entity[:physics].shape.width
+		original_height = @entity[:physics].shape.height
+		
+		
+		# compute minimum dimensions
+		diag  = new_verts[1]
+		
+		minimum_x = nil
+		minimum_y = nil
+		
+		
+		minimum = self.class.const_get('MINIMUM_DIMENSION')
+		if original_width <= original_height
+			# width limits scaling
+			ratio = diag.y / diag.x
+			
+			minimum_x = minimum
+			minimum_y = minimum * ratio
+		else
+			# height limits scaling
+			ratio = diag.x / diag.y
+			
+			minimum_y = minimum
+			minimum_x = minimum * ratio
+		end
+		
+		
+		
+		
 		case type
 			when :edge
-				# store original dimensions before any transforms
-				original_width  = @entity[:physics].shape.width
-				original_height = @entity[:physics].shape.height
-				
-				
-				
-				
-				# compute minimum dimensions
-				diag  = new_verts[1]
-				
-				minimum_x = nil
-				minimum_y = nil
-				
-				if original_width <= original_height
-					# width limits scaling
-					ratio = diag.y / diag.x
-					
-					minimum_x = MINIMUM_DIMENSION
-					minimum_y = MINIMUM_DIMENSION * ratio
-				else
-					# height limits scaling
-					ratio = diag.x / diag.y
-					
-					minimum_y = MINIMUM_DIMENSION
-					minimum_x = MINIMUM_DIMENSION * ratio
-				end
-				
-				
-				
-				
-				
-				
-				
 				# these two lines stolen from CP::Shape::Rect#resize_by_delta!
 				a,b = target_indicies.collect{|i| new_verts[i] }
 				axis = ( a.x == b.x ? :x : :y )
-				
-				
-				
 				
 				
 				
@@ -141,14 +136,17 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				
 			when :vert
-				# NOTE: vert scaling still converges to square, ignoring the aspect ratio.
 				center = @entity[:physics].shape.center
 				vert = new_verts[target_indicies.first]
 				diagonal = (vert - center).normalize
 				
 				vec = @delta.project(diagonal)
 				
-				@entity[:physics].shape.resize_by_delta!(@grab_handle, vec, MINIMUM_DIMENSION)
+				
+				# scale each axis separately, so each can be clamped independently
+				shape = @entity[:physics].shape
+				shape.resize_by_delta!(CP::Vec2.new(@grab_handle.x,0), vec, minimum_x)
+				shape.resize_by_delta!(CP::Vec2.new(0,@grab_handle.y), vec, minimum_y)
 				
 				
 			when :center
