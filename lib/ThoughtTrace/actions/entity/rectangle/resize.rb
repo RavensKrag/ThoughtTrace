@@ -97,8 +97,13 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				
 				
-				# TODO: try to use a ratio calculation similar to the one used above in minimum dimension calculation to drive the secondary axis scaling
-					# NOTE: the two ratios are similarly calculated, but you can't reuse the same variable. The top ratio is based on the which side is longer, and the bottom ratio is based on which side is being directly manipulated.
+				# Compare these two ratios:
+				# above  ^  minimum dimension calculation
+				# below  v  scale the secondary axis
+				# 
+				# The two ratios are similarly calculated, but you can't reuse the same variable.
+				# The top ratio is based on the which side is longer, 
+				# but the bottom ratio is based on which side is being directly manipulated.
 				
 				
 				# then, scale along the other axis
