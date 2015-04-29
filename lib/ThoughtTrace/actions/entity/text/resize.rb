@@ -62,6 +62,12 @@ class Resize < Rectangle::Actions::Resize
 		# NOTE: consider adjusting margins for Text resize, such that the bottom margin matches up with the baseline of the text.
 		# super()
 	end
+	
+	private
+	
+	def margin(w,h)
+		super(w,h)
+	end
 end
 
 
