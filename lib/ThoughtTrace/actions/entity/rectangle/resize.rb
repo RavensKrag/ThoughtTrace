@@ -29,7 +29,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		undo()
+		# undo()
 		# NOTE: only need to run undo in the case of corner scaling, but it must be done before verts are examined, so it can't be isolated into the :vert case branch.
 		
 		
@@ -120,14 +120,25 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				center = @entity[:physics].shape.center
 				vert = new_verts[target_indicies.first]
 				diagonal = (vert - center).normalize
+				# NOTE: this is not the same diagonal from the other branch
 				
-				vec = @delta.project(diagonal)
+				center_in_world_space = @entity[:physics].body.local2world(center)
+				point = (@point - center_in_world_space)
+				vec = point.project(diagonal)
+				vec += center_in_world_space
 				
+				# NOTE: This coordinate space conversion completely ignores rotation of the body.
+				
+				
+				# NOTE: even if you transform using 'to_point', still have to run 'undo' or the scaling ticks each frame, instead of just once
+					# wait wait wait, I think it works now
+					# had to convert mouse point to a coordinate space relative to center before projection
+					# seems like that worked
 				
 				# scale each axis separately, so each can be clamped independently
 				shape = @entity[:physics].shape
-				shape.resize_by_delta!(CP::Vec2.new(@grab_handle.x,0), vec, minimum_x)
-				shape.resize_by_delta!(CP::Vec2.new(0,@grab_handle.y), vec, minimum_y)
+				shape.resize_to_point!(CP::Vec2.new(@grab_handle.x,0), vec, minimum_x)
+				shape.resize_to_point!(CP::Vec2.new(0,@grab_handle.y), vec, minimum_y)
 				
 				
 			when :center
