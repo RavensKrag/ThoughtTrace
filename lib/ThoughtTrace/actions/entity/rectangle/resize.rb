@@ -141,11 +141,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				
 				
-				# NOTE: even if you transform using 'to_point', still have to run 'undo' or the scaling ticks each frame, instead of just once
-					# wait wait wait, I think it works now
-					# had to convert mouse point to a coordinate space relative to center before projection
-					# seems like that worked
-				
 				# scale each axis separately, so each can be clamped independently
 				shape = @entity[:physics].shape
 				shape.resize_to_local_point!(CP::Vec2.new(@grab_handle.x,0), point, minimum_x)
