@@ -142,12 +142,14 @@ class Text < Rectangle
 		self.height = new_height
 	end
 	
+	# height and width should be thought of as exact pixel measurements,
+	# even though the backend data store encodes data in floats
 	def height
-		@components[:physics].shape.height
+		@components[:physics].shape.height.round
 	end
 	
 	def width
-		@components[:physics].shape.width
+		@components[:physics].shape.width.round
 	end
 	
 	alias :size :height

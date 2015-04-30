@@ -99,7 +99,7 @@ module ThoughtTrace
 			# NOTE: Font should provide the same interface as Gosu::Font, so rounding to pixel-perfect outputs happens in Text instead
 			
 			# --Prevent out of bounds
-			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
+			# height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
 			
 			# ---Find the font in the cache
 			f = find_font_object(height)
@@ -112,12 +112,22 @@ module ThoughtTrace
 		end
 		
 		def width(text, height)
-			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
+			# NOTE: should be integers for input, and integers for final output
+			
+			
+			# TODO: make sure that height is always an integer
+			# height = height.round
+			
+			
+			# height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
 			
 			f = find_font_object(height)
+			
 			scale = height / f.height.to_f
 			
-			return f.text_width(text) * scale
+			puts text
+			puts "height: #{height.round}  scale: #{scale}       time - #{Gosu::milliseconds}"
+			return (f.text_width(text) * scale).round
 		end
 		
 		
@@ -132,7 +142,7 @@ module ThoughtTrace
 		private
 		
 		def find_font_object(height)
-			i = @font_cache.index {|f| height <= f.height}
+			i = @font_cache.index {|f| f.height >= height }
 			i ||= @font_cache.size-1
 			
 			# $window.debug_puts i

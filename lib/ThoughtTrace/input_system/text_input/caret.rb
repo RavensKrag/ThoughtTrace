@@ -59,7 +59,7 @@ class TextInput
 		# render the caret
 		def draw(z=0)
 			if @visible
-				$window.translate @position.x,@position.y do
+				$window.translate @position.x.round,@position.y.round do
 					$window.draw_quad	@verts[0].x.round, @verts[0].y.round, @color,
 										@verts[1].x.round, @verts[1].y.round, @color,
 										@verts[2].x.round, @verts[2].y.round, @color,
