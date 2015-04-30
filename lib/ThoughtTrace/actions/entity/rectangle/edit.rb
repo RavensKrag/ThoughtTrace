@@ -87,7 +87,10 @@ class Edit < ThoughtTrace::Actions::BaseAction
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		@entity[:physics].shape.resize_to_point!(@grab_handle, @point, MINIMUM_DIMENSION)
+		@entity[:physics].shape.__resize!(
+			@grab_handle, :world_space, point:@point, lock_aspect:false,
+			minimum_dimension:MINIMUM_DIMENSION
+		)
 	end
 	
 	# restore original state

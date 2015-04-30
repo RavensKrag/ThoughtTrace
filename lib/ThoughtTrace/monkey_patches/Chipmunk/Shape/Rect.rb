@@ -59,12 +59,16 @@ class Rect < Poly
 	# this method should replace the old 'resize!'
 	# Interface to make resizing more humanistic.
 	def __resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
+		raise ArgumentError, "Must specify a grab handle vector" unless grab_handle.is_a? CP::Vec2
+		# NOTE: no member functions check to make sure that the handle passed to them is non-nil. This is a problem, as you sometimes fall through the entire function this way.
+		
 		raise ArgumentError, "Declare point OR delta, not both." if point and delta
 		raise ArgumentError, "Must declare either point OR delta." unless point or delta
 		
 		unless [:world_space, :local_space].include?(coordinate_space)
 			raise ArgumentError, "Coordinate space must either be :world_space or :local_space" 
 		end
+		
 		
 		if point
 			if lock_aspect
@@ -235,6 +239,7 @@ class Rect < Poly
 		
 		
 		# compute minimum dimensions
+		limit_by ||= :smaller
 		limits = [:smaller, :larger, :width, :height]
 		unless limits.include? limit_by
 			raise "Must declare kwarg 'limit by' with one of these values: #{limits.inspect}"
