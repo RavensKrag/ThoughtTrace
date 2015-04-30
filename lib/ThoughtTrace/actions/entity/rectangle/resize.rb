@@ -53,8 +53,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		
 		case type
 			when :edge
-				diag  = new_verts[1]
-				
 				# these two lines stolen from CP::Shape::Rect#resize_by_delta!
 				a,b = target_indicies.collect{|i| new_verts[i] }
 				axis = ( a.x == b.x ? :x : :y )
