@@ -117,17 +117,28 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				
 			when :vert
+				# should perform calculations completely within local space
+				# (this allows for advanced coordinate space manipulations, ex: body rotation)
+				
 				center = @entity[:physics].shape.center
 				vert = new_verts[target_indicies.first]
 				diagonal = (vert - center).normalize
 				# NOTE: this is not the same diagonal from the other branch
 				
-				center_in_world_space = @entity[:physics].body.local2world(center)
-				point = (@point - center_in_world_space)
-				vec = point.project(diagonal)
-				vec += center_in_world_space
+				local_point = @entity[:physics].body.world2local(@point)
+				point = local_point
+				point -= center
+					# perform projection relative to center
+					# (  this coordinate space can not be rotated or skewed
+					#    so you can get in / out via translation only   )
+					point = point.project(diagonal)
+				point += center
 				
-				# NOTE: This coordinate space conversion completely ignores rotation of the body.
+				
+				
+				# all calculations in local space
+				# some calculations local to center, rather than local origin
+				
 				
 				
 				# NOTE: even if you transform using 'to_point', still have to run 'undo' or the scaling ticks each frame, instead of just once
@@ -137,8 +148,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				
 				# scale each axis separately, so each can be clamped independently
 				shape = @entity[:physics].shape
-				shape.resize_to_point!(CP::Vec2.new(@grab_handle.x,0), vec, minimum_x)
-				shape.resize_to_point!(CP::Vec2.new(0,@grab_handle.y), vec, minimum_y)
+				shape.resize_to_local_point!(CP::Vec2.new(@grab_handle.x,0), point, minimum_x)
+				shape.resize_to_local_point!(CP::Vec2.new(0,@grab_handle.y), point, minimum_y)
 				
 				
 			when :center

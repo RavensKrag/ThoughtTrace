@@ -77,6 +77,8 @@ module CP
 			
 			# NOTE: little bit of jitter on counter-steering
 			
+			# NOTE: notice that grab handles are always relative to the Shape's coordinate space
+			
 			
 			# Transform the rectangle based on a transformation delta
 			def resize_by_delta!(grab_handle, delta, minimum_dimension=1)
