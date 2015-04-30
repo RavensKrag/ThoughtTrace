@@ -38,7 +38,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		# p target_indicies
 		
 		new_verts = @entity[:physics].shape.verts
-		diagonal  = new_verts[1]
+		
 		
 		# store original dimensions before any transforms
 		original_width  = @entity[:physics].shape.width
@@ -46,7 +46,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		
 		
 		# compute minimum dimensions
-		minimum_x, minimum_y = minimum_dimensions(diagonal)
+		minimum_x, minimum_y = minimum_dimensions(original_width, original_height)
 		
 		
 		
@@ -82,7 +82,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					
 					
 					# secondary y
-					ratio = diagonal.y / diagonal.x
+					ratio = original_height / original_width
 					
 					new_width  = @entity[:physics].shape.width
 					new_height = new_width * ratio
@@ -100,7 +100,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					
 					
 					# secondary x
-					ratio = diagonal.x / diagonal.y
+					ratio = original_width / original_height
 					
 					new_height = @entity[:physics].shape.height
 					new_width = new_height * ratio
@@ -189,20 +189,20 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	
 	private
 	
-	def minimum_dimensions(diagonal)
+	def minimum_dimensions(width, height)
 		minimum_x = nil
 		minimum_y = nil
 		
 		
-		if diagonal.x <= diagonal.y
+		if width <= height
 			# width limits scaling
-			ratio = diagonal.y / diagonal.x
+			ratio = height / width
 			
 			minimum_x = MINIMUM_DIMENSION
 			minimum_y = MINIMUM_DIMENSION * ratio
 		else
 			# height limits scaling
-			ratio = diagonal.x / diagonal.y
+			ratio = width / height
 			
 			minimum_y = MINIMUM_DIMENSION
 			minimum_x = MINIMUM_DIMENSION * ratio
