@@ -32,7 +32,10 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		
 		point = @entity[:physics].body.world2local(@point)
 		
-		@entity[:physics].shape.resize_to_local_point_locked_aspect!(@grab_handle, point, MINIMUM_DIMENSION)
+		@entity[:physics].shape.__resize!(
+			@grab_handle, point:point, coordinate_space: :local, lock_aspect:true,
+			minimum_dimension:MINIMUM_DIMENSION
+		)
 	end
 	
 	# restore original state

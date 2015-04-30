@@ -56,6 +56,46 @@ class Rect < Poly
 	
 	
 	
+	# this method should replace the old 'resize!'
+	# Interface to make resizing more humanistic.
+	def __resize!(grab_handle, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, coordinate_space:nil, limit_by:nil)
+		raise ArgumentError, "Declare point OR delta, not both." if point and delta
+		raise ArgumentError, "Must declare either point OR delta." unless point or delta
+		
+		coordinate_space ||= :world # [:world, :local]
+		unless [:world, :local].include?(coordinate_space)
+			raise ArgumentError, "Coordinate space must either be :world or :local" 
+		end
+		
+		if point
+			if lock_aspect
+				point = self.body.world2local(point) if coordinate_space == :world
+				
+				a = grab_handle
+				b = point
+				c = minimum_dimension
+				
+				resize_to_local_point_locked_aspect!(a,b,c, limit_by:limit_by)
+			else
+				a = grab_handle
+				b = point
+				c = minimum_dimension
+				
+				case coordinate_space
+					when :world
+						resize_to_point!(a,b,c)
+					when :local
+						resize_to_local_point!(a,b,c)
+				end
+			end
+		else # delta
+			a = grab_handle
+			b = delta
+			c = minimum_dimension
+			resize_by_delta!(a,b,c)
+		end
+	end
+	
 	
 	# vert order: bottom left, bottom right, top right, top left (Gosu render coordinate space)
 	# NOTE: may want to just use neg and pos so you don't have to specify what is "UP"
@@ -196,7 +236,6 @@ class Rect < Poly
 		
 		
 		# compute minimum dimensions
-		limit_by ||= :smaller
 		limits = [:smaller, :larger, :width, :height]
 		unless limits.include? limit_by
 			raise "Must declare kwarg 'limit by' with one of these values: #{limits.inspect}"

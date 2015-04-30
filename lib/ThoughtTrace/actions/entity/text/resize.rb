@@ -28,9 +28,13 @@ class Resize < Rectangle::Actions::Resize
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		super()
-		
 		# NOTE: Want to always limit the minimum HEIGHT on resize. Don't really care about what the width is. This applies to Text only, not general rectangles.
+		
+		
+		@entity[:physics].shape.__resize!(
+			@grab_handle, point:@point, coordinate_space: :world, lock_aspect:true,
+			minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
+		)
 	end
 	
 	# restore original state
@@ -69,21 +73,6 @@ class Resize < Rectangle::Actions::Resize
 	
 	def margin(w,h)
 		super(w,h)
-	end
-	
-	def minimum_dimensions(diagonal)
-		minimum_x = nil
-		minimum_y = nil
-		
-		
-		# height ALWAYS limits scaling
-		ratio = diagonal.x / diagonal.y
-		
-		minimum_y = MINIMUM_FONT_HEIGHT
-		minimum_x = MINIMUM_FONT_HEIGHT * ratio
-		
-		
-		return minimum_x, minimum_y
 	end
 end
 
