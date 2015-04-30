@@ -32,6 +32,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		# undo()
 		# NOTE: only need to run undo in the case of corner scaling, but it must be done before verts are examined, so it can't be isolated into the :vert case branch.
 		
+		point = @entity[:physics].body.world2local(@point)
+		
 		
 		type, target_indicies = CP::Shape::Rect::VEC_TO_TRANSFORM_DATA[@grab_handle.to_a]
 		
@@ -78,7 +80,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				# Then, scale along the other axis
 				if axis == :x
 					# primary x
-					@entity[:physics].shape.resize_to_point!(@grab_handle, @point, minimum_x)
+					@entity[:physics].shape.resize_to_local_point!(@grab_handle, point, minimum_x)
 					
 					
 					# secondary y
@@ -96,7 +98,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					@entity[:physics].shape.resize_by_delta!(b, b*delta/2, minimum_y)
 				else # axis == :y
 					# primary y
-					@entity[:physics].shape.resize_to_point!(@grab_handle, @point, minimum_y)
+					@entity[:physics].shape.resize_to_local_point!(@grab_handle, point, minimum_y)
 					
 					
 					# secondary x
@@ -125,8 +127,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				diagonal = (vert - center).normalize
 				
 				
-				local_point = @entity[:physics].body.world2local(@point)
-				point = local_point
 				point -= center
 					# perform projection relative to center
 					# (  this coordinate space can not be rotated or skewed
