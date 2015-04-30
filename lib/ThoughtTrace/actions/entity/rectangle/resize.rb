@@ -46,7 +46,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		
 		
 		# compute minimum dimensions
-		minimum_x, minimum_y = minimum_dimensions(original_width, original_height)
+		minimum_x, minimum_y =
+			minimum_dimensions(original_width, original_height, MINIMUM_DIMENSION)
 		
 		
 		
@@ -185,7 +186,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	
 	private
 	
-	def minimum_dimensions(width, height)
+	def minimum_dimensions(width, height, minimum_dimension)
 		minimum_x = nil
 		minimum_y = nil
 		
@@ -194,14 +195,14 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 			# width limits scaling
 			ratio = height / width
 			
-			minimum_x = MINIMUM_DIMENSION
-			minimum_y = MINIMUM_DIMENSION * ratio
+			minimum_x = minimum_dimension
+			minimum_y = minimum_dimension * ratio
 		else
 			# height limits scaling
 			ratio = width / height
 			
-			minimum_y = MINIMUM_DIMENSION
-			minimum_x = MINIMUM_DIMENSION * ratio
+			minimum_y = minimum_dimension
+			minimum_x = minimum_dimension * ratio
 		end
 		
 		return minimum_x, minimum_y
