@@ -68,7 +68,19 @@ class Text < Rectangle
 		@font = font
 		
 		
-		self.resize!(@components[:physics].shape.height)
+		
+		
+		width  = @font.width(@string, self.height)
+		
+		grab_handle = CP::Vec2.new(1,0)
+		point       = CP::Vec2.new(width,0)
+		@components[:physics].shape.__resize!(
+			grab_handle, :local_space, point:point, lock_aspect:false,
+			minimum_dimension:0
+		)
+		
+		# font face is changing, but should maintain the same height
+		# the width of this piece of Text will most likely have to change, as a result of differing font faces
 	end
 	
 	def string=(string)
@@ -78,7 +90,17 @@ class Text < Rectangle
 		@string = string
 		
 		
-		self.resize!(@components[:physics].shape.height)
+		
+		
+		# only need to alter the width of the backend shape
+		width  = @font.width(@string, self.height)
+		
+		grab_handle = CP::Vec2.new(1,0)
+		point       = CP::Vec2.new(width,0)
+		@components[:physics].shape.__resize!(
+			grab_handle, :local_space, point:point, lock_aspect:false,
+			minimum_dimension:0
+		)
 	end
 	
 	
@@ -87,11 +109,34 @@ class Text < Rectangle
 	# This API exists to make constraints etc easier to implement
 	# The resize action is still driven by #resize!
 	
-	def height=(new_height, normalized_anchor=CP::Vec2.new(0,0))
-		self.resize!(new_height, normalized_anchor)
+	def height=(new_height)
+		# set the height of the Text to a certain value.
+		# this also requires recalculation of how wide the Text is.
+		
+		
+		# encode height
+		grab_handle = CP::Vec2.new(0,1)
+		point       = CP::Vec2.new(0,new_height)
+		@components[:physics].shape.__resize!(
+			grab_handle, :local_space, point:point, lock_aspect:false,
+			minimum_dimension:0
+		)
+		
+		
+		# encode a width based on the height we just set
+		width  = @font.width(@string, self.height)
+		
+		grab_handle = CP::Vec2.new(1,0)
+		point       = CP::Vec2.new(width,0)
+		@components[:physics].shape.__resize!(
+			grab_handle, :local_space, point:point, lock_aspect:false,
+			minimum_dimension:0
+		)
 	end
 	
-	def width=(new_width, normalized_anchor=CP::Vec2.new(0,0))
+	def width=(new_width)
+		# given a target width, set the height of the Text
+		
 		original_width = @components[:physics].shape.width
 		
 		ratio = new_width.to_f / original_width.to_f
@@ -99,7 +144,7 @@ class Text < Rectangle
 		height = height * ratio
 		
 		
-		self.resize!(height, normalized_anchor)
+		self.height = height
 	end
 	
 	def height
@@ -128,6 +173,8 @@ class Text < Rectangle
 		width = @font.width(@string, new_height)
 		
 		
+		# NOTE: need to have a method to resize with aspect ratio intact, not just an action
+		
 		delta_width, delta_height =
 			measure_dimension_delta do
 				@components[:physics].shape.resize!(width, height)
@@ -138,6 +185,62 @@ class Text < Rectangle
 		
 		@components[:physics].body.p.x -= delta_width * normalized_anchor.x
 		@components[:physics].body.p.y -= delta_height * normalized_anchor.y
+		
+		
+		# NOTE: text on resize doesn't necessarily maintain the exact same aspect ratio. maybe? I'm not real sure. this merits extra investigation.
+		
+		# NOTE: a bunch of the position vectors are coming back (0,0) in this step, which should be impossible...
+		
+		# it seems like this method is being called multiple times per entity on startup, and I'm not sure why...
+			# text objects are resized on string= and font=
+			# unpack sets the string, and then resizes the text again
+			# but if Text#resize! is not called, the true height of this piece of text will not be set.
+			# instead, the default font size will be used
+		
+		
+		
+		
+		# ok, how should things go?
+			# set the height of the Text from outside
+				# encode on rectangle shape height
+			# set the width of the Text from inside, based on the font height and actual width
+				# encode on rectangle shape width
+			# change the width as the string is altered
+			# change height only on resize operations
+			
+			# can specify the height of a piece of text indirectly, by specifying the desired width
+			# will then attempt to guess the height necessary to hit that width,
+			# and assign that height
+		
+		
+		
+		
+		# ok, I think that has been done
+		# the external APIs of Text to specify height / width / etc have been fixed
+		# I'm pretty sure that Text#resize! is now no longer being called from anywhere
+		# everything seems to be working fine.
+		# NEED TO MAKE SURE THO
+		
+		# NOTE: Text#unpack file had to manually updated, so rebuilding the serialization system will break everythnig
+		
+		# need to fix that up, and reduce code duplication, and then we're good, I think?
+		
+		
+		
+		# TODO: resize interface where you can specify grab handle and a signed scalar, to just move something in / out by a certain amount.
+		# (that style is being used in this file a lot, it seems)
+		
+		
+		
+		
+		# p [height, width]
+		puts @components[:physics].body.p
+		# grab_handle = CP::Vec2.new(1,1)
+		# point = CP::Vec2.new(width, height)
+		# # @components[:physics].shape.__resize!(
+		# # 	grab_handle, :local_space, point:point, lock_aspect:false
+		# # )
+		# puts @components[:physics].shape.width
 	end
 	
 	
