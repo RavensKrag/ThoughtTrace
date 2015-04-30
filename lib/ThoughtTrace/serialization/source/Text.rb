@@ -27,5 +27,5 @@ text.string = string
 text[:physics].body.p.x = x
 text[:physics].body.p.y = y
 
-text.resize!(height) # this only needs to be run when loading
+text.height = height
 # TODO: figure out how to resize automatically on font size change ASAP
