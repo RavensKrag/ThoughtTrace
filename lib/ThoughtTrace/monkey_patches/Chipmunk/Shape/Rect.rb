@@ -183,9 +183,175 @@ class Rect < Poly
 		resize_to_local_point!(grab_handle, point, minimum_dimension)
 	end
 	
+	# NOTE: parameter 'limit_by' specifies which side should limit the scaling of the rectangle.
+	def resize_to_local_point_locked_aspect!(grab_handle, point, minimum_dimension=1,limit_by:nil)
+		type, target_indicies = VEC_TO_TRANSFORM_DATA[grab_handle.to_a]
+		
+		new_verts = self.verts
+		
+		
+		# store original dimensions before any transforms
+		original_width  = self.width
+		original_height = self.height
+		
+		
+		# compute minimum dimensions
+		limit_by ||= :smaller
+		limits = [:smaller, :larger, :width, :height]
+		unless limits.include? limit_by
+			raise "Must declare kwarg 'limit by' with one of these values: #{limits.inspect}"
+		end
+		
+		
+		minimum_x, minimum_y =
+			minimum_dimensions(width, height, minimum_dimension, limit_by)
+		
+		
+		
+		
+		
+		
+		case type
+			when :edge
+				# these two lines stolen from CP::Shape::Rect#resize_by_delta!
+				a,b = target_indicies.collect{|i| new_verts[i] }
+				axis = ( a.x == b.x ? :x : :y )
+				
+				
+				
+				# TODO: consider possible problems of dividing delta by two. Should you use integer division? The underlying measurements are pixels, so what happens when you divide in half? Will you ever lose precision?
+				
+				
+				# -----
+				# Compare these two ratios:
+				# > minimum dimension calculation
+				# > scale the secondary axis
+				# 
+				# The two ratios are similarly calculated, but you can't reuse the same variable.
+				# The top ratio is based on the which side is longer, 
+				# but the bottom ratio is based on which side is being directly manipulated.
+				# -----
+				
+				
+				
+				# Scale the edge along the axis shared by it's verts
+				# Then, scale along the other axis
+				if axis == :x
+					# primary x
+					self.resize_to_local_point!(grab_handle, point, minimum_x)
+					
+					
+					# secondary y
+					ratio = original_height / original_width
+					
+					new_width  = self.width
+					new_height = new_width * ratio
+					
+					delta = new_height - original_height
+					
+					
+					a = CP::Vec2.new(0,  1)
+					b = CP::Vec2.new(0, -1)
+					self.resize_by_delta!(a, a*delta/2, minimum_y)
+					self.resize_by_delta!(b, b*delta/2, minimum_y)
+				else # axis == :y
+					# primary y
+					self.resize_to_local_point!(grab_handle, point, minimum_y)
+					
+					
+					# secondary x
+					ratio = original_width / original_height
+					
+					new_height = self.height
+					new_width = new_height * ratio
+					
+					delta = new_width - original_width
+					
+					
+					a = CP::Vec2.new( 1, 0)
+					b = CP::Vec2.new(-1, 0)
+					self.resize_by_delta!(a, a*delta/2, minimum_x)
+					self.resize_by_delta!(b, b*delta/2, minimum_x)
+				end
+				
+				
+				
+			when :vert
+				# should perform calculations completely within local space
+				# (this allows for advanced coordinate space manipulations, ex: body rotation)
+				
+				center = self.center
+				vert = new_verts[target_indicies.first]
+				diagonal = (vert - center).normalize
+				
+				
+				point -= center
+					# perform projection relative to center
+					# (  this coordinate space can not be rotated or skewed
+					#    so you can get in / out via translation only   )
+					point = point.project(diagonal)
+				point += center
+				
+				# all calculations in local space
+				# some calculations local to center, rather than local origin
+				
+				
+				
+				# scale each axis separately, so each can be clamped independently
+				self.resize_to_local_point!(CP::Vec2.new(grab_handle.x,0), point, minimum_x)
+				self.resize_to_local_point!(CP::Vec2.new(0,grab_handle.y), point, minimum_y)
+				
+				
+			when :center
+				# nothing
+		end
+	end
+	
 	
 	
 	private
+	
+	def minimum_dimensions(width, height, minimum_dimension, limit_by)
+		minimum_x = nil
+		minimum_y = nil
+		
+		limit_by_width = ->(){
+			# width limits scaling
+			ratio = height / width
+			
+			minimum_x = minimum_dimension
+			minimum_y = minimum_dimension * ratio
+		}
+		
+		limit_by_height = ->(){
+			# height limits scaling
+			ratio = width / height
+			
+			minimum_y = minimum_dimension
+			minimum_x = minimum_dimension * ratio
+		}
+		
+		case limit_by
+			when :smaller
+				if width <= height
+					limit_by_width[]
+				else
+					limit_by_height[]
+				end
+			when :larger
+				if width >= height
+					limit_by_width[]
+				else
+					limit_by_height[]
+				end
+			when :width
+				limit_by_width[]
+			when :height
+				limit_by_height[]
+		end
+		
+		return minimum_x, minimum_y
+	end
 	
 	
 	
