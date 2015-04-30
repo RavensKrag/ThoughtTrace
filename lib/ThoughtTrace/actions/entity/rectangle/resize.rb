@@ -14,7 +14,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	# called on first tick
 	def press(point)
 		super(point)
-		@origin = point
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -22,7 +21,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
 		super(point)
-		@delta = point - @origin
 	end
 	
 	# Actually apply changes to data.
