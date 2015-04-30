@@ -123,7 +123,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 				center = @entity[:physics].shape.center
 				vert = new_verts[target_indicies.first]
 				diagonal = (vert - center).normalize
-				# NOTE: this is not the same diagonal from the other branch
+				
 				
 				local_point = @entity[:physics].body.world2local(@point)
 				point = local_point
@@ -133,8 +133,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 					#    so you can get in / out via translation only   )
 					point = point.project(diagonal)
 				point += center
-				
-				
 				
 				# all calculations in local space
 				# some calculations local to center, rather than local origin
