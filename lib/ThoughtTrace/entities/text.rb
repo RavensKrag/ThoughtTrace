@@ -5,8 +5,6 @@ class Text < Rectangle
 	DEFAULT_FONT_SIZE = 30
 	
 	def initialize(font, string="")
-		# super()
-		
 		@font = font
 		@string = string
 		
@@ -69,7 +67,9 @@ class Text < Rectangle
 		
 		
 		
-		
+		# Adjust the width of the backend shape.
+		# The width of this piece of Text will most likely have to change,
+		# as a result of differing font faces
 		width  = @font.width(@string, self.height)
 		
 		grab_handle = CP::Vec2.new(1,0)
@@ -78,9 +78,6 @@ class Text < Rectangle
 			grab_handle, :local_space, point:point, lock_aspect:false,
 			minimum_dimension:0
 		)
-		
-		# font face is changing, but should maintain the same height
-		# the width of this piece of Text will most likely have to change, as a result of differing font faces
 	end
 	
 	def string=(string)
@@ -107,13 +104,11 @@ class Text < Rectangle
 	# interface to set height and width
 	# changing one property affects the other
 	# This API exists to make constraints etc easier to implement
-	# The resize action is still driven by #resize!
 	
+	
+	# set the height of the Text to a certain value.
+	# this also requires recalculation of how wide the Text is.
 	def height=(new_height)
-		# set the height of the Text to a certain value.
-		# this also requires recalculation of how wide the Text is.
-		
-		
 		# encode height
 		grab_handle = CP::Vec2.new(0,1)
 		point       = CP::Vec2.new(0,new_height)
@@ -134,17 +129,17 @@ class Text < Rectangle
 		)
 	end
 	
+	# Given a target width, set the height of the Text,
+	# such that the resultant width will be pretty close to the target width.
 	def width=(new_width)
-		# given a target width, set the height of the Text
-		
 		original_width = @components[:physics].shape.width
 		
 		ratio = new_width.to_f / original_width.to_f
 		
-		height = height * ratio
+		new_height = self.height * ratio
 		
 		
-		self.height = height
+		self.height = new_height
 	end
 	
 	def height

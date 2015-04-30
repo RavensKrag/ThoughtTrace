@@ -48,6 +48,7 @@ class Rect < Poly
 	
 	# TODO: fully depreciate this method
 	# NOTE: currently very important to Text entities
+	# NOTE: also used by camera (rectangle:40 -> camera:43)
 	def resize!(width, height, offset=CP::Vec2.new(0,0))
 		new_verts = new_geometry(width, height)
 		
