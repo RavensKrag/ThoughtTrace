@@ -27,13 +27,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		# undo()
-		# NOTE: only need to run undo in the case of corner scaling, but it must be done before verts are examined, so it can't be isolated into the :vert case branch.
-		
-		point = @entity[:physics].body.world2local(@point)
-		
 		@entity[:physics].shape.__resize!(
-			@grab_handle, point:point, coordinate_space: :local, lock_aspect:true,
+			@grab_handle, :world_space, point:@point, lock_aspect:true,
 			minimum_dimension:MINIMUM_DIMENSION
 		)
 	end

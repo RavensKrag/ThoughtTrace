@@ -32,7 +32,7 @@ class Resize < Rectangle::Actions::Resize
 		
 		
 		@entity[:physics].shape.__resize!(
-			@grab_handle, point:@point, coordinate_space: :world, lock_aspect:true,
+			@grab_handle, :world_space, point:@point, lock_aspect:true,
 			minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
 		)
 	end

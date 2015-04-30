@@ -58,18 +58,17 @@ class Rect < Poly
 	
 	# this method should replace the old 'resize!'
 	# Interface to make resizing more humanistic.
-	def __resize!(grab_handle, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, coordinate_space:nil, limit_by:nil)
+	def __resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
 		raise ArgumentError, "Declare point OR delta, not both." if point and delta
 		raise ArgumentError, "Must declare either point OR delta." unless point or delta
 		
-		coordinate_space ||= :world # [:world, :local]
-		unless [:world, :local].include?(coordinate_space)
-			raise ArgumentError, "Coordinate space must either be :world or :local" 
+		unless [:world_space, :local_space].include?(coordinate_space)
+			raise ArgumentError, "Coordinate space must either be :world_space or :local_space" 
 		end
 		
 		if point
 			if lock_aspect
-				point = self.body.world2local(point) if coordinate_space == :world
+				point = self.body.world2local(point) if coordinate_space == :world_space
 				
 				a = grab_handle
 				b = point
@@ -82,9 +81,9 @@ class Rect < Poly
 				c = minimum_dimension
 				
 				case coordinate_space
-					when :world
+					when :world_space
 						resize_to_point!(a,b,c)
-					when :local
+					when :local_space
 						resize_to_local_point!(a,b,c)
 				end
 			end
