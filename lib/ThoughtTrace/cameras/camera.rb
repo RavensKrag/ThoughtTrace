@@ -36,6 +36,7 @@ class Camera < Rectangle
 		
 		
 		
+		# NOTE: this is actually not that much less efficient than the old resize method that required generating a completely new set of verts. (memory alloc / dealloc can be bad)
 		grab_handle = CP::Vec2.new(1,1)
 		point       = CP::Vec2.new(width, height)
 		@components[:physics].shape.__resize!(
