@@ -31,10 +31,15 @@ class Resize < Rectangle::Actions::Resize
 		# NOTE: Want to always limit the minimum HEIGHT on resize. Don't really care about what the width is. This applies to Text only, not general rectangles.
 		
 		
+		# resize backend rect with fixed aspect ratio, to get a good guess of the size
 		@entity[:physics].shape.__resize!(
 			@grab_handle, :world_space, point:@point, lock_aspect:true,
 			minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
 		)
+		
+		# use that height to drive the actual font resizing calculation
+		# (this will ensure that the proper width is assigned)
+		@entity.height = @entity[:physics].shape.height
 	end
 	
 	# restore original state
