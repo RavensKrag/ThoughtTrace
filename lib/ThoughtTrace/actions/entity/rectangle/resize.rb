@@ -27,7 +27,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		@entity[:physics].shape.__resize!(
+		@entity[:physics].shape.resize!(
 			@grab_handle, :world_space, point:@point, lock_aspect:true,
 			minimum_dimension:MINIMUM_DIMENSION
 		)

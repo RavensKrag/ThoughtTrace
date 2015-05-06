@@ -74,7 +74,7 @@ class Text < Rectangle
 		
 		grab_handle = CP::Vec2.new(1,0)
 		point       = CP::Vec2.new(width,0)
-		@components[:physics].shape.__resize!(
+		@components[:physics].shape.resize!(
 			grab_handle, :local_space, point:point, lock_aspect:false,
 			minimum_dimension:0
 		)
@@ -94,7 +94,7 @@ class Text < Rectangle
 		
 		grab_handle = CP::Vec2.new(1,0)
 		point       = CP::Vec2.new(width,0)
-		@components[:physics].shape.__resize!(
+		@components[:physics].shape.resize!(
 			grab_handle, :local_space, point:point, lock_aspect:false,
 			minimum_dimension:0
 		)
@@ -112,7 +112,7 @@ class Text < Rectangle
 		# encode height
 		grab_handle = CP::Vec2.new(0,1)
 		point       = CP::Vec2.new(0,new_height)
-		@components[:physics].shape.__resize!(
+		@components[:physics].shape.resize!(
 			grab_handle, :local_space, point:point, lock_aspect:false,
 			minimum_dimension:0
 		)
@@ -123,7 +123,7 @@ class Text < Rectangle
 		
 		grab_handle = CP::Vec2.new(1,0)
 		point       = CP::Vec2.new(width,0)
-		@components[:physics].shape.__resize!(
+		@components[:physics].shape.resize!(
 			grab_handle, :local_space, point:point, lock_aspect:false,
 			minimum_dimension:0
 		)

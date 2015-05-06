@@ -32,7 +32,7 @@ class Resize < Rectangle::Actions::Resize
 		
 		
 		# resize backend rect with fixed aspect ratio, to get a good guess of the size
-		@entity[:physics].shape.__resize!(
+		@entity[:physics].shape.resize!(
 			@grab_handle, :world_space, point:@point, lock_aspect:true,
 			minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
 		)
