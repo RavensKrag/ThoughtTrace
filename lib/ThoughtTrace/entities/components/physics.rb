@@ -39,6 +39,16 @@ class Physics < Component
 	def draw(color, z=0)
 		@shape.draw color, z
 	end
+	
+	
+	# move this entity such that the point A in local space, lines up with the point B in world space
+	def foo(local_point, world_point)
+		# move to desired world position
+		# and then counter-steer based on local-space coordinate
+		# (basically, interpret the local point as a delta for counter-steering)
+		@body.p = world_point
+		@body.p -= local_point
+	end
 end
 
 

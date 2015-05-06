@@ -20,39 +20,59 @@ class Camera < Rectangle
 		self.look_at CP::Vec2.new(0,0)
 	end
 	
+	# TODO: depreciate this method
+	# change dimensions, and make sure that the center stays in the same place
+	def resize!(width, height)
+		# it seems to only be called through #bind_to_window
+		# in which case it doesn't even need to really be public?
+		# (well, maybe you would want to change camera size in the future. that would be ok.)
+		
+		
+		
+		
+		# the "position" of a camera is it's center,
+		# not the physics position vector, which would be at a corner
+		p_world = self.center
+		
+		
+		
+		grab_handle = CP::Vec2.new(1,1)
+		point       = CP::Vec2.new(width, height)
+		@components[:physics].shape.__resize!(
+			grab_handle, :local_space, point:point, lock_aspect:false,
+			minimum_dimension:0
+		)
+		
+		
+		
+		self.look_at(p_world)
+	end
+	
 	
 	
 	
 	# center the camera on the designated spot
 	def look_at(point)
 		center = @components[:physics].shape.center # center point in local-space 
-		
-		@components[:physics].body.p = point - center
+		@components[:physics].foo(center, point)
 	end
 	
 	# camera should remain centered on the same spot, but should be resized to match the window
 	def bind_to_window(window)
 		# TODO: update this bind method to accommodate drawing to subsection of the window (ie. viewports) rather than whole windows, if updating is necessary. This code may just work for that purpose as well without modification.
-		
-		point = self.center
-		
 		@window = window
 		
 		width  = @window.width
 		height = @window.height
-		self.resize!(width, height, CP::Vec2.new(0.5, 0.5))
+		self.resize!(width, height)
 		
-		
-		self.look_at(point)
+		self.look_at(CP::Vec2.new(0,0))
 	end
 	
 	
 	# retrieve the center point of the camera in world-space
 	def center
-		centroid = @components[:physics].shape.center
-		body = @components[:physics].body
-		
-		return body.local2world centroid
+		@components[:physics].center
 	end
 	
 	
