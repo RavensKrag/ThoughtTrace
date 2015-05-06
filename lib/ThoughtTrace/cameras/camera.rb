@@ -85,31 +85,19 @@ class Camera < Rectangle
 	end
 	
 	def draw
-		vec = self.offset
-		
-		@window.translate -vec.x, -vec.y do
+		@window.translate *(self.offset * -1).to_a do
 			yield
 		end
 	end
 	
 	# Offset for screen coordinates to camera space
 	def offset
-		# get the top left vert of the shape,
-		# and use it's position in world space
+		# use the origin of the rectangle for this,
+		# which ends up just being the position stored in the body.
+		# This works because the position of a Rectangle is at it's local origin,
+		# and the shape extends in the +x and +y directions
 		
-		
-		body = @components[:physics].body
-		shape = @components[:physics].shape
-		
-		
-		# this verts in rect are assigned starting from the top left, and continuing CW
-		# but that assumes that origin is bottom left, x+ right and y+ up
-		# since the origin is in the upper-left, and y+ is down,
-		# we want the vert on the bottom, and not the top
-		# (yeah, it's weird)
-		vec = body.local2world shape.bottom_left_vert
-		
-		return vec
+		@components[:physics].body.p.clone
 	end
 	
 	
@@ -121,7 +109,7 @@ class Camera < Rectangle
 	def screen2world(vec)
 		# TODO: make sure this still works when viewports are implemented. It might only work with render contexts that span the entire window. Or rather, it might only work with points relative to the window's origin, and not the camera origin? not totally sure
 		
-		return vec + offset
+		@components[:physics].body.local2world(vec)
 	end
 end
 
