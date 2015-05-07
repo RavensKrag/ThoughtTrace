@@ -20,7 +20,7 @@ class Camera < Rectangle
 		self.look_at CP::Vec2.new(0,0)
 	end
 	
-	# TODO: depreciate this method
+	
 	# change dimensions, and make sure that the center stays in the same place
 	def resize!(width, height)
 		# it seems to only be called through #bind_to_window
@@ -55,7 +55,7 @@ class Camera < Rectangle
 	# center the camera on the designated spot
 	def look_at(point)
 		center = @components[:physics].shape.center # center point in local-space 
-		@components[:physics].foo(center, point)
+		@components[:physics].right_hand_on_red(center, point)
 	end
 	
 	# camera should remain centered on the same spot, but should be resized to match the window
