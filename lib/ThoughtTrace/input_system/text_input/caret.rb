@@ -47,21 +47,6 @@ class TextInput
 			
 			
 			@timer.update
-			
-			
-			
-			# NOTE: now you have two possibly overflowing timers: Gosu.milliseconds AND time
-			# maybe if you have a proper elapsed time function that takes into account the wrap around for Gosu.milliseconds, then its ok?
-			# note that the wrap around handling in Timer is ok, because it only fires one tick.
-			# when you fire periodic events, things are different.
-			# you need to reset the timer sometime, but I'm not sure when.
-				# ok, now we're taking periodic wrap around into account, so it's ok
-				# (well, the delta calculation is currently still wrong but w/e)
-			
-			
-			
-			# NOTE: I think because of the nil / setting @start_time gap, this timing mechanism will drift over time, getting ever so slightly increasingly further away from the real (or, 'ideal'?) measurement.
-				# I don't think this problem is present in the current iteration of this code
 		end
 		
 		# render the caret
