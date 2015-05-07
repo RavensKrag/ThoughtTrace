@@ -50,6 +50,11 @@ class Rect < Poly
 	
 	# this method should replace the old 'resize!'
 	# Interface to make resizing more humanistic.
+	# example:
+		#	@entity[:physics].shape.resize!(
+		# 		@grab_handle, :world_space, point:@point, lock_aspect:true,
+		# 		minimum_dimension:MINIMUM_DIMENSION
+		# 	)
 	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
 		raise ArgumentError, "Must specify a grab handle vector" unless grab_handle.is_a? CP::Vec2
 		# NOTE: no member functions check to make sure that the handle passed to them is non-nil. This is a problem, as you sometimes fall through the entire function this way.
