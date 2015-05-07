@@ -4,7 +4,7 @@ module ThoughtTrace
 
 
 class Edit < ThoughtTrace::Actions::BaseAction
-	initialize_with :text_input, :clone_factory, :entity
+	initialize_with :text_input, :clone_factory, :entity, :space
 	
 	# called on first tick
 	def press(point)
@@ -88,9 +88,10 @@ class Edit < ThoughtTrace::Actions::BaseAction
 		# vec = @entity[:physics].body.p
 		
 		# NOTE: alpha blending doesn't seem to be working with line drawing
+		z = @space.entities.index_for(@entity) + @space.entities.offsets[:text_highlight]
 		ThoughtTrace::Drawing.draw_line(
 			$window, a,b, 
-			color:color, thickness:8, line_offset:0.5, z_index:10000
+			color:color, thickness:8, line_offset:0.5, z_index:z
 		)
 		# TODO: create better z-indexed calculation.
 		# need to figure out a good way to specify how much space there is in between each Entity z-index, or specify what offsets are allowed? or something. The Action already knows about the Entity, and could know about the Space, it could use the Entity z as a baseline if it wanted to.
