@@ -9,14 +9,19 @@ module ThoughtTrace
 			if time >= @target_time
 				if @block
 					@block.call
-					
-					if @start_time > now
-						# on timer wraparound
-						remainder = time % @target_time
-						@start_time = now + remainder
-					end
 				end
 			end
+			
+			
+			if @start_time > now
+				# on timer wraparound
+				remainder = time % @target_time
+				@start_time = now + remainder
+			end
+		end
+		
+		def reset
+			@start_time = now()
 		end
 	end
 
