@@ -9,7 +9,11 @@ class TextInput
 		@text = nil
 		
 		@caret = Caret.new(4)
-		@caret.color = Gosu::Color.argb(0xffaaaaaa)
+		
+		# NOTE: caret already sets it's own style data on init.
+		@caret[:style].edit(:default) do |s|
+			s[:color] = Gosu::Color.argb(0xffaaaaaa)
+		end
 	end
 	
 	def update

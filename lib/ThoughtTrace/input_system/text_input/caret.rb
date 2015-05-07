@@ -3,8 +3,6 @@ module ThoughtTrace
 
 class TextInput
 	class Caret < ThoughtTrace::Rectangle
-		attr_accessor :color, :dt
-		
 		def initialize(width)
 			# some default height, doesn't really matter
 			# the "real" height should always be set before the Caret is actually used
@@ -18,13 +16,13 @@ class TextInput
 			
 			
 			
-			@dt = 800
+			dt = 800
 			@visible = true
 			@dirty = false
 			
 			
 			@timer = ThoughtTrace::TickTockTimer.new
-			@timer.wait(@dt,
+			@timer.wait(dt,
 				tick: ->(){
 					@visible = true
 				},
