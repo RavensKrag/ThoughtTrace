@@ -20,35 +20,73 @@ class TextInput
 			
 			@dt = 800
 			@visible = true
+			@start_time = nil
 		end
 		
 		# control flashing of caret
 		def update
-			puts "update"
 			# if caret has been moved recently, don't blink
 			# otherwise, blink based on which of two time phases is active
 			
 			if @dirty
-				# has been modified recently
-				timestamp = @dirty
-				dt = Gosu.milliseconds - timestamp
-				# puts "#{Gosu.milliseconds}  -> #{dt}"
-				
-				# clear dirty flag if enough time has elapsed
-				# (should be able to use the same @dt as with standard flickering)
-				@dirty = nil if dt > @dt
-				
-				
-				
+				# reset accumulated time, and then clear dirty flag
+				@start_time = nil
+				@dirty = false
+			end
+			
+			
+			
+			
+			if @start_time.nil?
+				@start_time = Gosu.milliseconds
+			end
+			
+			# time = elapsed_time(@start_time, now())
+			time = Gosu.milliseconds - @start_time
+			# puts time
+			
+			
+			# divide time into 2 phases, where each phase has length @dt
+			if time % (@dt*2) < @dt
 				@visible = true
 			else
-				# divide time into 2 phases, where each phase has length @dt
-				if Gosu.milliseconds % (@dt*2) < @dt
-					@visible = true
-				else
-					@visible = false
-				end
+				@visible = false
 			end
+			
+			
+			
+			# need to bump up the start time periodically,
+			# otherwise the wrapping timer thing will get really really weird
+			if Gosu.milliseconds < @start_time
+				# wrap around has occured.
+				# now you need to compensate for it
+				# plan: set start to current time + compensation to line up with current cycle
+				
+				
+				# ok this delta calculation is wrong b/c wrap around but w/e
+				# (will eventually use the same 'takes wrap around into account' time delta code everywhere)
+				delta = Gosu.milliseconds - @start_time
+				
+				
+				remainder = delta % @dt
+				@start_time = Gosu.milliseconds + remainder
+				
+				# NOTE: assuming that Gosu.milliseconds only gets updated once per tick
+			end
+			
+			
+			# NOTE: now you have two possibly overflowing timers: Gosu.milliseconds AND time
+			# maybe if you have a proper elapsed time function that takes into account the wrap around for Gosu.milliseconds, then its ok?
+			# note that the wrap around handling in Timer is ok, because it only fires one tick.
+			# when you fire periodic events, things are different.
+			# you need to reset the timer sometime, but I'm not sure when.
+				# ok, now we're taking periodic wrap around into account, so it's ok
+				# (well, the delta calculation is currently still wrong but w/e)
+			
+			
+			
+			# NOTE: I think because of the nil / setting @start_time gap, this timing mechanism will drift over time, getting ever so slightly increasingly further away from the real (or, 'ideal'?) measurement.
+				# I don't think this problem is present in the current iteration of this code
 		end
 		
 		# render the caret
@@ -95,11 +133,11 @@ class TextInput
 		
 		# positing setting method similar to Camera#look_at
 		def position=(pos)
+			return if pos == self.position
+			
 			@components[:physics].right_hand_on_red(effective_local_origin, pos)
 			
-			
-			@dirty = Gosu.milliseconds
-			@position = pos
+			@dirty = true
 		end
 		
 		def position
