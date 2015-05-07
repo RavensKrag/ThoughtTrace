@@ -20,7 +20,19 @@ class TextInput
 			
 			@dt = 800
 			@visible = true
-			@start_time = nil
+			@dirty = false
+			
+			
+			@timer = ThoughtTrace::TickTockTimer.new
+			@timer.wait(@dt,
+				tick: ->(){
+					@visible = true
+				},
+				
+				tock: ->(){
+					@visible = false
+				}
+			)
 		end
 		
 		# control flashing of caret
@@ -30,49 +42,14 @@ class TextInput
 			
 			if @dirty
 				# reset accumulated time, and then clear dirty flag
-				@start_time = nil
+				# (should hit this branch the every time the caret is initially made visible, because the caret always has to be moved into a position before it's visible.)
+				@timer.reset
 				@dirty = false
 			end
 			
 			
+			@timer.update
 			
-			
-			if @start_time.nil?
-				@start_time = Gosu.milliseconds
-			end
-			
-			# time = elapsed_time(@start_time, now())
-			time = Gosu.milliseconds - @start_time
-			# puts time
-			
-			
-			# divide time into 2 phases, where each phase has length @dt
-			if time % (@dt*2) < @dt
-				@visible = true
-			else
-				@visible = false
-			end
-			
-			
-			
-			# need to bump up the start time periodically,
-			# otherwise the wrapping timer thing will get really really weird
-			if Gosu.milliseconds < @start_time
-				# wrap around has occured.
-				# now you need to compensate for it
-				# plan: set start to current time + compensation to line up with current cycle
-				
-				
-				# ok this delta calculation is wrong b/c wrap around but w/e
-				# (will eventually use the same 'takes wrap around into account' time delta code everywhere)
-				delta = Gosu.milliseconds - @start_time
-				
-				
-				remainder = delta % @dt
-				@start_time = Gosu.milliseconds + remainder
-				
-				# NOTE: assuming that Gosu.milliseconds only gets updated once per tick
-			end
 			
 			
 			# NOTE: now you have two possibly overflowing timers: Gosu.milliseconds AND time
