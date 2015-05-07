@@ -43,7 +43,7 @@ class Text < Rectangle
 		
 		@components[:physics].draw @components[:style][:hitbox_color], z_index
 		
-		@font.draw	@string, @components[:physics].shape.height.round,
+		@font.draw	@string, self.height,
 					x,y, z_index, # position relative to top left corner of text
 					@components[:style][:color]
 	end
