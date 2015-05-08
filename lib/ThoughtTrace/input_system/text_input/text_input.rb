@@ -90,12 +90,12 @@ class TextInput
 		@cached_i = i
 		
 		
-		@buffer.caret_pos = i
-		# NOTE: this current implementation runs every single frame, creating extra strings and testing them, even if the caret does not need to move at all. Should probably test the character index first, or something.
-		
-		
-		# can't be placed in the Caret class
+		# most of this stuff can't be placed in the Caret class
 		# because I don't want to let Caret know about the Text or Buffer objects
+		
+		@buffer.caret_pos = i
+		
+		
 		pos = @text[:physics].body.p.clone
 		
 		offset = 
