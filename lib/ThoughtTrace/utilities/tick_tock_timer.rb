@@ -4,17 +4,18 @@ module ThoughtTrace
 		def update
 			now = now()
 			time = elapsed_time(@start_time, now)
-			puts time
 			
 			
 			
 			# divide time into 2 phases, where each phase has length dt
 			dt = @target_time
-			if time % (dt*2) < dt
-				@tick_block.call
-			else
-				@tock_block.call
-			end
+			block = 
+				if time % (dt*2) < dt
+					@tick_block
+				else
+					@tock_block
+				end
+			block.call(time)
 			
 			
 			
