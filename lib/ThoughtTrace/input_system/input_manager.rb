@@ -23,7 +23,7 @@ class InputManager
 		@mouse = InputSystem::Mouse.new window, @document.camera
 		
 		# TODO: figure out if the selection Group needs to be added to the Space or something. How are Groups being tracked?
-		@selection = ThoughtTrace::Groups::Group.new
+		@selection = InputSystem::Selection.new
 		
 		@text_input = ThoughtTrace::TextInput.new
 		
@@ -302,7 +302,7 @@ class InputManager
 		@text_input.draw(@document.space)
 		# @mouse_input.draw
 		
-		@selection.draw(@document.space) unless @selection.empty? # selection is a Group
+		@selection.draw(@document.space) # selection wraps a Group
 	end
 	
 	def button_up(id)
@@ -315,7 +315,8 @@ class InputManager
 	end
 	
 	def shutdown
-		
+		# remove the active selection from the groups collection on shutdown
+		@selection.clear(@document)
 	end
 end
 

@@ -122,6 +122,8 @@ dependency_list = [
 	# './input_system'
 		'./input_system/old/action_stash',
 		
+		'./input_system/selection',
+		
 		'./input_system/button_event',
 		'./input_system/button_parser',
 		'./input_system/accelerator_parser',
