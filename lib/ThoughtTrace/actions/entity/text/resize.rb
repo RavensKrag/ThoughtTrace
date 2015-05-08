@@ -36,10 +36,6 @@ class Resize < Rectangle::Actions::Resize
 			@grab_handle, :world_space, point:@point, lock_aspect:true,
 			minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
 		)
-		
-		# use that height to drive the actual font resizing calculation
-		# (this will ensure that the proper width is assigned)
-		@entity.height = @entity[:physics].shape.height
 	end
 	
 	# restore original state
@@ -53,6 +49,11 @@ class Resize < Rectangle::Actions::Resize
 	# (used to be called #cleanup)
 	def release(point)
 		super(point)
+		
+		# Perform final, exactly height computation on the final tick ONLY.
+		# Performing this every tick causes a lot of jitter.
+		@entity.height = @entity[:physics].shape.height
+		# (setting height this way allows Text to set the exact width)
 	end
 	
 	
