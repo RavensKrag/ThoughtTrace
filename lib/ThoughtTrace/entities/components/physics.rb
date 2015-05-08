@@ -60,6 +60,11 @@ class Physics < Component
 		# align edge => point
 		# align edge to: point
 		# align edge with: point
+	
+	
+	# TODO: maybe use named arguments? not very clear what parameter controls what.
+	# ex) 
+	# rect.foo(target:point, destination:CP::Vec2.new(30,30))
 end
 
 
