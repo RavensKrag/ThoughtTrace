@@ -6,8 +6,8 @@ module ThoughtTrace
 # Change dimensions of Rectangle by moving edges.
 # Aspect ratio is LOCKED.
 class Resize < ThoughtTrace::Rectangle::Actions::Edit
-	MARGIN = 20
-	MINIMUM_DIMENSION = 10
+	MARGIN = 20 # this currently does nothing
+	MINIMUM_DIMENSION = self.superclass::MINIMUM_DIMENSION
 	
 	initialize_with :entity
 	
@@ -27,7 +27,10 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		super()
+		@entity[:physics].shape.resize!(
+			@grab_handle, :world_space, point:@point, lock_aspect:true,
+			minimum_dimension:MINIMUM_DIMENSION
+		)
 	end
 	
 	# restore original state
@@ -64,49 +67,28 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	end
 	
 	
-	
-	
-	
-	
 	private
 	
-	def cartesian_scaling(point, delta, width, height)
-		# ===== Cartesian Scaling =====
-		# scale along the axes of the rectangle
-		
-		# pin down part (edge or vert) of the rectangle, and stretch out the rest
-		
-		# rescale in the direction specified by @direction
-		# displacement towards the center of the shape is negative,
-		# displacement towards the outside of the shape is positive
+	def minimum_dimensions(width, height, minimum_dimension)
+		minimum_x = nil
+		minimum_y = nil
 		
 		
-		
-		delta = delta.project(@direction)
-		
-		
-		
-		
-		original_width  = width
-		original_height = height
-		
-		width, height = super(point, delta, width, height)
-		
-		
-		# aspect ratio lock for edge scaling
-		# (corner aspect ratio lock is a systemic consequence of projection onto @direction)
-		if    @direction.x == 0 and @direction.y != 0
-			# vertical scaling
-			ratio = height.to_f / original_height.to_f
-			width = width * ratio
-		elsif @direction.x != 0 and @direction.y == 0
-			# horizontal scaling
-			ratio = width.to_f / original_width.to_f
-			height = height * ratio
+		if width <= height
+			# width limits scaling
+			ratio = height / width
+			
+			minimum_x = minimum_dimension
+			minimum_y = minimum_dimension * ratio
+		else
+			# height limits scaling
+			ratio = width / height
+			
+			minimum_y = minimum_dimension
+			minimum_x = minimum_dimension * ratio
 		end
 		
-		
-		return width,height
+		return minimum_x, minimum_y
 	end
 end
 

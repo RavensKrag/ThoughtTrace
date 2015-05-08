@@ -34,7 +34,11 @@ class Group < ThoughtTrace::ComponentContainer
 		bb = @entities.collect{|x|  x[:physics].shape.bb }.reduce(&:merge)
 		
 		if bb
-			@rect[:physics].shape.resize!(bb.width, bb.height)
+			p = CP::Vec2.new(bb.width, bb.height)
+			@rect[:physics].shape.resize!(
+				CP::Vec2.new(1,1), :local_space, point:p, lock_aspect:false
+			)
+			
 			@rect[:physics].body.p.x = bb.l
 			@rect[:physics].body.p.y = bb.b
 		end

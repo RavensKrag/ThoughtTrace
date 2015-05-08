@@ -9,7 +9,13 @@ class TextInput
 		@text = nil
 		
 		@caret = Caret.new(4)
-		@caret.color = Gosu::Color.argb(0xffaaaaaa)
+		
+		# NOTE: caret already sets it's own style data on init.
+		@caret[:style].edit(:default) do |s|
+			s[:color] = Gosu::Color.argb(0xffaaaaaa)
+		end
+		
+		@cached_i = nil
 	end
 	
 	def update
@@ -19,7 +25,8 @@ class TextInput
 			
 			
 			# update caret
-			update_caret_position()
+			i = @buffer.caret_pos
+			self.caret_index = i
 			
 			@caret.height = @text.height
 			@caret.update
@@ -30,7 +37,7 @@ class TextInput
 		# draw the caret
 		if @buffer
 			z = space.entities.index_for(@text)
-			@caret.draw z
+			@caret.draw z + space.entities.offsets[:text_caret]
 		end
 	end
 	
@@ -79,18 +86,14 @@ class TextInput
 	def caret_index=(i)
 		raise "Index can not be negative" if i < 0
 		
+		return if @cached_i == i
+		@cached_i = i
+		
+		
+		# most of this stuff can't be placed in the Caret class
+		# because I don't want to let Caret know about the Text or Buffer objects
+		
 		@buffer.caret_pos = i
-		update_caret_position()
-	end
-	
-	
-	
-	private
-	
-	# can't be placed in the Caret class
-	# because I don't want to let Caret know about the Text or Buffer objects
-	def update_caret_position
-		i = @buffer.caret_pos
 		
 		
 		pos = @text[:physics].body.p.clone
@@ -99,6 +102,7 @@ class TextInput
 			if i == 0
 				0
 			else
+				puts "substrings"
 				substring = @text.string[0..(i-1)]
 				@text.font.width(substring, @text.height)
 			end

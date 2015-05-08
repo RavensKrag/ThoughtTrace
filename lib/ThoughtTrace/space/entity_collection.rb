@@ -18,6 +18,8 @@ class EntityList < ThoughtTrace::IndexedCollection
 		
 		# each offset must have a different value, and be an integer
 		map = {
+			:text_caret               =>  4,
+			:text_highlight           =>  3,
 			:constraint_visualization =>  2,
 			:selection_indiv          =>  1,
 			:selection_group          => -1

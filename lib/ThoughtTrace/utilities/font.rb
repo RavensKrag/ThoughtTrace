@@ -2,8 +2,6 @@
 
 module ThoughtTrace
 	class Font
-		MINIMUM_HEIGHT = 5
-		
 		attr_reader :i
 		attr_reader :name
 		
@@ -97,9 +95,8 @@ module ThoughtTrace
 		
 		def draw(text, height, x,y,z=0, color=0xffffffff)
 			# NOTE: Font should provide the same interface as Gosu::Font, so rounding to pixel-perfect outputs happens in Text instead
+			height = height.to_i
 			
-			# --Prevent out of bounds
-			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
 			
 			# ---Find the font in the cache
 			f = find_font_object(height)
@@ -112,12 +109,17 @@ module ThoughtTrace
 		end
 		
 		def width(text, height)
-			height = MINIMUM_HEIGHT if height < MINIMUM_HEIGHT
+			# NOTE: should be integers for input, and integers for final output
+			# TODO: make sure that height is always an integer
+			height = height.to_i
+			
+			
 			
 			f = find_font_object(height)
+			
 			scale = height / f.height.to_f
 			
-			return f.text_width(text) * scale
+			return (f.text_width(text) * scale).round
 		end
 		
 		
@@ -132,7 +134,7 @@ module ThoughtTrace
 		private
 		
 		def find_font_object(height)
-			i = @font_cache.index {|f| height <= f.height}
+			i = @font_cache.index {|f| f.height >= height }
 			i ||= @font_cache.size-1
 			
 			# $window.debug_puts i

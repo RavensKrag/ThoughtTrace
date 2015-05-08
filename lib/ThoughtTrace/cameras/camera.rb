@@ -21,38 +21,59 @@ class Camera < Rectangle
 	end
 	
 	
+	# change dimensions, and make sure that the center stays in the same place
+	def resize!(width, height)
+		# it seems to only be called through #bind_to_window
+		# in which case it doesn't even need to really be public?
+		# (well, maybe you would want to change camera size in the future. that would be ok.)
+		
+		
+		
+		
+		# the "position" of a camera is it's center,
+		# not the physics position vector, which would be at a corner
+		p_world = self.center
+		
+		
+		
+		# NOTE: this is actually not that much less efficient than the old resize method that required generating a completely new set of verts. (memory alloc / dealloc can be bad)
+		grab_handle = CP::Vec2.new(1,1)
+		point       = CP::Vec2.new(width, height)
+		@components[:physics].shape.resize!(
+			grab_handle, :local_space, point:point, lock_aspect:false,
+			minimum_dimension:0
+		)
+		
+		
+		
+		self.look_at(p_world)
+	end
+	
+	
 	
 	
 	# center the camera on the designated spot
 	def look_at(point)
 		center = @components[:physics].shape.center # center point in local-space 
-		
-		@components[:physics].body.p = point - center
+		@components[:physics].right_hand_on_red(center, point)
 	end
 	
 	# camera should remain centered on the same spot, but should be resized to match the window
 	def bind_to_window(window)
 		# TODO: update this bind method to accommodate drawing to subsection of the window (ie. viewports) rather than whole windows, if updating is necessary. This code may just work for that purpose as well without modification.
-		
-		point = self.center
-		
 		@window = window
 		
 		width  = @window.width
 		height = @window.height
-		self.resize!(width, height, CP::Vec2.new(0.5, 0.5))
+		self.resize!(width, height)
 		
-		
-		self.look_at(point)
+		self.look_at(CP::Vec2.new(0,0))
 	end
 	
 	
 	# retrieve the center point of the camera in world-space
 	def center
-		centroid = @components[:physics].shape.center
-		body = @components[:physics].body
-		
-		return body.local2world centroid
+		@components[:physics].center
 	end
 	
 	
@@ -64,31 +85,19 @@ class Camera < Rectangle
 	end
 	
 	def draw
-		vec = self.offset
-		
-		@window.translate -vec.x, -vec.y do
+		@window.translate *(self.offset * -1).to_a do
 			yield
 		end
 	end
 	
 	# Offset for screen coordinates to camera space
 	def offset
-		# get the top left vert of the shape,
-		# and use it's position in world space
+		# use the origin of the rectangle for this,
+		# which ends up just being the position stored in the body.
+		# This works because the position of a Rectangle is at it's local origin,
+		# and the shape extends in the +x and +y directions
 		
-		
-		body = @components[:physics].body
-		shape = @components[:physics].shape
-		
-		
-		# this verts in rect are assigned starting from the top left, and continuing CW
-		# but that assumes that origin is bottom left, x+ right and y+ up
-		# since the origin is in the upper-left, and y+ is down,
-		# we want the vert on the bottom, and not the top
-		# (yeah, it's weird)
-		vec = body.local2world shape.bottom_left_vert
-		
-		return vec
+		@components[:physics].body.p.clone
 	end
 	
 	
@@ -100,7 +109,7 @@ class Camera < Rectangle
 	def screen2world(vec)
 		# TODO: make sure this still works when viewports are implemented. It might only work with render contexts that span the entire window. Or rather, it might only work with points relative to the window's origin, and not the camera origin? not totally sure
 		
-		return vec + offset
+		@components[:physics].body.local2world(vec)
 	end
 end
 

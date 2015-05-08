@@ -2,30 +2,39 @@ module ThoughtTrace
 
 
 class TextInput
-	class Caret
-		attr_reader :width, :height # mutators defined manually
-		attr_reader :position       # mutators defined manually
-		
-		attr_accessor :color, :dt
+	class Caret < ThoughtTrace::Rectangle
+		extend Forwardable
 		
 		def initialize(width)
-			@width = width
-			
 			# some default height, doesn't really matter
 			# the "real" height should always be set before the Caret is actually used
-			@height = 10
+			height = 10
+			
+			super(width, height)
+			
+			@components[:style].edit(:default) do |s|
+				s[:color] = Gosu::Color.argb(0xffaaaaaa)
+			end
 			
 			
 			
-			@color = Gosu::Color.argb(0xffaaaaaa)
-			
-			@position = CP::Vec2.new(0,0)
-			
-			
-			@verts = create_geometry @width, @height
-			
-			@dt = 800
+			dt = 800
 			@visible = true
+			@dirty = false
+			
+			
+			@timer = ThoughtTrace::TickTockTimer.new
+			@timer.wait(dt,
+				tick: ->(time){
+					puts time
+					@visible = true
+				},
+				
+				tock: ->(time){
+					puts time
+					@visible = false
+				}
+			)
 		end
 		
 		# control flashing of caret
@@ -34,76 +43,84 @@ class TextInput
 			# otherwise, blink based on which of two time phases is active
 			
 			if @dirty
-				# has been modified recently
-				timestamp = @dirty
-				dt = Gosu.milliseconds - timestamp
-				# puts "#{Gosu.milliseconds}  -> #{dt}"
-				
-				# clear dirty flag if enough time has elapsed
-				# (should be able to use the same @dt as with standard flickering)
-				@dirty = nil if dt > @dt
-				
-				
-				
-				@visible = true
-			else
-				# divide time into 2 phases, where each phase has length @dt
-				if Gosu.milliseconds % (@dt*2) < @dt
-					@visible = true
-				else
-					@visible = false
-				end
+				# reset accumulated time, and then clear dirty flag
+				# (should hit this branch the every time the caret is initially made visible, because the caret always has to be moved into a position before it's visible.)
+				@timer.reset
+				@dirty = false
 			end
+			
+			
+			@timer.update
 		end
 		
 		# render the caret
-		def draw(z=0)
-			if @visible
-				$window.translate @position.x,@position.y do
-					$window.draw_quad	@verts[0].x.round, @verts[0].y.round, @color,
-										@verts[1].x.round, @verts[1].y.round, @color,
-										@verts[2].x.round, @verts[2].y.round, @color,
-										@verts[3].x.round, @verts[3].y.round, @color,
-										z
-				end
-			end
+		def draw(z_index=0)
+			super(z_index) if @visible
 		end
 		
 		
 		def width=(w)
-			return if @width == w
+			w = w.round
+			return if w == self.width
+			puts "change width"
+			p = self.position
 			
-			@width = w
-			@verts = create_geometry @width, @height
+			@components[:physics].shape.resize!(
+				CP::Vec2.new(1,0), :local_space, point:CP::Vec2.new(w,0), lock_aspect:false	
+			)
+			
+			self.position = p
 		end
 		
 		def height=(h)
-			return if @height == h
+			h = h.round
+			return if h == self.height
+			puts "change height"
+			p = self.position
 			
-			@height = h
-			@verts = create_geometry @width, @height
+			@components[:physics].shape.resize!(
+				CP::Vec2.new(0,1), :local_space, point:CP::Vec2.new(0,h), lock_aspect:false	
+			)
+			
+			self.position = p
 		end
 		
-		def position=(pos)
-			return if @position == pos
-			
-			@dirty = Gosu.milliseconds
-			@position = pos
+		# height and width methods similar to Text entity
+		def height
+			@components[:physics].shape.height.round
 		end
+		
+		def width
+			@components[:physics].shape.width.round
+		end
+		
+		
+		# positing setting method similar to Camera#look_at
+		def position=(pos)
+			return if pos == self.position
+			
+			@components[:physics].right_hand_on_red(effective_local_origin, pos)
+			
+			@dirty = true
+		end
+		
+		def position
+			@components[:physics].body.local2world(effective_local_origin)
+		end
+		
+		
+		def_delegators :@timer, :dt, :dt=
 		
 		
 		
 		
 		private
 		
-		def create_geometry(w,h)
-			verts = [
-				CP::Vec2.new(0,0),
-				CP::Vec2.new(w,0),
-				CP::Vec2.new(w,h),
-				CP::Vec2.new(0,h)
-			]
-			verts.each{ |v|  v.x -= w/2 }
+		def effective_local_origin
+			edge = @components[:physics].shape.edge CP::Vec2.new(0,-1)
+			center_of_edge = CP::Vec2.midpoint(*edge)
+			
+			return center_of_edge
 		end
 	end
 end

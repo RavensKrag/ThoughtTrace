@@ -79,6 +79,8 @@ dependency_list = [
 	'./utilities/consecutive_pairs',
 	
 	'./utilities/timer',
+	'./utilities/periodic_timer',
+	'./utilities/tick_tock_timer',
 	'./utilities/find_and_replace',
 	'./utilities/meta',
 	'./utilities/indexed_collection',
