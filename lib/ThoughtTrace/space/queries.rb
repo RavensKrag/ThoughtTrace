@@ -84,17 +84,38 @@ module ThoughtTrace
 				# the intuitive approach is to try to select dense objects by their center
 			
 			
-			
-			# TODO: Re-write as loop of sorting and testing selection size
-			# removes "selection = selection.method" noise in defining sorts
-			# better illustrates cyclical flow
-			
-			
-			
 			# Initial query
 			selection = self.point_query(point, layers, group, limit_to:limit_to, exclude:exclude)
 			
 			return nil if selection.empty?
+			
+			
+			
+			# get selection,
+			# get entities living in the space
+			# split entities into two categories:
+				# standard entities
+				# groups
+			
+			# sort selection and both entity groups in the same manner
+			# join the three sorted lists, back to back
+			
+			# selection priority
+			# selection > groups > standard entities
+			
+			# wait, maybe you don't need to have priority?
+			# but do need to make sure that the selection makes it into the list for consideration
+			# (it's not really stored in the space, so it wouldn't be in the standard point_query)
+			
+			# but wait,
+			# currently the selection is stored in the InputManager
+			# it's just a Group, but sitting in a special variable instead of in the Space.
+			# Can't get to that variable from here.
+			
+			# Need to figure out if the selection is a group that's just marked so you can find it again, and then you easily delete it when the selection clears,
+			# or if Groups are selections that have been made permanent.
+			# (I think it would be better to automatically delete the old selections)
+			
 			
 			# Sort by area
 			selection.sort_by! do |x|
@@ -121,6 +142,9 @@ module ThoughtTrace
 				# Listed in order of precedence, but sort order needs to be reverse of that
 				[x[:physics].shape.area, distance].reverse
 			end
+			
+			
+			
 			
 			return selection.first
 		end
