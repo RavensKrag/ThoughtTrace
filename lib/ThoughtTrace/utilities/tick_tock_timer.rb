@@ -38,6 +38,14 @@ module ThoughtTrace
 		def reset
 			@start_time = now()
 		end
+		
+		def dt
+			@target_time
+		end
+		
+		def dt=(arg)
+			@target_time = arg
+		end
 	end
 
 

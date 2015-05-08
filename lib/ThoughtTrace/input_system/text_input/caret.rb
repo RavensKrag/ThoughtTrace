@@ -3,6 +3,8 @@ module ThoughtTrace
 
 class TextInput
 	class Caret < ThoughtTrace::Rectangle
+		extend Forwardable
+		
 		def initialize(width)
 			# some default height, doesn't really matter
 			# the "real" height should always be set before the Caret is actually used
@@ -103,6 +105,9 @@ class TextInput
 		def position
 			@components[:physics].body.local2world(effective_local_origin)
 		end
+		
+		
+		def_delegators :@timer, :dt, :dt=
 		
 		
 		
