@@ -34,7 +34,7 @@ class TextInput
 		# draw the caret
 		if @buffer
 			z = space.entities.index_for(@text)
-			@caret.draw z
+			@caret.draw z + space.entities.offsets[:text_caret]
 		end
 	end
 	
