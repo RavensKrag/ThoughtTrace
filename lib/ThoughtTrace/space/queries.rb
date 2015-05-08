@@ -96,8 +96,9 @@ module ThoughtTrace
 			
 			return nil if selection.empty?
 			
-			selection.sort! do |a, b|
-				a[:physics].shape.area <=> b[:physics].shape.area
+			# Sort by area
+			selection.sort_by! do |x|
+				x[:physics].shape.area
 			end
 			
 			# Get the smallest area values, within a certain threshold
@@ -112,14 +113,13 @@ module ThoughtTrace
 				o[:physics].shape.area.between? first_area, first_area*(size_margin)
 			end
 			
-			selection.sort! do |a, b|
+			selection.sort_by! do |x|
 				# Assuming that the shapes all have their center on their local origin
 				# TODO: need to update this to use proper #center calculations
-				distance_to_a = a[:physics].body.pos.dist point
-				distance_to_b = b[:physics].body.pos.dist point
+				distance = x[:physics].body.pos.dist point
 				
 				# Listed in order of precedence, but sort order needs to be reverse of that
-				[a[:physics].shape.area, distance_to_a].reverse <=> [b[:physics].shape.area, distance_to_b].reverse
+				[x[:physics].shape.area, distance].reverse
 			end
 			
 			return selection.first
