@@ -303,9 +303,7 @@ class InputManager
 		@mouse_actions.each{ |x| x.draw  }
 		
 		@text_input.draw(@document.space)
-		# @mouse_input.draw
-		
-		@selection.draw(@document.space) # selection wraps a Group
+		# @mouse_input.draw		
 	end
 	
 	def button_up(id)

@@ -8,24 +8,44 @@ class Selection
 		@document = document
 		
 		@group = ThoughtTrace::Groups::Group.new
+		
+		@in_space = false
 	end
 	
 	def update
 		# NOTE: should make it so the Group is only in the Space when it is non-empty.
 			# likewise, only need to update / draw when the group is in the Space (and thus non-Empty.)
 			# or to put in another way: Group is only active when the Selection is active
-		@group.update
+		if @group.empty?
+			if @in_space
+				@document.space.groups.delete @group
+				@in_space = false
+			end
+		else
+			if not @in_space
+				@document.space.groups.add @group 
+				@in_space = true
+			end
+		end
+		
+		
+		# actual updating of the enclosed Group will be handled by the Space
+		# @group.update
 	end
 	
-	def draw(space)
-		@group.draw(space) unless @group.empty?
-	end
+	# def draw
+		# Selection has no draw method
+		# Visualization of the Selection completely handled by the contained Group.
+		# When that group is active (ie, inside the Space) it will be rendered,
+		# just like any other Group
+	# end
 	
 	
 	def on_shutdown
 		# remove the active selection from the groups collection on shutdown
 		@document.space.groups.delete @group
 	end
+	
 	
 	
 	
