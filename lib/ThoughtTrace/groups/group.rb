@@ -34,10 +34,10 @@ class Group < ThoughtTrace::Rectangle
 	# NOTE: draw may be called at least once before #update
 	def update
 		bb = @entities.collect{|x|  x[:physics].shape.bb }.reduce(&:merge)
-		# puts bb
+		
 		if !bb.nil? and bb != @bb_cache
 			@bb_cache = bb
-			puts "resize"
+			
 			[
 				[CP::Vec2.new(-1,  0),   CP::Vec2.new(bb.l,0)],
 				[CP::Vec2.new( 0, -1),   CP::Vec2.new(0,bb.b)],
