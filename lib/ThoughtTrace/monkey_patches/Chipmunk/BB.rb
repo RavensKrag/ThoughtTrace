@@ -21,6 +21,15 @@ module CP
 				l, b, color
 		end
 		
+		# TODO: fully finish the BB equality implementation (need to implement other methods too)
+		def ==(other)
+			return false unless other.is_a? self.class
+			
+			a = [other.l, other.b, other.r, other.t]
+			b = [self.l, self.b, self.r, self.t]
+			a.zip(b).all?{|a,b| a == b}
+		end
+		
 		# Make sure that r < l and b < t, as expected
 		# call this as a separate method rather than altering constructor
 		# because it may be useful on occasion to have the bb twisted inside-out
