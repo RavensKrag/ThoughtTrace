@@ -314,9 +314,8 @@ class InputManager
 		end
 	end
 	
-	def shutdown
-		# remove the active selection from the groups collection on shutdown
-		@selection.clear(@document)
+	def on_shutdown
+		@selection.on_shutdown
 	end
 end
 
