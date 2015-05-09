@@ -2,24 +2,20 @@ module ThoughtTrace
 	module Groups
 
 
-class Group < ThoughtTrace::ComponentContainer
+class Group < ThoughtTrace::Rectangle
 	# Groups need access to the Entity list for z-index calculation. Not sure how to get that here.
 	
 	def initialize
-		super()
+		super(10,10)
+		
+		@components[:style].edit(:default) do |s|
+			s[:color]           = Gosu::Color.argb(0xaa00FFFF)
+			s[:highlight_color] = Gosu::Color.argb(0x33FF00FF)
+		end
 		
 		@entities = Set.new
 		
 		
-		add_component ThoughtTrace::Components::Style.new
-		@components[:style][:color]        = Gosu::Color.argb(0x33FF00FF)
-		
-		
-		# @rect is used to draw the extent of the group,
-		# but also during various Group actions, such as 'resize'
-		# (it's a rectangle, but it's basically being used as a bounding box)
-		@rect = ThoughtTrace::Rectangle.new(10,10)
-		@rect[:style][:color] = Gosu::Color.argb(0xaa00FFFF)
 		
 		# TODO: link style object from Group style into @rect, so that the color of @rect changes according to the group style (only need this if you want to ever render the Rectangle)
 		# NOTE: can't just cascade @rect style into Group style if you want the two colors to be different. The two properties would need two separate names, but both shapes want to draw based on the :color property.
@@ -33,14 +29,17 @@ class Group < ThoughtTrace::ComponentContainer
 	def update
 		bb = @entities.collect{|x|  x[:physics].shape.bb }.reduce(&:merge)
 		
-		if bb
-			p = CP::Vec2.new(bb.width, bb.height)
-			@rect[:physics].shape.resize!(
-				CP::Vec2.new(1,1), :local_space, point:p, lock_aspect:false
-			)
-			
-			@rect[:physics].body.p.x = bb.l
-			@rect[:physics].body.p.y = bb.b
+		if !bb.nil? and bb != @components[:physics].shape.bb
+			[
+				[CP::Vec2.new(-1,  0),   CP::Vec2.new(bb.l,0)],
+				[CP::Vec2.new( 0, -1),   CP::Vec2.new(0,bb.b)],
+				[CP::Vec2.new( 1,  0),   CP::Vec2.new(bb.r,0)],
+				[CP::Vec2.new( 0,  1),   CP::Vec2.new(0,bb.t)]
+			].each do |a,b|
+				@components[:physics].shape.resize!(
+					a, :world_space, point:b, lock_aspect:false
+				)
+			end
 		end
 	end
 	
@@ -68,14 +67,14 @@ class Group < ThoughtTrace::ComponentContainer
 		
 		
 		# === visualization for the group as a whole
-		@rect.draw(min_z+space.entities.offsets[:selection_group])
+		super(min_z+space.entities.offsets[:selection_group])
 		# wait... because of draw stack flushing, you may not be able to render this at the proper level for Selection ('standard' groups may work differently, but those are not in yet)
 		
 		
 		# === visualization for each element in the group
 		@entities.each do |e|
 			e[:physics].shape.bb.draw(
-				@components[:style][:color],
+				@components[:style][:highlight_color],
 				max_z+space.entities.offsets[:selection_indiv]
 			)
 		end

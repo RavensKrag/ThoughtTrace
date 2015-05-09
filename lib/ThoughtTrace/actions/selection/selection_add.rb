@@ -17,7 +17,7 @@ class SelectionAdd < Select
 	# (used to be called #cleanup)
 	def release(point)
 		@set = super(point)
-		@old_selection = @selection.collect{|x|  x }
+		@old_selection = @selection.all_items
 		forward
 	end
 	

@@ -45,6 +45,12 @@ module ThoughtTrace
 			selection.uniq!
 			
 			
+			# select any and all groups where the query point lies inside the bounding shape
+			# NOTE: these are Group objects, which are different from Chipmunk group tags
+			groups = @groups.select{ |x| x[:physics].shape.point_query(point)  }
+			selection += groups
+			
+			
 			selection.select!{ |x| limit_to.include? x  }  if limit_to
 			selection.reject!{ |x| exclude.include?  x  }  if exclude
 			

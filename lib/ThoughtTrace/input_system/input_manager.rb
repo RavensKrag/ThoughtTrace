@@ -17,13 +17,16 @@ class InputManager
 		# TODO: take note of what things would need to be updated if the bound document were to shift
 		@document = document
 		
-		
+		# TODO: need to figure out if the document (and enclosed data) should be passed to subsystems as they are initialized, or only as they need them.
+			# latter would allow for changing the document more freely,
+			# but maybe the whole input system just needs to be refreshed
+			# when you have a new document?
 		
 		# TODO: properly implement mouse.
 		@mouse = InputSystem::Mouse.new window, @document.camera
 		
 		# TODO: figure out if the selection Group needs to be added to the Space or something. How are Groups being tracked?
-		@selection = InputSystem::Selection.new
+		@selection = InputSystem::Selection.new @document
 		
 		@text_input = ThoughtTrace::TextInput.new
 		
