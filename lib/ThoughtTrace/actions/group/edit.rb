@@ -13,13 +13,6 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 	
 	# called on first tick
 	def press(point)
-		# NOTE: Group has been made into a subclass of Rectangle, so many things will have to change
-			# but also, the way Groups are being picked out of the space is changing,
-			# so many of the assumptions in this document will change anyway
-		
-		
-		
-		
 		# NOTE: undefined behavior if the elements of Group are changed while the 'edit' or 'resize' actions are active
 		
 		
@@ -41,7 +34,7 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		# NOTE: maybe need to save the Geometry of the Entities as well? Maybe delegate to individual resize actions?
 		
 		# NOTE: remember that the group resize will always be done with locked aspect ratio (I think only Rectangle can be resized WITHOUT locking the ratio, and that is done as a separate action called Rectangle 'edit')
-		@entity = @group
+		@entity = @group # set 'entity' variable so the Rect action can move the Group container
 		super(point)
 		
 		
@@ -54,6 +47,7 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		
 		
 		@original_positions = @group.collect{ |e|  e[:physics].center }
+		@member_vert_data   = @group.collect{|entity|  entity[:physics].shape.verts }
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -61,18 +55,56 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
 		super(point)
+		undo()
 	end
 	
 	# Actually apply changes to data.
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
+		min = 10
 		# === resize the group's bounding shape
-		super()
-		# @entity[:physics].shape.resize!(
-		# 	@grab_handle, :world_space, point:@point, lock_aspect:false,
-		# 	minimum_dimension:MINIMUM_DIMENSION
-		# )
+		# super()
+		@entity[:physics].shape.resize!(
+			@grab_handle, :world_space, point:@point, lock_aspect:true,
+			minimum_dimension:min
+		)
+		
+		
+		
+		
+		
+		# TODO: should be calling a Entity-specific resize method, so like, Text can use the "exact dimension resize" logic currently seen in the Text resize action.
+		# TODO: make this worth with circles as well
+		# TODO: make sure this works with n-level nested groups
+		
+		
+		# NOTE: you must limit the rescaling of the group such that you do not scale any member below it's minimum size. If you do not, then you will get distortion.
+		
+		# resize all entities
+		# p @group[:physics].shape.verts.collect{|v| v.to_s }
+		delta = @group[:physics].shape.vert(1) - @original_verts[1]
+		dx = (delta.x.round + @original_verts[1].x.round).to_f / @original_verts[1].x.round
+		dy = (delta.y.round + @original_verts[1].y.round).to_f / @original_verts[1].y.round
+		# p [dx,dy]
+		# puts [dx.abs - dy.abs]
+		# yes: as expected dx and dy are almost the exact same value
+		
+		
+		# puts delta
+		@group.zip(@member_vert_data) do |entity, original_verts|
+			p = original_verts[1] * dx
+			
+			entity[:physics].shape.resize!(
+				CP::Vec2.new(1,1), :local_space, point:p, lock_aspect:true,
+				minimum_dimension:min
+			)
+		end
+		
+		
+		
+		
+		
 		
 		
 		# Bounding box seems to be snapping back to wrap around the entities during resize
@@ -103,7 +135,7 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			end
 		
 		# apply new positions
-		@group.each.to_a.zip(positions) do |entity, p|
+		@group.zip(positions) do |entity, p|
 			center = entity[:physics].shape.center
 			entity[:physics].right_hand_on_red(center, p)
 		end
@@ -118,6 +150,11 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		@group.each_with_index do |entity, i|
 			p = @original_positions[i]
 			entity[:physics].body.p = p
+		end
+		
+		offset = CP::Vec2.new(0,0)
+		@group.zip(@member_vert_data) do |entity, verts|
+			entity[:physics].shape.set_verts!(verts, offset)
 		end
 	end
 	
