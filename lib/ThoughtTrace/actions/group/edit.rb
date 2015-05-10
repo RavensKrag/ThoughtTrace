@@ -44,12 +44,16 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		@entity = @group
 		super(point)
 		
-		@original_positions = @group.collect{ |e|  e[:physics].body.p.clone }
+		
 		
 		@original_body = @group[:physics].body.clone
 		
 		@original_width  = @group[:physics].shape.width
 		@original_height = @group[:physics].shape.height
+		
+		
+		
+		@original_positions = @group.collect{ |e|  e[:physics].center }
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -100,7 +104,8 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		
 		# apply new positions
 		@group.each.to_a.zip(positions) do |entity, p|
-			entity[:physics].body.p = p
+			center = entity[:physics].shape.center
+			entity[:physics].right_hand_on_red(center, p)
 		end
 	end
 	
