@@ -8,7 +8,7 @@ class Resize < ThoughtTrace::Groups::Group::Actions::Edit
 	# Entity only needed for the Rectangle 'resize', 
 	# and in this case, should point to the Group itself.
 	# If that can't happen, then the Group can't be a subclass of Rectangle
-	initialize_with :selection, :action_factory
+	initialize_with :group, :action_factory
 	
 	
 	# called on first tick
