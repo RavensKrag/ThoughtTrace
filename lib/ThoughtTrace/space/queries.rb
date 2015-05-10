@@ -45,7 +45,13 @@ module ThoughtTrace
 			
 			selection.uniq!
 			
-			
+			# NOTE: potentially want to filer Groups by 'abstraction layer'
+				# raw entities have abstraction layer = 0
+				# a group with a raw entity inside it is layer = 1
+				# in general: groups have layer = highest member layer value + 1
+			# would need to somehow visualize abstraction layer,
+			# as well as the current depth of selection
+			# if that is going to be a thing.
 			
 			selection.select!{ |x| limit_to.include? x  }  if limit_to
 			selection.reject!{ |x| exclude.include?  x  }  if exclude
