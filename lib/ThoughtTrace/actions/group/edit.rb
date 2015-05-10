@@ -45,6 +45,7 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		super(point)
 		
 		@original_positions = @group.collect{ |e|  e[:physics].body.p.clone }
+		
 		@original_body = @group[:physics].body.clone
 		
 		@original_width  = @group[:physics].shape.width
@@ -70,6 +71,9 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		# )
 		
 		
+		# Bounding box seems to be snapping back to wrap around the entities during resize
+			# I think this is because of the code in the Group#update that says Group should always be trying to limit it's size to the extent of the BB around all member Entities
+		
 		# === map original Entity positions onto new Group coordinate space
 		# specify intervals for interval remapping
 		x_in  = 0..@original_width
@@ -80,23 +84,22 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		
 		
 		# examine each Entity in the Group
-		@group.each_with_index.collect do |entity, i|
-			# position of the Entity in the Group's coordinate space
-			p = @original_positions[i].clone # clone is unnecessary if world2local returns new vec
-			p = @original_body.world2local(p)
-			
-			
-				# remap intervals to account for resize
-				p.x = range_remap(value:p.x, input_range:x_in, output_range:x_out)
-				p.y = range_remap(value:p.y, input_range:y_in, output_range:y_out)
-			
-			
-			# convert back to global coordinate space
-			p = @group[:physics].body.local2world(p)
-			
-			
-			
-			# set new body position
+		positions = 
+			@original_positions.collect do |p|
+				# position of the Entity in the Group's coordinate space
+				p = @original_body.world2local(p)
+				
+					# remap intervals to account for resize
+					p.x = range_remap(value:p.x, input_range:x_in, output_range:x_out)
+					p.y = range_remap(value:p.y, input_range:y_in, output_range:y_out)
+				
+				
+				# convert back to global coordinate space
+				@group[:physics].body.local2world(p)
+			end
+		
+		# apply new positions
+		@group.each.to_a.zip(positions) do |entity, p|
 			entity[:physics].body.p = p
 		end
 	end
