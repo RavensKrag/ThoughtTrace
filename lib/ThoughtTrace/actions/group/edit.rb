@@ -75,6 +75,7 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		
 		
 		
+		# NOTE: Group update resizes the rectangle, which can cause jitter and other problems when that resizing intersects with the resizing happening in this action.
 		
 		
 		# TODO: should be calling a Entity-specific resize method, so like, Text can use the "exact dimension resize" logic currently seen in the Text resize action.
@@ -122,11 +123,17 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			
 			# NOTE: all Text objects also go through processing as Rectangles
 			entity.height = entity[:physics].shape.height
+			
+			# like in text resize action, you can move this to the release phase to reduce jitter,
+			# but because we're editing multiple text objects here,
+			# it may be better just to see the jitter, even though it's unsettling,
+			# because it will show the reality of the data?
 		end
 		
 		circle.each do |entity, original_verts|
 			# change radius based on original radius
 			# (may actually have to be based on diameter? not quite sure)
+			
 		end
 		
 		group.each do |entity, original_verts|
