@@ -4,7 +4,7 @@ module ThoughtTrace
 			module Actions
 
 
-class Resize < ThoughtTrace::Rectangle::Actions::Edit
+class Resize < ThoughtTrace::Rectangle::Actions::Resize
 	# Entity only needed for the Rectangle 'resize', 
 	# and in this case, should point to the Group itself.
 	# If that can't happen, then the Group can't be a subclass of Rectangle
@@ -16,6 +16,11 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		# NOTE: undefined behavior if the elements of Group are changed while the 'edit' or 'resize' actions are active
 		
 		
+		# TODO: this action needs recursive flow.
+			# resizing a Group requires resizing elements inside the Group,
+			# and sometimes those elements are themselves Groups.
+			
+			# but you need a 'recursive memory' so you can undo things with that same recursive structure
 		
 		
 		# NOTE: this action needs to be called when clicking on the bounding box around the entire Group, not simply when clicking on some element within the group. You need to see the bounding box for this to make sense.
@@ -63,6 +68,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		@texts   = collection.select{ |a,b| a.is_a? ThoughtTrace::Text           }
 		@circles = collection.select{ |a,b| a.is_a? ThoughtTrace::Circle         }
 		@groups  = collection.select{ |a,b| a.is_a? ThoughtTrace::Groups::Group  }
+		
+		@nested_group_actions = []
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -79,11 +86,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 	def apply
 		min = 10
 		# === resize the group's bounding shape
-		# super()
-		@entity[:physics].shape.resize!(
-			@grab_handle, :world_space, point:@point, lock_aspect:true,
-			minimum_dimension:min
-		)
+		super()
 		
 		
 		
@@ -145,9 +148,27 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 			entity[:physics].shape.set_radius!(original_radius * dx)
 		end
 		
-		@groups.each do |entity, original_verts|
-			# groups will also get processed as rectangles, because Group < Rectangle
-		end
+		
+		@nested_group_actions = 
+			@groups.collect do |subgroup, original_verts|
+				# groups will also get processed as rectangles, because Group < Rectangle
+				# TODO: need to make sure that groups are NOT processed as Rectangles
+				
+				action = @action_factory.create(subgroup, :resize)
+				
+				action.press( subgroup[:physics].center )
+				action.instance_eval do
+					@grab_handle = CP::Vec2.new(1,1)
+				end
+				
+				# NOTE: sub-group geometry already reset each frame by the undo() in this update() step. (actually, that should apply to all other geometry as well)
+				p = subgroup[:physics].shape.vert(1) * dx
+				action.update(p)
+				action.apply()
+				
+				
+				action
+			end
 		
 		
 		
@@ -210,6 +231,14 @@ class Resize < ThoughtTrace::Rectangle::Actions::Edit
 		
 		@circles.each do |entity, original_radius|
 			entity[:physics].shape.set_radius!(original_radius)
+		end
+		
+		
+		
+		
+		# deal with nested groups
+		@nested_group_actions.each do |action|
+			action.undo
 		end
 	end
 	
