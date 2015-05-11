@@ -49,7 +49,11 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		@original_positions = @group.collect{ |e|  e[:physics].center }
 		@member_vert_data   = @group.collect do |e|
 			shape = e[:physics].shape
-			shape.verts if shape.is_a? CP::Shape::Poly
+			if shape.is_a? CP::Shape::Poly
+				shape.verts
+			else
+				shape.radius
+			end
 		end
 		
 		
@@ -133,10 +137,12 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			# because it will show the reality of the data?
 		end
 		
-		@circles.each do |entity, original_verts|
+		@circles.each do |entity, original_radius|
 			# change radius based on original radius
 			# (may actually have to be based on diameter? not quite sure)
-			
+			# well, you do r * 2 * delta / 2 = new radius
+			# so it's exactly the same as just using the radius
+			entity[:physics].shape.set_radius!(original_radius * dx)
 		end
 		
 		@groups.each do |entity, original_verts|
@@ -200,6 +206,10 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		offset = CP::Vec2.new(0,0)
 		@rects.each do |entity, verts|
 			entity[:physics].shape.set_verts!(verts, offset)
+		end
+		
+		@circles.each do |entity, original_radius|
+			entity[:physics].shape.set_radius!(original_radius)
 		end
 	end
 	
