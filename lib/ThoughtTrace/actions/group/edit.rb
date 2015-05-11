@@ -51,6 +51,14 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			shape = e[:physics].shape
 			shape.verts if shape.is_a? CP::Shape::Poly
 		end
+		
+		
+		# split collection by type
+		collection = @group.zip(@member_vert_data)
+		@rects   = collection.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
+		@texts   = collection.select{ |a,b| a.is_a? ThoughtTrace::Text           }
+		@circles = collection.select{ |a,b| a.is_a? ThoughtTrace::Circle         }
+		@groups  = collection.select{ |a,b| a.is_a? ThoughtTrace::Groups::Group  }
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -96,17 +104,12 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			# puts delta
 		
 		
-		# split collection by type
-		collection = @group.zip(@member_vert_data)
-		rect   = collection.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
-		text   = collection.select{ |a,b| a.is_a? ThoughtTrace::Text           }
-		circle = collection.select{ |a,b| a.is_a? ThoughtTrace::Circle         }
-		group  = collection.select{ |a,b| a.is_a? ThoughtTrace::Groups::Group  }
+		
 		
 		# NOTE: this may have problems, because Text is a Rectangle
 		# NOTE: beware of possibility of nested groups (maybe this case includes prefabs?)
 		
-		rect.each do |entity, original_verts|
+		@rects.each do |entity, original_verts|
 			# resize based on original vert * percentage change of container
 			p = original_verts[1] * dx
 			
@@ -116,7 +119,7 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			)
 		end
 		
-		text.each do |entity, original_verts|
+		@texts.each do |entity, original_verts|
 			# resize like rect, assuming locked aspect ratio,
 			# and then again in text-specific way to lock exact size
 			# (same logic as Text resize action)
@@ -130,13 +133,13 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			# because it will show the reality of the data?
 		end
 		
-		circle.each do |entity, original_verts|
+		@circles.each do |entity, original_verts|
 			# change radius based on original radius
 			# (may actually have to be based on diameter? not quite sure)
 			
 		end
 		
-		group.each do |entity, original_verts|
+		@groups.each do |entity, original_verts|
 			
 		end
 		
@@ -190,11 +193,8 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		end
 		
 		
-		collection = @group.zip(@member_vert_data)
-		rect   = collection.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
-		
 		offset = CP::Vec2.new(0,0)
-		rect.each do |entity, verts|
+		@rects.each do |entity, verts|
 			entity[:physics].shape.set_verts!(verts, offset)
 		end
 	end
