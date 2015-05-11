@@ -146,7 +146,7 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		end
 		
 		@groups.each do |entity, original_verts|
-			
+			# groups will also get processed as rectangles, because Group < Rectangle
 		end
 		
 		
