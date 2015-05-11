@@ -81,17 +81,15 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		
 		# NOTE: you must limit the rescaling of the group such that you do not scale any member below it's minimum size. If you do not, then you will get distortion.
 		
-		# resize all entities
+		# === resize all entities
 		# p @group[:physics].shape.verts.collect{|v| v.to_s }
 		delta = @group[:physics].shape.vert(1) - @original_verts[1]
 		dx = (delta.x.round + @original_verts[1].x.round).to_f / @original_verts[1].x.round
 		dy = (delta.y.round + @original_verts[1].y.round).to_f / @original_verts[1].y.round
-		# p [dx,dy]
-		# puts [dx.abs - dy.abs]
-		# yes: as expected dx and dy are almost the exact same value
-		
-		
-		# puts delta
+			# p [dx,dy]
+			# puts [dx.abs - dy.abs]
+			# yes: as expected dx and dy are almost the exact same value
+			# puts delta
 		@group.zip(@member_vert_data) do |entity, original_verts|
 			p = original_verts[1] * dx
 			
