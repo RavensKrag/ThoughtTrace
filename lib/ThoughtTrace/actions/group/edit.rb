@@ -185,14 +185,18 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
+		# reset group position AND geometry
 		super()
 		
+		
+		# reset member entity positions
 		@group.each_with_index do |entity, i|
 			p = @original_positions[i]
 			entity[:physics].body.p = p
 		end
 		
 		
+		# reset member entity geometry
 		offset = CP::Vec2.new(0,0)
 		@rects.each do |entity, verts|
 			entity[:physics].shape.set_verts!(verts, offset)
