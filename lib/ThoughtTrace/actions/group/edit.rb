@@ -90,7 +90,20 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			# puts [dx.abs - dy.abs]
 			# yes: as expected dx and dy are almost the exact same value
 			# puts delta
-		@group.zip(@member_vert_data) do |entity, original_verts|
+		
+		
+		# split collection by type
+		collection = @group.zip(@member_vert_data)
+		rect   = collection.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
+		text   = collection.select{ |a,b| a.is_a? ThoughtTrace::Text           }
+		circle = collection.select{ |a,b| a.is_a? ThoughtTrace::Circle         }
+		group  = collection.select{ |a,b| a.is_a? ThoughtTrace::Groups::Group  }
+		
+		# NOTE: this may have problems, because Text is a Rectangle
+		# NOTE: beware of possibility of nested groups (maybe this case includes prefabs?)
+		
+		rect.each do |entity, original_verts|
+			# resize based on original vert * percentage change of container
 			p = original_verts[1] * dx
 			
 			entity[:physics].shape.resize!(
@@ -99,7 +112,23 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			)
 		end
 		
+		text.each do |entity, original_verts|
+			# resize like rect, assuming locked aspect ratio,
+			# and then again in text-specific way to lock exact size
+			# (same logic as Text resize action)
+			
+			# NOTE: all Text objects also go through processing as Rectangles
+			entity.height = entity[:physics].shape.height
+		end
 		
+		circle.each do |entity, original_verts|
+			# change radius based on original radius
+			# (may actually have to be based on diameter? not quite sure)
+		end
+		
+		group.each do |entity, original_verts|
+			
+		end
 		
 		
 		
