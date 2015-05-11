@@ -47,7 +47,10 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 		
 		
 		@original_positions = @group.collect{ |e|  e[:physics].center }
-		@member_vert_data   = @group.collect{|entity|  entity[:physics].shape.verts }
+		@member_vert_data   = @group.collect do |e|
+			shape = e[:physics].shape
+			shape.verts if shape.is_a? CP::Shape::Poly
+		end
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -179,8 +182,12 @@ class Edit < ThoughtTrace::Rectangle::Actions::Edit
 			entity[:physics].body.p = p
 		end
 		
+		
+		collection = @group.zip(@member_vert_data)
+		rect   = collection.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
+		
 		offset = CP::Vec2.new(0,0)
-		@group.zip(@member_vert_data) do |entity, verts|
+		rect.each do |entity, verts|
 			entity[:physics].shape.set_verts!(verts, offset)
 		end
 	end
