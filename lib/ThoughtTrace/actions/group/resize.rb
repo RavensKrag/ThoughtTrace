@@ -21,6 +21,24 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 			# and sometimes those elements are themselves Groups.
 			
 			# but you need a 'recursive memory' so you can undo things with that same recursive structure
+			
+			# because of this need for 'recursive memory' in the case of an undo,
+			# this action can not be easily converted back to a single method.
+			# This means Groups can not be resized in quite the same way that individual Entities can.
+			# This action is useful for when a human wants to resize a bunch of things quickly,
+			# but instructing the system to resize things relative to each other is more complicated.
+			
+			
+			# But I'm not yet sure how this impacts abstraction.
+			# How then, would you expect to resize a Prefab, which is just a special sort of Group?
+			# Maybe the Group resize method would have to wrap this action?
+			# Maybe something is wrong with the structure of this action?
+				# already breaking the action's encapsulation to directly set the grab handle
+				# in the case of nested groups,
+				# which seems to suggest a problem.
+			
+			# maybe there should be resize actions at the Entity level that return mementos for undo?
+				# this would solve the problem of code duplication with the special Text resize as well
 		
 		
 		# NOTE: this action needs to be called when clicking on the bounding box around the entire Group, not simply when clicking on some element within the group. You need to see the bounding box for this to make sense.
@@ -78,6 +96,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 	def update(point)
 		super(point)
 		undo()
+		# TODO: consider trying to get rid of this UNDO here
+		# NOTE: without it, there's currently a lot of jitter / drift because of the automatic resizing happening in Group#update
 	end
 	
 	# Actually apply changes to data.
@@ -109,7 +129,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 			# puts [dx.abs - dy.abs]
 			# yes: as expected dx and dy are almost the exact same value
 			# puts delta
-		
+		# TODO: should only really compute either dx or dy
+		# TODO: consider using (delta / old + 1) rather than (delta + old / old) to get dx or dy
 		
 		
 		
