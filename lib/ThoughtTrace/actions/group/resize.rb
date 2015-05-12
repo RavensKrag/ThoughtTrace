@@ -238,16 +238,15 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 		
 		
 		# reset member entity positions
-		@group.each_with_index do |entity, i|
-			p = @original_positions[i]
+		@group.zip(@original_positions) do |entity, p|
 			entity[:physics].body.p = p
 		end
 		
 		
 		# reset member entity geometry
 		offset = CP::Vec2.new(0,0)
-		@rects.each do |entity, verts|
-			entity[:physics].shape.set_verts!(verts, offset)
+		@rects.each do |entity, original_verts|
+			entity[:physics].shape.set_verts!(original_verts, offset)
 		end
 		
 		@circles.each do |entity, original_radius|
