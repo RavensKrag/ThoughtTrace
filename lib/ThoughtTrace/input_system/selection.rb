@@ -92,7 +92,8 @@ class Selection
 	def_delegators :@group, 
 		:include?, :size, :empty?,
 		:add, :delete, :clear,
-		:union!, :difference!, :intersection!
+		:union!, :difference!, :intersection!,
+		:each
 end
 
 

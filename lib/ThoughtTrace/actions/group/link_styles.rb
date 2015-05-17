@@ -11,7 +11,7 @@ class LinkStyles < ThoughtTrace::Actions::OneShotAction
 	# Called on the first tick. Prepare the transform.
 	def setup(point)
 		
-		@old_selection = @selection.each.to_a
+		@old_selection = @selection.all_items
 		@old_styles = @old_selection.collect{|x| x[:style]  }
 		
 		
