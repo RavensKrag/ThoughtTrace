@@ -28,20 +28,19 @@ class Text < Rectangle
 			x = countersteer_handle.to_a
 			type, target_indidies = CP::Shape::Rect::VEC_TO_TRANSFORM_DATA[x]
 			
-			verts = self.verts()
 			
 			local_anchor = 
 				case type
 					when :edge
 						target_indidies
-							.collect{  |i|    self.vert(i)           }
-							.reduce{   |a,b|  CP::Vec2.midpoint(a,b) }
+							.collect{  |i|    @components[:physics].shape.vert(i)    }
+							.reduce{   |a,b|  CP::Vec2.midpoint(a,b)                 }
 					when :vert
 						i = target_indidies.first
-						self.vert(i)
+						@components[:physics].shape.vert(i)
 				end
 			
-			anchor = self[:physics].body.local2world(local_anchor)
+			anchor = @components[:physics].body.local2world(local_anchor)
 			
 			
 			# set width and height
@@ -56,7 +55,7 @@ class Text < Rectangle
 			)
 			
 			# counter-steer
-			self[:physics].right_hand_on_red(local_anchor, anchor)
+			@components[:physics].right_hand_on_red(local_anchor, anchor)
 			
 			
 			
@@ -65,8 +64,8 @@ class Text < Rectangle
 		# return proc to reverse the process	
 		undo = Proc.new do
 			# same as for Rectangle
-			self[:physics].shape.set_verts!(original_verts, CP::Vec2.new(0,0))
-			self[:physics].body.p = original_position
+			@components[:physics].shape.set_verts!(original_verts, CP::Vec2.new(0,0))
+			@components[:physics].body.p = original_position
 		end
 		
 		return undo
