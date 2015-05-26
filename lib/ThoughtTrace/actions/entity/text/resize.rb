@@ -61,48 +61,29 @@ class Resize < Rectangle::Actions::Resize
 		
 		
 		
-		# prep for counter-steering
+		# === prep for counter-steering
 		local_anchor = counter_steer_anchor[@grab_handle]
 		return unless local_anchor
 		anchor = @entity[:physics].body.local2world(local_anchor)
 		
 		
-		# set width and height
-		type, target_indidies = CP::Shape::Rect::VEC_TO_TRANSFORM_DATA[@grab_handle.to_a]
+		# === set width and height
+		# resize the hitbox, and use that to figure out what the final height should be
+		# (but going to resize and re-position AGAIN before final render, so no one will see this)
+		@entity[:physics].shape.resize!(
+			@grab_handle, :world_space, point:@point, lock_aspect:true,
+			minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
+		)
 		
-		origin =
-			case type
-				when :edge
-					target_indidies
-						.collect{  |i|    @entity[:physics].shape.vert(i)    }
-						.reduce{   |a,b|  CP::Vec2.midpoint(a,b)                 }
-				when :vert
-					i = target_indidies.first
-					@entity[:physics].shape.vert(i)
-			end
+		height = @entity[:physics].shape.height
+		
+		# It doesn't feel like you're dragging along the diagonal, as with Rectangle resize.
+		# It feels like you're just resizing the width, and then the height changes to match
+		# (older Text resize code actually did that, and both old and new have the same behavior)
+		# But this new code can be written in terms of scaling to a specific point,
+		# where as the old one could only be written in terms of deltas.
 		
 		
-		height = 
-			if @grab_handle.x != 0
-				# pick a width, use that to drive the height,
-				# which will then decide the actual final width
-				original_width = @entity[:physics].shape.width
-				
-				dx = @delta.x
-				dx *= -1 if @grab_handle.x < 0
-				new_width = original_width + dx
-				
-				
-				ratio = new_width.round / original_width
-				
-				
-				@entity[:physics].shape.height * ratio
-			else
-				# set the height directly
-				dy = @delta.y
-				dy *= -1 if @grab_handle.y < 0
-				@entity.height + dy
-			end
 		
 		# NOTE: it's important to remember that when specifying a width, you can't always get the width you want. The height of the font, the font face, and the number / type of characters in the string constrain what widths are possible.
 		
@@ -112,8 +93,10 @@ class Resize < Rectangle::Actions::Resize
 		# which is very very odd.
 		
 		
-		h = [height, MINIMUM_FONT_HEIGHT].max
+		h = height
+		# puts h
 		w = @entity.font.width(@entity.string, h)
+		# puts w
 		
 		grab_handle = CP::Vec2.new(1,1)
 		point       = CP::Vec2.new(w,h)
@@ -124,7 +107,7 @@ class Resize < Rectangle::Actions::Resize
 		
 		
 		
-		# counter-steer
+		# === counter-steer
 		local_anchor = counter_steer_anchor[@grab_handle]
 		@entity[:physics].right_hand_on_red(local_anchor, anchor)
 			# NOTE: what you really want is to save the local anchor in normalized space, so that you can use the exact same anchor twice. but that still requires the computer to calculate what the local anchor is in NEW non-normalized space. So even though that would be more humanistic, it may be worse for performance. (also floating point errors)
