@@ -1,15 +1,16 @@
 class Text < Rectangle
-	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
+	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1)
 		
 		# save
+			# should be the same as Rectangle entity
 		original_verts    = self[:physics].shape.verts
 		original_position = self[:physics].body.p.clone
 		
 		# process
 			# resize backend rect with fixed aspect ratio, to get a good guess of the size
 			@entity[:physics].shape.resize!(
-				@grab_handle, :world_space, point:@point, lock_aspect:true,
-				minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
+				grab_handle, coordinate_space, point:point, lock_aspect:true,
+				minimum_dimension:minimum_dimension, limit_by: :height
 			)
 			
 			# Perform final, exactly height computation on the final tick ONLY.

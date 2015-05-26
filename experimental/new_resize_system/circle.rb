@@ -1,5 +1,5 @@
 class Circle
-	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1, limit_by:nil)
+	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1)
 		
 		# NOTE: could accept a grab handle, but Circle really doesn't need one, so it would just be ignored anyway
 		
@@ -8,7 +8,7 @@ class Circle
 		
 		@components[:physics].shape.resize!(
 			coordinate_space, radius:radius, point:point, delta:delta,
-			minimum_dimension:minimum_dimension, lock_aspect:lock_aspect, limit_by:limit_by
+			minimum_dimension:minimum_dimension
 		)
 		
 		
@@ -31,7 +31,7 @@ module CP
 	module Shape
 	
 class Circle
-	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1, limit_by:nil)
+	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1)
 		
 		# TODO: consider that you should always use a local point, and just require that the user transform the world-space point into a local-space one outside of the resize system.
 		
