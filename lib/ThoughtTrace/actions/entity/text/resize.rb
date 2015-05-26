@@ -32,11 +32,6 @@ class Resize < Rectangle::Actions::Resize
 	def apply
 		# NOTE: Want to always limit the minimum HEIGHT on resize. Don't really care about what the width is. This applies to Text only, not general rectangles.
 		
-		# grab_handle = @grab_handle
-		# minimum_dimension = MINIMUM_FONT_HEIGHT
-		# point = @point
-		
-		
 		undo()
 		
 		counter_steer_anchor = ->(grab_handle){
@@ -93,9 +88,10 @@ class Resize < Rectangle::Actions::Resize
 				# which will then decide the actual final width
 				original_width = @entity[:physics].shape.width
 				
-					dx = @delta.x
-					dx *= -1 if @grab_handle.x < 0
-					new_width = original_width + dx
+				dx = @delta.x
+				dx *= -1 if @grab_handle.x < 0
+				new_width = original_width + dx
+				
 				
 				ratio = new_width.to_f / original_width.to_f
 				
@@ -108,9 +104,7 @@ class Resize < Rectangle::Actions::Resize
 				@entity.height + dy
 			end
 		
-		
-		# NOTE: currently resizes correctly on height, but not on width (because the delta is currently only looking at the change in the y direction). But the core logic is currently set around picking a height, so that's why.
-		
+				
 		
 		height = height.round # rounding needs to happen somewhere to prevent jitter. this works.
 		
