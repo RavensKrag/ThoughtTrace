@@ -68,7 +68,7 @@ class Resize < Rectangle::Actions::Resize
 		
 		# prep for counter-steering
 		local_anchor = counter_steer_anchor[@grab_handle]
-		
+		return unless local_anchor
 		anchor = @entity[:physics].body.local2world(local_anchor)
 		
 		
@@ -86,9 +86,27 @@ class Resize < Rectangle::Actions::Resize
 					@entity[:physics].shape.vert(i)
 			end
 		
-		dh = @delta.y
-		dh *= -1 if @grab_handle.y < 0
-		height = @entity.height + dh
+		
+		height = 
+			if @grab_handle.x != 0
+				# pick a width, use that to drive the height,
+				# which will then decide the actual final width
+				original_width = @entity[:physics].shape.width
+				
+					dx = @delta.x
+					dx *= -1 if @grab_handle.x < 0
+					new_width = original_width + dx
+				
+				ratio = new_width.to_f / original_width.to_f
+				
+				
+				@entity[:physics].shape.height * ratio
+			else
+				# set the height directly
+				dy = @delta.y
+				dy *= -1 if @grab_handle.y < 0
+				@entity.height + dy
+			end
 		
 		
 		# NOTE: currently resizes correctly on height, but not on width (because the delta is currently only looking at the change in the y direction). But the core logic is currently set around picking a height, so that's why.
