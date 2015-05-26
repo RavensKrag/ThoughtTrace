@@ -44,6 +44,25 @@ class Text < Rectangle
 			
 			
 			# set width and height
+			type, target_indidies = CP::Shape::Rect::VEC_TO_TRANSFORM_DATA[grab_handle.to_a]
+			
+			origin =
+				case type
+					when :edge
+						target_indidies
+							.collect{  |i|    @components[:physics].shape.vert(i)    }
+							.reduce{   |a,b|  CP::Vec2.midpoint(a,b)                 }
+					when :vert
+						i = target_indidies.first
+						@components[:physics].shape.vert(i)
+				end
+			
+			d = point - origin
+			dh = d.y
+			dh *= -1 if grab_handle.y < 0
+			height = self.height + d.y
+			
+			
 			h = [height, minimum_dimension].max
 			w = @font.width(@string, height)
 			
