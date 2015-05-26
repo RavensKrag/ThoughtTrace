@@ -21,14 +21,19 @@ class Circle
 end
 
 
+# NOTE: there's currently already a method #resize! for Circle entities. Will need to get rid of that, and update the serialization system accordingly.
 
 
+
+# getting to a really 'functional' style here (as in FP), where you have three different layers (action, API method, backend method) each are only responsible for one stage of action. you don't need to know about undo AND redo AND the primary method execution all in one place necessarily.
 
 module CP
 	module Shape
 	
 class Circle
 	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1, limit_by:nil)
+		
+		# TODO: consider that you should always use a local point, and just require that the user transform the world-space point into a local-space one outside of the resize system.
 		
 		
 		# these argument-checking statements are ripped straight from Shape::Rect
