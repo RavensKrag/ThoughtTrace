@@ -44,14 +44,13 @@ class Text < Rectangle
 			
 			
 			# set width and height
-			h = height
+			h = [height, minimum_dimension].max
 			w = @font.width(@string, height)
 			
 			grab_handle = CP::Vec2.new(1,1)
 			point       = CP::Vec2.new(w,h)
 			@components[:physics].shape.resize!(
-				grab_handle, :local_space, point:point, lock_aspect:false,
-				minimum_dimension:0
+				grab_handle, :local_space, point:point, lock_aspect:false
 			)
 			
 			# counter-steer
