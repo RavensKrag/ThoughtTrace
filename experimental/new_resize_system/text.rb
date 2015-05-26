@@ -7,6 +7,7 @@ class Text < Rectangle
 		original_position = self[:physics].body.p.clone
 		
 		# process
+			# === THIS IS THE OLD GLITCHY WAY
 			# resize backend rect with fixed aspect ratio, to get a good guess of the size
 			@entity[:physics].shape.resize!(
 				grab_handle, coordinate_space, point:point, lock_aspect:true,
@@ -17,9 +18,51 @@ class Text < Rectangle
 			# Performing this every tick causes a lot of jitter.
 			@entity.height = @entity[:physics].shape.height
 			# (setting height this way allows Text to set the exact width)
+			
+			
+			
+			
+			# === TRY THIS WAY INSTEAD
+			# prep for counter-steering
+			countersteer_handle = grab_handle * -1
+			x = countersteer_handle.to_a
+			type, target_indidies = CP::Shape::Rect::VEC_TO_TRANSFORM_DATA[x]
+			
+			verts = self.verts()
+			
+			local_anchor = 
+				case type
+					when :edge
+						target_indidies
+							.collect{  |i|    self.vert(i)           }
+							.reduce{   |a,b|  CP::Vec2.midpoint(a,b) }
+					when :vert
+						i = target_indidies.first
+						self.vert(i)
+				end
+			
+			anchor = self[:physics].body.local2world(local_anchor)
+			
+			
+			# set width and height
+			h = height
+			w = @font.width(@string, height)
+			
+			grab_handle = CP::Vec2.new(1,1)
+			point       = CP::Vec2.new(w,h)
+			@components[:physics].shape.resize!(
+				grab_handle, :local_space, point:point, lock_aspect:false,
+				minimum_dimension:0
+			)
+			
+			# counter-steer
+			self[:physics].right_hand_on_red(local_anchor, anchor)
+			
+			
+			
 		
 		
-		# return proc to reverse the process		
+		# return proc to reverse the process	
 		undo = Proc.new do
 			# same as for Rectangle
 			self[:physics].shape.set_verts!(original_verts, CP::Vec2.new(0,0))
