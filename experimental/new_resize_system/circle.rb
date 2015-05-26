@@ -1,5 +1,5 @@
 class Circle
-	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
+	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1, limit_by:nil)
 		
 		# NOTE: could accept a grab handle, but Circle really doesn't need one, so it would just be ignored anyway
 		
@@ -28,7 +28,7 @@ module CP
 	module Shape
 	
 class Circle
-	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
+	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1, limit_by:nil)
 		
 		
 		# these argument-checking statements are ripped straight from Shape::Rect

@@ -77,8 +77,7 @@ class Group
 				# circle can actually have a slightly different interface, because it uses a different backend structure with different needs
 				# want the entity#resize! to have properties of convergent evolution, trying to become a similar as possible, but you don't need it be exactly the same, I think.
 				entity.resize!(
-					:local_space, delta:(r*dx), lock_aspect:true,
-					minimum_dimension:min
+					:local_space, radius:(r*dx), minimum_dimension:min
 				)
 			end
 		
