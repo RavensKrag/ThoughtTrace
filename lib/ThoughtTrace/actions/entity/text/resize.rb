@@ -93,7 +93,7 @@ class Resize < Rectangle::Actions::Resize
 				new_width = original_width + dx
 				
 				
-				ratio = new_width.to_f / original_width.to_f
+				ratio = new_width.round / original_width
 				
 				
 				@entity[:physics].shape.height * ratio
@@ -104,9 +104,13 @@ class Resize < Rectangle::Actions::Resize
 				@entity.height + dy
 			end
 		
-				
+		# NOTE: it's important to remember that when specifying a width, you can't always get the width you want. The height of the font, the font face, and the number / type of characters in the string constrain what widths are possible.
+		
 		
 		height = height.round # rounding needs to happen somewhere to prevent jitter. this works.
+		# In addition to jitter, it is possible for the hitbox to be sized narrower than the text,
+		# which is very very odd.
+		
 		
 		h = [height, MINIMUM_FONT_HEIGHT].max
 		w = @entity.font.width(@entity.string, h)
