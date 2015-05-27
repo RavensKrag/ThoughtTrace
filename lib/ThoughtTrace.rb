@@ -84,6 +84,7 @@ dependency_list = [
 	'./utilities/find_and_replace',
 	'./utilities/meta',
 	'./utilities/indexed_collection',
+	'./utilities/range_remap',
 	
 	'./monkey_patches',
 	

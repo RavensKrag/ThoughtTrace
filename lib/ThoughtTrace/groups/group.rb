@@ -227,8 +227,8 @@ class Group < ThoughtTrace::Rectangle
 				p = original_body.world2local(p)
 				
 					# remap intervals to account for resize
-					p.x = range_remap(value:p.x, input_range:x_in, output_range:x_out)
-					p.y = range_remap(value:p.y, input_range:y_in, output_range:y_out)
+					p.x = ThoughtTrace.range_remap(value:p.x, input_range:x_in, output_range:x_out)
+					p.y = ThoughtTrace.range_remap(value:p.y, input_range:y_in, output_range:y_out)
 				
 				
 				# convert back to global coordinate space
