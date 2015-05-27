@@ -113,21 +113,9 @@ class Group < ThoughtTrace::Rectangle
 		min = 10
 		
 		
-		member_vert_data   = self.collect do |e|
-			shape = e[:physics].shape
-			if shape.is_a? CP::Shape::Poly
-				shape.verts
-			else
-				shape.radius
-			end
-		end
-		
 		# split collection by type
-		collection = self.zip(member_vert_data)
-		@rects   = collection.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
-		@texts   = collection.select{ |a,b| a.is_a? ThoughtTrace::Text           }
-		@circles = collection.select{ |a,b| a.is_a? ThoughtTrace::Circle         }
-		@groups  = collection.select{ |a,b| a.is_a? ThoughtTrace::Groups::Group  }
+		rects   = self.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
+		circles = self.select{ |a,b| a.is_a? ThoughtTrace::Circle         }
 		
 		
 		
@@ -180,7 +168,7 @@ class Group < ThoughtTrace::Rectangle
 			# I think this is because of the code in the Group#update that says Group should always be trying to limit it's size to the extent of the BB around all member Entities
 		
 		rect_memos = 
-			@rects.collect do |entity, original_verts|
+			rects.collect do |entity, original_verts|
 				# resize based on original vert * percentage change of container
 				p = entity[:physics].shape.vert(1) * dx
 				
@@ -196,7 +184,7 @@ class Group < ThoughtTrace::Rectangle
 			end
 		
 		circle_memos = 
-			@circles.each do |entity, original_radius|
+			circles.each do |entity, original_radius|
 				# change radius based on original radius
 				# (may actually have to be based on diameter? not quite sure)
 				# well, you do r * 2 * delta / 2 = new radius
