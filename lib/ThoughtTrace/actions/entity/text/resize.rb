@@ -29,8 +29,6 @@ class Resize < Rectangle::Actions::Resize
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		# NOTE: Want to always limit the minimum HEIGHT on resize. Don't really care about what the width is. This applies to Text only, not general rectangles.
-		
 		# undo()
 		
 		@memo = @entity.resize!(
