@@ -56,8 +56,8 @@ class Text < Rectangle
 		
 		# save
 			# should be the same as Rectangle entity
-		original_verts    = self[:physics].shape.verts
-		original_position = self[:physics].body.p.clone
+		original_verts    = @components[:physics].shape.verts
+		original_position = @components[:physics].body.p.clone
 		
 		# process
 		counter_steer_anchor = ->(grab_handle){
@@ -70,11 +70,11 @@ class Text < Rectangle
 				case type
 					when :edge
 						target_indidies
-							.collect{  |i|    @entity[:physics].shape.vert(i)    }
+							.collect{  |i|    @components[:physics].shape.vert(i)    }
 							.reduce{   |a,b|  CP::Vec2.midpoint(a,b)                 }
 					when :vert
 						i = target_indidies.first
-						@entity[:physics].shape.vert(i)
+						@components[:physics].shape.vert(i)
 					else
 						return # short-circuit when you attempt to use action on center
 				end
@@ -88,18 +88,18 @@ class Text < Rectangle
 		# === prep for counter-steering
 		local_anchor = counter_steer_anchor[@grab_handle]
 		return unless local_anchor
-		anchor = @entity[:physics].body.local2world(local_anchor)
+		anchor = @components[:physics].body.local2world(local_anchor)
 		
 		
 		# === set width and height
 		# resize the hitbox, and use that to figure out what the final height should be
 		# (but going to resize and re-position AGAIN before final render, so no one will see this)
-		@entity[:physics].shape.resize!(
+		@components[:physics].shape.resize!(
 			@grab_handle, :world_space, point:@point, lock_aspect:true,
 			minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
 		)
 		
-		height = @entity[:physics].shape.height
+		height = @components[:physics].shape.height
 		
 		# It doesn't feel like you're dragging along the diagonal, as with Rectangle resize.
 		# It feels like you're just resizing the width, and then the height changes to match
@@ -120,13 +120,13 @@ class Text < Rectangle
 		# NOTE: need to set height again to apply rounding.
 		h = height
 		# puts h
-		w = @entity.font.width(@entity.string, h)
+		w = @font.width(@string, h)
 		# puts w
 		
 		grab_handle = CP::Vec2.new(1,1)
 		point       = CP::Vec2.new(w,h)
 		
-		@entity[:physics].shape.resize!(
+		@components[:physics].shape.resize!(
 			grab_handle, :local_space, point:point, lock_aspect:false
 		)
 		
@@ -134,7 +134,7 @@ class Text < Rectangle
 		
 		# === counter-steer
 		local_anchor = counter_steer_anchor[@grab_handle]
-		@entity[:physics].right_hand_on_red(local_anchor, anchor)
+		@components[:physics].right_hand_on_red(local_anchor, anchor)
 			# NOTE: what you really want is to save the local anchor in normalized space, so that you can use the exact same anchor twice. but that still requires the computer to calculate what the local anchor is in NEW non-normalized space. So even though that would be more humanistic, it may be worse for performance. (also floating point errors)
 			
 			
