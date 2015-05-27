@@ -68,6 +68,8 @@ class Circle < Entity
 				p.dist point
 			end
 		
+		new_radius = [new_radius, minimum_dimension].max
+		
 		self.radius = new_radius
 		
 		
