@@ -86,7 +86,7 @@ class Text < Rectangle
 		
 		
 		# === prep for counter-steering
-		local_anchor = counter_steer_anchor[@grab_handle]
+		local_anchor = counter_steer_anchor[grab_handle]
 		return unless local_anchor
 		anchor = @components[:physics].body.local2world(local_anchor)
 		
@@ -95,8 +95,8 @@ class Text < Rectangle
 		# resize the hitbox, and use that to figure out what the final height should be
 		# (but going to resize and re-position AGAIN before final render, so no one will see this)
 		@components[:physics].shape.resize!(
-			@grab_handle, :world_space, point:@point, lock_aspect:true,
-			minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
+			grab_handle, coordinate_space, point:point, lock_aspect:true,
+			minimum_dimension:minimum_dimension, limit_by: :height
 		)
 		
 		height = @components[:physics].shape.height
@@ -123,17 +123,17 @@ class Text < Rectangle
 		w = @font.width(@string, h)
 		# puts w
 		
-		grab_handle = CP::Vec2.new(1,1)
-		point       = CP::Vec2.new(w,h)
+		a = CP::Vec2.new(1,1)
+		b = CP::Vec2.new(w,h)
 		
 		@components[:physics].shape.resize!(
-			grab_handle, :local_space, point:point, lock_aspect:false
+			a, :local_space, point:b, lock_aspect:false
 		)
 		
 		
 		
 		# === counter-steer
-		local_anchor = counter_steer_anchor[@grab_handle]
+		local_anchor = counter_steer_anchor[grab_handle]
 		@components[:physics].right_hand_on_red(local_anchor, anchor)
 			# NOTE: what you really want is to save the local anchor in normalized space, so that you can use the exact same anchor twice. but that still requires the computer to calculate what the local anchor is in NEW non-normalized space. So even though that would be more humanistic, it may be worse for performance. (also floating point errors)
 			
