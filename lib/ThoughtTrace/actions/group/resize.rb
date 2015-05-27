@@ -139,7 +139,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 		
 		@rects.each do |entity, original_verts|
 			# resize based on original vert * percentage change of container
-			p = original_verts[1] * dx
+			p = entity[:physics].shape.vert(1) * dx
 			
 			entity[:physics].shape.resize!(
 				CP::Vec2.new(1,1), :local_space, point:p, lock_aspect:true,
@@ -166,7 +166,8 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 			# (may actually have to be based on diameter? not quite sure)
 			# well, you do r * 2 * delta / 2 = new radius
 			# so it's exactly the same as just using the radius
-			entity[:physics].shape.set_radius!(original_radius * dx)
+			r = entity[:physics].radius
+			entity[:physics].shape.set_radius!(r * dx)
 		end
 		
 		
