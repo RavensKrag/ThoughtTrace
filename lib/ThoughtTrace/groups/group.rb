@@ -110,6 +110,26 @@ class Group < ThoughtTrace::Rectangle
 	
 	
 	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
+		min = 10
+		
+		
+		member_vert_data   = self.collect do |e|
+			shape = e[:physics].shape
+			if shape.is_a? CP::Shape::Poly
+				shape.verts
+			else
+				shape.radius
+			end
+		end
+		
+		# split collection by type
+		collection = self.zip(member_vert_data)
+		@rects   = collection.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
+		@texts   = collection.select{ |a,b| a.is_a? ThoughtTrace::Text           }
+		@circles = collection.select{ |a,b| a.is_a? ThoughtTrace::Circle         }
+		@groups  = collection.select{ |a,b| a.is_a? ThoughtTrace::Groups::Group  }
+		
+		
 		
 		
 		# === save values specific to this element / this level of transform
@@ -128,10 +148,10 @@ class Group < ThoughtTrace::Rectangle
 		original_position = @components[:physics].body.p.clone
 		
 		
-		# === resize this element
+		# === resize the group's hitbox
 		@components[:physics].shape.resize!(
-			grab_handle, :world_space, point:@point, lock_aspect:true,
-			minimum_dimension:MINIMUM_DIMENSION
+			grab_handle, coordinate_space, point:point, lock_aspect:true,
+			minimum_dimension:minimum_dimension
 		)
 		# TODO: make sure coordinate spaces check out and everything
 		# NOTE: Groups can only be resized with locked aspect ratio. not quite sure how that affects things
@@ -182,9 +202,6 @@ class Group < ThoughtTrace::Rectangle
 				# so it's exactly the same as just using the radius
 				r = entity[:physics].radius
 				
-				
-				# PLAN: could feed a 'grab handle' parameter into this, but it would have no effect
-				# circle can actually have a slightly different interface, because it uses a different backend structure with different needs
 				# want the entity#resize! to have properties of convergent evolution, trying to become a similar as possible, but you don't need it be exactly the same, I think.
 				entity.resize!(
 					:local_space, radius:(r*dx), minimum_dimension:min
@@ -275,7 +292,8 @@ class Group < ThoughtTrace::Rectangle
 			
 			# moving sub-entities back to original positions is special to Group
 			self.zip(original_positions) do |entity, p|
-				entity[:physics].body.p = p
+				center = entity[:physics].shape.center
+				entity[:physics].right_hand_on_red(center, p)
 			end
 		end
 		
