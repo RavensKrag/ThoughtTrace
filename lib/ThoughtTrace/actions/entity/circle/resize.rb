@@ -50,14 +50,14 @@ class Resize < ThoughtTrace::Actions::BaseAction
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		@entity.resize!(@radius)
+		@entity.radius = @radius
 	end
 	
 	# restore original state
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		@entity.resize!(@original_radius)
+		@entity.radius = @original_radius
 	end
 	
 	# final tick of the Action

@@ -38,9 +38,8 @@ class Circle < Entity
 		@components[:physics].shape.radius
 	end
 	
-	
-	def resize!(radius)
-		@components[:physics].shape.set_radius! radius
+	def radius=(r)
+		@components[:physics].shape.set_radius! r
 	end
 end
 
