@@ -106,27 +106,30 @@ class Group < ThoughtTrace::Rectangle
 	end
 	
 	
+	
+	
+	
 	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
 		
 		
 		# === save values specific to this element / this level of transform
 		# need these to move the sub-elements using range-remap
-		original_body = self[:physics].body.clone
+		original_body = @components[:physics].body.clone
 		
-		original_width  = self[:physics].shape.width
-		original_height = self[:physics].shape.height
+		original_width  = @components[:physics].shape.width
+		original_height = @components[:physics].shape.height
 		
 		# needed for restore
 		original_positions = self.collect{ |e|  e[:physics].center }
 		
 		
 		# parent save
-		original_verts    = self[:physics].shape.verts
-		original_position = self[:physics].body.p.clone
+		original_verts    = @components[:physics].shape.verts
+		original_position = @components[:physics].body.p.clone
 		
 		
 		# === resize this element
-		self[:physics].shape.resize!(
+		@components[:physics].shape.resize!(
 			grab_handle, :world_space, point:@point, lock_aspect:true,
 			minimum_dimension:MINIMUM_DIMENSION
 		)
@@ -141,8 +144,8 @@ class Group < ThoughtTrace::Rectangle
 		
 		
 		# === resize nested elements, and save their memos so you can undo later
-		# p @group[:physics].shape.verts.collect{|v| v.to_s }
-		delta = @group[:physics].shape.vert(1) - original_verts[1]
+		# p @components[:physics].shape.verts.collect{|v| v.to_s }
+		delta = @components[:physics].shape.vert(1) - original_verts[1]
 		dx = (delta.x.round + original_verts[1].x.round).to_f / original_verts[1].x.round
 		dy = (delta.y.round + original_verts[1].y.round).to_f / original_verts[1].y.round
 			# p [dx,dy]
@@ -205,10 +208,10 @@ class Group < ThoughtTrace::Rectangle
 		# --- map original Entity positions onto new Group coordinate space
 		# specify intervals for interval remapping
 		x_in  = 0..original_width
-		x_out = 0..self[:physics].shape.width
+		x_out = 0..@components[:physics].shape.width
 		
 		y_in  = 0..original_height
-		y_out = 0..self[:physics].shape.height
+		y_out = 0..@components[:physics].shape.height
 		
 		
 		# examine each Entity in the Group
@@ -223,7 +226,7 @@ class Group < ThoughtTrace::Rectangle
 				
 				
 				# convert back to global coordinate space
-				self[:physics].body.local2world(p)
+				@components[:physics].body.local2world(p)
 			end
 		
 		# apply new positions
@@ -266,8 +269,8 @@ class Group < ThoughtTrace::Rectangle
 			
 			
 			# geometry reset same as rect resize action -> same as rect edit action
-			self[:physics].shape.set_verts!(original_verts, CP::Vec2.new(0,0))
-			self[:physics].body.p = original_position
+			@components[:physics].shape.set_verts!(original_verts, CP::Vec2.new(0,0))
+			@components[:physics].body.p = original_position
 			
 			
 			# moving sub-entities back to original positions is special to Group
