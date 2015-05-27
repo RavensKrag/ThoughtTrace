@@ -105,129 +105,25 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
 		min = 10
-		# === resize the group's bounding shape
-		super()
-		
-		
 		
 		# NOTE: Group update resizes the rectangle, which can cause jitter and other problems when that resizing intersects with the resizing happening in this action.
 		
 		
 		# TODO: should be calling a Entity-specific resize method, so like, Text can use the "exact dimension resize" logic currently seen in the Text resize action.
-		# TODO: make this worth with circles as well
 		# TODO: make sure this works with n-level nested groups
 		
 		
 		# NOTE: you must limit the rescaling of the group such that you do not scale any member below it's minimum size. If you do not, then you will get distortion.
 		
 		# === resize all entities
-		# p @group[:physics].shape.verts.collect{|v| v.to_s }
-		delta = @group[:physics].shape.vert(1) - @original_verts[1]
-		dx = (delta.x.round + @original_verts[1].x.round).to_f / @original_verts[1].x.round
-		dy = (delta.y.round + @original_verts[1].y.round).to_f / @original_verts[1].y.round
-			# p [dx,dy]
-			# puts [dx.abs - dy.abs]
-			# yes: as expected dx and dy are almost the exact same value
-			# puts delta
 		# TODO: should only really compute either dx or dy
 		# TODO: consider using (delta / old + 1) rather than (delta + old / old) to get dx or dy
 		
 		
-		
-		# NOTE: this may have problems, because Text is a Rectangle
-		# NOTE: beware of possibility of nested groups (maybe this case includes prefabs?)
-		
-		@rects.each do |entity, original_verts|
-			# resize based on original vert * percentage change of container
-			p = entity[:physics].shape.vert(1) * dx
-			
-			entity[:physics].shape.resize!(
-				CP::Vec2.new(1,1), :local_space, point:p, lock_aspect:true,
-				minimum_dimension:min
-			)
-		end
-		
-		@texts.each do |entity, original_verts|
-			# resize like rect, assuming locked aspect ratio,
-			# and then again in text-specific way to lock exact size
-			# (same logic as Text resize action)
-			
-			# NOTE: all Text objects also go through processing as Rectangles
-			entity.height = entity[:physics].shape.height
-			
-			# like in text resize action, you can move this to the release phase to reduce jitter,
-			# but because we're editing multiple text objects here,
-			# it may be better just to see the jitter, even though it's unsettling,
-			# because it will show the reality of the data?
-		end
-		
-		@circles.each do |entity, original_radius|
-			# change radius based on original radius
-			# (may actually have to be based on diameter? not quite sure)
-			# well, you do r * 2 * delta / 2 = new radius
-			# so it's exactly the same as just using the radius
-			r = entity[:physics].radius
-			entity[:physics].shape.set_radius!(r * dx)
-		end
-		
-		
-		@nested_group_actions = 
-			@groups.collect do |subgroup, original_verts|
-				# groups will also get processed as rectangles, because Group < Rectangle
-				# TODO: need to make sure that groups are NOT processed as Rectangles
-				
-				action = @action_factory.create(subgroup, :resize)
-				
-				action.press( subgroup[:physics].center )
-				action.instance_eval do
-					@grab_handle = CP::Vec2.new(1,1)
-				end
-				
-				# NOTE: sub-group geometry already reset each frame by the undo() in this update() step. (actually, that should apply to all other geometry as well)
-				p = subgroup[:physics].shape.vert(1) * dx
-				action.update(p)
-				action.apply()
-				
-				
-				action
-			end
-		
-		
-		
-		
-		
-		# Bounding box seems to be snapping back to wrap around the entities during resize
-			# I think this is because of the code in the Group#update that says Group should always be trying to limit it's size to the extent of the BB around all member Entities
-		
-		# === map original Entity positions onto new Group coordinate space
-		# specify intervals for interval remapping
-		x_in  = 0..@original_width
-		x_out = 0..@group[:physics].shape.width
-		
-		y_in  = 0..@original_height
-		y_out = 0..@group[:physics].shape.height
-		
-		
-		# examine each Entity in the Group
-		positions = 
-			@original_positions.collect do |p|
-				# position of the Entity in the Group's coordinate space
-				p = @original_body.world2local(p)
-				
-					# remap intervals to account for resize
-					p.x = range_remap(value:p.x, input_range:x_in, output_range:x_out)
-					p.y = range_remap(value:p.y, input_range:y_in, output_range:y_out)
-				
-				
-				# convert back to global coordinate space
-				@group[:physics].body.local2world(p)
-			end
-		
-		# apply new positions
-		@group.zip(positions) do |entity, p|
-			center = entity[:physics].shape.center
-			entity[:physics].right_hand_on_red(center, p)
-		end
+		@memo = @entity.resize!(
+			@grab_handle, :world_space, point:@point,
+			minimum_dimension:1, lock_aspect:true, limit_by: :smaller
+		)
 	end
 	
 	# restore original state
@@ -235,32 +131,7 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
 		# reset group position AND geometry
-		super()
-		
-		
-		# reset member entity positions
-		@group.zip(@original_positions) do |entity, p|
-			entity[:physics].body.p = p
-		end
-		
-		
-		# reset member entity geometry
-		offset = CP::Vec2.new(0,0)
-		@rects.each do |entity, original_verts|
-			entity[:physics].shape.set_verts!(original_verts, offset)
-		end
-		
-		@circles.each do |entity, original_radius|
-			entity[:physics].shape.set_radius!(original_radius)
-		end
-		
-		
-		
-		
-		# deal with nested groups
-		@nested_group_actions.each do |action|
-			action.undo
-		end
+		@memo.call() if @memo # memo will reset all member entities, which includes nested groups
 	end
 	
 	# final tick of the Action
@@ -285,22 +156,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 	# called each tick
 	def draw
 		super()
-	end
-	
-	
-	private
-	
-	# NOTE: move this to a more general location. This is an extremely useful method, and will be become even more useful as we get into complex spectrum stuff.
-	
-	# Remap a value from the input range, to the output range.
-	# If no output range is specified, will map onto the normalized range aka [0..1]
-	def range_remap(input_range:0..255, output_range:0.0..1.0, value:0)
-		src  = input_range
-		dest = output_range
-		
-		# src: http://stackoverflow.com/questions/3451553/value-remapping
-		# low2 + (value - low1) * (high2 - low2) / (high1 - low1)
-		return dest.first + (value - src.first) * (dest.last - dest.first) / (src.last - src.first)
 	end
 end
 
