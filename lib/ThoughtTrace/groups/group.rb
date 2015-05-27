@@ -145,11 +145,12 @@ class Group < ThoughtTrace::Rectangle
 		
 		# parent save
 		original_verts    = @components[:physics].shape.verts
-		original_position = @components[:physics].body.p.clone
+		# original_position = @components[:physics].body.p.clone
 		
 		
 		# === resize the group's hitbox
-		@components[:physics].shape.resize!(
+		# (use Rectangle#resize!)
+		container_memo = super(
 			grab_handle, coordinate_space, point:point, lock_aspect:true,
 			minimum_dimension:minimum_dimension
 		)
@@ -286,8 +287,7 @@ class Group < ThoughtTrace::Rectangle
 			
 			
 			# geometry reset same as rect resize action -> same as rect edit action
-			@components[:physics].shape.set_verts!(original_verts, CP::Vec2.new(0,0))
-			@components[:physics].body.p = original_position
+			container_memo.call
 			
 			
 			# moving sub-entities back to original positions is special to Group
