@@ -73,7 +73,7 @@ class Circle < Entity
 		
 		# return proc to reverse the process
 		undo = Proc.new do
-			@components[:physics].shape.set_radius! old_radius
+			self.radius = old_radius
 		end
 		
 		return undo
