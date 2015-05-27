@@ -12,7 +12,6 @@ class Resize < Rectangle::Actions::Resize
 	# called on first tick
 	def press(point)
 		super(point)
-		@origin = point
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -23,7 +22,6 @@ class Resize < Rectangle::Actions::Resize
 		
 		# simple ratio solution courtesy of this link
 		# http://tech.pro/tutorial/691/csharp-tutorial-font-scaling
-		@delta = point - @origin
 	end
 	
 	# Actually apply changes to data.
@@ -32,7 +30,7 @@ class Resize < Rectangle::Actions::Resize
 	def apply
 		# NOTE: Want to always limit the minimum HEIGHT on resize. Don't really care about what the width is. This applies to Text only, not general rectangles.
 		
-		undo()
+		# undo()
 		
 		counter_steer_anchor = ->(grab_handle){
 			countersteer_handle = grab_handle * -1
@@ -93,6 +91,7 @@ class Resize < Rectangle::Actions::Resize
 		# which is very very odd.
 		
 		
+		# NOTE: need to set height again to apply rounding.
 		h = height
 		# puts h
 		w = @entity.font.width(@entity.string, h)
