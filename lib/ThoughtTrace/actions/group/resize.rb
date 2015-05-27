@@ -59,35 +59,6 @@ class Resize < ThoughtTrace::Rectangle::Actions::Resize
 		# NOTE: remember that the group resize will always be done with locked aspect ratio (I think only Rectangle can be resized WITHOUT locking the ratio, and that is done as a separate action called Rectangle 'edit')
 		@entity = @group # set 'entity' variable so the Rect action can move the Group container
 		super(point)
-		
-		
-		
-		@original_body = @group[:physics].body.clone
-		
-		@original_width  = @group[:physics].shape.width
-		@original_height = @group[:physics].shape.height
-		
-		
-		
-		@original_positions = @group.collect{ |e|  e[:physics].center }
-		@member_vert_data   = @group.collect do |e|
-			shape = e[:physics].shape
-			if shape.is_a? CP::Shape::Poly
-				shape.verts
-			else
-				shape.radius
-			end
-		end
-		
-		
-		# split collection by type
-		collection = @group.zip(@member_vert_data)
-		@rects   = collection.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
-		@texts   = collection.select{ |a,b| a.is_a? ThoughtTrace::Text           }
-		@circles = collection.select{ |a,b| a.is_a? ThoughtTrace::Circle         }
-		@groups  = collection.select{ |a,b| a.is_a? ThoughtTrace::Groups::Group  }
-		
-		@nested_group_actions = []
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
