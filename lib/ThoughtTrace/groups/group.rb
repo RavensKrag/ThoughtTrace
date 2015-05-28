@@ -155,7 +155,7 @@ class Group < ThoughtTrace::Rectangle
 		# === resize the group's hitbox
 		# (use Rectangle#resize!)
 		container_memo = super(
-			grab_handle, coordinate_space, point:point, lock_aspect:lock_aspect,
+			grab_handle, coordinate_space, point:point, delta:delta, lock_aspect:lock_aspect,
 			minimum_dimension:minimum_dimension
 		)
 		# TODO: make sure coordinate spaces check out and everything
@@ -169,22 +169,17 @@ class Group < ThoughtTrace::Rectangle
 		
 		
 		# === resize nested elements, and save their memos so you can undo later
-		# p @components[:physics].shape.verts.collect{|v| v.to_s }
 		delta = @components[:physics].shape.vert(1) - original_verts[1]
-		dx = (delta.x.round + original_verts[1].x.round).to_f / original_verts[1].x.round
-		dy = (delta.y.round + original_verts[1].y.round).to_f / original_verts[1].y.round
-			# p [dx,dy]
-			# puts [dx.abs - dy.abs]
-			# yes: as expected dx and dy are almost the exact same value
-			# puts delta
-		# TODO: should only really compute either dx or dy
-		# TODO: consider using (delta / old + 1) rather than (delta + old / old) to get dx or dy
+		dx = (delta.x.round / original_verts[1].x.to_f) + 1
+		# dy = (delta.y.round / original_verts[1].y.to_f) + 1
+		# NOTE: dx and dy are almost exactly the same value, as they should be.
+		# NOTE: only need to compute either dx or dy
 		
 		# Bounding box seems to be snapping back to wrap around the entities during resize
 			# I think this is because of the code in the Group#update that says Group should always be trying to limit it's size to the extent of the BB around all member Entities
 		
 		rect_memos = 
-			rects.collect do |entity, original_verts|
+			rects.collect do |entity|
 				# resize based on original vert * percentage change of container
 				p = entity[:physics].shape.vert(1) * dx
 				
@@ -200,7 +195,7 @@ class Group < ThoughtTrace::Rectangle
 			end
 		
 		circle_memos = 
-			circles.each do |entity, original_radius|
+			circles.each do |entity|
 				# change radius based on original radius
 				# (may actually have to be based on diameter? not quite sure)
 				# well, you do r * 2 * delta / 2 = new radius
