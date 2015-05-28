@@ -160,9 +160,9 @@ class Group < ThoughtTrace::Rectangle
 		
 		
 		
-		
-		# figure out by what percent member entities could be resized,
-		# without going below the minimum size
+		# === Limit minimum size
+		# Find the smallest member entities, and figure the maximum percent they could be resized before going under the minimum size threshold.
+		# Use that percentage to limit the minimum size of the whole Group.
 		# (this won't work for nested Groups, because the minimum size for a nested Group is variable and depends on the number and arrangement of the things inside it)
 		h  = rects.collect{  |e| e[:physics].shape.height   }.min
 		dh = nil
@@ -177,8 +177,6 @@ class Group < ThoughtTrace::Rectangle
 		
 		min_dx = [dh, dr].compact.min # not sure if you want the big one or the small one...
 		
-		
-		# NOTE: need to also limit the resizing of the group as a whole
 		
 		width  = @components[:physics].shape.width
 		height = @components[:physics].shape.height
