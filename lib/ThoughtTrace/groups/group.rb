@@ -152,11 +152,59 @@ class Group < ThoughtTrace::Rectangle
 		# original_position = @components[:physics].body.p.clone
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		# figure out by what percent member entities could be resized,
+		# without going below the minimum size
+		# (this won't work for nested Groups, because the minimum size for a nested Group is variable and depends on the number and arrangement of the things inside it)
+		h  = rects.collect{  |e| e[:physics].shape.height   }.min
+		dh = nil
+		dh = min.to_f / h if h
+		
+		r  = circles.collect{  |e| e[:physics].shape.radius }.min
+		dr = nil
+		dr = min.to_f / r if r
+		
+		
+		# NOTE: dh and/or dr can be nil if there are no rects/circles selected
+		
+		min_dx = [dh, dr].compact.min # not sure if you want the big one or the small one...
+		
+		
+		# NOTE: need to also limit the resizing of the group as a whole
+		
+		width  = @components[:physics].shape.width
+		height = @components[:physics].shape.height
+		dimension = 
+			case limit_by
+				when :smaller
+					[width, height].min
+				when :larger
+					[width, height].max
+				when :width
+					width
+				when :height
+					height
+			end
+		
+		minimum_dimension = dimension * min_dx
+		
+		
+		
+		
+		
 		# === resize the group's hitbox
 		# (use Rectangle#resize!)
 		container_memo = super(
 			grab_handle, coordinate_space, point:point, delta:delta, lock_aspect:lock_aspect,
-			minimum_dimension:minimum_dimension
+			minimum_dimension:minimum_dimension, limit_by:limit_by
 		)
 		# TODO: make sure coordinate spaces check out and everything
 		# NOTE: Groups can only be resized with locked aspect ratio. not quite sure how that affects things
@@ -177,6 +225,20 @@ class Group < ThoughtTrace::Rectangle
 		
 		# Bounding box seems to be snapping back to wrap around the entities during resize
 			# I think this is because of the code in the Group#update that says Group should always be trying to limit it's size to the extent of the BB around all member Entities
+		
+		
+		puts "==="
+		puts "values:"
+		puts dx
+		dx = [dx, min_dx].max
+		puts dx
+		puts "min"
+		puts min_dx
+		puts "==="
+		
+		
+		
+		
 		
 		rect_memos = 
 			rects.collect do |entity|
