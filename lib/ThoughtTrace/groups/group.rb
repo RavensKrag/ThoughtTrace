@@ -196,9 +196,6 @@ class Group < ThoughtTrace::Rectangle
 				)
 				# NOTE: had to change Text to accept 'lock_aspect' and 'limit_by' parameters, because it has to abide by the same interface as Rectangle. Even though you CAN NOT resize text with an unlocked aspect ratio.
 				
-				
-				
-				# NOTE: want to handle Groups with the same interface as Rectangles though, so do Groups really need a separate branch? Would the Groups branch just under the same polymorphic interface, but for Groups it would essentially trigger recursion?
 				# NOTE: currently nested Groups are triggered in this branch. no separate case.
 			end
 		
@@ -276,23 +273,7 @@ class Group < ThoughtTrace::Rectangle
 			end
 			
 			
-			
-			
 			# undo transforms specific to this entity / this level
-			
-			
-			# original_body
-			# NOTE: I think 'original body' is actually only used to transform points into normalized local space? so you don't really need that, as much as you need to make sure that the shape just goes back to exactly the way it was before.
-			
-			# original_width 
-			# original_height
-			# NOTE: same for original width / height
-			
-			
-			# original_positions
-			
-			
-			
 			# geometry reset same as rect resize action -> same as rect edit action
 			container_memo.call
 			
