@@ -109,7 +109,7 @@ class Group < ThoughtTrace::Rectangle
 	
 	
 	
-	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
+	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:true, limit_by:nil)
 		min = 10
 		
 		
@@ -117,6 +117,22 @@ class Group < ThoughtTrace::Rectangle
 		rects   = self.select{ |a,b| a.is_a? ThoughtTrace::Rectangle      }
 		circles = self.select{ |a,b| a.is_a? ThoughtTrace::Circle         }
 		
+		# NOTE: 'lock_aspect' must be true, or else you get undefined behavior
+		
+		# Do you want to separate Rectangle from Text? (just share backend?)
+		
+		# should the sizes of the Group be constrained
+		# (through rounding etc)
+		# to reduce jitter?
+		
+		# Why is it possible to resize the Group such that the edges of some elements stick out?
+		# This sorta happened with Text as well:
+		# the width of the hitbox was shrinking, but the width of the text was not matching up
+		
+		# beware of overlapping elements.
+		# the nested group handling assumes a tree-like structure,
+		# where basic entity types are stored on leaf nodes only.
+		# if this is not the case, then you could easily duplicate transforms.
 		
 		
 		
@@ -139,7 +155,7 @@ class Group < ThoughtTrace::Rectangle
 		# === resize the group's hitbox
 		# (use Rectangle#resize!)
 		container_memo = super(
-			grab_handle, coordinate_space, point:point, lock_aspect:true,
+			grab_handle, coordinate_space, point:point, lock_aspect:lock_aspect,
 			minimum_dimension:minimum_dimension
 		)
 		# TODO: make sure coordinate spaces check out and everything
@@ -175,9 +191,12 @@ class Group < ThoughtTrace::Rectangle
 				# PLAN: this would handle both Rectangle and Text objects. The method would be polymorphic, and perform necessarily Text-specific calculations.
 				# NOTE: this method needs to be separate from the #resize! on shape, because that is defined in terms of general rect geometry, which doesn't know about the peculiarities of Text resizing.
 				entity.resize!(
-					CP::Vec2.new(1,1), :local_space, point:p, lock_aspect:true,
+					CP::Vec2.new(1,1), :local_space, point:p, lock_aspect:lock_aspect,
 					minimum_dimension:min
 				)
+				# NOTE: had to change Text to accept 'lock_aspect' and 'limit_by' parameters, because it has to abide by the same interface as Rectangle. Even though you CAN NOT resize text with an unlocked aspect ratio.
+				
+				
 				
 				# NOTE: want to handle Groups with the same interface as Rectangles though, so do Groups really need a separate branch? Would the Groups branch just under the same polymorphic interface, but for Groups it would essentially trigger recursion?
 				# NOTE: currently nested Groups are triggered in this branch. no separate case.

@@ -56,7 +56,7 @@ class Text < Rectangle
 	
 	
 	
-	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1)
+	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
 		# NOTE: Want to always limit the minimum HEIGHT on resize. Don't really care about what the width is. This applies to Text only, not general rectangles.
 		
 		
