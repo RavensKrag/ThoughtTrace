@@ -22,12 +22,12 @@ ThoughtTrace::Text,Lucida Sans Unicode,-743.7500000000007,358.9583333333328,22.9
 ThoughtTrace::Text,Lucida Sans Unicode,55.208333333333314,-74.2916666666668,22.97394578559605,constraint creation action
 ThoughtTrace::Text,Lucida Sans Unicode,49.99999999999983,-35.583333333333485,22.97394578559605,API to create / delete whole Constraint Packages
 ThoughtTrace::Text,Lucida Sans Unicode,-408.33333333333246,-37.583333333333314,22.97394578559605,add / remove whole entities (including components)
-ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,568.8333333333336,22.97394578559605,input system overhaul
-ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,614.8333333333336,22.97394578559605,input binding - mode-specific UI interaction
+ThoughtTrace::Text,Lucida Sans Unicode,-257.4322175822556,558.3957562121277,23.0,input system overhaul
+ThoughtTrace::Text,Lucida Sans Unicode,-252.3664567618506,610.2162236299819,24.0,input binding - mode-specific UI interaction
 ThoughtTrace::Text,Lucida Sans Unicode,1143.7500000000002,130.54166666666677,22.97394578559605,notes program - tree overview - text field w/ spell check
 ThoughtTrace::Text,Lucida Sans Unicode,1171.8749999999998,156.66666666666677,22.97394578559605,multi-line text input
-ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,638.0000000000003,22.97394578559605,how do you bind mouse click actions for a Entity?
-ThoughtTrace::Text,Lucida Sans Unicode,-258.33333333333337,661.0000000000003,22.97394578559605,action system documentation update
+ThoughtTrace::Text,Lucida Sans Unicode,-250.86149899717086,637.4379072649995,24.0,how do you bind mouse click actions for a Entity?
+ThoughtTrace::Text,Lucida Sans Unicode,-253.86170781603403,664.4637514494057,24.0,action system documentation update
 ThoughtTrace::Text,Lucida Sans Unicode,710.4166666666667,599.6250000000003,22.97394578559605,TODO: rewrite 'empty space actions' as 'zero target actions'
 ThoughtTrace::Text,Lucida Sans Unicode,-701.0416666666672,7.08333333333286,22.97394578559605,implement prefabs
 ThoughtTrace::Text,Lucida Sans Unicode,909.3749999999999,-72.0000000000002,22.97394578559605,implement text split-rip action
@@ -105,7 +105,7 @@ ThoughtTrace::Text,Lucida Sans Unicode,474.99999999999943,418.7499999999999,57.8
 ThoughtTrace::Text,Lucida Sans Unicode,89.58333333333292,78.125,57.816578180508145,constraints
 ThoughtTrace::Text,Lucida Sans Unicode,695.8333333333331,-714.5833333333337,57.816578180508145,documentation
 ThoughtTrace::Text,Lucida Sans Unicode,941.6666666666666,-165.62500000000048,57.816578180508145,Text
-ThoughtTrace::Text,Lucida Sans Unicode,-189.58333333333383,489.58333333333314,57.816578180508145,Input
+ThoughtTrace::Text,Lucida Sans Unicode,-185.30128282781132,468.8371154647857,64.0,Input
 ThoughtTrace::Text,Lucida Sans Unicode,1272.916666666666,-209.37500000000009,57.816578180508145,Image
 ThoughtTrace::Text,Lucida Sans Unicode,-741.6666666666677,67.7083333333326,57.816578180508145,Document
 ThoughtTrace::Text,Lucida Sans Unicode,-196.875,-298.04166666666646,22.97394578559605,rethink Component interface
@@ -128,20 +128,20 @@ ThoughtTrace::Text,Lucida Sans Unicode,-1068.750000000001,523.107683611528,23.0,
 ThoughtTrace::Text,Lucida Sans Unicode,-1068.750000000001,546.107683611528,23.0,why did I need queries the last time I wanted queries?
 ThoughtTrace::Text,Lucida Sans Unicode,865.6249999999993,-226.7256497218052,23.0,insert feels like a special kind of move
 ThoughtTrace::Text,Lucida Sans Unicode,865.6249999999993,-203.7256497218052,23.0,are insert and join the same thing?
-ThoughtTrace::Text,Lucida Sans Unicode,-255.20833333333394,723.5243502781949,23.0,TODO: consider overhaul of input system
-ThoughtTrace::Text,Lucida Sans Unicode,-230.20833333333394,746.5243502781949,23.0,NOTE: different input phases and flows
-ThoughtTrace::Text,Lucida Sans Unicode,-255.20833333333394,769.5243502781949,23.0,specific accelerator combo vs any accelerators
+ThoughtTrace::Text,Lucida Sans Unicode,-257.79041567610676,732.0832884956458,26.0,TODO: consider overhaul of input system
+ThoughtTrace::Text,Lucida Sans Unicode,-229.56000916031996,757.9910167892622,26.0,NOTE: different input phases and flows
+ThoughtTrace::Text,Lucida Sans Unicode,-257.3199654899671,783.8987450828793,26.0,specific accelerator combo vs any accelerators
 ThoughtTrace::Text,Lucida Sans Unicode,-75.00000000000068,-547.9166666666666,23.0,apply Style to mulitple Entities at once
 ThoughtTrace::Text,Lucida Sans Unicode,1083.3333333333328,-400.9583333333332,23.0,system clipboard support
 ThoughtTrace::Text,Lucida Sans Unicode,324.9999999999993,529.2499999999997,23.0,spawn action - prototype factory - nested document - prefabs
-ThoughtTrace::Text,Lucida Sans Unicode,-166.66666666666742,831.2743502781949,23.0,improve mouseover state
+ThoughtTrace::Text,Lucida Sans Unicode,-169.69884181212157,829.294616798891,21.0,improve mouseover state
 ThoughtTrace::Text,Lucida Sans Unicode,327.08333333333303,828.2326836115276,23.0,May want to change how Text resizes horizontally on center drag
 ThoughtTrace::Text,Lucida Sans Unicode,-75.00000000000023,-570.6423163884722,23.0,"If Style is created without a parent, it's parent should default to the baseline style"
 ThoughtTrace::Text,Lucida Sans Unicode,-75.00000000000045,-525.7673163884722,23.0,Figure out how to change Entities when style properties are altered
-ThoughtTrace::Text,Lucida Sans Unicode,-166.6666666666681,853.4826836115286,23.0,edit space point query
+ThoughtTrace::Text,Lucida Sans Unicode,-170.24078894780513,850.749424895555,21.0,edit space point query
 ThoughtTrace::Text,Lucida Sans Unicode,-265.62500000000045,-274.5589830551389,23.0,is there any reason to keep Component?
-ThoughtTrace::Text,Lucida Sans Unicode,-295.83333333333485,895.3160169448614,23.0,convert screen space <-> world space without global $window
-ThoughtTrace::Text,Lucida Sans Unicode,-255.2083333333337,702.6910169448612,23.0,TODO: custom subclass of Hash to deal with action bindings
+ThoughtTrace::Text,Lucida Sans Unicode,-266.38026819306356,883.7784091998585,20.0,convert screen space <-> world space without global $window
+ThoughtTrace::Text,Lucida Sans Unicode,-256.30879147513144,708.6161433021528,26.0,TODO: custom subclass of Hash to deal with action bindings
 ThoughtTrace::Text,Lucida Sans Unicode,-988.5416666666667,797.5660169448612,23.0,TODO: Ruby methods are objects. Apply structure to Action
 ThoughtTrace::Text,Lucida Sans Unicode,-742.7083333333345,412.2326836115278,23.0,TODO: consider different views of same space
 ThoughtTrace::Text,Lucida Sans Unicode,821.8749999999993,66.5660169448613,23.0,"TODO: fix short circuiting min by, and the entities/text.rb -> Text#nearest_character_boundary() optimization that it messes up"

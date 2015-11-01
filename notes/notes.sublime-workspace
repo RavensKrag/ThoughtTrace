@@ -523,7 +523,7 @@
 			"file": "notes.sublime-workspace",
 			"settings":
 			{
-				"buffer_size": 197443,
+				"buffer_size": 199778,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,7 +539,7 @@
 			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
 			"settings":
 			{
-				"buffer_size": 23381,
+				"buffer_size": 28520,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/components.yaml",
 			"settings":
 			{
-				"buffer_size": 72783,
+				"buffer_size": 106299,
 				"line_ending": "Unix"
 			}
 		},
@@ -1918,10 +1918,10 @@
 			}
 		},
 		{
-			"contents": "text actions (other than general Entity ones)\n\ncut        draw a line and slice a text object at a particular point => two text objects\nrip        select some chunk of text, and then rip it off => remove from original, create new text\ninsert     drag text A onto text B => text from A is inserted into B, A disappears\njoin       append / prepend A unto B ( similar to insert, but happens at edges )",
+			"contents": "text actions (other than general Entity ones)\n\ncut        draw a line and slice a text object at a particular point => two text objects\nrip        select some chunk of text, and then rip it off => remove from original, create new text\ninsert     drag text A onto text B => text from A is inserted into B, A disappears\n",
 			"settings":
 			{
-				"buffer_size": 398,
+				"buffer_size": 318,
 				"line_ending": "Unix",
 				"name": "text actions (other than general Entity ones)"
 			}
@@ -2456,7 +2456,7 @@
 					"file": "notes.sublime-workspace",
 					"settings":
 					{
-						"buffer_size": 197443,
+						"buffer_size": 199778,
 						"regions":
 						{
 						},
@@ -2509,7 +2509,7 @@
 					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/entities.csv",
 					"settings":
 					{
-						"buffer_size": 23381,
+						"buffer_size": 28520,
 						"regions":
 						{
 						},
@@ -2535,7 +2535,7 @@
 					"file": "/home/ravenskrag/Code/Tools/ThoughtTrace/bin/data/todos/components.yaml",
 					"settings":
 					{
-						"buffer_size": 72783,
+						"buffer_size": 106299,
 						"regions":
 						{
 						},
@@ -6535,15 +6535,15 @@
 					"buffer": 156,
 					"settings":
 					{
-						"buffer_size": 398,
+						"buffer_size": 318,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								398,
-								398
+								318,
+								318
 							]
 						],
 						"settings":
