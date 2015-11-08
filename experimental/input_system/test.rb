@@ -37,262 +37,8 @@ class Input
 		# NOTE: currently want to declare target type here, because it makes it easier to see the full binding relationships in one place. Makes it clearer if you want to effect only one type of Entity.
 		
 		filepath = "/home/ravenskrag/Code/Tools/ThoughtTrace/notes/input_bindings.ods"
-		sheet_name = "Sheet4"
+		@mouse_bindings = load_input_binding_config(filepath, "Sheet4")
 		
-		spreadsheet = Roo::Spreadsheet.open(filepath)
-		
-		# p spreadsheet.methods
-		# p spreadsheet.sheets
-		# p spreadsheet.sheet("Sheet4").methods.grep /each/
-		# spreadsheet.sheet("Sheet4").each do |x|
-		# 	p x.class
-		# 	p x.size
-		# 	p x
-		# 	break
-		# end
-		
-		
-		
-		# format for the data
-		data = {
-			:left => {
-				[]                       => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift]                 => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:control]               => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:alt]                   => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :control]       => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :alt]           => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:control, :alt]         => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :control, :alt] => [
-					[nil, nil],                        [nil, nil]
-				]
-			},
-			
-			:right => {
-				[]                       => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift]                 => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:control]               => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:alt]                   => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :control]       => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :alt]           => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:control, :alt]         => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :control, :alt] => [
-					[nil, nil],                        [nil, nil]
-				]
-			},
-			
-			:middle => {
-				[]                       => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift]                 => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:control]               => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:alt]                   => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :control]       => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :alt]           => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:control, :alt]         => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :control, :alt] => [
-					[nil, nil],                        [nil, nil]
-				]
-			}
-		}
-		
-		
-		
-		# start ods parsing to get input bindings
-		cell_blocks = {:left => "A6:E13", :right => "G6:K13", :middle => "A20:E27"}
-			# cell ranges given in in excel notation
-		
-		cell_blocks.each do |mouse_button, cell_range|
-			# parse range into usable variables
-			c1,r1, c2,r2 = cell_range.scan(/(\D*)(\d*):(\D*)(\d*)/).first
-			r1 = r1.to_i
-			r2 = r2.to_i
-			
-			# p [c1, c2]
-			
-			# iterate over range and get the data
-			raw_data = 	(r1..r2).collect do |r|
-			           		(c1..c2).collect do |c|
-			           			# puts spreadsheet.sheet("Sheet4").cell(c,r)
-			           			
-			           			spreadsheet.sheet(sheet_name).cell(c,r)
-			           		end
-			           	end
-			
-			# parse strings, and store information in the "data" hash declared at the beginning
-			raw_data.each do |binding, click_action, click_target, drag_action, drag_target|
-				if binding == "NONE"
-					binding = [] 
-				else
-					binding = binding.split('+').collect{|x| x.strip.to_sym }
-				end
-				
-				click_action, drag_action =
-					[click_action, drag_action].collect do |input|
-						input.tr(' ', '_').to_sym unless input.nil?
-					end
-				
-				click_target, drag_target =
-					[click_target, drag_target].collect do |input|
-						input unless input.nil?
-					end
-				
-				
-				
-				
-				
-				p [binding, click_action, click_target, drag_action, drag_target]
-				
-				data[mouse_button][binding] = [
-					[click_action, click_target], [drag_action, drag_target]
-				]
-			end
-			
-			
-		end
-		
-		# data.each do |k,v|
-		# 	puts "#{k.inspect} => #{v.inspect}"
-		# end
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		@mouse_bindings = {
-			#                 click                  drag    
-			# binding => {[action_name, target], [action_name, target]}
-			
-			:left => {
-				[]                       => [
-					[:place_text_caret, 'Text'],         [:edit, 'Entity']
-				],
-				[:shift]                 => [
-					[:spawn, 'Text'],                    [:resize, 'Entity']
-				],
-				[:control]               => [
-					[:toggle_query_status, 'Entity'],    [:constrain, 'Entity']
-				],
-				[:alt]                   => [
-					[:select_single, 'Entity'],          [:new_selection, nil]
-				],
-				[:shift, :control]       => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :alt]           => [
-					[:single_select_add, 'Entity'],      [:selection_add, nil]
-				],
-				[:control, :alt]         => [
-					[:single_select_subtract, 'Entity'], [:selection_subtract, nil]
-				],
-				[:shift, :control, :alt] => [
-					[nil, nil],                        [nil, nil]
-				]
-			},
-			
-			
-			
-			:right => {
-				[]                       => [
-					[nil, nil],                        [:move, 'Entity']
-				],
-				[:shift]                 => [
-					[nil, nil],                        [:duplicate, 'Entity']
-				],
-				[:control]               => [
-					[nil, nil],                        [:clone, 'Entity']
-				],
-				[:alt]                   => [
-					[:join, 'Text'],                     [nil, nil]
-				],
-				[:shift, :control]       => [
-					[nil, nil],                        [:mirror, 'Entity']
-				],
-				[:shift, :alt]           => [
-					[:split, 'Text'],                    [nil, nil]
-				],
-				[:control, :alt]         => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :control, :alt] => [
-					[nil, nil],                        [nil, nil]
-				]
-			},
-			
-			
-			
-			:middle => {
-				[]                       => [
-					[nil, nil],                        [:move, 'Camera']
-				],
-				[:shift]                 => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:control]               => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:alt]                   => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :control]       => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :alt]           => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:control, :alt]         => [
-					[nil, nil],                        [nil, nil]
-				],
-				[:shift, :control, :alt] => [
-					[nil, nil],                        [nil, nil]
-				]
-			}
-		}
 		
 		# mouse wheel
 			# zoom                ( zoom the entire document. images GPU scale, text smart scale )
@@ -574,5 +320,134 @@ class Input
 		# constraint actions
 		# camera actions
 		# space actions
+	end
+	
+	
+	
+	
+	def parse_cell_range(cell_range_string)
+		c1,r1, c2,r2 = cell_range_string.scan(/(\D*)(\d*):(\D*)(\d*)/).first
+		r1 = r1.to_i
+		r2 = r2.to_i
+		
+		# p [c1, c2]
+		return c1,r1, c2,r2
+	end
+	
+	def load_input_binding_config(filepath, sheet_name)
+		spreadsheet = Roo::Spreadsheet.open(filepath)
+		
+		# p spreadsheet.methods
+		# p spreadsheet.sheets
+		# p spreadsheet.sheet("Sheet4").methods.grep /each/
+		# spreadsheet.sheet("Sheet4").each do |x|
+		# 	p x.class
+		# 	p x.size
+		# 	p x
+		# 	break
+		# end
+		
+		
+		
+		
+		# format for the data
+		# 
+		#                 click                  drag    
+		# binding => [[action_name, target_type], [action_name, target_type]]
+		# ex)  [] => [[nil, nil],                 [:move, 'Entity']]
+		data = {
+			:left => {
+				[]                       => [[nil, nil], [nil, nil]],
+				[:shift]                 => [[nil, nil], [nil, nil]],
+				[:control]               => [[nil, nil], [nil, nil]],
+				[:alt]                   => [[nil, nil], [nil, nil]],
+				[:shift, :control]       => [[nil, nil], [nil, nil]],
+				[:shift, :alt]           => [[nil, nil], [nil, nil]],
+				[:control, :alt]         => [[nil, nil], [nil, nil]],
+				[:shift, :control, :alt] => [[nil, nil], [nil, nil]]
+			},
+			
+			:right => {
+				[]                       => [[nil, nil], [nil, nil]],
+				[:shift]                 => [[nil, nil], [nil, nil]],
+				[:control]               => [[nil, nil], [nil, nil]],
+				[:alt]                   => [[nil, nil], [nil, nil]],
+				[:shift, :control]       => [[nil, nil], [nil, nil]],
+				[:shift, :alt]           => [[nil, nil], [nil, nil]],
+				[:control, :alt]         => [[nil, nil], [nil, nil]],
+				[:shift, :control, :alt] => [[nil, nil], [nil, nil]]
+			},
+			
+			:middle => {
+				[]                       => [[nil, nil], [nil, nil]],
+				[:shift]                 => [[nil, nil], [nil, nil]],
+				[:control]               => [[nil, nil], [nil, nil]],
+				[:alt]                   => [[nil, nil], [nil, nil]],
+				[:shift, :control]       => [[nil, nil], [nil, nil]],
+				[:shift, :alt]           => [[nil, nil], [nil, nil]],
+				[:control, :alt]         => [[nil, nil], [nil, nil]],
+				[:shift, :control, :alt] => [[nil, nil], [nil, nil]]
+			},
+		}
+		
+		
+		# start ods parsing to get input bindings
+		cell_blocks = {:left => "A6:E13", :right => "G6:K13", :middle => "A20:E27"}
+			# cell ranges given in in excel notation
+		
+		
+		
+		
+		
+		cell_blocks.each do |mouse_button, cell_range|
+			# parse range into usable variables
+			c1,r1, c2,r2 = parse_cell_range(cell_range)
+			
+			# iterate over range and get the data
+			raw_data = 	(r1..r2).collect do |r|
+			           		(c1..c2).collect do |c|
+			           			# puts spreadsheet.sheet("Sheet4").cell(c,r)
+			           			
+			           			spreadsheet.sheet(sheet_name).cell(c,r)
+			           		end
+			           	end
+			
+			# parse strings, and store information in the "data" hash declared at the beginning
+			raw_data.each do |binding, click_action, click_target, drag_action, drag_target|
+				if binding == "NONE"
+					binding = [] 
+				else
+					binding = binding.split('+').collect{|x| x.strip.to_sym }
+				end
+				
+				click_action, drag_action =
+					[click_action, drag_action].collect do |input|
+						input.tr(' ', '_').to_sym unless input.nil?
+					end
+				
+				click_target, drag_target =
+					[click_target, drag_target].collect do |input|
+						input unless input.nil?
+					end
+				
+				
+				
+				
+				
+				p [binding, click_action, click_target, drag_action, drag_target]
+				
+				data[mouse_button][binding] = [
+					[click_action, click_target], [drag_action, drag_target]
+				]
+			end
+			
+			
+		end
+		
+		# data.each do |k,v|
+		# 	puts "#{k.inspect} => #{v.inspect}"
+		# end
+		
+		return data
 	end
 end
