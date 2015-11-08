@@ -15,3 +15,5 @@ gem 'object-packer', :git => 'https://github.com/RavensKrag/ObjectPacker.git', :
 gem 'state_machine', '1.2.0'
 
 gem 'range_operators'
+
+gem 'roo', "~>2.2.0"

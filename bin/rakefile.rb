@@ -57,6 +57,15 @@ end
 
 
 
+task :input_system_test => [:build_serialization_system, :load_dependencies] do
+	path = File.join(PATH_TO_ROOT, 'experimental', 'input_system')
+	Dir.chdir path do
+		require './test'
+	end
+	
+	k, m, s, af, history = [nil, nil, nil, nil, nil]
+	x = Input.new(k, m, s, af, history)
+end
 
 task :document_test => [:build_serialization_system, :load_dependencies] do
 	path = File.join(PATH_TO_ROOT, 'experimental', 'document_format')
