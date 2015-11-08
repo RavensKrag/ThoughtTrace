@@ -37,18 +37,19 @@ class Input
 		# NOTE: currently want to declare target type here, because it makes it easier to see the full binding relationships in one place. Makes it clearer if you want to effect only one type of Entity.
 		
 		filepath = "/home/ravenskrag/Code/Tools/ThoughtTrace/notes/input_bindings.ods"
+		sheet_name = "Sheet4"
 		
 		spreadsheet = Roo::Spreadsheet.open(filepath)
 		
-		p spreadsheet.methods
-		p spreadsheet.sheets
-		p spreadsheet.sheet("Sheet4").methods.grep /each/
-		spreadsheet.sheet("Sheet4").each do |x|
-			p x.class
-			p x.size
-			p x
-			break
-		end
+		# p spreadsheet.methods
+		# p spreadsheet.sheets
+		# p spreadsheet.sheet("Sheet4").methods.grep /each/
+		# spreadsheet.sheet("Sheet4").each do |x|
+		# 	p x.class
+		# 	p x.size
+		# 	p x
+		# 	break
+		# end
 		
 		
 		
@@ -140,12 +141,9 @@ class Input
 		
 		# start ods parsing to get input bindings
 		cell_blocks = {:left => "A6:E13", :right => "G6:K13", :middle => "A20:E27"}
-		
+			# cell ranges given in in excel notation
 		
 		cell_blocks.each do |mouse_button, cell_range|
-			# cell range in excel notation
-			cell_range = "A6:E13"
-			
 			# parse range into usable variables
 			c1,r1, c2,r2 = cell_range.scan(/(\D*)(\d*):(\D*)(\d*)/).first
 			r1 = r1.to_i
@@ -154,23 +152,15 @@ class Input
 			# p [c1, c2]
 			
 			# iterate over range and get the data
-			
-			(r1..r2).each do |r|
-				(c1..c2).each do |c|
-					puts spreadsheet.sheet("Sheet4").cell(c,r)
-				end
-			end
-			
-			
-			
-			
-			# parse strings, and store information in the "data" hash declared at the beginning
 			raw_data = 	(r1..r2).collect do |r|
 			           		(c1..c2).collect do |c|
-			           			spreadsheet.sheet("Sheet4").cell(c,r)
+			           			# puts spreadsheet.sheet("Sheet4").cell(c,r)
+			           			
+			           			spreadsheet.sheet(sheet_name).cell(c,r)
 			           		end
 			           	end
 			
+			# parse strings, and store information in the "data" hash declared at the beginning
 			raw_data.each do |binding, click_action, click_target, drag_action, drag_target|
 				if binding == "NONE"
 					binding = [] 
@@ -202,9 +192,9 @@ class Input
 			
 		end
 		
-		data.each do |k,v|
-			puts "#{k.inspect} => #{v.inspect}"
-		end
+		# data.each do |k,v|
+		# 	puts "#{k.inspect} => #{v.inspect}"
+		# end
 		
 		
 		
