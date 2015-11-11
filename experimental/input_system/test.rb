@@ -357,41 +357,7 @@ class Input
 		#                 click                  drag    
 		# binding => [[action_name, target_type], [action_name, target_type]]
 		# ex)  [] => [[nil, nil],                 [:move, 'Entity']]
-		data = {
-			:left => {
-				[]                       => [[nil, nil], [nil, nil]],
-				[:shift]                 => [[nil, nil], [nil, nil]],
-				[:control]               => [[nil, nil], [nil, nil]],
-				[:alt]                   => [[nil, nil], [nil, nil]],
-				[:shift, :control]       => [[nil, nil], [nil, nil]],
-				[:shift, :alt]           => [[nil, nil], [nil, nil]],
-				[:control, :alt]         => [[nil, nil], [nil, nil]],
-				[:shift, :control, :alt] => [[nil, nil], [nil, nil]]
-			},
-			
-			:right => {
-				[]                       => [[nil, nil], [nil, nil]],
-				[:shift]                 => [[nil, nil], [nil, nil]],
-				[:control]               => [[nil, nil], [nil, nil]],
-				[:alt]                   => [[nil, nil], [nil, nil]],
-				[:shift, :control]       => [[nil, nil], [nil, nil]],
-				[:shift, :alt]           => [[nil, nil], [nil, nil]],
-				[:control, :alt]         => [[nil, nil], [nil, nil]],
-				[:shift, :control, :alt] => [[nil, nil], [nil, nil]]
-			},
-			
-			:middle => {
-				[]                       => [[nil, nil], [nil, nil]],
-				[:shift]                 => [[nil, nil], [nil, nil]],
-				[:control]               => [[nil, nil], [nil, nil]],
-				[:alt]                   => [[nil, nil], [nil, nil]],
-				[:shift, :control]       => [[nil, nil], [nil, nil]],
-				[:shift, :alt]           => [[nil, nil], [nil, nil]],
-				[:control, :alt]         => [[nil, nil], [nil, nil]],
-				[:shift, :control, :alt] => [[nil, nil], [nil, nil]]
-			},
-		}
-		
+		data = Hash.new
 		
 		# start ods parsing to get input bindings
 		cell_blocks = {:left => "A6:E13", :right => "G6:K13", :middle => "A20:E27"}
@@ -446,14 +412,24 @@ class Input
 				end
 			
 			formatted_data.each do |binding, click_action, click_target, drag_action, drag_target|
-				data[mouse_button][binding] = [
-												[click_action, click_target],
-												[drag_action, drag_target]
-											]
+				data[mouse_button] ||= Hash.new
 				
+				
+				
+				# NOTE: binding is always an array of symbols
+				data[mouse_button][binding] = {
+					:click => {
+						:action => click_action,	:target => click_target
+					},
+					:drag => {
+						:action => drag_action, 	:target => drag_target
+					}
+				}
 				
 			end
 		end
+		
+		
 		
 		# data.each do |k,v|
 		# 	puts "#{k.inspect} => #{v.inspect}"
