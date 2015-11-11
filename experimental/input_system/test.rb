@@ -335,6 +335,8 @@ class Input
 	end
 	
 	def load_input_binding_config(filepath, sheet_name)
+		puts "loading mouse input bindings from .ods file"
+		
 		spreadsheet = Roo::Spreadsheet.open(filepath)
 		
 		# p spreadsheet.methods
@@ -413,35 +415,44 @@ class Input
 			           	end
 			
 			# parse strings, and store information in the "data" hash declared at the beginning
-			raw_data.each do |binding, click_action, click_target, drag_action, drag_target|
-				if binding == "NONE"
-					binding = [] 
-				else
-					binding = binding.split('+').collect{|x| x.strip.to_sym }
+			formatted_data = 
+				raw_data.collect do |binding, click_action, click_target, drag_action, drag_target|
+					# convert accelerator names to list of symbols
+					if binding == "NONE"
+						binding = [] 
+					else
+						binding = binding.split('+').collect{|x| x.strip.to_sym }
+					end
+					
+					# convert click / drag action names to symbols
+					click_action, drag_action =
+						[click_action, drag_action].collect do |input|
+							input.tr(' ', '_').to_sym unless input.nil?
+						end
+					
+					# format click / drag targets
+					# (currently just leaving them as strings)
+					# click_target, drag_target =
+					# 	[click_target, drag_target].collect do |input|
+					# 		input unless input.nil?
+					# 	end
+					
+					
+					
+					
+					
+					p [binding, click_action, click_target, drag_action, drag_target]
+					[binding, click_action, click_target, drag_action, drag_target]
 				end
-				
-				click_action, drag_action =
-					[click_action, drag_action].collect do |input|
-						input.tr(' ', '_').to_sym unless input.nil?
-					end
-				
-				click_target, drag_target =
-					[click_target, drag_target].collect do |input|
-						input unless input.nil?
-					end
-				
-				
-				
-				
-				
-				p [binding, click_action, click_target, drag_action, drag_target]
-				
+			
+			formatted_data.each do |binding, click_action, click_target, drag_action, drag_target|
 				data[mouse_button][binding] = [
-					[click_action, click_target], [drag_action, drag_target]
-				]
+												[click_action, click_target],
+												[drag_action, drag_target]
+											]
+				
+				
 			end
-			
-			
 		end
 		
 		# data.each do |k,v|
