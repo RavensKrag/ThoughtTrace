@@ -338,27 +338,30 @@ class InputManager
 		# event.bind_to keys:[Gosu::KbF8], modifiers:[]
 		
 		# @buttons.register event
-	end
-	
-	def button_down(id)
-		[
-			@buttons,
-			@mouse
-			# @mouse_input
-		].each do |x|
-			x.button_down(id)
-		end
-	end
-	
-	def update
-		[
-			@buttons,
-			@text_input,
-			@selection
-			# @mouse_input
-		].each do |x|
-			x.update
-		end
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -514,9 +517,27 @@ class InputManager
 		# release mouse buttons
 		
 		
-		
-		
-		
+	end
+	
+	def button_down(id)
+		[
+			@buttons,
+			@mouse
+			# @mouse_input
+		].each do |x|
+			x.button_down(id)
+		end
+	end
+	
+	def update
+		[
+			@buttons,
+			@text_input,
+			@selection
+			# @mouse_input
+		].each do |x|
+			x.update
+		end
 	end
 	
 	# draw things in world space
