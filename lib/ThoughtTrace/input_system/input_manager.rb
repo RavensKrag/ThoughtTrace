@@ -58,6 +58,10 @@ class InputManager
 		# TODO: properly implement mouse.
 		@mouse = InputSystem::Mouse.new window, @document.camera
 		
+		
+		@keyboard = InputSystem::Keyboard.new window
+		
+		
 		# TODO: figure out if the selection Group needs to be added to the Space or something. How are Groups being tracked?
 		@selection = InputSystem::Selection.new @document
 		
@@ -176,23 +180,6 @@ class InputManager
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		# this could be useful in other parts of the input system
-		# regardless, it's good do declare all bindings to lower-level input symbols at this level
-		@accelerator_parser = InputSystem::AcceleratorParser.new(
-							window,
-							:shift   => [Gosu::KbLeftShift,   Gosu::KbRightShift],
-							:control => [Gosu::KbLeftControl, Gosu::KbRightControl],
-							:alt     => [Gosu::KbLeftAlt,     Gosu::KbRightAlt]
-						)
 		
 		
 		

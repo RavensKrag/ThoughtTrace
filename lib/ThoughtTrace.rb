@@ -129,6 +129,7 @@ dependency_list = [
 		'./input_system/button_parser',
 		'./input_system/accelerator_parser',
 		'./input_system/mouse',
+		'./input_system/keyboard',
 		
 		'./input_system/action_factory',
 		'./input_system/mouse_input_system',
