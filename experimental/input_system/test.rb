@@ -161,6 +161,15 @@ class Input
 			end
 		
 		
+		
+		foo = 
+			mouse.active_buttons.collect do |mouse_button|
+				click_and_drag_bindings = @mouse_bindings[mouse_button][accelerators]
+				
+				[mouse_button, click_and_drag_bindings]
+			end
+		
+		
 		# only really need to do this when you trigger an action with an Entity target
 		possible_targets = get_target_list(@space, point) unless foo.empty?
 		# TODO: make a tighter condition for when this fires, as an optimization
@@ -494,10 +503,57 @@ class Input
 		# (click / drag)
 		# => (action_name, action_target)
 		
+		
+		# test = [
+		# 	[[nil, nil], [nil, nil]],
+		# 	[[nil, nil], [nil, nil]],
+		# 	[[nil, nil], [nil, nil]]
+		# ]
+		# x = [:left, :right, :middle]
+		# y = # [accelerator list, in order]
+		# xi = # index of 'mouse_button' in x
+		# yi = # index of 'binding' in y
+		# pos = xi*y.size + yi # all binds for one mb close together; big chucks for one mouse button
+		
+		# test[pos] # => [[nil, nil], [nil, nil]]
+		
+		
+		
 		# data.each do |k,v|
 		# 	puts "#{k.inspect} => #{v.inspect}"
 		# end
 		
 		return data
+	end
+	
+	
+	def scroll_wheel_event(event, sign)
+		if event == :zoom
+			if sign == :up
+				
+			elsif sign == :down
+				
+			else
+				# error
+			end
+		elsif event == :render_layer
+			if sign == :up
+				
+			elsif sign == :down
+				
+			else
+				# error
+			end
+		elsif event == :abstraction_layer
+			if sign == :up
+				
+			elsif sign == :down
+				
+			else
+				# error
+			end
+		else
+			# ???
+		end
 	end
 end
