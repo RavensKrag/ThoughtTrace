@@ -46,6 +46,8 @@ class InputManager
 	attr_reader :mouse, :buttons
 	
 	def initialize(window, document)
+		@window = window
+		
 		# TODO: should probably just pass the window and the document
 		# TODO: take note of what things would need to be updated if the bound document were to shift
 		@document = document
@@ -288,17 +290,18 @@ class InputManager
 				# record initial mouse position (need for drag detection)
 				# initialize click action
 			end
-		end
-		
-		[:left, :right, :middle].each do |mb|
+			
+			
+			# update needs to
+				# update click action
+				# transition to drag action when necessary
+				# cancel click action on transition
+			
+			
 			@mouse.on_release mb do
 				# finish action associated with this mouse button
 			end
 		end
-		
-		
-		
-		
 		
 		
 		
@@ -336,6 +339,13 @@ class InputManager
 		
 		# @buttons.register event
 		
+		
+		@mouse_data = [
+			[:left,   :idle, nil, nil, nil, nil],
+			[:right,  :idle, nil, nil, nil, nil],
+			[:middle, :idle, nil, nil, nil, nil]
+		]
+		
 	end
 	
 	def button_down(id)
@@ -357,6 +367,158 @@ class InputManager
 		].each do |x|
 			x.update
 		end
+		
+		
+		
+		
+		# one active action per button?
+		
+		
+		
+		foo = []
+		
+		# only really need to do this when you trigger an action with an Entity target
+		possible_targets = get_target_list(@space, point) unless foo.empty?
+		# TODO: make a tighter condition for when this fires, as an optimization
+		
+		
+		
+		# left and right activate at the same time (same frame startup. unlikely but possible)
+		# left activates when right is active
+		# right activates when left is active
+		# => in any of these cases only one action at most can be active.
+		# when you can't disambiguate, fire no actions at all
+		
+		
+		
+		
+		
+		
+		
+		mouse_buttons = {
+			Gosu::MsLeft   => :left,
+			Gosu::MsRight  => :right,
+			Gosu::MsMiddle => :middle
+		}
+		
+		active_mouse_buttons = 
+			mouse_buttons.keys
+				.select do |mb_id|
+					@window.button_down? mb_id
+				end
+				.collect do |mb_id|
+					mouse_buttons[mb_id]
+				end
+		
+		
+		
+		
+		
+		min_drag_delta = 20
+		
+		point = @mouse.position_in_space
+		
+		accelerators = @keyboard.active_accelerators
+		
+		
+		@mouse_data.collect! do  |mb, phase, action, binding, origin, target|
+			
+			if active_mouse_buttons.include? mb
+				# button down
+				
+				
+				# set bindings for actions that need to start this frame
+				if phase == :idle # and active_mouse_buttons.include? mb
+					# button was pressed, and no action currently active
+					
+					click_and_drag_bindings = @mouse_bindings[mb][accelerators]
+					binding = click_and_drag_bindings
+					
+					origin = point
+				end
+				
+				
+				# start up new click action
+				if action.nil? and !binding.nil?
+					action_name = binding[:click][:action]
+					target_type = binding[:click][:target]
+					
+					target = nil 
+					
+					click_action = 101 
+					action = click_action
+					
+					
+					phase = :click
+				end
+				
+				
+				
+				# transition to drag
+				delta = point.dist origin
+				if phase == :click and delta > min_drag_delta
+					# click action is currently active, and drag delta exceeded
+					action_name = binding[:drag][:action]
+					target_type = binding[:drag][:target]
+					
+					target = nil 
+					
+					click_action = action
+					click_action.cancel(point)
+					
+					drag_action = 101 # @action_factory.make()
+					
+					drag_action.press(origin)
+					action = drag_action
+					
+					phase = :drag
+				end
+				
+				
+				# update held actions
+				if action != nil
+					action.hold(point)
+				end
+				
+				
+			else
+				# button up
+				
+				
+				# complete actions as necessary
+				if action != nil # and !active_mouse_buttons.include? mb
+					action.release(point)
+					
+					phase = :idle
+				end
+			end
+			
+			
+			
+			
+			
+			
+			
+			[mb, phase, action, binding, origin, target]
+		end
+		
+		
+		
+		# press mouse buttons
+			# prevent startup of left when right is active and vice versa
+		
+		
+		# hold mouse buttons
+		# cancel mouse
+		# transition to drag actions
+		
+		
+		# release mouse buttons
+		
+		
+		
+		
+		
 	end
 	
 	# draw things in world space
