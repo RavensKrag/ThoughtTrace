@@ -15,12 +15,6 @@
 require 'roo'
 
 class Input
-	CLICK = 0
-	DRAG  = 1
-	
-	ACTION_NAME = 0
-	TARGET = 1
-	
 	def initialize(keyboard, mouse, space, action_factory, history_queue)
 		@keyboard = keyboard
 		@mouse = mouse
@@ -124,6 +118,23 @@ class Input
 		
 		
 		@state = :idle
+		
+		
+		# mouse actions
+			# click and drag
+			# different states with updating looping flow
+			# modified by keyboard state
+			# launch Actions that can be called through other mechanisms
+		# mouse wheel actions
+			# may change variables that effect other actions
+			# affects user interface layer, but not the way raw Actions are triggered
+		# keyboard actions
+			# single button press causes something to happen
+			# should also be undo-able
+			# not sure if these are Action or just Events
+			# can affect the current selection
+				# can they effect more than that?
+			
 	end
 	
 	def update
@@ -138,7 +149,39 @@ class Input
 		# when mouse button goes down, -> click
 		# when mouse movement delta > threshold, -> drag
 		# when mouse button goes up, -> release
+		
+		
+		# parse mouse inputs
+		accelerators = keyboard.active_accelerators # get active accelerators in some way
+		foo = 
+			mouse.active_buttons.collect do |mouse_button|
+				action_name, target = @mouse_bindings[mouse_button][accelerators][:click]
+				
+				[mouse_button, action_name, target]
+			end
+		
+		
+		# only really need to do this when you trigger an action with an Entity target
+		possible_targets = get_target_list(@space, point) unless foo.empty?
+		# TODO: make a tighter condition for when this fires, as an optimization
+		
+		
+		
+		# left and right activate at the same time (same frame startup. unlikely but possible)
+		# left activates when right is active
+		# right activates when left is active
+		# => in any of these cases only one action at most can be active.
+		# when you can't disambiguate, fire no actions at all
+		
+		
+		
+		
+		scroll_wheel_event()
 	end
+	
+	
+	
+	
 	
 	
 	def click(point)
@@ -157,7 +200,7 @@ class Input
 		mouse_buttons = mouse.active_buttons
 		
 		action_name_list = 	mouse_buttons.collect do |mb|
-		                   		action_name = @mouse_bindings[mb][accelerators][CLICK]
+		                   		action_name, target = @mouse_bindings[mb][accelerators][:click]
 		                   	end
 		
 		# convert action names into actions
@@ -213,13 +256,13 @@ class Input
 		
 		action_name_list = 
 			mouse_buttons.collect do |mb|
-				action_name = @mouse_bindings[mb][accelerators][DRAG]
+				action_name, target = @mouse_bindings[mb][accelerators][:drag]
 				
 			end
 		
 	end
 	
-	def release(point)
+	def release_mouse(point)
 		# finish up action associated with the released button(s)
 		@mouse.released_buttons.each do |mb|
 			# active_actions[mb].
@@ -240,6 +283,15 @@ class Input
 		
 		
 		@history_queue << action
+	end
+	
+	
+	def press_key
+		
+	end
+	
+	def release_key
+		
 	end
 
 
@@ -352,11 +404,6 @@ class Input
 		
 		
 		
-		# format for the data
-		# 
-		#                 click                  drag    
-		# binding => [[action_name, target_type], [action_name, target_type]]
-		# ex)  [] => [[nil, nil],                 [:move, 'Entity']]
 		data = Hash.new
 		
 		# start ods parsing to get input bindings
@@ -411,6 +458,10 @@ class Input
 					[binding, click_action, click_target, drag_action, drag_target]
 				end
 			
+			
+			# ===========
+			# Actual data format specified here
+			# ===========
 			formatted_data.each do |binding, click_action, click_target, drag_action, drag_target|
 				data[mouse_button] ||= Hash.new
 				
@@ -430,6 +481,18 @@ class Input
 		end
 		
 		
+		
+		# input: pair = (button, [list, of accelerators])
+		# note that is this is a scalar + Vec3, it's literally a Quaternion
+		# 
+		# output: pair = (action_name, target)
+		
+		
+		
+		
+		# (button, [list, of accelerators])
+		# (click / drag)
+		# => (action_name, action_target)
 		
 		# data.each do |k,v|
 		# 	puts "#{k.inspect} => #{v.inspect}"
