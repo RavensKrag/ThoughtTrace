@@ -338,14 +338,6 @@ class InputManager
 		# event.bind_to keys:[Gosu::KbF8], modifiers:[]
 		
 		# @buttons.register event
-		
-		
-		@mouse_data = [
-			[:left,   :idle, nil, nil, nil, nil],
-			[:right,  :idle, nil, nil, nil, nil],
-			[:middle, :idle, nil, nil, nil, nil]
-		]
-		
 	end
 	
 	def button_down(id)
@@ -392,6 +384,91 @@ class InputManager
 		
 		
 		
+		mouse_inputs = {
+			:left   => InputSystem::MouseInputSystem.new(),
+			:right  => InputSystem::MouseInputSystem.new(),
+			:middle => InputSystem::MouseInputSystem.new()
+		}
+		
+		[:left, :right, :middle].each do |mb|
+			mouse_inputs[mb].parse_callback do |phase|
+				# this block needs to return an initialized Action object
+				# (do NOT call press yet)
+				
+				accelerators = @keyboard.active_accelerators
+				
+				name_and_target = @mouse_bindings[mb][accelerators][phase]
+				
+				action_name = name_and_target[:action]
+				target_type = name_and_target[:target]
+				
+				# select the target based on some criteria, including the known type
+				# (NOTE: need to save the target somehow for the drag transition)
+				# if you need the original mouse position, it will have to be fed into this block
+				target = nil
+				
+				
+				
+				
+				
+				# action = @action_factory.create(target, action_name)
+				# TODO: examine action factory, and consider that part of the pathway
+				
+				# ===== below is code from ActionFactory#create
+				
+				
+				
+				# convert argument symbols into real variables
+				conversions = {
+					# entity conversion must be specified here, because it is dynamic
+					# (as opposed to in the initializer, which would be static)
+					:entity => obj
+				}.merge @conversion_table
+				
+				conversions[:group] = obj if obj.is_a? ThoughtTrace::Groups::Group
+				
+				
+				# this is the part where things start to get really weird 
+				
+				# must consider groups, queries, and individual entities
+				
+				
+				type = get_type(obj)
+				action_class = get_action(obj, type, action_name)
+				
+				
+				
+				
+				
+				
+				
+				
+				# may be able to keep the following code wholesale
+				# not sure that any of it really needs to change
+				
+				
+				# NOTE: remember that the action class holds both the argument list, and the obj allocator
+				args   = action_class.argument_type_list.collect{|type| conversions[type] }
+				action = action_class.new(*args)
+				
+				
+				# warn about undefined actions
+				# not something you want to throw an exception for
+				# (some buttons just don't have things bound to them, and that's ok)
+				warn "#{type.inspect} does not define action '#{action_name}'" if action.null_action?
+				
+				
+				action
+			end
+		end
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -421,86 +498,7 @@ class InputManager
 		accelerators = @keyboard.active_accelerators
 		
 		
-		@mouse_data.collect! do  |mb, phase, action, binding, origin, target|
-			
-			if active_mouse_buttons.include? mb
-				# button down
-				
-				
-				# set bindings for actions that need to start this frame
-				if phase == :idle # and active_mouse_buttons.include? mb
-					# button was pressed, and no action currently active
-					
-					click_and_drag_bindings = @mouse_bindings[mb][accelerators]
-					binding = click_and_drag_bindings
-					
-					origin = point
-				end
-				
-				
-				# start up new click action
-				if action.nil? and !binding.nil?
-					action_name = binding[:click][:action]
-					target_type = binding[:click][:target]
-					
-					target = nil 
-					
-					click_action = 101 
-					action = click_action
-					
-					
-					phase = :click
-				end
-				
-				
-				
-				# transition to drag
-				delta = point.dist origin
-				if phase == :click and delta > min_drag_delta
-					# click action is currently active, and drag delta exceeded
-					action_name = binding[:drag][:action]
-					target_type = binding[:drag][:target]
-					
-					target = nil 
-					
-					click_action = action
-					click_action.cancel(point)
-					
-					drag_action = 101 # @action_factory.make()
-					
-					drag_action.press(origin)
-					action = drag_action
-					
-					phase = :drag
-				end
-				
-				
-				# update held actions
-				if action != nil
-					action.hold(point)
-				end
-				
-				
-			else
-				# button up
-				
-				
-				# complete actions as necessary
-				if action != nil # and !active_mouse_buttons.include? mb
-					action.release(point)
-					
-					phase = :idle
-				end
-			end
-			
-			
-			
-			
-			
-			
-			
-			[mb, phase, action, binding, origin, target]
-		end
+		
 		
 		
 		
