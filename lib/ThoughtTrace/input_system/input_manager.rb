@@ -103,7 +103,7 @@ class InputManager
 		
 		
 		# TODO: consider moving the action factory into the Document, if it would somehow make document switching easier to just bind the action factory present inside each document, instead of having to re-init the factories. But maybe that structure just doesn't work for some reason.
-		action_factory = InputSystem::ActionFactory.new(
+		@action_factory = InputSystem::ActionFactory.new(
 							@selection,
 							
 							:selection => @selection,
@@ -275,21 +275,26 @@ class InputManager
 		
 		
 		
-		
-		
-		
-		
-		
-		@mouse.on_click :left do
-			accelerators = @keyboard.active_accelerators
-			
-			# action_name, target = @mouse_bindings[:left][accelerators][:click]
-			# p [:left, action_name, target]
-			
-			click_and_drag_bindings = @mouse_bindings[:left][accelerators]
-			p [:left, click_and_drag_bindings]
+		[:left, :right, :middle].each do |mb|
+			@mouse.on_click mb do
+				accelerators = @keyboard.active_accelerators
+				
+				
+				click_and_drag_bindings = @mouse_bindings[mb][accelerators]
+				p [mb, click_and_drag_bindings]
+				
+				
+				# store action name / target mapping
+				# record initial mouse position (need for drag detection)
+				# initialize click action
+			end
 		end
 		
+		[:left, :right, :middle].each do |mb|
+			@mouse.on_release mb do
+				# finish action associated with this mouse button
+			end
+		end
 		
 		
 		
