@@ -65,40 +65,6 @@ class InputManager
 		
 		
 		
-		# TODO: consider moving the action factory into the Document, if it would somehow make document switching easier to just bind the action factory present inside each document, instead of having to re-init the factories. But maybe that structure just doesn't work for some reason.
-		action_factory = InputSystem::ActionFactory.new(
-							@selection,
-							
-							:selection => @selection,
-							:text_input => @text_input,
-							
-							:space => @document.space,
-							:clone_factory => @document.prototypes,
-							:styles => @document.named_styles
-						)
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		# this could be useful in other parts of the input system
-		# regardless, it's good do declare all bindings to lower-level input symbols at this level
-		@accelerator_parser = InputSystem::AcceleratorParser.new(
-							window,
-							:shift   => [Gosu::KbLeftShift,   Gosu::KbRightShift],
-							:control => [Gosu::KbLeftControl, Gosu::KbRightControl],
-							:alt     => [Gosu::KbLeftAlt,     Gosu::KbRightAlt]
-						)
- 		
- 		
- 		
- 		
- 		
  		
  		
  		
@@ -119,54 +85,10 @@ class InputManager
  		
  		# NOTE: it's not really 'empty space' binding as much as it is 'no entity target' binding. Should probably update the system to reflect that. Shouldn't have to declare things that require no target twice.
  		
- 		left_click_bindings  = {
-			:on_object => {
-				[]                        => [:place_text_caret,       :edit              ],
-				[:shift]                  => [:spawn_text,             :resize            ],
-				[:control]                => [:toggle_query_status,    :constrain         ],
-				[:alt]                    => [:select_single,          :new_selection     ],
-				[:shift, :control]        => [nil,                     nil],
-				[:shift, :alt]            => [:single_select_add,      :selection_add     ],
-				[:control, :alt]          => [:single_select_subtract, :selection_subtract],
-				[:shift, :control, :alt]  => [nil,                     nil]
-			},
-			:empty_space => {
-				[]                        => [nil,                     nil                 ],
-				[:shift]                  => [:spawn_text,             nil                 ],
-				[:control]                => [nil,                     nil                 ],
-				[:alt]                    => [nil,                     :new_selection      ],
-				[:shift, :control]        => [nil,                     nil                 ],
-				[:shift, :alt]            => [nil,                     :selection_add      ],
-				[:control, :alt]          => [nil,                     :selection_subtract ],
-				[:shift, :control, :alt]  => [nil,                     nil                 ]
-			}
-		}
-		
-		
-		
-		right_click_bindings = {
-			:on_object => {
-				[]                        => [nil, :move],
-				[:shift]                  => [nil, :duplicate],
-				[:control]                => [nil, :clone],
-				[:alt]                    => [:join, nil],
-				[:shift, :control]        => [nil, :mirror],
-				[:shift, :alt]            => [nil, nil],
-				[:control, :alt]          => [nil, nil],
-				[:shift, :control, :alt]  => [nil, nil]
-			},
-			:empty_space => {
-				[]                        => [nil, nil],
-				[:shift]                  => [nil, nil],
-				[:control]                => [nil, nil],
-				[:alt]                    => [nil, nil],
-				[:shift, :control]        => [nil, nil],
-				[:shift, :alt]            => [nil, nil],
-				[:control, :alt]          => [nil, nil],
-				[:shift, :control, :alt]  => [nil, nil]
-			}
-		}
-		
+ 		
+ 		
+ 		
+ 		
 		# mouse wheel
 			# zoom                ( zoom the entire document. images GPU scale, text smart scale )
 			# abstraction layer   ( ladder of abstraction: explicit detail vs high-level )
@@ -182,42 +104,8 @@ class InputManager
 		# + step up:    limits the whole tree to view the parent layer ( for that subgraph )
 		# + step down:  expands the view to include the children of that node
 		
-		mouse_wheel_actions = {
-				[]                        => [:zoom],
-				[:shift]                  => [:render_layer],
-				[:control]                => [:abstraction_layer],
-				[:alt]                    => [nil],
-				[:shift, :control]        => [nil],
-				[:shift, :alt]            => [nil],
-				[:control, :alt]          => [nil],
-				[:shift, :control, :alt]  => [nil]
-		}
 		
 		
-		
-		
-		left_callbacks  = InputSystem::MouseInputSystem.new(
-							@document.space, @mouse, action_factory,
-							@accelerator_parser, left_click_bindings
-						)
-		
-		right_callbacks = InputSystem::MouseInputSystem.new(
-							@document.space, @mouse, action_factory,
-							@accelerator_parser, right_click_bindings
-						)
-		
-		
-		
-		event = InputSystem::ButtonEvent.new :left_click, left_callbacks
-		event.bind_to keys:[Gosu::MsLeft], modifiers:[]
-		@buttons.register event
-		
-		
-		
-		event = InputSystem::ButtonEvent.new :right_click, right_callbacks
-		event.bind_to keys:[Gosu::MsRight], modifiers:[]
-		@buttons.register event
- 		
  		
  		# events weren't DESIGNED this way,
 		# but turns out that you only need to press AT LEAST what's specified to fire an event
@@ -229,7 +117,36 @@ class InputManager
 		
 		
 		
-		@mouse_actions = [left_callbacks, right_callbacks]
+		
+		
+		
+		
+		
+		# this could be useful in other parts of the input system
+		# regardless, it's good do declare all bindings to lower-level input symbols at this level
+		@accelerator_parser = InputSystem::AcceleratorParser.new(
+							window,
+							:shift   => [Gosu::KbLeftShift,   Gosu::KbRightShift],
+							:control => [Gosu::KbLeftControl, Gosu::KbRightControl],
+							:alt     => [Gosu::KbLeftAlt,     Gosu::KbRightAlt]
+						)
+		
+		
+		
+		# TODO: consider moving the action factory into the Document, if it would somehow make document switching easier to just bind the action factory present inside each document, instead of having to re-init the factories. But maybe that structure just doesn't work for some reason.
+		action_factory = InputSystem::ActionFactory.new(
+							@selection,
+							
+							:selection => @selection,
+							:text_input => @text_input,
+							
+							:space => @document.space,
+							:clone_factory => @document.prototypes,
+							:styles => @document.named_styles
+						)
+		
+		# @mouse_actions = [left_callbacks, right_callbacks]
+		@mouse_actions = []
 		
 		
 		
@@ -239,13 +156,11 @@ class InputManager
 		
 		
 		
-		
-		# camera control
-		callbacks = InputSystem::CameraController.new @mouse, @document.camera, action_factory
-		event = InputSystem::ButtonEvent.new :pan_camera, callbacks
-		event.bind_to keys:[Gosu::MsMiddle], modifiers:[]
-		@buttons.register event
-		
+		# # camera control
+		# callbacks = InputSystem::CameraController.new @mouse, @document.camera, action_factory
+		# event = InputSystem::ButtonEvent.new :pan_camera, callbacks
+		# event.bind_to keys:[Gosu::MsMiddle], modifiers:[]
+		# @buttons.register event
 		
 		
 		
@@ -254,21 +169,22 @@ class InputManager
 		
 		
 		
-		callbacks = ThoughtTrace::Events::PressEnter.new @document.space, @text_input, @document.prototypes
-		event = InputSystem::ButtonEvent.new :enter, callbacks
 		
-		event.bind_to keys:[Gosu::KbReturn], modifiers:[]
+		# callbacks = ThoughtTrace::Events::PressEnter.new @document.space, @text_input, @document.prototypes
+		# event = InputSystem::ButtonEvent.new :enter, callbacks
 		
-		@buttons.register event
+		# event.bind_to keys:[Gosu::KbReturn], modifiers:[]
+		
+		# @buttons.register event
 		
 		
 		
-		callbacks = ThoughtTrace::Events::LinkStyles.new @selection, action_factory
-		event = InputSystem::ButtonEvent.new :link_styles, callbacks
+		# callbacks = ThoughtTrace::Events::LinkStyles.new @selection, action_factory
+		# event = InputSystem::ButtonEvent.new :link_styles, callbacks
 		
-		event.bind_to keys:[Gosu::KbF8], modifiers:[]
+		# event.bind_to keys:[Gosu::KbF8], modifiers:[]
 		
-		@buttons.register event
+		# @buttons.register event
 		
 	end
 	
