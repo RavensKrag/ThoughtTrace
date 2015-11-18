@@ -20,6 +20,8 @@ class Keyboard
 	end
 	
 	def active_accelerators
+		# TODO: cache this or something, so that you don't have to recompute multiple times per frame
+		# (assumption: this value should never change in the middle of one frame)
 		@accelerators.active_accelerators
 	end
 end

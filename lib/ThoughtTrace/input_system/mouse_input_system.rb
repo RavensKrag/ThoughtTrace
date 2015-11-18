@@ -6,35 +6,11 @@ class MouseInputSystem
 	# NOTE: a separate instance for this class is created for each mouse button
 	# Turns press-hold-release event flow into the click-drag-release flow needed by mouse inputs
 	
-	
-	
-	# TODO: try to remove these array shortcuts. would be related to finding a better data structure for the input bindings, though
-	CLICK = 0
-	DRAG  = 1
-	
+	attr_reader :current_phase
 	
 	# TODO: create class that bundles the pieces of data that need to be sent to every Action. It's weird to have to "delegate" all these arguments through the chain of command like this.
-	def initialize(space, mouse, action_factory,
-		accelerator_collection, bindings)
+	def initialize(mouse)
 		@mouse = mouse
-		@space = space
-		
-		@action_factory = action_factory
-		
-		
-		
-		
-		# TODO: figure out how to load this data from spatial ThoughtTrace file, instead of typing it out manually.
-		# TODO: consider finding a better data structure for this data (maybe a tree?)
-		
-		@bindings = bindings
-		
-		
-		
-		@key_parser = accelerator_collection
-		
-		
-		
 		
 		# @spatial_status = :on_object
 		# @accelerators = [:shift]
@@ -54,7 +30,7 @@ class MouseInputSystem
 	
 	
 	# TODO: what happens when you hit left and right buttons down at the same time? both are Event-bound to fire things that eventually calls this part of the code, but this part of the code base assumes that the 4-key-phases will each only be called one at a time. THIS COULD CAUSE MASSIVE ERRORS. PLEASE RECTIFY IMMEDIATELY
-	def press(event_name)
+	def press
 		# if there has been a mouse event
 		
 		
@@ -65,13 +41,14 @@ class MouseInputSystem
 		# you wind up with a control+drag
 		# which may be undesirable
 		# (I think I kinda like this "sloppy" evaluation though)
-		@accelerators = @key_parser.active_accelerators
+		
+		# @accelerators = @key_parser.active_accelerators
 		
 		
 		
 		
 		point = @mouse.position_in_space
-		@entity = @space.point_query_best point
+		# @entity = @space.point_query_best point
 		
 		
 		
@@ -91,23 +68,25 @@ class MouseInputSystem
 		
 		
 		
-		@current_phase = CLICK
-		@active_action = parse_inputs(event_name, CLICK)
-		@active_action.press(@mouse.position_in_space)
+		@current_phase = :click
+		@active_action = @parse_input_callback.call(:click)
+		@active_action.press(point)
 		
 	end
 	
-	def hold(event_name)
-		if @current_phase == CLICK
+	def hold
+		point = @mouse.position_in_space
+		
+		if @current_phase == :click
 			# attempt to transition to the drag phase
-			if mouse_exceeded_drag_threshold?
+			if mouse_exceeded_drag_threshold?(point)
 				# cancel the current action, (which should be a click action)
 				# and load up the drag action (load with the same origin as the click action)
 				
 				@active_action.cancel
 				
-				@current_phase = DRAG
-				@active_action = parse_inputs(event_name, DRAG)
+				@current_phase = :drag
+				@active_action = @parse_input_callback.call(:drag)
 				@active_action.press(@origin)
 			end
 		else
@@ -117,21 +96,29 @@ class MouseInputSystem
 		
 		
 		# manage the currently active action, if any
-		@active_action.hold(@mouse.position_in_space)
+		@active_action.hold(point)
 	end
 	
-	def release(event_name)
-		@active_action.release(@mouse.position_in_space)
+	def release
+		point = @mouse.position_in_space
+		
+		@active_action.release(point)
 		
 		@active_action = @dummy_action
-		@entity = nil
+		@current_phase = :idle
 	end
 	
-	def cancel(event_name)
+	def cancel
+		point = @mouse.position_in_space
+		
 		@active_action.cancel
 		
 		@active_action = @dummy_action
-		@entity = nil
+		@current_phase = :idle
+	end
+	
+	def parse_callback(&block)
+		@parse_input_callback = block
 	end
 	
 	
@@ -166,9 +153,7 @@ class MouseInputSystem
 	end
 	
 	DRAG_DELTA_THRESHOLD = 20
-	def mouse_exceeded_drag_threshold?
-		point = @mouse.position_in_space
-		
+	def mouse_exceeded_drag_threshold?(point)
 		displacement = point - @origin
 		delta = displacement.length
 		

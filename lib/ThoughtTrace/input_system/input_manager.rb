@@ -116,8 +116,7 @@ class InputManager
 							:styles => @document.named_styles
 						)
 		
-		# @mouse_actions = [left_callbacks, right_callbacks]
-		@mouse_actions = []
+		
 		
 		
 		
@@ -387,16 +386,32 @@ class InputManager
 		
 		
 		
-		mouse_inputs = {
-			:left   => InputSystem::MouseInputSystem.new(),
-			:right  => InputSystem::MouseInputSystem.new(),
-			:middle => InputSystem::MouseInputSystem.new()
-		}
 		
-		[:left, :right, :middle].each do |mb|
-			mouse_inputs[mb].parse_callback do |phase|
+		@mouse_inputs = [
+			[:left_click,   Gosu::MsLeft,   InputSystem::MouseInputSystem.new(@mouse)],
+			[:right_click,  Gosu::MsRight,  InputSystem::MouseInputSystem.new(@mouse)],
+			[:middle_click, Gosu::MsMiddle, InputSystem::MouseInputSystem.new(@mouse)]
+		]
+		
+		@mouse_inputs.each do |mb, button_id, mouse_input_system|
+			event = InputSystem::ButtonEvent.new(mb, mouse_input_system)
+			event.bind_to keys:[button_id], modifiers:[]
+			@buttons.register event
+		end
+		
+		
+		
+		
+		@mouse_inputs.each do |mb, button_id, mouse_input_system|
+			mouse_input_system.parse_callback do |phase|
 				# this block needs to return an initialized Action object
 				# (do NOT call press yet)
+				
+				# NOTE: add debug print statement to show the current inputs
+				# (mouse button, accelerators, click / drag)
+				# when no action is bound
+				# (functionality from current MouseInputSystem that I'm about to break)
+				
 				
 				accelerators = @keyboard.active_accelerators
 				
@@ -467,38 +482,10 @@ class InputManager
 		
 		
 		
+		@mouse_actions = @mouse_inputs.collect{|arr| arr.last }
 		
 		
 		
-		
-		
-		
-		
-		
-		mouse_buttons = {
-			Gosu::MsLeft   => :left,
-			Gosu::MsRight  => :right,
-			Gosu::MsMiddle => :middle
-		}
-		
-		active_mouse_buttons = 
-			mouse_buttons.keys
-				.select do |mb_id|
-					@window.button_down? mb_id
-				end
-				.collect do |mb_id|
-					mouse_buttons[mb_id]
-				end
-		
-		
-		
-		
-		
-		min_drag_delta = 20
-		
-		point = @mouse.position_in_space
-		
-		accelerators = @keyboard.active_accelerators
 		
 		
 		
@@ -657,7 +644,11 @@ class InputManager
 		data = Hash.new
 		
 		# start ods parsing to get input bindings
-		cell_blocks = {:left => "A6:E13", :right => "G6:K13", :middle => "A20:E27"}
+		cell_blocks = {
+			:left_click   => "A6:E13",
+			:right_click  => "G6:K13",
+			:middle_click => "A20:E27"
+		}
 			# cell ranges given in in excel notation
 		
 		
