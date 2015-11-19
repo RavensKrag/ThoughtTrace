@@ -69,7 +69,7 @@ class MouseInputSystem
 		
 		
 		@current_phase = :click
-		@active_action = @parse_input_callback.call(:click)
+		@active_action = @parse_input_callback.call(:click, point)
 		@active_action.press(point)
 		
 	end
@@ -86,7 +86,7 @@ class MouseInputSystem
 				@active_action.cancel
 				
 				@current_phase = :drag
-				@active_action = @parse_input_callback.call(:drag)
+				@active_action = @parse_input_callback.call(:drag, point)
 				@active_action.press(@origin)
 			end
 		else

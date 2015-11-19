@@ -226,7 +226,6 @@ class InputManager
 		
 		
 		
-		@state = :idle
 		
 		
 		# mouse actions
@@ -301,20 +300,6 @@ class InputManager
 				# finish action associated with this mouse button
 			end
 		end
-		
-		
-		
-		
-		
-		
-		
-		# # camera control
-		# callbacks = InputSystem::CameraController.new @mouse, @document.camera, action_factory
-		# event = InputSystem::ButtonEvent.new :pan_camera, callbacks
-		# event.bind_to keys:[Gosu::MsMiddle], modifiers:[]
-		# @buttons.register event
-		
-		
 		
 		
 		
@@ -403,7 +388,7 @@ class InputManager
 		
 		
 		@mouse_inputs.each do |mb, button_id, mouse_input_system|
-			mouse_input_system.parse_callback do |phase|
+			mouse_input_system.parse_callback do |phase, point|
 				# this block needs to return an initialized Action object
 				# (do NOT call press yet)
 				
@@ -420,10 +405,32 @@ class InputManager
 				action_name = name_and_target[:action]
 				target_type = name_and_target[:target]
 				
+				
+				
+				space = @document.space
+				
+				# only really need to do this when you trigger an action with an Entity target
+				potental_targets = get_target_list(space, point)
+				# TODO: make a tighter condition for when this fires, as an optimization
+				
+				
+				# get list of potential targets
+				# this list has already been sorted by some criteria,
+				# so any additional manipulations on this list must not alter that
+				# (currently calculating position of center, and surface area)
+				
+				
 				# select the target based on some criteria, including the known type
 				# (NOTE: need to save the target somehow for the drag transition)
 				# if you need the original mouse position, it will have to be fed into this block
-				target = nil
+				
+				target = 
+					if target_type == 'Camera'
+						@document.camera
+					else
+						nil
+					end
+				
 				
 				
 				
@@ -434,16 +441,25 @@ class InputManager
 				
 				# ===== below is code from ActionFactory#create
 				
+				@conversion_table ||= {
+					:selection => @selection,
+					:text_input => @text_input,
+					
+					:space => @document.space,
+					:clone_factory => @document.prototypes,
+					:styles => @document.named_styles
+				}
+				
 				
 				
 				# convert argument symbols into real variables
 				conversions = {
 					# entity conversion must be specified here, because it is dynamic
 					# (as opposed to in the initializer, which would be static)
-					:entity => obj
+					:entity => target
 				}.merge @conversion_table
 				
-				conversions[:group] = obj if obj.is_a? ThoughtTrace::Groups::Group
+				conversions[:group] = target if target.is_a? ThoughtTrace::Groups::Group
 				
 				
 				# this is the part where things start to get really weird 
@@ -451,10 +467,13 @@ class InputManager
 				# must consider groups, queries, and individual entities
 				
 				
-				type = get_type(obj)
-				action_class = get_action(obj, type, action_name)
+				# type = get_type(target)
+				action_class = get_action(target, target_type, action_name)
 				
-				
+				# under new system,
+				# if you say "I want an Entity action"
+				# that means "treat the target as an Entity, and get the action"
+				# but if you say "I want a Text action" that means you specifically want the Text version of the polymorphic function
 				
 				
 				
@@ -562,7 +581,9 @@ class InputManager
 	
 	
 	def get_target_list(space, point)
-		layers=CP::ALL_LAYERS, group=CP::NO_GROUP
+		layers=CP::ALL_LAYERS
+		group=CP::NO_GROUP
+		
 		selection = space.point_query(point, layers, group, limit_to:nil, exclude:nil)		
 		
 		
@@ -610,6 +631,92 @@ class InputManager
 		# camera actions
 		# space actions
 	end
+	
+	
+	
+	
+	
+	# Recursively looks for an Action of a particular name.
+	# Should not dig deeper than Entity, as Entity is what holds the Action structure.
+	# 
+	# name styled after things like "const_get" and "instance_variable_get"
+	# 
+	# ideally, the exception flow will percolate back "down" the inheritance chain
+	# to the child class (the class that originally launched the call)
+	# so that the error message on the backtrace can accurately report
+	# what class was trying to access what action
+	# 
+	# obj    -- object trying to fire an Action
+	# klass  -- current class under which we're looking for Action objects (changes with recursion)
+	# name   -- name of the Action desired
+	def get_action(obj, klass, name)
+		# expects names as standard symbols, rather than in constant-symbol format
+		# ex) expected    -  :move_over_there
+		#     rather than -  :MoveOverThere
+		
+		# NOTE: I think this is a cleaner interface, but it requires a bunch of string manipulation. As this is something that needs to be called very often, it may become a major source of latency.
+		# The weird part is really that you're using symbols in a not-very-symbol-like way
+		# so the solution may actually be just to use Strings instead
+		# as constant lookup can also be done using strings
+		
+		
+		name_const = name.to_s.constantize
+		# p [klass, name, name_const]
+		
+		begin
+			return klass::Actions.const_get name_const
+		rescue NameError => e
+			# Traverse the hierarchy to find a class that can yield the desired Action.
+			# Mostly, you will traverse the class inheritance hierarchy,
+			# but there are some exceptions.
+			
+			if BASE_CLASSES.include? klass
+				# you have reached the bottom of the chain,
+				# the root of the the tree.
+				# The recursion stops here
+				
+				# end of the road:
+				# this is the base of the entire Action search system.
+				# If no action has been found by this point, the action is not defined.
+				warn "#{obj.class} does not define #{name || '<NIL>'}, nor does it's ancestors"
+				return ThoughtTrace::Actions::NullAction
+			else
+				# trigger recursion to find the Action in question
+				parent = get_parent(obj, klass)
+				
+				return get_action(obj, parent, name)
+			end
+		end
+	end
+	
+	# helper method for get_action
+	# ( obj and klass are the same as defined by get_action )
+	def get_parent(obj, klass)
+		# NOTE: the klass check prevents infinite looping.
+			# first time:  obj.class != klass => triggers recursion on non-standard 'parent'
+			# other times: obj.class == klass => standard superclass traversal
+			# ( without check, you would always get the first case, because it's listed first )
+		
+		# --- try taking specially defined exceptions
+		if klass == ThoughtTrace::Queries::Query and obj[:query]
+			# if the base object has a Query component
+			# you need to check the base object's class, as well as the core Query class
+			return obj.class
+		elsif klass == ThoughtTrace::Groups::Group and @selection.include? obj
+			# Group doesn't define an action, then just use the Entity action instead.
+			return obj.class
+		# -------------------------------
+		else  # but if there aren't any, just go the standard way 
+			return klass.superclass
+			
+			# NOTE: Modules do not have a 'superclass', so if you end up calling this on a module, it will break. Currently do not have a need to do that, but it may come up in the future.
+		end
+	end
+	
+	
+	
+	
+	
 	
 	
 	
