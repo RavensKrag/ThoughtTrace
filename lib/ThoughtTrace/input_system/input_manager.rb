@@ -364,6 +364,7 @@ class InputManager
 		
 		
 		
+		# separate MouseInputSystem instances each store one press-hold-release / click-drag flow
 		@mouse_inputs = [
 			[:left_click,   Gosu::MsLeft,   InputSystem::MouseInputSystem.new(@mouse)],
 			[:right_click,  Gosu::MsRight,  InputSystem::MouseInputSystem.new(@mouse)],
@@ -418,6 +419,13 @@ class InputManager
 				
 				
 				
+				# must consider groups, queries, and individual entities
+				
+				# TODO: must consider groups as well.
+				# Need to take into consideration the abstraction level
+				# - you found a group: do you want to treat it as a group or an entity?
+					# (should be able to do both)
+				# - do you want to look at the group itself, or peel back the abstraction?
 				
 				
 				
@@ -437,7 +445,7 @@ class InputManager
 							# p BASIC_TYPE_ASSOC.assoc(target_type_string)
 							BASIC_TYPE_ASSOC.assoc(target_type_string).last
 						elsif prefab_type?(target_type_string)
-							# TODO: remember to search linked documents for prefab definition as well
+							# TODO: remember to search linked documents for prefab definition as well, once linked documents have been implemented
 							raise "Using prefab types as action targets has not yet been implemented"
 						else
 							raise "Unexpected error"
@@ -468,8 +476,8 @@ class InputManager
 								end
 							end
 					end
-					
 				
+				# TODO: possible short-circuit when target == nil
 				
 				
 				
@@ -487,25 +495,23 @@ class InputManager
 					:clone_factory => @document.prototypes,
 					:styles => @document.named_styles
 				}
+				# TODO: warn if any of these variables are nil
 				
 				# entity conversion must be specified here, because it is dynamic
 				# (as opposed to in the initializer, which would be static)
 				conversions[:entity] = target
 				conversions[:group] = target if target.is_a? ThoughtTrace::Groups::Group
+				# NOTE: this method of group specification should take into abstraction layering
+				
 				
 				
 				# this is the part where things start to get really weird 
 				
-				# must consider groups, queries, and individual entities
 				
 				
-				# need to find the class constant for the known type string
-					# first look in the list of default types
-					# then look in the prefab types that have been created for this document
-					# TODO: implement lookup in linked documents as well, when linked documents have been implemented
 				
 				
-				# type = get_type(target)
+				
 				action_class = get_action(target, target_type, action_name)
 				# NOTE: may return ThoughtTrace::Actions::NullAction
 				
