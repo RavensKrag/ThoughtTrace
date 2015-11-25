@@ -354,14 +354,6 @@ class InputManager
 		
 		
 		
-		foo = []
-		
-		# only really need to do this when you trigger an action with an Entity target
-		possible_targets = get_target_list(@space, point) unless foo.empty?
-		# TODO: make a tighter condition for when this fires, as an optimization
-		
-		
-		
 		# left and right activate at the same time (same frame startup. unlikely but possible)
 		# left activates when right is active
 		# right activates when left is active
@@ -424,13 +416,17 @@ class InputManager
 				# (NOTE: need to save the target somehow for the drag transition)
 				# if you need the original mouse position, it will have to be fed into this block
 				
-				target = 
-					if target_type == 'Camera'
-						@document.camera
-					else
-						nil
+				target =
+					case target_type
+						when 'Camera'
+							@document.camera
+						when 'none'
+							nil
+						else
+							nil
 					end
-				
+					
+				# want to take the desired action type, and compare it to what is available
 				
 				
 				
@@ -441,7 +437,7 @@ class InputManager
 				
 				# ===== below is code from ActionFactory#create
 				
-				@conversion_table ||= {
+				conversions = {
 					:selection => @selection,
 					:text_input => @text_input,
 					
@@ -450,15 +446,9 @@ class InputManager
 					:styles => @document.named_styles
 				}
 				
-				
-				
-				# convert argument symbols into real variables
-				conversions = {
-					# entity conversion must be specified here, because it is dynamic
-					# (as opposed to in the initializer, which would be static)
-					:entity => target
-				}.merge @conversion_table
-				
+				# entity conversion must be specified here, because it is dynamic
+				# (as opposed to in the initializer, which would be static)
+				conversions[:entity] = target
 				conversions[:group] = target if target.is_a? ThoughtTrace::Groups::Group
 				
 				
@@ -467,8 +457,15 @@ class InputManager
 				# must consider groups, queries, and individual entities
 				
 				
+				# need to find the class constant for the known type string
+					# first look in the list of default types
+					# then look in the prefab types that have been created for this document
+					# TODO: implement lookup in linked documents as well, when linked documents have been implemented
+				
+				
 				# type = get_type(target)
 				action_class = get_action(target, target_type, action_name)
+				# NOTE: may return ThoughtTrace::Actions::NullAction
 				
 				# under new system,
 				# if you say "I want an Entity action"
@@ -495,6 +492,9 @@ class InputManager
 				warn "#{type.inspect} does not define action '#{action_name}'" if action.null_action?
 				
 				
+				# if no action is found, the NullAction will be returned
+				# this way, the rest of the pathway will still work,
+				# even though it's stubbed
 				action
 			end
 		end
