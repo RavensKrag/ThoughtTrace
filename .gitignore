@@ -1,3 +1,4 @@
 /Gemfile.lock
 /lib/ThoughtTrace/serialization/compiled_files
 /notes/open_files
+/notes/.~lock.*
