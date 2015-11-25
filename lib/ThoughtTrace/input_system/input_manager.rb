@@ -656,6 +656,9 @@ class InputManager
 	
 	
 	
+	BASE_CLASSES = [
+		ThoughtTrace::Entity, ThoughtTrace::Actions::EmptySpace, ThoughtTrace::Groups::Group
+	]
 	# Recursively looks for an Action of a particular name.
 	# Should not dig deeper than Entity, as Entity is what holds the Action structure.
 	# 
