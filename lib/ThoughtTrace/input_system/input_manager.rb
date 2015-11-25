@@ -423,10 +423,41 @@ class InputManager
 						when 'none'
 							nil
 						else
-							nil
+							# translate type string into class object
+							type = 
+								if target_type == 'Query'
+									nil
+								else
+									if basic_type?(target_type)
+										# puts "basic type detected"
+										# p BASIC_TYPE_ASSOC
+										# p BASIC_TYPE_ASSOC.assoc(target_type)
+										BASIC_TYPE_ASSOC.assoc(target_type).last
+									elsif prefab_type?(target_type)
+										# TODO: remember to search linked documents for prefab definition as well
+										raise "Using prefab types as action targets has not yet been implemented"
+									else
+										raise "Unexpected error"
+									end
+								end
+							
+							# p target_type
+							puts "target type string: #{target_type}"
+							puts "target type class: #{type.inspect}"
+							
+							
+							# find a target from the list of potential targets based on class
+							potental_targets.find do |x|
+								if target_type == 'Query' and x[:query]
+									# looking for a query, and potential target has a query component attached to it
+									true
+								elsif x.is_a? type
+									# not looking for a query, but found an object of the right type
+									true
+								end
+							end
 					end
 					
-				# want to take the desired action type, and compare it to what is available
 				
 				
 				
@@ -711,6 +742,28 @@ class InputManager
 			
 			# NOTE: Modules do not have a 'superclass', so if you end up calling this on a module, it will break. Currently do not have a need to do that, but it may come up in the future.
 		end
+	end
+	
+	
+	
+	
+	# order in this list determines type precedence.
+	# system will infer that an entity is of a higher type before a lower one
+	BASIC_TYPE_ASSOC = [
+		['Circle',    ThoughtTrace::Circle],
+		['Text',      ThoughtTrace::Text],
+		['Rectangle', ThoughtTrace::Rectangle],
+		['Entity',    ThoughtTrace::Entity]
+	]
+	# returns true if type is among one of the core types defined by the system
+	# (query is not considered a basic type, as it is a component)
+	def basic_type?(entity_type_string)
+		BASIC_TYPE_ASSOC.any?{  |a| a.first == entity_type_string  }
+	end
+	
+	# returns true if the type is one defined by a prefab in the document
+	def prefab_type?(document, entity_type_string)
+		return false
 	end
 	
 	
