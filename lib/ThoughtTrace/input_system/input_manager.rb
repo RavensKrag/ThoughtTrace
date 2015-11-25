@@ -393,6 +393,16 @@ class InputManager
 				
 				
 				
+				# TODO: deal with spawn actions
+				# should they be moved somewhere else?
+				# where are they currently?
+					 # ThoughtTrace -> Actions -> EmptySpace -> Actions
+  				# this system can not currently find them, because it expects Entity -> spawn etc
+				# (also note that each spawn action currently has a different name, like "SpawnText" because they are all currently under one namespace)
+				
+				
+				
+				
 				# must consider groups, queries, and individual entities
 				
 				# TODO: must consider groups as well.
@@ -470,6 +480,9 @@ class InputManager
 					:styles => @document.named_styles
 				}
 				# TODO: warn if any of these variables are nil
+				# (or maybe only have to warn when args are nil?)
+				# (maybe warn when empty, and not just nil?)
+				
 				
 				# entity conversion must be specified here, because it is dynamic
 				# (as opposed to in the initializer, which would be static)
