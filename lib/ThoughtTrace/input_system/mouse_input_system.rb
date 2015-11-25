@@ -86,7 +86,7 @@ class MouseInputSystem
 				@active_action.cancel
 				
 				@current_phase = :drag
-				@active_action = @parse_input_callback.call(:drag, point)
+				@active_action = @parse_input_callback.call(:drag, @origin)
 				@active_action.press(@origin)
 			end
 		else
