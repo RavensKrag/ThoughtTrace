@@ -511,7 +511,11 @@ class InputManager
 				# warn about undefined actions
 				# not something you want to throw an exception for
 				# (some buttons just don't have things bound to them, and that's ok)
-				warn "#{target_type.inspect} does not define action '#{action_name}'" if action.null_action?
+				warn "#{target.class.inspect} does not define action '#{action_name}'" if action.null_action?
+				
+				# NOTE: this warning is also happening deeper inside the action system somewhere
+				# (specifically, under #get_action)
+				
 				
 				
 				# if no action is found, the NullAction will be returned
