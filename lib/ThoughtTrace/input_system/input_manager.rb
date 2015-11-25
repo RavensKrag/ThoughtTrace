@@ -405,7 +405,7 @@ class InputManager
 				
 				
 				# translate type string into class object
-				target_type = 
+				desired_type = 
 					if target_type_string == 'none'
 						:none
 					elsif target_type_string == 'Camera'
@@ -428,12 +428,12 @@ class InputManager
 				
 				# p target_type_string
 				puts "target type string: #{target_type_string}"
-				puts "target type class: #{target_type.inspect}"
+				puts "want to find this type class: #{desired_type.inspect}"
 				
 				
 				# determine target object based on type
 				target =
-					case target_type
+					case desired_type
 						when :none
 							nil
 						when ThoughtTrace::Camera
@@ -441,10 +441,10 @@ class InputManager
 						else
 							# find a target from the list of potential targets based on class
 							potental_targets.find do |x|
-								if target_type == ThoughtTrace::Queries::Query and x[:query]
+								if desired_type == ThoughtTrace::Queries::Query and x[:query]
 									# looking for a query, and potential target has a query component attached to it
 									true
-								elsif x.is_a? target_type
+								elsif x.is_a? desired_type
 									# not looking for a query, but found an object of the right type
 									true
 								end
@@ -486,7 +486,7 @@ class InputManager
 				
 				
 				
-				action_class = get_action(target, target_type, action_name)
+				action_class = get_action(target, desired_type, action_name)
 				# NOTE: may return ThoughtTrace::Actions::NullAction
 				
 				# under new system,
