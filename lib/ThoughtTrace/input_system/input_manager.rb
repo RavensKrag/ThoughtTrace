@@ -395,7 +395,7 @@ class InputManager
 				name_and_target = @mouse_bindings[mb][accelerators][phase]
 				
 				action_name = name_and_target[:action]
-				target_type = name_and_target[:target]
+				target_type_string = name_and_target[:target]
 				
 				
 				
@@ -416,42 +416,53 @@ class InputManager
 				# (NOTE: need to save the target somehow for the drag transition)
 				# if you need the original mouse position, it will have to be fed into this block
 				
+				
+				
+				
+				
+				
+				
+				# translate type string into class object
+				target_type = 
+					if target_type_string == 'none'
+						:none
+					elsif target_type_string == 'Camera'
+						ThoughtTrace::Camera
+					elsif target_type_string == 'Query'
+						ThoughtTrace::Queries::Query
+					else
+						if basic_type?(target_type_string)
+							# puts "basic type detected"
+							# p BASIC_TYPE_ASSOC
+							# p BASIC_TYPE_ASSOC.assoc(target_type_string)
+							BASIC_TYPE_ASSOC.assoc(target_type_string).last
+						elsif prefab_type?(target_type_string)
+							# TODO: remember to search linked documents for prefab definition as well
+							raise "Using prefab types as action targets has not yet been implemented"
+						else
+							raise "Unexpected error"
+						end
+					end
+				
+				# p target_type_string
+				puts "target type string: #{target_type_string}"
+				puts "target type class: #{target_type.inspect}"
+				
+				
+				# determine target object based on type
 				target =
 					case target_type
-						when 'Camera'
-							@document.camera
-						when 'none'
+						when :none
 							nil
+						when ThoughtTrace::Camera
+							@document.camera
 						else
-							# translate type string into class object
-							type = 
-								if target_type == 'Query'
-									nil
-								else
-									if basic_type?(target_type)
-										# puts "basic type detected"
-										# p BASIC_TYPE_ASSOC
-										# p BASIC_TYPE_ASSOC.assoc(target_type)
-										BASIC_TYPE_ASSOC.assoc(target_type).last
-									elsif prefab_type?(target_type)
-										# TODO: remember to search linked documents for prefab definition as well
-										raise "Using prefab types as action targets has not yet been implemented"
-									else
-										raise "Unexpected error"
-									end
-								end
-							
-							# p target_type
-							puts "target type string: #{target_type}"
-							puts "target type class: #{type.inspect}"
-							
-							
 							# find a target from the list of potential targets based on class
 							potental_targets.find do |x|
-								if target_type == 'Query' and x[:query]
+								if target_type == ThoughtTrace::Queries::Query and x[:query]
 									# looking for a query, and potential target has a query component attached to it
 									true
-								elsif x.is_a? type
+								elsif x.is_a? target_type
 									# not looking for a query, but found an object of the right type
 									true
 								end
