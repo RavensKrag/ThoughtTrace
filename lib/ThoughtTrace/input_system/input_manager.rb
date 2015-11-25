@@ -275,32 +275,6 @@ class InputManager
 		
 		
 		
-		[:left, :right, :middle].each do |mb|
-			@mouse.on_click mb do
-				accelerators = @keyboard.active_accelerators
-				
-				
-				click_and_drag_bindings = @mouse_bindings[mb][accelerators]
-				p [mb, click_and_drag_bindings]
-				
-				
-				# store action name / target mapping
-				# record initial mouse position (need for drag detection)
-				# initialize click action
-			end
-			
-			
-			# update needs to
-				# update click action
-				# transition to drag action when necessary
-				# cancel click action on transition
-			
-			
-			@mouse.on_release mb do
-				# finish action associated with this mouse button
-			end
-		end
-		
 		
 		
 		
@@ -576,7 +550,6 @@ class InputManager
 	def button_down(id)
 		[
 			@buttons,
-			@mouse
 			# @mouse_input
 		].each do |x|
 			x.button_down(id)
@@ -611,7 +584,6 @@ class InputManager
 	def button_up(id)
 		[
 			@buttons,
-			@mouse
 			# @mouse_input
 		].each do |x|
 			x.button_up(id)
