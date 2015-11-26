@@ -2,8 +2,8 @@ module ThoughtTrace
 
 
 class GetAction
-	def initialize(conversion_table)
-		
+	def initialize(action_argument_map)
+		@conversions = action_argument_map
 	end
 	
 	
@@ -108,14 +108,17 @@ class GetAction
 		
 		# ===== below is code from ActionFactory#create
 		
-		conversions = {
-			:selection => @selection,
-			:text_input => @text_input,
+		conversions = @conversions.clone # shallow copy is what you want
+		# conversions = {
+		# 	:selection => @selection,
+		# 	:text_input => @text_input,
 			
-			:space => @document.space,
-			:clone_factory => @document.prototypes,
-			:styles => @document.named_styles
-		}
+		# 	:space => @document.space,
+		# 	:clone_factory => @document.prototypes,
+		# 	:styles => @document.named_styles
+		# }
+		
+		
 		# TODO: warn if any of these variables are nil
 		# (or maybe only have to warn when args are nil?)
 		# (maybe warn when empty, and not just nil?)
@@ -126,6 +129,8 @@ class GetAction
 		conversions[:entity] = target
 		conversions[:group] = target if target.is_a? ThoughtTrace::Groups::Group
 		# NOTE: this method of group specification should take into abstraction layering
+		
+		# TODO: consider always using one 'target' parameter for Actions called simply '@target'
 		
 		
 		

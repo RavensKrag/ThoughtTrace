@@ -137,6 +137,7 @@ dependency_list = [
 		
 		'./input_system/text_input',
 		
+		'./input_system/get_action',
 		'./input_system/input_manager',
 		
 		'./input_system/custom_events',

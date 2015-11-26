@@ -353,6 +353,15 @@ class InputManager
 		
 		
 		
+		@foo = ThoughtTrace::GetAction.new({
+					:selection => @selection,
+					:text_input => @text_input,
+					
+					:space => @document.space,
+					:clone_factory => @document.prototypes,
+					:styles => @document.named_styles
+		})
+		
 		
 		@mouse_inputs.each do |mb, button_id, mouse_input_system|
 			mouse_input_system.parse_callback do |phase, point|
@@ -373,6 +382,7 @@ class InputManager
 				target_type_string = name_and_target[:target]
 				
 				
+				@foo.foo(@document, point, action_name, target_type_string)
 			end
 		end
 		
