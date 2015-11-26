@@ -623,6 +623,8 @@ class InputManager
 		
 		selection = space.point_query(point, layers, group, limit_to:nil, exclude:nil)		
 		
+		return selection if selection.empty?
+		
 		
 		# Sort by area
 		selection.sort_by! do |x|
