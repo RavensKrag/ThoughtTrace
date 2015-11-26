@@ -436,6 +436,7 @@ class InputManager
 						end
 					end
 				
+				puts "action name: #{action_name}"
 				# p target_type_string
 				puts "target type string: #{target_type_string}"
 				puts "want to find this type class: #{desired_type.inspect}"
@@ -457,6 +458,8 @@ class InputManager
 								elsif x.is_a? desired_type
 									# not looking for a query, but found an object of the right type
 									true
+								else
+									false
 								end
 							end
 					end
@@ -494,7 +497,8 @@ class InputManager
 				
 				# this is the part where things start to get really weird 
 				
-				
+				# REMEMBER: some of this needs to be re-packed into an ActionFactory class, so that actions can be chained, and things can be automated
+				# current action factory does not have the required functionality, so it will break some things
 				
 				
 				
@@ -506,6 +510,10 @@ class InputManager
 				# if you say "I want an Entity action"
 				# that means "treat the target as an Entity, and get the action"
 				# but if you say "I want a Text action" that means you specifically want the Text version of the polymorphic function
+				
+				# so between Text and Entity, when you say "Entity" -> Text action
+				# between Group and Entity when you say "Entity" -> Entity action
+				# between group and Entity when you say "Entity" -> Group action
 				
 				
 				
@@ -541,27 +549,6 @@ class InputManager
 		
 		
 		@mouse_actions = @mouse_inputs.collect{|arr| arr.last }
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		# press mouse buttons
-			# prevent startup of left when right is active and vice versa
-		
-		
-		# hold mouse buttons
-		# cancel mouse
-		# transition to drag actions
-		
-		
-		# release mouse buttons
-		
-		
 	end
 	
 	def button_down(id)
@@ -659,7 +646,11 @@ class InputManager
 	
 	# determine what polymorphic version of the action to fire,
 	# based only on the name of the action, and the type of the caller
-	def get_action(obj, action_name)
+	# obj           - what should be effected by the action
+	# action_name   - look for this interface name
+	# treat_as_type - treat obj as this type when dealing with polymorphism
+	# 					if nil, use the class of obj
+	def get_action(obj, action_name, treat_as_type=nil)
 		# entity actions
 			# manipulating
 			# creating new entities from prototypes
@@ -669,6 +660,98 @@ class InputManager
 		# constraint actions
 		# camera actions
 		# space actions
+		
+		
+		# some actions have no explicit target (lasso select)
+		# some actions can be oddly coerced into having a target (spawn text)
+		# some actions have a definite target (edit)
+		# some actions have an unexpected target (creating constraints targets entities)
+		
+			# want to hold Actions in the class that is the target
+			# but that makes creating constraints rather odd, because the spawn_constraints would be on Entity, rather than Constraint
+			
+			# could specify constraint creation as zero target.
+			# "selection" is zero target because it creates it's own targets inside the action
+			# would make sense that "constrain" is zero target, and acquires it's own targets
+			# but it needs to use logic that is exactly the same as in the input manager
+			# 
+			# not sure where that function should ultimately be stored
+		
+		
+		type = 
+			if treat_as_type
+				treat_as_type
+			else
+				if obj[:query]
+					obj[:query].class
+				else
+					obj.class
+				end
+			end
+		
+		
+		
+		action = nil
+		
+		if type.is_a? ThoughtTrace::Queries::Query
+			action = get_action_query_recursion(type, action_name)
+		end
+		
+		if action.nil?
+			action = get_action_entity_recursion(obj.class, action_name)
+		end
+		
+		
+		
+		if action == ThoughtTrace::Actions::NullAction
+			# by this point, the action will be set, but it may be the NullAction
+			# if it's a NullAction, the system does not recognize this action name and obj pairing
+			warn "#{obj.class} does not define #{action_name || '<NIL>'}, nor does it's ancestors"
+		end
+		
+		return action
+	end
+	
+	# recurse on main Entity chain
+	def get_action_entity_recursion(type, action_name)
+		begin
+			return klass::Actions.const_get action_name
+		rescue NameError => e
+			if type == ThoughtTrace::Entity
+				# BASE CASE
+				# everything is eventually an Entity
+				# (wait, what about Query?)
+				return ThoughtTrace::Actions::NullAction
+			elsif type == Selection
+				# currently, selection is not a group, it HAS a group
+				# this allows it to add and remove the Group from the Space as needed
+				# but you can't easily grab the group and know if it is the selection?
+				# I guess you can just compare the two objects? (via pointer, not equivalence)
+				# 
+				# also necessary so that Selection can be bound to the ActionFactory on init
+				
+			else
+				parent_type = type.superclass
+				return get_action_entity_recursion(parent_type, action_name)
+			end
+		end
+	end
+	
+	# recurse on Query
+	def get_action_query_recursion(type, action_name)
+		begin
+			return klass::Actions.const_get action_name
+		rescue NameError => e
+			if type == ThoughtTrace::Queries::Query
+				# BASE CASE
+				# if it's not found in the root Query type,
+				# need to try root entity chain next
+				return nil
+			else
+				parent_type = type.superclass
+				return get_action_query_recursion(parent_type, action_name)
+			end
+		end
 	end
 	
 	
