@@ -140,10 +140,10 @@ class GetAction
 			if treat_as_type
 				treat_as_type
 			else
-				if obj[:query]
-					obj[:query].class
+				if target_obj.is_a? ThoughtTrace::ComponentContainer and target_obj[:query]
+					target_obj[:query].class
 				else
-					obj.class
+					target_obj.class
 				end
 			end
 		

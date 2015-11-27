@@ -43,6 +43,9 @@ class NewLine < ThoughtTrace::Actions::OneShotAction
 		if @i == 0
 			# just move the original string
 			@old_text[:physics].body.p.y += @old_text.height
+			
+			@text_input.clear
+			@text_input.add @old_text, @i
 		else
 			# split the string, and create a new Text object
 			
