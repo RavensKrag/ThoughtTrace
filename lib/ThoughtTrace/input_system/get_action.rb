@@ -29,7 +29,10 @@ class GetAction
 		
 		
 		
-		return ThoughtTrace::Actions::NullAction.new if action_name == nil or action_name == ''
+		if action_name == nil or action_name == ''
+			warn "no action specified"
+			return ThoughtTrace::Actions::NullAction.new
+		end
 		
 		
 		
@@ -49,7 +52,10 @@ class GetAction
 		
 		# TODO: possible short-circuit when target == nil
 		
-		
+		if target.nil?
+			warn "No target found"
+			return ThoughtTrace::Actions::NullAction.new
+		end
 		
 		
 		# action = @action_factory.create(target, action_name)
