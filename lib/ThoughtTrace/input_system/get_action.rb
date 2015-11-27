@@ -210,7 +210,7 @@ class GetAction
 				
 				# find a target from the list of potential targets based on class
 				potental_targets.find do |x|
-					if desired_type == ThoughtTrace::Queries::Query and x[:query]
+					if desired_type == ThoughtTrace::Queries::Query and is_query?(x)
 						# looking for a query, and potential target has a query component attached to it
 						true
 					elsif x.is_a? desired_type
@@ -298,13 +298,11 @@ class GetAction
 	
 	# either output the specified type, or raise an exception
 	def treat_as_type(obj, type)
-		# see if obj can be interpereted as this other type
+		# see if obj can be interpreted as this other type
 		if obj.is_a? type
 			return type
-		elsif type.is_a? ThoughtTrace::Queries::Query 
-			if obj.is_a? ThoughtTrace::ComponentContainer and obj[:query]
-				return type
-			end
+		elsif type.is_a? ThoughtTrace::Queries::Query and is_query?(obj)
+			return type
 		end
 		
 		raise "Don't know how to treat #{obj} as an instance of type #{type}"
@@ -312,13 +310,24 @@ class GetAction
 	
 	# determine type for this object, based on default assumptions
 	def type(obj)
-		if obj.is_a? ThoughtTrace::ComponentContainer and obj[:query]
+		if is_query?(obj)
 			obj[:query].class
 		else
 			obj.class
 		end
 	end
 	
+	def is_query?(obj)
+		if obj.is_a? ThoughtTrace::ComponentContainer and obj[:query]
+			return true
+		end
+		
+		return false
+	end
+	
+	# TODO: really need to make Query into a decorator. This is ridiculous. If it was a decorator, could simply use is_a? all the time without any problems.
+	# NOTE: this has the interesting side-effect that it would be possible to attach multiple query callbacks to one Entity.
+	# NOTE: need to be careful when making Query a decorator. Need to be able to remove and add the Entity to the Space without losing z-index data.
 	
 	
 	
