@@ -78,30 +78,10 @@ class InputManager
 		@buttons = InputSystem::ButtonParser.new
 		
 		
-		
-		
 		# hold actions flow controllers, so that input manager can direct action UI drawing
 		# need to draw actions so that they can show polymorphic interface information
 		# NOTE: storing actions this way means that the button parser doesn't have to know anything about the input system.
 		@actions = Array.new
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		# TODO: consider moving the action factory into the Document, if it would somehow make document switching easier to just bind the action factory present inside each document, instead of having to re-init the factories. But maybe that structure just doesn't work for some reason.
@@ -127,13 +107,7 @@ class InputManager
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
+
 		# input bindings
 		
 		
@@ -242,86 +216,10 @@ class InputManager
 			# not sure if these are Action or just Events
 			# can affect the current selection
 				# can they effect more than that?
-			
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		# callbacks = ThoughtTrace::Events::PressEnter.new @document.space, @text_input, @document.prototypes
-		# event = InputSystem::ButtonEvent.new :enter, callbacks
-		
-		# event.bind_to keys:[Gosu::KbReturn], modifiers:[]
-		
-		# @buttons.register event
-		
-		
-		
-		# callbacks = ThoughtTrace::Events::LinkStyles.new @selection, action_factory
-		# event = InputSystem::ButtonEvent.new :link_styles, callbacks
-		
-		# event.bind_to keys:[Gosu::KbF8], modifiers:[]
-		
-		# @buttons.register event
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
 		
 		
 		# one active action per button?
@@ -389,6 +287,45 @@ class InputManager
 		
 		
 		@mouse_actions = @mouse_inputs.collect{|arr| arr.last }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		# callbacks = ThoughtTrace::Events::PressEnter.new @document.space, @text_input, @document.prototypes
+		# event = InputSystem::ButtonEvent.new :enter, callbacks
+		
+		# event.bind_to keys:[Gosu::KbReturn], modifiers:[]
+		
+		# @buttons.register event
+		
+		
+		
+		# callbacks = ThoughtTrace::Events::LinkStyles.new @selection, action_factory
+		# event = InputSystem::ButtonEvent.new :link_styles, callbacks
+		
+		# event.bind_to keys:[Gosu::KbF8], modifiers:[]
+		
+		# @buttons.register event
+		
 	end
 	
 	def button_down(id)
