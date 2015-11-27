@@ -277,7 +277,24 @@ class GetAction
 	
 	
 	
+	# order in this list determines type precedence.
+	# system will infer that an entity is of a higher type before a lower one
+	BASIC_TYPE_ASSOC = [
+		['Circle',    ThoughtTrace::Circle],
+		['Text',      ThoughtTrace::Text],
+		['Rectangle', ThoughtTrace::Rectangle],
+		['Entity',    ThoughtTrace::Entity]
+	]
+	# returns true if type is among one of the core types defined by the system
+	# (query is not considered a basic type, as it is a component)
+	def basic_type?(entity_type_string)
+		BASIC_TYPE_ASSOC.any?{  |a| a.first == entity_type_string  }
+	end
 	
+	# returns true if the type is one defined by a prefab in the document
+	def prefab_type?(document, entity_type_string)
+		return false
+	end
 	
 	# either output the specified type, or raise an exception
 	def treat_as_type(obj, type)
@@ -301,6 +318,7 @@ class GetAction
 			obj.class
 		end
 	end
+	
 	
 	
 	
@@ -400,50 +418,6 @@ class GetAction
 				return get_action_query_recursion(parent_type, action_name)
 			end
 		end
-	end
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	# order in this list determines type precedence.
-	# system will infer that an entity is of a higher type before a lower one
-	BASIC_TYPE_ASSOC = [
-		['Circle',    ThoughtTrace::Circle],
-		['Text',      ThoughtTrace::Text],
-		['Rectangle', ThoughtTrace::Rectangle],
-		['Entity',    ThoughtTrace::Entity]
-	]
-	# returns true if type is among one of the core types defined by the system
-	# (query is not considered a basic type, as it is a component)
-	def basic_type?(entity_type_string)
-		BASIC_TYPE_ASSOC.any?{  |a| a.first == entity_type_string  }
-	end
-	
-	# returns true if the type is one defined by a prefab in the document
-	def prefab_type?(document, entity_type_string)
-		return false
 	end
 end
 
