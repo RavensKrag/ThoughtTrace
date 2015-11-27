@@ -83,6 +83,10 @@ class NewLine < ThoughtTrace::Actions::OneShotAction
 		if @i == 0
 			# move it back up a line
 			@old_text[:physics].body.p.y -= @old_text.height
+			
+			# --- reset caret position
+			@text_input.clear
+			@text_input.add @old_text, @i
 		else
 			# --- merge string in @new_text back into the @old_text object
 			@old_text.string = @old_text.string + @new_text.string
