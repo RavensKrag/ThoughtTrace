@@ -280,7 +280,7 @@ class InputManager
 				target_type_string = name_and_target[:target]
 				
 				
-				@foo.foo(@document, point, action_name, target_type_string)
+				action = @foo.foo(@document, point, action_name, target_type_string)
 			end
 		end
 		
