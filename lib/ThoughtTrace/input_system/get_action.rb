@@ -97,7 +97,7 @@ class GetAction
 		
 		
 		
-		action_class = get_action(target, desired_type, action_name)
+		action_class = get_action(target, action_name, desired_type)
 		# NOTE: may return ThoughtTrace::Actions::NullAction
 		
 		# under new system,
@@ -182,7 +182,7 @@ class GetAction
 		
 		
 		
-		action_class = get_action(target, desired_type, action_name)
+		action_class = get_action(target, action_name, desired_type)
 		
 		
 		
@@ -309,6 +309,37 @@ class GetAction
 		return selection
 	end
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	# either output the specified type, or raise an exception
+	def treat_as_type(obj, type)
+		# see if obj can be interpereted as this other type
+		if obj.is_a? type
+			return type
+		elsif type.is_a? ThoughtTrace::Queries::Query and obj[:query]
+			return type
+		else
+			raise "#{obj} can not be treated as an instance of type #{type}"
+		end
+	end
+	
+	
+	
+	
+	
+	
 	# determine what polymorphic version of the action to fire,
 	# based only on the name of the action, and the type of the caller
 	# obj           - what should be effected by the action
@@ -325,7 +356,7 @@ class GetAction
 		# constraint actions
 		# camera actions
 		# space actions
-		
+		action_name = action_name.to_s.constantize
 		
 		# some actions have no explicit target (lasso select)
 		# some actions can be oddly coerced into having a target (spawn text)
@@ -363,7 +394,7 @@ class GetAction
 		end
 		
 		if action.nil?
-			action = get_action_entity_recursion(obj.class, action_name)
+			action = get_action_entity_recursion(type, action_name)
 		end
 		
 		
@@ -371,7 +402,7 @@ class GetAction
 		if action == ThoughtTrace::Actions::NullAction
 			# by this point, the action will be set, but it may be the NullAction
 			# if it's a NullAction, the system does not recognize this action name and obj pairing
-			warn "#{obj.class} does not define #{action_name || '<NIL>'}, nor does it's ancestors"
+			warn "#{type} does not define #{action_name || '<NIL>'}, nor does it's ancestors"
 		end
 		
 		return action
@@ -380,20 +411,20 @@ class GetAction
 	# recurse on main Entity chain
 	def get_action_entity_recursion(type, action_name)
 		begin
-			return klass::Actions.const_get action_name
+			return type::Actions.const_get action_name
 		rescue NameError => e
 			if type == ThoughtTrace::Entity
 				# BASE CASE
 				# everything is eventually an Entity
 				# (wait, what about Query?)
 				return ThoughtTrace::Actions::NullAction
-			elsif type == Selection
-				# currently, selection is not a group, it HAS a group
-				# this allows it to add and remove the Group from the Space as needed
-				# but you can't easily grab the group and know if it is the selection?
-				# I guess you can just compare the two objects? (via pointer, not equivalence)
-				# 
-				# also necessary so that Selection can be bound to the ActionFactory on init
+			# elsif type == Selection
+			# 	# currently, selection is not a group, it HAS a group
+			# 	# this allows it to add and remove the Group from the Space as needed
+			# 	# but you can't easily grab the group and know if it is the selection?
+			# 	# I guess you can just compare the two objects? (via pointer, not equivalence)
+			# 	# 
+			# 	# also necessary so that Selection can be bound to the ActionFactory on init
 				
 			else
 				parent_type = type.superclass
@@ -405,7 +436,7 @@ class GetAction
 	# recurse on Query
 	def get_action_query_recursion(type, action_name)
 		begin
-			return klass::Actions.const_get action_name
+			return type::Actions.const_get action_name
 		rescue NameError => e
 			if type == ThoughtTrace::Queries::Query
 				# BASE CASE
@@ -431,85 +462,6 @@ class GetAction
 	
 	
 	
-	BASE_CLASSES = [
-		ThoughtTrace::Entity, ThoughtTrace::Actions::EmptySpace, ThoughtTrace::Groups::Group
-	]
-	# Recursively looks for an Action of a particular name.
-	# Should not dig deeper than Entity, as Entity is what holds the Action structure.
-	# 
-	# name styled after things like "const_get" and "instance_variable_get"
-	# 
-	# ideally, the exception flow will percolate back "down" the inheritance chain
-	# to the child class (the class that originally launched the call)
-	# so that the error message on the backtrace can accurately report
-	# what class was trying to access what action
-	# 
-	# obj    -- object trying to fire an Action
-	# klass  -- current class under which we're looking for Action objects (changes with recursion)
-	# name   -- name of the Action desired
-	def get_action(obj, klass, name)
-		# expects names as standard symbols, rather than in constant-symbol format
-		# ex) expected    -  :move_over_there
-		#     rather than -  :MoveOverThere
-		
-		# NOTE: I think this is a cleaner interface, but it requires a bunch of string manipulation. As this is something that needs to be called very often, it may become a major source of latency.
-		# The weird part is really that you're using symbols in a not-very-symbol-like way
-		# so the solution may actually be just to use Strings instead
-		# as constant lookup can also be done using strings
-		
-		
-		name_const = name.to_s.constantize
-		# p [klass, name, name_const]
-		
-		begin
-			return klass::Actions.const_get name_const
-		rescue NameError => e
-			# Traverse the hierarchy to find a class that can yield the desired Action.
-			# Mostly, you will traverse the class inheritance hierarchy,
-			# but there are some exceptions.
-			
-			if BASE_CLASSES.include? klass
-				# you have reached the bottom of the chain,
-				# the root of the the tree.
-				# The recursion stops here
-				
-				# end of the road:
-				# this is the base of the entire Action search system.
-				# If no action has been found by this point, the action is not defined.
-				warn "#{obj.class} does not define #{name || '<NIL>'}, nor does it's ancestors"
-				return ThoughtTrace::Actions::NullAction
-			else
-				# trigger recursion to find the Action in question
-				parent = get_parent(obj, klass)
-				
-				return get_action(obj, parent, name)
-			end
-		end
-	end
-	
-	# helper method for get_action
-	# ( obj and klass are the same as defined by get_action )
-	def get_parent(obj, klass)
-		# NOTE: the klass check prevents infinite looping.
-			# first time:  obj.class != klass => triggers recursion on non-standard 'parent'
-			# other times: obj.class == klass => standard superclass traversal
-			# ( without check, you would always get the first case, because it's listed first )
-		
-		# --- try taking specially defined exceptions
-		if klass == ThoughtTrace::Queries::Query and obj[:query]
-			# if the base object has a Query component
-			# you need to check the base object's class, as well as the core Query class
-			return obj.class
-		elsif klass == ThoughtTrace::Groups::Group and @selection.include? obj
-			# Group doesn't define an action, then just use the Entity action instead.
-			return obj.class
-		# -------------------------------
-		else  # but if there aren't any, just go the standard way 
-			return klass.superclass
-			
-			# NOTE: Modules do not have a 'superclass', so if you end up calling this on a module, it will break. Currently do not have a need to do that, but it may come up in the future.
-		end
-	end
 	
 	
 	
