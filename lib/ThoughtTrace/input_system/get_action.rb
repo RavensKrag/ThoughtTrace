@@ -49,17 +49,21 @@ class GetAction
 		
 		# determine target object based on type
 		target = determine_target(document, point, desired_type)
+		puts "found target: #{target.inspect}"
 		
-		# TODO: possible short-circuit when target == nil
+		
 		
 		if target.nil? and desired_type != :none
-			warn "No target found"
+			# short-circuit when target == nil, but the Action requires a target
+			# (if you don't need a target, nil is an acceptable value. handled in #baz)
+			warn "No valid targets found"
 			return ThoughtTrace::Actions::NullAction.new
 		end
 		
 		
 		
 		
+		# NOTE: typecast_type is not currently being set
 		return baz(target, action_name, typecast_type)
 	end
 	
@@ -105,7 +109,10 @@ class GetAction
 		
 		
 		eval_type = 
-			if typecast_type
+			if target.nil?
+				ThoughtTrace::Actions::EmptySpace
+			elsif typecast_type
+				puts "typcast #{target} to #{typecast_type}"
 				treat_as_type(target, typecast_type)
 			else
 				type(target)
