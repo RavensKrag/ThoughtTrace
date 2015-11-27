@@ -58,6 +58,14 @@ class GetAction
 		end
 		
 		
+		
+		
+		return baz(target, action_name, typecast_type)
+	end
+	
+	
+	# for a known target, find the action associated with it
+	def baz(target, action_name, typecast_type=nil)
 		# action = @action_factory.create(target, action_name)
 		# TODO: examine action factory, and consider that part of the pathway
 		
@@ -140,55 +148,6 @@ class GetAction
 		# if no action is found, the NullAction will be returned
 		# this way, the rest of the pathway will still work,
 		# even though it's stubbed
-		return action
-	end
-	
-	
-	# for a known target, find the action associated with it
-	def baz(target, action_name, typecast_type=nil)
-		eval_type = 
-			if typecast_type
-				treat_as_type(target, typecast_type)
-			else
-				type(target)
-			end
-		
-		puts "searching for Action object..."
-		puts "interface name: #{action_name}"
-		puts "type: #{eval_type.inspect}"
-		
-		
-		
-		
-		
-		conversions = @conversions.clone # shallow copy is what you want
-		# conversions = {
-		# 	:selection => @selection,
-		# 	:text_input => @text_input,
-			
-		# 	:space => @document.space,
-		# 	:clone_factory => @document.prototypes,
-		# 	:styles => @document.named_styles
-		# }
-		
-		conversions[:entity] = target
-		conversions[:group] = target if target.is_a? ThoughtTrace::Groups::Group
-		
-		
-		
-		
-		
-		
-		action_class = get_action(eval_type, action_name)
-		
-		
-		
-		
-		args   = action_class.argument_type_list.collect{|type| conversions[type] }
-		action = action_class.new(*args)
-		
-		warn "#{target.class.inspect} does not define action '#{action_name}'" if action.null_action?
-		
 		return action
 	end
 	
