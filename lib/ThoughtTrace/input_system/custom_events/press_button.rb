@@ -5,27 +5,27 @@ module ThoughtTrace
 # NOTE: Events don't need to deal with Memento objects. That's an additional constraint imposed by Action. button events are more general than that
 class PressButton
 	def initialize()
-		
+		@zero = CP::Vec2.new(0,0)
 	end
 	
 	def press
 		@action = @callback.call
-		@action.press
+		@action.press(@zero)
 	end
 	
 	def hold
-		@action.hold
+		@action.hold(@zero)
 	end
 	
 	def release
-		@action.release
+		@action.release(@zero)
 		@finishing_callback.call(@action)
 		
 		@action = nil
 	end
 	
 	def cancel
-		@action.cancel
+		@action.cancel(@zero)
 	end
 	
 	
