@@ -29,9 +29,14 @@ class GetAction
 		
 		
 		
+		return ThoughtTrace::Actions::NullAction.new if action_name == nil or action_name == ''
+		
+		
+		
 		
 		# translate type string into class object
-		desired_type = parse_type_string(target_type_string)
+		desired_type = parse_type_string(document, target_type_string)
+		
 		
 		puts "action name: #{action_name}"
 		# p target_type_string
@@ -129,6 +134,60 @@ class GetAction
 	end
 	
 	
+	# for a known target, find the action associated with it
+	def baz(target_obj, action_name, treat_as_type=nil)
+		desired_type = 
+			if treat_as_type
+				treat_as_type
+			else
+				if obj[:query]
+					obj[:query].class
+				else
+					obj.class
+				end
+			end
+		
+		
+		
+		puts "action name: #{action_name}"
+		puts "want to find this type class: #{desired_type.inspect}"
+		
+		
+		target = target_obj
+		
+		
+		
+		conversions = @conversions.clone # shallow copy is what you want
+		# conversions = {
+		# 	:selection => @selection,
+		# 	:text_input => @text_input,
+			
+		# 	:space => @document.space,
+		# 	:clone_factory => @document.prototypes,
+		# 	:styles => @document.named_styles
+		# }
+		
+		conversions[:entity] = target
+		conversions[:group] = target if target.is_a? ThoughtTrace::Groups::Group
+		
+		
+		
+		
+		
+		
+		
+		action_class = get_action(target, desired_type, action_name)
+		
+		
+		
+		
+		args   = action_class.argument_type_list.collect{|type| conversions[type] }
+		action = action_class.new(*args)
+		
+		warn "#{target.class.inspect} does not define action '#{action_name}'" if action.null_action?
+		
+		return action
+	end
 	
 	
 	
@@ -137,7 +196,7 @@ class GetAction
 	private
 	
 	# return an actual type (class) or nil based on a String
-	def parse_type_string(type_string)
+	def parse_type_string(document, type_string)
 		# translate type string into class object
 		if type_string == 'none'
 			:none
@@ -151,7 +210,7 @@ class GetAction
 				# p BASIC_TYPE_ASSOC
 				# p BASIC_TYPE_ASSOC.assoc(type_string)
 				BASIC_TYPE_ASSOC.assoc(type_string).last
-			elsif prefab_type?(type_string)
+			elsif prefab_type?(document, type_string)
 				# TODO: remember to search linked documents for prefab definition as well, once linked documents have been implemented
 				raise "Using prefab types as action targets has not yet been implemented"
 			else

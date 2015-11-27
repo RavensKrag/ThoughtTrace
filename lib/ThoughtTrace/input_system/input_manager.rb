@@ -219,7 +219,20 @@ class InputManager
 		
 		
 
-
+		
+		
+		
+		
+		
+		
+		@foo = ThoughtTrace::GetAction.new({
+					:selection => @selection,
+					:text_input => @text_input,
+					
+					:space => @document.space,
+					:clone_factory => @document.prototypes,
+					:styles => @document.named_styles
+		})
 		
 		
 		# one active action per button?
@@ -236,32 +249,25 @@ class InputManager
 		
 		
 		
-		# separate MouseInputSystem instances each store one press-hold-release / click-drag flow
 		@mouse_inputs = [
-			[:left_click,   Gosu::MsLeft,   InputSystem::MouseInputSystem.new(@mouse)],
-			[:right_click,  Gosu::MsRight,  InputSystem::MouseInputSystem.new(@mouse)],
-			[:middle_click, Gosu::MsMiddle, InputSystem::MouseInputSystem.new(@mouse)]
+			[:left_click,   Gosu::MsLeft],
+			[:right_click,  Gosu::MsRight],
+			[:middle_click, Gosu::MsMiddle]
 		]
+		@mouse_inputs.each{|arr| arr << InputSystem::MouseInputSystem.new(@mouse) }
+		# you need a separate instead for each button
+		# each MouseInputSystem instance stores one press-hold-release / click-drag flow
+		
+		
+		
 		
 		@mouse_inputs.each do |mb, button_id, mouse_input_system|
 			event = InputSystem::ButtonEvent.new(mb, mouse_input_system)
 			event.bind_to keys:[button_id], modifiers:[]
 			@buttons.register event
-		end
-		
-		
-		
-		@foo = ThoughtTrace::GetAction.new({
-					:selection => @selection,
-					:text_input => @text_input,
-					
-					:space => @document.space,
-					:clone_factory => @document.prototypes,
-					:styles => @document.named_styles
-		})
-		
-		
-		@mouse_inputs.each do |mb, button_id, mouse_input_system|
+			
+			
+			
 			mouse_input_system.parse_callback do |phase, point|
 				# this block needs to return an initialized Action object
 				# (do NOT call press yet)
@@ -282,6 +288,11 @@ class InputManager
 				
 				action = @foo.foo(@document, point, action_name, target_type_string)
 			end
+			
+			
+			mouse_input_system.finishing_callback do |action|
+				
+			end
 		end
 		
 		
@@ -300,6 +311,61 @@ class InputManager
 		
 		
 		
+		
+		
+		
+		# press button, retrieve action, fire immediately
+		
+		
+		
+		
+		
+		# Should the new_line action target the input buffer itself,
+		# or just the text object inside?
+		# (pretty sure the first one)
+		
+		
+		
+		
+		
+		# key ID, action name, launch predicate, action target (explicit object)
+		foo_x = [
+			[Gosu::KbReturn, @text_input, :new_line,    ->(){ @text_input.active? } ],
+			[Gosu::KbF8,     @selection,  :link_styles, ->(){ true }                ]
+		]
+		foo_x.each{|arr| arr << ThoughtTrace::Events::PressButton.new }
+		
+		
+		
+		foo_x.each do |button_id, action_target, action_name, launch_predicate, handler|
+			event = InputSystem::ButtonEvent.new(action_name, handler)
+			event.bind_to keys:[button_id], modifiers:[]
+			@buttons.register event
+			
+			
+			
+			handler.set_callback do
+				action = 
+					if launch_predicate.call()
+						@foo.baz(action_target, action_name)
+					else
+						ThoughtTrace::Actions::NullAction
+					end
+			end
+			
+			
+			
+			handler.set_finishing_callback do |action|
+				# place the action on the undo stack so that it can be reversed if necessary
+				# NOTE: need to use undo stack with the mouse actions as well
+				
+				# maybe wrap all Actions in a wrapper object,
+				# that would provide the same interface as an Action
+				# but then add the Action object to the undo stack when the Action completes?
+				# If the action never properly completes (ie click -> drag transition)
+				# then the Action object will never even be added to the stack.
+			end
+		end
 		
 		
 		

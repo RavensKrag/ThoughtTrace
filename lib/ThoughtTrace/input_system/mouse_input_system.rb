@@ -104,6 +104,9 @@ class MouseInputSystem
 		
 		@active_action.release(point)
 		
+		done = @active_action
+		@finishing_callback.call(done)
+		
 		@active_action = @dummy_action
 		@current_phase = :idle
 	end
@@ -119,6 +122,10 @@ class MouseInputSystem
 	
 	def parse_callback(&block)
 		@parse_input_callback = block
+	end
+	
+	def finishing_callback(&block)
+		@finishing_callback = block
 	end
 	
 	
