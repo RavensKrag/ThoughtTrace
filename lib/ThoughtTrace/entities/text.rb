@@ -63,6 +63,7 @@ class Text < Rectangle
 		# save
 			# should be the same as Rectangle entity
 		original_verts    = @components[:physics].shape.verts
+		original_offset   = @components[:physics].shape.offset
 		original_position = @components[:physics].body.p.clone
 		
 		# process
@@ -150,7 +151,7 @@ class Text < Rectangle
 		# return proc to reverse the process	
 		undo = Proc.new do
 			# same as for Rectangle
-			@components[:physics].shape.set_verts!(original_verts, CP::Vec2.new(0,0))
+			@components[:physics].shape.set_verts!(original_verts, original_offset)
 			@components[:physics].body.p = original_position
 		end
 		

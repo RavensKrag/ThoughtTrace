@@ -29,7 +29,7 @@ class Resize < Rectangle::Actions::Resize
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		# undo()
+		undo() if @memo
 		
 		@memo = @entity.resize!(
 			@grab_handle, :world_space, point:@point, minimum_dimension:MINIMUM_FONT_HEIGHT
