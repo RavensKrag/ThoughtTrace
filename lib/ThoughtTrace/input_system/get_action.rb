@@ -40,7 +40,7 @@ class GetAction
 		
 		
 		# determine target object based on type
-		target = bar23(document, point, desired_type)
+		target = determine_target(document, point, desired_type)
 		
 		# TODO: possible short-circuit when target == nil
 		
@@ -132,9 +132,9 @@ class GetAction
 	
 	
 	
+	
+	
 	private
-	
-	
 	
 	# return an actual type (class) or nil based on a String
 	def parse_type_string(type_string)
@@ -160,7 +160,7 @@ class GetAction
 		end
 	end
 	
-	def bar23(document, point, desired_type)
+	def determine_target(document, point, desired_type)
 		# determine target object based on type
 		case desired_type
 			when :none
@@ -201,6 +201,8 @@ class GetAction
 				end
 		end
 	end
+	
+	
 	
 	def get_target_list(space, point)
 		layers=CP::ALL_LAYERS
