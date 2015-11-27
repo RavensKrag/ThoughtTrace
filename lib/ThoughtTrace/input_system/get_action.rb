@@ -7,26 +7,8 @@ class GetAction
 	end
 	
 	
+	# find a target, and extract an action from it
 	def foo(document, point, action_name, target_type_string)
-		space = document.space
-		
-		# only really need to do this when you trigger an action with an Entity target
-		potental_targets = get_target_list(space, point)
-		# TODO: make a tighter condition for when this fires, as an optimization
-		
-		
-		# get list of potential targets
-		# this list has already been sorted by some criteria,
-		# so any additional manipulations on this list must not alter that
-		# (currently calculating position of center, and surface area)
-		
-		
-		# select the target based on some criteria, including the known type
-		# (NOTE: need to save the target somehow for the drag transition)
-		# if you need the original mouse position, it will have to be fed into this block
-		
-		
-		
 		# TODO: deal with spawn actions
 		# should they be moved somewhere else?
 		# where are they currently?
@@ -49,26 +31,7 @@ class GetAction
 		
 		
 		# translate type string into class object
-		desired_type = 
-			if target_type_string == 'none'
-				:none
-			elsif target_type_string == 'Camera'
-				ThoughtTrace::Camera
-			elsif target_type_string == 'Query'
-				ThoughtTrace::Queries::Query
-			else
-				if basic_type?(target_type_string)
-					# puts "basic type detected"
-					# p BASIC_TYPE_ASSOC
-					# p BASIC_TYPE_ASSOC.assoc(target_type_string)
-					BASIC_TYPE_ASSOC.assoc(target_type_string).last
-				elsif prefab_type?(target_type_string)
-					# TODO: remember to search linked documents for prefab definition as well, once linked documents have been implemented
-					raise "Using prefab types as action targets has not yet been implemented"
-				else
-					raise "Unexpected error"
-				end
-			end
+		desired_type = parse_type_string(target_type_string)
 		
 		puts "action name: #{action_name}"
 		# p target_type_string
@@ -77,26 +40,7 @@ class GetAction
 		
 		
 		# determine target object based on type
-		target =
-			case desired_type
-				when :none
-					nil
-				when ThoughtTrace::Camera
-					document.camera
-				else
-					# find a target from the list of potential targets based on class
-					potental_targets.find do |x|
-						if desired_type == ThoughtTrace::Queries::Query and x[:query]
-							# looking for a query, and potential target has a query component attached to it
-							true
-						elsif x.is_a? desired_type
-							# not looking for a query, but found an object of the right type
-							true
-						else
-							false
-						end
-					end
-			end
+		target = bar23(document, point, desired_type)
 		
 		# TODO: possible short-circuit when target == nil
 		
@@ -192,7 +136,71 @@ class GetAction
 	
 	
 	
+	# return an actual type (class) or nil based on a String
+	def parse_type_string(type_string)
+		# translate type string into class object
+		if type_string == 'none'
+			:none
+		elsif type_string == 'Camera'
+			ThoughtTrace::Camera
+		elsif type_string == 'Query'
+			ThoughtTrace::Queries::Query
+		else
+			if basic_type?(type_string)
+				# puts "basic type detected"
+				# p BASIC_TYPE_ASSOC
+				# p BASIC_TYPE_ASSOC.assoc(type_string)
+				BASIC_TYPE_ASSOC.assoc(type_string).last
+			elsif prefab_type?(type_string)
+				# TODO: remember to search linked documents for prefab definition as well, once linked documents have been implemented
+				raise "Using prefab types as action targets has not yet been implemented"
+			else
+				raise "Unexpected error"
+			end
+		end
+	end
 	
+	def bar23(document, point, desired_type)
+		# determine target object based on type
+		case desired_type
+			when :none
+				nil
+			when ThoughtTrace::Camera
+				document.camera
+			else
+				# only really need to do this when you trigger an action with an Entity target
+				potental_targets = get_target_list(document.space, point)
+				# TODO: make a tighter condition for when this fires, as an optimization
+				
+				
+				# get list of potential targets
+				# this list has already been sorted by some criteria,
+				# so any additional manipulations on this list must not alter that
+				# (currently calculating position of center, and surface area)
+				
+				
+				# select the target based on some criteria, including the known type
+				# (NOTE: need to save the target somehow for the drag transition)
+				# if you need the original mouse position, it will have to be fed into this block
+				
+				
+				
+				
+				
+				# find a target from the list of potential targets based on class
+				potental_targets.find do |x|
+					if desired_type == ThoughtTrace::Queries::Query and x[:query]
+						# looking for a query, and potential target has a query component attached to it
+						true
+					elsif x.is_a? desired_type
+						# not looking for a query, but found an object of the right type
+						true
+					else
+						false
+					end
+				end
+		end
+	end
 	
 	def get_target_list(space, point)
 		layers=CP::ALL_LAYERS
