@@ -96,8 +96,9 @@ class InputManager
 							:styles => @document.named_styles
 						)
 		
-		
-		
+		@action_history = Array.new
+		# TOOD: consider using more advanced data structure for history
+		@redo_stack = Array.new
 		
 		
 		
@@ -329,9 +330,11 @@ class InputManager
 		
 		
 		# key ID, action name, launch predicate, action target (explicit object)
+		
+		# TODO: need to find a way to move the launch predicate into the Action itself.
 		foo_x = [
 			[Gosu::KbReturn, @text_input, :new_line,    ->(){ @text_input.active? } ],
-			[Gosu::KbF8,     @selection,  :link_styles, ->(){ true }                ]
+			[Gosu::KbF5,     @selection,  :link_styles, ->(){ true }                ]
 		]
 		foo_x.each{|arr| arr << ThoughtTrace::Events::PressButton.new }
 		
@@ -364,17 +367,12 @@ class InputManager
 				# but then add the Action object to the undo stack when the Action completes?
 				# If the action never properly completes (ie click -> drag transition)
 				# then the Action object will never even be added to the stack.
+				@action_history << action
 			end
 		end
 		
 		
 		
-		# callbacks = ThoughtTrace::Events::PressEnter.new @document.space, @text_input, @document.prototypes
-		# event = InputSystem::ButtonEvent.new :enter, callbacks
-		
-		# event.bind_to keys:[Gosu::KbReturn], modifiers:[]
-		
-		# @buttons.register event
 		
 		
 		
@@ -385,6 +383,101 @@ class InputManager
 		
 		# @buttons.register event
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		handler = ThoughtTrace::Events::PressButton.new
+		
+		action_name = :undo
+		button_id = Gosu::KbF7
+		
+		event = InputSystem::ButtonEvent.new(action_name, handler)
+		event.bind_to keys:[button_id], modifiers:[]
+		@buttons.register event
+		
+		
+		
+		handler.set_callback do
+			unless @action_history.empty?
+				prev = @action_history.pop
+				
+				prev.undo
+				
+				@redo_stack << prev
+			end
+			
+			
+			# this callback expects an action, so just give it a NullAction
+			ThoughtTrace::Actions::NullAction.new
+		end
+		
+		
+		
+		handler.set_finishing_callback do |action|
+			# do nothing here
+			# do not want to store the NullAction, as it was just filler
+		end
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		handler = ThoughtTrace::Events::PressButton.new
+		
+		action_name = :redo
+		button_id = Gosu::KbF8
+		
+		event = InputSystem::ButtonEvent.new(action_name, handler)
+		event.bind_to keys:[button_id], modifiers:[]
+		@buttons.register event
+		
+		
+		
+		handler.set_callback do
+			unless @redo_stack.empty?
+				prev = @redo_stack.pop
+				
+				prev.redo
+				
+				@action_history << prev
+			end
+			
+			
+			# this callback expects an action, so just give it a NullAction
+			ThoughtTrace::Actions::NullAction.new
+		end
+		
+		
+		
+		handler.set_finishing_callback do |action|
+			# do nothing here
+			# do not want to store the NullAction, as it was just filler
+		end
 	end
 	
 	def button_down(id)
