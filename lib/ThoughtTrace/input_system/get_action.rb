@@ -52,7 +52,7 @@ class GetAction
 		
 		# TODO: possible short-circuit when target == nil
 		
-		if target.nil?
+		if target.nil? and desired_type != :none
 			warn "No target found"
 			return ThoughtTrace::Actions::NullAction.new
 		end
