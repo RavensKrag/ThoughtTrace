@@ -292,7 +292,8 @@ class InputManager
 			
 			
 			mouse_input_system.finishing_callback do |action|
-				
+				@action_history << action
+				@redo_stack.clear
 			end
 		end
 		
@@ -368,6 +369,7 @@ class InputManager
 				# If the action never properly completes (ie click -> drag transition)
 				# then the Action object will never even be added to the stack.
 				@action_history << action
+				@redo_stack.clear
 			end
 		end
 		
