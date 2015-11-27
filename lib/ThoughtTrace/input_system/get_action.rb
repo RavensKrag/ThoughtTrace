@@ -7,6 +7,12 @@ class GetAction
 	end
 	
 	
+	# two ways of looking at types
+	# 
+	# type under which to look for targets (what things are of this type?)
+	# type under which to look for actions (how can I interpret this target?)
+	
+	
 	# find a target, and extract an action from it
 	def foo(document, point, action_name, target_type_string, typecast_type=nil)
 		# TODO: deal with spawn actions
