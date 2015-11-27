@@ -8,7 +8,7 @@ class GetAction
 	
 	
 	# find a target, and extract an action from it
-	def foo(document, point, action_name, target_type_string)
+	def foo(document, point, action_name, target_type_string, typecast_type=nil)
 		# TODO: deal with spawn actions
 		# should they be moved somewhere else?
 		# where are they currently?
@@ -44,7 +44,7 @@ class GetAction
 		puts "action name: #{action_name}"
 		# p target_type_string
 		puts "target type string: #{target_type_string}"
-		puts "want to find this type class: #{desired_type.inspect}"
+		puts "searching for target using type class: #{desired_type.inspect}"
 		
 		
 		# determine target object based on type
@@ -96,18 +96,22 @@ class GetAction
 		
 		
 		
+		eval_type = 
+			if typecast_type
+				treat_as_type(target, typecast_type)
+			else
+				type(target)
+			end
 		
-		action_class = get_action(target, action_name, desired_type)
+		puts "searching for Action object..."
+		puts "interface name: #{action_name}"
+		puts "type: #{eval_type.inspect}"
+		
+		
+		
+		
+		action_class = get_action(eval_type, action_name)
 		# NOTE: may return ThoughtTrace::Actions::NullAction
-		
-		# under new system,
-		# if you say "I want an Entity action"
-		# that means "treat the target as an Entity, and get the action"
-		# but if you say "I want a Text action" that means you specifically want the Text version of the polymorphic function
-		
-		# so between Text and Entity, when you say "Entity" -> Text action
-		# between Group and Entity when you say "Entity" -> Entity action
-		# between group and Entity when you say "Entity" -> Group action
 		
 		
 		
@@ -141,25 +145,19 @@ class GetAction
 	
 	
 	# for a known target, find the action associated with it
-	def baz(target_obj, action_name, treat_as_type=nil)
-		desired_type = 
-			if treat_as_type
-				treat_as_type
+	def baz(target, action_name, typecast_type=nil)
+		eval_type = 
+			if typecast_type
+				treat_as_type(target, typecast_type)
 			else
-				if target_obj.is_a? ThoughtTrace::ComponentContainer and target_obj[:query]
-					target_obj[:query].class
-				else
-					target_obj.class
-				end
+				type(target)
 			end
 		
+		puts "searching for Action object..."
+		puts "interface name: #{action_name}"
+		puts "type: #{eval_type.inspect}"
 		
 		
-		puts "action name: #{action_name}"
-		puts "want to find this type class: #{desired_type.inspect}"
-		
-		
-		target = target_obj
 		
 		
 		
@@ -181,8 +179,7 @@ class GetAction
 		
 		
 		
-		
-		action_class = get_action(target, action_name, desired_type)
+		action_class = get_action(eval_type, action_name)
 		
 		
 		
@@ -328,12 +325,24 @@ class GetAction
 		# see if obj can be interpereted as this other type
 		if obj.is_a? type
 			return type
-		elsif type.is_a? ThoughtTrace::Queries::Query and obj[:query]
-			return type
+		elsif type.is_a? ThoughtTrace::Queries::Query 
+			if obj.is_a? ThoughtTrace::ComponentContainer and obj[:query]
+				return type
+			end
+		end
+		
+		raise "Don't know how to treat #{obj} as an instance of type #{type}"
+	end
+	
+	# determine type for this object, based on default assumptions
+	def type(obj)
+		if obj.is_a? ThoughtTrace::ComponentContainer and obj[:query]
+			obj[:query].class
 		else
-			raise "#{obj} can not be treated as an instance of type #{type}"
+			obj.class
 		end
 	end
+	
 	
 	
 	
@@ -344,9 +353,7 @@ class GetAction
 	# based only on the name of the action, and the type of the caller
 	# obj           - what should be effected by the action
 	# action_name   - look for this interface name
-	# treat_as_type - treat obj as this type when dealing with polymorphism
-	# 					if nil, use the class of obj
-	def get_action(obj, action_name, treat_as_type=nil)
+	def get_action(type, action_name)
 		# entity actions
 			# manipulating
 			# creating new entities from prototypes
@@ -372,20 +379,6 @@ class GetAction
 			# but it needs to use logic that is exactly the same as in the input manager
 			# 
 			# not sure where that function should ultimately be stored
-		
-		
-		type = 
-			if treat_as_type
-				treat_as_type
-			else
-				if obj[:query]
-					obj[:query].class
-				else
-					obj.class
-				end
-			end
-		
-		
 		
 		action = nil
 		
