@@ -114,7 +114,7 @@ class InputManager
 		# NOTE: currently want to declare target type here, because it makes it easier to see the full binding relationships in one place. Makes it clearer if you want to effect only one type of Entity.
 		
 		filepath = "/home/ravenskrag/Code/Tools/ThoughtTrace/notes/input_bindings.ods"
-		@mouse_bindings = load_input_binding_config(filepath, "Sheet4")
+		@mouse_bindings = load_mouse_binding_config(filepath, "Mouse Bindings")
 		
 		
 		# mouse wheel
@@ -303,13 +303,6 @@ class InputManager
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
 		# callbacks = ThoughtTrace::Events::PressEnter.new @document.space, @text_input, @document.prototypes
 		# event = InputSystem::ButtonEvent.new :enter, callbacks
 		
@@ -389,7 +382,7 @@ class InputManager
 		return c1,r1, c2,r2
 	end
 	
-	def load_input_binding_config(filepath, sheet_name)
+	def load_mouse_binding_config(filepath, sheet_name)
 		puts "loading mouse input bindings from .ods file"
 		
 		spreadsheet = Roo::Spreadsheet.open(filepath)
