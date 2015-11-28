@@ -294,6 +294,9 @@ class InputManager
 			mouse_input_system.finishing_callback do |action|
 				@action_history << action
 				@redo_stack.clear
+				
+				
+				print_history()
 			end
 		end
 		
@@ -424,6 +427,8 @@ class InputManager
 				prev.undo
 				
 				@redo_stack << prev
+				
+				print_history()
 			end
 			
 			
@@ -467,6 +472,8 @@ class InputManager
 				prev.redo
 				
 				@action_history << prev
+				
+				print_history()
 			end
 			
 			
@@ -533,6 +540,16 @@ class InputManager
 	
 	
 	private
+	
+	def print_history
+			puts "-----------------"
+			puts "History"
+		@action_history.each do |a|
+			puts a.class
+		end
+			puts "-----------------"
+	end
+	
 	
 	def parse_cell_range(cell_range_string)
 		c1,r1, c2,r2 = cell_range_string.scan(/(\D*)(\d*):(\D*)(\d*)/).first
