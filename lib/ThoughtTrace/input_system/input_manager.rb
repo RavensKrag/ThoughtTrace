@@ -319,7 +319,7 @@ class InputManager
 			
 			
 			mouse_input_system.finishing_callback do |action|
-				@action_history << action
+				@action_history << action unless action.is_a? ThoughtTrace::Actions::NullAction
 				@redo_stack.clear
 				
 				
@@ -398,7 +398,7 @@ class InputManager
 				# but then add the Action object to the undo stack when the Action completes?
 				# If the action never properly completes (ie click -> drag transition)
 				# then the Action object will never even be added to the stack.
-				@action_history << action
+				@action_history << action unless action.is_a? ThoughtTrace::Actions::NullAction
 				@redo_stack.clear
 			end
 		end
