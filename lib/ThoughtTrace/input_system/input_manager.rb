@@ -100,7 +100,7 @@ class InputManager
 		# TOOD: consider using more advanced data structure for history
 		@redo_stack = Array.new
 		
-		
+		@null_action = ThoughtTrace::Actions::NullAction.new
 		
 		
 		
@@ -436,7 +436,7 @@ class InputManager
 					if launch_predicate.call()
 						@foo.baz(action_target, action_name)
 					else
-						ThoughtTrace::Actions::NullAction.new
+						@null_action
 					end
 			end
 			
@@ -491,7 +491,7 @@ class InputManager
 			
 			
 			# this callback expects an action, so just give it a NullAction
-			ThoughtTrace::Actions::NullAction.new
+			@null_action
 		end
 		
 		
@@ -527,7 +527,7 @@ class InputManager
 			
 			
 			# this callback expects an action, so just give it a NullAction
-			ThoughtTrace::Actions::NullAction.new
+			@null_action
 		end
 		
 		
