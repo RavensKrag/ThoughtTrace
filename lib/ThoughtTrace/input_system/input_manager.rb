@@ -364,8 +364,8 @@ class InputManager
 		
 		# TODO: need to find a way to move the launch predicate into the Action itself.
 		foo_x = [
-			[Gosu::KbReturn, @text_input, :new_line,    ->(){ @text_input.active? } ],
-			[Gosu::KbF5,     @selection,  :link_styles, ->(){ true }                ]
+			[Gosu::KbReturn, @text_input,       :new_line,    ->(){ @text_input.active? } ],
+			[Gosu::KbF5,     @selection.group,  :link_styles, ->(){ !@selection.empty? }  ]
 		]
 		foo_x.each{|arr| arr << ThoughtTrace::Events::PressButton.new }
 		
@@ -383,7 +383,7 @@ class InputManager
 					if launch_predicate.call()
 						@foo.baz(action_target, action_name)
 					else
-						ThoughtTrace::Actions::NullAction
+						ThoughtTrace::Actions::NullAction.new
 					end
 			end
 			
