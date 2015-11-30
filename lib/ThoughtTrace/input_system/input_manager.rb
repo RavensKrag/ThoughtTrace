@@ -249,6 +249,73 @@ class InputManager
 		
 		
 		
+		# NOTE: Action names and Event names may not necessarily have the same requirements.
+		# Action names
+		# 	Control what sort of action will be fired
+		# 	Like methods, specifics are resolved with polymorphism
+		# Event names
+		# 	unique ID for this specific Event
+		# 	must be distinct among keyboard, mouse, joystick etc events
+		# 	each Event is one combination of (name, binding, callback)
+		# 	thus, it is possible for many events to trigger one Action
+		# 	because you want multiple bindings on one Action
+		# 	(thing mouse bindings vs keyboard, rather than multiple keyboard shortcuts)
+
+
+
+		# TODO: clean up mouse action flow classes. Many of them are no longer needed.
+		# TODO: clean up button input system to synergize with new accelerator system
+		
+		
+		
+		# events weren't DESIGNED this way,
+		# but turns out that you only need to press AT LEAST what's specified to fire an event
+		# thus, "click + control" will trigger events bound to "click + [NO MODIFIERS]"
+
+		# should consider splitting out modifiers into a separate system
+		# separate from the core press-hold-release and raw button abstraction logic
+		
+		
+		
+		
+		
+		
+		
+		
+		# control: constraint mode ( drag for constraint, click for query? kinda makes sense )
+		# alt:     selection mode  ( selection and groups are pretty much the same thing )
+		# shift:   extra modifier - mode dependent
+		
+		# control + alt = query? (queries are kinda like constraints, and they select things...)
+		
+		
+		# NOTE: need Entity type 'image'
+		# NOTE: spawning new Entities has been removed from input bindings. Should use duplication of existing things, or drag in items from the prototype list.
+		# TODO: implement prototype list UI system.
+		
+		# NOTE: it's not really 'empty space' binding as much as it is 'no entity target' binding. Should probably update the system to reflect that. Shouldn't have to declare things that require no target twice.
+		
+		
+		
+		
+		
+		# mouse wheel
+		# 	zoom                ( zoom the entire document. images GPU scale, text smart scale )
+		# 	abstraction layer   ( ladder of abstraction: explicit detail vs high-level )
+		# 	render layer        ( relative z-index depth sort. swap z-index with other items. )
+
+
+		# edit action only edits exposed properties,
+		# if you peel the abstraction back, you can edit individual properties
+		# ie) move a vert with the move action
+
+		# abstraction stepping works on a particular tree-like segment of the graph.
+		# on any one element in the tree you can...
+		# + step up:    limits the whole tree to view the parent layer ( for that subgraph )
+		# + step down:  expands the view to include the children of that node
+		
+		
+
 		
 		@mouse_inputs = [
 			[:left_click,   Gosu::MsLeft],
