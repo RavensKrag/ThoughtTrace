@@ -58,6 +58,11 @@ class GetAction
 		puts "found target: #{target.inspect}"
 		
 		
+		# TODO: rework this when the concept of coordinate spaces is more defined
+		if target.nil? and desired_type == ThoughtTrace::Camera
+			target = document.camera
+		end
+		
 		
 		if target.nil? and desired_type != :none
 			# short-circuit when target == nil, but the Action requires a target
@@ -65,6 +70,8 @@ class GetAction
 			warn "No valid targets found"
 			return ThoughtTrace::Actions::NullAction.new
 		end
+		
+		
 		
 		
 		

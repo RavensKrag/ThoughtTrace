@@ -260,6 +260,25 @@ class InputManager
 		# each MouseInputSystem instance stores one press-hold-release / click-drag flow
 		
 		
+		# foo_x234 = Hash.new
+		# foo_x234[:proc_foo1] = ->(){
+		# 	@mouse.position_in_space
+		# }
+		# foo_x234[:proc_foo2] = ->(){
+		# 	@mouse.position_on_screen
+		# }
+		
+		# mouse  - default coordinates: screen space
+		# entity - default coordinates: world space
+		# need a way to take any object at all in the system that has a position in some space,
+		# and say "what is your position, and what coordinate space are you in"
+		# such that you can convert between any given coordinate space to any other
+		# 
+		# may have to delay solving this problem until we have a basic graph drawing system.
+		# can always just tack on some solution for now and make a better one later.
+		# (create graph with coordinate spaces and their relationships, then find shortest paths)
+		
+		# I think both click and drag phases need to use the same coordinate space, otherwise things get really weird
 		
 		
 		@mouse_inputs.each do |mb, button_id, mouse_input_system|
@@ -268,6 +287,14 @@ class InputManager
 			@buttons.register event
 			
 			
+			# returns the mouse position in an appropriate coordinate space for the desired Action
+			mouse_input_system.mouse_position_callback do |phase|
+				if mb == :middle_click
+					@mouse.position_on_screen
+				else
+					@mouse.position_in_space
+				end
+			end
 			
 			mouse_input_system.parse_callback do |phase, point|
 				# this block needs to return an initialized Action object

@@ -29,22 +29,24 @@ class MouseInputSystem
 	
 	# TODO: what happens when you hit left and right buttons down at the same time? both are Event-bound to fire things that eventually calls this part of the code, but this part of the code base assumes that the 4-key-phases will each only be called one at a time. THIS COULD CAUSE MASSIVE ERRORS. PLEASE RECTIFY IMMEDIATELY
 	def press
+		@current_phase = :click
+		
+		
 		# if there has been a mouse event
-		point = @mouse.position_in_space
+		point = @mouse_position_callback.call(@current_phase)
 		
 		
 		# store the initial point to be able to trigger mouse drag
 		@origin = point
 		
 		
-		@current_phase = :click
 		@active_action = @parse_input_callback.call(:click, point)
 		@active_action.press(point)
 		
 	end
 	
 	def hold
-		point = @mouse.position_in_space
+		point = @mouse_position_callback.call(@current_phase)
 		
 		if @current_phase == :click
 			# attempt to transition to the drag phase
@@ -69,7 +71,7 @@ class MouseInputSystem
 	end
 	
 	def release
-		point = @mouse.position_in_space
+		point = @mouse_position_callback.call(@current_phase)
 		
 		@active_action.release(point)
 		
@@ -81,13 +83,14 @@ class MouseInputSystem
 	end
 	
 	def cancel
-		point = @mouse.position_in_space
-		
 		@active_action.cancel
 		
 		@active_action = @dummy_action
 		@current_phase = :idle
 	end
+	
+	
+	
 	
 	def parse_callback(&block)
 		@parse_input_callback = block
@@ -97,36 +100,16 @@ class MouseInputSystem
 		@finishing_callback = block
 	end
 	
+	def mouse_position_callback(&block)
+		@mouse_position_callback = block
+	end
+	
 	
 	
 	
 	private
 	
 	
-	# given the current state of things, figure out what action you're firing
-	# TODO: consider rename
-	# TODO: consider trying to reduce the amount of stored state.
-	def parse_inputs(event_name, button_phase)
-		possible_actions = @bindings[@spatial_status][@accelerators]
-		action_name = possible_actions[button_phase]
-		
-		
-		
-		warn "no action bound to #{event_name} => [#{@spatial_status}, #{@accelerators}]" unless action_name
-		
-		
-		# special exception to let 'spawn text' happen anywhere,
-		# even though it's defined as an 'empty space' action
-		# because it can't have a defined target.
-		target = @entity
-		target = nil if action_name == :spawn_text
-		
-		# NOTE: new action factory does not require the @spatial_status. may want to remove that concept from this part of the code as well.
-		action = @action_factory.create(target, action_name)
-		
-		
-		return action
-	end
 	
 	DRAG_DELTA_THRESHOLD = 20
 	def mouse_exceeded_drag_threshold?(point)
