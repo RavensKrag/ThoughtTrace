@@ -153,13 +153,18 @@ class InputManager
 		# 
 		# - maybe some other categories?
 		@keyboard_bindings = {
-			Gosu::KbF8 => :link_styles,
+			Gosu::KbF5 => :link_styles,
 			# all selected items now use the same style
 			
 			
-			Gosu::KbReturn => :press_enter_event
+			Gosu::KbReturn => :new_line,
 			# creates new line of text when there is an active text object
+			
+			
+			Gosu::KbF7 => :undo,
+			Gosu::KbF8 => :redo
 		}
+		# NOTE: not currently using @keyboard_bindings.
 		
 		
 		
