@@ -59,8 +59,6 @@ class InputManager
 		
 		# TODO: properly implement mouse.
 		@mouse = InputSystem::Mouse.new window, @document.camera
-		
-		
 		@keyboard = InputSystem::Keyboard.new window
 		
 		
@@ -77,12 +75,10 @@ class InputManager
 		# those buttons can be keyboard keys, mouse buttons, or gamepad buttons
 		@buttons = InputSystem::ButtonParser.new
 		
-		
 		# hold actions flow controllers, so that input manager can direct action UI drawing
 		# need to draw actions so that they can show polymorphic interface information
 		# NOTE: storing actions this way means that the button parser doesn't have to know anything about the input system.
 		@actions = Array.new
-		
 		
 		# TODO: consider moving the action factory into the Document, if it would somehow make document switching easier to just bind the action factory present inside each document, instead of having to re-init the factories. But maybe that structure just doesn't work for some reason.
 		@action_factory = InputSystem::ActionFactory.new(
