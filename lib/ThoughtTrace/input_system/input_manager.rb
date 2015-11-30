@@ -169,45 +169,6 @@ class InputManager
 		
 		
 		
-		
-		
-		
-		
-		
-		# === new plan ===
-		# inputs bound to actions
-		# each input binding triggers a separate action
-		# actions can be targeted or non-targeted (should specify on the action)
-		# if an action is targeted, then the input system will grab an appropriate target
-		# and feed it in to the action at the proper phase
-		
-		# are there specific types of targets?
-		
-		
-		
-		# --proposal:
-		# use 'join' action to add new entities into a group
-		# use 'split/rip' to remove entities from a group
-		# (not literally the same actions, just this name)
-		# these names originally are for manipulating substrings in strings
-		# it makes sense to extend that functionality to entity / group relationships
-		
-		
-		
-		
-		
-		# want to make sure you can move the camera while manipulating objects,
-		# but you don't want two object manipulation actions occurring simultaneously
-		# what exactly should be the course of action in that case?
-		# you are certainly physically capable of hitting both buttons at once,
-		# so this scenario MUST be considered
-		
-		
-		
-		
-		
-		
-		
 		# mouse actions
 			# click and drag
 			# different states with updating looping flow
@@ -223,33 +184,6 @@ class InputManager
 			# can affect the current selection
 				# can they effect more than that?
 		
-		
-
-		
-		
-		
-		
-		
-		
-		@foo = ThoughtTrace::GetAction.new({
-					:selection => @selection,
-					:text_input => @text_input,
-					
-					:space => @document.space,
-					:clone_factory => @document.prototypes,
-					:styles => @document.named_styles
-		})
-		
-		
-		# one active action per button?
-		
-		
-		
-		# left and right activate at the same time (same frame startup. unlikely but possible)
-		# left activates when right is active
-		# right activates when left is active
-		# => in any of these cases only one action at most can be active.
-		# when you can't disambiguate, fire no actions at all
 		
 		
 		
@@ -287,6 +221,59 @@ class InputManager
 		
 		
 		
+		
+		# === new plan ===
+		# inputs bound to actions
+		# each input binding triggers a separate action
+		# actions can be targeted or non-targeted (should specify on the action)
+		# if an action is targeted, then the input system will grab an appropriate target
+		# and feed it in to the action at the proper phase
+		
+		# are there specific types of targets?
+		
+		
+		
+		# --proposal:
+		# use 'join' action to add new entities into a group
+		# use 'split/rip' to remove entities from a group
+		# (not literally the same actions, just this name)
+		# these names originally are for manipulating substrings in strings
+		# it makes sense to extend that functionality to entity / group relationships
+		
+		
+		
+		@foo = ThoughtTrace::GetAction.new({
+					:selection => @selection,
+					:text_input => @text_input,
+					
+					:space => @document.space,
+					:clone_factory => @document.prototypes,
+					:styles => @document.named_styles
+		})
+		
+		
+		# one active action per button?
+		
+		
+		
+		# left and right activate at the same time (same frame startup. unlikely but possible)
+		# left activates when right is active
+		# right activates when left is active
+		# => in any of these cases only one action at most can be active.
+		# when you can't disambiguate, fire no actions at all
+		
+		
+		
+		# want to make sure you can move the camera while manipulating objects,
+		# but you don't want two object manipulation actions occurring simultaneously
+		# what exactly should be the course of action in that case?
+		# you are certainly physically capable of hitting both buttons at once,
+		# so this scenario MUST be considered
+		
+		
+		
+		
+		
 		# control: constraint mode ( drag for constraint, click for query? kinda makes sense )
 		# alt:     selection mode  ( selection and groups are pretty much the same thing )
 		# shift:   extra modifier - mode dependent
@@ -301,26 +288,6 @@ class InputManager
 		# NOTE: it's not really 'empty space' binding as much as it is 'no entity target' binding. Should probably update the system to reflect that. Shouldn't have to declare things that require no target twice.
 		
 		
-		
-		
-		
-		# mouse wheel
-		# 	zoom                ( zoom the entire document. images GPU scale, text smart scale )
-		# 	abstraction layer   ( ladder of abstraction: explicit detail vs high-level )
-		# 	render layer        ( relative z-index depth sort. swap z-index with other items. )
-
-
-		# edit action only edits exposed properties,
-		# if you peel the abstraction back, you can edit individual properties
-		# ie) move a vert with the move action
-
-		# abstraction stepping works on a particular tree-like segment of the graph.
-		# on any one element in the tree you can...
-		# + step up:    limits the whole tree to view the parent layer ( for that subgraph )
-		# + step down:  expands the view to include the children of that node
-		
-		
-
 		
 		@mouse_inputs = [
 			[:left_click,   Gosu::MsLeft],
@@ -412,6 +379,32 @@ class InputManager
 		
 		
 		
+		# mouse wheel
+		# 	zoom                ( zoom the entire document. images GPU scale, text smart scale )
+		# 	abstraction layer   ( ladder of abstraction: explicit detail vs high-level )
+		# 	render layer        ( relative z-index depth sort. swap z-index with other items. )
+
+
+		# edit action only edits exposed properties,
+		# if you peel the abstraction back, you can edit individual properties
+		# ie) move a vert with the move action
+
+		# abstraction stepping works on a particular tree-like segment of the graph.
+		# on any one element in the tree you can...
+		# + step up:    limits the whole tree to view the parent layer ( for that subgraph )
+		# + step down:  expands the view to include the children of that node
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -421,20 +414,8 @@ class InputManager
 		# press button, retrieve action, fire immediately
 		
 		
-		
-		
-		
-		# Should the new_line action target the input buffer itself,
-		# or just the text object inside?
-		# (pretty sure the first one)
-		
-		
-		
-		
-		
-		# key ID, action name, launch predicate, action target (explicit object)
-		
 		# TODO: need to find a way to move the launch predicate into the Action itself.
+		# key ID, action name, launch predicate, action target (explicit object)
 		foo_x = [
 			[Gosu::KbReturn, @text_input,       :new_line,    ->(){ @text_input.active? } ],
 			[Gosu::KbF5,     @selection.group,  :link_styles, ->(){ !@selection.empty? }  ]
@@ -480,26 +461,6 @@ class InputManager
 		
 		
 		
-		# callbacks = ThoughtTrace::Events::LinkStyles.new @selection, action_factory
-		# event = InputSystem::ButtonEvent.new :link_styles, callbacks
-		
-		# event.bind_to keys:[Gosu::KbF8], modifiers:[]
-		
-		# @buttons.register event
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -516,8 +477,6 @@ class InputManager
 		event = InputSystem::ButtonEvent.new(action_name, handler)
 		event.bind_to keys:[button_id], modifiers:[]
 		@buttons.register event
-		
-		
 		
 		handler.set_callback do
 			unless @action_history.empty?
@@ -546,13 +505,6 @@ class InputManager
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
 		handler = ThoughtTrace::Events::PressButton.new
 		
 		action_name = :redo
@@ -561,8 +513,6 @@ class InputManager
 		event = InputSystem::ButtonEvent.new(action_name, handler)
 		event.bind_to keys:[button_id], modifiers:[]
 		@buttons.register event
-		
-		
 		
 		handler.set_callback do
 			unless @redo_stack.empty?
