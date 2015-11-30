@@ -133,7 +133,6 @@ dependency_list = [
 		
 		'./input_system/action_factory',
 		'./input_system/mouse_input_system',
-		'./input_system/camera_controller',
 		
 		'./input_system/text_input',
 		
