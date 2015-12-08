@@ -52,20 +52,31 @@ entity                         -  an object in the space
 # NOTE: see ThoughtTrace::Actions::BaseAction for exact structure of Action
 
 Action
-	def hold(point)
-	def cancel
-	def redo
-	
-	
+	; external interface. this is what's critically important
 	def press(point)
-	def update(point)
-	def apply
-	def undo
+	def hold(point)
+		update(point)
+		apply()
+		update_visualization(point)
 	def release(point)
-
+	
+	def cancel
+	
+	
+	
+	; intermediate interface that many Action types implement
+	def update(point)
+	
+	def apply
+	def redo
+		self.apply()
+	def undo
+		self.undo()
+	
+	
+	; visualization interface
 	def update_visualization(point)
 	def draw
-
 
 
 
