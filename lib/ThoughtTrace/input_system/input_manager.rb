@@ -245,7 +245,9 @@ class InputManager
 					
 					:space => @document.space,
 					:clone_factory => @document.prototypes,
-					:styles => @document.named_styles
+					:styles => @document.named_styles,
+					
+					:document => @document
 		})
 		
 		

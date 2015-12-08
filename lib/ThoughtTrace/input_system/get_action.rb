@@ -14,7 +14,7 @@ class GetAction
 	
 	
 	# find a target, and extract an action from it
-	def foo(document, point, action_name, target_type_string, typecast_type=nil)
+	def foo(document, point, action_name, target_type_string, typecast_type: nil)
 		# TODO: deal with spawn actions
 		# should they be moved somewhere else?
 		# where are they currently?
@@ -77,12 +77,12 @@ class GetAction
 		
 		
 		# NOTE: typecast_type is not currently being set
-		return baz(target, action_name, typecast_type)
+		return baz(target, action_name, typecast_type: typecast_type)
 	end
 	
 	
 	# for a known target, find the action associated with it
-	def baz(target, action_name, typecast_type=nil)
+	def baz(target, action_name, typecast_type: nil)
 		# action = @action_factory.create(target, action_name)
 		# TODO: examine action factory, and consider that part of the pathway
 		
@@ -109,6 +109,8 @@ class GetAction
 		conversions[:entity] = target
 		conversions[:group] = target if target.is_a? ThoughtTrace::Groups::Group
 		# NOTE: this method of group specification should take into abstraction layering
+		
+		conversions[:action_factory] = self
 		
 		# TODO: consider always using one 'target' parameter for Actions called simply '@target'
 		
@@ -175,31 +177,12 @@ class GetAction
 	
 	
 	
-	private
 	
-	# return an actual type (class) or nil based on a String
-	def parse_type_string(document, type_string)
-		# translate type string into class object
-		if type_string == 'none'
-			:none
-		elsif type_string == 'Camera'
-			ThoughtTrace::Camera
-		elsif type_string == 'Query'
-			ThoughtTrace::Queries::Query
-		else
-			if basic_type?(type_string)
-				# puts "basic type detected"
-				# p BASIC_TYPE_ASSOC
-				# p BASIC_TYPE_ASSOC.assoc(type_string)
-				BASIC_TYPE_ASSOC.assoc(type_string).last
-			elsif prefab_type?(document, type_string)
-				# TODO: remember to search linked documents for prefab definition as well, once linked documents have been implemented
-				raise "Using prefab types as action targets has not yet been implemented"
-			else
-				raise "Unexpected error"
-			end
-		end
-	end
+	
+	
+
+	
+	
 	
 	def determine_target(document, point, desired_type)
 		# determine target object based on type
@@ -293,9 +276,32 @@ class GetAction
 	
 	
 	
+	private
 	
 	
-	
+	# return an actual type (class) or nil based on a String
+	def parse_type_string(document, type_string)
+		# translate type string into class object
+		if type_string == 'none'
+			:none
+		elsif type_string == 'Camera'
+			ThoughtTrace::Camera
+		elsif type_string == 'Query'
+			ThoughtTrace::Queries::Query
+		else
+			if basic_type?(type_string)
+				# puts "basic type detected"
+				# p BASIC_TYPE_ASSOC
+				# p BASIC_TYPE_ASSOC.assoc(type_string)
+				BASIC_TYPE_ASSOC.assoc(type_string).last
+			elsif prefab_type?(document, type_string)
+				# TODO: remember to search linked documents for prefab definition as well, once linked documents have been implemented
+				raise "Using prefab types as action targets has not yet been implemented"
+			else
+				raise "Unexpected error"
+			end
+		end
+	end
 	
 	# order in this list determines type precedence.
 	# system will infer that an entity is of a higher type before a lower one

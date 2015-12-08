@@ -6,7 +6,7 @@ module ThoughtTrace
 
 
 class SpawnConstraint < ThoughtTrace::Actions::BaseAction
-	initialize_with :entity, :space, :action_factory
+	initialize_with :entity, :space, :action_factory, :document
 	
 	
 	# called on first tick
@@ -17,19 +17,33 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 		
 		constraint = ThoughtTrace::Constraints::LimitHeight.new
 		visualization = ThoughtTrace::Constraints::Visualizations::DrawEdge.new
-		
-		
 		# TODO: use the 'easy package create / remove API' to generate this new package
 		@package = ThoughtTrace::Constraints::Package.new(constraint, visualization)
-		marker = @package.marker_b
+		
+		
 		
 		# put marker A down at this point, so that it will bind to this Entity
 		# (actually, need to bind it here, as binding is part of the Move action, but you're bypassing that right now)
-		@package.marker_a.bind_to(@entity)
+		target_a = @entity
+		@package.marker_a.bind_to(target_a)
+		
+		
+		
+		
+		
+		
+		
 		# move marker B, with the move marker action
+		marker = @package.marker_b
 		
+		# initial place marker at the current position of the cursor
+		marker[:physics].body.p = point.clone
 		
-		@move_action = @action_factory.create(marker, :move)
+		@move_action = @action_factory.baz(
+							marker, :move, typecast_type:ThoughtTrace::Entity
+						)
+						# use standard Entity move for now
+						
 		@move_action.press(point)
 		
 		# NOTE: binding only one marker may cause the Package to constantly call @pair.unbind
@@ -37,32 +51,42 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 		# (this note was copied from the "easy bind" function sketch)
 		
 		
-		@start = point # need to save in case of redo
+		@start_point = point # need to save in case of redo
 	end
 	
-	# called each tick after the first tick (first tick is setup only)
-	# perform calculations to generate the new data, but don't change the data yet.
-	# Many ticks of #update can be generated before the final application is decided.
-	def update(point)
+	def hold(point)
 		@move_action.update(point)
-	end
-	
-	# Actually apply changes to data.
-	# Called after #update on each tick, and also on redo.
-	# Many ticks of #apply can be fired before the action completes.
-	def apply
 		@move_action.apply
 	end
 	
 	# final tick of the Action
 	# (used to be called #cleanup)
+	# DO NOT FINALIZE EFFECTS HERE, only finish preliminary calculations
 	def release(point)
-		entity_b = @space.point_query_best(point)
+		@package.marker_b
+		
+		target_b = @action_factory.determine_target(@document, point, ThoughtTrace::Entity)
+		puts target_b
+		# may have to change #determine_target such that you can ban certain types.
+		# Want to avoid trying to attach the marker to another marker or something
+		
+			# but wait,
+			# what happens when you attach multiple constraints to the same Entity?
+			# how does the user see / pick up a particular marker?
+			# (probably want markers to drift from center a bit, in the direction of the line)
+			# consider: number of markers, marker radius, angle of each marker with the center
+		
+		# At this moment, this is only not an error because the contents of Package do not live in the Space
+		
+		# NOTE: currently hardcoding an override for Package z index in Package#draw
+		
+		
 		
 		
 		if entity_b.nil?
 			# "short circuit" if there is no B (ie, released in empty space)
 			# (note that this allows for self-loops, which is actually kinda nice)
+			# except will need to figure out how to actually visualize self-loops
 			
 			self.cancel # cancel is based on #undo
 		else
@@ -73,8 +97,28 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 			# Thus, you only need to delegate to the move Action, and this is completed.
 			@move_action.release(point)
 			
-			@end = point # needed for in case of redo
+			@package.marker_b.bind_to(target_b)
+			
+			@end_point = point # needed for in case of redo
 		end
+	end
+	
+	
+	
+	
+	# transition from neutral to forward
+	# not quite like the apply method found in other Action types
+	# this is only called once on release, and on redo
+	# (may not end up actually needing this method)
+	def apply
+		# add package to space
+			# add marker_a
+			# add marker_b
+		
+		# NOTE: actions like this are a big potential source of memory leaks, because of hanging on to Package objects etc that are no longer in the space.
+		# ie) Package was later removed, but a reference is still held by an instance of this class
+		# as long as this Action remains in the history, the reference can not be freed.
+		# may also effect Entity objects bound up in the constraint, etc
 	end
 	
 	# restore original state
@@ -104,9 +148,10 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 	end
 	
 	def redo
-		self.press(@start) # side effect: @start = @start, which does nothing (it's weird)
-		# @move_action.press(@start) # calling #press again already triggers this call
-		@move_action.hold(@start)
+		self.press(@start_point)
+		# side effect: @start_point = @start_point, which does nothing (it's weird)
+		# @move_action.press(@start_point) # calling #press again already triggers this call
+		@move_action.hold(@start_point)
 		@move_action.hold(@end)
 		@move_action.release(@end)
 	end
@@ -126,7 +171,15 @@ class SpawnConstraint < ThoughtTrace::Actions::BaseAction
 	# display information to the user about the current transformation
 	# called each tick
 	def draw
+		@package.marker_a.update
+		@package.marker_b.update
 		
+		z = 10000
+		@package.marker_a.draw(z)
+		@package.marker_b.draw(z)
+		
+		@package.update
+		@package.draw(@space)
 	end
 end
 
