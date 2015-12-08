@@ -51,6 +51,26 @@ task :build_serialization_system do
 	end
 end
 
+task :compile_input_bindings do
+	# convert from ods file to some format that is faster to read
+	
+	
+	
+	
+	
+	# 	TODO: convert from ods to yaml in build
+
+
+
+
+	# reading from ods is too slow for all-the-time usage
+	# although it makes for a very good interface for designing data.
+
+	# need to convert to something that is faster to read in a sort of "compile" step
+	# should fold that into the build system (rakefile)
+	# so it is rebuilt as needed
+end
+
 task :load_dependencies do
 	Dir.chdir PATH_TO_ROOT do
 		require './lib/ThoughtTrace'
