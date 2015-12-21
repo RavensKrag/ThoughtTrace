@@ -60,12 +60,16 @@ class Selection
 			# is rather bad:
 			# would rather have them be methods of some Selection class
 		
-		@document.space.groups.delete @group
+		@group.clear
+		# @document.space.groups.delete @group
+		# will be removed systemically from the space when Selection#update ticks
 	end
 	
 	# blank out the selection.
 	# delete the old one, and add a new one in it's place
+	# NOTE: don't think this ever gets called
 	def reset
+		puts "reset"
 		clear(document)
 		
 		@group = ThoughtTrace::Groups::Group.new
@@ -83,6 +87,11 @@ class Selection
 		# dunno if this is quite the same as serialization pack data though, because it can refer to live data just fine.
 	
 	def all_items
+		# puts "all items"
+		# @group.each do |x|
+		# 	puts x.class
+		# end
+		
 		@group.each.to_a
 	end
 	
@@ -91,7 +100,7 @@ class Selection
 	
 	def_delegators :@group, 
 		:include?, :size, :empty?,
-		:add, :delete, :clear,
+		:add, :delete,
 		:union!, :difference!, :intersection!,
 		:each
 end

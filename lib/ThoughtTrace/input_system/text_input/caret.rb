@@ -26,12 +26,12 @@ class TextInput
 			@timer = ThoughtTrace::TickTockTimer.new
 			@timer.wait(dt,
 				tick: ->(time){
-					puts time
+					# puts time
 					@visible = true
 				},
 				
 				tock: ->(time){
-					puts time
+					# puts time
 					@visible = false
 				}
 			)

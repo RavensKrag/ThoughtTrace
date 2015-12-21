@@ -129,13 +129,14 @@ dependency_list = [
 		'./input_system/button_parser',
 		'./input_system/accelerator_parser',
 		'./input_system/mouse',
+		'./input_system/keyboard',
 		
 		'./input_system/action_factory',
 		'./input_system/mouse_input_system',
-		'./input_system/camera_controller',
 		
 		'./input_system/text_input',
 		
+		'./input_system/get_action',
 		'./input_system/input_manager',
 		
 		'./input_system/custom_events',

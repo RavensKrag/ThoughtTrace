@@ -18,6 +18,7 @@ class Move < ThoughtTrace::Actions::BaseAction
 	# Many ticks of #update can be generated before the final application is decided.
 	def update(point)
 		# move relative to the initial point
+		
 		@destination = @start + movement_delta(point)
 	end
 	

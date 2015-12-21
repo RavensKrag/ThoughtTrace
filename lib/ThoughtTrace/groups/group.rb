@@ -349,35 +349,6 @@ class Group < ThoughtTrace::Rectangle
 	
 	
 	
-	def include?(obj)
-		@entities.include? obj
-	end
-	
-	
-	def size
-		@entities.size
-	end
-	
-	def empty?
-		@entities.empty?
-	end
-	
-	
-	
-	def add(obj)
-		@entities.add obj
-	end
-	
-	def delete(obj)
-		@entities.delete obj
-	end
-	
-	def clear
-		@entities.clear
-	end
-	
-	
-	
 	def union!(other)
 		@entities = @entities.union other
 	end
@@ -390,13 +361,12 @@ class Group < ThoughtTrace::Rectangle
 		@entities = @entities.intersection other
 	end
 	
+	extend Forwardable
 	
-	
-	
-	
-	def each(&block)
-		@entities.each &block
-	end
+	def_delegators :@entities, 
+		:include?, :size, :empty?,
+		:add, :delete, :clear,
+		:each
 	
 	include Enumerable
 	

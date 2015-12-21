@@ -10,6 +10,8 @@ Dir.chdir path_to_file do
 		'./null_action',
 		'./one_shot_action',
 		
+		'./text_input',
+		
 		'./entity',
 		'./empty_space',
 		'./selection',

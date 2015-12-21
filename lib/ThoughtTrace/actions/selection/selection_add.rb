@@ -11,13 +11,15 @@ class SelectionAdd < Select
 	# called on first tick
 	def press(point)
 		super(point)
+		
+		@old_selection = @selection.all_items
 	end
 	
 	# final tick of the Action
 	# (used to be called #cleanup)
 	def release(point)
 		@set = super(point)
-		@old_selection = @selection.all_items
+		
 		forward
 	end
 	

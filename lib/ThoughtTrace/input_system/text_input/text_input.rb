@@ -63,6 +63,8 @@ class TextInput
 			@buffer.close
 			@buffer = nil
 		end
+		
+		@cached_i = nil
 	end
 	
 	
