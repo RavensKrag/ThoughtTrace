@@ -53,7 +53,7 @@ class Rect < Poly
 	# example:
 		#	@entity[:physics].shape.resize!(
 		# 		@grab_handle, :world_space, point:@point, lock_aspect:true,
-		# 		minimum_dimension:MINIMUM_DIMENSION
+		# 		minimum_dimension:MINIMUM_DIMENSION, limit_by: :smaller
 		# 	)
 	def resize!(grab_handle, coordinate_space=nil, point:nil, delta:nil, minimum_dimension:1, lock_aspect:false, limit_by:nil)
 		raise ArgumentError, "Must specify a grab handle vector" unless grab_handle.is_a? CP::Vec2

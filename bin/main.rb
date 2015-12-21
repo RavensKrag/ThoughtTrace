@@ -80,7 +80,7 @@ class Window < Gosu::Window
 	end
 	
 	def on_shutdown
-		@input.shutdown
+		@input.on_shutdown
 		
 		@document.gc
 		@document.dump # save to the same place you loaded from

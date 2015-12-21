@@ -13,9 +13,6 @@ class Mouse
 		
 	end
 	
-	
-	
-	
 	def world_position
 		return @camera.screen2world screen_position
 	end

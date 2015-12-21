@@ -5,14 +5,14 @@ module ThoughtTrace
 
 
 class LinkStyles < ThoughtTrace::Actions::OneShotAction
-	initialize_with :selection
+	initialize_with :group
 	
 	
 	# Called on the first tick. Prepare the transform.
 	def setup(point)
 		
-		@old_selection = @selection.each.to_a
-		@old_styles = @old_selection.collect{|x| x[:style]  }
+		@target_list = @group.each.to_a
+		@old_styles = @target_list.collect{|x| x[:style]  }
 		
 		
 		
@@ -20,12 +20,12 @@ class LinkStyles < ThoughtTrace::Actions::OneShotAction
 		# before you can figure out what the 'first' element is.
 		# however, traversal order of Sets should always be the same
 		# (order of insertion)
-		@style = @old_selection.first[:style]
+		@style = @target_list.first[:style]
 	end
 	
 	# Called on the first tick. Applies the transform
 	def apply
-		@selection.each do |entity|
+		@target_list.each do |entity|
 			entity.delete_component :style
 			entity.add_component @style
 		end
@@ -35,7 +35,7 @@ class LinkStyles < ThoughtTrace::Actions::OneShotAction
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		@old_selection.zip(@old_styles) do |entity, style|
+		@target_list.zip(@old_styles) do |entity, style|
 			entity.delete_component :style
 			entity.add_component style
 		end

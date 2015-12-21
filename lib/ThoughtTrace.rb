@@ -84,6 +84,7 @@ dependency_list = [
 	'./utilities/find_and_replace',
 	'./utilities/meta',
 	'./utilities/indexed_collection',
+	'./utilities/range_remap',
 	
 	'./monkey_patches',
 	
@@ -122,17 +123,20 @@ dependency_list = [
 	# './input_system'
 		'./input_system/old/action_stash',
 		
+		'./input_system/selection',
+		
 		'./input_system/button_event',
 		'./input_system/button_parser',
 		'./input_system/accelerator_parser',
 		'./input_system/mouse',
+		'./input_system/keyboard',
 		
 		'./input_system/action_factory',
 		'./input_system/mouse_input_system',
-		'./input_system/camera_controller',
 		
 		'./input_system/text_input',
 		
+		'./input_system/get_action',
 		'./input_system/input_manager',
 		
 		'./input_system/custom_events',

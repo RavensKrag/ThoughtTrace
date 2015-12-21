@@ -5,15 +5,13 @@ module ThoughtTrace
 
 
 class Move < ThoughtTrace::Actions::BaseAction
-	initialize_with :selection, :action_factory
+	initialize_with :group, :action_factory
 	
 	
 	# called on first tick
 	def press(point)
 		@origin = point
 		
-		# can't just use the :entity, because that would give the single item clicked on, and not the entire Group
-		@group = @selection
 		
 		@start_points = Array.new(@group.size)
 		@end_points   = Array.new(@group.size)

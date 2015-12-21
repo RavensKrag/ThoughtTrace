@@ -34,13 +34,61 @@ class Circle < Entity
 	
 	
 	
+	
+	
+	def resize!(coordinate_space=nil, radius:nil, point:nil, delta:nil, minimum_dimension:1)
+		
+		# NOTE: could accept a grab handle, but Circle really doesn't need one, so it would just be ignored anyway
+		
+		# TODO: consider that you should always use a local point, and just require that the user transform the world-space point into a local-space one outside of the resize system.
+		
+		
+		# these argument-checking statements are ripped straight from Shape::Rect
+		# NOTE: needs to be updated. circle has 3 parameters [radius, point, delta] from which only one parameter may be set at any given time
+		raise ArgumentError, "Declare point OR delta, not both." if point and delta
+		raise ArgumentError, "Must declare either point OR delta." unless point or delta
+		
+		unless [:world_space, :local_space].include?(coordinate_space)
+			raise ArgumentError, "Coordinate space must either be :world_space or :local_space" 
+		end
+		
+		
+		# save
+		old_radius = self.radius
+		
+		
+		# process
+		new_radius = 
+			if radius
+				radius
+			elsif delta
+				self.radius + delta
+			elsif point
+				p = self.body.p
+				p.dist point
+			end
+		
+		new_radius = [new_radius, minimum_dimension].max
+		
+		self.radius = new_radius
+		
+		
+		# return proc to reverse the process
+		undo = Proc.new do
+			self.radius = old_radius
+		end
+		
+		return undo
+	end
+	
+	
+	
 	def radius
 		@components[:physics].shape.radius
 	end
 	
-	
-	def resize!(radius)
-		@components[:physics].shape.set_radius! radius
+	def radius=(r)
+		@components[:physics].shape.set_radius! r
 	end
 end
 

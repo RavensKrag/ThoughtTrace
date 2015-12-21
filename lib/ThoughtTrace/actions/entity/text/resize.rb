@@ -11,7 +11,8 @@ class Resize < Rectangle::Actions::Resize
 	
 	# called on first tick
 	def press(point)
-		super(point) # sets @origin and @direction
+		super(point)
+		# storing original verts and original position via Rectangle edit, even though that data is also recorded in the undo proc from Text#resize!
 	end
 	
 	# called each tick after the first tick (first tick is setup only)
@@ -28,13 +29,10 @@ class Resize < Rectangle::Actions::Resize
 	# Called after #update on each tick, and also on redo.
 	# Many ticks of #apply can be fired before the action completes.
 	def apply
-		# NOTE: Want to always limit the minimum HEIGHT on resize. Don't really care about what the width is. This applies to Text only, not general rectangles.
+		undo() if @memo
 		
-		
-		# resize backend rect with fixed aspect ratio, to get a good guess of the size
-		@entity[:physics].shape.resize!(
-			@grab_handle, :world_space, point:@point, lock_aspect:true,
-			minimum_dimension:MINIMUM_FONT_HEIGHT, limit_by: :height
+		@memo = @entity.resize!(
+			@grab_handle, :world_space, point:@point, minimum_dimension:MINIMUM_FONT_HEIGHT
 		)
 	end
 	
@@ -42,18 +40,13 @@ class Resize < Rectangle::Actions::Resize
 	# revert the changes made by all ticks of #apply
 	# (some actions need to store state to make this work, other actions can fire an inverse fx)
 	def undo
-		super()
+		@memo.call
 	end
 	
 	# final tick of the Action
 	# (used to be called #cleanup)
 	def release(point)
 		super(point)
-		
-		# Perform final, exactly height computation on the final tick ONLY.
-		# Performing this every tick causes a lot of jitter.
-		@entity.height = @entity[:physics].shape.height
-		# (setting height this way allows Text to set the exact width)
 	end
 	
 	

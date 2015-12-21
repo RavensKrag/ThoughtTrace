@@ -4,6 +4,10 @@ module InputSystem
 # Create new actions based on name,
 # sending the appropriate arguments to Action initialization as necessary.
 class ActionFactory
+	BASE_CLASSES = [
+		ThoughtTrace::Entity, ThoughtTrace::Actions::EmptySpace, ThoughtTrace::Groups::Group
+	]
+	
 	def initialize(active_selection, mapping={})
 		@selection = active_selection
 		
@@ -21,7 +25,7 @@ class ActionFactory
 			:entity => obj
 		}.merge @conversion_table
 		
-		
+		conversions[:group] = obj if obj.is_a? ThoughtTrace::Groups::Group
 		
 		
 		
@@ -66,39 +70,18 @@ class ActionFactory
 			# use specific Query type for action polymorphism
 			obj[:query].callbacks.class
 		else
-			# could be a Group or an Entity
+			# Could be a Group or an Entity
 			
-			# # note that selection is also a group
-			# if @selection.include? obj
-			# 	# in the active selection group
-				
-				
-			# else
-			# 	containing_groups = @space.groups.select{ |g|  g.include? obj  }
-			# 	if containing_groups.empty?
-			# 		# not in any groups.
-			# 		# assuming this is just a standard Entity
-			# 		obj.class
-			# 	else
-			# 		# part of one or more groups
-					
-			# 	end
-			# end
+			# Note: Selections can be thought of temporary Groups. Not a separate case.
 			
-			
-			
-			
-			if @selection.include? obj
-				return @selection.class
-			else
-				return obj.class
-			end
-			
-			
+			# in either case, you want to use the class of the object
+			return obj.class
 			
 			
 			# how do you handle prefabs? are those different in some way?
 			# I think they're just groups?
+			# except maybe they need to have their own Action handlers?
+			# (need to figure out how that works with #get_parent)
 			obj.class
 		end
 	end
@@ -138,7 +121,7 @@ class ActionFactory
 			# Mostly, you will traverse the class inheritance hierarchy,
 			# but there are some exceptions.
 			
-			if klass == ThoughtTrace::Entity or klass == ThoughtTrace::Actions::EmptySpace
+			if BASE_CLASSES.include? klass
 				# you have reached the bottom of the chain,
 				# the root of the the tree.
 				# The recursion stops here

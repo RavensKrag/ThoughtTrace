@@ -17,23 +17,31 @@ PATH_TO_ROOT = File.expand_path '../..', __FILE__
 task :default => :run
 
 # run the program
-task :run => [:build_serialization_system, :load_dependencies, :load_main] do
+task :run => [:foo, :load_main] do
 	x = Window.new './data/test'
 	x.show
 	x.on_shutdown
 end
 
-task :show_todos => [:build_serialization_system, :load_dependencies, :load_main] do
+task :show_todos => [:foo, :load_main] do
 	x = Window.new './data/todos'
 	x.show
 	x.on_shutdown
 end
 
-task :open, [:path] => [:build_serialization_system, :load_dependencies, :load_main] do |t, args|
+task :open, [:path] => [:foo, :load_main] do |t, args|
 	# call this with `rake open['./path/to/project/root']`
 	x = Window.new args[:path]
 	x.show
 	x.on_shutdown
+end
+
+
+
+
+
+task :foo => [:build_serialization_system, :load_dependencies] do
+	
 end
 
 task :build_serialization_system do
@@ -41,6 +49,26 @@ task :build_serialization_system do
 	Dir.chdir path do
 		system "object-packer.rb"
 	end
+end
+
+task :compile_input_bindings do
+	# convert from ods file to some format that is faster to read
+	
+	
+	
+	
+	
+	# 	TODO: convert from ods to yaml in build
+
+
+
+
+	# reading from ods is too slow for all-the-time usage
+	# although it makes for a very good interface for designing data.
+
+	# need to convert to something that is faster to read in a sort of "compile" step
+	# should fold that into the build system (rakefile)
+	# so it is rebuilt as needed
 end
 
 task :load_dependencies do
@@ -57,15 +85,24 @@ end
 
 
 
+task :input_system_test => [:foo] do
+	path = File.join(PATH_TO_ROOT, 'experimental', 'input_system')
+	Dir.chdir path do
+		require './test'
+	end
+	
+	k, m, s, af, history = [nil, nil, nil, nil, nil]
+	x = Input.new(k, m, s, af, history)
+end
 
-task :document_test => [:build_serialization_system, :load_dependencies] do
+task :document_test => [:foo] do
 	path = File.join(PATH_TO_ROOT, 'experimental', 'document_format')
 	Dir.chdir path do
 		require './test'
 	end
 end
 
-task :method_probing_test => [:build_serialization_system, :load_dependencies] do
+task :method_probing_test => [:foo] do
 	style_component   = ThoughtTrace::Components::Style.new
 	cascade           = ThoughtTrace::Style::Cascade.new
 	style_object      = ThoughtTrace::Style::StyleObject.new "test name"
@@ -124,7 +161,7 @@ end
 
 # test constraint objects
 # (just saving constraints, no Entity bindings are saved in this test)
-task :constraint_test => [:build_serialization_system, :load_dependencies] do
+task :constraint_test => [:foo] do
 	# sample entities
 	e1 = ThoughtTrace::Rectangle.new(100, 200)
 	e2 = ThoughtTrace::Rectangle.new(20,  50)
@@ -228,7 +265,7 @@ end
 
 # test caching facilities, to make sure constraint only fires one tick,
 # even if update is called many times
-task :constraint_cache_test => [:build_serialization_system, :load_dependencies] do
+task :constraint_cache_test => [:foo] do
 	# === Setup
 	# constraint_objects = ResourceList.new
 	constraint_objects = ThoughtTrace::Constraints::BackendCollection.new
@@ -352,7 +389,7 @@ end
 
 
 # test serialization of parameterized constraint objects (just saving constraints, no bindings)
-task :constraint_collection_test => [:build_serialization_system, :load_dependencies] do
+task :constraint_collection_test => [:foo] do
 	# === Setup
 	# constraint_objects = ResourceList.new
 	constraint_objects = ThoughtTrace::Constraints::BackendCollection.new

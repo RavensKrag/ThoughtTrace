@@ -14,10 +14,16 @@ class GroupList
 	
 	def add(object)
 		@storage.push object
+		
+		@space.add_shape(object[:physics].shape)
+		@space.add_body(object[:physics].body)
 	end
 	
 	def delete(object)
 		@storage.delete(object)
+		
+		@space.remove_shape(object[:physics].shape)
+		@space.remove_body(object[:physics].body)
 	end
 	
 	def empty?
